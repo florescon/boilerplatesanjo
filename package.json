@@ -1,0 +1,37 @@
+{
+    "private": true,
+    "scripts": {
+        "dev": "npm run development",
+        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "watch": "npm run development -- --watch",
+        "watch-poll": "npm run watch -- --watch-poll",
+        "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --disable-host-check --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "prod": "npm run production",
+        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+    },
+    "devDependencies": {
+        "@coreui/coreui": "^3.4.0",
+        "@coreui/icons": "^1.0.1",
+        "@fortawesome/fontawesome-free": "^5.15.2",
+        "@popperjs/core": "^2.6.0",
+        "alpinejs": "^2.8.1",
+        "axios": "^0.21",
+        "bootstrap": "^4.6.0",
+        "cross-env": "^7.0.3",
+        "jquery": "^3.6.0",
+        "laravel-mix": "^5.0.1",
+        "lodash": "^4.17.21",
+        "perfect-scrollbar": "^1.5.0",
+        "popper.js": "^1.16.1",
+        "resolve-url-loader": "^3.1.2",
+        "sass": "^1.32.8",
+        "sass-loader": "^10.1.1",
+        "sweetalert2": "^10.15.6",
+        "vue": "^2.6.12",
+        "vue-template-compiler": "^2.6.12"
+    },
+    "dependencies": {
+        "bootstrap-colorpicker": "^3.2.0",
+        "pikaday": "^1.8.2"
+    }
+}
