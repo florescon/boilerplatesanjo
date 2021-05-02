@@ -16,24 +16,14 @@
         @if(count($cart['products']) > 0)
 
 
-		<div class="col-12">
-			<div class="d-flex justify-content-center">
-
-				<div class="custom-control custom-switch custom-control-inline">
-					<input type="checkbox" wire:model="editAmount" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
-				<label class="custom-control-label" for="customRadioInline1">@lang('Edit amount')</label>
-				</div>
-	        </div>
-	    </div>
-
-	    <br>
 
 		<table class="table">
 		  <thead class="table-info">
 		    <tr>
+		      <th>ID</th>
 		      <th scope="col">@lang('Product')</th>
+		      {{-- <th scope="col">@lang('Amount')</th> --}}
 		      <th scope="col">@lang('Amount')</th>
-		      <th scope="col"></th>
 		      <th scope="col"></th>
 		    </tr>
 		  </thead>
@@ -41,17 +31,16 @@
 		  	{{-- @json($cart['products']) --}}
             @foreach($cart['products'] as $product)
 			    <tr>
+		    	  <td>{{ $product->id }}</td>
 			      <td>{!! '<strong>' .$product->parent->name.' </strong> ('.optional($product->color)->name.'  '.optional($product->size)->name.') ' !!}</td>
-			      <td>{{ $product->amount }}</td>
+			      {{-- <td>{{ $product->amount }}</td> --}}
 
-			      <td style="width:100px; max-width: 100px;" >
-				      	<input class="form-control form-control-sm is-valid" style="background-image: none; padding-right: inherit;" wire:model.defer="inputedit.{{ $product->amount }}.amount" wire:keydown.enter="increase({{ $product->id }})" type="number" min="1" placeholder="+" required>
+			      <td style="width:120px; max-width: 120px;" >
+                    <livewire:backend.cart-update-form :item="$product" :key="$product->id" />
 			      </td>
 
 			      <td>
-
 					<a wire:click="removeFromCart({{ $product->id }})" class="badge badge-danger text-white">@lang('Delete')</a>
-
 			  	  </td>
 			    </tr>
 		    @endforeach

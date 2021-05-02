@@ -16,7 +16,7 @@
 		<div class="row ">
 			<div class="col-12 col-md-4">
 
-        <div class="card card-custom bg-white border-white border-0">
+        <div class="card card-custom card-product_not_hover bg-white border-white border-0">
 				  <div class="card-body">
 
             <ul class="list-group list-group-flush">
@@ -81,7 +81,7 @@
           </div>
           @endif
             <div class="card-body">
-              <h5 class="card-title font-weight-bold">{{ $name_color ? __('Consumption').' '. $name_color : __('General consumption') }}</h5>
+              <h5 class="card-title text-monospace font-weight-bold">{{ $name_color ? __('Consumption').' '. $name_color : __('General consumption') }}</h5>
   
               <div class="float-right custom-control custom-switch custom-control-inline">
                 <input type="checkbox" wire:model="updateQuantity" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">

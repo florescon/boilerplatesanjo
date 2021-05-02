@@ -297,7 +297,7 @@ class EditProduct extends Component
     }
 
 
-    public function increase($product_id)
+    public function increase()
     {
 
         $this->validate([
@@ -309,6 +309,8 @@ class EditProduct extends Component
             'inputsubtractstore.*.stock' => 'numeric|sometimes',
 
         ]);
+
+        // dd($this->inputincreaserevision);
 
         if($this->inputincrease){
     		foreach($this->inputincrease as $key => $productos){

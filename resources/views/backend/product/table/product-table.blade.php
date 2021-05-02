@@ -20,7 +20,7 @@
 
 	<div class="card-columns">
 		@foreach($products as $product)
-		  <div class="card card-flyer">
+		  <div class="card card-flyer card-product">
 		  	@if($product->file_name)
 		  	{{-- @if(Storage::exists($product->file_name)) --}}
 		    	<a href="{{ route('admin.product.edit', $product->id) }}">

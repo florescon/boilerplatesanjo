@@ -16,7 +16,7 @@
 
 			<div class="col-12 col-md-4">
 
-			    <div class="card card-flyer-without-hover">
+			    <div class="card card-product_not_hover card-flyer-without-hover">
 
 	                @if ($photo)
 	                    @php
@@ -391,7 +391,7 @@
 				@if($model->children->count())
 
 				  	@foreach($model->children->sortBy('color.name')->groupBy('color_id') as $childrens)
-				    <div class="card card-box" style="{{ optional($childrens->first()->color)->color ? 'border: '. $childrens->first()->color->color. ' 3px solid' : '' }} ">
+				    <div class="card card-box edit-product" style="{{ optional($childrens->first()->color)->color ? 'border: '. $childrens->first()->color->color. ' 3px solid' : '' }} ">
 				      <div class="card-body">
 
 					    <h5 class="card-title"><strong>{{ optional($childrens->first()->color)->name }}</strong></h5>
@@ -441,37 +441,37 @@
 							      <td>{{ $children->stock_store }}</td>
 							      @if($increaseStock == TRUE)
 								      <td style="width:100px; max-width: 100px;">
-								      	<input class="form-control form-control-sm is-valid" style="background-image: none; padding-right: inherit;" wire:model="inputincrease.{{ $children->id }}.stock" wire:keydown.enter="increase({{ $children->id }})" type="number" min="1" placeholder="+" required>
+								      	<input class="form-control form-control-sm is-valid" style="background-image: none; padding-right: inherit;" wire:model="inputincrease.{{ $children->id }}.stock" wire:keydown.enter="increase" type="number" min="1" placeholder="+" required>
 								      </td>
 								  @endif
 
 							      @if($increaseStockRevision == TRUE)
 								      <td style="width:100px; max-width: 100px;">
-								      	<input class="form-control form-control-sm is-valid" style="background-image: none; padding-right: inherit;" wire:model="inputincreaserevision.{{ $children->id }}.stock" wire:keydown.enter="increase({{ $children->id }})" type="number" min="1" placeholder="+" required>
+								      	<input class="form-control form-control-sm is-valid" style="background-image: none; padding-right: inherit;" wire:model="inputincreaserevision.{{ $children->id }}.stock" wire:keydown.enter="increase" type="number" min="1" placeholder="+" required>
 								      </td>
 								  @endif
 
 							      @if($increaseStockStore == TRUE)
 								      <td style="width:100px; max-width: 100px;">
-								      	<input class="form-control form-control-sm is-valid" style="background-image: none; padding-right: inherit;" wire:model="inputincreasestore.{{ $children->id }}.stock" wire:keydown.enter="increase({{ $children->id }})" type="number" min="1" placeholder="+" required>
+								      	<input class="form-control form-control-sm is-valid" style="background-image: none; padding-right: inherit;" wire:model="inputincreasestore.{{ $children->id }}.stock" wire:keydown.enter="increase" type="number" min="1" placeholder="+" required>
 								      </td>
 								  @endif
 
 							      @if($subtractStock == TRUE)
 								      <td style="width:100px; max-width: 100px;">
-								      	<input class="form-control form-control-sm is-invalid" style="background-image: none; padding-right: inherit;" wire:model="inputsubtract.{{ $children->id }}.stock" wire:keydown.enter="increase({{ $children->id }})" type="number" min="1" placeholder="-" required>
+								      	<input class="form-control form-control-sm is-invalid" style="background-image: none; padding-right: inherit;" wire:model="inputsubtract.{{ $children->id }}.stock" wire:keydown.enter="increase" type="number" min="1" placeholder="-" required>
 								      </td>
 								  @endif
 
 							      @if($subtractStockRevision == TRUE)
 								      <td style="width:100px; max-width: 100px;">
-								      	<input class="form-control form-control-sm is-invalid" style="background-image: none; padding-right: inherit;" wire:model="inputsubtractrevision.{{ $children->id }}.stock" wire:keydown.enter="increase({{ $children->id }})" type="number" min="1" placeholder="-" required>
+								      	<input class="form-control form-control-sm is-invalid" style="background-image: none; padding-right: inherit;" wire:model="inputsubtractrevision.{{ $children->id }}.stock" wire:keydown.enter="increase" type="number" min="1" placeholder="-" required>
 								      </td>
 								  @endif
 
 							      @if($subtractStockStore == TRUE)
 								      <td style="width:100px; max-width: 100px;">
-								      	<input class="form-control form-control-sm is-invalid" style="background-image: none; padding-right: inherit;" wire:model="inputsubtractstore.{{ $children->id }}.stock" wire:keydown.enter="increase({{ $children->id }})" type="number" min="1" placeholder="-" required>
+								      	<input class="form-control form-control-sm is-invalid" style="background-image: none; padding-right: inherit;" wire:model="inputsubtractstore.{{ $children->id }}.stock" wire:keydown.enter="increase" type="number" min="1" placeholder="-" required>
 								      </td>
 								  @endif
 

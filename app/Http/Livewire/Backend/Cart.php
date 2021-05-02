@@ -4,17 +4,14 @@ namespace App\Http\Livewire\Backend;
 
 use App\Facades\Cart as CartFacade;
 use Livewire\Component;
+use Session;
 
 class Cart extends Component
 {
 
-    public $cart, $editAmount, $inputedit;
+    public $cart, $inputedit;
 
-    protected $queryString = [
-        'editAmount' => ['except' => FALSE],
-    ];
-
-    protected $listeners = ['increase' => '$refresh'];
+    protected $listeners = ['cartUpdated' => 'onCartUpdate'];
 
 
     public function mount(): void
@@ -28,34 +25,18 @@ class Cart extends Component
     }
 
 
-
-    public function increase($product_id)
+    public function onCartUpdate()
     {
-        $this->validate([
-            'inputedit.*.amount' => 'numeric|sometimes',
-        ]);
-
-        dd($this->inputedit);
-
-        if($this->inputedit){
-            foreach($this->inputedit as $key => $productos){
-                if(!empty($productos['amount']))
-                {
-                    dd($productos['amount']);
-                }
-            }
-        }
-
-    }
-
-    public function updateEditAmount()
-    {
-        $this->init();
+        // $this->cartItems = \Cart::session(auth()->id())->getContent()->toArray();
+        $this->mount();
     }
 
 
     public function render()
     {
+
+        // dd($this->cart['products']);
+        // dd(Session::get('cart'));
         return view('backend.cart.livewire.cart');
     }
 
