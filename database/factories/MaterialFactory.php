@@ -24,8 +24,8 @@ class MaterialFactory extends Factory
     {
         return [
             'part_number' => Uuid::uuid4()->toString(),
-            'name' => $this->faker->word,
-            'description' => $this->faker->jobTitle,
+            'name' => $this->faker->jobTitle,
+            'description' => $this->faker->catchPhrase,
             'acquisition_cost' => rand(100, 500),
             'price' => rand(100, 500),
             'stock' => rand(5, 100),

@@ -8,7 +8,7 @@ use Livewire\Component;
 class EditSize extends Component
 {
 
-    public $selected_id, $name, $slug;
+    public $selected_id, $name, $short_name, $slug;
 
     protected $listeners = ['edit'];
 
@@ -17,6 +17,7 @@ class EditSize extends Component
         $record = Size::withTrashed()->findOrFail($id);
         $this->selected_id = $id;
         $this->name = $record->name;
+        $this->short_name = $record->short_name;
         $this->slug = $record->slug;
 
     }
@@ -25,12 +26,14 @@ class EditSize extends Component
     {
         $this->validate([
             'selected_id' => 'required|numeric',
-            'name' => 'required|min:3',
+            'name' => 'required|min:1',
+            'short_name' => 'required|min:1|max:4|unique:App\Models\Size,short_name,'.$this->selected_id,
         ]);
         if ($this->selected_id) {
             $record = Size::find($this->selected_id);
             $record->update([
                 'name' => $this->name,
+                'short_name' => $this->short_name,
             ]);
             // $this->resetInputFields();
         }

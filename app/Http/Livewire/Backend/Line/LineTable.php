@@ -27,7 +27,7 @@ class LineTable extends TableComponent
 
     public $perPageOptions = ['10', '25', '50', '100'];
 
-    public $exports = ['csv', 'xls', 'xlsx'];
+    public $exports = ['csv', 'xls', 'xlsx', 'pdf'];
     public $exportFileName = 'lines';
 
     public $clearSearchButton = true;
@@ -118,7 +118,8 @@ class LineTable extends TableComponent
             Column::make(__('Actions'))
                 ->format(function (Line $model) {
                     return view('backend.line.datatable.actions', ['line' => $model]);
-                }),
+                })
+                ->excludeFromExport(),
         ];
     }
 

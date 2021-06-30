@@ -29,3 +29,4 @@ Route::group([
 });
 
 
+Route::get('select2-load-line', [LineController::class, 'select2LoadMore'])->name('line.select');

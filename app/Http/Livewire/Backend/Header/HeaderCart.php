@@ -9,21 +9,31 @@ class HeaderCart extends Component
 {
 
     public $cartTotal = 0;
+    public $cartTotalSale = 0;
 
     protected $listeners = [
         'productAdded' => 'updateCartTotal',
+        'productAddedSale' => 'updateCartTotalSale',
         'productRemoved' => 'updateCartTotal',
-        'clearCart' => 'updateCartTotal'
+        'productRemovedSale' => 'updateCartTotalSale',
+        'clearCart' => 'updateCartTotal',
+        'clearCartSale' => 'updateCartTotalSale',
     ];
 
     public function mount(): void
     {
         $this->cartTotal = count(Cart::get()['products']);
+        $this->cartTotalSale = count(Cart::get()['products_sale']);
     }
 
     public function updateCartTotal(): void
     {
         $this->cartTotal = count(Cart::get()['products']);
+    }
+
+    public function updateCartTotalSale(): void
+    {
+        $this->cartTotalSale = count(Cart::get()['products_sale']);
     }
 
     public function render()

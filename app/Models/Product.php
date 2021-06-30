@@ -30,6 +30,8 @@ class Product extends Model
         ];
     }
 
+    // public $with = ['advanced'];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -42,6 +44,7 @@ class Product extends Model
         'price',
         'file_name',
         'description',
+        'line_id',
         'color_id',
         'size_id',
         'parent_id',
@@ -54,6 +57,15 @@ class Product extends Model
     {
         return Str::words($this->description, '15');
     }
+
+    /**
+     * Get the line associated with the Product.
+     */
+    public function line()
+    {
+        return $this->belongsTo(Line::class)->withTrashed();
+    }
+
     
     public function size()
     {
@@ -65,12 +77,37 @@ class Product extends Model
         return $this->belongsTo(Color::class)->withTrashed();
     }
 
+
+    /**
+     * @return string
+     */
+    public function getSizeNameAttribute()
+    {
+        return $this->size_id ? '| '.$this->size->name : '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getColorNameAttribute()
+    {
+        return $this->color_id ? '| '.$this->color->name : '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullNameAttribute()
+    {
+        return '<strong>'.$this->parent->name.'</strong> '.$this->size_name.' '.$this->color_name;
+    }
+
     /**
      * @return mixed
      */
     public function parent()
     {
-        return $this->belongsTo(Product::class)->with('parent');
+        return $this->belongsTo(Product::class);
     }
 
     /**
@@ -82,6 +119,85 @@ class Product extends Model
     }
 
     /**
+     * @return bool
+     */
+    public function hasCodeSubproduct()
+    {
+        return $this->code;
+    }
+
+    public function getCodeSubproductAttribute()
+    {
+        if(!$this->hasCodeSubproduct()){
+            return $this->parent->code." <span class='badge badge-secondary'>".__('General').'</span>';
+        }
+
+        return $this->code;
+
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function hasPriceSubproduct()
+    {
+        return $this->price;
+    }
+
+    public function getPriceSubproductAttribute()
+    {
+        if(!$this->hasPriceSubproduct()){
+            return $this->parent->price." <span class='badge badge-secondary'>".__('General').'</span>';
+        }
+
+        return $this->price;
+
+    }
+
+
+    /**
+     * Get the description associated with the product.
+     */
+    public function advanced()
+    {
+        return $this->hasOne(Description::class);
+    }
+
+    public function isActiveAdvanced()
+    {
+        return $this->advanced->status ?? false;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getStatusAdvancedAttribute()
+    {
+        if ($this->isActiveAdvanced()) {
+            return "<span class='badge badge-success'>".__('Active').'</span>';
+        }
+
+        return "<span class='badge badge-danger'>".__('Inactive').'</span>';
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function pictures()
+    {
+        return $this->hasMany(Picture::class);
+    }
+
+
+    public function getTotalPicturesAttribute()
+    {
+        return $this->pictures->count();
+    }
+
+    /**
      * @return mixed
      */
     public function consumption()
@@ -90,6 +206,21 @@ class Product extends Model
         return $this->hasMany(Consumption::class)->with('material');
     }
 
+    public function consumption_filter()
+    {
+        return $this->hasManyThrough(Consumption::class, Product::class, 'id', 'product_id', 'parent_id', 'id')->with('material');
+    }
+
+    public function getTotalConsumptionBySize($byID)
+    {
+        return $this->consumption->where('size_id', $byID)->count();
+    }
+    public function getTotalConsumptionByColor($byID)
+    {
+        return $this->consumption->where('color_id', $byID)->count();
+    }
+
+
     public function getTotalStock()
     {
         return $this->children->sum(function($parent) {
@@ -97,9 +228,42 @@ class Product extends Model
         });
     }
 
+
+    public function getTotalStockbyID($byID)
+    {
+        return $this->children->where('id', $byID)->sum(function($parent) {
+          return $parent->stock + $parent->stock_revision + $parent->stock_store;
+        });
+    }
+
+
+    public function getTotStock()
+    {
+        return $this->children->sum(function($parent) {
+          return $parent->stock;
+        });
+    }
+    public function getTotStockRev()
+    {
+        return $this->children->sum(function($parent) {
+          return $parent->stock_revision;
+        });
+    }
+    public function getTotStockStore()
+    {
+        return $this->children->sum(function($parent) {
+          return $parent->stock_store;
+        });
+    }
+
     public function log()
     {
         return $this->morphMany(Log::class, 'logable');
+    }
+
+    public function getDateForHumansAttribute()
+    {
+        return $this->updated_at->format('M, d Y');
     }
 
     public static function boot()

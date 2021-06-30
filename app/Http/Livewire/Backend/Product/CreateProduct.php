@@ -12,9 +12,13 @@ class CreateProduct extends Component
 
     use WithFileUploads;
 
-    public $name, $code, $description, $color, $size, $photo, $imageName, $photoStatus;
+    public $name, $code, $description, $color, $size, $photo, $price, $imageName, $photoStatus, $line_id;
     public $color_id = [];
     public $size_id = [];
+
+    public $foo;
+
+    public bool $autoCodes = true;
 
     protected $rules = [
         'name' => 'required|min:3',
@@ -23,6 +27,7 @@ class CreateProduct extends Component
         'color_id' => 'required',
         'size_id' => 'required',
         'photo' => 'image|max:4096', // 4MB Max
+        'price' => 'required|numeric',
     ];
 
     private function resetInputFields()
@@ -43,7 +48,9 @@ class CreateProduct extends Component
             'name' => $this->name,                
             'code' => $this->code,
             'description' => $this->description ? $this->description : null,                
+            'line_id' => $this->line_id ?? null,                
             'file_name' => $this->photo ? $imageName : null,
+            'price' => $this->price,
             // 'size_id' => $this->size_id,
             // 'color_id' => $this->color_id,
         ]);

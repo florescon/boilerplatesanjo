@@ -19,7 +19,7 @@ class TwoFactorAuthenticationController extends Controller
     {
         $secret = $request->user()->createTwoFactorAuth();
 
-        return view('frontend.user.account.tabs.two-factor-authentication.enable')
+        return view('frontend.user.account.tabs.two-factor-authentication.enable_porto')
             ->withQrCode($secret->toQr())
             ->withSecret($secret->toString());
     }
@@ -31,7 +31,7 @@ class TwoFactorAuthenticationController extends Controller
      */
     public function show(Request $request)
     {
-        return view('frontend.user.account.tabs.two-factor-authentication.recovery')
+        return view('frontend.user.account.tabs.two-factor-authentication.recovery_porto')
             ->withRecoveryCodes($request->user()->getRecoveryCodes());
     }
 

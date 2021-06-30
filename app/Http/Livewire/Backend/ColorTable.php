@@ -37,10 +37,11 @@ class ColorTable extends Component
 
     protected $listeners = ['delete', 'restore' => '$refresh'];
 
-    public $name, $color, $created, $updated, $selected_id, $deleted;
+    public $name, $short_name, $color, $created, $updated, $selected_id, $deleted;
 
     protected $rules = [
         'name' => 'required|min:3',
+        'short_name' => 'required|min:1|unique:colors',
         'color' => 'required|unique:colors',
     ];
 
@@ -67,9 +68,9 @@ class ColorTable extends Component
         
         return Color::query()
             ->when($this->dateInput, function ($query) {
-            empty($this->dateOutput) ?
-            $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', now()]) :
-            $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59']);
+                empty($this->dateOutput) ?
+                    $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', now()]) :
+                    $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59']);
             })
             ->where(function ($query) {
                 $query->where('name', 'like', '%' . $this->searchTerm . '%')
@@ -174,6 +175,7 @@ class ColorTable extends Component
 
         $this->selected_id = $id;
         $this->name = $record->name;
+        $this->short_name = $record->short_name;
         $this->color = $record->color;
 
 
@@ -195,12 +197,14 @@ class ColorTable extends Component
         $this->validate([
             'selected_id' => 'required|numeric',
             'name' => 'required|min:3',
+            'short_name' => 'required|min:1|unique:App\Models\Color,short_name,'.$this->selected_id,
             'color' => 'required'
         ]);
         if ($this->selected_id) {
             $record = Color::find($this->selected_id);
             $record->update([
                 'name' => $this->name,
+                'short_name' => $this->short_name,
                 'color' => $this->color
             ]);
             $this->resetInputFields();

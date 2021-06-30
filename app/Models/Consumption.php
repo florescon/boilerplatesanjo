@@ -22,7 +22,8 @@ class Consumption extends Model
         'material_id',
         'quantity',
         'color_id',
-
+        'size_id',
+        'puntual',
     ];
 
 

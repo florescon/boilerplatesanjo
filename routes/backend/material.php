@@ -18,6 +18,9 @@ Route::group([
                 ->push(__('Feedstock Management'), route('admin.material.index'));
         });
 
+    Route::patch('material', [MaterialController::class, 'updateStock'])
+        ->name('updateStock');
+
     Route::get('deleted', [MaterialController::class, 'deleted'])
         ->name('deleted')
         ->breadcrumbs(function (Trail $trail) {

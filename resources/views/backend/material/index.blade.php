@@ -14,6 +14,9 @@
         </x-slot>
 
         <x-slot name="headerActions">
+
+            <livewire:backend.material.modify-feedstock />
+
             <x-utils.link
                 icon="c-icon cil-plus"
                 class="card-header-action"

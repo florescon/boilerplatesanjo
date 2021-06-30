@@ -110,6 +110,15 @@
         <li class="c-sidebar-nav-item">
             <x-utils.link
                 class="c-sidebar-nav-link"
+                :href="route('admin.order.index')"
+                :active="activeClass(Route::is('admin.order.*'), 'c-active')"
+                icon="c-sidebar-nav-icon cil-color-fill"
+                :text="__('Orders')" />
+        </li>
+
+        <li class="c-sidebar-nav-item">
+            <x-utils.link
+                class="c-sidebar-nav-link"
                 :href="route('admin.material.index')"
                 :active="activeClass(Route::is('admin.material.*'), 'c-active')"
                 icon="c-sidebar-nav-icon cil-color-fill"
@@ -162,6 +171,15 @@
                 :active="activeClass(Route::is('admin.unit.index'), 'c-active')"
                 icon="c-sidebar-nav-icon cil-color-fill"
                 :text="__('Units')" />
+        </li>
+
+        <li class="c-sidebar-nav-item">
+            <x-utils.link
+                class="c-sidebar-nav-link"
+                :href="route('admin.status.index')"
+                :active="activeClass(Route::is('admin.status.*'), 'c-active')"
+                icon="c-sidebar-nav-icon cil-color-fill"
+                :text="__('Statuses')" />
         </li>
 
     </ul>

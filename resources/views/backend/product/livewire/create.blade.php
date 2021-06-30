@@ -5,6 +5,8 @@
             </x-slot>
 
             <x-slot name="headerActions">
+                <x-utils.link class="card-header-action" :href="route('admin.product.create')" :text="__('Refresh')" />
+
                 <x-utils.link class="card-header-action" :href="route('admin.product.index')" :text="__('Cancel')" />
             </x-slot>
 
@@ -31,14 +33,26 @@
                 </div><!--form-group-->
 
                 <div class="form-group row">
-                    <label for="description" class="col-md-2 col-form-label">@lang('Description')</label>
+                    <label for="description" class="col-md-2 col-form-label">@lang('Short description')</label>
 
                     <div class="col-md-10">
-                        <textarea type="text" name="description" wire:model="description" class="form-control " placeholder="{{ __('Description') }}" value="{{ old('description') }}" maxlength="200" ></textarea>
+                        <textarea type="text" name="description" wire:model="description" class="form-control " placeholder="{{ __('Short description') }}" value="{{ old('description') }}" maxlength="200" ></textarea>
 
                         @error('description') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
                 </div><!--form-group-->
+
+
+                <div class="form-group row" wire:ignore>
+                    <label for="lineselect" class="col-sm-2 col-form-label">@lang('Line')</label>
+
+                    <div class="col-sm-10" >
+                        <select id="lineselect" class="custom-select" style="width: 100%;" aria-hidden="true" >
+                        </select>
+                    </div>
+
+                </div><!--form-group-->
+
 
                 <div class="form-group row" wire:ignore>
                     <label for="colorselect" class="col-sm-2 col-form-label">@lang('Colors')</label>
@@ -47,7 +61,6 @@
                         <select id="colorselect" multiple="multiple" class="custom-select" style="width: 100%;" aria-hidden="true" >
                         </select>
                     </div>
-
 
                 </div><!--form-group-->
 
@@ -60,6 +73,39 @@
                         </select>
                     </div>
 
+                </div><!--form-group-->
+
+                <div class="form-group row">
+
+                    <label for="sizeselect" class="col-sm-2 col-form-label">@lang('Automatic codes')</label>
+
+                    <div class="col-sm-10" >
+                        <label class="c-switch c-switch-primary">
+                          <input type="checkbox" class="c-switch-input" wire:model="autoCodes" checked>
+                          <span class="c-switch-slider"></span>
+                        </label>
+
+
+
+                        @if($autoCodes == false)
+                            <span class="error" style="color: red;">
+                                <p>
+                                Desactivar el codigo automatico implica que se tienen codigos externos a la aplicacion y/o se requiere realizarlos posteriormente de manera manual.                                    
+                                </p>
+                            </span> 
+                        @endif
+                    </div>
+
+                </div>
+
+                <div class="form-group row">
+                    <label for="price" class="col-md-2 col-form-label">@lang('Price')</label>
+
+                    <div class="col-md-10">
+                        <input type="text" name="price" wire:model="price" class="form-control" placeholder="{{ __('Price') }}" value="{{ old('price') }}" maxlength="100" required />
+
+                        @error('price') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                    </div>
                 </div><!--form-group-->
 
 
@@ -117,6 +163,52 @@
 </form>
 
 @push('after-scripts')
+
+    <script>
+      $(document).ready(function() {
+        $('#lineselect').select2({
+          placeholder: '@lang("Choose line")',
+          width: 'resolve',
+          theme: 'bootstrap4',
+          allowClear: true,
+          ajax: {
+                url: '{{ route('admin.line.select') }}',
+                data: function (params) {
+                    return {
+                        search: params.term,
+                        page: params.page || 1
+                    };
+                },
+                dataType: 'json',
+                processResults: function (data) {
+                    data.page = data.page || 1;
+                    return {
+                        results: data.items.map(function (item) {
+                            return {
+                                id: item.id,
+                                text: item.name
+                            };
+                        }),
+                        pagination: {
+                            more: data.pagination
+                        }
+                    }
+                },
+                cache: true,
+                delay: 250,
+                dropdownautowidth: true
+            }
+          });
+
+          $('#lineselect').on('change', function (e) {
+            var data = $('#lineselect').select2("val");
+            @this.set('line_id', data);
+          });
+
+
+      });
+    </script>
+
     <script>
       $(document).ready(function() {
         $('#colorselect').select2({

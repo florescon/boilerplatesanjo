@@ -20,6 +20,7 @@ class CreateConsumptionsTable extends Migration
             $table->double('quantity')->default(0);
             $table->unsignedInteger('color_id')->nullable();
             $table->unsignedInteger('size_id')->nullable();
+            $table->boolean('puntual')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });

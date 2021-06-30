@@ -15,6 +15,13 @@
         </tr>
         
         <tr>
+          <th scope="row">@lang('Short name')</th>
+          <td>   
+            <x-utils.undefined :data="$short_name"/>
+          </td>
+        </tr>
+
+        <tr>
           <th scope="row">@lang('Slug')</th>
           <td>   
             <x-utils.undefined :data="$slug"/>

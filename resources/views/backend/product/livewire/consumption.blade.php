@@ -29,15 +29,17 @@
               <li class="list-group-item">
                 <strong>@lang('Sizes'): </strong> 
                 @foreach($model->children->unique('size_id')->sortBy('size.name') as $sizes)
-                <a href="#" class="badge badge-light">{{ $sizes->size->name }}</a>
+                  <button type="button" style="margin-top: 3px" class="btn {{ in_array($sizes->size_id, $filters_s) ? 'btn-primary text-white' : 'btn-outline-primary' }} btn-sm" wire:click="$emit('filterBySize', {{ $sizes->size_id }})">
+                    {{ $sizes->size->name }} <span class="badge bg-danger text-white">{{ ltrim($product_general->getTotalConsumptionBySize($sizes->size_id), '0') }}</span>
+                  </button>
                 @endforeach
               </li>
 
               <li class="list-group-item">
                 <strong>@lang('Colors'): </strong> 
-                @foreach($model->children->unique('color_id')->sortBy('size.name') as $colors)
-                  <button type="button" style="margin-top: 3px" class="btn {{ in_array($colors->color_id, $filters) ? 'btn-primary text-white' : 'btn-outline-primary' }} btn-sm" wire:click="$emit('filterByTag', {{ $colors->color_id }})">
-                    {{ $colors->color->name }} <span class="badge bg-secondary text-dark">4</span>
+                @foreach($model->children->unique('color_id')->sortBy('color.name') as $colors)
+                  <button type="button" style="margin-top: 3px" class="btn {{ in_array($colors->color_id, $filters_c) ? 'btn-primary text-white' : 'btn-outline-primary' }} btn-sm" wire:click="$emit('filterByColor', {{ $colors->color_id }})">
+                    {{ $colors->color->name }} <span class="badge bg-danger text-white">{{ ltrim($product_general->getTotalConsumptionByColor($colors->color_id), '0') }}</span>
                   </button>
                 @endforeach
               </li>
@@ -81,7 +83,7 @@
           </div>
           @endif
             <div class="card-body">
-              <h5 class="card-title text-monospace font-weight-bold">{{ $name_color ? __('Consumption').' '. $name_color : __('General consumption') }}</h5>
+              <h5 class="card-title text-monospace font-weight-bold">{{ ($name_color || $name_size) ? __('Consumption').' '. $name_color.$name_size : __('General consumption') }}</h5>
   
               <div class="float-right custom-control custom-switch custom-control-inline">
                 <input type="checkbox" wire:model="updateQuantity" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
@@ -92,7 +94,7 @@
 
               {{-- @json($groups) --}}
 
-              @if($filters)
+              @if($filters_c)
                 <div class="table-responsive shadow-lg">
                   <table class="table table-sm">
 
@@ -116,7 +118,36 @@
                   </table>
                 </div>
 
-              <br>
+                <br>
+
+              @endif
+
+
+              @if($filters_s)
+                <div class="table-responsive shadow-lg">
+                  <table class="table table-sm">
+
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col"> </th>
+                        <th scope="col">@lang('Feedstock') - Total de <span class="badge badge-primary">{{ $name_size }}</span></th>
+                        <th scope="col" style="width: 180px;">@lang('Quantity')</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach($groups as $group)
+                        <tr>
+                          <th scope="row"></th>
+                          <th scope="row">{!! $group['material_id'] !!}</th>
+                          <td>{{ $group['quantity'] }}</td>
+                        </tr>
+                      @endforeach
+
+                    </tbody>
+                  </table>
+                </div>
+
+                <br>
 
               @endif
 
@@ -128,11 +159,11 @@
                       <th scope="col"> </th>
                       <th scope="col">
                         @lang('Feedstock')
-                        {{ $filters ? '- Detalles' : '' }}
+                        {{ $filters_c ? '- Detalles' : '' }}
                       </th>
                       <th scope="col" style="width: 180px;">@lang('Quantity')</th>
 
-                      @if($name_color && ($updateQuantity == TRUE))
+                      @if(($name_color or $name_size) && ($updateQuantity == TRUE))
                         <th scope="col" style="width: 180px;">@lang('Difference')</th>
                       @endif
 
@@ -143,17 +174,17 @@
                     @foreach($grouped as $key => $consumo)
 
                       @foreach($consumo as $yas)
-                        <tr class="{{ $yas->color_id == null ? 'table-warning' : 'table-primary' }}">
+                        <tr class="{{ ($yas->color_id == null xor $yas->size_id == null)  ? 'table-primary' : 'table-warning' }}">
                           <th scope="row"></th>
-                          <th scope="row" class=" {{  $yas->color_id != null ? 'font-italic' : ''  }}" > {!! $yas->material->full_name !!}</th>
+                          <th scope="row" class=" {{  ($yas->color_id != null || $yas->size_id != null) ? 'font-italic' : ''  }}" > {!! $yas->material->full_name !!} @if($yas->puntual == TRUE)<span class="badge badge-success">Puntual</span>@endif </th>
                           <th scope="row">
 
                             @if($updateQuantity == TRUE)
 
-                              @if($yas->color_id == null && !$name_color)
-                                <input class="form-control form-control-sm is-valid" style="background-image: none; padding-right: inherit;" wire:model="inputquantities.{{ $yas->id }}.consumption" wire:keydown.enter="quantities({{ $yas->id }})" type="number" step="any" required {{ $yas->color_id == null && $name_color ? 'disabled' : '' }}>
+                              @if($yas->color_id == null && (!$name_color && !$name_size))
+                                <input class="form-control form-control-sm is-valid" style="background-image: none; padding-right: inherit;" wire:model="inputquantities.{{ $yas->id }}.consumption" wire:keydown.enter="quantities({{ $yas->id }})" type="number" step="any" required {{ ($yas->color_id == null || $yas->size_id == null) && $name_color ? 'disabled' : '' }}>
                               @else
-                                {!! ($yas->color_id <> null) ? __('Difference').' actual: '. $yas->quantity : $yas->quantity.'  <small class="text-muted"><em>(General)</em></small>' !!}
+                                {!! ($yas->color_id <> null || $yas->size_id <> null) ? __('Difference').' actual: '. $yas->quantity : $yas->quantity.'  <small class="text-muted"><em>(General)</em></small>' !!}
                               @endif
                             @else
 
@@ -161,11 +192,11 @@
 
                             @endif
                             {{-- <input type="text" class="form-control" name="quantity"> --}}
-                        </th>
+                          </th>
 
-                        @if($name_color && ($updateQuantity == TRUE))
+                        @if(($name_color or $name_size)  && ($updateQuantity == TRUE))
                           <td scope="row">
-                            @if($yas->color_id == null)
+                            @if($yas->puntual == TRUE || (!$yas->color_id && !$yas->size_id))
                               <input class="form-control form-control-sm is-valid" style="background-image: none; padding-right: inherit; border-color: blue;" wire:model="inputquantities_difference.{{ $yas->id }}.consumption" wire:keydown.enter="quantities({{ $yas->id }})" type="number" step="any" required>
                             @endif
                           </td>
@@ -194,6 +225,11 @@
 
             </div>
           </div>
+
+          @else
+            <div class="alert alert-secondary" role="alert">
+              Aun nada agregado 
+            </div>
           @endif
 
   			</div>

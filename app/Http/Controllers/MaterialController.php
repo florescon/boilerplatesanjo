@@ -22,6 +22,28 @@ class MaterialController extends Controller
         return view('backend.material.deleted');
     }
 
+    public function updateStock(Request $request)
+    {
+
+        $this->validate($request, [
+            'stock' => 'numeric',
+        ]);
+
+        $material = Material::where('id', $request->id)->first();
+
+        if($request->stock > 0){
+            $material->increment('stock', abs($request->stock));
+        }
+        else{
+            $material->decrement('stock', abs($request->stock));
+        }
+
+        return redirect()->back()
+          ->withFlashSuccess('Materia prima actualizada con éxito');
+
+    }
+
+
     public function select2LoadMore(Request $request)
     {
         $search = $request->get('search');

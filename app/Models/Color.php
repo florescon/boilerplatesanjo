@@ -19,6 +19,7 @@ class Color extends Model
      */
     protected $fillable = [
         'name',
+        'short_name',
         'color',
         'slug'
     ];

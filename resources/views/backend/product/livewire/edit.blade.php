@@ -166,13 +166,30 @@
 				    <br>
 
 			        <p class="card-text"><strong>@lang('Total stock'): </strong>{{ $model->getTotalStock() }}</p>
+			        <p class="card-text"><strong>@lang('Line'):</strong> 
+			            <x-utils.undefined :data="optional($model->line)->name"/>
+			        </p>
+			        <p class="card-text"><strong>@lang('Price'): </strong>${{ $model->price }}</p>
 			        <p class="card-text"><strong>@lang('Updated at'): </strong>{{ $model->updated_at }}</p>
 			        <p class="card-text"><strong>@lang('Created at'): </strong>{{ $model->created_at }}</p>
 
 			        {{-- <a href="#" class="btn btn-primary pulsingButton">@lang('Edit')</a> --}}
 			      </div>
 		          <div class="card-body">
-					  <a href="#" class="card-link">@lang('Advanced information')</a>
+					  <ul class="list-group list-group-flush">
+					    <li class="list-group-item">
+						  <a href="{{ route('admin.product.advanced', $model->id) }}" class="card-link">@lang('Advanced information') {!! $model->status_advanced !!}</a>
+					    </li>
+					    <li class="list-group-item">
+						  <a href="{{ route('admin.product.prices', $model->id) }}" class="card-link">@lang('Prices and codes')</a>
+					    </li>
+					    <li class="list-group-item">
+						  <a href="{{ route('admin.product.pictures', $model->id) }}" class="card-link">@lang('Images') <span class="badge bg-danger text-white">{{ ltrim($model->total_pictures, '0') }}</span> </a>
+					    </li>
+					    <li class="list-group-item">
+						  <a href="{{ route('admin.product.move', $model->id) }}" class="card-link">@lang('Move between stocks')</a>
+					    </li>
+					  </ul>
 
 		                {{-- <x-input.rich-text wire:model.lazy="about" id="about" :initial-value="$about" /> --}}
 	
@@ -243,7 +260,7 @@
 											    	<i class="cil-x"></i>
 											    </span>
 			
-										 		<button class="btn btn-primary"  x-on:click="isNewColor = false" type="submit"><i class="cil-check-alt"></i></button>
+										 		<button class="btn btn-primary" x-on:click="isNewColor = false" type="submit"><i class="cil-check-alt"></i></button>
 
 										  	</div>
 										</div>
@@ -476,7 +493,9 @@
 								  @endif
 
 								  <td>
-								    <a onmousedown="party.confetti(this)" class="badge badge-info text-white" wire:click="addToCart({{ $children->id }})" >@lang('Add to order')</a>
+								    <a onmousedown="party.sparkles(this)" class="badge badge-primary text-white" wire:click="addToCart({{ $children->id }})" ><i class="cil-cart"> </i> @lang('Order')</a>
+								    <a onmousedown="party.confetti(this)" class="badge badge-success text-white" wire:click="addToCartSale({{ $children->id }})" ><i class="cil-cart"> </i> @lang('Sale')</a>
+
 								  </td>
 
 							    </tr>
@@ -685,13 +704,12 @@
       });
     </script>
 
-    <script>
-    	
+    {{-- <script>
     	document.querySelector(".button").addEventListener("click", function (e) {
-   			party.confetti(this, {
+   			party.sparkles(this, {
         		count: party.variation.range(20, 40),
     		});
 		});
-    </script>
+    </script> --}}
 
 @endpush

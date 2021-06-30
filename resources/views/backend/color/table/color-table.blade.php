@@ -133,6 +133,7 @@
                   @include('backend.includes._sort-icon', ['field' => 'name'])
                 </a>
               </th>
+              <th scope="col">@lang('Short name')</th>
               
               <th scope="col">@lang('Slug')</th>
 
@@ -166,6 +167,9 @@
                   </div>
                 </div>
               </th>
+              <td>
+                {{ $color->short_name }}
+              </td>
               <td>
                 {{ $color->slug }}
               </td>

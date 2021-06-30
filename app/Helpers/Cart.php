@@ -28,10 +28,35 @@ class Cart
         $this->set($cart);
     }
 
+
+    public function add_sale(Product $product): void
+    {
+        $cart = $this->get();
+        $cartProductsIds = array_column($cart['products_sale'], 'id');
+        $product->amount = !empty($product->amount) ? $product->amount : 1;
+
+        if (in_array($product->id, $cartProductsIds)) {
+            $cart['products_sale'] = $this->productCartIncrement($product->id, $cart['products_sale']);
+            $this->set($cart);
+            return;
+        }
+
+        array_push($cart['products_sale'], $product);
+        $this->set($cart);
+    }
+
     public function remove(int $productId): void
     {
         $cart = $this->get();
         array_splice($cart['products'], array_search($productId, array_column($cart['products'], 'id')), 1);
+        $this->set($cart);
+    }
+
+
+    public function removeSale(int $productId): void
+    {
+        $cart = $this->get();
+        array_splice($cart['products_sale'], array_search($productId, array_column($cart['products_sale'], 'id')), 1);
         $this->set($cart);
     }
 
@@ -44,8 +69,10 @@ class Cart
     {
         return [
             'products' => [],
+            'products_sale' => [],
         ];
     }
+    
 
     public function get(): ?array
     {
@@ -63,7 +90,7 @@ class Cart
         $cartItems = array_map(function ($item) use ($productId, $amount) {
             if ($productId == $item['id']) {
                 $item['amount'] += $amount;
-                $item['price'] += $item['price'];
+                $item['price'] = $item['price'];
             }
 
             return $item;

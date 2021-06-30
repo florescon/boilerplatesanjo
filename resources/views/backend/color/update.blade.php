@@ -19,6 +19,10 @@
           <input wire:model="name" type="text" class="form-control"/>
           @error('name') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
+          <label>@lang('Short name')</label>
+          <input wire:model="short_name" type="text" class="form-control"/>
+          @error('short_name') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+
           <label>@lang('Color')</label>
           <x-input.colorpicker wire:model="color"/>
           @error('color') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror

@@ -35,6 +35,9 @@ class DatabaseSeeder extends Seeder
         $this->call(UnitSeeder::class);
 
         $this->call(MaterialSeeder::class);
+        
+        $this->call(ProductSeeder::class);
+        $this->call(StatusSeeder::class);
 
         Model::reguard();
     }

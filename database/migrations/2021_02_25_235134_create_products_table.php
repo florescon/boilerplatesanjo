@@ -18,12 +18,13 @@ class CreateProductsTable extends Migration
             $table->string('name')->nullable();
             $table->string('slug')->unique()->nullable();
             $table->string('code',100)->unique()->nullable();
-            $table->double('price')->nullable();
+            $table->decimal('price', 8, 2)->nullable();
             $table->double('stock')->default(0);
             $table->double('stock_revision')->default(0);
             $table->double('stock_store')->default(0);
             $table->string('file_name')->nullable();
             $table->longText('description')->nullable();
+            $table->unsignedInteger('line_id')->nullable();
             $table->unsignedInteger('color_id')->nullable();
             $table->unsignedInteger('size_id')->nullable();
             $table->unsignedBigInteger('parent_id')->nullable();

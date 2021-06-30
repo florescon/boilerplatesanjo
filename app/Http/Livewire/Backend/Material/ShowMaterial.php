@@ -22,9 +22,9 @@ class ShowMaterial extends Component
         $this->price = $record->price;
         $this->stock = $record->stock;
 
-        $this->unit = $record->unit->name;
-        $this->color = $record->color->name;
-        $this->size = $record->size->name;
+        $this->unit = optional($record->unit)->name;
+        $this->color = optional($record->color)->name;
+        $this->size = optional($record->size)->name;
 
         $this->deleted = $record->deleted_at;
 

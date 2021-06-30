@@ -47,10 +47,20 @@ class EditProduct extends Component
     {
         Cart::add(Product::
             with(array('parent' => function($query) {
-                $query->select('id', 'name');
+                $query->select('id', 'name', 'code', 'price');
             }))->get()
             ->find($productId));
         $this->emit('productAdded');
+    }
+
+    public function addToCartSale(int $productId): void
+    {
+        Cart::add_sale(Product::
+            with(array('parent' => function($query) {
+                $query->select('id', 'name', 'price');
+            }))->get()
+            ->find($productId));
+        $this->emit('productAddedSale');
     }
 
 
@@ -480,7 +490,7 @@ class EditProduct extends Component
             }
         }
         else{
-            $model = Product::with('children');
+            $model = Product::with('children', 'line');
         }
 
         // $model = Product::with('children');

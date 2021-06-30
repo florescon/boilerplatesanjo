@@ -143,3 +143,5 @@ Route::group([
         });
     });
 });
+
+Route::get('select2-load-users', [UserController::class, 'select2LoadMore'])->name('users.select');

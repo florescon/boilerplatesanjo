@@ -22,7 +22,7 @@ class ClothFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->secondaryAddress,
+            'name' => $this->faker->lastName,
         ];
     }
 }

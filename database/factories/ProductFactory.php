@@ -25,7 +25,7 @@ class ProductFactory extends Factory
         static $order = 1;   
 
         return [
-            'name' => $order.$this->faker->secondaryAddress,
+            'name' => $order.$this->faker->domainWord,
             'code' => $order++."ajose",
             'price' => rand(100, 500),
             'status' => 1,        

@@ -84,10 +84,6 @@ class ClothTable extends TableComponent
         }
 
         return $query;
-		// return Cloth::query()
-        // ->when($this->deleted, function ($query) {
-            // $query->onlyTrashed();
-        // });
     }
 
 
@@ -118,7 +114,8 @@ class ClothTable extends TableComponent
             Column::make(__('Actions'))
                 ->format(function (Cloth $model) {
                     return view('backend.cloth.datatable.actions', ['cloth' => $model]);
-                }),
+                })
+                ->excludeFromExport(),
         ];
     }
 

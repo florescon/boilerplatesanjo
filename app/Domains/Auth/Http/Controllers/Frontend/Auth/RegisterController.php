@@ -62,7 +62,7 @@ class RegisterController extends Controller
     {
         abort_unless(config('boilerplate.access.user.registration'), 404);
 
-        return view('frontend.auth.register');
+        return view('frontend.auth.register_porto');
     }
 
     /**

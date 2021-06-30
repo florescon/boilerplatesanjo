@@ -15,11 +15,11 @@ class CreateMaterialsTable extends Migration
     {
         Schema::create('materials', function (Blueprint $table) {
             $table->id();
-            $table->string('part_number')->nullable();
+            $table->string('part_number')->unique()->nullable();
             $table->string('name')->nullable();
             $table->longText('description')->nullable();
             $table->double('acquisition_cost')->nullable();
-            $table->double('price')->nullable();
+            $table->decimal('price', 8, 2)->nullable();
             $table->double('stock')->nullable();
             $table->unsignedSmallInteger('unit_id')->nullable();
             $table->unsignedMediumInteger('color_id')->nullable();

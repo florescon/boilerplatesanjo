@@ -8,17 +8,19 @@ use Livewire\Component;
 class CreateSize extends Component
 {
 
-    public $name;
+    public $name, $short_name;
 
     protected $listeners = ['createmodal'];
 
     protected $rules = [
         'name' => 'required|min:1',
+        'short_name' => 'required|min:1|unique:sizes',
     ];
 
     private function resetInputFields()
     {
         $this->name = '';
+        $this->short_name = '';
     }
 
     public function createmodal()

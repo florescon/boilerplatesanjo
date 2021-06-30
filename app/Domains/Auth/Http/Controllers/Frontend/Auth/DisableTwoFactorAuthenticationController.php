@@ -15,7 +15,7 @@ class DisableTwoFactorAuthenticationController extends Controller
      */
     public function show()
     {
-        return view('frontend.user.account.tabs.two-factor-authentication.disable');
+        return view('frontend.user.account.tabs.two-factor-authentication.disable_porto');
     }
 
     /**

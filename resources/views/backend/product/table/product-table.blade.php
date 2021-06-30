@@ -2,6 +2,10 @@
 
 	<div class="card-body">
 
+		{{-- @json($products) --}}
+
+
+	@if($status != 'deleted')
 	<div class="row mb-4 justify-content-md-center">
 		<div class="col-8">
 		  <div class="input-group">
@@ -17,13 +21,14 @@
 		  </div>
 		</div>
 	</div>
+	@endif
 
 	<div class="card-columns">
 		@foreach($products as $product)
 		  <div class="card card-flyer card-product">
 		  	@if($product->file_name)
 		  	{{-- @if(Storage::exists($product->file_name)) --}}
-		    	<a href="{{ route('admin.product.edit', $product->id) }}">
+		    	<a href="{{ route('admin.product.edit',  $product->id) }}">
 			    	<img class="card-img-top" src="{{ asset('/storage/' . $product->file_name) }}" alt="{{ $product->name }}">
 			    </a>
 		    @endif
@@ -33,20 +38,20 @@
 
 		      <p class="card-text">{!! $product->description_limited !!}</p>
 		      <p class="card-text"><small class="text-muted">@lang('Last Updated') {{ $product->updated_at->diffForHumans() }}</small></p>
-			<a href="{{ route('admin.product.edit', $product->id) }}" class="stretched-link"></a>
+			<a href="{{ route('admin.product.edit',  $product->id) }}" class="stretched-link"></a>
 		    </div>
 
 			  <ul class="list-group list-group-flush">
 			    <li class="list-group-item">
 			    	<strong>@lang('Colors'): </strong> 
 			    	@foreach($product->children->unique('color_id')->sortBy('color.name') as $colors)
-						<a class="badge badge-light">{{ $colors->color->name }}</a>
+						<a class="badge badge-light">{{ optional($colors->color)->name }}</a>
 			    	@endforeach
 			    </li>
 			    <li class="list-group-item">
 			    	<strong>@lang('Sizes'): </strong> 
 			    	@foreach($product->children->unique('size_id')->sortBy('size.name') as $sizes)
-						<a class="badge badge-light">{{ $sizes->size->name }}</a>
+						<a class="badge badge-light">{{ optional($sizes->size)->name }}</a>
 			    	@endforeach
 			    </li>
 
@@ -58,8 +63,8 @@
 
 		    <div class="card-footer">
 				@if (!$product->trashed())
-					<a href="{{ route('admin.product.consumption', $product->id) }}" class="btn btn-warning text-white">@lang('Consumption')</a>
-					<a href="{{ route('admin.product.edit', $product->id) }}" class="btn btn-primary">@lang('Edit product')</a>
+					<a href="{{ route('admin.product.consumption',  $product->id) }}" class="btn btn-warning text-white">@lang('Consumption')</a>
+					<a href="{{ route('admin.product.edit',  $product->id) }}" class="btn btn-primary">@lang('Edit product')</a>
 				@else
 				    <div class="dropright" style="display:inline-block;">
 				      <a class="btn btn-icon-only" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

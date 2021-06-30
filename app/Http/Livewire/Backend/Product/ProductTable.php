@@ -36,14 +36,15 @@ class ProductTable extends Component
         
         $query = Product::query()
             ->with('children')
-            ->where('parent_id', NULL)->orderBy('updated_at', 'desc');
-
-        $this->applySearchFilter($query);
-
+            ->whereNull('parent_id')
+            ->orderBy('updated_at', 'desc');
 
         if ($this->status === 'deleted') {
             return $query->onlyTrashed();
         }
+
+        $this->applySearchFilter($query);
+
 
         return $query;
 
@@ -63,8 +64,8 @@ class ProductTable extends Component
     private function applySearchFilter($products)
     {
         if ($this->searchTerm) {
-            return $products->whereRaw("name LIKE \"%$this->searchTerm%\"")
-                            ->orWhereRaw("code LIKE \"%$this->searchTerm%\"")
+            return $products->whereRaw("code LIKE \"%$this->searchTerm%\"")
+                            ->orWhereRaw("name LIKE \"%$this->searchTerm%\"")
                             ->orWhereRaw("description LIKE \"%$this->searchTerm%\"");
         }
 

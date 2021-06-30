@@ -21,8 +21,11 @@ class ColorFactory extends Factory
      */
     public function definition()
     {
+        static $order = 1;   
+
         return [
             'name' => $this->faker->colorName,
+            'short_name' => $order++.substr($this->faker->firstName, 0, 3),
             'color' => $this->faker->hexcolor,
         ];
     }

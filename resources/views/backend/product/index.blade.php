@@ -15,6 +15,15 @@
 
 
         <x-slot name="headerActions">
+
+            <x-utils.link
+                    style="color: blue;"
+                    icon="cil-list"
+                    class="card-header-action"
+                    :href="route('admin.product.list')"
+                    :text="__('List of products')"
+            />
+
             <x-utils.link
 	                style="color: green;"
                     icon="c-icon cil-plus"

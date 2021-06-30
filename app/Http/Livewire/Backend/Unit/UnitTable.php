@@ -116,7 +116,8 @@ class UnitTable extends TableComponent
             Column::make(__('Actions'))
                 ->format(function (Unit $model) {
                     return view('backend.unit.datatable.actions', ['unit' => $model]);
-                }),
+                })
+                ->excludeFromExport(),
         ];
     }
 

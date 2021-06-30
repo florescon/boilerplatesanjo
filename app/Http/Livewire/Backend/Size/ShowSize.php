@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class ShowSize extends Component
 {
-    public $name, $slug, $created, $updated;
+    public $name, $short_name, $slug, $created, $updated;
 
     protected $listeners = ['show'];
 
@@ -15,6 +15,7 @@ class ShowSize extends Component
     {
         $record = Size::withTrashed()->findOrFail($id);
         $this->name = $record->name;
+        $this->short_name = $record->short_name;
         $this->slug = $record->slug;
         $this->created = $record->created_at;
         $this->updated = $record->updated_at;

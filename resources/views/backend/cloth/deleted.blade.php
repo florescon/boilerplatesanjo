@@ -2,7 +2,6 @@
 
 @section('title', __('Cloth'))
 
-
 @section('breadcrumb-links')
     @include('backend.cloth.includes.breadcrumb-links')
 @endsection

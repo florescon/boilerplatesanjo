@@ -11,6 +11,7 @@ use App\Domains\Auth\Services\PermissionService;
 use App\Domains\Auth\Services\RoleService;
 use App\Domains\Auth\Services\UserService;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 /**
  * Class UserController.
@@ -133,4 +134,14 @@ class UserController extends Controller
 
         return redirect()->route('admin.auth.user.deleted')->withFlashSuccess(__('The user was successfully deleted.'));
     }
+
+
+
+    public function select2LoadMore(Request $request)
+    {
+        $search = $request->get('search');
+        $data = User::select(['id', 'name'])->where('name', 'like', '%' . $search . '%')->orderBy('name')->paginate(5);
+        return response()->json(['items' => $data->toArray()['data'], 'pagination' => $data->nextPageUrl() ? true : false]);
+    }
+
 }

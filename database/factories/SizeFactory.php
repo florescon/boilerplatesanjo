@@ -21,8 +21,11 @@ class SizeFactory extends Factory
      */
     public function definition()
     {
+        static $order = 1;   
+
         return [
-            'name' => $this->faker->realText(rand(10,20)),
+            'name' => $this->faker->firstName,
+            'short_name' => $order++.substr($this->faker->firstName, 0, 3),
         ];
     }
 }

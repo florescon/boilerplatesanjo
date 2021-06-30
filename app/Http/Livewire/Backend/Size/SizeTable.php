@@ -84,10 +84,6 @@ class SizeTable extends TableComponent
         }
 
         return $query;
-		// return Size::query()
-        // ->when($this->deleted, function ($query) {
-            // $query->onlyTrashed();
-        // });
     }
 
 
@@ -98,6 +94,9 @@ class SizeTable extends TableComponent
     {
         return [
             Column::make(__('Name'), 'name')
+                ->searchable()
+                ->sortable(),
+            Column::make(__('Short name'), 'short_name')
                 ->searchable()
                 ->sortable(),
             Column::make(__('Slug'), 'slug')
@@ -118,7 +117,8 @@ class SizeTable extends TableComponent
             Column::make(__('Actions'))
                 ->format(function (Size $model) {
                     return view('backend.size.datatable.actions', ['size' => $model]);
-                }),
+                })
+                ->excludeFromExport(),
         ];
     }
 

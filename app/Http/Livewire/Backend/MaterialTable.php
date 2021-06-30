@@ -22,18 +22,26 @@ class MaterialTable extends TableComponent
 
     public $perPage = '10';
 
+    public $editStock = false;
+
+    public $searchDebounce = 1024;
+
     public $tableFooterEnabled = true;
 
     public $perPageOptions = ['10', '25', '50', '100'];
 
-    public $exports = ['csv', 'xls', 'xlsx'];
+    public $exports = ['csv', 'xls', 'xlsx', 'pdf'];
     public $exportFileName = 'feedstocks';
 
     public $clearSearchButton = true;
     
-    protected $queryString = ['search' => ['except' => ''], 'perPage'];
+    protected $queryString = [
+        'search' => ['except' => ''], 
+        'editStock' => ['except'=> false],
+        'perPage',
+    ];
 
-    protected $listeners = ['delete', 'restore', 'triggerRefresh' => '$refresh'];
+    protected $listeners = ['postAdded' => 'updateEditStock', 'delete', 'restore', 'triggerRefresh' => '$refresh'];
 
 
     /**
@@ -48,7 +56,6 @@ class MaterialTable extends TableComponent
         'bootstrap.container' => false,
         'bootstrap.classes.table' => 'table table-striped table-bordered',
         'bootstrap.responsive' => true,
-
     ];
 
 
@@ -60,6 +67,11 @@ class MaterialTable extends TableComponent
         $this->status = $status;
     }
 
+
+    public function updateEditStock()
+    {
+        $this->editStock = !$this->editStock;
+    }
 
     /**
      * @return Builder
@@ -90,12 +102,6 @@ class MaterialTable extends TableComponent
             Column::make(__('Name'), 'name')
                 ->searchable()
                 ->sortable(),
-            Column::make(__('Price'), 'price')
-                ->searchable()
-                ->sortable(),
-            Column::make(__('Stock'), 'stock')
-                ->searchable()
-                ->sortable(),
             Column::make(__('Unit'), 'unit.name')
                 ->searchable()
                 ->format(function(Material $model) {
@@ -105,19 +111,38 @@ class MaterialTable extends TableComponent
                 ->searchable()
                 ->format(function(Material $model) {
                     return $this->html(!empty($model->color_id) && isset($model->color->id) ? '<i style="border-bottom: 1px solid; font-size:14px; color:'.(optional($model->color)->color ?  optional($model->color)->color : 'transparent').';" class="fa">&#xf0c8;</i> '. optional($model->color)->name : '<span class="badge badge-pill badge-secondary"> <em>No definido</em></span>');
+                })
+                ->exportFormat(function(Material $model) {
+                    return optional($model->color)->name;
                 }),
             Column::make(__('Size_'), 'size.name')
                 ->searchable()
                 ->format(function(Material $model) {
                     return $this->html(!empty($model->size_id) && isset($model->size->id) ? $model->size->name : '<span class="badge badge-pill badge-secondary"> <em>No asignada</em></span>');
                 }),
-            Column::make(__('Updated at'), 'updated_at')
+            Column::make(__('Price'), 'price')
                 ->searchable()
                 ->sortable(),
+            Column::make(__('Stock'), 'stock')
+                ->searchable()
+                ->sortable(),
+            Column::make(__('Updated at'), 'updated_at')
+                ->searchable()
+                ->sortable()
+                ->hideIf($this->editStock == true),
             Column::make(__('Actions'))
                 ->format(function (Material $model) {
                     return view('backend.material.datatable.actions', ['material' => $model]);
-                }),
+                })
+                ->excludeFromExport()
+                ->hideIf($this->editStock == true),
+            Column::make(__('Add / Subtract'))
+                ->format(function (Material $model) {
+                    return view('backend.material.datatable.input', ['material' => $model]);
+                })
+                ->excludeFromExport()
+                ->hideIf($this->editStock == false),
+
         ];
     }
 

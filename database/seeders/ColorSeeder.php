@@ -21,7 +21,7 @@ class ColorSeeder extends Seeder
         $this->disableForeignKeys();
 
         if (app()->environment() !== 'production') {
-            Color::factory()->times(1000)->create();
+            Color::factory()->times(100)->create();
         }
 
         $this->enableForeignKeys();

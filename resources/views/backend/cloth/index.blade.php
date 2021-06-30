@@ -34,9 +34,6 @@
         </x-slot>
     </x-backend.card>
 
-
-
-
     <livewire:backend.cloth.cloth-form />
     <livewire:backend.cloth.show-cloth />
     <livewire:backend.cloth.edit-cloth />

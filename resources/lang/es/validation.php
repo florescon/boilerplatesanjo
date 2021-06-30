@@ -145,6 +145,7 @@ return [
 
     'attributes' => [
         'name' => 'nombre',
+        'short_name' => 'nombre corto',
         'color' => 'color',
         'price' => 'precio',
         'code' => 'código',
