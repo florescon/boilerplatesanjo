@@ -43,7 +43,11 @@
     <!-- <link rel="dns-prefetch" href="//fonts.gstatic.com"> -->
     <!-- <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet"> -->
     <!-- <link href="{{ mix('css/frontend.css') }}" rel="stylesheet"> -->
+    {{-- <link rel="stylesheet" href="{{ asset('css_custom/strawberry.css') }}"> --}}
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">	
+    <link rel="stylesheet" href="{{ asset('css_custom/whatsapp.css') }}">
+	
     <livewire:styles />
 
     @stack('after-styles')
@@ -55,6 +59,9 @@
 <body>
 	<div class="page-wrapper">
 
+	<a href="https://wa.me/4427393061" class="float" target="_blank">
+		<i class="fa fa-whatsapp my-float"></i>
+	</a>		
 
     @include('includes.partials.read-only')
     @include('includes.partials.logged-in-as')

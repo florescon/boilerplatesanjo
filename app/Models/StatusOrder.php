@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Domains\Auth\Models\User;
 
 class StatusOrder extends Model
 {
@@ -12,8 +13,16 @@ class StatusOrder extends Model
     protected $table = 'status_orders';
 
     protected $fillable = [
-        'order_id', 'status_id', 
+        'order_id', 'status_id', 'audi_id',
     ];
+
+    /**
+     * @return mixed
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'audi_id');
+    }
 
     /**
      * @return mixed

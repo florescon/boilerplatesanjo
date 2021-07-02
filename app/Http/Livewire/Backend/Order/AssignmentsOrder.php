@@ -8,14 +8,18 @@ use App\Models\Assignment;
 use App\Models\Ticket;
 use App\Models\Status;
 use App\Models\ProductOrder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\GeneralException;
+use Carbon\Carbon;
 use Exception;
 
 class AssignmentsOrder extends Component
 {
 
     public $order_id, $status_id, $quantityy, $user, $status_name;
+
+    public $next_status, $previous_status;
 
     public $output;
 
@@ -25,6 +29,12 @@ class AssignmentsOrder extends Component
     {
         $this->order_id = $order->id;
         $this->status_id = $status->id;
+        $this->next_status = Status::where('id', '>', $status->id)->where('to_add_users', true)
+                ->oldest('level')
+                ->first();
+        $this->previous_status = Status::where('id', '<', $status->id)->where('to_add_users', true)
+                ->latest('level')
+                ->first();
         $this->status_name = $status->name;
 
     }
@@ -100,6 +110,8 @@ class AssignmentsOrder extends Component
                 $order->order_id = $this->order_id;
                 $order->status_id = $this->status_id;
                 $order->user_id = $this->user ?? null;
+                // $order->date_entered = Carbon::now()->format('Y-m-d');
+                // $order->audi_id = Auth::id();
                 $order->save();
 
                 foreach($this->quantityy as $key => $product){

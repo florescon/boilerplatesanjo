@@ -18,6 +18,8 @@ class CreateTicketsTable extends Migration
             $table->unsignedInteger('order_id')->nullable();
             $table->unsignedInteger('status_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->date('date_entered')->nullable();
+            $table->unsignedBigInteger('audi_id')->nullable();
             $table->timestamps();
         });
     }

@@ -69,13 +69,13 @@
                 <div wire:loading wire:target="updateStatus" class="loading"></div>
               </div>
               <div class="col-md-4 mb-3">
-                <a href="{{ route('admin.order.advanced', $model->id) }}" style="color:green;">
+                <a href="{{ route('admin.order.advanced', $model->id) }}" style="color:#1ab394;">
                   <p> Opciones avanzadas </p>
                 </a>
               </div>
               <div class="col-md-4 mb-3 text-left">
                 <a href="{{ route('admin.order.sub', $model->id) }}" style="color:purple;">
-                  <p> Quiero asignar subordenes ✍</p>
+                  <p> Quiero asignar subordenes <i class="cil-library"></i></p> 
                 </a>
   
                 @php
@@ -128,9 +128,9 @@
 
             <div class="table-responsive">
               <table class="table table-striped table-bordered table-hover">
-                <thead>
-                  <tr>
-                    <th>Producto</th>
+                <thead class="thead-dark">
+                  <tr >
+                    <th >Producto</th>
                     <th>Precio</th>
                     <th class="text-center">Cantidad</th>
                     <th class="text-center">Total</th>
@@ -186,7 +186,7 @@
                         @if($status->to_add_users)
                         <a href="{{ route('admin.order.assignments', [$model->id, $status->id]) }}">
                           <span class="vertical-timeline-element-date badge text-primary">
-                            <i class="c-icon  c-icon-4x cil-people"></i>
+                            <i class="c-icon c-icon-4x cil-people"></i><i class="cil-plus"></i>
                           </span>
                         </a>
                         @endif
@@ -198,7 +198,7 @@
               </div>
 
               <div class="card-body text-center">
-                <a href="#" class="card-link">Ver registros de estados</a>
+                <a href="{{ route('admin.order.records', $model->id) }}" class="card-link">Ver registros de estados</a>
               </div>
 
             </div>

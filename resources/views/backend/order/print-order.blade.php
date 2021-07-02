@@ -1,74 +1,24 @@
-
 <!DOCTYPE html>
-
 <html lang="en" data-textdirection="ltr" class="">
-
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <meta name="csrf-token" content="Xa6sgFEHGsvbkPoMtWp3EmjNN2FLvDS7GqyF27Bo">
 
-  <title>Invoice Print - Vuexy Vuejs, HTML & Laravel Admin Dashboard Template</title>
-  <link rel="shortcut icon" type="image/x-icon" href="https://pixinvent.com/demo/vuexy-bootstrap-laravel-admin-template/demo-1/images/logo/favicon.ico">
+  <title> @lang('Order') #{{ $order->id }}</title>
 
-  
-  <link rel="stylesheet" href="https://pixinvent.com/demo/vuexy-bootstrap-laravel-admin-template/demo-1/vendors/css/vendors.min.css" />
-<link rel="stylesheet" href="https://pixinvent.com/demo/vuexy-bootstrap-laravel-admin-template/demo-1/vendors/css/ui/prism.min.css" />
+  {{-- <link rel="shortcut icon" type="image/x-icon" href="https://pixinvent.com/demo/vuexy-bootstrap-laravel-admin-template/demo-1/images/logo/favicon.ico"> --}}
 
-
-
-<link rel="stylesheet" href="https://pixinvent.com/demo/vuexy-bootstrap-laravel-admin-template/demo-1/css/core.css" />
-
-
-
-
-<link rel="stylesheet" href="https://pixinvent.com/demo/vuexy-bootstrap-laravel-admin-template/demo-1/css/base/core/menu/menu-types/vertical-menu.css" />
-<!-- <link rel="stylesheet" href="https://pixinvent.com/demo/vuexy-bootstrap-laravel-admin-template/demo-1/css/base/core/colors/palette-gradient.css"> -->
-
-
-<link rel="stylesheet" href="https://pixinvent.com/demo/vuexy-bootstrap-laravel-admin-template/demo-1/css/base/pages/app-invoice-print.css">
-
-
-<link rel="stylesheet" href="https://pixinvent.com/demo/vuexy-bootstrap-laravel-admin-template/demo-1/css/overrides.css" />
-
-
-
-
-
-<link rel="stylesheet" href="https://pixinvent.com/demo/vuexy-bootstrap-laravel-admin-template/demo-1/css/style.css" />
-
-  
-  <link rel="stylesheet" href="https://pixinvent.com/demo/vuexy-bootstrap-laravel-admin-template/demo-1/vendors/css/vendors.min.css" />
-<link rel="stylesheet" href="https://pixinvent.com/demo/vuexy-bootstrap-laravel-admin-template/demo-1/vendors/css/ui/prism.min.css" />
-
-
-
-<link rel="stylesheet" href="https://pixinvent.com/demo/vuexy-bootstrap-laravel-admin-template/demo-1/css/core.css" />
-
-
-
-
-<link rel="stylesheet" href="https://pixinvent.com/demo/vuexy-bootstrap-laravel-admin-template/demo-1/css/base/core/menu/menu-types/vertical-menu.css" />
-<!-- <link rel="stylesheet" href="https://pixinvent.com/demo/vuexy-bootstrap-laravel-admin-template/demo-1/css/base/core/colors/palette-gradient.css"> -->
-
-
-<link rel="stylesheet" href="https://pixinvent.com/demo/vuexy-bootstrap-laravel-admin-template/demo-1/css/base/pages/app-invoice-print.css">
-
-
-<link rel="stylesheet" href="https://pixinvent.com/demo/vuexy-bootstrap-laravel-admin-template/demo-1/css/overrides.css" />
-
-
-
-
-
-<link rel="stylesheet" href="https://pixinvent.com/demo/vuexy-bootstrap-laravel-admin-template/demo-1/css/style.css" />
+  <link rel="stylesheet" href="{{ asset('/css_custom/core.css') }}" />
+  <link rel="stylesheet" href="{{ asset('/css_custom/vertical-menu.css') }}" />
+  <link rel="stylesheet" href="{{ asset('/css_custom/app-invoice-print.css') }}">
 </head>
 
-
-
-<body class="vertical-layout vertical-menu-modern   light
-    data-menu=" vertical-menu-modern" data-layout="" style="" data-framework="laravel" data-asset-path="https://pixinvent.com/demo/vuexy-bootstrap-laravel-admin-template/demo-1/">
+<body class="vertical-layout vertical-menu-modern light"
+    data-menu=" vertical-menu-modern" data-layout="" style="" data-framework="laravel" 
+    {{-- data-asset-path="https://pixinvent.com/demo/vuexy-bootstrap-laravel-admin-template/demo-1/" --}}
+    >
 
   <!-- BEGIN: Content-->
   <div class="app-content content ">
@@ -76,79 +26,26 @@
       <div class="content-body">
 
         
-        <div class="invoice-print p-3">
+<div class="invoice-print p-3">
   <div class="d-flex justify-content-between flex-md-row flex-column pb-2">
     <div>
       <div class="d-flex mb-1">
-        <svg
-          viewBox="0 0 139 95"
-          version="1.1"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          height="24"
-        >
-          <defs>
-            <linearGradient id="linearGradient-1" x1="100%" y1="10.5120544%" x2="50%" y2="89.4879456%">
-              <stop stop-color="#000000" offset="0%"></stop>
-              <stop stop-color="#FFFFFF" offset="100%"></stop>
-            </linearGradient>
-            <linearGradient id="linearGradient-2" x1="64.0437835%" y1="46.3276743%" x2="37.373316%" y2="100%">
-              <stop stop-color="#EEEEEE" stop-opacity="0" offset="0%"></stop>
-              <stop stop-color="#FFFFFF" offset="100%"></stop>
-            </linearGradient>
-          </defs>
-          <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-            <g id="Artboard" transform="translate(-400.000000, -178.000000)">
-              <g id="Group" transform="translate(400.000000, 178.000000)">
-                <path
-                  class="text-primary"
-                  id="Path"
-                  d="M-5.68434189e-14,2.84217094e-14 L39.1816085,2.84217094e-14 L69.3453773,32.2519224 L101.428699,2.84217094e-14 L138.784583,2.84217094e-14 L138.784199,29.8015838 C137.958931,37.3510206 135.784352,42.5567762 132.260463,45.4188507 C128.736573,48.2809251 112.33867,64.5239941 83.0667527,94.1480575 L56.2750821,94.1480575 L6.71554594,44.4188507 C2.46876683,39.9813776 0.345377275,35.1089553 0.345377275,29.8015838 C0.345377275,24.4942122 0.230251516,14.560351 -5.68434189e-14,2.84217094e-14 Z"
-                  style="fill: currentColor"
-                ></path>
-                <path
-                  id="Path1"
-                  d="M69.3453773,32.2519224 L101.428699,1.42108547e-14 L138.784583,1.42108547e-14 L138.784199,29.8015838 C137.958931,37.3510206 135.784352,42.5567762 132.260463,45.4188507 C128.736573,48.2809251 112.33867,64.5239941 83.0667527,94.1480575 L56.2750821,94.1480575 L32.8435758,70.5039241 L69.3453773,32.2519224 Z"
-                  fill="url(#linearGradient-1)"
-                  opacity="0.2"
-                ></path>
-                <polygon
-                  id="Path-2"
-                  fill="#000000"
-                  opacity="0.049999997"
-                  points="69.3922914 32.4202615 32.8435758 70.5039241 54.0490008 16.1851325"
-                ></polygon>
-                <polygon
-                  id="Path-21"
-                  fill="#000000"
-                  opacity="0.099999994"
-                  points="69.3922914 32.4202615 32.8435758 70.5039241 58.3683556 20.7402338"
-                ></polygon>
-                <polygon
-                  id="Path-3"
-                  fill="url(#linearGradient-2)"
-                  opacity="0.099999994"
-                  points="101.428699 0 83.0667527 94.1480575 130.378721 47.0740288"
-                ></polygon>
-              </g>
-            </g>
-          </g>
-        </svg>
-        <h3 class="text-primary font-weight-bold ml-1">Vuexy</h3>
+        <img class="" src="{{ asset('img/logo22.png') }}" width="100" alt="CoreUI Logo">
+        <h3 class="pt-md-2 text-primary font-weight-bold ml-1 ">{{ __(appName()) }}</h3>
       </div>
       <p class="mb-25">Office 149, 450 South Brand Brooklyn</p>
       <p class="mb-25">San Diego County, CA 91905, USA</p>
       <p class="mb-0">+1 (123) 456 7891, +44 (876) 543 2198</p>
     </div>
     <div class="mt-md-0 mt-2">
-      <h4 class="font-weight-bold text-right mb-1">INVOICE #3492</h4>
+      <h4 class="font-weight-bold text-right mb-1">
+        <p class="text-uppercase">
+          @lang('Order') #{{ $order->id }}
+        </p>
+      </h4>
       <div class="invoice-date-wrapper mb-50">
-        <span class="invoice-date-title">Date Issued:</span>
-        <span class="font-weight-bold"> 25/08/2020</span>
-      </div>
-      <div class="invoice-date-wrapper">
-        <span class="invoice-date-title">Due Date:</span>
-        <span class="font-weight-bold">29/08/2020</span>
+        <span class="invoice-date-title">@lang('Date Issued'):</span>
+        <span class="font-weight-bold"> {{ $order->date_for_humans }}</span>
       </div>
     </div>
   </div>
@@ -157,8 +54,8 @@
 
   <div class="row pb-2">
     <div class="col-sm-6">
-      <h6 class="mb-1">Invoice To:</h6>
-      <p class="mb-25">Thomas shelby</p>
+      <h6 class="mb-1">@lang('Order To'):</h6>
+      <p class="mb-25">{{ optional($order->user)->name }}</p>
       <p class="mb-25">Shelby Company Limited</p>
       <p class="mb-25">Small Heath, B10 0HF, UK</p>
       <p class="mb-25">718-986-6062</p>
@@ -204,9 +101,10 @@
         </tr>
       </thead>
       <tbody>
+        @foreach($order->product_suborder as $product)
         <tr>
           <td class="py-1 pl-4">
-            <p class="font-weight-semibold mb-25">Native App Development</p>
+            <p class="font-weight-semibold mb-25">{{ $product->parent_order->product->parent->name}}</p>
             <p class="text-muted text-nowrap">
               Developed a full stack native app using React Native, Bootstrap & Python
             </p>
@@ -221,6 +119,7 @@
             <strong>$1,800.00</strong>
           </td>
         </tr>
+        @endforeach
         <tr class="border-bottom">
           <td class="py-1 pl-4">
             <p class="font-weight-semibold mb-25">Ui Kit Design</p>
@@ -245,26 +144,31 @@
       <p class="card-text mb-0">
         <span class="font-weight-bold">Salesperson:</span> <span class="ml-75">Alfie Solomons</span>
       </p>
+      <br>
+      <br>
+      <p class="card-text mb-0">
+        &nbsp;
+        {!! QrCode::size(100)->gradient(55, 115, 250, 105, 5, 70, 'radial')->generate(Request::url()); !!}
+      </p>
+      <p>
+        &nbsp;
+        <em>
+            Scan this code to track.
+
+            <br>
+        &nbsp;
+            (Available 1 month)
+        </em>
+      </p>
+
     </div>
     <div class="col-md-6 d-flex justify-content-end order-md-2 order-1">
       <div class="invoice-total-wrapper">
         <div class="invoice-total-item">
-          <p class="invoice-total-title">Subtotal:</p>
-          <p class="invoice-total-amount">$1800</p>
-        </div>
-        <div class="invoice-total-item">
-          <p class="invoice-total-title">Discount:</p>
-          <p class="invoice-total-amount">$28</p>
-        </div>
-        <div class="invoice-total-item">
-          <p class="invoice-total-title">Tax:</p>
-          <p class="invoice-total-amount">21%</p>
-        </div>
-        <hr class="my-50" />
-        <div class="invoice-total-item">
           <p class="invoice-total-title">Total:</p>
           <p class="invoice-total-amount">$1690</p>
         </div>
+        <hr class="my-50" />
       </div>
     </div>
   </div>
@@ -288,15 +192,8 @@
   <!-- End: Content-->
 
   
-  <script src="https://pixinvent.com/demo/vuexy-bootstrap-laravel-admin-template/demo-1/vendors/js/vendors.min.js"></script>
-<script src="https://pixinvent.com/demo/vuexy-bootstrap-laravel-admin-template/demo-1/vendors/js/ui/prism.min.js"></script>
-
-<script src="https://pixinvent.com/demo/vuexy-bootstrap-laravel-admin-template/demo-1/js/core/app-menu.js"></script>
-<script src="https://pixinvent.com/demo/vuexy-bootstrap-laravel-admin-template/demo-1/js/core/app.js"></script>
-<script src="https://pixinvent.com/demo/vuexy-bootstrap-laravel-admin-template/demo-1/js/scripts/customizer.js"></script>
-
-<script src="https://pixinvent.com/demo/vuexy-bootstrap-laravel-admin-template/demo-1/js/scripts/pages/app-invoice-print.js"></script>
-
+  <script src="{{ asset('/js_custom/vendor.min.js') }}"></script>
+  <script src="{{ asset('/js_custom/app-invoice-print.js') }}"></script>
 
   <script type="text/javascript">
     $(window).on('load', function() {
@@ -307,7 +204,6 @@
         });
       }
     })
-
   </script>
 </body>
 

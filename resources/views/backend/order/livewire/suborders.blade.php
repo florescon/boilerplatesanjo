@@ -1,3 +1,10 @@
+@push('after-styles')
+    <style>
+          .form-control {border-color: purple;}
+    </style>
+@endpush
+
+
 <x-backend.card>
     <x-slot name="header">
         @lang('Suborders') - @lang('Order') #{{ $order_id }}
@@ -18,6 +25,9 @@
             
                   <h4 class="card-title font-weight-bold mb-2"> </h4>
 
+                    <span style="color:purple;">
+                      <i class="c-icon c-icon-4x cil-library"></i>
+                    </span>
 
                     <livewire:backend.cart.user-cart/>
 
@@ -26,22 +36,22 @@
                           <thead>
                             <tr>
                               <th>Producto</th>
-                              <th>Cantidad orden</th>
-                              <th>Disponible</th>
+                              <th class="border-right-0">Cantidad orden</th>
+                              <th style="color:purple;">Disponible para suborden</th>
                             </tr>
                           </thead>
                           <tbody>
                             @foreach($model->product_order as $product)
                               <tr>
                                 <td class="text-left">{!! $product->product->full_name !!}</td>
-                                <td>{{ $product->quantity }}</td>
+                                <td class="border-right-0">{{ $product->quantity }}</td>
 
-                                <td class="table-info"> 
+                                <td > 
                                     <input type="number" 
                                         wire:model="quantityy.{{ $product->id }}.available"
                                         wire:keydown.enter="savesuborder" 
                                         class="form-control"
-                                        style="color: blue; font-family:Arial, FontAwesome" 
+                                        style="color: red; font-family:Arial, FontAwesome" 
                                         placeholder="&#xf0a4; {{ $product->quantity - $model->getTotalAvailableByProduct($product->id) }}" 
                                     >
                                     @error('quantityy.'.$product->id.'.available') 
@@ -54,8 +64,8 @@
                             @endforeach
                               <tr>
                                 <td class="text-right">Total:</td>
-                                <td>{{ $model->total_products }}</td>
-                                <td>{{ $model->total_products - $model->total_products_all_suborders }}</td>
+                                <td class="border-right-0">{{ $model->total_products }}</td>
+                                <td style="color:purple;">{{ $model->total_products - $model->total_products_all_suborders }}</td>
                               </tr>
                           </tbody>
                         </table>

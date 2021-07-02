@@ -364,7 +364,9 @@
     "Undefined suborders": "Subórdenes no definidas",
     "Show order": "Ver orden",
     "List of orders": "Lista de órdenes",
+    "Records status": "Registros de Estados",
     "Go to edit order": "Ir a editar orden",
+    "Go to main order": "Ir a la orden principal",
     "Order created": "Orden creada",
     "Status order": "Estado de orden",
     "Sale": "Venta",
@@ -431,6 +433,11 @@
     "Output": "Salida",
     "Assignments": "Asignaciones",
     "Show assignament" : "Mostrar asignación",
-    "To give out": "Dar salida"
+    "To give out": "Dar salida",
+    "Date Issued": "Fecha De Emisión",
+    "Order To": "Orden a",
+    "Print": "Imprimir",
+    "Previous": "Anterior",
+    "Next": "Siguiente"
 
 }

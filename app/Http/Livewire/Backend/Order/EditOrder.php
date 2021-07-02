@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Order;
 use App\Models\Status;
 use App\Models\StatusOrder;
+use Illuminate\Support\Facades\Auth;
 
 class EditOrder extends Component
 {
@@ -31,6 +32,7 @@ class EditOrder extends Component
             StatusOrder::create([
                 'order_id' => $this->order_id,
                 'status_id' => $statusId,
+                'audi_id' => Auth::id(),
             ]);
         }
 

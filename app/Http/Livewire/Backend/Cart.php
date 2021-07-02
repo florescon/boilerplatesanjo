@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\ProductOrder;
 use Session;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class Cart extends Component
 {
@@ -102,6 +103,7 @@ class Cart extends Component
         $order->comment = $this->comment;
         $order->date_entered = Carbon::now()->format('Y-m-d');
         $order->type = 1;
+        $order->audi_id = Auth::id();
         $order->approved = 1;
         $order->save();
 

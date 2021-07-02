@@ -25,7 +25,7 @@
                             <tr>
                               <th>Producto</th>
                               <th>Cantidad orden</th>
-                              <th>Disponible</th>
+                              <th  style="background-color:#5DADE2;" class="text-white">Disponible</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -64,6 +64,19 @@
             </div>
 
             <div class="col-12 col-md-6">
+
+
+              <p>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  @if($previous_status)
+                    <a href="{{ route('admin.order.assignments', [$model2->id, $previous_status->id]) }}" class="btn btn-outline-primary" data-toggle="tooltip" title="{{ $previous_status->name ?? null }}"><i class="c-icon  c-icon-4x cil-people"></i> @lang('Previous')</a>
+                  @endif
+                  @if($next_status)
+                    <a href="{{ route('admin.order.assignments', [$model2->id, $next_status->id]) }}" class="btn btn-outline-primary" data-toggle="tooltip" title="{{ $next_status->name ?? null }}"><i class="c-icon  c-icon-4x cil-people"></i> @lang('Next')</a>
+                  @endif
+                </div>
+              </p>
+              <br>
 
               <div class="row">
                 <div class="col-md-12 col-sm-6">
@@ -163,3 +176,12 @@
         </div>
     </x-slot>
 </x-backend.card>
+
+
+@push('after-scripts')
+<script>
+  $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip();   
+  });
+</script>
+@endpush

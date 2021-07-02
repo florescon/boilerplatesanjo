@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Status;
+use App\Models\StatusOrder;
 use Illuminate\Http\Request;
-use Dompdf\Dompdf;
+use PDF;
 
 class OrderController extends Controller
 {
@@ -35,18 +36,13 @@ class OrderController extends Controller
     public function ticket(Order $order)
     {
 
-        // instantiate and use the dompdf class
-        $dompdf = new Dompdf();
-        $dompdf->loadHtml('hello world');
+        $pdf = PDF::loadView('backend.order.ticket-order',compact('order'))->setPaper([0, 0, 1385.98, 296.85], 'landscape');
+    
+        // ->setPaper('A8', 'portrait')
 
-        // (Optional) Setup the paper size and orientation
-        $dompdf->setPaper('A4', 'landscape');
+        return $pdf->stream();
 
-        // Render the HTML as PDF
-        $dompdf->render();
-
-        // Output the generated PDF to Browser
-        $dompdf->stream();
+        // return view('backend.order.ticket-order');
     }
 
     public function advanced(Order $order)
@@ -55,6 +51,17 @@ class OrderController extends Controller
         return view('backend.order.advanced-order', compact('order'));
     }
 
+
+    public function records(Order $order)
+    {
+
+        if($order->parent_order_id == true){
+            abort(401);
+        }
+
+        $records = $order->status_order()->orderBy('created_at', 'desc')->paginate('10')->fragment('main');
+        return view('backend.order.records-status-order', compact('order', 'records'));
+    }
 
     public function where_is_products(Order $order)
     {

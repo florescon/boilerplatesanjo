@@ -71,6 +71,13 @@ Route::group([
                     ->push(__('Assignments').' - '.$status->name, route('admin.order.assignments', [$order, $status]));
             });
 
+        Route::get('records', [OrderController::class, 'records'])
+            ->name('records')
+            ->breadcrumbs(function (Trail $trail, Order $order) {
+                $trail->parent('admin.order.edit', $order)
+                    ->push(__('Records status'), route('admin.order.records', $order));
+            });
+
         Route::delete('/', [OrderController::class, 'destroy'])->name('destroy');
     });
 

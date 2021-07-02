@@ -24,6 +24,14 @@ class ProductOrder extends Model
         return $this->belongsTo(Product::class);
     }
 
+    /**
+     * @return mixed
+     */
+    public function parent_order()
+    {
+        return $this->belongsTo(ProductOrder::class, 'product_id');
+    }
+
     public function getTotalByProductAttribute()
     {
         return $this->quantity * $this->price;
@@ -34,6 +42,16 @@ class ProductOrder extends Model
     {
         return $this->quantity - $this->assignments->where('output', 0)->sum('quantity');
     }
+
+
+    /**
+     * Get the product's.
+     */
+    // public function productSub()
+    // {
+    //     return $this->hasOneThrough(Product::class, ProductOrder::class);
+    // }
+
 
     /**
      * Get all of the product order's assignments.
