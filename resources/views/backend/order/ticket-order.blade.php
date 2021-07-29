@@ -45,76 +45,116 @@ ventas@sj-uniformes.com
 
   </table>
 
-  <table width="100%">
-    <tr>
-      <td align="left"><strong>Fecha generado:</strong> {{ $order->created_at }}</td>
-    </tr>
-  </table>
-
-  <table width="100%">
-    <tr>
-        @if($order->payment)
-        <td><strong>Método pago:</strong> </td>
-        @endif
-        <td><strong>Folio:</strong> #{{ $order->id }}</td>
-    </tr>
-  </table>
-
-  <table width="100%">
-    <tr>
-        @if($order->user)
-        <td><strong>A:</strong> {{ optional($order->user)->name }}</td>
-        @endif
-        <td><strong>Expedido por:</strong> </td>
-    </tr>
-  </table>
-
-
-  <table width="100%">
-    <tr>
-        <td>Ticket text</td>
-    </tr>
-  </table>
-
-  <br/>
-
-
-
-  <table width="100%">
-    <thead style="background-color: gray;">
-      <tr align="center">
-        <th>Concepto</th>
-        <th>Cantidad</th>
-        <th>Precio</th>
-        <th>Total</th>
-      </tr>
-    </thead>
-    <tbody>
-      @foreach($order->product_suborder as $product)
-      <tr>
-        <td scope="row">{!! $product->parent_order->product->parent->name !!}</tf>
-        <td align="center">{{ $product->quantity }}</td>
-        <td align="right">${{ $product->parent_order->price }}</td>
-        <td align="right">${{ $product->parent_order->price * $product->quantity }}</td>
-      </tr>
-      @endforeach
-    </tbody>
-
-    <tfoot>
+    <table width="100%">
         <tr>
-            <td align="right"></td>
-            <td align="center" class="gray"><strong></strong></td>
-            <td align="right">Total </td>
-            <td align="right" class="gray">$</td>
+          <td align="left"><strong>Fecha generado:</strong> {{ $order->created_at }}</td>
         </tr>
-    </tfoot>
-  </table>
+    </table>
 
+    <table width="100%">
+        <tr>
+            @if($order->payment)
+            <td><strong>Método pago:</strong> </td>
+            @endif
+            <td><strong>Folio:</strong> #{{ $order->id }}</td>
+        </tr>
+    </table>
+
+    <table width="100%">
+        <tr>
+            @if($order->user)
+            <td><strong>A:</strong> {{ optional($order->user)->name }}</td>
+            @endif
+            <td><strong>Expedido por:</strong> </td>
+        </tr>
+    </table>
+
+
+    <table width="100%">
+        <tr>
+            <td>Ticket text</td>
+        </tr>
+    </table>
+    <br/>
+
+
+
+    @if(count($order->product_order))
+    <table width="100%">
+        <thead style="background-color: gray;">
+          <tr align="center">
+            <th>Concepto</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach($order->product_order as $product)
+          <tr>
+            <td scope="row">{!! $product->product->full_name !!}</tf>
+            <td align="center">{{ $product->quantity }}</td>
+            <td align="right">${{ $product->price }}</td>
+            <td align="right">${{ $product->total_by_product }}</td>
+          </tr>
+          @endforeach
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <td align="right"></td>
+                <td align="center" class="gray"><strong>{{ $order->total_products }}</strong></td>
+                <td align="right">Total </td>
+                <td align="right" class="gray">${{ $order->total_order }}</td>
+            </tr>
+        </tfoot>
+    </table>
     <br>
+    @endif
+
+
+    @if(count($order->product_sale))
+    <table width="100%">
+        <thead style="background-color: red;">
+          <tr align="center">
+            <th colspan="4">@lang('Sale')</th>
+          </tr>
+        </thead>
+        <thead style="background-color: gray;">
+          <tr align="center">
+            <th>Concepto</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach($order->product_sale as $product)
+          <tr>
+            <td scope="row">{!! $product->product->full_name !!}</tf>
+            <td align="center">{{ $product->quantity }}</td>
+            <td align="right">${{ $product->price }}</td>
+            <td align="right">${{ $product->total_by_product }}</td>
+          </tr>
+          @endforeach
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <td align="right"></td>
+                <td align="center" class="gray"><strong>{{ $order->total_products_sale }}</strong></td>
+                <td align="right">Total </td>
+                <td align="right" class="gray">${{ $order->total_sale }}</td>
+            </tr>
+        </tfoot>
+    </table>
+    <br>
+    @endif
+
     <table width="100%">
         <tr>
             <td align="center">
-                <img src="data:image/png;base64, {{ base64_encode(QrCode::format('png')->size(100)->gradient(55, 115, 250, 105, 5, 70, 'radial')->generate(Request::url())) }} "/>
+                <img src="data:image/png;base64, {{ base64_encode(\QrCode::format('svg')->size(100)->generate(Request::url())) }} "/>
             </td>
             <td align="center">
                 <p>

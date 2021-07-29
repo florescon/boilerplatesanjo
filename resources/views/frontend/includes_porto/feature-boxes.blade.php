@@ -5,10 +5,9 @@
 										<i class="icon-earphones-alt"></i>
 		
 										<div class="feature-box-content">
-											<h3 class="m-b-1">Customer Support</h3>
-											<h5 class="m-b-3">Need Assistance?</h5>
+											<h3 class="m-b-1">Soporte en línea</h3>
+											<h5 class="m-b-3">Contáctenos</h5>
 		
-											<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis nec vestibulum magna, et dapib.</p>
 										</div><!-- End .feature-box-content -->
 									</div><!-- End .feature-box -->
 								</div><!-- End .col-md-4 -->
@@ -18,10 +17,9 @@
 										<i class="icon-credit-card"></i>
 		
 										<div class="feature-box-content">
-											<h3 class="m-b-1">Secured Payment</h3>
-											<h5 class="m-b-3">Safe & Fast</h5>
+											<h3 class="m-b-1">Pago seguro</h3>
+											<h5 class="m-b-3">En cualquier transacción</h5>
 		
-											<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis nec vestibulum magna, et dapib.</p>
 										</div><!-- End .feature-box-content -->
 									</div><!-- End .feature-box -->
 								</div><!-- End .col-md-4 -->
@@ -31,10 +29,9 @@
 										<i class="icon-action-undo"></i>
 		
 										<div class="feature-box-content">
-											<h3 class="m-b-1">Returns</h3>
-											<h5 class="m-b-3">Easy & Free</h5>
+											<h3 class="m-b-1">Devoluciones</h3>
+											<h5 class="m-b-3">Garantizadas</h5>
 
-											<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis nec vestibulum magna, et dapib.</p>
 										</div><!-- End .feature-box-content -->
 									</div><!-- End .feature-box -->
 								</div><!-- End .col-md-4 -->

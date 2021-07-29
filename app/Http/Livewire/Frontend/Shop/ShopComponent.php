@@ -2,7 +2,10 @@
 
 namespace App\Http\Livewire\Frontend\Shop;
 
-use App\Models\Product;
+use App\Models\Frontend\Product;
+use App\Models\Color;
+use App\Models\Size;
+use App\Models\Line;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Storage;
@@ -22,13 +25,19 @@ class ShopComponent extends Component
         'perPage',
     ];
 
-
     public $perPage = '12';
 
     public $status;
+
+    public ?int $line = null;
+    public ?int $color = null;
+    public ?int $size = null;
+
+    public $nameLine;
+    public $sorting;
     public $searchTermShop = '';
 
-    protected $listeners = ['restore' => '$refresh'];
+    protected $listeners = ['selectedLineItem', 'selectedColorItem', 'selectedSizeItem', 'restore' => '$refresh'];
 
 
     public function getRowsQueryProperty()
@@ -36,18 +45,44 @@ class ShopComponent extends Component
         
         $query = Product::query()
             ->with('children', 'line')
-            ->whereNull('parent_id')->orderBy('updated_at', 'desc');
+            ->whereNull('parent_id')
+            ->onlyActive();
 
         $this->applySearchFilter($query);
 
+        // $query->whereNull('parent_id');
 
-        if ($this->status === 'deleted') {
-            return $query->onlyTrashed();
+        if($this->line){
+            $line = $this->line;
+            $query->whereHas('line', function($queryLine) use ($line){
+                $queryLine->where('id', $line);
+            });
+        }
+        if($this->size){
+            $size = $this->size;
+            $query->whereHas('children', function($querySize) use ($size){
+                $querySize->where('size_id', $size);
+            });
+        }
+        if($this->color){
+            $color = $this->color;
+            $query->whereHas('children', function($queryColor) use ($color){
+                $queryColor->where('color_id', $color);
+            });
         }
 
-        return $query;
 
+        if($this->sorting == 'newness'){
+            return $query->newness();
+        }
+        else if($this->sorting == 'price'){
+            return $query->priceAsc();
+        }
+        else if($this->sorting == 'price-desc'){
+            return $query->priceDesc();
+        }
 
+        return $query->defaultOrder();
     }
 
 
@@ -57,12 +92,67 @@ class ShopComponent extends Component
         if ($this->searchTermShop) {
             return $products->whereRaw("code LIKE \"%$this->searchTermShop%\"")
                             ->orWhereRaw("name LIKE \"%$this->searchTermShop%\"")
-                            ->orWhereRaw("description LIKE \"%$this->searchTermShop%\"");
+                            ->orWhereRaw("description LIKE \"%$this->searchTermShop%\"")
+                            ->onlyActive();
         }
 
         return null;
     }
 
+    public function selectedLineItem(?int $item)
+    {
+        if ($item) {
+            $this->line = $item;
+        }
+        else
+            $this->line = null;
+    }
+    public function selectedSizeItem(?int $item)
+    {
+        if ($item) {
+            $this->size = $item;
+        }
+        else
+            $this->size = null;
+    }
+    public function selectedColorItem(?int $item)
+    {
+        if ($item) {
+            $this->color = $item;
+        }
+        else
+            $this->color = null;
+    }
+
+    public function lineID(int $line)
+    {
+        $this->line = $line;
+    }
+    public function sizeID(int $size)
+    {
+        $this->size = $size;
+    }
+    public function colorID(int $color)
+    {
+        $this->color = $color;
+    }
+
+    public function clearFilterLine()
+    {
+        $this->line = null;
+    }
+    public function clearFilterColor()
+    {
+        $this->color = null;
+    }
+    public function clearFilterSize()
+    {
+        $this->size = null;
+    }
+    public function clearFilters()
+    {
+        return redirect()->route('frontend.shop.index');
+    }
 
     public function clear()
     {
@@ -72,7 +162,7 @@ class ShopComponent extends Component
     }
 
 
-    public function updatedsearchTermShop()
+    public function updatedSearchTermShop()
     {
         $this->page = 1;
     }
@@ -82,6 +172,21 @@ class ShopComponent extends Component
         $this->page = 1;
     }
 
+    public function hydrateLine()
+    {
+        // dd($this->line);
+        // $lineModel = Line::find($this->line)->first();
+        // $this->nameLine = $lineModel->name;
+        $this->page = 1;
+    }
+    public function hydrateColor()
+    {
+        $this->page = 1;
+    }
+    public function hydrateSize()
+    {
+        $this->page = 1;
+    }
 
     public function getRowsProperty()
     {
@@ -94,8 +199,15 @@ class ShopComponent extends Component
     public function render()
     {
 
+        $colors = Color::inRandomOrder()->limit(8)->get();
+        $sizes = Size::inRandomOrder()->limit(5)->get();
+        $lines = Line::inRandomOrder()->limit(6)->get();
+
 		return view('frontend.shop.livewire.shop-component',[
             'products' => $this->rows,
+            'colors' => $colors,
+            'sizes' => $sizes,
+            'lines' => $lines,
 		]);
     }
 }

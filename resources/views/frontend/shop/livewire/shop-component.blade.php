@@ -1,16 +1,15 @@
 		<div>
 			<div class="category-banner-container bg-gray">
-				<div class="category-banner banner text-uppercase" style="background: no-repeat 60%/cover url('{{ asset('/porto/assets/images/banners/seg.jpg')}}');">
+				<div class="category-banner banner text-uppercase" style="background: no-repeat 60%/cover url('{{ asset('/porto/assets/images/banners/cocina.jpg')}}');">
 					<div class="container position-relative">
 						<div class="row">
 							<div class="pl-lg-5 pb-5 pb-md-0 col-md-5 col-xl-4 col-lg-4 offset-1">
 								{{-- <h3 class="ml-lg-5 mb-2 ls-10">Electronic<br>Deals</h3> --}}
-								<a href="#" class="ml-lg-5 btn btn-dark btn-black ls-10"></a>
+								{{-- <a href="#" class="ml-lg-5 btn btn-dark btn-black ls-10"></a> --}}
 							</div>
 							<div class="pl-lg-5 col-md-4 offset-md-0 offset-1 pt-4">
 								<div class="coupon-sale-content">
-									<h4 class="m-b-2 coupon-sale-text bg-white ls-10 text-transform-none">Exclusive COUPON</h4>
-									<h5 class="mb-2 coupon-sale-text d-block ls-10 p-0"><i class="ls-0">UP TO</i><b class="text-dark">$100</b> OFF</h5>
+									<br><br><br><br><br><br><br>
 								</div>
 							</div>
 						</div>
@@ -35,13 +34,11 @@
 									<label>@lang('Sort by'):</label>
 
 									<div class="select-custom">
-										<select name="orderby" class="form-control">
+										<select name="orderby" class="form-control" wire:model='sorting'>
 											<option value="menu_order" selected="selected">@lang('Default sorting')</option>
-											<option value="popularity">Sort by popularity</option>
-											<option value="rating">Sort by average rating</option>
-											<option value="date">Sort by newness</option>
-											<option value="price">Sort by price: low to high</option>
-											<option value="price-desc">Sort by price: high to low</option>
+											<option value="newness">@lang('Sort by newness')</option>
+											<option value="price">@lang('Sort by price'): @lang('low to high')</option>
+											<option value="price-desc">@lang('Sort by price'): @lang('high to low')</option>
 										</select>
 									</div><!-- End .select-custom -->
 
@@ -75,7 +72,9 @@
 									<label>@lang('Show'):</label>
 
 									<div class="select-custom">
-										<select name="count" class="form-control">
+										<select wire:model="perPage" class="form-control">
+											<option value="4">4</option>
+											<option value="8">8</option>
 											<option value="12">12</option>
 											<option value="24">24</option>
 											<option value="36">36</option>
@@ -84,44 +83,77 @@
 								</div><!-- End .toolbox-item -->
 
 								<div class="toolbox-item layout-modes">
-									<a href="category.html" class="layout-btn btn-grid active" title="Grid">
+									<a href="#" class="layout-btn btn-grid active" title="Grid">
 										<i class="icon-mode-grid"></i>
 									</a>
-									<a href="category-list.html" class="layout-btn btn-list" title="List">
+
+									<a href="#" class="layout-btn btn-list" title="List">
 										<i class="icon-mode-list"></i>
 									</a>
 								</div><!-- End .layout-modes -->
 							</div><!-- End .toolbox-right -->
 						</nav>
 
+						@if($color || $size || $line)
+							<div class="filter-price-action d-flex align-items-center 	justify-content-between flex-wrap">
+								<button class="btn btn-danger" wire:click="clearFilters">@lang('Clear filters')</button>
+							</div>
+						@endif
+
 						<div class="row">
 							@foreach($products as $product)
 							<div class="col-6 col-sm-4 col-md-3">
 								<div class="product-default inner-quickview inner-icon">
+
+								  	@if($product->file_name)
 									<figure>
+								    	<a href="{{ route('frontend.shop.show', $product->slug) }}">
+								    		<div class="readme-link__figure">
+										    	<img src="{{ asset('/storage/' . $product->file_name) }}"  alt="{{ $product->name }}" onerror="this.onerror=null;this.src='/porto/assets/images/not0.png';" >
+										    </div>
+									    </a>
 
-									  	@if($product->file_name)
-									  	{{-- @if(Storage::exists($product->file_name)) --}}
-									    	<a href="{{ route('frontend.shop.show', $product->id) }}">
-										    	<img src="{{ asset('/storage/' . $product->file_name) }}" alt="{{ $product->name }}" onerror="this.onerror=null;this.src='/porto/assets/images/not0.png';" >
-										    </a>
-
-											<div class="label-group">
-												<div class="product-label label-hot">HOT</div>
-												<div class="product-label label-sale">-20%</div>
-											</div>
-
-										@else
-									    	<a href="{{ route('frontend.shop.show', $product->id) }}">
-										    	<img src="{{ asset('/porto/assets/images/not0.png')}}" alt="{{ $product->name }}">
-										    </a>
-									    @endif
-
-										<div class="btn-icon-group">
-											<button class="btn-icon btn-add-cart" data-toggle="modal" data-target="#addCartModal"><i class="icon-shopping-cart"></i></button>
+										<div class="label-group">
+											@if($product->created_at->gt(\Carbon\Carbon::now()->subMonth()))
+												<div class="product-label label-hot">
+													@lang('New')
+												</div>
+											@endif
+											@if($product->discount > 0)
+												<div class="product-label label-sale">-{{ $product->discount }}%</div>
+											@endif
 										</div>
-										{{-- <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View">Quick View</a>  --}}
+
+									<div class="btn-icon-group">
+										<button class="btn-icon btn-add-cart" data-toggle="modal" data-target="#addCartModal"><i class="icon-shopping-cart"></i></button>
+									</div>
+
 									</figure>
+									@else
+									<figure>
+								    	<a href="{{ route('frontend.shop.show', $product->slug) }}">
+								    		<div class="readme-link__figure">
+									    		<img src="{{ asset('/porto/assets/images/not0.png')}}" class="readme-link__figure" alt="{{ $product->name }}">
+									    	</div>
+									    </a>
+
+										<div class="label-group">
+											@if($product->created_at > \Carbon\Carbon::now()->subMonth())
+												<div class="product-label label-hot">
+													@lang('New')
+												</div>
+											@endif
+											@if($product->discount > 0)
+												<div class="product-label label-sale">-{{ $product->discount }}%</div>
+											@endif
+										</div>
+									<div class="btn-icon-group">
+										<button class="btn-icon btn-add-cart" data-toggle="modal" data-target="#addCartModal"><i class="icon-shopping-cart"></i></button>
+									</div>
+
+									</figure>
+								    @endif
+
 									<div class="product-details">
 										<div class="category-wrap">
 											<div class="category-list">
@@ -130,7 +162,7 @@
 											<a href="#" class="btn-icon-wish"><i class="icon-heart"></i></a>
 										</div>
 										<h2 class="product-title">
-											<a href="product.html">{{ $product->name }}</a>
+											<a href="{{ route('frontend.shop.show', $product->slug) }}">{{ $product->name }}</a>
 										</h2>
 										<div class="ratings-container">
 											<div class="product-ratings">
@@ -150,10 +182,12 @@
 
 						<nav class="toolbox toolbox-pagination">
 							<div class="toolbox-item toolbox-show">
-								<label>Show:</label>
+								<label>@lang('Show'):</label>
 
 								<div class="select-custom">
-									<select name="count" class="form-control">
+									<select wire:model="perPage" class="form-control">
+										<option value="4">4</option>
+										<option value="8">8</option>
 										<option value="12">12</option>
 										<option value="24">24</option>
 										<option value="36">36</option>
@@ -196,17 +230,32 @@
 									<a data-toggle="collapse" href="#widget-body-2" role="button" aria-expanded="true" aria-controls="widget-body-2">@lang('Line')</a>
 								</h3>
 
+								{{-- @json($color) --}}
 								<div class="collapse show" id="widget-body-2">
 									<div class="widget-body">
+					                    <livewire:frontend.attributes.line-change/>
+
+					                @if($line)
+									<div class="filter-price-action d-flex align-items-center 	justify-content-between flex-wrap">
+										<button class="btn btn-danger" wire:click="clearFilterLine">
+											@lang('Clear filter')
+										</button>
+									</div>
+									<br>
+									@endif
 										<ul class="cat-list">
-											<li><a href="#">Accessories</a></li>
-											<li><a href="#">Watch Fashion</a></li>
-											<li><a href="#">Tees, Knits &amp; Polos</a></li>
-											<li><a href="#">Pants &amp; Denim</a></li>
+											@foreach($lines as $line)
+												<li>
+													<a wire:click="lineID({{ $line->id }})" style="cursor: pointer;">
+														{{ $line->name }}
+													</a>
+												</li>
+											@endforeach
 										</ul>
 									</div><!-- End .widget-body -->
 								</div><!-- End .collapse -->
 							</div><!-- End .widget -->
+
 
 							<div class="widget">
 								<h3 class="widget-title">
@@ -216,15 +265,15 @@
 								<div class="collapse show" id="widget-body-3">
 									<div class="widget-body">
 										<form action="#">
-											<div class="price-slider-wrapper">
-												<div id="price-slider"></div><!-- End #price-slider -->
-											</div><!-- End .price-slider-wrapper -->
-
 											<div class="filter-price-action d-flex align-items-center justify-content-between flex-wrap">
-												<button type="submit" class="btn btn-primary">Filter</button>
+
+												<input type="number" name="firstValue" class="form-control form-control-sm">
+												<input type="number" name="secondValue" class="form-control form-control-sm">
+
+												<button type="submit" class="btn btn-primary">@lang('Filter')</button>
 
 												<div class="filter-price-text">
-													Price:
+													@lang('Price'):
 													<span id="filter-price-range"></span>
 												</div><!-- End .filter-price-text -->
 											</div><!-- End .filter-price-action -->
@@ -233,6 +282,7 @@
 								</div><!-- End .collapse -->
 							</div><!-- End .widget -->
 
+
 							<div class="widget">
 								<h3 class="widget-title">
 									<a data-toggle="collapse" href="#widget-body-4" role="button" aria-expanded="true" aria-controls="widget-body-4">@lang('Size_')</a>
@@ -240,11 +290,25 @@
 
 								<div class="collapse show" id="widget-body-4">
 									<div class="widget-body">
+					                    <livewire:frontend.attributes.size-change/>
+
+						                @if($size)
+										<div class="filter-price-action d-flex align-items-center 	justify-content-between flex-wrap">
+											<button class="btn btn-danger" wire:click="clearFilterSize">
+												@lang('Clear filter')
+											</button>
+										</div>
+										<br>
+										@endif
+
 										<ul class="cat-list">
-											<li><a href="#">Small</a></li>
-											<li><a href="#">Medium</a></li>
-											<li><a href="#">Large</a></li>
-											<li><a href="#">Extra Large</a></li>
+											@foreach($sizes as $size)
+												<li>
+													<a wire:click="sizeID({{ $line->id }})" style="cursor: pointer;">
+														{{ $size->name }}
+													</a>
+												</li>
+											@endforeach
 										</ul>
 									</div><!-- End .widget-body -->
 								</div><!-- End .collapse -->
@@ -258,39 +322,27 @@
 
 								<div class="collapse show" id="widget-body-6">
 									<div class="widget-body">
+					                    <livewire:frontend.attributes.color-change/>
+						                @if($color)
+										<div class="filter-price-action d-flex align-items-center 	justify-content-between flex-wrap">
+											<button class="btn btn-danger" wire:click="clearFilterColor">
+												@lang('Clear filter')
+											</button>
+										</div>
+										<br>
+										@endif
+
 										<ul class="config-swatch-list">
-											<li class="active">
-												<a href="#" style="background-color: #000;"></a>
-												<span>Black</span>
-											</li>
-											<li>
-												<a href="#" style="background-color: #0188cc;"></a>
-												<span>Blue</span>
-											</li>
-											<li>
-												<a href="#" style="background-color: #81d742;"></a>
-												<span>Green</span>
-											</li>
-											<li>
-												<a href="#" style="background-color: #6085a5;"></a>
-												<span>Indigo</span>
-											</li>
-											<li>
-												<a href="#" style="background-color: #ab6e6e;"></a>
-												<span>Red</span>
-											</li>
-											<li>
-												<a href="#" style="background-color: #ddb373;"></a>
-												<span>Brown</span>
-											</li>
-											<li>
-												<a href="#" style="background-color: #6b97bf;"></a>
-												<span>Light-Blue</span>
-											</li>
-											<li>
-												<a href="#" style="background-color: #eded68;"></a>
-												<span>Yellow</span>
-											</li>
+											@foreach($colors as $color)
+												<li 
+													wire:click="colorID({{ $color->id }})"
+													{{-- class="active" --}}
+												>
+													<a style="background-color: {{ $color->color }};" style="cursor: pointer;">
+													</a>
+													<span>{{ $color->name }}</span>
+												</li>
+											@endforeach
 										</ul>
 									</div><!-- End .widget-body -->
 								</div><!-- End .collapse -->

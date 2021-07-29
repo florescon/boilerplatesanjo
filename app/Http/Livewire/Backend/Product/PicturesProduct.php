@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Backend\Product;
 
 use Livewire\Component;
 use App\Models\Product;
+use App\Models\Color;
 use App\Models\Picture;
 use Livewire\WithFileUploads;
 
@@ -12,23 +13,20 @@ class PicturesProduct extends Component
 
     use WithFileUploads;
 
-    public $product_id;
+    public $product_id, $product_general, $name_color, $color;
     public $filters_c = [];
     public $files = [];
 
     public $origAllPictures = [];
 
+    protected $listeners = ['filterByColor' => 'filterByColor'];
+
+
     public function mount(Product $product)
     {
         $this->product_id = $product->id;
         $this->product_slug = $product->slug;
-
-        $productModel = Product::with('pictures')->find($this->product_id);
-
-        $this->origAllPictures =  $productModel->pictures;
-        
-        // $this->origAllPictures = Product::where('id', $this->product_id)->with('pictures')->get()->pluck('pictures')[0];
-
+        $this->product_general = $product;
 
     }
 
@@ -38,26 +36,54 @@ class PicturesProduct extends Component
     }
 
 
+    public function filterByColor($color)
+    {
+        if (in_array($color, $this->filters_c)) {
+            $ix = array_search($color, $this->filters_c);
+            unset($this->filters_c[$ix]);
+
+                $this->name_color = '';
+                $this->color = 'white';
+
+        } else {
+            $this->filters_c[] = $color;
+
+            if(count($this->filters_c) >= 2){
+                array_shift($this->filters_c);
+            };
+        }
+    }
+
+    public function applyColorFilter($product)
+    {
+        if ($this->filters_c) {
+
+            foreach ($this->filters_c as $filter) {     
+                $product->with(['childrenOnlyColors', 'pictures' => function ($query) use ($filter) {
+                    $query->where('color_id', $filter);
+                }]);
+            }
+
+            $this->name_color = Color::find($this->filters_c[0])->name;
+            $this->color = Color::find($this->filters_c[0])->color;
+        }
+
+        return null;
+    }
+
+
+
     public function savePictures()
     {
-
-        // $this->validate([
-        //     'files' => 'image|max:4096', // 4MB Max
-        // ]);
-
-
         $pictureToDB = Product::find($this->product_id);
 
         if($this->files){
             foreach($this->files as $phot){
                 $imageName = $phot->store("images",'public');
-                $pictureToDB->pictures()->save(new Picture(["picture" => $imageName]));
+                $pictureToDB->pictures()->save(new Picture(["color_id" => $this->filters_c[0] ?? null, "picture" => $imageName]));
             }
-
         }
         
-        // $product = Product::findOrFail($this->product_id);
-        // $this->initphoto($product);
         $this->init();
 
         $this->emit('swal:alert', [
@@ -66,7 +92,6 @@ class PicturesProduct extends Component
         ]);
 
         $this->redirectHere();
-
     }
 
     public function redirectHere()
@@ -74,19 +99,10 @@ class PicturesProduct extends Component
         return redirect()->route('admin.product.pictures', $this->product_id);
     }
 
-
     public function removeFromPicture(int $imageId): void
     {
-        // dd($imageId);
-
         $picProduct = Picture::find($imageId);
         $picProduct->delete(); 
-
-        // $productImg = Product::find($this->product_id)->where('id', $imageId)->first();
-
-        // dd($productImg);
-
-        // $product->pictures->where('id', $imageId)->dd();
 
         $this->emit('swal:alert', [
             'icon' => 'success',
@@ -99,11 +115,17 @@ class PicturesProduct extends Component
 
     public function render()
     {
+        $model = Product::with(['childrenOnlyColors', 'pictures' => function($query){
+                    return $query->whereNull('color_id');
+                }]);
 
-        $model = Product::with(['children'])->findOrFail($this->product_id);
+        $this->applyColorFilter($model);
 
-        // dd($this->origAllPictures);
+        $model = $model
+                ->findOrFail($this->product_id);
 
-        return view('backend.product.livewire.pictures')->with(compact('model'));
+        $origAllPic = $model->pictures;
+
+        return view('backend.product.livewire.pictures')->with(compact('model', 'origAllPic'));
     }
 }

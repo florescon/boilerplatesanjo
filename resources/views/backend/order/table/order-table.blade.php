@@ -1,10 +1,18 @@
-<div class="card shadow-lg p-3 mb-5 bg-white rounded">
+<x-backend.card borderClass="{{ $title['color'] }}">
 
-	<div class="card-header">
-    <strong style="color: #0061f2;"> @lang('List of orders') </strong>
+  <x-slot name="header">
+    <strong class="text-{{ $title['color'] }}"> @lang($title['title']) </strong>
 
     <div class="card-header-actions">
-       <em> Última petición: {{ now()->format('h:i:s') }} </em>
+      <x-utils.link class="card-header-action btn btn-secondary text-dark" :href="route('admin.order.all')" :text="__('all')" />
+			  &nbsp;&nbsp;
+      <x-utils.link class="card-header-action btn btn-primary text-white" :href="route('admin.order.index')" :text="__('Orders')" />
+		    &nbsp;&nbsp;
+      <x-utils.link class="card-header-action btn btn-success text-white" :href="route('admin.order.sales')" :text="__('Sales')" />
+		    &nbsp;&nbsp;
+      <x-utils.link class="card-header-action btn btn-warning text-white" :href="route('admin.order.mix')" :text="__('Mix')" />
+		    &nbsp;&nbsp;
+      <x-utils.link class="card-header-action btn btn-info text-white" :href="route('admin.order.suborders')" :text="__('Suborders')" />
     </div>
 
     <br>
@@ -15,26 +23,26 @@
 
     <div class="row input-daterange">
         <div class="col-md-3">
-          <x-input.date wire:model="dateInput" id="dateInput" placeholder="{{ __('From') }}"/>
+          <x-input.date wire:model="dateInput" id="dateInput" borderClass="{{ $title['color'] }}" placeholder="{{ __('From') }}"/>
         </div>
         &nbsp;
 
         <div class="col-md-3">
-          <x-input.date wire:model="dateOutput" id="dateOutput" placeholder="{{ __('To') }}"/>
+          <x-input.date wire:model="dateOutput" id="dateOutput" borderClass="{{ $title['color'] }}" placeholder="{{ __('To') }}"/>
         </div>
         &nbsp;
 
         <div class="col-md-3">
           <div class="btn-group mr-2" role="group" aria-label="First group">
-            <button type="button" class="btn btn-outline-primary" wire:click="clearFilterDate"  class="btn btn-default">@lang('Clear date')</button>
-            <button type="button" class="btn btn-primary" wire:click="clearAll" class="btn btn-default">@lang('Clear all')</button>
+            <button type="button" class="btn btn-outline-{{ $title['color'] }}" wire:click="clearFilterDate"  class="btn btn-default">@lang('Clear date')</button>
+            <button type="button" class="btn btn-{{ $title['color'] }}" wire:click="clearAll" class="btn btn-default">@lang('Clear all')</button>
           </div>
         </div>
         &nbsp;
     </div>
-	</div>
+  </x-slot>
 
-	<div class="card-body">
+  <x-slot name="body">
 
   <div class="row mb-4">
     <div class="col form-inline">
@@ -120,7 +128,8 @@
                 	{!! $order->approved_label !!}
                 </td>
                 <td>
-                   {!! $order->last_status_order->name_status ?? '<span class="badge badge-secondary">'.__('undefined').'</span>' !!}
+                   {!! $order->last_status_order_label !!}
+
                 </td>
 	              <td>
 	                <span class="badge badge-dot mr-4">
@@ -165,10 +174,9 @@
 
 	    </div>
 	  </div>
-	</div>
+	</x-slot>
 
-
-</div>
+</x-backend.card>
 
 
 @push('after-scripts')

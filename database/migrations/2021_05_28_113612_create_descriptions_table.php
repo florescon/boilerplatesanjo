@@ -18,6 +18,9 @@ class CreateDescriptionsTable extends Migration
             $table->unsignedBigInteger('product_id')->nullable();
             $table->longText('description')->nullable();
             $table->longText('information')->nullable();
+            $table->longText('extra')->nullable();
+            $table->longText('dimensions')->nullable();
+            $table->longText('standards')->nullable();
             $table->boolean('status')->default(1);
             $table->timestamps();
         });

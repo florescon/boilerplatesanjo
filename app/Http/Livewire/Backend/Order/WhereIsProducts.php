@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Status;
 use App\Models\StatusOrder;
 use App\Models\Assignment;
+use App\Models\Ticket;
 // use Illuminate\Database\Eloquent\Builder;
 
 class WhereIsProducts extends Component
@@ -35,8 +36,19 @@ class WhereIsProducts extends Component
         ]);
     }
 
+    public function outputUpdateAll($ticketID)
+    {
 
+        $ticketUpd = Ticket::find($ticketID);
 
+        $ticketUpd->assignments_direct()->where('output', false)->update(['output' => true]);
+        
+        $this->emit('swal:alert', [
+            'icon' => 'success',
+            'title'   => __('Saved'), 
+        ]);
+
+    }
 
     public function render()
     {

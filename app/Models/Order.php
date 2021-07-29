@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Domains\Auth\Models\User;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
+use App\Models\Traits\Scope\OrderScope;
 
 class Order extends Model
 {
-    use HasFactory, SoftDeletes, CascadeSoftDeletes;
+    use HasFactory, SoftDeletes, CascadeSoftDeletes, OrderScope;
 
-    protected $cascadeDeletes = ['product_order'];
+    protected $cascadeDeletes = ['product_order', 'product_sale', 'materials_order'];
 
     /**
      * @return mixed
@@ -20,6 +21,14 @@ class Order extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function audi()
+    {
+        return $this->belongsTo(User::class, 'audi_id');
     }
 
     /**
@@ -35,7 +44,16 @@ class Order extends Model
      */
     public function product_order()
     {
-        return $this->hasMany(ProductOrder::class)->with('product.parent', 'product.color', 'product.size');
+        return $this->hasMany(ProductOrder::class)->with('product.parent', 'product.color', 'product.size')->where('type', 1);
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function product_sale()
+    {
+        return $this->hasMany(ProductOrder::class)->with('product.parent', 'product.color', 'product.size')->where('type', 2);
     }
 
     /**
@@ -51,7 +69,7 @@ class Order extends Model
      */
     public function suborders()
     {
-        return $this->hasMany(Order::class, 'parent_order_id')->orderBy('created_at', 'desc');
+        return $this->hasMany(self::class, 'parent_order_id')->orderBy('created_at', 'desc');
     }
 
     /**
@@ -67,6 +85,21 @@ class Order extends Model
         return $this->hasOne(StatusOrder::class)->latestOfMany();
     }
 
+    public function getLastStatusOrderLabelAttribute()
+    {
+
+        if (!$this->parent_order_id) {
+            if(!$this->last_status_order){
+                return "<span class='badge badge-secondary'>".__('undefined').'</span>';
+            }
+
+            return $this->last_status_order->name_status;
+
+        }
+
+        return "--<em> ".__('not applicable')." </em>--";
+    }
+
     /**
      * @return mixed
      */
@@ -75,11 +108,14 @@ class Order extends Model
         return $this->hasMany(MaterialOrder::class)->with('material');
     }
 
-    public function getTotalProductsAttribute()
+    public function getTotalProductsAttribute(): int
     {
-        return $this->product_order->sum(function($parent) {
-          return $parent->quantity;
-        });
+        return $this->product_order->sum('quantity');
+    }
+
+    public function getTotalProductsSaleAttribute(): int
+    {
+        return $this->product_sale->sum('quantity');
     }
 
     public function getTotalProductsAssignmentsAttribute()
@@ -96,14 +132,21 @@ class Order extends Model
         });
     }
 
-    public function getTotalProductsSuborderAttribute()
+    public function getTotalSaleAttribute()
+    {
+        return $this->product_sale->sum(function($parent) {
+          return $parent->quantity * $parent->price;
+        });
+    }
+
+    public function getTotalProductsSuborderAttribute(): int
     {
         return $this->product_suborder->sum(function($product) {
           return $product->quantity;
         });
     }
 
-    public function getTotalProductsAllSubordersAttribute()
+    public function getTotalProductsAllSubordersAttribute(): int
     {
         return $this->suborders->sum(function($suborders) {
           return $suborders->product_suborder->sum('quantity');
@@ -137,7 +180,7 @@ class Order extends Model
     /**
      * @return bool
      */
-    public function isApproved()
+    public function isApproved(): bool
     {
         return $this->approved;
     }
@@ -147,11 +190,18 @@ class Order extends Model
      */
     public function getApprovedLabelAttribute()
     {
-        if ($this->isApproved()) {
-            return "<span class='badge badge-success'>".__('Approved').'</span>';
+        if(!$this->parent_order_id){    
+            if ($this->isApproved()) {
+                return "<span class='badge badge-success'>".__('Approved').'</span>';
+            }
+
+            return "<span class='badge badge-danger'>".__('Pending').'</span>';
+
         }
 
-        return "<span class='badge badge-danger'>".__('Pending').'</span>';
+        return "--<em> ".__('not applicable')." </em>--";
+
+
     }
 
     public function getDateForHumansAttribute()

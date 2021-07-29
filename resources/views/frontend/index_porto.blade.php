@@ -14,14 +14,11 @@
 
                                 @include('frontend.includes_porto.home-slider')
 
+                                <h2 class="section-title ls-n-10 m-b-4">Productos destacados</h2>
 
-                                <h2 class="section-title ls-n-10 m-b-4">Featured Products</h2>
-
-                                @include('frontend.includes_porto.feature-products')
-
+                                <livewire:frontend.index.products-index />
 
                                 @include('frontend.includes_porto.brands-slider')
-
 
                                 <hr class="mt-1 mb-4">
 

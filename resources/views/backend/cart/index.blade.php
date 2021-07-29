@@ -2,7 +2,6 @@
 
 @section('title', __('Cart'))
 
-
 @section('content')
 
 	<livewire:backend.cart />

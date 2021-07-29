@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product;
+use App\Models\Frontend\Product;
 use Illuminate\Http\Request;
 
 class ShopController extends Controller
@@ -21,14 +21,22 @@ class ShopController extends Controller
 
     public function show(Product $shop)
     {
-
     	// $product = Product::whereSlug($product)->firstOrFail();
-
-    	if($shop->parent_id){
+    	if($shop->parent_id || !$shop->status){
     		abort(404);
     	}
 
         return view('frontend.shop.show', compact('shop'));
+    }
+
+
+    public function datasheet(Product $shop)
+    {
+    	if($shop->parent_id || !$shop->status){
+    		abort(404);
+    	}
+
+        return view('frontend.shop.datasheet', compact('shop'));
     }
 
 }

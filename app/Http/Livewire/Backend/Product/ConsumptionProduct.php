@@ -186,8 +186,6 @@ class ConsumptionProduct extends Component
 
     }
 
-
-
     public function applySizeFilter($product)
     {
         if ($this->filters_s) {

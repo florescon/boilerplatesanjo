@@ -18,6 +18,7 @@ class CreateLogsTable extends Migration
             $table->text('body');
             $table->integer('logable_id')->unsigned();
             $table->string('logable_type');
+            $table->ipAddress('ip_address');
             $table->timestamps();
         });
     }

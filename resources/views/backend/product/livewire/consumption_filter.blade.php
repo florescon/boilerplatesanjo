@@ -1,7 +1,7 @@
 <x-backend.card>
 
 	<x-slot name="header">
-        @lang('Consumption product filter')
+        @lang('Product consumption filter')
  	</x-slot>
 
  	<x-slot name="headerActions">

@@ -43,30 +43,38 @@ class EditProduct extends Component
         $this->initcode($product);
     }
 
-    public function addToCart(int $productId): void
+    public function addToCart(int $productId, string $typeCart): void
     {
         Cart::add(Product::
             with(array('parent' => function($query) {
-                $query->select('id', 'name', 'code', 'price');
+                $query->select('id', 'slug', 'name', 'code', 'price', 'file_name');
             }))->get()
-            ->find($productId));
-        $this->emit('productAdded');
-    }
+            ->find($productId), $typeCart);
 
-    public function addToCartSale(int $productId): void
-    {
-        Cart::add_sale(Product::
-            with(array('parent' => function($query) {
-                $query->select('id', 'name', 'price');
-            }))->get()
-            ->find($productId));
-        $this->emit('productAddedSale');
+        if($typeCart == 'products'){
+            $this->emit('productAdded');
+        }
+        elseif($typeCart == 'products_sale'){
+            $this->emit('productAddedSale');
+        }
+        
     }
-
 
     public function removePhoto()
     {
         $this->photo = '';
+    }
+
+    public function activateProduct()
+    {
+        Product::whereId($this->product_id)->update(['status' => true]);
+        return redirect()->route('admin.product.edit', $this->product_id);
+    }
+
+    public function desactivateProduct()
+    {
+        Product::whereId($this->product_id)->update(['status' => false]);
+        return redirect()->route('admin.product.edit', $this->product_id);
     }
 
     public function filterByColor($color)
@@ -125,6 +133,16 @@ class EditProduct extends Component
 
     public function savedescription()
     {
+
+        // foreach (Product::all() as $producte) {
+        //     // dd($product->id);
+
+        //     $eprod = Product::withTrashed()->find($producte->id);
+        //     $eprod->updated_at = '2021-06-09 10:37:29';
+        //     $eprod->save();
+
+        // }
+
         $product = Product::findOrFail($this->product_id);
         $newDescription = (string)Str::of($this->newDescription)->trim()->substr(0, 100); // trim whitespace & more than 100 characters
         $newDescription = $newDescription === $this->shortId ? null : $newDescription; // don't save it as product name it if it's identical to the short_id

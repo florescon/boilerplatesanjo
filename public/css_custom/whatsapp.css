@@ -1,5 +1,9 @@
 .float{
 	position:fixed;
+  	animation: skew 3s infinite;
+  	transform: skew(2deg);
+  	animation-direction: alternate;
+
 	width:60px;
 	height:60px;
 	bottom:40px;
@@ -16,10 +20,16 @@
 .float:hover{
 	color: #fff !important;
     cursor: pointer;
-	transform: scale(1.25) rotate(360deg); 
+	transform: scale(1.10); 
 
 }
 
 .my-float{
 	margin-top:16px;
+}
+
+@keyframes shimmy {
+  0% {
+    transform: translateY(10px);
+  }
 }

@@ -27,7 +27,7 @@ class SizeTable extends TableComponent
 
     public $perPageOptions = ['10', '25', '50', '100'];
 
-    public $exports = ['csv', 'xls', 'xlsx'];
+    public $exports = ['csv', 'xls', 'xlsx', 'pdf'];
     public $exportFileName = 'sizes';
 
     public $clearSearchButton = true;

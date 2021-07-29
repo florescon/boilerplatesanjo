@@ -11,15 +11,16 @@
                 <img src="{{ asset('img/logo22.png') }}" width="90" alt="CoreUI Logo">
                 <h3 class="text-primary invoice-logo">{{ __(appName()) }}</h3>
               </div>
-              <p class="card-text mb-25">Office 149, 450 South Brand Brooklyn</p>
-              <p class="card-text mb-25">San Diego County, CA 91905, USA</p>
-              <p class="card-text mb-0">+1 (123) 456 7891, +44 (876) 543 2198</p>
+              <p class="card-text mb-0">Margarito Gonzalez Rubio #857</p>
+              <p class="card-text mb-0">Col. El Refugio, Lagos de Moreno Jal.</p>
+              <p class="card-text mb-0">ventas@sj-uniformes.com </p>
+              <p class="card-text mb-0">47 47 42 30 00 </p>
             </div>
             <div class="mt-md-0 mt-2">
               <h4 class="invoice-title">
                 <p class="text-uppercase">
                   @lang('Order')
-                  <span class="invoice-number">#{{ $order->id }}</span>
+                  <span class="invoice-number">#{{ 'SJU-'. Str::of($order->id)->padLeft(5, 0) }}</span>
                 </p>
               </h4>
               <div class="invoice-date-wrapper">
@@ -39,38 +40,8 @@
             <div class="col-xl-8 p-0">
               <h6 class="mb-2">@lang('Order To'):</h6>
               <h6 class="mb-25">{{ optional($order->user)->name }}</h6>
-              <p class="card-text mb-25">Shelby Company Limited</p>
-              <p class="card-text mb-25">Small Heath, B10 0HF, UK</p>
-              <p class="card-text mb-25">718-986-6062</p>
-              <p class="card-text mb-0">peakyFBlinders@gmail.com</p>
             </div>
-            <div class="col-xl-4 p-0 mt-xl-0 mt-2">
-              <h6 class="mb-2">Payment Details:</h6>
-              <table>
-                <tbody>
-                  <tr>
-                    <td class="pr-1">Total Due:</td>
-                    <td><span class="font-weight-bold">$12,110.55</span></td>
-                  </tr>
-                  <tr>
-                    <td class="pr-1">Bank name:</td>
-                    <td>American Bank</td>
-                  </tr>
-                  <tr>
-                    <td class="pr-1">Country:</td>
-                    <td>United States</td>
-                  </tr>
-                  <tr>
-                    <td class="pr-1">IBAN:</td>
-                    <td>ETD95476213874685</td>
-                  </tr>
-                  <tr>
-                    <td class="pr-1">SWIFT code:</td>
-                    <td>BR91905</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+
           </div>
         </div>
         <!-- Address and Contact ends -->
@@ -87,6 +58,7 @@
               </tr>
             </thead>
             <tbody>
+              @php($total = 0)
               @foreach($order->product_suborder as $product)
               <tr class="{{ $loop->last ? 'border-bottom' : '' }}">
                 {{-- @json($product) --}}
@@ -103,9 +75,10 @@
                   <span class="font-weight-bold">{{ $product->quantity}}</span>
                 </td>
                 <td class="py-1">
-                  <span class="font-weight-bold">${{ number_format($product->parent_order->price * $product->quantity, 2, ".", ",") }}</span>
+                  <span class="font-weight-bold">${{ number_format($totalprod = $product->parent_order->price * $product->quantity, 2, ".", ",") }}</span>
                 </td>
               </tr>
+              @php($total += $totalprod)
               @endforeach
             </tbody>
           </table>
@@ -114,15 +87,17 @@
         <div class="card-body invoice-padding pb-0">
           <div class="row invoice-sales-total-wrapper">
             <div class="col-md-6 order-md-1 order-2 mt-md-0 mt-3">
+              @if($order->audi_id)
               <p class="card-text mb-0">
-                <span class="font-weight-bold">Salesperson:</span> <span class="ml-75">Alfie Solomons</span>
+                <span class="font-weight-bold">Expedido por:</span> <span class="ml-75">{{ optional($order->audi)->name }}</span>
               </p>
+              @endif
             </div>
             <div class="col-md-6 d-flex justify-content-end order-md-2 order-1">
               <div class="invoice-total-wrapper">
                 <div class="invoice-total-item">
                   <p class="invoice-total-title">Total:</p>
-                  <p class="invoice-total-amount">$1690</p>
+                  <p class="invoice-total-amount">${{ $total }}</p>
                 </div>
                 <hr class="my-50" />
               </div>
@@ -137,10 +112,9 @@
         <div class="card-body invoice-padding pt-0">
           <div class="row">
             <div class="col-12">
-              <span class="font-weight-bold">Note:</span>
+              <span class="font-weight-bold">Nota:</span>
               <span
-                >It was a pleasure working with you and your team. We hope you will keep us in mind for future freelance
-                projects. Thank You!</span
+                >Fue un placer atenderte</span
               >
             </div>
           </div>

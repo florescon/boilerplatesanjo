@@ -11,10 +11,13 @@ class CartUpdateForm extends Component
 
     public $item = [];
     public $quantity = 0;
+    public string $typeCart;
 
-    public function mount($item)
+    public function mount($item, string $typeCart)
     {
         $this->item = $item;
+
+        $this->typeCart = $typeCart;
 
         $this->quantity = $item['amount'];
     }
@@ -29,9 +32,10 @@ class CartUpdateForm extends Component
     	// dd(Session::get('cart')['products']);
     	// dd(CartFacade::get());
 
+        // dd($this->typeCart);
         $cart = CartFacade::get();
 
-        $cart['products'] = $this->productCartEdit($this->item['id'], $cart['products']);
+        $cart[$this->typeCart] = $this->productCartEdit($this->item['id'], $cart[$this->typeCart]);
 
 
         $this->emit('cartUpdated');

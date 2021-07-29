@@ -79,7 +79,7 @@ Route::group([
             ->name('consumption_filter')
             ->breadcrumbs(function (Trail $trail, Product $product) {
                 $trail->parent('admin.product.edit', $product)
-                    ->push(__('Consumption filter'), route('admin.product.consumption_filter', $product));
+                    ->push(__('Product consumption filter'), route('admin.product.consumption_filter', $product));
             });
 
         Route::delete('/', [ProductController::class, 'destroy'])->name('destroy');

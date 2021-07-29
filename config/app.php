@@ -185,6 +185,7 @@ return [
         App\Providers\CartFacadeServiceProvider::class,
 
         Barryvdh\DomPDF\ServiceProvider::class,
+        Cviebrock\EloquentSluggable\ServiceProvider::class,
 
 
     ],

@@ -33,6 +33,12 @@
 
 	<!-- Plugins CSS File -->
 	<link rel="stylesheet" href="{{ asset('/porto/assets/css/bootstrap.min.css')}}">
+	<link rel="stylesheet" href="{{ asset('/css_custom/port.css')}}">
+	<link rel="stylesheet" href="{{ asset('/css_custom/cart_empty.css')}}">
+
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
 
 	<!-- Main CSS File -->
 	<link rel="stylesheet" href="{{ asset('/porto/assets/css/style.min.css')}}">
@@ -114,6 +120,8 @@
 	<a id="scroll-top" href="#top" title="Top" role="button"><i class="icon-angle-up"></i></a>
 
     @stack('before-scripts')
+
+
 	<!-- Plugins JS File -->
 	<script src="{{ asset('/porto/assets/js/jquery.min.js')}}"></script>
 	<script src="{{ asset('/porto/assets/js/bootstrap.bundle.min.js')}}"></script>
@@ -123,6 +131,13 @@
 	<script src="{{ asset('/porto/assets/js/main.min.js')}}"></script>
 
     <livewire:scripts />
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <script>
+        $.fn.select2.defaults.set('language', '@lang('labels.general.language')');
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/i18n/es.js"></script>
+
     @stack('after-scripts')
 
 </body>

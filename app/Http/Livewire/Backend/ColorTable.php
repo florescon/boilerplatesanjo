@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Livewire\Backend\DataTable\WithBulkActions;
 use App\Http\Livewire\Backend\DataTable\WithCachedRows;
 use Carbon\Carbon;
+use Symfony\Component\HttpFoundation\Response;
+use App\Exports\ColorsExport;
+use Excel;
 
 class ColorTable extends Component
 {
@@ -132,6 +135,11 @@ class ColorTable extends Component
         $this->page = 1;
     }
 
+    public function hydratesortField()
+    {
+        $this->page = 1;
+    }
+
     public function updatedPerPage()
     {
         $this->page = 1;
@@ -229,6 +237,16 @@ class ColorTable extends Component
         return response()->streamDownload(function () {
             echo $this->selectedRowsQuery->toCsv();
         }, 'color-list.csv');
+    }
+
+    private function getSelectedColors()
+    {
+        return $this->selectedRowsQuery->get()->pluck('id')->map(fn($id) => (string) $id)->toArray();
+    }
+    public function exportMaatwebsite($extension)
+    {   
+        abort_if(!in_array($extension, ['csv', 'xlsx', 'pdf', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
+        return Excel::download(new ColorsExport($this->getSelectedColors()), 'colors.'.$extension);
     }
 
     public function delete($id)

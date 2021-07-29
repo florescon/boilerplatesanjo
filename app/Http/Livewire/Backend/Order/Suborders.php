@@ -7,6 +7,8 @@ use App\Models\Order;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\GeneralException;
 use Exception;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 
 class Suborders extends Component
@@ -58,6 +60,8 @@ class Suborders extends Component
                 $suborder = new Order();
                 $suborder->parent_order_id = $this->order_id;
                 $suborder->user_id = $this->user ?? null;
+                $suborder->date_entered = Carbon::now()->format('Y-m-d');
+                $suborder->audi_id = Auth::id();
                 $suborder->save();
 
                 foreach($this->quantityy as $key => $product){

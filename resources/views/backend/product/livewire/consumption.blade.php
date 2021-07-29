@@ -214,14 +214,15 @@
               {{-- {{'Filter: '. $model->consumption_filter_count }} --}}
 
               <br>
-              <a href="#" class="card-link">Reporte total</a>
-              <a href="#" class="card-link">Another link</a>
+              {{-- <a href="#" class="card-link">Reporte total</a> --}}
+              {{-- <a href="#" class="card-link">Another link</a> --}}
 
-            <p class="h1 text-center">
-              <a href="https://github.com/peterdanis/custom-bootstrap-cards" target="_blank">
-                <i class="fas fa-file-alt"></i>
-              </a>
-            </p>
+                        
+              <p class="h1 text-center">
+                {{-- <a href="https://github.com/peterdanis/custom-bootstrap-cards" target="_blank"> --}}
+                  <i class="fas fa-file-alt"></i>
+                </a>
+              </p>
 
             </div>
           </div>

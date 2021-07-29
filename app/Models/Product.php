@@ -25,7 +25,8 @@ class Product extends Model
     {
         return [
             'slug' => [
-                'source' => 'name'
+                'source' => 'name',
+                'onUpdate' => true,
             ]
         ];
     }
@@ -103,11 +104,20 @@ class Product extends Model
     }
 
     /**
+     * @return string
+     */
+    public function getOnlyAttributesAttribute()
+    {
+        return $this->size_name.' '.$this->color_name;
+    }
+
+
+    /**
      * @return mixed
      */
     public function parent()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(self::class);
     }
 
     /**
@@ -115,7 +125,15 @@ class Product extends Model
      */
     public function children()
     {
-        return $this->hasMany(Product::class, 'parent_id')->with('children', 'size', 'color')->withTrashed();
+        return $this->hasMany(self::class, 'parent_id')->with('children', 'size', 'color')->withTrashed();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function childrenOnlyColors()
+    {
+        return $this->hasMany(self::class, 'parent_id')->with('children', 'color')->withTrashed();
     }
 
     /**
@@ -126,6 +144,14 @@ class Product extends Model
         return $this->code;
     }
 
+    /**
+     * @return bool
+     */
+    public function isChildren()
+    {
+        return $this->parent_id;
+    }
+
     public function getCodeSubproductAttribute()
     {
         if(!$this->hasCodeSubproduct()){
@@ -133,9 +159,7 @@ class Product extends Model
         }
 
         return $this->code;
-
     }
-
 
     /**
      * @return bool
@@ -152,7 +176,6 @@ class Product extends Model
         }
 
         return $this->price;
-
     }
 
 
@@ -192,7 +215,7 @@ class Product extends Model
     }
 
 
-    public function getTotalPicturesAttribute()
+    public function getTotalPicturesAttribute(): int
     {
         return $this->pictures->count();
     }
@@ -208,7 +231,7 @@ class Product extends Model
 
     public function consumption_filter()
     {
-        return $this->hasManyThrough(Consumption::class, Product::class, 'id', 'product_id', 'parent_id', 'id')->with('material');
+        return $this->hasManyThrough(Consumption::class, self::class, 'id', 'product_id', 'parent_id', 'id')->with('material');
     }
 
     public function getTotalConsumptionBySize($byID)
@@ -220,8 +243,12 @@ class Product extends Model
         return $this->consumption->where('color_id', $byID)->count();
     }
 
+    public function getTotalPicturesByColor($byID)
+    {
+        return $this->pictures->where('color_id', $byID)->count();
+    }
 
-    public function getTotalStock()
+    public function getTotalStockAttribute()
     {
         return $this->children->sum(function($parent) {
           return $parent->stock + $parent->stock_revision + $parent->stock_store;
@@ -296,5 +323,16 @@ class Product extends Model
                 });
         });
     }
+
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'type' => 'boolean',
+        'status' => 'boolean',
+    ];
 
 }

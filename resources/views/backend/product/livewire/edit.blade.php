@@ -12,6 +12,12 @@
  	</x-slot>
     <x-slot name="body">
 
+    	@if(!$model->status)
+			<div class="alert alert-danger" role="alert">
+			  Producto desactivado <a wire:click="activateProduct" href="#">@lang('Activate')</a> 
+			</div>
+		@endif
+
 		<div class="row ">
 
 			<div class="col-12 col-md-4">
@@ -165,13 +171,17 @@
 
 				    <br>
 
-			        <p class="card-text"><strong>@lang('Total stock'): </strong>{{ $model->getTotalStock() }}</p>
+			        <p class="card-text"><strong>@lang('Total stock'): </strong>{{ $model->total_stock }}</p>
 			        <p class="card-text"><strong>@lang('Line'):</strong> 
 			            <x-utils.undefined :data="optional($model->line)->name"/>
 			        </p>
 			        <p class="card-text"><strong>@lang('Price'): </strong>${{ $model->price }}</p>
 			        <p class="card-text"><strong>@lang('Updated at'): </strong>{{ $model->updated_at }}</p>
 			        <p class="card-text"><strong>@lang('Created at'): </strong>{{ $model->created_at }}</p>
+
+				  	<a href="{{ route('frontend.shop.show', $model->slug) }}" class="card-link" target="_blank">
+				  		@lang('Show in store') <i class="cil-external-link"></i>
+				  	</a>
 
 			        {{-- <a href="#" class="btn btn-primary pulsingButton">@lang('Edit')</a> --}}
 			      </div>
@@ -417,7 +427,6 @@
 						<table class="table table-sm">
 						  <thead>
 						    <tr>
-						      <th scope="col">#</th>
 						      <th scope="col">@lang('Color')</th>
 						      <th scope="col">@lang('Size_')</th>
 						      <th scope="col">@lang('Stock')</th>
@@ -450,7 +459,6 @@
 					        @foreach($childrens->sortBy('size.name') as $children)
 
 							    <tr>
-							      <th scope="row">{{ $children->id }}</th>
 							      <td style="{{ $children->trashed() ? 'text-decoration: line-through;' : '' }}">{{ optional($children->color)->name}}</td>
 							      <td style="{{ $children->trashed() ? 'text-decoration: line-through;' : '' }}">{{ optional($children->size)->name}}</td>
 							      <td>{{ $children->stock }}</td>
@@ -493,8 +501,8 @@
 								  @endif
 
 								  <td>
-								    <a onmousedown="party.sparkles(this)" class="badge badge-primary text-white" wire:click="addToCart({{ $children->id }})" ><i class="cil-cart"> </i> @lang('Order')</a>
-								    <a onmousedown="party.confetti(this)" class="badge badge-success text-white" wire:click="addToCartSale({{ $children->id }})" ><i class="cil-cart"> </i> @lang('Sale')</a>
+								    <a onmousedown="party.sparkles(this)" class="badge badge-primary text-white" wire:click="addToCart({{ $children->id }}, 'products')" ><i class="cil-cart"> </i> @lang('Order')</a>
+								    <a onmousedown="party.confetti(this)" class="badge badge-success text-white" wire:click="addToCart({{ $children->id }}, 'products_sale')" ><i class="cil-cart"> </i> @lang('Sale')</a>
 
 								  </td>
 
@@ -517,9 +525,11 @@
 
         <x-utils.delete-button :text="__('Delete product')" :href="route('admin.product.destroy', $model->id)" />
 
-		<footer class="blockquote-footer float-right">
-			Mies Van der Rohe <cite title="Source Title">Less is more</cite>
-		</footer>
+    	@if($model->status)
+			<footer class="float-right">
+				<a wire:click="desactivateProduct" href="#">@lang('Desactivate product')</a> 
+			</footer>
+		@endif
 	</x-slot>
 </x-backend.card> 
 

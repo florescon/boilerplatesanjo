@@ -15,7 +15,7 @@
   <x-slot name="body">
     <div class="row ">
 
-      <div class="col-12 col-sm-12 col-md-8" style="margin-top: 40px;">
+      <div class="col-12 col-sm-12 {{ $orderExists ? 'col-md-8' : 'col-md-12' }} " style="margin-top: 40px;">
         <div class="card card-product_not_hover card-flyer-without-hover">
           <div class="card-body">
             <h5 class="card-title">#{{ $model->id }}</h5>
@@ -34,6 +34,7 @@
                     <div class="col-6 col-lg-6">
                       {{ optional($model->user)->name }}
                     </div>
+                    @if($orderExists)
                     <div class="col-6 col-lg-6" style="font-family:Arial, FontAwesome">
                       <a href="{{ route('admin.order.whereIs',$model->id) }}" style="color:#a20909ff;">
                         <em>
@@ -42,6 +43,7 @@
                         &#xf288;
                       </a>                                   
                     </div>
+                    @endif
                   </div>
                   <br>
                   <div class="row">
@@ -63,15 +65,17 @@
 
             </p>
 
+            @if($orderExists)
+
             <div class="form-row">
               <div class="col-md-4 mb-3">
                 {!! $model->last_status_order->status->name ?? '<span class="badge badge-secondary">'.__('undefined status').'</span>' !!}
                 <div wire:loading wire:target="updateStatus" class="loading"></div>
               </div>
               <div class="col-md-4 mb-3">
-                <a href="{{ route('admin.order.advanced', $model->id) }}" style="color:#1ab394;">
+                {{-- <a href="{{ route('admin.order.advanced', $model->id) }}" style="color:#1ab394;">
                   <p> Opciones avanzadas </p>
-                </a>
+                </a> --}}
               </div>
               <div class="col-md-4 mb-3 text-left">
                 <a href="{{ route('admin.order.sub', $model->id) }}" style="color:purple;">
@@ -100,22 +104,20 @@
                 </div>
               </div>
             </div>
+            @endif
 
-            <a href="#" class="card-link text-dark"><i class="cil-print"></i>
+            <a href="{{ route('admin.order.ticket_order', $model->id) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
               <ins>
                 General
               </ins>
             </a>
-            <a href="#" class="card-link"><i class="cil-print"></i>
-              <ins>
-                Productos
-              </ins>
-            </a>
-            <a href="#" class="card-link text-warning"><i class="cil-print"></i>
-              <ins>
-                Materia prima
-              </ins>
-            </a>
+            @if($model->materials_order()->exists())
+              <a href="{{ route('admin.order.ticket_materia', $model->id) }}" class="card-link text-warning" target="_blank"><i class="cil-print"></i>
+                <ins>
+                  Materia prima
+                </ins>
+              </a>
+            @endif
           </div>
           <div class="card-footer text-muted text-center">
             {{ $model->date_diff_for_humans }}
@@ -125,6 +127,37 @@
 
         <div class="card card-edit card-product_not_hover card-flyer-without-hover">
           <div class="card-body">
+            @if($orderExists)
+
+            <div class="row">
+              @if($model->materials_order()->doesntExist())
+              <div class="col-sm-6">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="custom-control custom-switch custom-control-inline">
+                      <input type="checkbox" wire:model="previousMaterialByProduct" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
+                      <label class="custom-control-label" for="customRadioInline1">
+                        Ver materia prima por producto, previo al consumo
+                     </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              @else
+              <div class="col-sm-6">
+                <div class="card border-warning">
+                  <div class="card-body">
+                    <div class="custom-control custom-switch custom-control-inline">
+                      <input type="checkbox" wire:model="maerialAll" id="customRadioInline2" name="customRadioInline2" class="custom-control-input">
+                      <label class="custom-control-label" for="customRadioInline2">
+                        Ver concentrado de materia prima ya consumido
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              @endif
+            </div>
 
             <div class="table-responsive">
               <table class="table table-striped table-bordered table-hover">
@@ -137,15 +170,58 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @php($totalmat = 0)
+
                   @foreach($model->product_order as $product)
                   <tr>
-                    <td>{!! $product->product->full_name !!}</td>
+                    <td>
+                      <a href="{{ route('admin.product.consumption_filter', $product->product_id) }}" target=”_blank”> <span class="badge badge-warning"> <i class="cil-color-fill"></i></span></a>
+                      {!! $product->product->full_name !!}
+                    </td>
                     <td class="text-center">${{ $product->price }}</td>
                     <td class="text-center">{{ $product->quantity }}</td>
                     <td class="text-center">${{ $product->total_by_product }}</td>
                   </tr>
-                  @php($totalmat += $product->total_by_product)
+
+                    {{-- @json($product->gettAllConsumption()) --}}
+                    @if($previousMaterialByProduct)
+
+                      @if($product->gettAllConsumption() != 'empty')
+                          <tr class="table-warning text-right font-italic font-weight-bold">
+                            <td colspan="2">
+                              Materia prima
+                            </td>
+                            <td>
+                              Consumo Unitario
+                            </td>
+                            <td>
+                              Total
+                            </td>
+                          </tr>
+
+                        @foreach($product->gettAllConsumption() as $key => $consumption)
+                          <tr class="table-warning text-right font-italic">
+                            <td colspan="2">
+
+                              {{ $key }}
+                              {{ $consumption['material'] }}
+                            </td>
+                            <td>
+                                {{ $consumption['unit'] }}
+                            </td>
+                            <td>
+                                {{ $consumption['quantity'] }}
+                            </td>
+                          </tr>
+                        @endforeach
+                      @else
+                        <tr class="table-danger text-center font-italic">
+                            <td colspan="4">
+                              <p>Sin materia prima definida, aun</p>
+                            </td>
+                          </tr>
+                      @endif
+                      @endif
+
                   @endforeach
                   <tr>
                     <td></td>
@@ -158,12 +234,77 @@
               </table>
             </div>
 
+            @endif
+
+            @if($saleExists)
+            <div class="table-responsive">
+              <table class="table table-striped table-bordered table-hover">
+                <thead class="thead-dark">
+                  <tr>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                    <th class="text-center">Cantidad</th>
+                    <th class="text-center">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  @foreach($model->product_sale as $product)
+                  <tr class="table-info">
+                    <td>
+                      <a href="{{ route('admin.product.consumption_filter', $product->product_id) }}" target=”_blank”> <span class="badge badge-warning"> <i class="cil-color-fill"></i></span></a>
+                      {!! $product->product->full_name !!}
+                    </td>
+                    <td class="text-center">${{ $product->price }}</td>
+                    <td class="text-center">{{ $product->quantity }}</td>
+                    <td class="text-center">${{ $product->total_by_product }}</td>
+                  </tr>
+                  @endforeach
+                  <tr>
+                    <td></td>
+                    <td class="text-right">Total:</td>
+                    <td class="text-center">{{ $model->total_products }}</td>
+                    <td class="text-center">${{ $model->total_order }}</td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+            @endif
+
+            @if($maerialAll)
+            <div class="table-responsive">
+              <table class="table table-striped table-bordered table-hover">
+                <thead class="thead-dark">
+                  <tr >
+                    <th>Materia prima</th>
+                    <th>Precio</th>
+                    <th class="text-center">Cantidad</th>
+                    <th class="text-center">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach($model->materials_order as $material)
+                    <tr class="table-warning">
+                      <td>
+                        {!! $material->material->full_name !!}
+                      </td>
+                      <td class="text-center">${{ $material->price }}</td>
+                      <td class="text-center">{{ $material->sum }}</td>
+                      <td class="text-center">${{ $material->total_by_material }}</td>
+                    </tr>
+                  @endforeach
+                </tbody>
+              </table>
+            </div>
+            @endif
+
           </div>
         </div>
-
       </div>
 
 
+      @if($orderExists)
       <div class="col-12 col-md-4">
         <div class="row d-flex justify-content-center mt-70 mb-70">
           <div class="col-md-12">
@@ -205,13 +346,13 @@
           </div>
         </div>
       </div>
+      @endif
 
     </div>
   </x-slot>
+
   <x-slot name="footer">
-
     <x-utils.delete-button :text="__('Delete order')" :href="route('admin.order.destroy', $model->id)" />
-
     <footer class="blockquote-footer float-right">
       Mies Van der Rohe <cite title="Source Title">Less is more</cite>
     </footer>

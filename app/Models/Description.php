@@ -17,6 +17,9 @@ class Description extends Model
     protected $fillable = [
         'description',
         'information',
+        'extra',
+        'dimensions',
+        'standards',
         'status',
     ];
 

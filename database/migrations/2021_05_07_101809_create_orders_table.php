@@ -20,6 +20,7 @@ class CreateOrdersTable extends Migration
             $table->unsignedSmallInteger('payment_method_id')->nullable();
             $table->longText('comment')->nullable();
             $table->date('date_entered')->nullable();
+            $table->boolean('automatic_production')->default(false);
             $table->unsignedBigInteger('audi_id')->nullable();
             $table->boolean('approved')->default(false);
             $table->tinyInteger('type')->nullable();

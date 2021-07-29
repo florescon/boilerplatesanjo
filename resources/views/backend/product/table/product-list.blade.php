@@ -2,13 +2,53 @@
 <div class="card shadow-lg p-3 mb-5 bg-white rounded">
 	<div class="card-header">
 	    <strong style="color: #0061f2;"> @lang('List of products') </strong>
+
+    <br>
+    <br>
+
+    &nbsp;
+    <div class="page-header-subtitle">@lang('Filter by update date range')</div>
+
+    <div class="row input-daterange">
+        <div class="col-md-3">
+          <x-input.date wire:model="dateInput" id="dateInput" placeholder="{{ __('From') }}"/>
+        </div>
+        &nbsp;
+
+        <div class="col-md-3">
+          <x-input.date wire:model="dateOutput" id="dateOutput" placeholder="{{ __('To') }}"/>
+        </div>
+        &nbsp;
+
+        <div class="col-md-3">
+          <div class="btn-group mr-2" role="group" aria-label="First group">
+            <button type="button" class="btn btn-outline-primary" wire:click="clearFilterDate"  class="btn btn-default">@lang('Clear date')</button>
+            <button type="button" class="btn btn-primary" wire:click="clearAll" class="btn btn-default">@lang('Clear all')</button>
+          </div>
+        </div>
+        &nbsp;
+
+
+    </div>
+
 	</div>
 
 	<div class="card-body">
 
 
 	<div class="row mb-4 justify-content-md-center">
-		<div class="col-8">
+    <div class="col form-inline">
+      @lang('Per page'): &nbsp;
+
+      <select wire:model="perPage" class="form-control">
+        <option>12</option>
+        <option>25</option>
+        <option>50</option>
+        <option>100</option>
+      </select>
+    </div><!--col-->
+
+		<div class="col">
 		  <div class="input-group">
 		    <input wire:model.debounce.350ms="searchTerm" class="form-control" type="text" placeholder="{{ __('Search') }}..." />
 		    @if($searchTerm !== '')
@@ -21,7 +61,38 @@
 		    @endif
 		  </div>
 		</div>
+
+    @if($selected && $products->count())
+    <div class="dropdown table-export">
+      <button class="dropdown-toggle btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        @lang('Export')        
+      </button>
+
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" wire:click="exportMaatwebsite('csv')">CSV</a>
+        <a class="dropdown-item" wire:click="exportMaatwebsite('pdf')">PDF</a>
+        <a class="dropdown-item" wire:click="exportMaatwebsite('xlsx')">Excel</a>
+        <a class="dropdown-item" wire:click="exportMaatwebsite('xls')">Excel ('XLS')</a>
+        <a class="dropdown-item" wire:click="exportMaatwebsite('html')">HTML</a>
+        <a class="dropdown-item" wire:click="exportMaatwebsite('tsv')">TSV</a>
+        <a class="dropdown-item" wire:click="exportMaatwebsite('ods')">ODS</a>
+      </div>
+    </div><!--export-dropdown-->
+    @endif
+
 	</div>
+
+
+	@if($selectPage)
+	<x-utils.alert type="primary">
+	  @unless($selectAll)
+	  <span>Tienes seleccionado <strong>{{ $products->count() }}</strong> productos, ¿quieres seleccionar  <strong>{{ $products->total() }} </strong> productos?</span>
+	    <a href="#" wire:click="selectAll" class="alert-link">Seleccionar todo</a>
+	  @else
+	    <span>Actualmente seleccionaste <strong>{{ $products->total() }}</strong> productos.</span>
+	  @endif
+	</x-utils.alert>
+	@endif
 
 	  <div class="row mt-4">
 	    <div class="col">
@@ -29,13 +100,21 @@
 	        <table class="table table-sm align-items-center table-flush table-bordered table-hover">
 	          <thead style="color: #0061f2;">
 	            <tr>
+
+	              <th style="width:30px; max-width: 30px;">
+	                <label class="form-checkbox">
+	                  <input type="checkbox" wire:model="selectPage">
+	                  <i class="form-icon"></i>
+	                </label>
+	              </th>
+
 	              <th scope="col">
 	                  @lang('Name')
 	              </th>
 
-			      <th scope="col">@lang('Stock')</th>
-			      <th scope="col">@lang('S.R.I')</th>
-			      <th scope="col">@lang('Store stock')</th>
+					      <th scope="col">@lang('Stock')</th>
+					      <th scope="col">@lang('S.R.I')</th>
+					      <th scope="col">@lang('Store stock')</th>
 
 	              <th scope="col">
 	                  @lang('Updated at')
@@ -46,6 +125,14 @@
 	          <tbody>
 	            @foreach($products as $product)
     	        <tr>
+
+              <td>
+                <label class="form-checkbox">
+                    <input type="checkbox" wire:model="selected" value="{{ $product->id }}">
+                  <i class="form-icon"></i>
+                  </label>
+              </td>
+
 	              <td scope="row">
 	                <div class="media align-items-center">
 	                  <div class="media-body">

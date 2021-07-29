@@ -87,7 +87,7 @@
                 @endphp
 
                 @forelse($model->suborders as $suborder)
-                  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start 
+                  <a href="{{ route('admin.order.edit', $suborder->id) }}" class="list-group-item list-group-item-action flex-column align-items-start 
                     @if($colors_counter <= 3)
                       list-group-item-{{ $colors[$colors_counter] }}
                     @endif
@@ -99,7 +99,7 @@
                       <h5 class="mb-1">{{ optional($suborder->user)->name }}</h5>
                       <small>{{ $suborder->date_diff_for_humans }}</small>
                     </div>
-                    <small class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</small>
+                    {{-- <small class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</small> --}}
                     <p>Total de productos: <strong class="text-danger">{{ $suborder->total_products_suborder }}</strong></p>
                   </a>
                     <?php $colors_counter++; ?>

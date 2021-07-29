@@ -8,13 +8,16 @@ use App\Models\Product;
 class AdvancedProduct extends Component
 {
 
-    public $product_id, $description, $information;
+    public $product_id, $description, $information, $standards, $dimensions, $extra;
 
     public function mount(Product $product)
     {
         $this->product_id = $product->id;
-        $this->description = optional($product->advanced)->description;
         $this->information = optional($product->advanced)->information;
+        $this->standards = optional($product->advanced)->standards;
+        $this->dimensions = optional($product->advanced)->dimensions;
+        $this->extra = optional($product->advanced)->extra;
+        $this->description = optional($product->advanced)->description;
 
     }
 
@@ -27,9 +30,10 @@ class AdvancedProduct extends Component
             'description' => 'required',
         ]);
 
-        $product->advanced()->updateOrCreate(['product_id' => $this->product_id], [
-            'description' => $this->description,
-        ]);
+        $product->advanced()->updateOrCreate(
+            ['product_id' => $this->product_id], 
+            ['description' => $this->description,]
+        );
 
         $this->emit('swal:alert', [
            'icon' => 'success',
@@ -58,6 +62,67 @@ class AdvancedProduct extends Component
 
     }
 
+
+    public function storedimensions()
+    {
+
+        $product = Product::findOrFail($this->product_id);
+
+        $this->validate([
+            'dimensions' => 'required',
+        ]);
+
+        $product->advanced()->updateOrCreate(['product_id' => $this->product_id], [
+            'dimensions' => $this->dimensions,
+        ]);
+
+        $this->emit('swal:alert', [
+           'icon' => 'success',
+            'title'   => __('Updated at'), 
+        ]);
+
+    }
+
+
+    public function storeextra()
+    {
+
+        $product = Product::findOrFail($this->product_id);
+
+        $this->validate([
+            'extra' => 'required',
+        ]);
+
+        $product->advanced()->updateOrCreate(['product_id' => $this->product_id], [
+            'extra' => $this->extra,
+        ]);
+
+        $this->emit('swal:alert', [
+           'icon' => 'success',
+            'title'   => __('Updated at'), 
+        ]);
+
+    }
+
+    public function storestandards()
+    {
+
+        $product = Product::findOrFail($this->product_id);
+
+        $this->validate([
+            'standards' => 'required',
+        ]);
+
+        $product->advanced()->updateOrCreate(['product_id' => $this->product_id], [
+            'standards' => $this->standards,
+        ]);
+
+        $this->emit('swal:alert', [
+           'icon' => 'success',
+            'title'   => __('Updated at'), 
+        ]);
+
+    }
 
     public function render()
     {

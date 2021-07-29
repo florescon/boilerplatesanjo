@@ -1,4 +1,8 @@
-<div class="card shadow-lg p-3 mb-5 rounded">
+@props([
+    'borderClass' => '0',
+])
+
+<div class="card shadow-lg p-3 mb-5 rounded border-{{ $borderClass }}">
     @if (isset($header))
         <div class="card-header">
             {{ $header }}

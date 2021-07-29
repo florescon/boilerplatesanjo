@@ -78,7 +78,6 @@ class Material extends Model
         return $this->color_id ? '| '.$this->color->name : '';
     }
 
-
     /**
      * @return string
      */

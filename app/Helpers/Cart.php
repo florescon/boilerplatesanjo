@@ -12,53 +12,36 @@ class Cart
             $this->set($this->empty());
     }
 
-    public function add(Product $product): void
+    /*
+     * typeCart: products or products_sale
+     *
+     */
+
+    public function add(Product $product, string $typeCart): void
     {
         $cart = $this->get();
-        $cartProductsIds = array_column($cart['products'], 'id');
+        $cartProductsIds = array_column($cart[$typeCart], 'id');
         $product->amount = !empty($product->amount) ? $product->amount : 1;
 
         if (in_array($product->id, $cartProductsIds)) {
-            $cart['products'] = $this->productCartIncrement($product->id, $cart['products']);
+            $cart[$typeCart] = $this->productCartIncrement($product->id, $cart[$typeCart]);
             $this->set($cart);
             return;
         }
 
-        array_push($cart['products'], $product);
+        array_push($cart[$typeCart], $product);
         $this->set($cart);
     }
 
 
-    public function add_sale(Product $product): void
+
+    public function remove(int $productId, string $typeCart): void
     {
         $cart = $this->get();
-        $cartProductsIds = array_column($cart['products_sale'], 'id');
-        $product->amount = !empty($product->amount) ? $product->amount : 1;
-
-        if (in_array($product->id, $cartProductsIds)) {
-            $cart['products_sale'] = $this->productCartIncrement($product->id, $cart['products_sale']);
-            $this->set($cart);
-            return;
-        }
-
-        array_push($cart['products_sale'], $product);
+        array_splice($cart[$typeCart], array_search($productId, array_column($cart[$typeCart], 'id')), 1);
         $this->set($cart);
     }
 
-    public function remove(int $productId): void
-    {
-        $cart = $this->get();
-        array_splice($cart['products'], array_search($productId, array_column($cart['products'], 'id')), 1);
-        $this->set($cart);
-    }
-
-
-    public function removeSale(int $productId): void
-    {
-        $cart = $this->get();
-        array_splice($cart['products_sale'], array_search($productId, array_column($cart['products_sale'], 'id')), 1);
-        $this->set($cart);
-    }
 
     public function clear(): void
     {

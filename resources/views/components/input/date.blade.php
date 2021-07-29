@@ -1,3 +1,7 @@
+@props([
+    'borderClass' => 'primary',
+])
+
 <div
 	    x-data="{ value: @entangle($attributes->wire('model')), picker: undefined }"
         x-init="new Pikaday({ field: $refs.input, format: 'YYYY-MM-DD', onSelect: function() {
@@ -11,7 +15,7 @@
         {{ $attributes->whereDoesntStartWith('wire:model') }}
         x-ref="input"
         x-bind:value="value"
-		class="form-control border-primary" 
+		class="form-control border-{{ $borderClass }}" 
 		autocomplete="off"
 		readonly
 		>

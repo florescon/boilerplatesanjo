@@ -28,9 +28,11 @@ class CreateProductsTable extends Migration
             $table->unsignedInteger('color_id')->nullable();
             $table->unsignedInteger('size_id')->nullable();
             $table->unsignedBigInteger('parent_id')->nullable();
+            $table->double('discount')->default(0);
             $table->tinyInteger('sort')->default(1);
-            $table->boolean('type')->default(1);
-            $table->boolean('status')->default(1);
+            $table->boolean('automatic_code')->default(true);
+            $table->boolean('type')->default(true);
+            $table->boolean('status')->default(true);
             $table->softDeletes();
             $table->timestamps();
 
@@ -38,7 +40,6 @@ class CreateProductsTable extends Migration
                 ->references('id')
                 ->on('products')
                 ->onDelete('cascade');
-
         });
     }
 

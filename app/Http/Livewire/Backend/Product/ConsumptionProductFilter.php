@@ -10,7 +10,6 @@ class ConsumptionProductFilter extends Component
 {
 	public $product_id, $color_id, $size_id;
 
-
     public function mount(Product $product)
     {
         $this->product_id = $product->id;
@@ -39,7 +38,6 @@ class ConsumptionProductFilter extends Component
         $model = Product::with('parent', 'consumption_filter'
     			)->findOrFail($this->product_id);
 
-
         $modell = Product::with(['parent', 'consumption_filter'
 	        	=> function ($query) {
                             $query->where([['consumptions.color_id', null], ['consumptions.size_id', null]])->orWhere('consumptions.color_id', $this->color_id)->orWhere('consumptions.size_id', $this->size_id);
@@ -59,7 +57,6 @@ class ConsumptionProductFilter extends Component
         }
 
         // dd($groups);
-
 
         return view('backend.product.livewire.consumption_filter')->with(compact('model', 'groups'));
     }

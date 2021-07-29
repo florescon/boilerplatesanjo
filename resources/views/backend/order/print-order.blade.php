@@ -33,9 +33,10 @@
         <img class="" src="{{ asset('img/logo22.png') }}" width="100" alt="CoreUI Logo">
         <h3 class="pt-md-2 text-primary font-weight-bold ml-1 ">{{ __(appName()) }}</h3>
       </div>
-      <p class="mb-25">Office 149, 450 South Brand Brooklyn</p>
-      <p class="mb-25">San Diego County, CA 91905, USA</p>
-      <p class="mb-0">+1 (123) 456 7891, +44 (876) 543 2198</p>
+      <p class="card-text mb-0">Margarito Gonzalez Rubio #857</p>
+      <p class="card-text mb-0">Col. El Refugio, Lagos de Moreno Jal.</p>
+      <p class="card-text mb-0">ventas@sj-uniformes.com </p>
+      <p class="card-text mb-0">47 47 42 30 00 </p>
     </div>
     <div class="mt-md-0 mt-2">
       <h4 class="font-weight-bold text-right mb-1">
@@ -56,37 +57,6 @@
     <div class="col-sm-6">
       <h6 class="mb-1">@lang('Order To'):</h6>
       <p class="mb-25">{{ optional($order->user)->name }}</p>
-      <p class="mb-25">Shelby Company Limited</p>
-      <p class="mb-25">Small Heath, B10 0HF, UK</p>
-      <p class="mb-25">718-986-6062</p>
-      <p class="mb-0">peakyFBlinders@gmail.com</p>
-    </div>
-    <div class="col-sm-6 mt-sm-0 mt-2">
-      <h6 class="mb-1">Payment Details:</h6>
-      <table>
-        <tbody>
-          <tr>
-            <td class="pr-1">Total Due:</td>
-            <td><strong>$12,110.55</strong></td>
-          </tr>
-          <tr>
-            <td class="pr-1">Bank name:</td>
-            <td>American Bank</td>
-          </tr>
-          <tr>
-            <td class="pr-1">Country:</td>
-            <td>United States</td>
-          </tr>
-          <tr>
-            <td class="pr-1">IBAN:</td>
-            <td>ETD95476213874685</td>
-          </tr>
-          <tr>
-            <td class="pr-1">SWIFT code:</td>
-            <td>BR91905</td>
-          </tr>
-        </tbody>
-      </table>
     </div>
   </div>
 
@@ -94,56 +64,46 @@
     <table class="table m-0">
       <thead>
         <tr>
-          <th class="py-1 pl-4">Task description</th>
-          <th class="py-1">Rate</th>
-          <th class="py-1">Hours</th>
+          <th class="py-1">@lang('Product')</th>
+          <th class="py-1">@lang('Price')</th>
+          <th class="py-1">@lang('Quantity')</th>
           <th class="py-1">Total</th>
         </tr>
       </thead>
-      <tbody>
-        @foreach($order->product_suborder as $product)
-        <tr>
-          <td class="py-1 pl-4">
-            <p class="font-weight-semibold mb-25">{{ $product->parent_order->product->parent->name}}</p>
-            <p class="text-muted text-nowrap">
-              Developed a full stack native app using React Native, Bootstrap & Python
-            </p>
-          </td>
-          <td class="py-1">
-            <strong>$60.00</strong>
-          </td>
-          <td class="py-1">
-            <strong>30</strong>
-          </td>
-          <td class="py-1">
-            <strong>$1,800.00</strong>
-          </td>
-        </tr>
-        @endforeach
-        <tr class="border-bottom">
-          <td class="py-1 pl-4">
-            <p class="font-weight-semibold mb-25">Ui Kit Design</p>
-            <p class="text-muted text-nowrap">Designed a UI kit for native app using Sketch, Figma & Adobe XD</p>
-          </td>
-          <td class="py-1">
-            <strong>$60.00</strong>
-          </td>
-          <td class="py-1">
-            <strong>20</strong>
-          </td>
-          <td class="py-1">
-            <strong>$1200.00</strong>
-          </td>
-        </tr>
-      </tbody>
+        <tbody>
+          @php($total = 0)
+          @foreach($order->product_suborder as $product)
+          <tr class="{{ $loop->last ? 'border-bottom' : '' }}">
+            {{-- @json($product) --}}
+            <td class="py-1">
+              <p class="card-text font-weight-bold mb-25">{{ $product->parent_order->product->parent->name}}</p>
+              <p class="card-text text-nowrap">
+                {{ $product->parent_order->product->color->name. '  '.$product->parent_order->product->size->name }}
+              </p>
+            </td>
+            <td class="py-1">
+              <span class="font-weight-bold">${{ $product->parent_order->price }}</span>
+            </td>
+            <td class="py-1">
+              <span class="font-weight-bold">{{ $product->quantity}}</span>
+            </td>
+            <td class="py-1">
+              <span class="font-weight-bold">${{ number_format($totalprod = $product->parent_order->price * $product->quantity, 2, ".", ",") }}</span>
+            </td>
+          </tr>
+          @php($total += $totalprod)
+          @endforeach
+        </tbody>
     </table>
   </div>
 
   <div class="row invoice-sales-total-wrapper mt-3">
     <div class="col-md-6 order-md-1 order-2 mt-md-0 mt-3">
+      @if($order->audi_id)
       <p class="card-text mb-0">
-        <span class="font-weight-bold">Salesperson:</span> <span class="ml-75">Alfie Solomons</span>
+        <span class="font-weight-bold">Expedido por:</span> <span class="ml-75">{{ optional($order->audi)->name }}</span>
       </p>
+      @endif
       <br>
       <br>
       <p class="card-text mb-0">
@@ -153,11 +113,10 @@
       <p>
         &nbsp;
         <em>
-            Scan this code to track.
-
+            Escanea para dar seguimiento.
             <br>
         &nbsp;
-            (Available 1 month)
+            (Disponible 1 mes)
         </em>
       </p>
 
@@ -166,7 +125,7 @@
       <div class="invoice-total-wrapper">
         <div class="invoice-total-item">
           <p class="invoice-total-title">Total:</p>
-          <p class="invoice-total-amount">$1690</p>
+          <p class="invoice-total-amount">${{ $total }}</p>
         </div>
         <hr class="my-50" />
       </div>
@@ -177,10 +136,9 @@
 
   <div class="row">
     <div class="col-12">
-      <span class="font-weight-bold">Note:</span>
+      <span class="font-weight-bold">Nota:</span>
       <span
-        >It was a pleasure working with you and your team. We hope you will keep us in mind for future freelance
-        projects. Thank You!</span
+        >Fue un placer atenderte</span
       >
     </div>
   </div>

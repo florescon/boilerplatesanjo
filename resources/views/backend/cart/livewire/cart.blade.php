@@ -1,20 +1,16 @@
 <x-backend.card>
 
-
-	@if(count($cart['products']) > 0)
+	@if(count($cartVar['products']) > 0)
 		<x-slot name="header">
             <strong style="color: #0061f2;"> @lang('Cart order') </strong>
 	 	</x-slot>
 	@endif
 
   	<x-slot name="headerActions">
-      <x-utils.link class="card-header-action" wire:click="clearCart" :text="__('Clear cart')" />
+      <x-utils.link class="card-header-action" wire:click="clearCartAll" :text="__('Clear cart')" />
 	</x-slot>
 
-
     <x-slot name="body">
-
-	  	{{-- @json($cart)	 --}}
 
 		<div class="row mb-4 justify-content-md-center">
 			<div class="col-8">
@@ -22,16 +18,15 @@
 			</div>
 		</div>
 
-        @if(count($cart['products']) > 0 || count($cart['products_sale']))
+        @if(count($cartVar['products']) > 0 || count($cartVar['products_sale']))
 		<div class="row ">
-			<div class="col-12 col-sm-6 col-md-8">
+			<div class="col-12 col-sm-6 col-md-8" wire:ignore>
 
-				@if(count($cart['products']) > 0)
+				@if(count($cartVar['products']) > 0)
 				<div class="table-responsive">
 					<table class="table">
 					  <thead class="table-primary">
 					    <tr>
-					      <th>ID</th>
 					      <th scope="col">@lang('Code')</th>
 					      <th scope="col">@lang('Product')</th>
 
@@ -42,9 +37,8 @@
 					    </tr>
 					  </thead>
 					  <tbody>
-			            @foreach($cart['products'] as $product)
+			            @foreach($cartVar['products'] as $product)
 						    <tr>
-					    	  <td>{{ $product->id }}</td>
 					    	  <td>
 					    	  	{{!is_null($product->code) || !empty($product->code)? 
 						      			$product->code : $product->parent->code 
@@ -53,17 +47,18 @@
 						      <td>
 								<a href="{{ route('admin.product.consumption_filter', $product->id) }}" target=”_blank”> <span class="badge badge-warning"> <i class="cil-color-fill"></i></span></a>
 						      	{!! $product->full_name !!} </td>
-						      <td>${{!is_null($product->price) || $product->price != 0 ? 
+						      <td>
+						      	${{!is_null($product->price) || $product->price != 0 ? 
 						      			$product->price : $product->parent->price 
 						      	}}
 						      </td>
 
 						      <td style="width:120px; max-width: 120px;" >
-			                    <livewire:backend.cart-update-form :item="$product" :key="$product->id" />
+			                    <livewire:backend.cart-update-form :item="$product" :key="$product->id" :typeCart="'products'" />
 						      </td>
 
 						      <td>
-								<a wire:click="removeFromCart({{ $product->id }})" class="badge badge-danger text-white">@lang('Delete')</a>
+								<a wire:click="removeFromCart({{ $product->id }}, 'products')" class="badge badge-danger text-white">@lang('Delete')</a>
 						  	  </td>
 						    </tr>
 					    @endforeach
@@ -72,27 +67,40 @@
 				</div>
 				@endif
 
-				@if(count($cart['products_sale']) > 0)
+				@if(count($cartVar['products_sale']) > 0)
 				<div class="table-responsive">
 					<table class="table">
 					  <thead class="table-success">
 					    <tr>
-					      <th>ID</th>
+					      <th scope="col">@lang('Code')</th>
 					      <th scope="col">@lang('Product')</th>
 					      {{-- <th scope="col">@lang('Amount')</th> --}}
+					      <th scope="col">@lang('Price')</th>
 					      <th scope="col">@lang('Amount')</th>
 					      <th scope="col"></th>
 					    </tr>
 					  </thead>
 					  <tbody>
-			            @foreach($cart['products_sale'] as $product_sale)
+			            @foreach($cartVar['products_sale'] as $product_sale)
 						    <tr>
-					    	  <td>{{ $product_sale->id }}</td>
+					    	  <td>
+					    	  	{{!is_null($product_sale->code) || !empty($product_sale->code) ? 
+						      			$product_sale->code : $product_sale->parent->code 
+						      		}}
+					    	  </td>
 						      <td>							
-						      	{!! $product_sale->full_name !!} </td>
-						      <td>{{ $product_sale->amount }}</td>
+						      	{!! $product_sale->full_name !!} 
+						      </td>
 						      <td>
-								<a wire:click="removeFromCartSale({{ $product_sale->id }})" class="badge badge-danger text-white">@lang('Delete')</a>
+						      	${{!is_null($product_sale->price) || $product_sale->price != 0 ? 
+						      			$product_sale->price : $product_sale->parent->price 
+						      	}}
+						      </td>
+						      <td>
+			                    <livewire:backend.cart-update-form :item="$product_sale" :key="$product_sale->id" :typeCart="'products_sale'" />
+						      </td>
+						      <td>
+								<a wire:click="removeFromCart({{ $product_sale->id }}, 'products_sale')" class="badge badge-danger text-white">@lang('Delete')</a>
 						  	  </td>
 						    </tr>
 					    @endforeach
@@ -156,10 +164,13 @@
 			</div>
 
 		@endif
+
+	  	{{-- @json($cartVar)	 --}}
+
 	</x-slot>
 
 
-	@if(count($cart['products']) > 0)
+	@if(count($cartVar['products']) > 0 || count($cartVar['products_sale']) > 0)
 		<x-slot name="footer">
 		  <footer class="float-right">
 		  	<button type="button" wire:click="checkout" class="btn btn-primary">@lang('Checkout')</button>

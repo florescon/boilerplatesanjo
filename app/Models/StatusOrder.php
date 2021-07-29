@@ -32,6 +32,14 @@ class StatusOrder extends Model
         return $this->belongsTo(Status::class);
     }
 
+    /**
+     * @return mixed
+     */
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+
 
     public function getNameStatusAttribute()
     {

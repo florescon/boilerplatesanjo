@@ -22,6 +22,7 @@ class OrderTable extends Component
         'perPage',
     ];
 
+    public $title = [];
 
     public $perPage = '10';
 
@@ -58,16 +59,34 @@ class OrderTable extends Component
             })
             ->when($this->sortField, function ($query) {
                 $query->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc');
-            })
-            ->whereNull('parent_order_id');
-
-        if ($this->status === 'deleted') {
-            return $query->onlyTrashed();
-        }
+            });
 
         $this->applySearchFilter($query);
 
-        return $query;
+        if ($this->status === 'deleted') {
+            $this->title = ['title' => 'Deleted orders', 'color' => 'danger'];
+            return $query->onlyTrashed();
+        }
+        if ($this->status === 'suborders') {
+            $this->title = ['title' => 'List of suborders', 'color' => 'info'];
+            return $query->onlySuborders();
+        }
+        if ($this->status === 'sales') {
+            $this->title = ['title' => 'List of sales', 'color' => 'success'];
+            return $query->onlySales();
+        }
+        if ($this->status === 'mix') {
+            $this->title = ['title' => 'List of mix', 'color' => 'warning'];
+            return $query->onlyMix();
+        }
+        if ($this->status === 'all') {
+            $this->title = ['title' => 'List of all', 'color' => 'dark'];
+            return $query->onlyAll();
+        }
+
+        $this->title = ['title' => 'List of orders', 'color' => 'primary'];
+
+        return $query->onlyOrders();
 
     }
 

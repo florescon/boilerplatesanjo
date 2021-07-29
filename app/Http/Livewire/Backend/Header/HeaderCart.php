@@ -18,6 +18,7 @@ class HeaderCart extends Component
         'productRemovedSale' => 'updateCartTotalSale',
         'clearCart' => 'updateCartTotal',
         'clearCartSale' => 'updateCartTotalSale',
+        'clearCartAll' => 'updateCartTotalAll',
     ];
 
     public function mount(): void
@@ -33,6 +34,12 @@ class HeaderCart extends Component
 
     public function updateCartTotalSale(): void
     {
+        $this->cartTotalSale = count(Cart::get()['products_sale']);
+    }
+
+    public function updateCartTotalAll(): void
+    {
+        $this->cartTotal = count(Cart::get()['products']);
         $this->cartTotalSale = count(Cart::get()['products_sale']);
     }
 

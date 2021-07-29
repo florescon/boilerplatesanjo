@@ -8,6 +8,9 @@ use Livewire\WithPagination;
 use App\Http\Livewire\Backend\DataTable\WithBulkActions;
 use App\Http\Livewire\Backend\DataTable\WithCachedRows;
 use Carbon\Carbon;
+use Symfony\Component\HttpFoundation\Response;
+use App\Exports\ProductsExport;
+use Excel;
 
 class ListProducts extends Component
 {
@@ -20,10 +23,14 @@ class ListProducts extends Component
 
     public $searchTerm = '';
     public $perPage = '12';
+    public $dateInput = '';
+    public $dateOutput = '';
 
 	protected $queryString = [
         'searchTerm' => ['except' => ''],
         'perPage',
+        'dateInput' => ['except' => ''],
+        'dateOutput' => ['except' => '']
     ];
 
 
@@ -44,7 +51,12 @@ class ListProducts extends Component
         
         $query = Product::query()
             ->with('parent', 'color', 'size')
-            ->where('parent_id', '<>', NULL)->orderBy('updated_at', 'desc');
+            ->where('parent_id', '<>', NULL)->orderBy('updated_at', 'desc')
+            ->when($this->dateInput, function ($query) {
+                empty($this->dateOutput) ?
+                    $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', now()]) :
+                    $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59']);
+            });
 
         $this->applySearchFilter($query);
 
@@ -61,6 +73,12 @@ class ListProducts extends Component
         });
     }
 
+    public function clearFilterDate()
+    {
+        $this->dateInput = '';
+        $this->dateOutput = '';
+    }
+
 
     public function clear()
     {
@@ -68,6 +86,18 @@ class ListProducts extends Component
         $this->page = 1;
         $this->perPage = '12';
     }
+
+
+    public function clearAll()
+    {
+        $this->dateInput = '';
+        $this->dateOutput = '';
+        $this->page = 1;
+        $this->perPage = '12';
+        $this->selectPage = false;
+    }
+
+
 
     public function updatedSearchTerm()
     {
@@ -78,6 +108,24 @@ class ListProducts extends Component
     public function updatedPerPage()
     {
         $this->page = 1;
+    }
+
+
+    public function export()
+    {
+        return response()->streamDownload(function () {
+            echo $this->selectedRowsQuery->toCsv();
+        }, 'color-list.csv');
+    }
+
+    private function getSelectedProducts()
+    {
+        return $this->selectedRowsQuery->get()->pluck('id')->map(fn($id) => (string) $id)->toArray();
+    }
+    public function exportMaatwebsite($extension)
+    {   
+        abort_if(!in_array($extension, ['csv','xlsx', 'pdf', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
+        return Excel::download(new ProductsExport($this->getSelectedProducts()), 'colors.'.$extension);
     }
 
     public function render()

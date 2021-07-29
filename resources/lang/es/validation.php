@@ -151,5 +151,7 @@ return [
         'code' => 'código',
         'part_number' => 'número de parte',
         'description' => 'descripción',
+        'size_id' => 'talla',
+        'color_id' => 'color',
     ],
 ];

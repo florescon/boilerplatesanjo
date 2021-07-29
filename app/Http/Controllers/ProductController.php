@@ -34,7 +34,7 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
 
-    	if($product->parent_id){
+    	if($product->isChildren()){
     		abort(401);
     	}
 
@@ -45,7 +45,7 @@ class ProductController extends Controller
     public function advanced(Product $product)
     {
 
-        if($product->parent_id){
+        if($product->isChildren()){
             abort(404);
         }
 
@@ -56,7 +56,7 @@ class ProductController extends Controller
     public function prices(Product $product)
     {
 
-        if($product->parent_id){
+        if($product->isChildren()){
             abort(404);
         }
 
@@ -67,7 +67,7 @@ class ProductController extends Controller
     public function pictures(Product $product)
     {
 
-        if($product->parent_id){
+        if($product->isChildren()){
             abort(404);
         }
 
@@ -78,7 +78,7 @@ class ProductController extends Controller
     public function moveStock(Product $product)
     {
 
-        if($product->parent_id){
+        if($product->isChildren()){
             abort(404);
         }
 
@@ -88,7 +88,7 @@ class ProductController extends Controller
 
     public function consumption(Product $product)
     {
-        if($product->parent_id){
+        if($product->isChildren()){
             abort(404);
         }
         return view('backend.product.consumption-product')
@@ -98,6 +98,9 @@ class ProductController extends Controller
 
     public function consumption_filter(Product $product)
     {
+        if(!$product->isChildren()){
+            abort(404);
+        }
         return view('backend.product.consumption-product-filter')
             ->withProduct($product);
     }

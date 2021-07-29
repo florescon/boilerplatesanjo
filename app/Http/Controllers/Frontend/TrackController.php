@@ -19,11 +19,9 @@ class TrackController extends Controller
         $this->middleware('signed')->only('track');
     }
 
-    public function discount()
+    public function orderTrack()
     {
-        return URL::temporarySignedRoute(
-            'discountCode', now()->addMinutes(30)
-        );
+        return 'sii';
     }
 
 }

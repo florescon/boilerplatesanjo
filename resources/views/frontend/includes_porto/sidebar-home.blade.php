@@ -1,10 +1,10 @@
 					<aside class="sidebar-home col-lg-3 order-lg-first mobile-sidebar">
 						<div class="side-menu-wrapper text-uppercase mb-2 d-none d-lg-block">
-							<h2 class="side-menu-title bg-gray ls-n-25">Browse Categories</h2>
+							<h2 class="side-menu-title bg-gray ls-n-25">@lang('Navigation')</h2>
 
 							<nav class="side-nav">
 								<ul class="menu menu-vertical sf-arrows">
-									<li class="active"><a href="index-2.html"><i class="icon-home"></i>Home</a></li>
+									<li class="active"><a href="{{ url('/') }}"><i class="icon-home"></i>@lang('Home')</a></li>
 									<li>
 										<a href="category.html" class="sf-with-ul"><i class="sicon-badge"></i>Categories</a>
 										<div class="megamenu megamenu-fixed-width megamenu-3cols">
@@ -12,7 +12,7 @@
 												<div class="col-lg-4">
 													<a href="#" class="nolink">VARIATION 1</a>
 													<ul class="submenu">
-														<li><a href="category.html">Fullwidth Banner</a></li>
+														<li><a href="#">Fullwidth Banner</a></li>
 														<li><a href="category-banner-boxed-slider.html">Boxed Slider Banner</a></li>
 														<li><a href="category-banner-boxed-image.html">Boxed Image Banner</a></li>
 														<li><a href="category.html">Left Sidebar</a></li>
@@ -103,12 +103,12 @@
 											<li><a href="#">Blog</a>
 												<ul>
 													<li><a href="blog.html">Blog</a></li>
-													<li><a href="single.html">Blog Post</a></li>
+													<li><a href="#">Blog Post</a></li>
 												</ul>
 											</li>
-											<li><a href="contact.html">Contact Us</a></li>
+											<li><a href="#">Contact Us</a></li>
 											<li><a href="#" class="login-link">Login</a></li>
-											<li><a href="forgot-password.html">Forgot Password</a></li>
+											<li><a href="#">Forgot Password</a></li>
 										</ul>
 									</li>
 									<li><a href="#" class="sf-with-ul"><i class="sicon-book-open"></i>Features</a>
@@ -197,7 +197,7 @@
 							}">
 								<article class="post">
                                     <div class="post-media">
-                                        <a href="single.html">
+                                        <a href="#">
                                             <img src="{{ asset('/porto/assets/images/blog/home/post-1.jpg')}}" alt="Post">
                                         </a>
 										<div class="post-date">
@@ -208,20 +208,20 @@
 
                                     <div class="post-body">
                                         <h2 class="post-title m-b-2">
-                                            <a href="single.html">Fashion Trends</a>
+                                            <a href="#">Fashion Trends</a>
                                         </h2>
 
                                         <div class="post-content">
                                             <p>Euismod atras vulputate iltricies etri elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per incep tos himens.</p>
 
-                                            <a href="single.html" class="read-more">read more <i class="icon-right-open"></i></a>
+                                            <a href="#" class="read-more">read more <i class="icon-right-open"></i></a>
                                         </div><!-- End .post-content -->
                                     </div><!-- End .post-body -->
 								</article>
 
 								<article class="post">
 									<div class="post-media">
-										<a href="single.html">
+										<a href="#">
 											<img src="{{ asset('/porto/assets/images/blog/home/post-2.jpg')}}" alt="Post">
 										</a>
 										<div class="post-date">
@@ -232,20 +232,20 @@
 
 									<div class="post-body">
 										<h2 class="post-title m-b-2">
-											<a href="single.html">Fashion Trends</a>
+											<a href="#">Fashion Trends</a>
 										</h2>
 
 										<div class="post-content">
 											<p>Euismod atras vulputate iltricies etri elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per incep tos himens.</p>
 
-											<a href="single.html" class="read-more">read more <i class="icon-right-open"></i></a>
+											<a href="#" class="read-more">read more <i class="icon-right-open"></i></a>
 										</div><!-- End .post-content -->
 									</div><!-- End .post-body -->
 								</article>
 
 								<article class="post">
 									<div class="post-media">
-										<a href="single.html">
+										<a href="#">
 											<img src="{{ asset('/porto/assets/images/blog/home/post-3.jpg')}}" alt="Post">
 										</a>
 										<div class="post-date">
@@ -256,13 +256,13 @@
 
 									<div class="post-body">
 										<h2 class="post-title m-b-2">
-											<a href="single.html">Fashion Trends</a>
+											<a href="#">Fashion Trends</a>
 										</h2>
 
 										<div class="post-content">
 											<p>Euismod atras vulputate iltricies etri elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per incep tos himens.</p>
 
-											<a href="single.html" class="read-more">read more <i class="icon-right-open"></i></a>
+											<a href="#" class="read-more">read more <i class="icon-right-open"></i></a>
 										</div><!-- End .post-content -->
 									</div><!-- End .post-body -->
 								</article>

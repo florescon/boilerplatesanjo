@@ -56,7 +56,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <h3 class="h5 mb-4 text-center">@lang('Total stock'): {{ $model->getTotalStock() }}</h3>
+                        <h3 class="h5 mb-4 text-center">@lang('Total stock'): {{ $model->total_stock }}</h3>
 
                         <div class="table-responsive">
                             <table class="table table-borderless">

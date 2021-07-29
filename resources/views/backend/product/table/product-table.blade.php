@@ -2,9 +2,6 @@
 
 	<div class="card-body">
 
-		{{-- @json($products) --}}
-
-
 	@if($status != 'deleted')
 	<div class="row mb-4 justify-content-md-center">
 		<div class="col-8">
@@ -38,6 +35,14 @@
 
 		      <p class="card-text">{!! $product->description_limited !!}</p>
 		      <p class="card-text"><small class="text-muted">@lang('Last Updated') {{ $product->updated_at->diffForHumans() }}</small></p>
+
+		      @if(!$product->status)
+			      <p class="card-text">
+			      	<small class="text-danger">
+			      		@lang('Desactivated product')
+			      	</small>
+			      </p>
+		      @endif
 			<a href="{{ route('admin.product.edit',  $product->id) }}" class="stretched-link"></a>
 		    </div>
 
@@ -56,8 +61,13 @@
 			    </li>
 
 			    <li class="list-group-item">
-			    	<strong>@lang('Stock'): </strong> {{ $product->getTotalStock() }} 
+			    	<strong>@lang('Stock'): </strong> {{ $product->total_stock }}
 			    </li>
+			    @if($product->children_count > 0)
+				    <li class="list-group-item">
+				    	<strong>@lang('Variations'): </strong> {{ $product->children_count }}
+				    </li>
+			    @endif
 
 			  </ul>
 

@@ -15,6 +15,7 @@ class CreateProductOrderTable extends Migration
     {
         Schema::create('product_order', function (Blueprint $table) {
             $table->id();
+            $table->string('random_string')->nullable();
             $table->unsignedBigInteger('order_id')->nullable();
             $table->unsignedBigInteger('suborder_id')->nullable();
             $table->unsignedBigInteger('product_id')->nullable();
