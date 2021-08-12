@@ -144,6 +144,8 @@ return [
     */
 
     'attributes' => [
+        'password' => 'contraseña',
+        'current_password' => 'contraseña actual',
         'name' => 'nombre',
         'short_name' => 'nombre corto',
         'color' => 'color',

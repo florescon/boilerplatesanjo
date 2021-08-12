@@ -14,7 +14,7 @@
           theme: 'bootstrap4',
           allowClear: true,
           ajax: {
-                url: '{{ route('admin.line.select') }}',
+                url: '{{ route('frontend.lineSelect') }}',
                 data: function (params) {
                     return {
                         search: params.term,

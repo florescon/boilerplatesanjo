@@ -1533,7 +1533,25 @@ pre {
 	left: 50%;
 	margin-left: 2px;
 	z-index: 2;
-	width: 18px;
+	min-width: 18px;
+	width: auto;
+	height: 18px;
+	line-height: 18px;
+	font-size: 12px;
+	border-radius: 50%;
+	display: block;
+	text-align: center;
+	font-weight: 500;
+}
+
+.btn-small-icon-custom{
+	position: absolute;
+	top: 5px;
+	left: 90%;
+	margin-left: 2px;
+	z-index: 2;
+	min-width: 18px;
+	width: auto;
 	height: 18px;
 	line-height: 18px;
 	font-size: 12px;
@@ -7193,8 +7211,8 @@ body.modal-open {
 	width: 800px;
 	max-width: 100%;
 	min-width: 200px;
-	height: 40vh;
-	min-height: 250px;
+	/*height: 40vh;*/
+	min-height: 170px;
 	background-size: cover;
 	overflow: hidden;
 }
@@ -8955,13 +8973,15 @@ body.pricing-opt-body-2 .pricing-opt-2 {
 	background-image: linear-gradient(to right, var(--dark), var(--dark-blue));
 	box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1);
 	z-index: 20000;
-	width: 1400px;
+	width: 1300px;
 	max-width: calc(100% - 40px);
 	left: 50%;
 	bottom: 40px;
 	padding: 15px 5px;
 	transform: translateX(-50%);
 	border-radius: 4px;
+	/*border: 1px solid white;*/
+	box-shadow: white 0px 4px 12px;
 }
 
 /* #Footers
@@ -10218,7 +10238,7 @@ body.triger-anime .load-anime-top {
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center;
-	background-image: url('../img/revolution-background.jpg');
+	background-image: url('../img/slider/cont.jpg');
 }
 .section-background-soon {
 	background-repeat: no-repeat;

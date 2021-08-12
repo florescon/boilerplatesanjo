@@ -38,6 +38,6 @@ class ConfirmPasswordController extends Controller
      */
     public function showConfirmForm()
     {
-        return view('frontend.auth.passwords.confirm');
+        return view('frontend.auth.passwords.confirm_ga');
     }
 }

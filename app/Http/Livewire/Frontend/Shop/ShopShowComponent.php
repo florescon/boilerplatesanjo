@@ -50,7 +50,7 @@ class ShopShowComponent extends Component
 
         $model = Product::with('pictures')->findOrFail($this->product_id);
 
-        $featured_products = Product::with('line')->whereNull('parent_id')->orderBy('updated_at', 'desc')->onlyActive()->limit(6)->get();
+        $featured_products = Product::with('line')->whereNull('parent_id')->inRandomOrder()->onlyActive()->limit(6)->get();
 
         $attributes = Product::with('children')->findOrFail($this->product_id);
 

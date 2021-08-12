@@ -31,7 +31,7 @@ class HeaderCartPorto extends Component
 
     public function render()
     {
-        return view('frontend.header.cart-porto');
+        return view('frontend.header.cart-ga');
     }
 
 }

@@ -25,4 +25,11 @@ class ColorController extends Controller
         return response()->json(['items' => $data->toArray()['data'], 'pagination' => $data->nextPageUrl() ? true : false]);
     }
 
+    public function select2LoadMoreFrontend(Request $request)
+    {
+        $search = $request->get('search');
+        $data = Color::select(['id', 'name'])->where('name', 'like', '%' . $search . '%')->orderBy('name')->paginate(5);
+        return response()->json(['items' => $data->toArray()['data'], 'pagination' => $data->nextPageUrl() ? true : false]);
+    }
+
 }

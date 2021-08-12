@@ -1,66 +1,77 @@
 <div>
-	{{-- {{ $amount }} --}}
-	<div class="product-filters-container">
-		<div class="product-single-filter">
-			<label>@lang('Colors'):</label>
-			<ul class="config-size-list">
-				@foreach($attributes->children->unique('color_id')->sortBy('color.name') as $children)
-
-					<li>
-						<a 
-							class="{{ $color_id ==  $children->color_id ? 'gradient-border' : '' }}"
-		                	wire:click.prevent="setColor({{ $children->color_id }})" href="#"
-							style="background-color: {{ optional($children->color)->color }}; ">
-						</a>
-					</li>
-
-				@endforeach
-			</ul>
-		</div><!-- End .product-single-filter -->
-        @error('color_id') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
-
-		<div class="product-single-filter">
-			<label>@lang('Sizes'): </label>
-			<ul class="config-size-list">
-				@foreach($attributes->children->unique('size_id')->sortBy('size.name') as $children) 
-
-					<li>
-						<a 
-		                	class="{{ $size_id ==  $children->size_id ? 'gradient-border' : '' }}"
-		                	wire:click.prevent="setSize({{ $children->size_id }})" href="#"
-						>{{ optional($children->size)->short_name }}
-						</a>
-					</li>
-
-				@endforeach
-			</ul>
-		</div><!-- End .product-single-filter -->
-        @error('size_id') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
-	</div><!-- End .product-filters-container -->
-
-	<div wire:ignore>
-		<hr class="divider">
-
-		<div class="product-action">
-			<div class="product-single-qty">
-				<input onchange="@this.set('amount', this.value)" id="amount" name="amount" class="horizontal-quantity form-control" type="text">
-			</div><!-- End .product-single-qty -->
-
-			<a wire:click="add_cart" class="btn btn-dark add-cart icon-shopping-cart text-white" title="Add to Cart">@lang('Add to cart')</a>
-
-          {{-- <button type="button" class="btn btn-primary btn-md mr-1 mb-2">Buy now</button>
-          <button type="button" class="btn btn-light btn-md mr-1 mb-2"><i class="fas fa-shopping-cart pr-2"></i>Add to cart</button> --}}
-
-		</div><!-- End .product-action -->
+	<div class="row pt-4">
+		<div class="col-12">
+			<h6 class="mb-3">
+				@lang('Colors'):
+			</h6>
+		</div>
+		<div class="col-12 col-md-9 col-lg-7 col-xl-12">
+				<div class="form-group mx-auto">
+					{{-- @json($color_id) --}}
+					<div class="row px-1">
+						@foreach($attributes->children->unique('color_id')->sortBy('color.name') as $children)
+						<div class="col px-1" style="{{ optional($children->color)->color ? 'min-width:3rem; max-width: 3rem;' : 'max-width: 100px;'}} height:3rem">
+							<input class="checkbox-color" type="radio" wire:model="color_id" value="{{ $children->color_id }}" name="color" id="{{ $children->color_id }}">
+							<label class="for-checkbox-color" style="color: black; background-color: {{ optional($children->color)->color }};" for="{{ $children->color_id }}"> {{ optional($children->color)->color ? '' :  optional($children->color)->name }} </label>
+						</div>  
+						@endforeach
+					</div>             
+			        @error('color_id') 
+			        	<span class="error">
+			        		<p style="color:red;">{{ $message }}</p>
+			        	</span> 
+			        @enderror
+				</div>
+		</div>
 	</div>
+	<div class="row pt-4">
+		<div class="col-12">
+			<h6 class="mb-3">
+				@lang('Sizes'):
+			</h6>
+		</div>
+		<div class="col-12 col-md-3 col-lg-3 col-xl-12">
+			<div class="form-group mx-auto">
+				<div class="row px-2">
+					@foreach($attributes->children->unique('size_id')->sortBy('size.name') as $children) 
+					<div class="col px-1" style="min-width:3rem; max-width: 3rem ;height:3rem">
+						<input class="checkbox-size" type="radio" wire:model="size_id" value="{{ $children->size_id }}" name="size" id="{{ $children->size_id }}">
+						<label class="for-checkbox-size" for="{{ $children->size_id }}">{{ optional($children->size)->short_name ?? optional($children->size)->name }}</label>
+					</div>  
+					@endforeach
 
-    <div>
-		<hr class="divider">
+				</div>              
+
+		        @error('size_id') 
+		        	<span class="error">
+		        		<p style="color:red;">{{ $message }}</p>
+		        	</span> 
+		        @enderror
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12 py-4">
+			<div class="section divider divider-gray"></div>
+		</div>
+	</div>
+	<div class="row" wire:ignore>
+		<div class="col-auto pr-sm-2">
+			<div class="quantity shop-quantity">
+				<input type="number" onchange="@this.set('amount', this.value)" min="1" max="9999" step="1" value="1" >
+			</div>	
+		</div>
+		<div class="col-sm mt-2 mt-sm-0 pl-sm-0">
+			<a  wire:click="add_cart" class="btn btn-dark-primary" href="javascript:void(0)"><i class="uil uil-cart size-20 mr-2"></i>@lang('Add to cart')</a>
+		</div>
+	</div>
+    <div class="py-4">
         @if (session()->has('message'))
             <div class="alert alert-success">
                 {{ session('message') }}
             </div>
         @endif
     </div>
+
 
 </div>

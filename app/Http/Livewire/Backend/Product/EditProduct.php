@@ -13,7 +13,8 @@ class EditProduct extends Component
 
     use WithFileUploads;
 
-    public $shortId, $isCode, $code, $isDescription, $origDescription, $newDescription, $increaseStock, $subtractStock, $increaseStockRevision, $subtractStockRevision, $increaseStockStore, $subtractStockStore, $inputincrease, $inputsubtract, $inputincreaserevision, $inputsubtractrevision, $inputincreasestore, $inputsubtractstore, $product_id, $color_id_select, $size_id_select, $photo, $imageName, $origPhoto, $colorss;
+    public $shortId, $isCode, $code, $isDescription, $origDescription, $newDescription, $increaseStock, $subtractStock, $increaseStockRevision, $subtractStockRevision, $increaseStockStore, $subtractStockStore, $inputincrease, $inputsubtract, $inputincreaserevision, $inputsubtractrevision, $inputincreasestore, $inputsubtractstore, $product_id, $color_id_select, $size_id_select, $photo, $imageName, $origPhoto, $colorss, $line_id;
+
 
     public $colorsmultiple_id = [];
     public $sizesmultiple_id = [];
@@ -70,6 +71,13 @@ class EditProduct extends Component
         Product::whereId($this->product_id)->update(['status' => true]);
         return redirect()->route('admin.product.edit', $this->product_id);
     }
+
+    public function saveLine()
+    {
+        Product::whereId($this->product_id)->update(['line_id' => $this->line_id]);
+        return redirect()->route('admin.product.edit', $this->product_id);
+    }
+
 
     public function desactivateProduct()
     {

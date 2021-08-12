@@ -14,6 +14,6 @@ class AccountController extends Controller
      */
     public function index()
     {
-        return view('frontend.user.account_porto');
+        return view('frontend.user.account_ga');
     }
 }

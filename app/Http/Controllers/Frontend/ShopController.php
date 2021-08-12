@@ -26,7 +26,9 @@ class ShopController extends Controller
     		abort(404);
     	}
 
-        return view('frontend.shop.show', compact('shop'));
+        $related_products = Product::with('line')->whereNull('parent_id')->inRandomOrder()->onlyActive()->limit(4)->get();
+
+        return view('frontend.shop.show', compact('shop', 'related_products'));
     }
 
 

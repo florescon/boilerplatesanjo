@@ -55,6 +55,6 @@ class VerificationController extends Controller
     {
         return $request->user()->hasVerifiedEmail()
             ? redirect($this->redirectPath())
-            : view('frontend.auth.verify_porto');
+            : view('frontend.auth.verify_ga');
     }
 }

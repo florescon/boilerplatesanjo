@@ -1501,11 +1501,11 @@
 
     var galleryThumbs = new Swiper('.swiper-product-page-thumbs', {
 		spaceBetween: 5,
-		slidesPerView: '3',
+		slidesPerView: '5',
 		centeredSlides: false,
 		touchRatio: 0.2,
 		slideToClickedSlide: true,
-		loop: false,
+		loop: true,
 		watchSlidesVisibility: true,
 		watchSlidesProgress: true,
     });

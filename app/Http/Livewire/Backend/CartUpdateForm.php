@@ -4,11 +4,9 @@ namespace App\Http\Livewire\Backend;
 
 use Livewire\Component;
 use App\Facades\Cart as CartFacade;
-// use Session;
 
 class CartUpdateForm extends Component
 {
-
     public $item = [];
     public $quantity = 0;
     public string $typeCart;

@@ -39,7 +39,7 @@
 		      @if(!$product->status)
 			      <p class="card-text">
 			      	<small class="text-danger">
-			      		@lang('Desactivated product')
+			      		@lang('Disabled product')
 			      	</small>
 			      </p>
 		      @endif

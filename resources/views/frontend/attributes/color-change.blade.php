@@ -14,7 +14,7 @@
           theme: 'bootstrap4',
           allowClear: true,
           ajax: {
-                url: '{{ route('admin.color.select') }}',
+                url: '{{ route('frontend.colorSelect') }}',
                 data: function (params) {
                     return {
                         search: params.term,

@@ -31,10 +31,11 @@ class HeaderCartPortoDrop extends Component
 
     public function render()
     {
-        $this->cart = CartFacade::get()['products'];
+        $this->cart = array_slice(CartFacade::get()['products'], 0, 4);
         $this->cartTotal = count(CartFacade::get()['products']);
         $this->cartTotalOrder = count(CartFacade::get()['products_sale']);
 
-        return view('frontend.header.cart-porto-drop');
+        // return view('frontend.header.cart-porto-drop');
+        return view('frontend.includes_ga.modal-cart');
     }
 }

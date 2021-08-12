@@ -1,239 +1,320 @@
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-9 main-content">
-						<div class="product-single-container product-single-default">
+
+			<div class="section-1400">
+				<div class="container-fluid">
+					<div class="row justify-content-center">
+						<div class="col-sm-8 col-md-6 col-lg-5 col-xl-4 pr-xl-5">
+							<div class="section swiper-product-page pb-1 over-hide">
+								<div class="swiper-wrapper">
+									<div class="swiper-slide">
+										<a href="{{ asset('/storage/' . $origPhoto) }}" data-fancybox="gallery">
+											<div class="section border-4 over-hide img-wrap">
+												<img class="border-4" src="{{ asset('/storage/' . $origPhoto) }}" onerror="this.onerror=null;this.src='/porto/assets/images/not0.png';" alt="">
+											</div>
+										</a>
+									</div>
+
+									@foreach($model->pictures as $pict)
+									<div class="swiper-slide">
+										<a href="{{ asset('/storage/' . $pict->picture) }}" data-fancybox="gallery">
+											<div class="section border-4 over-hide img-wrap">
+												<img class="border-4" src="{{ asset('/storage/' . $pict->picture) }}" alt="">
+											</div>
+										</a>
+									</div>
+									@endforeach
+								</div>
+							</div>
+							<div class="row justify-content-center">
+								<div class="col-8">
+									<div class="section swiper-product-page-thumbs over-hide">
+										<div class="swiper-wrapper">
+											<div class="swiper-slide">
+												<div class="section border-4 over-hide img-wrap product-thumbs">
+													<img src="{{ asset('/storage/' . $origPhoto) }}" alt="">
+												</div>
+											</div>
+											@foreach($model->pictures as $pict)
+											<div class="swiper-slide">
+												<div class="section border-4 over-hide img-wrap product-thumbs">
+													<img src="{{ asset('/storage/' . $pict->picture) }}" alt="">
+												</div>
+											</div>
+											@endforeach
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-8 col-md-6 col-lg-7 col-xl-5 pr-xl-5 mt-5 mt-md-0">
 							<div class="row">
-								<div class="col-lg-7 col-md-6 product-single-gallery">
-									<div class="product-slider-container" wire:ignore>
-										<div class="product-single-carousel owl-carousel owl-theme">
-											<div class="product-item">
-												<img class="product-single-image" src="{{ asset('/storage/' . $origPhoto) }}" onerror="this.onerror=null;this.src='/porto/assets/images/not0.png';" data-zoom-image="{{ asset('/storage/' . $origPhoto) }}"/>
-											</div>
+								<div class="col">
+									<h3 class="mb-0 font-weight-700">
+										<span class="text-line-through mr-1 color-gray size-22">${{ $model->price*((100+15))/100 }}</span> <span>${{ $model->price }}</span>
+									</h3>
+								</div>
+								<div class="col-auto align-self-center">
+									<p class="mb-0 size-18 color-yellow">
+										@for ($i = 0; $i < rand(4,5); $i++)
+											<i class="uil uil-star"></i>
+										@endfor
+										@if($i === 4)
+											<i class="uil uil-star color-gray"></i>
+										@endif
+									</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-12 pt-2 pb-3">
+									<div class="section divider divider-gray"></div>
+								</div>
+							</div>
+							@if($model->description)
+							<div class="row">
+								<div class="col-12">
+									<p class="mb-0">
+										{{ $model->description }}
+									</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-12 pt-3">
+									<div class="section divider divider-gray"></div>
+								</div>
+							</div>
+							@endif
 
-											@foreach($model->pictures as $picture)
-											<div class="product-item">
-												<img class="product-single-image" src="{{ asset('/storage/' . $picture->picture) }}" data-zoom-image="{{ asset('/storage/' . $picture->picture) }}"/>
-											</div>
-											@endforeach
-										</div>
-										<!-- End .product-single-carousel -->
-										<span class="prod-full-screen">
-											<i class="icon-plus"></i>
-										</span>
-									</div>
-									@if($model->pictures->count())
-										<div class="prod-thumbnail owl-dots" id='carousel-custom-dots'>
-											<div class="owl-dot">
-												<img src="{{ asset('/storage/' . $origPhoto) }}" onerror="this.style.display='none'" />
-											</div>
-											@foreach($model->pictures as $picture)
-											<div class="owl-dot">
-												<img src="{{ asset('/storage/' . $picture->picture) }}"/>
-											</div>
-											@endforeach
-										</div>
-									@endif
-								</div><!-- End .product-single-gallery -->
+								<livewire:frontend.shop.shop-parameters-component :product="$product_id"/>
 
-								<div class="col-lg-5 col-md-6 product-single-details">
-									<h1 class="product-title">{{ $model->name }}</h1>
-
-									<div class="ratings-container">
-										<div class="product-ratings">
-											<span class="ratings" style="width:60%"></span><!-- End .ratings -->
-										</div><!-- End .product-ratings -->
-
-										<a href="#" class="rating-link">( 6 Reviews )</a>
-									</div><!-- End .product-container -->
-
-									<hr class="short-divider">
-
-									<div class="price-box">
-										{{-- <span class="old-price">${{ $model->price }}</span> --}}
-										<span class="product-price">${{ $model->price }}</span>
-									</div><!-- End .price-box -->
-
-									<div class="product-desc">
-										<p>{{ $model->description }}</p>
-									</div><!-- End .product-desc -->
-
-									<livewire:frontend.shop.shop-parameters-component :product="$product_id"/>
-
-									<hr class="divider mb-1">
-
-									<div class="product-single-share">
-										<label class="sr-only">@lang('Share'):</label>
-
-										<div class="social-icons mr-2">
-											<a href="#" class="social-icon social-facebook icon-facebook" target="_blank" title="Facebook"></a>
-											<a href="#" class="social-icon social-twitter icon-twitter" target="_blank" title="Twitter"></a>
-											<a href="#" class="social-icon social-linkedin fab fa-linkedin-in" target="_blank" title="Linkedin"></a>
-											<a href="#" class="social-icon social-gplus fab fa-google-plus-g" target="_blank" title="Google +"></a>
-											<a href="#" class="social-icon social-mail icon-mail-alt" target="_blank" title="Mail"></a>
-										</div><!-- End .social-icons -->
-
-										{{-- @json($getWhislist) --}}
-
-										<a href="#" wire:click="wishlist" class="{{ $getWhislist ? 'add-wishlist-red' : 'add-wishlist' }}" title="Add to Wishlist">@lang('Add to wishlist')</a>
-									</div><!-- End .product single-share -->
-								</div><!-- End .product-single-details -->
-							</div><!-- End .row -->
-						</div><!-- End .product-single-container -->
-
-						<div class="product-single-tabs">
-							<ul class="nav nav-tabs" role="tablist">
-								<li class="nav-item">
-									<a class="nav-link" id="product-tab-desc" data-toggle="tab" href="#product-desc-content" role="tab" aria-controls="product-desc-content" aria-selected="false">Description</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link active" id="product-tab-size" data-toggle="tab" href="#product-size-content" role="tab" aria-controls="product-size-content" aria-selected="true">Informacion tecnica</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" id="product-tab-documentation" data-toggle="tab" href="#product-documentation-content" role="tab" aria-controls="product-documentation-content" aria-selected="true">Documentacion</a>
-								</li>
-							</ul>
-							<div class="tab-content">
-								<div class="tab-pane fade show" id="product-desc-content" role="tabpanel" aria-labelledby="product-tab-desc">
-									<div class="product-desc-content">
-										{!! $model->advanced->description ?? '' !!}
-									</div><!-- End .product-desc-content -->
-								</div><!-- End .tab-pane -->
-		
-								<div class="tab-pane fade active" id="product-size-content" role="tabpanel" aria-labelledby="product-tab-size">
-									<div class="product-size-content">
-											{!! $model->advanced->information ?? '' !!}
-									</div><!-- End .product-size-content -->
-								</div><!-- End .tab-pane -->
-
-								<div class="tab-pane fade" id="product-documentation-content" role="tabpanel" aria-labelledby="product-tab-documentation">
-									<div class="product-documentation-content">
-										<h5>
-                                            <li>
-                                                <a href="{{ route('frontend.shop.datasheet', $model->slug) }}"
-                                                   target="_blank">@lang('Datasheet')</a>
-                                            </li>
-                                        </h5>
-									</div><!-- End .product-documentation-content -->
-								</div><!-- End .tab-pane -->
-		
-							</div><!-- End .tab-content -->
-						</div><!-- End .product-single-tabs -->
-					</div><!-- End .col-lg-9 -->
-
-					<div class="sidebar-overlay"></div>
-					<div class="sidebar-toggle"><i class="fas fa-sliders-h"></i></div>
-					<aside class="sidebar-product col-lg-3 mobile-sidebar">
-						<div class="sidebar-wrapper">
-							<div class="widget widget-collapse">
-								<h3 class="widget-title">
-									<a data-toggle="collapse" href="#widget-body-1" role="button" aria-expanded="true" aria-controls="widget-body-1">@lang('Lines')</a>
-								</h3>
-
-								<div class="collapse show" id="widget-body-1">
-									<div class="widget-body">
-										<ul class="cat-list">
-											@foreach($lines as $line)
-												<li>
-													<a href="#">{{ $line->name }}</a>
-												</li>
-											@endforeach
-										</ul>
-									</div><!-- End .widget-body -->
-								</div><!-- End .collapse -->
-							</div><!-- End .widget -->
-
-							<div class="widget widget-banners px-5 pb-5 text-center">
-								<div class="banner d-flex flex-column align-items-center">
-									<h3 class="badge-sale bg-primary d-flex flex-column align-items-center justify-content-center text-uppercase"><em class="pt-3 ls-0">Scan</em></h3>
-									<p>QR del producto.</p>
-	                                {!! QrCode::size(100)->generate(Request::url()); !!}
-								</div><!-- End .banner -->
-							</div><!-- End .widget -->
-
-							<div class="widget widget-featured">
-								<h3 class="widget-title">@lang('Featured')</h3>
-								
-								<div class="widget-body">
-									<div class="owl-carousel widget-featured-products">
-										@foreach($featured_products->split($featured_products->count()/3) as $featured_product)
-
-										<div class="featured-col">
-											@foreach($featured_product as $featured)
-											<div class="product-default left-details product-widget">
-												<figure>
-													<a href="{{ route('frontend.shop.show', $featured->slug) }}">
-														<img src="{{ asset('/storage/' . $featured->file_name) }}" onerror="this.onerror=null;this.src='/porto/assets/images/not0.png';">
-													</a>
-												</figure>
-												<div class="product-details">
-													<h2 class="product-title">
-														<a href="{{ route('frontend.shop.show', $featured->slug) }}">{{ $featured->name }}</a>
-													</h2>
-													<div class="ratings-container">
-														<div class="product-ratings">
-															<span class="ratings" style="width:100%"></span><!-- End .ratings -->
-															<span class="tooltiptext tooltip-top"></span>
-														</div><!-- End .product-ratings -->
-													</div><!-- End .product-container -->
-													<div class="price-box">
-														<span class="product-price">${{ $featured->price }}</span>
-													</div><!-- End .price-box -->
-												</div><!-- End .product-details -->
-											</div>
-											@endforeach
-										</div><!-- End .featured-col -->
-										@endforeach
-
-									</div><!-- End .widget-featured-slider -->
-								</div><!-- End .widget-body -->
-							</div><!-- End .widget -->
+							<div class="row">
+								<div class="col-12 py-4">
+									<div class="section divider divider-gray"></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-12">
+									<p class="mb-0 text-center-v">
+										<i class="uil uil-check size-22 color-primary mr-2"></i> @lang('Dynamic Color Options')
+									</p>
+									<div class="w-100"></div>
+									<p class="mb-0 text-center-v">
+										<i class="uil uil-check size-22 color-primary mr-2"></i> @lang('Dynamic Size Options')
+									</p>
+									<div class="w-100"></div>
+									<p class="mb-0 text-center-v">
+										<i class="uil uil-check size-22 color-primary mr-2"></i> @lang('Create Order and/or Sale')
+									</p>
+								</div>
+							</div>
 						</div>
-					</aside><!-- End .col-md-3 -->
-				</div><!-- End .row -->
-
-				<div class="products-section pt-0">
-					<h2 class="section-title">@lang('Related products')</h2>
-
-					<div class="products-slider owl-carousel owl-theme dots-top">
-						@foreach($featured_products as $featured_product)
-						<div class="product-default inner-quickview inner-icon">
-							<figure>
-								<a href="{{ route('frontend.shop.show', $featured_product->slug) }}">
-									<img src="{{ asset('/storage/' . $featured_product->file_name) }}" onerror="this.onerror=null;this.src='/porto/assets/images/not0.png';">
-								</a>
-								<div class="label-group">
-									<span class="product-label label-sale">-20%</span>
-								</div>
-								<div class="btn-icon-group">
-									<button class="btn-icon btn-add-cart" data-toggle="modal" data-target="#addCartModal"><i class="icon-shopping-cart"></i></button>
-								</div>
-								{{-- <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View">Quick View</a>  --}}
-							</figure>
-							<div class="product-details">
-								<div class="category-wrap">
-									<div class="category-list">
-										<a href="#" class="product-category">{{ optional($featured_product->line)->name }}</a>
+						<div class="col-xl-3 mt-5 mt-xl-0">
+							<div class="row justify-content-center">
+								<div class="col-sm-6 col-lg-4 col-xl-12">
+									<div class="section">
+										<h6 class="mb-3">
+											@lang('Search product')
+										</h6>
+										<div class="row">
+											<div class="col pr-0">
+                                    		<form action="{{ route('frontend.shop.index') }}" method="get">
+													<div class="form-group just-line-light">
+														<input type="text" name="searchTermShop" id="searchTermShop" class="form-style" placeholder="{{ __('Search') }}..." autocomplete="off">
+													</div>
+												</form>
+											</div>
+											<div class="col-auto">
+												<button type="button" class="btn btn-primary btn-44"><i class="uil uil-message size-20"></i></button>
+											</div>
+										</div>
+										<p class="mb-0 size-13 color-secondary mt-1 text-left">* @lang('Search another product').</p>
 									</div>
 								</div>
-								<h3 class="product-title">
-									<a href="{{ route('frontend.shop.show', $featured_product->slug) }}">{{ $featured_product->name }}</a>
-								</h3>
-								<div class="ratings-container">
-									<div class="product-ratings">
-										<span class="ratings" style="width:100%"></span><!-- End .ratings -->
-										<span class="tooltiptext tooltip-top"></span>
-									</div><!-- End .product-ratings -->
-								</div><!-- End .ratings-container -->
-								<div class="price-box">
-									<span class="old-price">$59.00</span>
-									<span class="product-price">$49.00</span>
-								</div><!-- End .price-box -->
-							</div><!-- End .product-details -->
+								<div class="col-auto mt-5 pt-3 parallax-fade-hero-short">
+									<a href="#related-products" class="text-decoration-none" data-gal='m_PageScroll2id'>
+										<p class="font-weight-700 mb-0 size-18 color-primary">
+											@lang('Go to related products')
+											<i class="uil uil-arrow-down size-20 ml-2"></i>
+										</p>
+									</a>
+								</div>
+								<div class="col-sm-6 col-lg-4 col-xl-12 mt-5 mt-sm-0">
+									<div class="section mt-xl-5">
+										<h6 class="mb-3">
+											@lang('Another products')
+										</h6>
+										<div class="section pl-3">
+											@foreach($featured_products as $featured_product)
+											{{-- @foreach($featured_products->split($featured_products->count()/3) as $featured_product) --}}
+
+											<p class="mb-2 size-16">
+												<a class="link link-normal font-weight-500" href="{{ route('frontend.shop.show', $featured_product->slug) }}">{{ $featured_product->name }}</a><br>
+												<span class="color-yellow size-13">
+													@for ($i = 0; $i < rand(4,5); $i++)
+														<i class="uil uil-star"></i>
+													@endfor
+													@if($i === 4)
+														<i class="uil uil-star color-gray"></i>
+													@endif
+												</span>
+											</p>
+											@endforeach
+										</div>
+									</div>
+								</div>
+								<div class="col-md-8 col-lg-4 col-xl-12 mt-5 mt-lg-0">
+									<div class="section mt-xl-5">
+										<h6 class="mb-3">
+											Tag cloud
+										</h6>
+										<a href="#" class="tag hot mb-1">man</a>
+										<a href="#" class="tag info mb-1">woman</a>
+										<a href="#" class="tag popular mb-1">tops</a>
+										<a href="#" class="tag sale mb-1">jeans</a>
+										<a href="#" class="tag new mb-1">dresses</a>
+										<a href="#" class="tag popular mb-1">jackets</a>
+										<a href="#" class="tag hot mb-1">man</a>
+										<a href="#" class="tag info mb-1">woman</a>
+										<a href="#" class="tag popular mb-1">tops</a>
+										<a href="#" class="tag sale mb-1">jeans</a>
+										<a href="#" class="tag new mb-1">dresses</a>
+										<a href="#" class="tag popular mb-1">jackets</a>
+										<a href="#" class="tag hot mb-1">man</a>
+										<a href="#" class="tag info mb-1">woman</a>
+										<a href="#" class="tag popular mb-1">tops</a>
+										<a href="#" class="tag sale mb-1">jeans</a>
+										<a href="#" class="tag new mb-1">dresses</a>
+										<a href="#" class="tag popular mb-1">jackets</a>
+									</div>
+								</div>
+							</div>
 						</div>
-						@endforeach
+					</div>
+					<div class="row justify-content-center">
+						<div class="col-12 mt-5">
+							<div class="row">
+									<div class="col-sm">
+										<div class="accordion accordion-shadow" id="accordionExample">
+											<div class="card">
+												<div class="card-header" id="headingOne-1">
+													<div class="btn-accordion collapsed" role="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+														<i class="uil uil-microphone size-20 mr-2 pr-1"></i>@lang('Description')
+													</div>
+												</div>
+												<div id="collapseOne" class="collapse show" aria-labelledby="headingOne-1" data-parent="#accordionExample">
+													<div class="card-body">
+														{!! $model->advanced->description ?? '' !!}
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>          
+									<div class="col-sm">
+										<div class="accordion accordion-shadow" id="accordionExample-2">
+											<div class="card">
+												<div class="card-header" id="headingTwo-2">
+													<div class="btn-accordion collapsed" role="button" data-toggle="collapse" data-target="#collapseTwo-2" aria-expanded="true" aria-controls="collapseTwo-2">
+														<i class="uil uil-exclamation-triangle size-20 mr-2 pr-1"></i>Informacion tecnica
+													</div>
+												</div>
+												<div id="collapseTwo-2" class="collapse show" aria-labelledby="headingTwo-2" data-parent="#accordionExample-2">
+													<div class="card-body">
+														{!! $model->advanced->information ?? '' !!}
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>          
+									<div class="col-sm">
+										<div class="accordion accordion-shadow" id="accordionExample-3">
+											<div class="card">
+												<div class="card-header" id="headingThree-3">
+													<div class="btn-accordion collapsed" role="button" data-toggle="collapse" data-target="#collapseThree-3" aria-expanded="true" aria-controls="collapseThree-3">
+														<i class="uil uil-restaurant size-20 mr-2 pr-1"></i>Documentacion
+													</div>
+												</div>
+												<div id="collapseThree-3" class="collapse show" aria-labelledby="headingThree-3" data-parent="#accordionExample-3">
+													<div class="card-body">
+						                                <li>
+						                                    <a href="{{ route('frontend.shop.datasheet', $model->slug) }}"
+						                                       target="_blank">@lang('Datasheet')</a>
+						                                </li>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>          
 
-					</div><!-- End .products-slider -->
-				</div><!-- End .products-section -->
-
-				<div class="mb-lg-4"></div><!-- margin -->
-			</div><!-- End .container -->
+							</div>
+						</div>
+					</div>
+					<div class="row justify-content-center">
+						<div class="col-12 mt-5">
+							<div class="row">
+								<div class="col-sm-6 col-lg-3">
+									<div class="section p-3 p-lg-4 border-4 bg-white landing-shadow-4">
+										<div class="row">
+											<div class="col-auto">
+												<p class="mb-0 align-self-center">
+													<i class="uil uil-archive-alt size-28 color-dark-blue"></i>
+												</p>
+											</div>
+											<div class="col align-self-center">
+												<p class="mb-0">
+													@lang('Free shipping on orders')
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6 col-lg-3 mt-4 mt-sm-0">
+									<div class="section p-3 p-lg-4 border-4 bg-white landing-shadow-4">
+										<div class="row">
+											<div class="col-auto">
+												<p class="mb-0 align-self-center">
+													<i class="uil uil-truck size-28 color-dark-blue"></i>
+												</p>
+											</div>
+											<div class="col align-self-center">
+												<p class="mb-0">
+													@lang('Shipping on orders 3-5 day delivery')
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6 col-lg-3 mt-4 mt-lg-0">
+									<div class="section p-3 p-lg-4 border-4 bg-white landing-shadow-4">
+										<div class="row">
+											<div class="col-auto">
+												<p class="mb-0 align-self-center">
+													<i class="uil uil-redo size-28 color-dark-blue"></i>
+												</p>
+											</div>
+											<div class="col align-self-center">
+												<p class="mb-0">
+													@lang('30-Day from order return policy')
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6 col-lg-3 mt-4 mt-lg-0">
+									<div class="section p-3 p-lg-4 border-4 bg-white landing-shadow-4">
+										<div class="row">
+											<div class="col-auto">
+												<p class="mb-0 align-self-center">
+													<i class="uil uil-shield-check size-28 color-dark-blue"></i>
+												</p>
+											</div>
+											<div class="col align-self-center">
+												<p class="mb-0">
+													@lang('100% safe & secure checkout')
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>

@@ -14,7 +14,7 @@
 
     	@if(!$model->status)
 			<div class="alert alert-danger" role="alert">
-			  Producto desactivado <a wire:click="activateProduct" href="#">@lang('Activate')</a> 
+			  @lang('Disabled product') <a wire:click="activateProduct" href="#">@lang('Activate')</a> 
 			</div>
 		@endif
 
@@ -174,7 +174,24 @@
 			        <p class="card-text"><strong>@lang('Total stock'): </strong>{{ $model->total_stock }}</p>
 			        <p class="card-text"><strong>@lang('Line'):</strong> 
 			            <x-utils.undefined :data="optional($model->line)->name"/>
+
+					    <div x-data="{ show: false }" class="d-inline">
+					        <button class="btn btn-secondary btn-sm" @click="show = !show">@lang('Choose line')</button>
+					        <div x-show="show" class="mt-2" wire:ignore>
+		                        <select id="lineselect" class="custom-select" style="width: 100%;" aria-hidden="true" >
+		                        </select>
+					        </div>
+
+			                @if($line_id)
+						        <div x-show="show">
+				                	<a role="button" wire:click="saveLine" class="btn btn-sm btn-primary float-right mt-2 text-white" type="submit">@lang('Save')</a>
+				                </div>
+			                @endif
+					    </div>
 			        </p>
+
+
+
 			        <p class="card-text"><strong>@lang('Price'): </strong>${{ $model->price }}</p>
 			        <p class="card-text"><strong>@lang('Updated at'): </strong>{{ $model->updated_at }}</p>
 			        <p class="card-text"><strong>@lang('Created at'): </strong>{{ $model->created_at }}</p>
@@ -527,7 +544,7 @@
 
     	@if($model->status)
 			<footer class="float-right">
-				<a wire:click="desactivateProduct" href="#">@lang('Desactivate product')</a> 
+				<a wire:click="desactivateProduct" href="#">@lang('Disable product')</a> 
 			</footer>
 		@endif
 	</x-slot>
@@ -713,6 +730,52 @@
 
       });
     </script>
+
+
+    <script>
+      $(document).ready(function() {
+        $('#lineselect').select2({
+          placeholder: '@lang("Choose line")',
+          width: 'resolve',
+          theme: 'bootstrap4',
+          allowClear: true,
+          ajax: {
+                url: '{{ route('admin.line.select') }}',
+                data: function (params) {
+                    return {
+                        search: params.term,
+                        page: params.page || 1
+                    };
+                },
+                dataType: 'json',
+                processResults: function (data) {
+                    data.page = data.page || 1;
+                    return {
+                        results: data.items.map(function (item) {
+                            return {
+                                id: item.id,
+                                text: item.name
+                            };
+                        }),
+                        pagination: {
+                            more: data.pagination
+                        }
+                    }
+                },
+                cache: true,
+                delay: 250,
+                dropdownautowidth: true
+            }
+          });
+
+          $('#lineselect').on('change', function (e) {
+            var data = $('#lineselect').select2("val");
+            @this.set('line_id', data);
+          });
+
+      });
+    </script>
+
 
     {{-- <script>
     	document.querySelector(".button").addEventListener("click", function (e) {

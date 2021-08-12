@@ -22,8 +22,8 @@
             </div>
         </div><!--form-group-->
 
-        <div class="form-group row mb-0">
-            <div class="col-md-6 offset-md-4">
+        <div class="form-group row mb-0 mt-4">
+            <div class="col-md-6 offset-md-1">
                 <button class="btn btn-primary" type="submit">@lang('Enable Two Factor Authentication')</button>
             </div>
         </div><!--form-group-->

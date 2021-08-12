@@ -1,18 +1,19 @@
-@extends('frontend.layouts.app_porto')
+@extends('frontend.layouts.app_ga')
 
 @section('title', __('Two Factor Authentication is required'))
 
 @section('content')
-    <div class="container py-4">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <x-frontend.card>
-                    <x-slot name="header">
-                        @lang('Two Factor Authentication is required')
-                    </x-slot>
 
-                    <x-slot name="body">
-                        <p>@lang('To continue, open up your Authenticator app and issue your 2FA code.')</p>
+<div class="section over-hide padding-top-120 padding-top-mob-nav section-background-24 background-img-top">    
+    <div class="section-1400 padding-top-bottom-120">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-lg-7 col-xl-5">
+                    <div class="section py-4 py-md-5 px-3 px-sm-4 px-lg-5 over-hide border-4 section-shadow-blue bg-white section-background-24 background-img-top form">
+                        <h4 class="mb-4 text-sm-center">
+                            @lang('Two Factor Authentication is required').
+                        </h4>
+
 
                         <x-forms.post :action="$action">
                             @foreach((array)$credentials as $name => $value)
@@ -23,14 +24,14 @@
                                 <input type="hidden" name="remember" value="on">
                             @endif
 
-                            <div class="form-group row">
-                                <label for="{{ $input }}" class="col-md-4 col-form-label text-md-right">@lang('Authentication Code')</label>
+                            <div class="form-group">
+                                <label for="{{ $input }}" class="col-md-12 col-form-label text-md-center">@lang('Authentication Code')</label>
 
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <input type="text"
                                            name="{{ $input }}"
                                            id="{{ $input }}"
-                                           class="form-control {{ $error ? 'is-invalid' : '' }}"
+                                           class="form-style form-control big gray-version no-shadow section-shadow-blue {{ $error ? 'is-invalid' : '' }}"
                                            placeholder="123456"
                                            minlength="6"
                                            required />
@@ -43,15 +44,16 @@
                                 </div>
                             </div><!--form-group-->
 
-                            <div class="form-group row mb-0">
-                                <div class="col-md-6 offset-md-4">
-                                    <button class="btn btn-primary" type="submit">@lang('Confirm Code')</button>
+                            <div class="row mt-4">  
+                                <div class="col-12 text-sm-center">
+                                    <button type="submit" class="btn btn-dark-primary">@lang('Confirm Code')<i class="uil uil-arrow-right size-22 ml-3"></i></button>  
                                 </div>
-                            </div><!--form-group-->
+                            </div>
                         </x-forms.post>
-                    </x-slot>
-                </x-frontend.card>
-            </div><!--col-md-8-->
-        </div><!--row-->
-    </div><!--container-->
+                    </div>  
+                </div>      
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

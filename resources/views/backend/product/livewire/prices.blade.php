@@ -64,7 +64,7 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Product Name</th>
+                                        <th>@lang('Product name')</th>
                                         <th class="table-secondary">@lang('Code')</th>
                                         <th class="table-secondary">@lang('Price')</th>
                                         @if($customPrices == true)

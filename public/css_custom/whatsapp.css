@@ -6,8 +6,8 @@
 
 	width:60px;
 	height:60px;
-	bottom:40px;
-	right:40px;
+	bottom:54px;
+	right:100px;
 	background-color:#25d366;
 	color:#FFF !important;
 	border-radius:50px;
@@ -19,7 +19,7 @@
 
 .float:hover{
 	color: #fff !important;
-    cursor: pointer;
+  cursor: pointer;
 	transform: scale(1.10); 
 
 }
