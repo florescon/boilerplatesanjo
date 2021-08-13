@@ -12,8 +12,9 @@ class ShopParametersComponent extends Component
 {
 
     public $product_parent;
-    public $color_id, $size_id;
-    public $amount; 
+    public ?int $color_id = null;
+    public ?int $size_id = null;
+    public int $amount;
 
     public function mount(Product $product)
     {
@@ -27,6 +28,7 @@ class ShopParametersComponent extends Component
         $this->validate([
             'color_id' => 'required',
             'size_id' => 'required',
+            'amount' => 'gt:0'
         ]);
 
         $color_ = $this->color_id;
@@ -51,13 +53,19 @@ class ShopParametersComponent extends Component
         Cart::add($sub, 'products');
         $this->emit('productAdded');
 
-        $this->color_id = '';
-        $this->size_id = '';
+
+        $this->clearParameters();
 
         session()->flash('message', __('Product successfully added'));
 
         // $this->current_task->update(['note' => $this->note]);
         // $this->note_opened = FALSE;
+    }
+
+
+    public function clearParameters(){
+        $this->color_id = null;
+        $this->size_id = null;
     }
 
     public function setColor($color)

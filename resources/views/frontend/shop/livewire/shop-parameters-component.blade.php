@@ -11,8 +11,8 @@
 					<div class="row px-1">
 						@foreach($attributes->children->unique('color_id')->sortBy('color.name') as $children)
 						<div class="col px-1" style="{{ optional($children->color)->color ? 'min-width:3rem; max-width: 3rem;' : 'max-width: 100px;'}} height:3rem">
-							<input class="checkbox-color" type="radio" wire:model="color_id" value="{{ $children->color_id }}" name="color" id="{{ $children->color_id }}">
-							<label class="for-checkbox-color" style="color: black; background-color: {{ optional($children->color)->color }};" for="{{ $children->color_id }}"> {{ optional($children->color)->color ? '' :  optional($children->color)->name }} </label>
+							<input class="checkbox-color" type="radio" wire:model="color_id" value="{{ $children->color_id }}" name="color" id="color-{{ $children->color_id }}">
+							<label class="for-checkbox-color" style="color: black; border: 1px solid; background-color: {{ optional($children->color)->color }};" for="color-{{ $children->color_id }}"> {{ optional($children->color)->color ? '' :  optional($children->color)->name }} </label>
 						</div>  
 						@endforeach
 					</div>             
@@ -34,9 +34,9 @@
 			<div class="form-group mx-auto">
 				<div class="row px-2">
 					@foreach($attributes->children->unique('size_id')->sortBy('size.name') as $children) 
-					<div class="col px-1" style="min-width:3rem; max-width: 3rem ;height:3rem">
-						<input class="checkbox-size" type="radio" wire:model="size_id" value="{{ $children->size_id }}" name="size" id="{{ $children->size_id }}">
-						<label class="for-checkbox-size" for="{{ $children->size_id }}">{{ optional($children->size)->short_name ?? optional($children->size)->name }}</label>
+					<div class="col px-2" style="min-width:3rem; max-width: 3rem ;height:3rem">
+						<input class="checkbox-size" type="radio" wire:model="size_id" value="{{ $children->size_id }}" name="size" id="size-{{ $children->size_id }}">
+						<label class="for-checkbox-size" for="size-{{ $children->size_id }}">{{ optional($children->size)->short_name ?? optional($children->size)->name }}</label>
 					</div>  
 					@endforeach
 

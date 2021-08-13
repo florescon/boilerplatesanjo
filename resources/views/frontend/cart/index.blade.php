@@ -7,6 +7,7 @@
     <div class="section over-hide padding-top-120 padding-top-mob-nav padding-bottom-120 section-background-24 background-img-top"> 
         <div class="section-1400 pt-xl-4">
 
+        @auth
             @if (auth()->user()->isAdmin())
             <div class="col-12">   
                 <div class="alert alert-danger" role="alert">
@@ -14,6 +15,7 @@
                 </div>
             </div>
             @endif
+        @endauth
 
             <div class="container-fluid padding-top-bottom-80">
                 <div class="row">

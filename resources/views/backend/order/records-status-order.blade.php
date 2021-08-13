@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', __('Records status'))
+@section('title', __('Status records'))
 
 @push('after-styles')
     {{-- <link rel="stylesheet" href="{{ asset('css_custom/advanced-order.css') }}"> --}}
@@ -19,7 +19,7 @@
                           </a>
                       </div>
 
-                        <h4 class="card-title">@lang('Records status')</h4>
+                        <h4 class="card-title">@lang('Status records')</h4>
                         <p class="card-description"> @lang('Order') #{{ $order->id }} </p>
                         @if($records->count())
                             <div class="table-responsive">

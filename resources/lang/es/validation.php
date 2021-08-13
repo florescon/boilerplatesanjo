@@ -145,6 +145,7 @@ return [
 
     'attributes' => [
         'password' => 'contraseña',
+        'photo' => 'imagen',
         'current_password' => 'contraseña actual',
         'name' => 'nombre',
         'short_name' => 'nombre corto',

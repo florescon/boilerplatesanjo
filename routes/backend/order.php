@@ -121,7 +121,7 @@ Route::group([
             ->name('records')
             ->breadcrumbs(function (Trail $trail, Order $order) {
                 $trail->parent('admin.order.edit', $order)
-                    ->push(__('Records status'), route('admin.order.records', $order));
+                    ->push(__('Status records'), route('admin.order.records', $order));
             });
 
         Route::delete('/', [OrderController::class, 'destroy'])->name('destroy');

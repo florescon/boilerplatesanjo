@@ -79,7 +79,7 @@
               </div>
               <div class="col-md-4 mb-3 text-left">
                 <a href="{{ route('admin.order.sub', $model->id) }}" style="color:purple;">
-                  <p> Quiero asignar subordenes <i class="cil-library"></i></p> 
+                  <p> @lang('I want to assign suborders') <i class="cil-library"></i></p> 
                 </a>
   
                 @php
@@ -114,7 +114,7 @@
             @if($model->materials_order()->exists())
               <a href="{{ route('admin.order.ticket_materia', $model->id) }}" class="card-link text-warning" target="_blank"><i class="cil-print"></i>
                 <ins>
-                  Materia prima
+                  @lang('Feedstock')
                 </ins>
               </a>
             @endif
@@ -163,9 +163,9 @@
               <table class="table table-striped table-bordered table-hover">
                 <thead class="thead-dark">
                   <tr >
-                    <th >Producto</th>
-                    <th>Precio</th>
-                    <th class="text-center">Cantidad</th>
+                    <th >@lang('Product')</th>
+                    <th>@lang('Price')</th>
+                    <th class="text-center">@lang('Quantity')</th>
                     <th class="text-center">Total</th>
                   </tr>
                 </thead>
@@ -241,9 +241,9 @@
               <table class="table table-striped table-bordered table-hover">
                 <thead class="thead-dark">
                   <tr>
-                    <th>Producto</th>
-                    <th>Precio</th>
-                    <th class="text-center">Cantidad</th>
+                    <th>@lang('Product')</th>
+                    <th>@lang('Price')</th>
+                    <th class="text-center">@lang('Quantity')</th>
                     <th class="text-center">Total</th>
                   </tr>
                 </thead>
@@ -278,8 +278,8 @@
                 <thead class="thead-dark">
                   <tr >
                     <th>Materia prima</th>
-                    <th>Precio</th>
-                    <th class="text-center">Cantidad</th>
+                    <th>@lang('Price')</th>
+                    <th class="text-center">@lang('Quantity')</th>
                     <th class="text-center">Total</th>
                   </tr>
                 </thead>
@@ -339,7 +339,7 @@
               </div>
 
               <div class="card-body text-center">
-                <a href="{{ route('admin.order.records', $model->id) }}" class="card-link">Ver registros de estados</a>
+                <a href="{{ route('admin.order.records', $model->id) }}" class="card-link">@lang('View status records')</a>
               </div>
 
             </div>
