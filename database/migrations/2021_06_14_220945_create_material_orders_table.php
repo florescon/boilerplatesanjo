@@ -34,7 +34,6 @@ class CreateMaterialOrdersTable extends Migration
                 ->references('id')
                 ->on('product_order')
                 ->onDelete('cascade');
-
         });
     }
 
