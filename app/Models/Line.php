@@ -28,6 +28,26 @@ class Line extends Model
     }
 
     /**
+     * The products that belong to the line.
+     */
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
+
+    /**
+     * Count the number products.
+     *
+     * @return int
+     */
+    public function getcountProductsAttribute() : int
+    {
+        return $this->products->count();
+    }
+
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array

@@ -84,7 +84,7 @@
             </div>
             <div class="col-4">
                 <div>
-                  <img src="{{ asset('/storage/' . $shop->file_name) }}" onerror="this.onerror=null;this.src='/porto/assets/images/not0.png';" width="300" />
+                  <img src="{{ asset('/storage/' . $shop->file_name) }}" onerror="this.onerror=null;this.src='/img/ga/not0.png';" width="300" />
                 </div>
 
                 <br>

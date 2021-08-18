@@ -8,7 +8,7 @@
 									<div class="swiper-slide">
 										<a href="{{ asset('/storage/' . $origPhoto) }}" data-fancybox="gallery">
 											<div class="section border-4 over-hide img-wrap">
-												<img class="border-4" src="{{ asset('/storage/' . $origPhoto) }}" onerror="this.onerror=null;this.src='/porto/assets/images/not0.png';" alt="">
+												<img class="border-4" src="{{ asset('/storage/' . $origPhoto) }}" onerror="this.onerror=null;this.src='/img/ga/not0.png';" alt="">
 											</div>
 										</a>
 									</div>

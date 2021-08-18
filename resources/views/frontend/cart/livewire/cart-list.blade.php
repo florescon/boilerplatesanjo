@@ -28,7 +28,7 @@
                                     @if($product->parent->file_name)
                                         <img class="border-4" src=" {{ asset('/storage/' . $product->parent->file_name) }}" alt="product" width="80" >
                                     @else
-                                        <img  class="border-4"src="{{ asset('/porto/assets/images/not0.png')}}" alt="{{ $product->parent->name }}" width="80">
+                                        <img  class="border-4"src="{{ asset('/img/ga/not0.png')}}" alt="{{ $product->parent->name }}" width="80">
                                     @endif
                                 </a> 
                             </div>
@@ -92,7 +92,7 @@
                                     @if($product->parent->file_name)
                                         <img class="border-4" src=" {{ asset('/storage/' . $product->parent->file_name) }}" alt="product" width="80" >
                                     @else
-                                        <img  class="border-4"src="{{ asset('/porto/assets/images/not0.png')}}" alt="{{ $product->parent->name }}" width="80">
+                                        <img  class="border-4"src="{{ asset('/img/ga/not0.png')}}" alt="{{ $product->parent->name }}" width="80">
                                     @endif
                                 </a> 
                             </div>
@@ -182,7 +182,7 @@
 
             <div class="col-12 text-center pt-5"> 
                 <p id="contact-message-feedback"></p> 
-                <a href="{{ route('frontend.shop.index') }}" class="btn btn-dark-primary send-contact-message">@lang('Go to products')<i class="uil uil-arrow-right size-22 ml-3"></i></a>         
+                <a href="{{ route('frontend.shop.index') }}" class="btn btn-dark-primary">@lang('Go to products')<i class="uil uil-arrow-right size-22 ml-3"></i></a>         
             </div> 
         </div>
     </div>

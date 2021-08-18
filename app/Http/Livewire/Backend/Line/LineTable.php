@@ -77,7 +77,7 @@ class LineTable extends TableComponent
     public function query(): Builder
     {
 
-        $query = Line::query();
+        $query = Line::query()->with('products');
 
         if ($this->status === 'deleted') {
             return $query->onlyTrashed();
@@ -109,6 +109,7 @@ class LineTable extends TableComponent
                 ->exportFormat(function(Line $model) {
                     return $model->slug;
                 }),
+            Column::make(__('Associated products'), 'count_products'),
             Column::make(__('Created at'), 'created_at')
                 ->searchable()
                 ->sortable(),

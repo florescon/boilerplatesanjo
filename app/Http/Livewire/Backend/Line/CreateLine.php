@@ -13,7 +13,7 @@ class CreateLine extends Component
     protected $listeners = ['createmodal'];
 
     protected $rules = [
-        'name' => 'required|min:3',
+        'name' => 'required|min:3|max:15',
     ];
 
 

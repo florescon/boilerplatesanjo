@@ -14,6 +14,6 @@ class TermsController extends Controller
      */
     public function index()
     {
-        return view('frontend.pages.terms_porto');
+        return view('frontend.pages.terms_ga');
     }
 }

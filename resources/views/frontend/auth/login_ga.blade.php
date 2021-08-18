@@ -10,6 +10,7 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-7 col-xl-5">
                             <div class="section py-4 py-md-5 px-3 px-sm-4 px-lg-5 over-hide border-4 section-shadow-blue bg-white section-background-24 background-img-top form">
+
                                 <form action="{{ route('frontend.auth.login') }}" class="section" method="post">
                                 @csrf
 
@@ -58,6 +59,20 @@
                                         </p>
                                     @endif
                                 </form>                                 
+
+
+                                @if(config('services.google.active') != false || config('services.facebook.active') != false || config('services.twitter.active') != false)
+                                    <div class="col-12 mt-4">
+                                        <h6 class="mb-3">
+                                            @lang('or register with'):
+                                        </h6>
+                                    </div>
+                                @endif
+
+                                <div class="row mt-3">
+                                        @include('frontend.auth.includes.social_ga')
+                                </div>
+
                             </div>  
                         </div>      
                     </div>

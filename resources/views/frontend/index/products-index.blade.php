@@ -3,7 +3,7 @@
 	<div class="product-default inner-quickview inner-icon">
 		<figure>
 			<a href="{{ route('frontend.shop.show', $featured->slug) }}">
-				<img src="{{ asset('/storage/' . $featured->file_name) }}" onerror="this.onerror=null;this.src='/porto/assets/images/not0.png';">
+				<img src="{{ asset('/storage/' . $featured->file_name) }}" onerror="this.onerror=null;this.src='/img/ga/not0.png';">
 			</a>
 			<div class="label-group">
 				@if($featured->created_at->gt(\Carbon\Carbon::now()->subMonth()))

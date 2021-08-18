@@ -13,6 +13,7 @@
           width: 'resolve',
           theme: 'bootstrap4',
           allowClear: true,
+          maximumInputLength: 5,
           ajax: {
                 url: '{{ route('frontend.lineSelect') }}',
                 data: function (params) {
@@ -28,7 +29,7 @@
                         results: data.items.map(function (item) {
                             return {
                                 id: item.id,
-                                text: item.name
+                                text: item.name.toLowerCase()
                             };
                         }),
                         pagination: {
@@ -39,13 +40,14 @@
                 cache: true,
                 delay: 250,
                 dropdownautowidth: true
-            }
+            },
+            escapeMarkup: function(m) { return m; }
+
           });
 
           $('#linechange').on('change', function (e) {
             var data = $('#linechange').select2("val");
             livewire.emit('selectedLineItem', data)
-
           });
 
 

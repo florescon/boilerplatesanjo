@@ -14,6 +14,7 @@ class HeaderCartPorto extends Component
     protected $listeners = [
         'productAdded' => 'updateCartTotal',
         'productRemovedList' => 'updateCartTotal',
+        'productRemovedSaleList' => 'updateSaleCartTotal',
         'clearCart' => 'updateCartTotal'
     ];
 
@@ -21,12 +22,16 @@ class HeaderCartPorto extends Component
     {
         $this->cartTotal = count(Cart::get()['products']);
         $this->cartTotalOrder = count(Cart::get()['products_sale']);
-
     }
 
     public function updateCartTotal(): void
     {
         $this->cartTotal = count(Cart::get()['products']);
+    }
+
+    public function updateSaleCartTotal(): void
+    {
+        $this->cartTotalOrder = count(Cart::get()['products_sale']);
     }
 
     public function render()

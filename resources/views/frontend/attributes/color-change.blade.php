@@ -13,6 +13,7 @@
           width: 'resolve',
           theme: 'bootstrap4',
           allowClear: true,
+          maximumInputLength: 15,
           ajax: {
                 url: '{{ route('frontend.colorSelect') }}',
                 data: function (params) {

@@ -16,7 +16,7 @@
                             @foreach($cart as $product)
                             <div class="row mt-3">
                                 <div class="col-sm-4 img-wrap mb-2 mb-sm-0">
-                                    <img class="border-4" src="{{ asset('/storage/' . $product->parent->file_name) }}" onerror="this.onerror=null;this.src='/porto/assets/images/not0.png';" alt="shop cart">
+                                    <img class="border-4" src="{{ asset('/storage/' . $product->parent->file_name) }}" onerror="this.onerror=null;this.src='/img/ga/not0.png';" alt="shop cart">
                                 </div>
                                 <div class="col align-self-center">
                                     <a href="{{ route('frontend.shop.show', $product->parent->slug) }}" class="link link-gray mr-3" data-hover="{{ __('Go to view product') }}">{!! $product->full_name !!}</a> 

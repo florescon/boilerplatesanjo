@@ -40,18 +40,25 @@ class CartList extends Component
 
         CartFacade::remove($productId, 'products_sale');
         $this->cart = CartFacade::get();
-        $this->emit('productRemovedList');
+        $this->emit('productRemovedSaleList');
     }
 
 
     public function removeRedirectLink()
     {
-        if(count($this->cart['products']) > 0 && count($this->cart['products_sale'])){
+        if(count($this->cart['products']) && count($this->cart['products_sale'])){
             return redirect()->route('frontend.cart.index');
         }
 
     }
 
+    public function clearCartOrder(): void
+    {
+
+        CartFacade::clear();
+        // $this->emit('clearCartAll');
+        $this->cart = CartFacade::get();
+    }
 
     public function render()
     {

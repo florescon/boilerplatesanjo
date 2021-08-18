@@ -42,9 +42,12 @@
 @push('after-scripts')
 	<script>		
 		// Type text
+
+		var purchase = @json('- '. __('Purchase of products'));
+		var order = @json('- '. __('Order products'));
 		
 		var typed = new Typed('.typed-fashion', {
-			strings: [ '- Ordenar productos', '- Compra de productos'],
+			strings: [order, purchase],
 			typeSpeed: 300,
 			backSpeed: 0,
 			startDelay: 200,

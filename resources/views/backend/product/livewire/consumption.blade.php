@@ -286,7 +286,7 @@
                 delay: 250,
                 dropdownautowidth: true
             },
-	      escapeMarkup: function(m) { return m; }
+    	      escapeMarkup: function(m) { return m; }
 
           });
 

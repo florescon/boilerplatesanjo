@@ -67,6 +67,17 @@
 										<label class="checkbox mb-0 font-weight-500 size-15" for="terms">@lang('I agree to the') <a href="{{ route('frontend.pages.terms') }}" target="_blank">@lang('Terms & Conditions')</a></label>
 									</div>
 								</div>
+
+
+		                        @if(config('boilerplate.access.captcha.registration'))
+		                            <div class="row">
+		                                <div class="col">
+		                                    @captcha
+		                                    <input type="hidden" name="captcha_status" value="true" />
+		                                </div><!--col-->
+		                            </div><!--row-->
+		                        @endif
+
 								<div class="col-12 mt-4">
 									<button type="submit" class="btn btn-dark-primary">@lang('Register')<i class="d-none d-sm-inline uil uil-arrow-right size-22 ml-3"></i></button> 
 								</div>

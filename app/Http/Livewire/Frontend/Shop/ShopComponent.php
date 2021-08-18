@@ -23,6 +23,7 @@ class ShopComponent extends Component
 	protected $queryString = [
         'searchTermShop' => ['except' => ''],
         'perPage',
+        'lineName' => ['except' => ''],
     ];
 
     public $perPage = '12';
@@ -33,7 +34,8 @@ class ShopComponent extends Component
     public ?int $color = null;
     public ?int $size = null;
 
-    public $nameLine;
+    public string $lineName = '';
+ 
     public $sorting;
     public $searchTermShop = '';
 
@@ -56,6 +58,16 @@ class ShopComponent extends Component
             $line = $this->line;
             $query->whereHas('line', function($queryLine) use ($line){
                 $queryLine->where('id', $line);
+            });
+        }
+
+        if($this->lineName){
+
+            // $this->validate(['lineName' => 'required|max:6']);
+
+            $lineN = $this->lineName;
+            $query->whereHas('line', function($queryLine) use ($lineN){
+                $queryLine->where('slug', $lineN);
             });
         }
         if($this->size){
@@ -140,6 +152,8 @@ class ShopComponent extends Component
     public function clearFilterLine()
     {
         $this->line = null;
+        $this->lineName = '';
+
     }
     public function clearFilterColor()
     {
@@ -152,6 +166,12 @@ class ShopComponent extends Component
     public function clearFilters()
     {
         return redirect()->route('frontend.shop.index');
+    }
+
+
+    public function dehydrateLine()
+    {
+        $this->lineName = '';
     }
 
     public function clear()

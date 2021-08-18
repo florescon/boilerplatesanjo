@@ -1,7 +1,7 @@
 <div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" id="sidebar">
     <div class="c-sidebar-brand d-lg-down-none" style="background-color: white;">
         <a href="{{ route('admin.dashboard') }}" class="logo">
-            <img width="70"  src="{{ asset('/porto/assets/images/logo22.png')}}" alt="Porto Logo">
+            <img width="70"  src="{{ asset('/img/ga/logo22.png')}}" alt="Porto Logo">
         </a>
     </div><!--c-sidebar-brand-->
 

@@ -66,23 +66,22 @@ class EditProduct extends Component
         $this->photo = '';
     }
 
-    public function activateProduct()
-    {
-        Product::whereId($this->product_id)->update(['status' => true]);
-        return redirect()->route('admin.product.edit', $this->product_id);
-    }
-
     public function saveLine()
     {
         Product::whereId($this->product_id)->update(['line_id' => $this->line_id]);
-        return redirect()->route('admin.product.edit', $this->product_id);
+        return $this->redirectRoute('admin.product.edit', $this->product_id);
     }
 
+    public function activateProduct()
+    {
+        Product::whereId($this->product_id)->update(['status' => true]);
+        return $this->redirectRoute('admin.product.edit', $this->product_id);
+    }
 
     public function desactivateProduct()
     {
         Product::whereId($this->product_id)->update(['status' => false]);
-        return redirect()->route('admin.product.edit', $this->product_id);
+        return $this->redirectRoute('admin.product.edit', $this->product_id);
     }
 
     public function filterByColor($color)
@@ -237,7 +236,7 @@ class EditProduct extends Component
             }
         }
 
-        return redirect()->route('admin.product.edit', $product->id);
+        return $this->redirectRoute('admin.product.edit', $product->id);
     }
 
 

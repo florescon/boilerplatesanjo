@@ -19,7 +19,7 @@
 
                             <div class="col-12 text-center pt-5"> 
                                 <x-forms.post :action="route('frontend.auth.verification.resend')" class="d-inline">
-                                    <button class="btn btn-dark-primary send-contact-message" type="submit">@lang('Click here to request another').</button>
+                                    <button class="btn btn-dark-primary" type="submit">@lang('Click here to request another').</button>
                                 </x-forms.post>
                             </div>
 

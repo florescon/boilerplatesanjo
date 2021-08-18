@@ -19,14 +19,25 @@ class HeaderCartPortoDrop extends Component
     public $cartTotalOrder = 0;
 
     protected $listeners = [
-        'productAdded' => 'init',
-        'productRemovedList' => 'init',
+        'productAdded' => 'updateModalSaleCartTotal',
+        'productRemovedList' => 'updateModalSaleCartTotal',
+        'productRemovedSaleList' => 'updateModalSaleCartTotal',
     ];
-
 
     public function init()
     {
         $this->cart = CartFacade::get();
+    }
+
+    public function updateModalCartTotal(): void
+    {
+        $this->cartTotal = count(CartFacade::get()['products']);
+    }
+
+
+    public function updateModalSaleCartTotal(): void
+    {
+        $this->cartTotalOrder = count(CartFacade::get()['products_sale']);
     }
 
     public function render()

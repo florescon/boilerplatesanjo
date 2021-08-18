@@ -45,7 +45,7 @@
 						<div class="col-sm-6 col-lg-3 mt-4 mt-lg-0">
 							<div class="section shop-wrap-3 img-wrap border-4">
 
-								<img class="border-4" src="{{ asset('/storage/' . $related_product->file_name) }}" alt="{{ $related_product->name }}" onerror="this.onerror=null;this.src='/porto/assets/images/not0.png';" >
+								<img class="border-4" src="{{ asset('/storage/' . $related_product->file_name) }}" alt="{{ $related_product->name }}" onerror="this.onerror=null;this.src='/img/ga/not0.png';" >
 
 								<div class="shop-wrap-2-left">
 

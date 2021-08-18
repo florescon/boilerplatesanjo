@@ -7,9 +7,9 @@
                                 <i class="uil uil-multiply"></i>
                             </button>
                             <div class="row">
-                                <div class="col-12 text-center filter-sorting">
+                                <div class="col-12 text-center ">
                                     @foreach($lines as $line)                                 
-                                        <a href="#" class="btn btn-filter-tag light font-weight-800 mx-2 mx-xl-3 position-relative" data-filter=".category-4">{{ mb_strtolower($line->name) }} <span class="btn-filter-icon bg-dark color-white">{{ $line->products_count }}</span></a>
+                                        <a href="{{ route('frontend.shop.index', ['lineName' => (string)$line->slug]) }}" id="lineName" class="btn btn-filter-tag light font-weight-800 mx-2 mx-xl-3 position-relative" data-filter=".category-4">{{ mb_strtolower($line->name) }} <span class="btn-filter-icon bg-dark color-white">{{ $line->products_count }}</span></a>
                                     @endforeach                                   
                                 </div>
                             </div>

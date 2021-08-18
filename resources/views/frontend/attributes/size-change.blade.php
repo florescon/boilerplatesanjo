@@ -13,6 +13,7 @@
           width: 'resolve',
           theme: 'bootstrap4',
           allowClear: true,
+          maximumInputLength: 10,
           ajax: {
                 url: '{{ route('frontend.sizeSelect') }}',
                 data: function (params) {

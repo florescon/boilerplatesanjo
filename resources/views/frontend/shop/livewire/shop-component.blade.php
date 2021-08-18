@@ -11,9 +11,7 @@
 								</div>
 							</div>
 
-
 							<div class="section pt-5">
-
 								<div class="section border-4 p-4 bg-transparent section-background-21">
 									<div class="row pt-4">
 										<div class="col-12 text-center">
@@ -27,7 +25,7 @@
 													</svg>										          	
 										          </div>
 										        </div>
-												<select wire:model="perPage" class="form-control">
+												<select wire:model="perPage" style="text-align-last:center; font-size: 16px;" class="form-control">
 													<option value="3">3</option>
 													<option value="6">6</option>
 													<option value="12">12</option>
@@ -50,7 +48,7 @@
 													</svg>
 										          </div>
 										        </div>
-												<select name="orderby" class="form-control" wire:model='sorting'>
+												<select name="orderby" style="font-size: 16px;" class="form-control" wire:model='sorting'>
 													<option value="menu_order" selected="selected">@lang('Default sorting')</option>
 													<option value="newness">@lang('Sort by newness')</option>
 													<option value="price">@lang('Sort by price'): @lang('low to high')</option>
@@ -74,18 +72,6 @@
 										</div>
 										@endif
 									</div>
-									<div class="row pt-4">
-										<div class="col-12 text-center">
-						                    <livewire:frontend.attributes.line-change/>
-										</div>
-										@if($line)
-										<div class="col-12 text-center mt-4">
-											<button class="btn btn-danger" wire:click="clearFilterLine">
-												@lang('Clear filter')
-											</button>
-										</div>
-										@endif
-									</div>
 
 									<div class="row pt-4">
 										<div class="col-12 text-center">
@@ -101,7 +87,20 @@
 									</div>
 
 									<div class="row pt-4">
-										@if($color || $size || $line)
+										<div class="col-12 text-center">
+						                    <livewire:frontend.attributes.line-change/>
+										</div>
+										@if($line || $lineName)
+										<div class="col-12 text-center mt-4">
+											<button class="btn btn-danger" wire:click="clearFilterLine">
+												@lang('Clear filter')
+											</button>
+										</div>
+										@endif
+									</div>
+
+									<div class="row pt-4">
+										@if($color || $size || $line || $lineName)
 										<div class="col-12 text-center mt-4">
 											<span class="border-bottom-primary">
 												<a wire:click="clearFilters" style="cursor: pointer;"> 
@@ -149,14 +148,14 @@
 									  	@if($product->file_name)
 
 										<figure>
-											<img class="border-4" src="{{ asset('/storage/' . $product->file_name) }}"  alt="{{ $product->name }}" onerror="this.onerror=null;this.src='/porto/assets/images/not0.png';" >
+											<img class="border-4" src="{{ asset('/storage/' . $product->file_name) }}"  alt="{{ $product->name }}" onerror="this.onerror=null;this.src='/img/ga/not0.png';" >
 										</figure>
 										@else
 										<figure>
 
 									    	<a href="{{ route('frontend.shop.show', $product->slug) }}">
 									    		<div class="readme-link__figure">
-										    		<img src="{{ asset('/porto/assets/images/not0.png')}}" class="border-4 readme-link__figure" alt="{{ $product->name }}">
+										    		<img src="{{ asset('/img/ga/not0.png')}}" class="border-4 readme-link__figure" alt="{{ $product->name }}">
 										    	</div>
 										    </a>
 										</figure>
@@ -169,22 +168,22 @@
 										</div>
 										<div class="shop-wrap-2-right">
 											@if($product->file_name)
-											<a href="{{ asset('/storage/' . $product->file_name) }}" class="shop-wrap-2-right-circle" data-fancybox=""><i class="uil uil-search size-16"></i></a>
+												<a href="{{ asset('/storage/' . $product->file_name) }}" class="shop-wrap-2-right-circle" data-fancybox=""><i class="uil uil-search size-16"></i></a>
 											@endif
 											<a href="{{ route('frontend.shop.show', $product->slug) }}" class="shop-wrap-2-right-circle animsition-link mt-2"><i class="uil uil-plus size-16"></i></a>
 										</div>
 										<div class="shop-wrap-2-text">
 											@if($product->children->unique('size_id')->count())
-											<div class="shop-wrap-2-size">
-												<p class="mb-0 color-white text-uppercase size-13 font-weight-600">
-													@foreach($product->children->unique('size_id')->sortBy('size.name')->slice(0, 3) as $children) 
-														<span class="mx-1">{{ optional($children->size)->short_name }}</span>
-													@endforeach
-													@if($product->children->unique('size_id')->count() > 3)
-														<span class="mx-1">...</span>
-													@endif
-												</p>
-											</div>
+												<div class="shop-wrap-2-size">
+													<p class="mb-0 color-white text-uppercase size-13 font-weight-600">
+														@foreach($product->children->unique('size_id')->sortBy('size.name')->slice(0, 3) as $children) 
+															<span class="mx-1">{{ optional($children->size)->short_name }}</span>
+														@endforeach
+														@if($product->children->unique('size_id')->count() > 3)
+															<span class="mx-1">...</span>
+														@endif
+													</p>
+												</div>
 											@endif
 											<div class="row">
 												<div class="col">
