@@ -11,8 +11,7 @@ class ModalLine extends Component
     public function render()
     {
 
-        $lines = Line::withCount('products')->get();
-
+        $lines = Line::withCount('products')->orderBy('name', 'asc')->get();
         return view('frontend.includes_ga.modal-filters')->with(compact('lines'));
     }
 

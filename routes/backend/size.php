@@ -25,6 +25,16 @@ Route::group([
                 ->push(__('Deleted sizes'), route('admin.size.deleted'));
         });
 
+    Route::group(['prefix' => '{size}'], function () {
+        Route::get('associates', [SizeController::class, 'associates'])
+            ->name('associates')
+            ->breadcrumbs(function (Trail $trail, Size $size) {
+                $trail->parent('admin.size.index', $size)
+                    ->push(__('Associates of').' '.$size->name, route('admin.size.associates', $size));
+            });
+    });
+
+
 
 });
 

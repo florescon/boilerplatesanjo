@@ -57,6 +57,7 @@ class SizeTable extends TableComponent
     protected $options = [
         'bootstrap.container' => false,
         'bootstrap.classes.table' => 'table table-striped table-bordered',
+        'bootstrap.classes.thead' => 'thead-dark border-bottom-3px',
         'bootstrap.responsive' => true,
 
     ];
@@ -107,6 +108,10 @@ class SizeTable extends TableComponent
                 })
                 ->exportFormat(function(Size $model) {
                     return $model->slug;
+                }),
+            Column::make(__('Associated products'), 'count_products')
+                ->format(function(Size $model) {
+                    return $this->link(route('admin.size.associates', $model->id), $model->count_products);
                 }),
             Column::make(__('Created at'), 'created_at')
                 ->searchable()

@@ -20,7 +20,7 @@ class DashboardController extends Controller
     {
 
         // $from = session()->has('from') ? session('from') : (new Carbon('first day of January ' . date('Y')))->toDateTimeString();
-        $from = session()->has('from') ? session('from') : (now()->subMonths(48))->toDateTimeString();
+        $from = session()->has('from') ? session('from') : (now()->subMonths(12))->toDateTimeString();
         $to = session()->has('to') ? session('to') : now()->toDateTimeString();
 
         $period = CarbonPeriod::create($from, $to);

@@ -18,6 +18,13 @@ class LineController extends Controller
 	    return view('backend.line.index');
 	}
 
+    public function associates(Line $line)
+    {
+        $associates = $line->products()->paginate(10);
+        $model = $line;
+        return view('backend.product.associates-products', compact('associates', 'model'));
+    }
+
 	public function deleted()
 	{
 	    return view('backend.line.deleted');

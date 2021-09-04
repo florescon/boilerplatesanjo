@@ -32,7 +32,7 @@
                 <div class="col-md-9 mb-3">
                   <div class="row">
                     <div class="col-6 col-lg-6">
-                      {{ optional($model->user)->name }}
+                      {!! $model->user_name !!}
                     </div>
                     @if($orderExists)
                     <div class="col-6 col-lg-6" style="font-family:Arial, FontAwesome">
@@ -48,7 +48,8 @@
                   <br>
                   <div class="row">
                     <div class="col-6 col-lg-6">
-                      {{ $model->date_entered }}
+                      <x-input.input-alpine nameData="isDate" :inputText="$isDate" :originalInput="$isDate" wireSubmit="savedate" modelName="date_entered" maxlength="200" inputType="date" />
+
                     </div>
                     <div class="col-6 col-lg-6">
                       {{ $model->created_at }}
@@ -57,7 +58,10 @@
                   <br>
                   <div class="row">
                     <div class="col-12 col-lg-12">
-                      {{ $model->comment }}
+                      {{-- {{ $model->comment }} --}}
+                      <x-input.input-alpine nameData="isComment" :inputText="$isComment" :originalInput="$isComment" wireSubmit="savecomment" modelName="comment" maxlength="200" />
+
+                      @error('comment') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
                   </div>
                 </div>

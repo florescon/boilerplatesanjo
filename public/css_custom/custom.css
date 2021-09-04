@@ -1,0 +1,16 @@
+.border-bottom-3px{
+    border-bottom: 3px solid red;
+}
+
+.border-bottom-3px-orange{
+    border-bottom: 3px solid orange;
+}
+
+.gradient-box {
+  border-image: conic-gradient(red, yellow, lime, aqua, blue, magenta, red) 1;
+}
+
+
+.input-search-color {
+  border-image: conic-gradient(red, green, blue, magenta, red) 1;
+}

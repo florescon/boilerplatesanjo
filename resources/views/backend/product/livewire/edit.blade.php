@@ -65,109 +65,24 @@
 					  </ul>
 
 			      <div class="card-header text-center">
-				    <h5 class="card-title"><strong>{{ $model->name }}</strong></h5>
+				    <h5 class="card-title">
+				    	<strong>
+				    
+                  			<x-input.input-alpine nameData="isName" :inputText="$isName" :originalInput="$isName" wireSubmit="savename" modelName="name" maxlength="200" />
+
+
+				    	</strong>
+				    </h5>
+                    @error('name') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 				  </div>
 			      
 			      <div class="card-body">
 
-				    <div
-				        x-data="
-				            {
-				                 isEditingCode: false,
-				                 isCode: '{{ $isCode }}',
-				                 focus: function() {
-				                    const textInput = this.$refs.textInput;
-				                    textInput.focus();
-				                    textInput.select();
-				                 }
-				            }
-				        "
-				        x-cloak
-				    >
+	                <x-input.input-alpine nameData="isCode" :inputText="$isCode" :originalInput="$isCode" wireSubmit="savecode" modelName="code" />
 
-			            <div
-				            x-show=!isEditingCode
-				        >
-					        <h5 class="card-title text-muted"
-				                x-bind:class="{ 'font-weight-bold': isCode }"
-				                x-on:click="isEditingCode = true; $nextTick(() => focus())"
-					       		style="border-bottom: 1px dashed black;" >
-				       			{{ $isCode }}
-					    	</h5>
-					    </div>
-
-
-				        <div x-show=isEditingCode >
-				            <form class="flex" wire:submit.prevent="savecode">
-
-								<div class="input-group">
-						        	<input type="text" class="form-control" 
-						        	wire:model.lazy="code"
-				                    x-ref="textInput"
-				                    x-on:keydown.escape="isEditingCode = false"
-						        	>
-								  <div class="input-group-append">
-								    <span class="input-group-text" x-on:click="isEditingCode = false">
-								    	<i class="cil-x"></i>
-								    </span>
-	
-								 	<button class="btn btn-primary"  x-on:click="isEditingCode = false" type="submit"><i class="cil-check-alt"></i></button>
-
-								  </div>
-								</div>
-				    		</form>
-				            <small class="text-xs">@lang('Enter to save, Esc to cancel')</small>
-				        </div>
-
-					</div>
                     @error('code') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
-				    <div
-				        x-data="
-				            {
-				                 isEditing: false,
-				                 isDescription: '{{ $isDescription }}',
-				                 focus: function() {
-				                    const textInput = this.$refs.textInput;
-				                    textInput.focus();
-				                    textInput.select();
-				                 }
-				            }
-				        "
-				        x-cloak
-				    >
-			            <div
-				            x-show=!isEditing
-				        >
-					        <p  class="card-text" 
-				                x-bind:class="{ 'font-weight-bold': isDescription }"
-				                x-on:click="isEditing = true; $nextTick(() => focus())"
-					       		style="border-bottom: 1px dashed black;" 
-					        >{{ $origDescription }}</p>
-					    </div>
-
-				        <div x-show=isEditing >
-				            <form class="flex" wire:submit.prevent="savedescription">
-
-								<div class="input-group">
-						        	<input type="text" maxlength="100" class="form-control" 
-						        	wire:model.lazy="newDescription"
-				                    x-ref="textInput"
-				                    x-on:keydown.escape="isEditing = false"
-						        	>
-								  <div class="input-group-append">
-								    <span class="input-group-text" x-on:click="isEditing = false">
-								    	<i class="cil-x"></i>
-								    </span>
-	
-								 	<button class="btn btn-primary"  x-on:click="isEditing = false" type="submit"><i class="cil-check-alt"></i></button>
-
-								  </div>
-								</div>
-				    		</form>
-				            <small class="text-xs">@lang('Enter to save, Esc to cancel')</small>
-				        </div>
-				    </div>
+	                <x-input.input-alpine nameData="isEditing" :inputText="$isDescription" :originalInput="$origDescription" wireSubmit="savedescription" modelName="newDescription" />
 
 				    <br>
 
@@ -176,7 +91,7 @@
 			            <x-utils.undefined :data="optional($model->line)->name"/>
 
 					    <div x-data="{ show: false }" class="d-inline">
-					        <button class="btn btn-secondary btn-sm" @click="show = !show">@lang('Choose line')</button>
+					        <button class="btn btn-dark btn-sm {{ $model->line_id ?: 'pulsingButton'  }}" @click="show = !show"> {{ $model->line_id ? __('Change line') : __('Choose line') }}</button>
 					        <div x-show="show" class="mt-2" wire:ignore>
 		                        <select id="lineselect" class="custom-select" style="width: 100%;" aria-hidden="true" >
 		                        </select>
@@ -296,7 +211,7 @@
 						    </div>
 
 	  						@foreach($attributes->children->unique('color_id')->sortBy('color.name') as $children) 	
-								<span class="badge {{ in_array($children->color_id, $filters) ? 'bg-primary text-white' : 'bg-secondary' }}" 
+								<span class="badge text-white {{ in_array($children->color_id, $filters) ? 'bg-primary' : 'bg-dark' }}" 
 					                  wire:click="$emit('filterByColor', {{ $children->color_id }})"
 									  style="cursor:pointer"
 								>{{ optional($children->color)->name }}</span>
@@ -344,7 +259,7 @@
 					    </div>
 
   						@foreach($attributes->children->unique('size_id')->sortBy('size.name') as $children) 	
-							<span class="badge {{ in_array($children->size_id, $filtersz) ? 'bg-primary text-white' : 'bg-secondary' }}" 
+							<span class="badge text-white {{ in_array($children->size_id, $filtersz) ? 'bg-primary' : 'bg-dark' }}" 
 				                  wire:click="$emit('filterBySize', {{ $children->size_id }})"
 								  style="cursor:pointer"
 							>{{ optional($children->size)->name }}</span>
@@ -438,7 +353,10 @@
 				    <div class="card card-box edit-product" style="{{ optional($childrens->first()->color)->color ? 'border: '. $childrens->first()->color->color. ' 3px solid' : '' }} ">
 				      <div class="card-body">
 
-					    <h5 class="card-title"><strong>{{ optional($childrens->first()->color)->name }}</strong></h5>
+					    <h5 class="card-title">
+					    	<strong>{{ optional($childrens->first()->color)->name }}</strong>
+					    	{!! optional($childrens->first()->color)->visual_color !!}
+					    </h5>
 
 						<div class="table-responsive">
 						<table class="table table-sm">

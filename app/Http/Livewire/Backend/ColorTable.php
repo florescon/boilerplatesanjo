@@ -77,6 +77,8 @@ class ColorTable extends Component
             })
             ->where(function ($query) {
                 $query->where('name', 'like', '%' . $this->searchTerm . '%')
+                    ->orWhere('short_name', 'like', '%' . $this->searchTerm . '%')
+                    ->orWhere('slug', 'like', '%' . $this->searchTerm . '%')
                     ->orWhere('color', 'like', '%' . $this->searchTerm . '%');
             })
             ->when($this->deleted, function ($query) {

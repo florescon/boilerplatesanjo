@@ -51,6 +51,9 @@ class ListProducts extends Component
         
         $query = Product::query()
             ->with('parent', 'color', 'size')
+            ->whereHas('parent', function ($query) {
+                $query->whereNull('deleted_at');
+            })
             ->where('parent_id', '<>', NULL)->orderBy('updated_at', 'desc')
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?

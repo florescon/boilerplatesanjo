@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Size extends Model
 {
@@ -25,6 +26,42 @@ class Size extends Model
                 'onUpdate' => true,
             ]
         ];
+    }
+
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class, 'size_id')->with('parent')
+            ->whereHas('parent', function ($query) {
+                $query->whereNull('deleted_at');
+            })
+        ;
+    }
+
+    /**
+     * Count the number products.
+     *
+     * @return int
+     */
+    public function getTotalVariantsAttribute() : int
+    {
+        return Product::where('parent_id', '<>', NULL)->count();
+
+    }
+
+    /**
+     * Count the number products.
+     *
+     * @return int
+     */
+    public function getcountProductsAttribute() : int
+    {
+        return $this->products->count();
+    }
+
+    public function getTotalPercentageAttribute() 
+    {
+        return ($this->count_products * 100) / $this->total_variants;
+
     }
 
     /**

@@ -18,6 +18,13 @@ class ColorController extends Controller
         return view('backend.color.index');
     }
 
+    public function associates(Color $color)
+    {
+        $associates = $color->products()->paginate(10);
+        $model = $color;
+        return view('backend.product.associates-products', compact('associates', 'model'));
+    }
+
     public function select2LoadMore(Request $request)
     {
         $search = $request->get('search');

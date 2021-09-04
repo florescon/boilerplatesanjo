@@ -14,51 +14,57 @@
     <x-slot name="body">
         <section class="ftco-section">
             <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-md-6 text-center mb-4">
-                        <h2 class="heading-section">{{ $product_name }}</h2>
-                    </div>
-                </div>
                 <div class="row">
                     <div class="col-md-12">
+                        <div class="row container d-flex justify-content-center">
+                            <div class="col-sm-6 col-lg-10 grid-margin stretch-card">
+
+                              <div class="card">
+                                <div class=" card-up aqua-gradient card-header content-center">
+                                    <h2 class="text-white my-3">
+                                        {{ $product_name }}
+                                    </h2>
+                                </div>
+                                <div class="card-body row text-center">
+                                  <div class="col">
+                                    <div class="text-value-xl mb-2">{{ $product_code }}</div>
+
+                                    <p class="custom-control custom-switch m-0 text-uppercase text-muted">
+                                        <input class="custom-control-input" id="customCodes" type="checkbox" wire:model="customCodes">
+                                        <label class="custom-control-label font-italic" for="customCodes">@lang('Codes')</label>
+                                    </p>
+
+
+                                    @if($customCodes == true)
+                                    <h3 class="h5 my-4 text-center">
+
+                                        <x-utils.form-button
+                                        :action="route('admin.product.create-codes', $product_id)"
+                                        name="confirm-item"
+                                        button-class="btn btn-outline-primary"
+                                        >
+                                        @lang('Create codes automatically')
+                                    </x-utils.form-button>
+
+                                    </h3>
+                                    @endif
+
+                                    </div>
+                                    <div class="c-vr"></div>
+                                    <div class="col">
+                                        <div class="text-value-xl mb-2">${{ $product_price }}</div>
+                                        <p class="custom-control custom-switch m-0 text-uppercase text-muted">
+                                            <input class="custom-control-input" id="customPrices" type="checkbox" wire:model="customPrices">
+                                            <label class="custom-control-label font-italic" for="customPrices">@lang('Prices')</label>
+                                        </p>
+
+                                    </div>
+                                </div>
+                               </div>
+                            </div>
+                        </div>
+
                         <div class="table-wrap">
-                        <h3 class="h5 mb-4 text-center">
-                            <div class="btn-group" role="group" aria-label="First group">
-                                <kbd><kbd>${{ $product_code }}</kbd></kbd>
-                            </div>
-                            <div class="btn-group" role="group" aria-label="Basic example">
-
-                            <p class="custom-control custom-switch m-0">
-                                <input class="custom-control-input" id="customCodes" type="checkbox" wire:model="customCodes">
-                                <label class="custom-control-label font-italic" for="customCodes">@lang('Codes')</label>
-                            </p>
-
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                            <p class="custom-control custom-switch m-0">
-                                <input class="custom-control-input" id="customPrices" type="checkbox" wire:model="customPrices">
-                                <label class="custom-control-label font-italic" for="customPrices">@lang('Prices')</label>
-                            </p>
-
-                            </div>
-                            <div class="btn-group" role="group" aria-label="Third group">
-                                <kbd><kbd>${{ $product_price }}</kbd></kbd>
-                            </div>
-                        </h3>
-
-
-                        @if($customCodes == true)
-                        <h3 class="h5 mb-4 text-center">
-
-                                <x-utils.form-button
-                                    :action="route('admin.product.create-codes', $product_id)"
-                                    name="confirm-item"
-                                    button-class="form-control"
-                                >
-                                    @lang('Create codes automatically')
-                                </x-utils.form-button>
-
-                        </h3>
-                        @endif
                             <div class="table-responsive">
                             <table class="table myaccordion table-hover" id="accordion">
                                 <thead>

@@ -7,11 +7,12 @@ use App\Models\Order;
 use App\Models\Status;
 use App\Models\StatusOrder;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class EditOrder extends Component
 {
 
-    public $order_id, $lates_statusId;
+    public $order_id, $lates_statusId, $isComment, $comment, $isDate, $date_entered;
 
     public $previousMaterialByProduct, $maerialAll;
 
@@ -26,7 +27,69 @@ class EditOrder extends Component
     {
         $this->order_id = $order->id;
         $this->lates_statusId = $order->load('last_status_order')->last_status_order->status_id ?? null;
+        $this->initcomment($order);
+        $this->initdate($order);
+
         $this->initstatus($order);
+    }
+
+    private function initcomment(Order $order)
+    {
+        $this->comment = $order->comment;
+        $this->isComment = $order->comment || empty($order) ? $order->comment : __('Define comment');
+    }
+
+    private function initdate(Order $order)
+    {
+        $this->date_entered = $order->date_entered;
+        $this->isDate = $order->date_entered || empty($order) ? $order->date_entered : __('Define date');
+    }
+
+    public function savecomment()
+    {
+
+        $this->validate([
+            'comment' => 'required|max:100',
+        ]);
+
+        $order = Order::findOrFail($this->order_id);
+        $newComment = (string)Str::of($this->comment)->trim()->substr(0, 100); // trim whitespace & more than 100 characters
+
+        $order->comment = $newComment ?? null;
+        $order->save();
+
+        $this->initcomment($order); // re-initialize the component state with fresh data after saving
+
+
+
+        $this->emit('swal:alert', [
+           'icon' => 'success',
+            'title'   => __('Updated at'), 
+        ]);
+    }
+
+
+    public function savedate()
+    {
+
+        $this->validate([
+            'date_entered' => 'required|max:100',
+        ]);
+
+        $order = Order::findOrFail($this->order_id);
+        $newDate = (string)Str::of($this->date_entered)->trim()->substr(0, 100); // trim whitespace & more than 100 characters
+
+        $order->date_entered = $newDate ?? null;
+        $order->save();
+
+        $this->initdate($order); // re-initialize the component state with fresh data after saving
+
+
+
+        $this->emit('swal:alert', [
+           'icon' => 'success',
+            'title'   => __('Updated at'), 
+        ]);
     }
 
     public function updateStatus($statusId): void

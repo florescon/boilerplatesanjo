@@ -43,6 +43,13 @@
 			      	</small>
 			      </p>
 		      @endif
+		      @if(!$product->line_id)
+			      <p class="card-text">
+			      	<small class="text-danger">
+			      		@lang('Undefined line')
+			      	</small>
+			      </p>
+		      @endif
 			<a href="{{ route('admin.product.edit',  $product->id) }}" class="stretched-link"></a>
 		    </div>
 

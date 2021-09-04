@@ -109,6 +109,9 @@
 	              </th>
 
 	              <th scope="col">
+	                  @lang('Code')
+	              </th>
+	              <th scope="col">
 	                  @lang('Name')
 	              </th>
 
@@ -132,11 +135,13 @@
                   <i class="form-icon"></i>
                   </label>
               </td>
-
+	              <td scope="row">
+	              	{!! $product->code_subproduct !!}
+	              </td>
 	              <td scope="row">
 	                <div class="media align-items-center">
 	                  <div class="media-body">
-	                    <span class="mb-0 text-sm">{!! '<strong>' .$product->parent->name.' </strong> ('.optional($product->color)->name.'  '.optional($product->size)->name.') ' !!}</span>
+	                    <span class="mb-0 text-sm">{!! '<strong>' .optional($product->parent)->name.' </strong> ('.optional($product->color)->name.'  '.optional($product->size)->name.') ' !!}</span>
 	                  </div>
 	                </div>
 	              </td>
@@ -160,7 +165,7 @@
 
                     <a  href="{{ route('admin.product.consumption_filter', $product->id) }}" class="btn btn-transparent-dark">
                       <i class='cil-list-filter'></i>
-                      Consumo
+                      @lang('Punctual consumption')
                     </a>
 
 	              </td>

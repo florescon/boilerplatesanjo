@@ -6,7 +6,7 @@
         <meta charset="utf-8">
         <title>{{ appName() }}</title>
         <meta name="description" content="@yield('meta_description', appName())">
-        <meta name="author" content="@yield('meta_author', 'Anthony Rappa')">
+        <meta name="author" content="@yield('meta_author', 'Flores')">
         <meta name="keywords"  content="" />
         <meta property="og:title" content="" />
         <meta property="og:type" content="" />
@@ -44,6 +44,7 @@
         <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
         <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
 
         <!-- CSS
@@ -73,23 +74,24 @@
 
     </head>
 
-<body>  
-
+<body> 
 
     <div class="animsition">
     
-    <a href="https://wa.me/524747423000" class="float" target="_blank">
-        <i class="fa fa-whatsapp my-float"></i>
-    </a>        
+        <a href="https://wa.me/524747423000" class="float" target="_blank">
+            <i class="fa fa-whatsapp my-float"></i>
+        </a>        
 
         <!-- Navigation
         ================================================== -->
                 
-        <div class="navigation-wrap cbp-af-header {{ $headerDark ?? null }} header-transparent">
+        <div class="navigation-wrap cbp-af-header {{ $headerDark ?? null }} header-transparent border-bottom-0">
 
             @include('includes.partials.read-only')
             @include('includes.partials.logged-in-as')
             {{-- @include('includes.partials.announcements') --}}
+
+            @include('frontend.includes_ga.nav')
 
             @include('frontend.includes_ga.navigation')
 
@@ -97,11 +99,15 @@
         
         <!-- Modal Search -->
 
-            @include('frontend.includes_ga.modal-search')
+        @include('frontend.includes_ga.modal-search')
         
         <!-- Modal Cart -->
 
-            @livewire('frontend.header.header-cart-porto-drop')
+        @livewire('frontend.header.header-cart-porto-drop')
+
+        <!-- Modal QR -->
+
+        @include('frontend.includes_ga.modal-qr')
 
         <!-- Primary Page Layout
         ================================================== -->
@@ -115,22 +121,21 @@
         
         <!-- Modal filters -->
         
-            {{-- @include('frontend.includes_ga.modal-filters') --}}
-            <livewire:frontend.index.modal-line />
+        {{-- @include('frontend.includes_ga.modal-filters') --}}
+        <livewire:frontend.index.modal-line />
         
         <!-- Partials messages -->
 
-           @include('includes.partials.messages_ga')
+        @include('includes.partials.messages_ga')
 
         <!-- Content -->
     
-            @yield('content')
-
+        @yield('content')
 
         <!-- Footer
         ================================================== -->
 
-            @include('frontend.includes_ga.footer')
+        @include('frontend.includes_ga.footer')
         
     </div>
 
@@ -198,13 +203,13 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/i18n/es.js"></script>
 
-    @stack('after-scripts')
-
     <script>
         $(function () {
           $('[data-toggle="tooltip"]').tooltip()
         })
     </script>
+
+    @stack('after-scripts')
 
 <!-- End Document
 ================================================== -->

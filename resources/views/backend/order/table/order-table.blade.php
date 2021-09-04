@@ -119,7 +119,7 @@
 	            		#{{ $order->id }}
 	            	</td>
 	              <td>
-	              	{{ optional($order->user)->name }}
+	              	{!! $order->user_name !!}
 	              </td>
                 <td>
                   {!! $order->comment ?? '<span class="badge badge-secondary">'.__('undefined').'</span>' !!}

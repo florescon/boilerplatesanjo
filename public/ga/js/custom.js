@@ -159,6 +159,34 @@
     }); 
 
 	
+	// Contact form submit
+	
+	$('.send-contact-message').on('click', function() {
+		var data = {
+			fullname: $('#contactname').val(),
+			email: $('#contactemail').val(),
+			subject: $('input[name="subject"]:checked').val(),
+			message: $('#contactmessage').val(),
+		};
+
+		$.post({
+			url: 'contact.php',
+			data: data,
+			success: function(data) {
+				$('#contact-message-feedback')
+					.text(data.message)
+					.removeClass()
+					.addClass(data.status);
+			},
+			error: function(xhr, errorText) {
+				$('#contact-message-feedback')
+					.text(errorText)
+					.removeClass()
+					.addClass('error');
+			},
+		});
+	});
+
 
 	/* Input file */
     
@@ -1472,12 +1500,12 @@
 	/* Swiper product page */
 
     var galleryThumbs = new Swiper('.swiper-product-page-thumbs', {
-		spaceBetween: 5,
-		slidesPerView: '5',
+		spaceBetween: 10,
+		slidesPerView: '4',
 		centeredSlides: false,
 		touchRatio: 0.2,
 		slideToClickedSlide: true,
-		loop: true,
+		loop: false,
 		watchSlidesVisibility: true,
 		watchSlidesProgress: true,
     });

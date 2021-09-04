@@ -18,10 +18,19 @@
                                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                         <ul class="navbar-nav mr-xl-4 ml-auto pt-4 pt-xl-0">
                                             <li class="nav-item">
-                                                <a class="nav-link active" role="button" aria-haspopup="true" aria-expanded="false" href="{{ url('/') }}">@lang('Home')</a>
+                                                <a class="nav-link {{ Route::is('frontend.index') ? 'active' : '' }}" role="button" aria-haspopup="true" aria-expanded="false" href="{{ url('/') }}">@lang('Home')</a>
                                             </li>
+
+                                            @auth
+                                            @if ($logged_in_user->isUser())
                                             <li class="nav-item">
-                                                <a class="nav-link" role="button" aria-haspopup="true" aria-expanded="false" href="{{ url('/') }}">@lang('Order track')</a>
+                                                <a class="nav-link {{ Route::is('frontend.user.dashboard') ? 'active' : '' }}" role="button" aria-haspopup="true" aria-expanded="false" href="{{ route('frontend.user.dashboard') }}">@lang('Dashboard')</a>
+                                            </li>
+                                            @endif
+                                            @endauth
+
+                                            <li class="nav-item">
+                                                <a class="nav-link  {{ Route::is('frontend.track.index') ? 'active' : '' }}" role="button" aria-haspopup="true" aria-expanded="false" href="{{ route('frontend.track.index') }}">@lang('Order track')</a>
                                             </li>
                                             @auth
                                             @if ($logged_in_user->isAdmin())
@@ -31,6 +40,7 @@
                                                 </a>
                                             </li>
                                             @endif
+
                                             <li class="nav-item">
                                                 <a class="nav-link" style="color:red" href="#" role="button" aria-haspopup="true" aria-expanded="false" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                                                     @lang('Logout')
@@ -39,10 +49,14 @@
                                             </li>
                                             @endauth
                                             <li class="nav-item">
-                                                <a href="{{ Auth::check() ? route('frontend.user.account') : route('frontend.auth.login') }}" type="button" class="btn btn-light btn-44 mr-1 mb-1"
+                                                <a href="{{ Auth::check() ? route('frontend.user.account') : route('frontend.auth.login') }}" type="button" class="btn btn-outline-danger btn-44 mr-1 mb-1"
                                                     @if(Auth::check())
                                                        data-toggle="tooltip" data-html="true" data-placement="bottom" title="
-                                                       <div class='pt-4'>
+                                                       <div class='mt-2'>
+                                                        <p>
+                                                            <i class='uil uil-user-circle size-20'></i>
+                                                        </p>
+
                                                         {{ Auth::user()->name }}
                                                        </div
                                                        "
@@ -52,23 +66,8 @@
                                                 </a>               
                                             </li>
                                             <li class="nav-item">
-                                                <a href="{{ route('frontend.shop.index') }}" class="btn btn-dark-primary mt-4 mt-xl-0">@lang('Shop')</a>
+                                                <a href="{{ route('frontend.shop.index') }}" role="button" class="btn btn-blue-gradient mt-4 mt-xl-0"><i class="uil uil-store-alt size-20 mr-2"></i> @lang('Shop')</a>
                                             </li>
-
-                                            @if(config('boilerplate.locale.status') && count(config('boilerplate.locale.languages')) > 1)
-                                                <li class="nav-item dropdown">
-                                                    <x-utils.link
-                                                        :text="__(getLocaleName(app()->getLocale()))"
-                                                        class="nav-link dropdown-2"
-                                                        id="navbarDropdownLanguageLink"
-                                                        data-toggle="dropdown"
-                                                        aria-haspopup="true"
-                                                        aria-expanded="false" />
-
-                                                    @include('includes.partials.lang')
-                                                </li>
-                                            @endif
-
 
                                         </ul>
 

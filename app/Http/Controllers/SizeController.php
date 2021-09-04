@@ -18,6 +18,13 @@ class SizeController extends Controller
 	    return view('backend.size.index');
 	}
 
+    public function associates(Size $size)
+    {
+        $associates = $size->products()->paginate(10);
+        $model = $size;
+        return view('backend.product.associates-products', compact('associates', 'model'));
+    }
+
 	public function deleted()
 	{
 	    return view('backend.size.deleted');

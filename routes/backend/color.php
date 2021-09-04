@@ -17,6 +17,16 @@ Route::group([
             $trail->parent('admin.dashboard')
                 ->push(__('Color Management'), route('admin.color.index'));
         });
+
+    Route::group(['prefix' => '{color}'], function () {
+        Route::get('associates', [ColorController::class, 'associates'])
+            ->name('associates')
+            ->breadcrumbs(function (Trail $trail, Color $color) {
+                $trail->parent('admin.color.index', $color)
+                    ->push(__('Associates of').' '.$color->name, route('admin.color.associates', $color));
+            });
+    });
+
 });
 
 

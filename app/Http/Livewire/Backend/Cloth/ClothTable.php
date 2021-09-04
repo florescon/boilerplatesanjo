@@ -57,6 +57,7 @@ class ClothTable extends TableComponent
     protected $options = [
         'bootstrap.container' => false,
         'bootstrap.classes.table' => 'table table-striped table-bordered',
+        'bootstrap.classes.thead' => 'thead-dark border-bottom-3px',
         'bootstrap.responsive' => true,
 
     ];

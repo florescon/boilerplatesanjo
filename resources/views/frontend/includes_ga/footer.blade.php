@@ -1,4 +1,4 @@
-        <div class="section over-hide  padding-top padding-bottom bg-light section-background-21" id="footer">
+        <div class="section over-hide  padding-top padding-bottom bg-transparent section-background-2" id="footer">
             <div class="section-1400">
                 <div class="container-fluid">
                     <div class="row">
@@ -64,7 +64,7 @@
                             {{-- <a href="sitemap.html" class="link link-normal text-center-v animsition-link">Sitemap <i class="uil uil-arrow-right size-20 ml-1"></i></a>  --}}
                         </div>
                         <div class="col-md order-md-first">
-                            <p class="mb-0 size-14 mt-1 font-weight-500">© {{ date('Y') }} {{ __(appName()) }}. @lang('All Rights Reserved').</p>
+                            <p class="mb-0 size-14 mt-1 font-weight-500 text-dark">© {{ date('Y') }} {{ __(appName()) }}. @lang('All Rights Reserved').</p>
                         </div>
                     </div>
                 </div>

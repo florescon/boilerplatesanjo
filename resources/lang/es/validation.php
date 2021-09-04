@@ -156,5 +156,6 @@ return [
         'description' => 'descripción',
         'size_id' => 'talla',
         'color_id' => 'color',
+        'comment' => 'comentario',
     ],
 ];

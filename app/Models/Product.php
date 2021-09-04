@@ -100,7 +100,7 @@ class Product extends Model
      */
     public function getFullNameAttribute()
     {
-        return '<strong>'.$this->parent->name.'</strong> '.$this->size_name.' '.$this->color_name;
+        return $this->parent_id != null ? '<strong>'.$this->parent->name.'</strong> '.$this->size_name.' '.$this->color_name : $this->name." <span class='badge badge-primary'>".__('Main').'</span>';
     }
 
     /**
@@ -286,6 +286,20 @@ class Product extends Model
     public function log()
     {
         return $this->morphMany(Log::class, 'logable');
+    }
+
+    public function getDateForHumansSpecialAttribute()
+    {
+        return $this->parent_id != null ? $this->parent->created_at : $this->created_at;
+    }
+
+    public function getNewProductAttribute()
+    {
+        if($this->created_at->gt(\Carbon\Carbon::now()->subMonth())){
+            return __('New'). ' |';
+        }
+
+        return '';
     }
 
     public function getDateForHumansAttribute()

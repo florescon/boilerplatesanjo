@@ -5,23 +5,39 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
+use App\Models\Frontend\Order;
+use App\Http\Requests\Frontend\Order\SearchRequest;
+use Carbon\Carbon;
+
 
 class TrackController extends Controller
 {
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('signed')->only('track');
-    }
-
     public function orderTrack()
     {
-        return 'sii';
+        return view('frontend.track.index');
     }
+
+    public function search(SearchRequest $request){
+
+        $search = $request->search;
+
+        return redirect()->route('frontend.track.show', $request->slug);
+
+    }
+
+    public function show(Order $order)
+    {
+        $limit = $order->created_at->addMonth();
+        $now = Carbon::now();
+        $result = $now->gt($limit);
+        $order_id = $order->id;
+        $tracking_number = $order->slug;
+
+        $percentage_status = $order->last_status_order->status->percentage ?? '';
+
+        return view('frontend.track.show')->with(compact('result', 'order_id', 'tracking_number', 'limit', 'order', 'percentage_status'));
+    }
+
 
 }

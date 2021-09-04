@@ -21,7 +21,7 @@
                 icon="c-icon cil-plus"
                 class="card-header-action"
                 data-toggle="modal" 
-                style="color: green;"
+                style="color: orange;"
                 wire:click="$emitTo('backend.material.create-material', 'createmodal')" 
                 data-target="#createMaterial"
                 :text="__('Create feedstock')"

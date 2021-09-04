@@ -8,19 +8,42 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Domains\Auth\Models\User;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
 use App\Models\Traits\Scope\OrderScope;
+use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Support\Str;
 
 class Order extends Model
 {
-    use HasFactory, SoftDeletes, CascadeSoftDeletes, OrderScope;
+    use HasFactory, SoftDeletes, CascadeSoftDeletes, OrderScope, Sluggable;
 
     protected $cascadeDeletes = ['product_order', 'product_sale', 'materials_order'];
+
+    protected $fillable = ['date_entered'];
+
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'full_slug',
+            ]
+        ];
+    }
+
+    public function getFullSlugAttribute(): string
+    {
+        return 'sju'. ' ' . Str::random(6);
+    }
 
     /**
      * @return mixed
      */
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withTrashed();
     }
 
     /**
@@ -30,6 +53,17 @@ class Order extends Model
     {
         return $this->belongsTo(User::class, 'audi_id');
     }
+
+    /**
+     * Return the correct order status formatted.
+     *
+     * @return mixed
+     */
+    public function getUserNameAttribute(): string
+    {
+        return $this->user_id ? $this->user->name : "<span class='badge badge-primary'>Stock ".appName().'</span>';
+    }
+
 
     /**
      * @return mixed
@@ -170,6 +204,8 @@ class Order extends Model
                     return "<span class='badge badge-success'>".__('Sale').'</span>';
                 case 3:
                     return "<span class='badge badge-warning text-white'>".__('Mix').'</span>';
+                case 4:
+                    return "<span class='badge badge-info text-white'>".__('Suborder').'</span>';
                 default:
                     return "<span class='badge badge-primary'>".__('Order').'</span>';
             }

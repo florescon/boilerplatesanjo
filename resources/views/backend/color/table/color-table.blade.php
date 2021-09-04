@@ -1,4 +1,4 @@
-<div class="card shadow-lg p-3 mb-5 bg-white rounded">
+<div class="card shadow-lg p-3 mb-5 bg-white rounded gradient-box">
 
   @include('backend.color.update')
   @include('backend.color.create')
@@ -72,7 +72,7 @@
 
     <div class="col">
       <div class="input-group">
-        <input wire:model.debounce.350ms="searchTerm" class="form-control" type="text" placeholder="{{ __('Search') }}..." />
+        <input wire:model.debounce.350ms="searchTerm" class="form-control input-search-color" type="text" placeholder="{{ __('Search') }}..." />
         @if($searchTerm !== '')
         <div class="input-group-append">
           <button type="button" wire:click="clear" class="close" aria-label="Close">
@@ -122,8 +122,9 @@
   <div class="row mt-4">
     <div class="col">
       <div class="table-responsive">
-        <table class="table table-sm align-items-center table-flush table-bordered table-hover">
-          <thead style="color: #0061f2;">
+        <table class="table  table-sm align-items-center table-flush table-bordered table-hover">
+          <thead style="
+          " class="thead-dark">
             <tr>
 
               <th style="width:30px; max-width: 30px;">
@@ -134,7 +135,7 @@
               </th>
 
               <th scope="col">
-                <a wire:click.prevent="sortBy('name')" role="button" href="#">
+                <a style="color:white;" wire:click.prevent="sortBy('name')" role="button" href="#">
                   @lang('Name')
                   @include('backend.includes._sort-icon', ['field' => 'name'])
                 </a>
@@ -147,8 +148,11 @@
 
               <th style="width:40px; max-width: 40px;">
               </th>
+
+              <th scope="col" class="text-center"># @lang('Associates')</th>
+
               <th scope="col">
-                <a wire:click.prevent="sortBy('updated_at')" role="button" href="#">
+                <a style="color:white;" wire:click.prevent="sortBy('updated_at')" role="button" href="#">
                   @lang('Updated at')
                   @include('backend.includes._sort-icon', ['field' => 'updated_at'])
               </a>
@@ -183,6 +187,9 @@
                 {{ $color->color }}
               </td>
               <td style="background-color: {{ $color->color }}">
+              </td>
+              <td class="text-center">
+                <a href="{{ route('admin.color.associates', $color->id) }}"> {{ $color->count_products }}</a>
               </td>
               <td>
                 <span class="badge badge-dot mr-4">

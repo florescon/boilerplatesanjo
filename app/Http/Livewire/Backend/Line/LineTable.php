@@ -57,10 +57,10 @@ class LineTable extends TableComponent
     protected $options = [
         'bootstrap.container' => false,
         'bootstrap.classes.table' => 'table table-striped table-bordered',
+        'bootstrap.classes.thead' => 'thead-dark border-bottom-3px',
         'bootstrap.responsive' => true,
 
     ];
-
 
     /**
      * @param  string  $status
@@ -90,7 +90,6 @@ class LineTable extends TableComponent
         // });
     }
 
-
     /**
      * @return array
      */
@@ -109,7 +108,10 @@ class LineTable extends TableComponent
                 ->exportFormat(function(Line $model) {
                     return $model->slug;
                 }),
-            Column::make(__('Associated products'), 'count_products'),
+            Column::make(__('Associated products'), 'count_products')
+                ->format(function(Line $model) {
+                    return $this->link(route('admin.line.associates', $model->id), $model->count_products);
+                }),
             Column::make(__('Created at'), 'created_at')
                 ->searchable()
                 ->sortable(),

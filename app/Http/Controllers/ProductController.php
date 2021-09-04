@@ -115,7 +115,9 @@ class ProductController extends Controller
         try {
 
             foreach ($product->children as $prod) {
-                $prod->update(['code' => $product->code.optional($prod->color)->short_name.optional($prod->size)->short_name]);
+                if($prod->size->short_name && $prod->color->short_name){
+                    $prod->update(['code' => $product->code.optional($prod->color)->short_name.optional($prod->size)->short_name]);
+                }
             }
 
         } catch (Exception $e) {
@@ -127,7 +129,7 @@ class ProductController extends Controller
         DB::commit();
 
 
-        return redirect()->back()->withFlashSuccess(__('Codes updated.'));
+        return redirect()->back()->withFlashSuccess(__('Updated codes'));
     }
 
 

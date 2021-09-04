@@ -26,6 +26,15 @@ Route::group([
         });
 
 
+    Route::group(['prefix' => '{line}'], function () {
+        Route::get('associates', [LineController::class, 'associates'])
+            ->name('associates')
+            ->breadcrumbs(function (Trail $trail, Line $line) {
+                $trail->parent('admin.line.index', $line)
+                    ->push(__('Associates of').' '.$line->name, route('admin.line.associates', $line));
+            });
+    });
+
 });
 
 

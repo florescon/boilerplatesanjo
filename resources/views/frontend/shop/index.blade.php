@@ -10,7 +10,7 @@
 				<div class="row">
 					<div class="col-lg">
 						<h2 class="display-8 mb-3">
-							@lang('Shop') <span class="typed-fashion"></span>
+							<span class="typed-fashion"></span>
 						</h2>
 						<p class="lead mb-0 title-text-left-line-small">
 							{{ appName() }} 
@@ -43,8 +43,8 @@
 	<script>		
 		// Type text
 
-		var purchase = @json('- '. __('Purchase of products'));
-		var order = @json('- '. __('Order products'));
+		var purchase = @json( __('Purchase of products'));
+		var order = @json(__('Order products'));
 		
 		var typed = new Typed('.typed-fashion', {
 			strings: [order, purchase],

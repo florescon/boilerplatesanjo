@@ -13,7 +13,7 @@ class EditProduct extends Component
 
     use WithFileUploads;
 
-    public $shortId, $isCode, $code, $isDescription, $origDescription, $newDescription, $increaseStock, $subtractStock, $increaseStockRevision, $subtractStockRevision, $increaseStockStore, $subtractStockStore, $inputincrease, $inputsubtract, $inputincreaserevision, $inputsubtractrevision, $inputincreasestore, $inputsubtractstore, $product_id, $color_id_select, $size_id_select, $photo, $imageName, $origPhoto, $colorss, $line_id;
+    public $slug, $isCode, $code, $isName, $name, $isDescription, $origDescription, $newDescription, $increaseStock, $subtractStock, $increaseStockRevision, $subtractStockRevision, $increaseStockStore, $subtractStockStore, $inputincrease, $inputsubtract, $inputincreaserevision, $inputsubtractrevision, $inputincreasestore, $inputsubtractstore, $product_id, $color_id_select, $size_id_select, $photo, $imageName, $origPhoto, $colorss, $line_id;
 
 
     public $colorsmultiple_id = [];
@@ -36,12 +36,13 @@ class EditProduct extends Component
     public function mount(Product $product)
     {
         $this->product_id = $product->id;
-        $this->shortId = $product->slug;
+        $this->slug = $product->slug;
         $this->origPhoto = $product->file_name;
         $this->origDescription = $product->description;
         $this->isCode = $product->code;
         $this->init($product);
         $this->initcode($product);
+        $this->initname($product);
     }
 
     public function addToCart(int $productId, string $typeCart): void
@@ -152,12 +153,35 @@ class EditProduct extends Component
 
         $product = Product::findOrFail($this->product_id);
         $newDescription = (string)Str::of($this->newDescription)->trim()->substr(0, 100); // trim whitespace & more than 100 characters
-        $newDescription = $newDescription === $this->shortId ? null : $newDescription; // don't save it as product name it if it's identical to the short_id
+        $newDescription = $newDescription === $this->slug ? null : $newDescription; // don't save it as product name it if it's identical to the short_id
 
         $product->description = $newDescription ?? null;
         $product->save();
 
         $this->init($product); // re-initialize the component state with fresh data after saving
+
+        $this->emit('swal:alert', [
+           'icon' => 'success',
+            'title'   => __('Updated at'), 
+        ]);
+    }
+
+    public function savename()
+    {
+
+        $this->validate([
+            'name' => 'required|max:50',
+        ]);
+
+        $product = Product::findOrFail($this->product_id);
+        $newName = (string)Str::of($this->name)->trim()->substr(0, 100); // trim whitespace & more than 100 characters
+
+        $product->name = $newName ?? null;
+        $product->save();
+
+        $this->initname($product); // re-initialize the component state with fresh data after saving
+
+
 
         $this->emit('swal:alert', [
            'icon' => 'success',
@@ -174,7 +198,7 @@ class EditProduct extends Component
 
         $product = Product::findOrFail($this->product_id);
         $newCode = (string)Str::of($this->code)->trim()->substr(0, 30); // trim whitespace & more than 100 characters
-        $newCode = $newCode === $this->shortId ? null : $newCode; // don't save it as product name it if it's identical to the short_id
+        $newCode = $newCode === $this->slug ? null : $newCode; // don't save it as product name it if it's identical to the short_id
 
         $product->code = $newCode ?? null;
         $product->save();
@@ -467,7 +491,7 @@ class EditProduct extends Component
 
     private function init(Product $product)
     {
-        $this->origDescription = $product->description ?: $this->shortId;
+        $this->origDescription = $product->description ?: $this->slug;
         $this->newDescription = $this->origDescription;
         $this->isDescription = $product->description ?? false;
     }
@@ -478,6 +502,11 @@ class EditProduct extends Component
         $this->isCode = $product->code ?? false;
     }
 
+    private function initname(Product $product)
+    {
+        $this->name = $product->name;
+        $this->isName = $product->name ?? false;
+    }
 
     private function initphoto(Product $product)
     {

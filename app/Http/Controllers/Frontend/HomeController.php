@@ -15,7 +15,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $products_count = Product::where('parent_id', '<>', NULL)->count();
+        $products_count = Product::where('parent_id', '<>', NULL)
+            ->whereHas('parent', function ($query) {
+                $query->whereNull('deleted_at');
+            })
+            ->count();
 
         return view('frontend.index_ga')->with(compact('products_count'));
     }
