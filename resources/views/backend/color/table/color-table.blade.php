@@ -148,8 +148,9 @@
 
               <th style="width:40px; max-width: 40px;">
               </th>
-
               <th scope="col" class="text-center"># @lang('Associates')</th>
+
+              <th scope="col" class="text-center"># @lang('Associated subproducts')</th>
 
               <th scope="col">
                 <a style="color:white;" wire:click.prevent="sortBy('updated_at')" role="button" href="#">
@@ -189,7 +190,10 @@
               <td style="background-color: {{ $color->color }}">
               </td>
               <td class="text-center">
-                <a href="{{ route('admin.color.associates', $color->id) }}"> {{ $color->count_products }}</a>
+                <a href="{{ route('admin.color.associates', $color->id) }}"> {{ $color->count_product }}</a>
+              </td>
+              <td class="text-center">
+                <a href="{{ route('admin.color.associates_sub', $color->id) }}"> {{ $color->count_products }}</a>
               </td>
               <td>
                 <span class="badge badge-dot mr-4">

@@ -108,7 +108,7 @@ class LineTable extends TableComponent
                 ->exportFormat(function(Line $model) {
                     return $model->slug;
                 }),
-            Column::make(__('Associated products'), 'count_products')
+            Column::make('# '.__('Associated products'), 'count_products')
                 ->format(function(Line $model) {
                     return $this->link(route('admin.line.associates', $model->id), $model->count_products);
                 }),

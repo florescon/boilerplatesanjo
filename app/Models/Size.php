@@ -37,6 +37,16 @@ class Size extends Model
         ;
     }
 
+
+    public function product(): HasMany
+    {
+        return $this->hasMany(Product::class, 'size_id')->with('parent')
+            ->whereHas('parent', function ($query) {
+                $query->whereNull('deleted_at');
+            })->groupBy('parent_id')
+        ;
+    }
+
     /**
      * Count the number products.
      *
@@ -56,6 +66,16 @@ class Size extends Model
     public function getcountProductsAttribute() : int
     {
         return $this->products->count();
+    }
+
+    /**
+     * Count the number products.
+     *
+     * @return int
+     */
+    public function getcountProductAttribute() : int
+    {
+        return $this->product->count();
     }
 
     public function getTotalPercentageAttribute() 

@@ -41,8 +41,8 @@
 
                 </div>
                 <div class="col-auto align-self-center text-right">
-                    <a href="#" class="link link-primary size-14" data-hover="Facebook">Facebook</a> 
-                    <a href="#" class="link link-success size-14 ml-2" data-hover="Whatsapp">Whatsapp</a>
+                    <a href="https://www.facebook.com/SANJOSEuniformesoficial/?ref=nf&hc_ref=ARRGjGMewcq85M7ss0dBOYY-A3-o3BeNXdtb73UE0EsnXb2jgEJcXTvmJmZdeFV2w7E" class="link link-primary size-14" data-hover="Facebook" target="_blank">Facebook</a> 
+                    <a href="https://wa.me/524747423000" class="link link-success size-14 ml-2" data-hover="Whatsapp" target="_blank">Whatsapp</a>
                 </div>
             </div>
         </div>

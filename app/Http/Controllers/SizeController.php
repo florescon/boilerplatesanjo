@@ -18,11 +18,20 @@ class SizeController extends Controller
 	    return view('backend.size.index');
 	}
 
-    public function associates(Size $size)
+    public function associates_sub(Size $size)
     {
+        $link = route('admin.size.index');
         $associates = $size->products()->paginate(10);
         $model = $size;
-        return view('backend.product.associates-products', compact('associates', 'model'));
+        return view('backend.product.associates-subproducts', compact('associates', 'model', 'link'));
+    }
+
+    public function associates(Size $size)
+    {
+        $link = route('admin.size.index');
+        $associates = $size->product()->paginate(10);
+        $model = $size;
+        return view('backend.product.associates-products', compact('associates', 'model', 'link'));
     }
 
 	public function deleted()

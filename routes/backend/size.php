@@ -26,12 +26,20 @@ Route::group([
         });
 
     Route::group(['prefix' => '{size}'], function () {
+        Route::get('associates_sub', [SizeController::class, 'associates_sub'])
+            ->name('associates_sub')
+            ->breadcrumbs(function (Trail $trail, Size $size) {
+                $trail->parent('admin.size.index', $size)
+                    ->push(__('Associated subproducts of').' '.$size->name, route('admin.size.associates_sub', $size));
+            });
+
         Route::get('associates', [SizeController::class, 'associates'])
             ->name('associates')
             ->breadcrumbs(function (Trail $trail, Size $size) {
                 $trail->parent('admin.size.index', $size)
                     ->push(__('Associates of').' '.$size->name, route('admin.size.associates', $size));
             });
+
     });
 
 

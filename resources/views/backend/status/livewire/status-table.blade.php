@@ -1,18 +1,10 @@
 <div class="card shadow-lg p-3 mb-5 bg-white rounded">
 
-	<div class="card-header">
-    <strong style="color: #0061f2;"> @lang('List of statuses') </strong>
-
-    <div class="card-header-actions">
+	<div class="card-header text-white" style="background-image: url({{ asset('/ga/img/color.jpg') }});">
+    <strong> @lang('List of statuses') </strong>
+    <div class="card-header-actions mb-5">
        <em> Última petición: {{ now()->format('h:i:s') }} </em>
     </div>
-
-    <br>
-    <br>
-
-    &nbsp;
-
-
 	</div>
 
 	<div class="card-body">

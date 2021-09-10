@@ -18,11 +18,21 @@ class ColorController extends Controller
         return view('backend.color.index');
     }
 
-    public function associates(Color $color)
+    public function associates_sub(Color $color)
     {
+        $link = route('admin.color.index');
         $associates = $color->products()->paginate(10);
         $model = $color;
-        return view('backend.product.associates-products', compact('associates', 'model'));
+        return view('backend.product.associates-subproducts', compact('associates', 'model', 'link'));
+    }
+
+    public function associates(Color $color)
+    {
+
+        $link = route('admin.color.index');
+        $associates = $color->product()->paginate(10);
+        $model = $color;
+        return view('backend.product.associates-products', compact('associates', 'model', 'link'));
     }
 
     public function select2LoadMore(Request $request)

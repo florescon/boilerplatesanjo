@@ -109,9 +109,13 @@ class SizeTable extends TableComponent
                 ->exportFormat(function(Size $model) {
                     return $model->slug;
                 }),
-            Column::make(__('Associated products'), 'count_products')
+            Column::make('# '.__('Associated products'), 'count_product')
                 ->format(function(Size $model) {
-                    return $this->link(route('admin.size.associates', $model->id), $model->count_products);
+                    return $this->link(route('admin.size.associates', $model->id), $model->count_product);
+                }),
+            Column::make('# '.__('Associated subproducts'), 'count_products')
+                ->format(function(Size $model) {
+                    return $this->link(route('admin.size.associates_sub', $model->id), $model->count_products);
                 }),
             Column::make(__('Created at'), 'created_at')
                 ->searchable()

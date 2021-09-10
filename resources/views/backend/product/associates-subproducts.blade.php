@@ -24,13 +24,13 @@
         <div class="col-sm-12">
             <div class="row">
               <div class="col-6">
-                <div class="c-callout c-callout-info"><small class="text-muted">@lang('Associated products')</small>
-                  <div class="text-value-lg">{{ $model->count_product }}</div>
+                <div class="c-callout c-callout-info"><small class="text-muted">@lang('Associated subproducts')</small>
+                  <div class="text-value-lg">{{ $model->count_products }}</div>
                 </div>
               </div>
 
               <div class="col-6">
-                <div class="c-callout c-callout-danger"><small class="text-muted">Porcentaje de asociados del total de productos</small>
+                <div class="c-callout c-callout-danger"><small class="text-muted">Porcentaje de asociados del total de variantes de productos</small>
                   <div class="text-value-lg">{{ round($model->total_percentage, 2) }}%</div>
                 </div>
               </div>
@@ -42,7 +42,7 @@
                   <use xlink:href="vendors/@coreui/icons/svg/brand.svg#cib-google"></use>
                 </svg>
                 <div>{{ $model->name }}</div>
-                <div class="mfs-auto font-weight-bold mfe-2">{{ $model->count_product }}</div>
+                <div class="mfs-auto font-weight-bold mfe-2">{{ $model->count_products }}</div>
                 <div class="text-muted small">({{ round($model->total_percentage, 2) }}%)</div>
               </div>
               <div class="progress-group-bars">
@@ -66,7 +66,7 @@
                       @foreach($associates as $product)
                       <tr>
                           <td>
-                              <div><strong>{{ optional($product->parent)->name }}</strong> {!! optional($product->parent)->code !!} </div>
+                              <div>{!! $product->full_name !!}</div>
                               <div class="small text-muted"><span>{{ $product->new_product }}</span> @lang('Registered product'): {{ $product->date_for_humans_special }}</div>
                           </td>
                           <td>

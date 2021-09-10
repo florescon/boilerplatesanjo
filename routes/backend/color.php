@@ -19,6 +19,13 @@ Route::group([
         });
 
     Route::group(['prefix' => '{color}'], function () {
+        Route::get('associates_sub', [ColorController::class, 'associates_sub'])
+            ->name('associates_sub')
+            ->breadcrumbs(function (Trail $trail, Color $color) {
+                $trail->parent('admin.color.index', $color)
+                    ->push(__('Associated subproducts of').' '.$color->name, route('admin.color.associates_sub', $color));
+            });
+
         Route::get('associates', [ColorController::class, 'associates'])
             ->name('associates')
             ->breadcrumbs(function (Trail $trail, Color $color) {

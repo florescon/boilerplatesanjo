@@ -20,9 +20,10 @@ class LineController extends Controller
 
     public function associates(Line $line)
     {
+        $link = route('admin.size.index');
         $associates = $line->products()->paginate(10);
         $model = $line;
-        return view('backend.product.associates-products', compact('associates', 'model'));
+        return view('backend.product.associates-subproducts', compact('associates', 'model', 'link'));
     }
 
 	public function deleted()

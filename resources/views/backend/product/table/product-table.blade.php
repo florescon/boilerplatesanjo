@@ -6,19 +6,21 @@
 	<div class="row mb-4 justify-content-md-center">
 		<div class="col-8">
 		  <div class="input-group">
-		    <input wire:model.debounce.350ms="searchTerm" class="form-control" type="text" placeholder="{{ __('Search') }}..." />
-		    @if($searchTerm !== '')
-		    <div class="input-group-append">
-		      <button type="button" wire:click="clear" class="close" aria-label="Close">
-		        <span aria-hidden="true"> &nbsp; &times; &nbsp;</span>
-		      </button>
-
-		    </div>
-		    @endif
+		    <input wire:model.debounce.350ms="searchTerm" class="input-search" type="text" placeholder="{{ __('Search') }}..." />
+      		<span class="border-input-search"></span>
 		  </div>
 		</div>
+	    @if($searchTerm !== '')
+	    <div class="input-group-append">
+	      <button type="button" wire:click="clear" class="close" aria-label="Close">
+	        <span aria-hidden="true"> &nbsp; &times; &nbsp;</span>
+	      </button>
+
+	    </div>
+	    @endif
 	</div>
 	@endif
+
 
 	<div class="card-columns">
 		@foreach($products as $product)

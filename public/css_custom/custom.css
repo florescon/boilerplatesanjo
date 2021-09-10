@@ -1,3 +1,4 @@
+/**/
 .border-bottom-3px{
     border-bottom: 3px solid red;
 }
@@ -14,3 +15,31 @@
 .input-search-color {
   border-image: conic-gradient(red, green, blue, magenta, red) 1;
 }
+/**/
+
+
+/**/
+  .input-search:focus {
+    outline: none;
+  }
+  .input-search {
+    width: 100%;
+    border: 0;
+    padding: 10px 10px;
+    border-bottom: 1px solid blue;
+  }
+  .input-search ~ .border-input-search {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+  }
+  .input-search:focus ~ .border-input-search {
+    width: 100%;
+    transition: 0.8s;
+  }
+  .border-input-search {
+        border: 1px solid blue!important;
+    }
+/**/
