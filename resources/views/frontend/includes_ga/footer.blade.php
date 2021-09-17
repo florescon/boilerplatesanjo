@@ -5,17 +5,13 @@
                         <div class="col-xl-5 text-center text-sm-left">
                             <div class="section border-4 padding-top-bottom-80 px-4 px-md-5 bg-dark">
                                 <h5 class="mb-4 color-white">@lang('Contact')</h5>
-                                <a href="#" class="link size-18 link-gray mb-1" data-hover="Margarito Gonzalez Rubio #822, Local 5
-                                    Col. El Refugio, Lagos de Moreno Jal.
-                                    C.P. 47470">
-                                    Margarito Gonzalez Rubio #822, Local 5
-                                    Col. El Refugio, Lagos de Moreno Jal.
-                                    C.P. 47470
+                                <a href="#" class="link size-18 link-gray mb-1" data-hover="{{ setting('site_address') }}">
+                                    {{ setting('site_address') }}
                                 </a> 
                                 <div class="clearfix w-100"></div>
-                                <a href="#" class="link size-18 link-success mb-1" data-hover="474 742 3000">474 742 3000</a> 
+                                <a href="#" class="link size-18 link-success mb-1" data-hover="{{ setting('site_phone') }}">{{ setting('site_phone') }}</a> 
                                 <div class="clearfix w-100"></div>
-                                <a href="#" class="link size-18 link-primary mb-fix-22 pb-1" data-hover="ventas@sj-uniformes.com">ventas@sj-uniformes.com</a>
+                                <a href="#" class="link size-18 link-primary mb-fix-22 pb-1" data-hover="ventas@sj-uniformes.com">{{ setting('site_email') }}</a>
                             </div>
                         </div>
                         <div class="col-xl-7 mt-4 mt-xl-0 text-center text-sm-left">

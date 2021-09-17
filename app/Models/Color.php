@@ -22,6 +22,7 @@ class Color extends Model
         'name',
         'short_name',
         'color',
+        'secondary_color',
         'slug'
     ];
 

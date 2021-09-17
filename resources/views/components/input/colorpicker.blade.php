@@ -1,3 +1,8 @@
+@props([
+    'text' => 'seleccione',
+])
+
+
 <div
 x-data="{ color: '#000' }"
     x-init="
@@ -12,7 +17,7 @@ x-data="{ color: '#000' }"
 >
 
 <button x-ref="button" class="btn btn-primary btn-sm">
-  Seleccione <span  x-text="color"  class="badge badge-light"></span>
+  {{ $text }} <span  x-text="color"  class="badge badge-light"></span>
 </button>
 
 

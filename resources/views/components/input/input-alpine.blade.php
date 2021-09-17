@@ -5,7 +5,8 @@
     'wireSubmit' => '#',
     'modelName' => '#',
     'inputType' => 'text',
-    "maxlength" => '100'
+    "maxlength" => '100',
+    "className" => 'mt-4'
 ])
 
 <div
@@ -24,7 +25,7 @@
 >
     <div
         x-show=!nameData
-        class="mt-4"
+        class="{{ $className }}"
     >
         <p  class="card-text" 
             x-bind:class="{ 'font-weight-bold': inputText }"

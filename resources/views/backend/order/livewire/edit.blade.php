@@ -17,6 +17,11 @@
 
       <div class="col-12 col-sm-12 {{ $orderExists ? 'col-md-8' : 'col-md-12' }} " style="margin-top: 40px;">
         <div class="card card-product_not_hover card-flyer-without-hover">
+          @if($slug)
+            <div class="card-header">
+              @lang('Tracking number'): <strong class="text-primary">{{ $slug }}</strong>
+            </div>
+          @endif
           <div class="card-body">
             <h5 class="card-title">#{{ $model->id }}</h5>
             <p class="card-text">
@@ -48,7 +53,7 @@
                   <br>
                   <div class="row">
                     <div class="col-6 col-lg-6">
-                      <x-input.input-alpine nameData="isDate" :inputText="$isDate" :originalInput="$isDate" wireSubmit="savedate" modelName="date_entered" maxlength="200" inputType="date" />
+                      <x-input.input-alpine nameData="isDate" :inputText="$isDate" :originalInput="$isDate" wireSubmit="savedate" modelName="date_entered" maxlength="200" inputType="date" className=""/>
 
                     </div>
                     <div class="col-6 col-lg-6">
@@ -59,7 +64,7 @@
                   <div class="row">
                     <div class="col-12 col-lg-12">
                       {{-- {{ $model->comment }} --}}
-                      <x-input.input-alpine nameData="isComment" :inputText="$isComment" :originalInput="$isComment" wireSubmit="savecomment" modelName="comment" maxlength="200" />
+                      <x-input.input-alpine nameData="isComment" :inputText="$isComment" :originalInput="$isComment" wireSubmit="savecomment" modelName="comment" maxlength="200" className="" />
 
                       @error('comment') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
@@ -77,9 +82,9 @@
                 <div wire:loading wire:target="updateStatus" class="loading"></div>
               </div>
               <div class="col-md-4 mb-3">
-                {{-- <a href="{{ route('admin.order.advanced', $model->id) }}" style="color:#1ab394;">
+                <a href="{{ route('admin.order.advanced', $model->id) }}" style="color:#1ab394;">
                   <p> Opciones avanzadas </p>
-                </a> --}}
+                </a>
               </div>
               <div class="col-md-4 mb-3 text-left">
                 <a href="{{ route('admin.order.sub', $model->id) }}" style="color:purple;">

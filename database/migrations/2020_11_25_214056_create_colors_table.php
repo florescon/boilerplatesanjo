@@ -18,6 +18,7 @@ class CreateColorsTable extends Migration
             $table->string('name')->nullable(); 
             $table->string('short_name')->unique()->nullable();
             $table->string('color')->nullable();
+            $table->string('secondary_color')->nullable();
             $table->string('slug')->unique()->nullable();
             $table->softDeletes();
             $table->timestamps();

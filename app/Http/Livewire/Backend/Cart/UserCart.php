@@ -6,7 +6,6 @@ use Livewire\Component;
 
 class UserCart extends Component
 {
-
     public $user_id;
 
     public function render()

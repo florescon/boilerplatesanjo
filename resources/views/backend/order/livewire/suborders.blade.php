@@ -29,7 +29,7 @@
                       <i class="c-icon c-icon-4x cil-library"></i>
                     </span>
 
-                    <livewire:backend.cart.user-cart/>
+                    <livewire:backend.departament.select-departaments/>
 
                       <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover text-center">
@@ -94,13 +94,20 @@
                   ">
                     <div class="d-flex w-100 justify-content-between">
                       <h5 class="mb-1 text-primary">#{{ $suborder->id}}</h5>
+                      <small>{{ $suborder->date_diff_for_humans }}</small>
                     </div>
                     <div class="d-flex w-100 justify-content-between">
                       <h5 class="mb-1">{{ optional($suborder->user)->name }}</h5>
-                      <small>{{ $suborder->date_diff_for_humans }}</small>
                     </div>
                     {{-- <small class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</small> --}}
                     <p>Total de productos: <strong class="text-danger">{{ $suborder->total_products_suborder }}</strong></p>
+                    <hr>
+                    @if($suborder->slug)
+                      <div class="d-flex w-100  justify-content-center">
+                        <h6 class="mb-1 text-dark mr-2">@lang('Tracking number'):</h6>
+                        <h6>{{ $suborder->slug }}</h6>
+                      </div>
+                    @endif
                   </a>
                     <?php $colors_counter++; ?>
                 @empty

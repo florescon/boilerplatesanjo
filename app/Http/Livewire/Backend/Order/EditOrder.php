@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 class EditOrder extends Component
 {
 
-    public $order_id, $lates_statusId, $isComment, $comment, $isDate, $date_entered;
+    public $order_id, $lates_statusId, $slug, $isComment, $comment, $isDate, $date_entered;
 
     public $previousMaterialByProduct, $maerialAll;
 
@@ -26,6 +26,7 @@ class EditOrder extends Component
     public function mount(Order $order)
     {
         $this->order_id = $order->id;
+        $this->slug = $order->slug;
         $this->lates_statusId = $order->load('last_status_order')->last_status_order->status_id ?? null;
         $this->initcomment($order);
         $this->initdate($order);

@@ -157,5 +157,6 @@ return [
         'size_id' => 'talla',
         'color_id' => 'color',
         'comment' => 'comentario',
+        'Site phone' => 'Teléfono del sitio',
     ],
 ];

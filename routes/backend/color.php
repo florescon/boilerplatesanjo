@@ -36,5 +36,4 @@ Route::group([
 
 });
 
-
 Route::get('select2-load-color', [ColorController::class, 'select2LoadMore'])->name('color.select');

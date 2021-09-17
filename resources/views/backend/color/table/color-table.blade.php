@@ -4,7 +4,8 @@
   @include('backend.color.create')
   @include('backend.color.show')
 
-<div class="card-header">
+<div class="card-header" style="background: rgb(238,174,202);
+background: linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(148,233,202,1) 100%);">
   @if($deleted)
     <strong style="color: red;"> @lang('List of deleted colors') </strong>
   @else
@@ -85,7 +86,7 @@
     </div>
 
 
-    @if($selected && $colors->count())
+    @if($selected && $colors->count() && !$deleted)
     <div class="dropdown table-export">
       <button class="dropdown-toggle btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         @lang('Export')        
@@ -146,7 +147,11 @@
 
               <th scope="col">@lang('Color code')</th>
 
-              <th style="width:40px; max-width: 40px;">
+              <th style="width:45px; max-width: 45px;">
+                @lang('Prim')
+              </th>
+              <th style="width:45px; max-width: 45px;">
+                @lang('Sec')
               </th>
               <th scope="col" class="text-center"># @lang('Associates')</th>
 
@@ -188,6 +193,10 @@
                 {{ $color->color }}
               </td>
               <td style="background-color: {{ $color->color }}">
+                {!! !$color->color ? '<i class="cil-x-circle"></i>' : '' !!}
+              </td>
+              <td style="background-color: {{ $color->secondary_color }}">
+                {!! !$color->secondary_color ? '<i class="cil-x-circle"></i>' : '' !!}
               </td>
               <td class="text-center">
                 <a href="{{ route('admin.color.associates', $color->id) }}"> {{ $color->count_product }}</a>

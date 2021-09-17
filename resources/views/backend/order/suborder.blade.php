@@ -131,6 +131,9 @@
           <a href="{{ route('admin.order.edit', $order->parent_order_id) }}" class="btn btn-primary btn-block mb-75" >
            @lang('Go to main order')
           </a>
+          <a href="{{ route('admin.order.sub', $order->parent_order_id) }}" style="background-color:purple;" class="btn btn-block mb-75 text-white">
+           @lang('Go to suborders')
+          </a>
           <a class="btn btn-secondary btn-block mb-75" href="{{ route('admin.order.print', $order->id) }}" target="_blank">
             <i class="cil-print"></i>
             @lang('Print')
@@ -140,6 +143,15 @@
           </a>
         </div>
       </div>
+
+      @if($order->slug)
+        <div class="card">
+          <div class="card-body text-center">
+            <h5> @lang('Tracking number'): </h5>
+            <h5 class="text-primary"> {{ $order->slug }} </h5>
+          </div>
+        </div>
+      @endif
 
       <div class="card">
         <div class="card-body text-center">

@@ -12,7 +12,7 @@
 						@foreach($attributes->children->unique('color_id')->sortBy('color.name') as $children)
 						<div class="col px-1" style="{{ optional($children->color)->color ? 'min-width:3rem; max-width: 3rem;' : 'max-width: 100px;'}} height:3rem">
 							<input class="checkbox-color" type="radio" wire:model="color_id" value="{{ $children->color_id }}" name="color" id="color-{{ $children->color_id }}">
-							<label class="for-checkbox-color" style="color: black; border: 1px solid; background-color: {{ optional($children->color)->color }};" for="color-{{ $children->color_id }}"> {{ optional($children->color)->color ? '' :  optional($children->color)->name }} </label>
+							<label class="for-checkbox-color" style=" color: {{ optional($children->color)->secondary_color ?  optional($children->color)->secondary_color .';'. 'border: 6px solid;' : 'black; border: 1px solid;' }} background-color: {{ optional($children->color)->color }};" for="color-{{ $children->color_id }}"> {{ optional($children->color)->color ? '' :  optional($children->color)->name }} </label>
 						</div>  
 						@endforeach
 					</div>             

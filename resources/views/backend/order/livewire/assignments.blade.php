@@ -17,7 +17,7 @@
             
                   <h4 class="card-title font-weight-bold mb-2">{{ $status_name }}</h4>
 
-                    <livewire:backend.cart.user-cart/>
+                    <livewire:backend.user.only-admins/>
 
                       <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover text-center">
@@ -69,10 +69,10 @@
               <p>
                 <div class="btn-group" role="group" aria-label="Basic example">
                   @if($previous_status)
-                    <a href="{{ route('admin.order.assignments', [$model2->id, $previous_status->id]) }}" class="btn btn-outline-primary" data-toggle="tooltip" title="{{ $previous_status->name ?? null }}"><i class="c-icon  c-icon-4x cil-people"></i> @lang('Previous')</a>
+                    <a href="{{ route('admin.order.assignments', [$model2->id, $previous_status->id]) }}" class="btn btn-outline-primary" data-toggle="tooltip" title="{{ $previous_status->name ?? null }}"><i class="c-icon  c-icon-4x cil-people"></i> @lang('Previous status')</a>
                   @endif
                   @if($next_status)
-                    <a href="{{ route('admin.order.assignments', [$model2->id, $next_status->id]) }}" class="btn btn-outline-primary" data-toggle="tooltip" title="{{ $next_status->name ?? null }}"><i class="c-icon  c-icon-4x cil-people"></i> @lang('Next')</a>
+                    <a href="{{ route('admin.order.assignments', [$model2->id, $next_status->id]) }}" class="btn btn-outline-primary" data-toggle="tooltip" title="{{ $next_status->name ?? null }}"><i class="c-icon  c-icon-4x cil-people"></i> @lang('Next status')</a>
                   @endif
                 </div>
               </p>

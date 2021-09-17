@@ -40,15 +40,14 @@ class ColorTable extends Component
 
     protected $listeners = ['delete', 'restore' => '$refresh'];
 
-    public $name, $short_name, $color, $created, $updated, $selected_id, $deleted;
+    public $name, $short_name, $color, $secondary_color, $created, $updated, $selected_id, $deleted;
 
     protected $rules = [
         'name' => 'required|min:3',
         'short_name' => 'required|min:1|unique:colors',
         'color' => 'required|unique:colors',
+        'secondary_color' => '',
     ];
-
-
 
     public function updated($propertyName)
     {
@@ -155,7 +154,6 @@ class ColorTable extends Component
         $this->selected = [];
     }
 
-
     public function createmodal()
     {
         $this->resetInputFields();
@@ -187,20 +185,17 @@ class ColorTable extends Component
         $this->name = $record->name;
         $this->short_name = $record->short_name;
         $this->color = $record->color;
-
-
     }
-
 
     public function show($id)
     {
         $record = Color::withTrashed()->findOrFail($id);
         $this->name = $record->name;
         $this->color = $record->color;
+        $this->secondary_color = $record->secondary_color;
         $this->created = $record->created_at;
         $this->updated = $record->updated_at;
     }
-
 
     public function update()
     {
@@ -208,14 +203,16 @@ class ColorTable extends Component
             'selected_id' => 'required|numeric',
             'name' => 'required|min:3',
             'short_name' => 'required|min:1|unique:App\Models\Color,short_name,'.$this->selected_id,
-            'color' => 'required'
+            'color' => 'required',
+            'secondary_color' => ''
         ]);
         if ($this->selected_id) {
             $record = Color::find($this->selected_id);
             $record->update([
                 'name' => $this->name,
                 'short_name' => $this->short_name,
-                'color' => $this->color
+                'color' => $this->color,
+                'secondary_color' => $this->secondary_color
             ]);
             $this->resetInputFields();
         }
@@ -224,7 +221,7 @@ class ColorTable extends Component
 
        $this->emit('swal:alert', [
             'icon' => 'success',
-            'title'   => __('Actualizado'), 
+            'title'   => __('Updated'), 
         ]);
     }
 

@@ -86,9 +86,8 @@
     @else
         <div class="jumbotron">
             <h1 class="display-3">@lang('No associates!')</h1>
-            <p class="lead">@lang('There are no associated products').</p>
+            <p class="lead">@lang('There are no associated products.')</p>
             <hr class="my-4">
-            <p class="lead"><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
         </div>
     @endif
   </x-slot>

@@ -3,12 +3,12 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-auto align-self-center">
-                    <p class="mb-0 size-13 text-center-v color-gray"><i class="uil uil-calling size-18 mr-2 color-gray"></i> +52 (474) 742 3000</p>
+                    <p class="mb-0 size-13 text-center-v color-gray"><i class="uil uil-calling size-18 mr-2 color-gray"></i> {{ setting('site_phone') }}</p>
                 </div>
 
 
                 <div class="col-auto align-self-center">
-                    <p class="mb-0 size-13 text-center-v color-gray"><i class="uil uil-envelope-check size-18 mr-2 color-gray"></i> ventas@sj-uniformes.com</p>
+                    <p class="mb-0 size-13 text-center-v color-gray"><i class="uil uil-envelope-check size-18 mr-2 color-gray"></i> {{ setting('site_email') }} </p>
                 </div>
                 <div class="col-auto align-self-center">
                     @if(config('boilerplate.locale.status') && count(config('boilerplate.locale.languages')) > 1)
@@ -41,8 +41,8 @@
 
                 </div>
                 <div class="col-auto align-self-center text-right">
-                    <a href="https://www.facebook.com/SANJOSEuniformesoficial/?ref=nf&hc_ref=ARRGjGMewcq85M7ss0dBOYY-A3-o3BeNXdtb73UE0EsnXb2jgEJcXTvmJmZdeFV2w7E" class="link link-primary size-14" data-hover="Facebook" target="_blank">Facebook</a> 
-                    <a href="https://wa.me/524747423000" class="link link-success size-14 ml-2" data-hover="Whatsapp" target="_blank">Whatsapp</a>
+                    <a href="{{ setting('site_facebook') }}" class="link link-primary size-14" data-hover="Facebook" target="_blank">Facebook</a> 
+                    <a href="https://wa.me/{{ setting('site_whatsapp') }}" class="link link-success size-14 ml-2" data-hover="Whatsapp" target="_blank">Whatsapp</a>
                 </div>
             </div>
         </div>

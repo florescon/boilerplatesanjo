@@ -8,7 +8,6 @@
 
 @endsection
 
-
 @push('after-scripts')
 
 	<script type="text/javascript">
@@ -23,6 +22,5 @@
 	      $("#updateModal").modal("hide");
 	  });
 	</script>
-
 
 @endpush

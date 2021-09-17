@@ -14,6 +14,25 @@
     <ul class="c-header-nav d-md-down-none">
         <li class="c-header-nav-item px-3"><a class="c-header-nav-link" href="{{ route('frontend.index') }}">@lang('Starter store')</a></li>
 
+
+        <li class="c-header-nav-item dropdown">
+            <x-utils.link
+                :text="__('Orders/Sales')"
+                class="c-header-nav-link dropdown-toggle"
+                id="navbarDropdownLanguageLink2"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false" />
+
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownLanguageLink2">
+                      <x-utils.link class="dropdown-item pt-1 pb-1 text-dark" :href="route('admin.order.all')" :text="__('all')" />
+                      <x-utils.link class="dropdown-item pt-1 pb-1 text-primary" :href="route('admin.order.index')" :text="__('Orders')" />
+                      <x-utils.link class="dropdown-item pt-1 pb-1 text-success" :href="route('admin.order.sales')" :text="__('Sales')" />
+                      <x-utils.link class="dropdown-item pt-1 pb-1 text-warning" :href="route('admin.order.mix')" :text="__('Mix')" />
+                      <x-utils.link class="dropdown-item pt-1 pb-1 text-info" :href="route('admin.order.suborders')" :text="__('Suborders')" />
+                </div><!--dropdown-menu-->
+        </li>
+
         @if(config('boilerplate.locale.status') && count(config('boilerplate.locale.languages')) > 1)
             <li class="c-header-nav-item dropdown">
                 <x-utils.link
@@ -60,7 +79,7 @@
         </li>
     </ul>
 
-    <div class="c-subheader justify-content-between px-3">
+    <div class="c-subheader justify-content-between px-3 shadow">
         @include('backend.includes.partials.breadcrumbs')
 
         <div class="c-subheader-nav mfe-2">

@@ -1,4 +1,3 @@
-
 <!-- Modal Update -->
 <div wire:ignore.self  class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -23,9 +22,15 @@
           <input wire:model="short_name" type="text" class="form-control"/>
           @error('short_name') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
+          <br>
           <label>@lang('Color')</label>
-          <x-input.colorpicker wire:model="color"/>
+          <x-input.colorpicker wire:model="color" :text="__('Select primary color')"/>
           @error('color') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+
+          <br>
+          <label>@lang('Secondary color')</label>
+          <x-input.colorpicker wire:model="secondary_color" :text="__('Select secondary color (optional)')"/>
+          @error('secondary_color') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
         </div>
         <div class="modal-footer">

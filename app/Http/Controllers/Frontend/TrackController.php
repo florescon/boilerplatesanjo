@@ -21,14 +21,15 @@ class TrackController extends Controller
     public function search(SearchRequest $request){
 
         $search = $request->search;
-
         return redirect()->route('frontend.track.show', $request->slug);
-
     }
 
     public function show(Order $order)
     {
-        $limit = $order->created_at->addMonth();
+
+        $site = \App\Models\Setting::first()->days_orders ?? 30;
+
+        $limit = $order->created_at->addDays($site);
         $now = Carbon::now();
         $result = $now->gt($limit);
         $order_id = $order->id;
@@ -38,6 +39,4 @@ class TrackController extends Controller
 
         return view('frontend.track.show')->with(compact('result', 'order_id', 'tracking_number', 'limit', 'order', 'percentage_status'));
     }
-
-
 }

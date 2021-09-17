@@ -145,3 +145,5 @@ Route::group([
 });
 
 Route::get('select2-load-users', [UserController::class, 'select2LoadMore'])->name('users.select');
+Route::get('select2-load-only-admins', [UserController::class, 'selectAdmins'])->name('users.onlyAdmins');
+Route::get('select2-load-only-users', [UserController::class, 'selectUsers'])->name('users.onlyUsers');

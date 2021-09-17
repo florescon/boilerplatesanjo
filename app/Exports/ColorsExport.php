@@ -8,13 +8,23 @@ use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class ColorsExport implements FromCollection, WithMapping, WithHeadings
+class ColorsExport implements FromCollection, WithMapping, WithHeadings, WithStyles
 {
     private $colorIDs = [];
 
     public function __construct($colorIDs = False){
         $this->colorIDs = $colorIDs;
+    }
+
+    public function styles(Worksheet $sheet)
+    {
+        return [
+           // Style the first row as bold text.
+           1    => ['font' => ['bold' => true]],
+        ];
     }
 
     public function headings(): array

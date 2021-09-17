@@ -1,15 +1,10 @@
-
 @push('after-styles')
-<style type="text/css">
-  
-  input.form-control:disabled {
-      background-color: #fff;
-  }
-
-</style>
-
+  <style type="text/css">
+    input.form-control:disabled {
+        background-color: #fff;
+    }
+  </style>
 @endpush
-
 
 <!-- Modal Show -->
 <div wire:ignore.self  class="modal fade" id="showModal" tabindex="-1" role="dialog" aria-labelledby="showModalLabel" aria-hidden="true">
