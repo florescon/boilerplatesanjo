@@ -20,7 +20,12 @@ class UpdateSetting extends Component
     ];
 
     protected $validationAttributes = [
-        'state.site_phone' => 'Site phone'
+        'state.site_phone' => 'teléfono',
+        'state.site_email' => 'email',
+        'state.site_address' => 'dirección',
+        'state.site_whatsapp' => 'whatsapp',
+        'state.site_facebook' => 'facebook',
+        'state.days_orders' => 'días de órdenes',
     ]; 
 
     public function mount()

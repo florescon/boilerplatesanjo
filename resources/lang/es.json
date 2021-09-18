@@ -187,6 +187,7 @@
     "View User": "Ver usuario",
     "Back": "Atrás",
     "Status": "Estado",
+    "Status changed": "Estado de orden actualizado",
     "Next status": "Siguiente estado",
     "Previous status": "Anterior estado",
     "Last Login At": "Último inicio de sesión en",
@@ -406,6 +407,8 @@
     "Advanced information": "Información avanzada",
     "Prices and codes": "Precios y códigos",
     "Automatic codes": "Códigos automaticos",
+    "Automatic codes disabled": "Códigos automaticos desactivados",
+    "Disable automatic codes": "Desactivar códigos automaticos",
     "Saved": "Guardado",
     "Something went wrong while uploading the file.": "Se produjo un error al cargar el archivo.",
     "Main Stock": "Stock principal",
@@ -601,5 +604,8 @@
     "Enter whatsapp": "Ingrese whatsapp",
     "Enter facebook": "Ingrese facebook",
     "Others": "Otros",
-    "Parameters": "Parámetros"
+    "Parameters": "Parámetros",
+    "Scan this code to track": "Escanea este código para dar seguimiento",
+    "Scan me for go track": "Escanéame para ir al seguimiento", 
+    "Available" : "Disponible"
 }

@@ -30,7 +30,11 @@
                     </span>
 
                     <livewire:backend.departament.select-departaments/>
-
+                    <div class="row justify-content-end">
+                      <div class="col-9">
+                        @error('departament') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                      </div>
+                    </div>
                       <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover text-center">
                           <thead>
@@ -97,7 +101,7 @@
                       <small>{{ $suborder->date_diff_for_humans }}</small>
                     </div>
                     <div class="d-flex w-100 justify-content-between">
-                      <h5 class="mb-1">{{ optional($suborder->user)->name }}</h5>
+                      <h5 class="mb-1">{{ optional($suborder->departament)->name }}</h5>
                     </div>
                     {{-- <small class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</small> --}}
                     <p>Total de productos: <strong class="text-danger">{{ $suborder->total_products_suborder }}</strong></p>

@@ -56,7 +56,7 @@
   <div class="row pb-2">
     <div class="col-sm-6">
       <h6 class="mb-1">@lang('Order To'):</h6>
-      <p class="mb-25">{{ optional($order->user)->name }}</p>
+      <p class="mb-25">{{ optional($order->departament)->name }}</p>
     </div>
   </div>
 
@@ -108,7 +108,7 @@
       <br>
       <p class="card-text mb-0">
         &nbsp;
-        {!! QrCode::size(100)->gradient(55, 115, 250, 105, 5, 70, 'radial')->generate(Request::url()); !!}
+        {!! QrCode::size(100)->gradient(55, 115, 250, 105, 5, 70, 'radial')->generate(route('frontend.track.show', $order->slug)); !!}
       </p>
       <p>
         &nbsp;

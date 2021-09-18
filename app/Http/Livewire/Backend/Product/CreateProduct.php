@@ -38,6 +38,7 @@ class CreateProduct extends Component
 
     public function store()
     {
+
         $this->validate();
 
         if($this->photo){
@@ -51,6 +52,7 @@ class CreateProduct extends Component
             'line_id' => $this->line_id ?? null,                
             'file_name' => $this->photo ? $imageName : null,
             'price' => $this->price,
+            'automatic_code' => false,
             // 'size_id' => $this->size_id,
             // 'color_id' => $this->color_id,
         ]);

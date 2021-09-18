@@ -43,14 +43,14 @@
                                     <input wire:model.defer="state.days_orders" type="text" class="form-control" id="footerText" placeholder="{{__('Enter days') }}">
                                     @error('state.days_orders') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                                 </div>
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <div class="custom-control custom-switch">
                                         <input type="checkbox" class="custom-control-input" id="sidebarCollapse">
                                         <label class="custom-control-label" for="sidebarCollapse">Sidebar Collapse</label>
-                                    </div>
+                                    </div> --}}
                                     <!-- <label for="sidebar_collapse">Sidebar Collapse</label><br>
                                     <input wire:model.defer="state.sidebar_collapse" type="checkbox" id="sidebar_collapse"> -->
-                                </div>
+                                {{-- </div> --}}
                             </div>
                             <!-- /.card-body -->
 

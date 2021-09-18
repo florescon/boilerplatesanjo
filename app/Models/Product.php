@@ -50,6 +50,7 @@ class Product extends Model
         'size_id',
         'parent_id',
         'sort',
+        'automatic_code',
         'status',
     ];
 

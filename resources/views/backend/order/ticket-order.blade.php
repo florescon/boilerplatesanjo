@@ -154,13 +154,13 @@ ventas@sj-uniformes.com
     <table width="100%">
         <tr>
             <td align="center">
-                <img src="data:image/png;base64, {{ base64_encode(\QrCode::format('svg')->size(100)->generate(Request::url())) }} "/>
+                <img src="data:image/png;base64, {{ base64_encode(\QrCode::format('svg')->size(100)->generate(route('frontend.track.show', $order->slug))) }} "/>
             </td>
             <td align="center">
                 <p>
                     <em>
-                        Scan this code to track.
-                        (Available 1 month)
+                        @lang('Scan this code to track').
+                        (@lang('Available') {{ setting('days_orders') }} @lang('days'))
                     </em>
                 </p>
             </td>

@@ -49,6 +49,14 @@ class Order extends Model
     /**
      * @return mixed
      */
+    public function departament()
+    {
+        return $this->belongsTo(Departament::class)->withTrashed();
+    }
+
+    /**
+     * @return mixed
+     */
     public function audi()
     {
         return $this->belongsTo(User::class, 'audi_id');

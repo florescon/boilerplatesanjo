@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 class Suborders extends Component
 {
 
-    public $order_id, $quantityy, $user, $status_name;
+    public $order_id, $quantityy, $departament, $status_name;
 
     protected $listeners = ['selectedCompanyItem', 'savesuborder' => '$refresh'];
 
@@ -23,17 +23,21 @@ class Suborders extends Component
         $this->order_id = $order->id;
     }
 
+    protected $rules = [
+        'departament' => 'required',
+    ];
+
     public function selectedCompanyItem($item)
     {
         if ($item)
-            $this->user = $item;
+            $this->departament = $item;
         else
-            $this->user = null;
+            $this->departament = null;
     }
 
     public function savesuborder()
     {
-
+        $this->validate();
 
         $orderModel = Order::with('product_order')->find($this->order_id);
 
@@ -59,7 +63,7 @@ class Suborders extends Component
                 // dd($this->quantityy);
                 $suborder = new Order();
                 $suborder->parent_order_id = $this->order_id;
-                $suborder->user_id = $this->user ?? null;
+                $suborder->departament_id = $this->departament ?? null;
                 $suborder->date_entered = Carbon::now()->format('Y-m-d');
                 $suborder->audi_id = Auth::id();
                 $suborder->save();

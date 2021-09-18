@@ -18,6 +18,11 @@
                   <h4 class="card-title font-weight-bold mb-2">{{ $status_name }}</h4>
 
                     <livewire:backend.user.only-admins/>
+                    <div class="row justify-content-end">
+                      <div class="col-9">
+                        @error('user') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                      </div>
+                    </div>
 
                       <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover text-center">

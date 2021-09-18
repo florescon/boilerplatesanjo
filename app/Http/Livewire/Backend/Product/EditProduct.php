@@ -85,6 +85,18 @@ class EditProduct extends Component
         return $this->redirectRoute('admin.product.edit', $this->product_id);
     }
 
+    public function activateCodesProduct()
+    {
+        Product::whereId($this->product_id)->update(['automatic_code' => true]);
+        return $this->redirectRoute('admin.product.edit', $this->product_id);
+    }
+
+    public function desactivateCodesProduct()
+    {
+        Product::whereId($this->product_id)->update(['automatic_code' => false]);
+        return $this->redirectRoute('admin.product.edit', $this->product_id);
+    }
+
     public function filterByColor($color)
     {
 

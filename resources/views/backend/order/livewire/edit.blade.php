@@ -20,6 +20,12 @@
           @if($slug)
             <div class="card-header">
               @lang('Tracking number'): <strong class="text-primary">{{ $slug }}</strong>
+              <a href="{{ route('frontend.track.show', $slug) }}" target=”_blank”>
+                <span class="badge badge-primary"> 
+                  @lang('Go to track')
+                  <i class="cil-external-link"></i>
+                </span>
+              </a>
             </div>
           @endif
           <div class="card-body">
@@ -27,12 +33,14 @@
             <p class="card-text">
               <div class="form-row ">
                 
-                <div class="col-md-3 mb-3">
-                  <div class="visible-print text-left" wire:ignore>
-                    {!! QrCode::size(100)->gradient(55, 115, 250, 105, 5, 70, 'radial')->generate(Request::url()); !!}
-                    {{-- <p>Scan me to return to the original page.</p> --}}
+                @if($slug)
+                  <div class="col-md-3 mb-3">
+                    <div class="visible-print text-left" wire:ignore>
+                      {!! QrCode::size(100)->gradient(55, 115, 250, 105, 5, 70, 'radial')->generate(route('frontend.track.show', $slug)); !!}
+                      <p class="mt-2">@lang('Scan me for go track')</p>
+                    </div>
                   </div>
-                </div>
+                @endif
 
                 <div class="col-md-9 mb-3">
                   <div class="row">
@@ -82,9 +90,9 @@
                 <div wire:loading wire:target="updateStatus" class="loading"></div>
               </div>
               <div class="col-md-4 mb-3">
-                <a href="{{ route('admin.order.advanced', $model->id) }}" style="color:#1ab394;">
+                {{-- <a href="{{ route('admin.order.advanced', $model->id) }}" style="color:#1ab394;">
                   <p> Opciones avanzadas </p>
-                </a>
+                </a> --}}
               </div>
               <div class="col-md-4 mb-3 text-left">
                 <a href="{{ route('admin.order.sub', $model->id) }}" style="color:purple;">
@@ -104,7 +112,7 @@
                       @endif
                     ">
                       <div class="d-flex w-100 justify-content-between">
-                        <h6 class="mb-1"><strong> #{{ $suborder->id}} </strong> {{ optional($suborder->user)->name }}</h6>
+                        <h6 class="mb-1"><strong> #{{ $suborder->id}} </strong> {{ optional($suborder->departament)->name }}</h6>
                         <small>{{ $suborder->date_diff_for_humans }}</small>
                       </div>
                     </a>
@@ -261,7 +269,6 @@
                   @foreach($model->product_sale as $product)
                   <tr class="table-info">
                     <td>
-                      <a href="{{ route('admin.product.consumption_filter', $product->product_id) }}" target=”_blank”> <span class="badge badge-warning"> <i class="cil-color-fill"></i></span></a>
                       {!! $product->product->full_name !!}
                     </td>
                     <td class="text-center">${{ $product->price }}</td>

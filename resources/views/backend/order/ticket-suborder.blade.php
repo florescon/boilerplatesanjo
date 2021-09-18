@@ -62,10 +62,12 @@ ventas@sj-uniformes.com
 
   <table width="100%">
     <tr>
-        @if($order->user)
-        <td><strong>A:</strong> {{ optional($order->user)->name }}</td>
+        @if($order->departament)
+            <td>
+                <strong>A:</strong> {{ optional($order->departament)->name }}
+            </td>
         @endif
-        <td><strong>Expedido por:</strong> </td>
+        <td><strong>Expedido por:</strong> {{ optional($order->audi)->name }} </td>
     </tr>
   </table>
 
@@ -114,13 +116,13 @@ ventas@sj-uniformes.com
     <table width="100%">
         <tr>
             <td align="center">
-                <img src="data:image/png;base64, {{ base64_encode(\QrCode::format('svg')->size(100)->generate(Request::url())) }} "/>
+                <img src="data:image/png;base64, {{ base64_encode(\QrCode::format('svg')->size(100)->generate(route('frontend.track.show', $order->slug))) }} "/>
             </td>
             <td align="center">
                 <p>
                     <em>
-                        Scan this code to track.
-                        (Available 1 month)
+                        @lang('Scan this code to track').
+                        (@lang('Available') {{ setting('days_orders') }} @lang('days'))
                     </em>
                 </p>
             </td>

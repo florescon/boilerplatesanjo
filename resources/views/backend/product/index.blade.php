@@ -18,7 +18,7 @@
 
             <x-utils.link
                     style="color: blue;"
-                    icon="cil-list"
+                    icon="cil-tags"
                     class="card-header-action"
                     :href="route('admin.product.list')"
                     :text="__('List of products')"

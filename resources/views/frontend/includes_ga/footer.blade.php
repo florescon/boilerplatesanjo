@@ -11,7 +11,7 @@
                                 <div class="clearfix w-100"></div>
                                 <a href="#" class="link size-18 link-success mb-1" data-hover="{{ setting('site_phone') }}">{{ setting('site_phone') }}</a> 
                                 <div class="clearfix w-100"></div>
-                                <a href="#" class="link size-18 link-primary mb-fix-22 pb-1" data-hover="ventas@sj-uniformes.com">{{ setting('site_email') }}</a>
+                                <a href="#" class="link size-18 link-primary mb-fix-22 pb-1" data-hover="{{ setting('site_email') }}">{{ setting('site_email') }}</a>
                             </div>
                         </div>
                         <div class="col-xl-7 mt-4 mt-xl-0 text-center text-sm-left">
@@ -42,7 +42,7 @@
                                             </div>
                                         </div>
                                         <p class="mb-0 size-13 color-secondary mt-1 mb-3 text-left">* {{ __('we won\'t spam you') }}.</p>
-                                        <a href="https://www.facebook.com/SANJOSEuniformesoficial/?ref=nf&hc_ref=ARRGjGMewcq85M7ss0dBOYY-A3-o3BeNXdtb73UE0EsnXb2jgEJcXTvmJmZdeFV2w7E" class="link link-primary mb-1 mr-2" data-hover="Facebook" target="_blank">Facebook</a> 
+                                        <a href="{{ setting('site_facebook') }}" class="link link-primary mb-1 mr-2" data-hover="Facebook" target="_blank">Facebook</a> 
                                     </div>
                                 </div>
                                 <br>

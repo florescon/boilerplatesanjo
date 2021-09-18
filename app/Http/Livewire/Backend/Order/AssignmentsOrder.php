@@ -36,8 +36,11 @@ class AssignmentsOrder extends Component
                 ->latest('level')
                 ->first();
         $this->status_name = $status->name;
-
     }
+
+    protected $rules = [
+        'user' => 'required',
+    ];
 
     public function selectedCompanyItem($item)
     {
@@ -47,10 +50,8 @@ class AssignmentsOrder extends Component
             $this->user = null;
     }
 
-
     public function outputUpdate($assignmentID)
     {
-        // dd($assignmentID);
         $assignmentUpd = Assignment::find($assignmentID);
         $assignmentUpd->update([
             'output' => true,
@@ -67,7 +68,6 @@ class AssignmentsOrder extends Component
 
     public function outputUpdateAll($ticketID)
     {
-
         $ticketUpd = Ticket::find($ticketID);
 
         $ticketUpd->assignments_direct()->where('output', false)->update(['output' => true]);
@@ -76,12 +76,12 @@ class AssignmentsOrder extends Component
             'icon' => 'success',
             'title'   => __('Saved'), 
         ]);
-
     }
 
 
     public function save()
     {
+        $this->validate();
 
         $orderModel = Order::with('product_order')->find($this->order_id);
         // $orderModel->product_order()->where('id', $this->quantityy[0])->first();
@@ -145,7 +145,6 @@ class AssignmentsOrder extends Component
             'icon' => 'success',
             'title'   => __('Saved'), 
         ]);
-
     }
 
     public function resetInput()

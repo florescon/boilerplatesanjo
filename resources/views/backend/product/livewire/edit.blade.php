@@ -18,6 +18,12 @@
 			</div>
 		@endif
 
+    	@if(!$model->automatic_code)
+			<div class="alert alert-danger" role="alert">
+			  @lang('Automatic codes disabled') <a wire:click="activateCodesProduct" href="#">@lang('Activate')</a> 
+			</div>
+		@endif
+
 		<div class="row ">
 
 			<div class="col-12 col-md-4">
@@ -463,11 +469,14 @@
 
         <x-utils.delete-button :text="__('Delete product')" :href="route('admin.product.destroy', $model->id)" />
 
-    	@if($model->status)
 			<footer class="float-right">
-				<a wire:click="desactivateProduct" href="#">@lang('Disable product')</a> 
+    			@if($model->automatic_code)
+					<a wire:click="desactivateCodesProduct" href="#">@lang('Disable automatic codes')</a> 
+				@endif
+    			@if($model->status)
+					<a wire:click="desactivateProduct" class="ml-3" href="#">@lang('Disable product')</a> 
+				@endif
 			</footer>
-		@endif
 	</x-slot>
 </x-backend.card> 
 

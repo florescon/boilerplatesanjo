@@ -39,7 +39,7 @@
           <div class="row invoice-spacing">
             <div class="col-xl-8 p-0">
               <h6 class="mb-2">@lang('Order To'):</h6>
-              <h6 class="mb-25">{{ optional($order->user)->name }}</h6>
+              <h6 class="mb-25">{{ optional($order->departament)->name }}</h6>
             </div>
 
           </div>
@@ -149,13 +149,20 @@
           <div class="card-body text-center">
             <h5> @lang('Tracking number'): </h5>
             <h5 class="text-primary"> {{ $order->slug }} </h5>
+              <a href="{{ route('frontend.track.show', $order->slug) }}" target=”_blank”>
+                <span class="badge badge-primary"> 
+                  @lang('Go to track')
+                  <i class="cil-external-link"></i>
+                </span>
+              </a>
           </div>
         </div>
       @endif
 
       <div class="card">
         <div class="card-body text-center">
-          {!! QrCode::size(100)->gradient(55, 115, 250, 105, 5, 70, 'radial')->generate(Request::url()); !!}
+          {!! QrCode::size(100)->gradient(55, 115, 250, 105, 5, 70, 'radial')->generate(route('frontend.track.show', $order->slug)); !!}
+          <p class="mt-4">@lang('Scan me for go track')</p>
         </div>
       </div>
 

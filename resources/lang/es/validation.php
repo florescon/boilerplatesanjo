@@ -158,5 +158,7 @@ return [
         'color_id' => 'color',
         'comment' => 'comentario',
         'Site phone' => 'Teléfono del sitio',
+        'departament' => 'departamento',
+        'user' => 'usuario'
     ],
 ];

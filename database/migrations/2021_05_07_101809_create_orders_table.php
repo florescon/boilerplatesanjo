@@ -18,6 +18,7 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger('parent_order_id')->nullable();
             $table->string('slug')->unique()->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('departament_id')->nullable();
             $table->unsignedSmallInteger('payment_method_id')->nullable();
             $table->longText('comment')->nullable();
             $table->date('date_entered')->nullable();
