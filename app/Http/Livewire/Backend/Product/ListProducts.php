@@ -14,7 +14,6 @@ use Excel;
 
 class ListProducts extends Component
 {
-
 	use Withpagination, WithBulkActions, WithCachedRows;
 
     protected $paginationTheme = 'bootstrap';
@@ -33,7 +32,6 @@ class ListProducts extends Component
         'dateOutput' => ['except' => '']
     ];
 
-
     private function applySearchFilter($products)
     {
         if ($this->searchTerm) {
@@ -45,10 +43,8 @@ class ListProducts extends Component
         return null;
     }
 
-
     public function getRowsQueryProperty()
     {
-        
         $query = Product::query()
             ->with('parent', 'color', 'size')
             ->whereHas('parent', function ($query) {
@@ -64,10 +60,7 @@ class ListProducts extends Component
         $this->applySearchFilter($query);
 
         return $query;
-
-
     }
-
 
     public function getRowsProperty()
     {
@@ -82,14 +75,12 @@ class ListProducts extends Component
         $this->dateOutput = '';
     }
 
-
     public function clear()
     {
         $this->searchTerm = '';
         $this->page = 1;
         $this->perPage = '12';
     }
-
 
     public function clearAll()
     {
@@ -100,19 +91,15 @@ class ListProducts extends Component
         $this->selectPage = false;
     }
 
-
-
     public function updatedSearchTerm()
     {
         $this->page = 1;
     }
 
-
     public function updatedPerPage()
     {
         $this->page = 1;
     }
-
 
     public function export()
     {
@@ -128,7 +115,7 @@ class ListProducts extends Component
     public function exportMaatwebsite($extension)
     {   
         abort_if(!in_array($extension, ['csv','xlsx', 'pdf', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
-        return Excel::download(new ProductsExport($this->getSelectedProducts()), 'colors.'.$extension);
+        return Excel::download(new ProductsExport($this->getSelectedProducts()), 'product-list-'.Carbon::now().'.'.$extension);
     }
 
     public function render()

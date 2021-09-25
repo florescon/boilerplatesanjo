@@ -8,7 +8,6 @@ use Database\Seeders\Traits\DisableForeignKeys;
 
 class ColorSeeder extends Seeder
 {
-
     use DisableForeignKeys;
 
     /**
@@ -25,6 +24,5 @@ class ColorSeeder extends Seeder
         }
 
         $this->enableForeignKeys();
-
     }
 }

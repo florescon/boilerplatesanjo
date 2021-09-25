@@ -159,6 +159,8 @@ return [
         'comment' => 'comentario',
         'Site phone' => 'Teléfono del sitio',
         'departament' => 'departamento',
-        'user' => 'usuario'
+        'user' => 'usuario',
+        'amount' => 'cantidad',
+        'ticket_text' => 'texto del ticket'
     ],
 ];

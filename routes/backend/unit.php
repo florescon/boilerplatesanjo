@@ -8,7 +8,7 @@ use Tabuna\Breadcrumbs\Trail;
 Route::group([
     'prefix' => 'unit',
     'as' => 'unit.',
-    // 'middleware' =>  'role:'.config('boilerplate.access.role.admin'),
+    'middleware' =>  'role:'.config('boilerplate.access.role.admin'),
 ], function () {
     Route::get('/', [UnitController::class, 'index'])
         ->name('index')

@@ -52,7 +52,6 @@ class Color extends Model
     public function getTotalVariantsAttribute() : int
     {
         return Product::where('parent_id', '<>', NULL)->count();
-
     }
 
     /**
@@ -78,7 +77,6 @@ class Color extends Model
     public function getTotalPercentageAttribute() 
     {
         return ($this->count_products * 100) / $this->total_variants;
-
     }
 
     public static function search($query)
@@ -97,7 +95,6 @@ class Color extends Model
     {
         return $this->updated_at->format('M, d Y');
     }
-
 
     /**
      * Return the sluggable configuration array for this model.

@@ -8,7 +8,7 @@ use Tabuna\Breadcrumbs\Trail;
 Route::group([
     'prefix' => 'cloth',
     'as' => 'cloth.',
-    // 'middleware' =>  'role:'.config('boilerplate.access.role.admin'),
+    'middleware' =>  'role:'.config('boilerplate.access.role.admin'),
 ], function () {
     Route::get('/', [ClothController::class, 'index'])
         ->name('index')

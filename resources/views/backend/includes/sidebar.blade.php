@@ -132,6 +132,44 @@
                 :text="__('Feedstocks')" />
         </li>
 
+        <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.store.pos.*') || Route::is('admin.store.finances.*'), 'c-open c-show') }}">
+            <x-utils.link
+                new="true"
+                href="#"
+                icon="c-sidebar-nav-icon cil-settings"
+                class="c-sidebar-nav-dropdown-toggle"
+                :text="__('Shop')" />
+
+            <ul class="c-sidebar-nav-dropdown-items">
+                    <li class="c-sidebar-nav-item">
+                        <x-utils.link
+                            new="true"
+                            :href="route('admin.store.pos')"
+                            class="c-sidebar-nav-link"
+                            :text="__('Shop panel')"
+                            :active="activeClass(Route::is('admin.store.pos*'), 'c-active')" />
+                    </li>
+
+                    <li class="c-sidebar-nav-item">
+                        <x-utils.link
+                            new="true"
+                            :href="route('admin.store.finances.index')"
+                            class="c-sidebar-nav-link"
+                            :text="__('Incomes and expenses')"
+                            :active="activeClass(Route::is('admin.store.finances*'), 'c-active')"/>
+                    </li>
+
+                    <li class="c-sidebar-nav-item">
+                        <x-utils.link
+                            new="true"
+                            :href="route('admin.store.box')"
+                            class="c-sidebar-nav-link"
+                            :text="__('Daily cash closing')"
+                            :active="activeClass(Route::is('admin.store.box*'), 'c-active')"/>
+                    </li>
+            </ul>
+        </li>
+
         <li class="c-sidebar-nav-title">@lang('Parameters')</li>
 
         <li class="c-sidebar-nav-item">
@@ -181,14 +219,30 @@
 
         <li class="c-sidebar-nav-title">@lang('Others')</li>
 
-        <li class="c-sidebar-nav-item">
+        <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.setting.index.*') || Route::is('admin.auth.pages.*'), 'c-open c-show') }}">
             <x-utils.link
-                new="true"
-                class="c-sidebar-nav-link"
-                :href="route('admin.setting.index')"
-                :active="activeClass(Route::is('admin.setting.*'), 'c-active')"
+                href="#"
                 icon="c-sidebar-nav-icon cil-settings"
+                class="c-sidebar-nav-dropdown-toggle"
                 :text="__('Settings')" />
+
+            <ul class="c-sidebar-nav-dropdown-items">
+                    <li class="c-sidebar-nav-item">
+                        <x-utils.link
+                            :href="route('admin.setting.index')"
+                            class="c-sidebar-nav-link"
+                            :text="__('General Settings')"
+                            :active="activeClass(Route::is('admin.setting.index*'), 'c-active')" />
+                    </li>
+
+                    <li class="c-sidebar-nav-item">
+                        <x-utils.link
+                            :href="route('admin.setting.pages')"
+                            class="c-sidebar-nav-link"
+                            :text="__('Pages')"
+                            :active="activeClass(Route::is('admin.setting.pages*'), 'c-active')"/>
+                    </li>
+            </ul>
         </li>
 
         <li class="c-sidebar-nav-item">

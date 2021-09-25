@@ -122,7 +122,7 @@
 	              	{!! $order->user_name !!}
 	              </td>
                 <td>
-                  {!! $order->comment ?? '<span class="badge badge-secondary">'.__('undefined').'</span>' !!}
+                  {!! Str::limit($order->comment, 200) ?? '<span class="badge badge-secondary">'.__('undefined').'</span>' !!}
                 </td>
                 <td>
                 	{!! $order->approved_label !!}
@@ -148,7 +148,7 @@
 	        <div class="row">
 	          <div class="col">
 	            <nav>
-	              {{ $orders->links() }}
+	              {{ $orders->onEachSide(1)->links() }}
 	            </nav>
 	          </div>
 	              <div class="col-sm-3 text-muted text-right">

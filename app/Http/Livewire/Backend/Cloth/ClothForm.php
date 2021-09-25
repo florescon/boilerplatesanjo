@@ -7,7 +7,6 @@ use Livewire\Component;
 
 class ClothForm extends Component
 {
-
     public $name;
 
     protected $listeners = ['createmodal'];
@@ -16,14 +15,12 @@ class ClothForm extends Component
         'name' => 'required|min:2',
     ];
 
-
     public $count = 0;
 
     public function increment()
     {
         $this->count++;
     }
-
 
     private function resetInputFields()
     {
@@ -43,7 +40,6 @@ class ClothForm extends Component
 
     public function store()
     {
-
         $validatedData = $this->validate();
 
         Cloth::create($validatedData);
@@ -57,10 +53,7 @@ class ClothForm extends Component
 		    'title'   => __('Created'), 
 		]);
 
-
     	$this->emitTo('backend.cloth.cloth-table', 'triggerRefresh');
-
-
     }
 
     public function render()

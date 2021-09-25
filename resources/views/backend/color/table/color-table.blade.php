@@ -256,7 +256,7 @@ background: linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(148,233,202,1) 1
         <div class="row">
           <div class="col">
             <nav>
-              {{ $colors->links() }}
+              {{ $colors->onEachSide(1)->links() }}
             </nav>
           </div>
               <div class="col-sm-3 text-muted text-right">

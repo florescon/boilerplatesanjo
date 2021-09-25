@@ -9,7 +9,7 @@ use Tabuna\Breadcrumbs\Trail;
 Route::group([
     'prefix' => 'order',
     'as' => 'order.',
-    // 'middleware' =>  'role:'.config('boilerplate.access.role.admin'),
+    'middleware' =>  'role:'.config('boilerplate.access.role.admin'),
 ], function () {
     Route::get('/', [OrderController::class, 'index'])
         ->name('index')

@@ -10,11 +10,9 @@ use App\Facades\Cart;
 
 class EditProduct extends Component
 {
-
     use WithFileUploads;
 
     public $slug, $isCode, $code, $isName, $name, $isDescription, $origDescription, $newDescription, $increaseStock, $subtractStock, $increaseStockRevision, $subtractStockRevision, $increaseStockStore, $subtractStockStore, $inputincrease, $inputsubtract, $inputincreaserevision, $inputsubtractrevision, $inputincreasestore, $inputsubtractstore, $product_id, $color_id_select, $size_id_select, $photo, $imageName, $origPhoto, $colorss, $line_id;
-
 
     public $colorsmultiple_id = [];
     public $sizesmultiple_id = [];
@@ -59,7 +57,6 @@ class EditProduct extends Component
         elseif($typeCart == 'products_sale'){
             $this->emit('productAddedSale');
         }
-        
     }
 
     public function removePhoto()
@@ -99,7 +96,6 @@ class EditProduct extends Component
 
     public function filterByColor($color)
     {
-
         if (in_array($color, $this->filters)) {
             $ix = array_search($color, $this->filters);
             unset($this->filters[$ix]);
@@ -113,13 +109,10 @@ class EditProduct extends Component
             };
     
         }
-
     }
-
 
     public function filterBySize($size)
     {
-
         if (in_array($size, $this->filtersz)) {
             $ix = array_search($size, $this->filtersz);
             unset($this->filtersz[$ix]);
@@ -133,7 +126,6 @@ class EditProduct extends Component
             };
     
         }
-
     }
 
     private function applyColorFilter($model)
@@ -149,7 +141,6 @@ class EditProduct extends Component
 
         return null;
     }
-
 
     public function savedescription()
     {
@@ -180,7 +171,6 @@ class EditProduct extends Component
 
     public function savename()
     {
-
         $this->validate([
             'name' => 'required|max:50',
         ]);
@@ -193,8 +183,6 @@ class EditProduct extends Component
 
         $this->initname($product); // re-initialize the component state with fresh data after saving
 
-
-
         $this->emit('swal:alert', [
            'icon' => 'success',
             'title'   => __('Updated at'), 
@@ -203,7 +191,6 @@ class EditProduct extends Component
 
     public function savecode()
     {
-
         $this->validate([
             'code' => 'required|min:3|unique:products',
         ]);
@@ -225,7 +212,6 @@ class EditProduct extends Component
 
     public function savePhoto()
     {
-
         $this->validate([
             'photo' => 'image|max:4096', // 4MB Max
         ]);
@@ -252,7 +238,6 @@ class EditProduct extends Component
 
     public function storemultiple()
     {
-
         $product = Product::findOrFail($this->product_id);
 
         $this->validate([
@@ -275,11 +260,8 @@ class EditProduct extends Component
         return $this->redirectRoute('admin.product.edit', $product->id);
     }
 
-
-
     public function savecolor()
     {
-
         $product = Product::with('children')->findOrFail($this->product_id);
 
         if($this->color_id_select){
@@ -307,14 +289,11 @@ class EditProduct extends Component
 
             }
         }
-
         // $this->initmodel($product); // re-initialize the component state with fresh data after saving
     }
 
-
     public function savesize()
     {
-
         $product = Product::with('children')->findOrFail($this->product_id);
 
         if($this->size_id_select){
@@ -340,15 +319,11 @@ class EditProduct extends Component
                 ]);
             }
         }
-
         // $this->initmodel($product); // re-initialize the component state with fresh data after saving
     }
 
-
-
     public function clearAll()
     {
-
         $this->inputincrease = [];
         $this->inputsubtract = [];
 
@@ -364,13 +339,10 @@ class EditProduct extends Component
         $this->subtractStockRevision = FALSE;
         $this->increaseStockStore = FALSE;
         $this->subtractStockStore = FALSE;
-
     }
-
 
     public function increase()
     {
-
         $this->validate([
             'inputincrease.*.stock' => 'numeric|sometimes',
             'inputsubtract.*.stock' => 'numeric|sometimes',
@@ -453,8 +425,6 @@ class EditProduct extends Component
         ]);
     }
 
-
-
     public function updatedIncreaseStock()
     {
         $this->subtractStock = FALSE;
@@ -462,7 +432,6 @@ class EditProduct extends Component
         $this->subtractStockRevision= FALSE;
         $this->subtractStockStore= FALSE;
     }
-
 
     public function updatedSubtractStock()
     {
@@ -485,7 +454,6 @@ class EditProduct extends Component
         $this->increaseStockStore = FALSE;
     }
 
-
     public function updatedIncreaseStockStore()
     {
         $this->subtractStock = FALSE;
@@ -499,7 +467,6 @@ class EditProduct extends Component
         $this->increaseStockRevision = FALSE;
         $this->increaseStockStore = FALSE;
     }
-
 
     private function init(Product $product)
     {
@@ -527,16 +494,13 @@ class EditProduct extends Component
 
     private function initmodel(Product $product)
     {
-
         // $attributes = Product::with('children')->findOrFail($this->product_id);
         $model = Product::with('children')
                         ->findOrFail($product->id);
     }
 
-
     public function render()
     {
-
         if ($this->filters || $this->filtersz) {
             if($this->filters){
                 foreach ($this->filters as $filter) {     
@@ -571,5 +535,4 @@ class EditProduct extends Component
 
         return view('backend.product.livewire.edit')->with(compact('model', 'attributes'));
     }
-
 }

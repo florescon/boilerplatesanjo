@@ -84,9 +84,7 @@
                           <input type="checkbox" class="c-switch-input" wire:model="autoCodes" checked>
                           <span class="c-switch-slider"></span>
                         </label>
-
-
-
+                        
                         @if($autoCodes == false)
                             <span class="error" style="color: red;">
                                 <p>

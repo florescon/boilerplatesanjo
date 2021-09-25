@@ -15,7 +15,6 @@ class MaterialTable extends TableComponent
 
     use WithPagination;
 
-
     public $search;
 
     public $status;
@@ -87,7 +86,6 @@ class MaterialTable extends TableComponent
         }
 
         return $query;
-
     }
 
 
@@ -149,7 +147,6 @@ class MaterialTable extends TableComponent
 
     public function delete($id)
     {
-
         if($id){
             $color = Material::where('id', $id);
             $color->delete();
@@ -160,7 +157,6 @@ class MaterialTable extends TableComponent
             'icon' => 'success',
             'title'   => __('Deleted'), 
         ]);
-
     }
 
 
@@ -176,7 +172,6 @@ class MaterialTable extends TableComponent
             'icon' => 'success',
             'title'   => __('Restored'), 
         ]);
-
     }
 
 

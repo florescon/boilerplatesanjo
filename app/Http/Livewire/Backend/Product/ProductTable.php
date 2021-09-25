@@ -12,7 +12,6 @@ use Carbon\Carbon;
 
 class ProductTable extends Component
 {
-
 	use Withpagination, WithBulkActions, WithCachedRows;
 
     protected $paginationTheme = 'bootstrap';
@@ -22,7 +21,6 @@ class ProductTable extends Component
         'perPage',
     ];
 
-
     public $perPage = '12';
 
     public $status;
@@ -30,10 +28,8 @@ class ProductTable extends Component
 
     protected $listeners = ['restore' => '$refresh'];
 
-
     public function getRowsQueryProperty()
     {
-        
         $query = Product::query()
             ->withCount('children')
             ->whereNull('parent_id')
@@ -45,12 +41,8 @@ class ProductTable extends Component
 
         $this->applySearchFilter($query);
 
-
         return $query;
-
-
     }
-
 
     public function getRowsProperty()
     {
@@ -58,8 +50,6 @@ class ProductTable extends Component
             return $this->rowsQuery->paginate($this->perPage);
         });
     }
-
-
 
     private function applySearchFilter($products)
     {
@@ -72,15 +62,12 @@ class ProductTable extends Component
         return null;
     }
 
-
-
     public function clear()
     {
         $this->searchTerm = '';
         $this->page = 1;
         $this->perPage = '12';
     }
-
 
     public function updatedSearchTerm()
     {
@@ -94,7 +81,6 @@ class ProductTable extends Component
 
     public function restore($id)
     {
-
         if($id){
             Product::withTrashed()->find($id)->restore();
         }
@@ -111,6 +97,4 @@ class ProductTable extends Component
             'products' => $this->rows,
         ]);
     }
-
-
 }

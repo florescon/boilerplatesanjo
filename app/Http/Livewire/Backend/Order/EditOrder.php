@@ -11,7 +11,6 @@ use Illuminate\Support\Str;
 
 class EditOrder extends Component
 {
-
     public $order_id, $lates_statusId, $slug, $isComment, $comment, $isDate, $date_entered;
 
     public $previousMaterialByProduct, $maerialAll;
@@ -48,7 +47,6 @@ class EditOrder extends Component
 
     public function savecomment()
     {
-
         $this->validate([
             'comment' => 'required|max:100',
         ]);
@@ -61,18 +59,14 @@ class EditOrder extends Component
 
         $this->initcomment($order); // re-initialize the component state with fresh data after saving
 
-
-
         $this->emit('swal:alert', [
            'icon' => 'success',
             'title'   => __('Updated at'), 
         ]);
     }
 
-
     public function savedate()
     {
-
         $this->validate([
             'date_entered' => 'required|max:100',
         ]);
@@ -84,8 +78,6 @@ class EditOrder extends Component
         $order->save();
 
         $this->initdate($order); // re-initialize the component state with fresh data after saving
-
-
 
         $this->emit('swal:alert', [
            'icon' => 'success',
@@ -131,7 +123,6 @@ class EditOrder extends Component
 
     public function render()
     {
-
         $model = Order::with(['product_order', 'product_sale', 'suborders.user', 'last_status_order', 
                     'materials_order' => function($query){
                         $query->groupBy('material_id')->selectRaw('*, sum(quantity) as sum');

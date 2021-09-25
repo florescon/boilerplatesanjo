@@ -8,7 +8,7 @@ use Tabuna\Breadcrumbs\Trail;
 Route::group([
     'prefix' => 'line',
     'as' => 'line.',
-    // 'middleware' =>  'role:'.config('boilerplate.access.role.admin'),
+    'middleware' =>  'role:'.config('boilerplate.access.role.admin'),
 ], function () {
     Route::get('/', [LineController::class, 'index'])
         ->name('index')

@@ -293,7 +293,7 @@
 					  </thead>
 					  <tbody>
 					    <tr class="">
-					      <th scope="row"><span class="badge bg-success text-white">@lang('Increase')</span></th>
+					      <th scope="row"><span class="text-monospace text-success"><u>@lang('Increase')</u></span></th>
 					      <td>
 							<div class="custom-control custom-switch custom-control-inline">
 								<input type="checkbox" wire:model="increaseStock" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
@@ -314,7 +314,7 @@
 					      </td>
 					    </tr>
 					    <tr class="">
-					      <th scope="row"><span class="badge bg-danger text-white">@lang('Subtract')</span></th>
+					      <th scope="row"><span class="text-monospace text-danger"><u>@lang('Subtract')</u></span></th>
 					      <td>
 					      	<div class="custom-control custom-switch custom-control-inline">
 								<input type="checkbox" wire:model="subtractStock" id="customRadioInline2" name="customRadioInline2" class="custom-control-input">
@@ -342,8 +342,8 @@
 
 	  				<div class="col-3">
 	  					<div class="d-flex justify-content-center">
-				            <button type="button" class="btn btn-primary btn-sm" wire:click="clearAll">
-				            	@lang('Clear filters')
+				            <button type="button" class="btn btn-outline-dark btn-sm text-monospace font-weight-bold" wire:click="clearAll">
+				            	<u>@lang('Clear filters')</u>
 				            </button>
 				        </div>
 			        </div>

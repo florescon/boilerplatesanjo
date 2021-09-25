@@ -244,8 +244,6 @@ class Order extends Model
         }
 
         return "--<em> ".__('not applicable')." </em>--";
-
-
     }
 
     public function getDateForHumansAttribute()
@@ -257,6 +255,5 @@ class Order extends Model
     {
         return $this->updated_at->diffForHumans();
     }
-
 
 }

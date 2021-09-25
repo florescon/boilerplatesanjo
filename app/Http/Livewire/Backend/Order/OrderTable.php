@@ -35,7 +35,6 @@ class OrderTable extends Component
     public $dateInput = '';
     public $dateOutput = '';
 
-
     public function sortBy($field)
     {
         if ($this->sortField === $field) {
@@ -46,8 +45,6 @@ class OrderTable extends Component
 
         $this->sortField = $field;
     }
-
-
 
     public function getRowsQueryProperty()
     {
@@ -87,7 +84,6 @@ class OrderTable extends Component
         $this->title = ['title' => 'List of orders', 'color' => 'primary'];
 
         return $query->onlyOrders();
-
     }
 
 
@@ -122,7 +118,6 @@ class OrderTable extends Component
         $this->perPage = '10';
     }
 
-
     public function clearAll()
     {
         $this->dateInput = '';
@@ -132,13 +127,10 @@ class OrderTable extends Component
         $this->perPage = '10';
     }
 
-
     public function render()
     {
-
         return view('backend.order.table.order-table', [
           'orders' => $this->rows,
         ]);
-
     }
 }

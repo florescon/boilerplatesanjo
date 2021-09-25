@@ -44,7 +44,6 @@ class ShopComponent extends Component
 
     public function getRowsQueryProperty()
     {
-        
         $query = Product::query()
             ->with('children', 'line')
             ->whereNull('parent_id')
@@ -82,7 +81,6 @@ class ShopComponent extends Component
                 $queryColor->where('color_id', $color);
             });
         }
-
 
         if($this->sorting == 'newness'){
             return $query->newness();
@@ -167,7 +165,6 @@ class ShopComponent extends Component
     {
         return redirect()->route('frontend.shop.index');
     }
-
 
     public function dehydrateLine()
     {

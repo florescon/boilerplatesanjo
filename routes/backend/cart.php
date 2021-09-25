@@ -20,7 +20,7 @@ use Tabuna\Breadcrumbs\Trail;
 Route::group([
     'prefix' => 'cart',
     'as' => 'cart.',
-    // 'middleware' =>  'role:'.config('boilerplate.access.role.admin'),
+    'middleware' =>  'role:'.config('boilerplate.access.role.admin'),
 ], function () {
     Route::get('/', [CartController::class, 'index'])
         ->name('index')

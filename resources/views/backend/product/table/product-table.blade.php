@@ -21,7 +21,6 @@
 	</div>
 	@endif
 
-
 	<div class="card-columns">
 		@foreach($products as $product)
 		  <div class="card card-flyer card-product">
@@ -110,7 +109,7 @@
 		    <div class="row">
 		      <div class="col">
 		        <nav>
-		          {{ $products->links() }}
+		          {{ $products->onEachSide(1)->links() }}
 		        </nav>
 		      </div>
 		          <div class="col-sm-3 text-muted text-right">

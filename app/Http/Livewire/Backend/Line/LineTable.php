@@ -11,11 +11,9 @@ use Rappasoft\LaravelLivewireTables\Views\Column;
 
 class LineTable extends TableComponent
 {
-
     use HtmlComponents;
 
     use WithPagination;
-
 
     public $search;
 
@@ -38,9 +36,7 @@ class LineTable extends TableComponent
 
     ];
 
-
     protected $listeners = ['delete', 'restore', 'triggerRefresh' => '$refresh'];
-
 
     /**
      * @var string
@@ -69,7 +65,6 @@ class LineTable extends TableComponent
     {
         $this->status = $status;
     }
-
 
     /**
      * @return Builder
@@ -128,7 +123,6 @@ class LineTable extends TableComponent
 
     public function delete($id)
     {
-
         if($id){
             $line = Line::where('id', $id);
             $line->delete();
@@ -139,7 +133,6 @@ class LineTable extends TableComponent
             'icon' => 'success',
             'title'   => __('Deleted'), 
         ]);
-
     }
 
     public function restore($id)
@@ -154,9 +147,6 @@ class LineTable extends TableComponent
             'icon' => 'success',
             'title'   => __('Restored'), 
         ]);
-
     }
-
-
 
 }

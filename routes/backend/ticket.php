@@ -8,13 +8,11 @@ use Tabuna\Breadcrumbs\Trail;
 Route::group([
     'prefix' => 'ticket',
     'as' => 'ticket.',
-    // 'middleware' =>  'role:'.config('boilerplate.access.role.admin'),
+    'middleware' =>  'role:'.config('boilerplate.access.role.admin'),
 ], function () {
 
     Route::group(['prefix' => '{ticket}'], function () {
         Route::delete('/', [TicketController::class, 'destroy'])->name('destroy');
     });
-
-
 
 });

@@ -38,8 +38,8 @@
                         <a href="{{ route('admin.order.index') }}" class="blog-card linear">                  
                             <div class="blog-card__square"></div>
                           <div class="blog-card__circle"></div>
-                          <h2 class="blog-card__title" itemprop="headline">@lang('Order - Sale Management')</h2>
-                          <h5 class="blog-card__category">@lang('Orders')/@lang('Sales')</h5>
+                          <h2 class="blog-card__title" itemprop="headline">@lang('Show Order - Sale')</h2>
+                          <h5 class="blog-card__category">@lang('Orders')<br>@lang('Sales')</h5>
                         </a>              
                       </div>
                   </article>
@@ -88,7 +88,7 @@
                             <a href="{{ route('admin.product.list') }}" class="blog-card photoshop">                  
                               <div class="blog-card__square"></div>
                               <div class="blog-card__circle"></div>
-                              <h2 class="blog-card__title" itemprop="headline">@lang('Mostrar variantes de productos')</h2>
+                              <h2 class="blog-card__title" itemprop="headline">@lang('Product variants')</h2>
                               <h5 class="blog-card__category">@lang('List of products')</h5>
                             </a>              
                         </div>

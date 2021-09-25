@@ -13,7 +13,6 @@ class Assignment extends Model
         'order_id', 'ticket_id', 'status_id', 'user_id', 'quantity', 'assignmentable_id', 'assignmentable_type', 'output',
     ];
 
-
     /**
      * @return bool
      */
@@ -21,7 +20,6 @@ class Assignment extends Model
     {
         return $this->output;
     }
-
 
     /**
      * @return string
@@ -34,8 +32,6 @@ class Assignment extends Model
 
         return "<span class='badge badge-danger'>".__('To give out').'</span>';
     }
-
-
 
     /**
      * Get the parent assignmentable model (product_order or consumption_order).
