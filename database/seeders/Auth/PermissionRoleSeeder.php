@@ -25,6 +25,11 @@ class PermissionRoleSeeder extends Seeder
         if (app()->environment() !== 'production') {
 
         // Create Roles
+        Role::create([
+            'id' => 1,
+            'type' => User::TYPE_ADMIN,
+            'name' => 'Administrator',
+        ]);
 
         // Non Grouped Permissions
         //
@@ -301,38 +306,38 @@ class PermissionRoleSeeder extends Seeder
         $unit = Permission::create([
             'type' => User::TYPE_ADMIN,
             'name' => 'admin.access.unit',
-            'description' => 'Todos los permisos de lineas',
+            'description' => 'Todos los permisos de unidades',
         ]);
         $unit->children()->saveMany([
             new Permission([
                 'type' => User::TYPE_ADMIN,
                 'name' => 'admin.access.unit.list',
-                'description' => 'Ver lineas',
+                'description' => 'Ver unidades',
             ]),
             new Permission([
                 'type' => User::TYPE_ADMIN,
                 'name' => 'admin.access.unit.list',
-                'description' => 'Crear lineas',
+                'description' => 'Crear unidades',
             ]),
             new Permission([
                 'type' => User::TYPE_ADMIN,
                 'name' => 'admin.access.unit.modify',
-                'description' => 'Modificar lineas',
+                'description' => 'Modificar unidades',
             ]),
             new Permission([
                 'type' => User::TYPE_ADMIN,
                 'name' => 'admin.access.unit.modify',
-                'description' => 'Exportar lineas',
+                'description' => 'Exportar unidades',
             ]),
             new Permission([
                 'type' => User::TYPE_ADMIN,
                 'name' => 'admin.access.unit.delete',
-                'description' => 'Eliminar lineas',
+                'description' => 'Eliminar unidades',
             ]),
             new Permission([
                 'type' => User::TYPE_ADMIN,
                 'name' => 'admin.access.unit.deleted',
-                'description' => 'Ver lineas eliminados',
+                'description' => 'Ver unidades eliminados',
             ]),
         ]);
 

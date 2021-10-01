@@ -1,4 +1,5 @@
-<div class="card shadow-lg p-3 mb-5 bg-white rounded">
+
+<div class="card shadow-primary p-3 mb-5 bg-white rounded">
 
 	<div class="card-header text-white" style="background-image: url({{ asset('/ga/img/color.jpg') }});">
     <strong> @lang('List of statuses') </strong>
@@ -35,7 +36,6 @@
       </div>
     </div>
 
-
     @if($selected && $statuses->count())
     <div class="dropdown table-export">
       <button class="dropdown-toggle btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -57,13 +57,19 @@
 	            <tr>
 
 	              <th scope="col">
-	              	@lang('Name')
+	                <a wire:click.prevent="sortBy('name')" role="button" href="#">
+	                  @lang('Name')
+	                  @include('backend.includes._sort-icon', ['field' => 'name'])
+	                </a>
 	              </th>
                 <th scope="col">
                   @lang('Description')
                 </th>
 	              <th scope="col">
+	                <a wire:click.prevent="sortBy('level')" role="button" href="#">
 	                  @lang('Level')
+	                  @include('backend.includes._sort-icon', ['field' => 'level'])
+	                </a>
 	              </th>
 	              <th scope="col">
 	                  @lang('Percentage')
@@ -92,7 +98,7 @@
 		              {{ $status->percentage }}
 	              </td>
 	              <td>
-	              	{{ $status->to_add_users }}
+	              	{!! $status->status_add_users !!}
 	              </td>
 	              <td>
 									{{ $status->date_for_humans }}
@@ -130,11 +136,7 @@
 	  </div>
 	</div>
 
-
-
-
 </div>
-
 
 @push('after-scripts')
 

@@ -7,7 +7,6 @@ use App\Models\Status;
 
 class StatusController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +16,6 @@ class StatusController extends Controller
     {
         return view('backend.status.index');
     }
-
 
     public function deleted()
     {
@@ -30,6 +28,4 @@ class StatusController extends Controller
         $data = Status::select(['id', 'name'])->where('name', 'like', '%' . $search . '%')->orderBy('level')->paginate(5);
         return response()->json(['items' => $data->toArray()['data'], 'pagination' => $data->nextPageUrl() ? true : false]);
     }
-
-
 }

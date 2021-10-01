@@ -26,7 +26,7 @@ class StatusTable extends Component
 
     public $perPage = '10';
 
-    public $sortField = 'name';
+    public $sortField = 'level';
     public $sortAsc = true;
 
     public $status;
@@ -35,10 +35,19 @@ class StatusTable extends Component
     public $deleted;
 
 
+    /**
+     * Assign users.
+     *
+     * @var bool
+     */
+    public bool $to_add_users = false;
 
     public function getRowsQueryProperty()
     {
-        $query = Status::query();
+        $query = Status::query()
+                ->when($this->sortField, function ($query) {
+                    $query->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc');
+                });
         
         if ($this->status === 'deleted') {
             return $query->onlyTrashed();
@@ -48,6 +57,17 @@ class StatusTable extends Component
 
         return $query;
 
+    }
+
+    public function sortBy($field)
+    {
+        if ($this->sortField === $field) {
+            $this->sortAsc = ! $this->sortAsc;
+        } else {
+            $this->sortAsc = true;
+        }
+
+        $this->sortField = $field;
     }
 
 
