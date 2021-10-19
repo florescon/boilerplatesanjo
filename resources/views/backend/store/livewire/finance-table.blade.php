@@ -19,13 +19,13 @@
               {{-- <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div> --}}
             </div>
 
-            {{-- <ul class="list-group list-group-flush text-center">
-              <li class="list-group-item">@lang('Quantity'):</li>
-              <li class="list-group-item">Dapibus ac facilisis in</li>
-              <li class="list-group-item">Vestibulum at eros</li>
-            </ul> --}}
-
-            {{-- <small class="text-muted"> @lang('Current month') </small> --}}
+            @if($incomes == TRUE)
+              <ul class="list-group list-group-flush text-center">
+                <li class="list-group-item">@lang('Quantity'): {{ $finances->total() }} </li>
+                <li class="list-group-item"> @lang('Total'): </li>
+              </ul>
+              {{-- <small class="text-muted"> {{ $finances->total() }} </small> --}}
+            @endif
 
           </div>
           <div class="bg-primary card-footer text-right">
@@ -53,7 +53,14 @@
             <div class="progress progress-white progress-xs my-2">
               {{-- <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div> --}}
             </div>
-            {{-- <small class="text-muted"> @lang('Current month') </small> --}}
+            @if($expenses == TRUE)
+              <ul class="list-group list-group-flush text-center">
+                <li class="list-group-item">@lang('Quantity'):</li>
+                <li class="list-group-item">Dapibus ac facilisis in</li>
+                <li class="list-group-item">Vestibulum at eros</li>
+              </ul>
+              {{-- <small class="text-muted"> {{ $finances->total() }} </small> --}}
+            @endif
           </div>
           <div class="bg-danger card-footer text-right">
             <i class="cil-touch-app"></i>
@@ -79,7 +86,7 @@
           @endif
           <div class="card-header-actions">
              <em> Última petición: {{ now()->format('h:i:s') }} </em>
-            <a href="#" class="card-header-action" style="color: green;"  data-toggle="modal" wire:click="$emitTo('backend.store.finance.creaet-finance', 'createmodal')" data-target="#createFinance"><i class="c-icon cil-plus"></i> @lang('Create income or expense') </a>
+            <a href="#" class="card-header-action" style="color: green;"  data-toggle="modal" wire:click="$emitTo('backend.store.finance.create-finance', 'createmodal')" data-target="#createFinance"><i class="c-icon cil-plus"></i> @lang('Create income or expense') </a>
 
           </div>
 
@@ -87,16 +94,25 @@
             <br>
 
             &nbsp;
-            <div class="page-header-subtitle">@lang('Filter by update date range')</div>
+            <div class="page-header-subtitle">@lang('Filter by created date range')</div>
 
             <div class="row input-daterange">
-                <div class="col-md-3">
+                <div class="col-md-2">
                   <x-input.date wire:model="dateInput" id="dateInput" placeholder="{{ __('From') }}"/>
                 </div>
                 &nbsp;
 
-                <div class="col-md-3">
+                <div class="col-md-2">
                   <x-input.date wire:model="dateOutput" id="dateOutput" placeholder="{{ __('To') }}"/>
+                </div>
+                &nbsp;
+
+                <div class="col-md-3">
+                  <div class="btn-group" role="group" aria-label="Range date">
+                    <button type="button" class="btn {{ $currentMonth ? 'btn-primary' : 'btn-secondary' }}" wire:click="isCurrentMonth">@lang('Current month')</button>
+                    <button type="button" class="btn {{ $currentWeek ? 'btn-primary' : 'btn-secondary' }}" wire:click="isCurrentWeek">@lang('Current week')</button>
+                    <button type="button" class="btn {{ $today ? 'btn-primary' : 'btn-secondary' }}" wire:click="isToday">@lang('Today')</button>
+                  </div>
                 </div>
                 &nbsp;
 
@@ -175,6 +191,7 @@
         				<th class="text-center">@lang('Comment')</th>
                 <th class="text-center">@lang('Type')</th>
         				<th>@lang('Activity')</th>
+                <th>@lang('Created')</th>
                 <th></th>
         			</tr>
         		</thead>
@@ -213,6 +230,9 @@
         				<td>
         					<div class="small text-muted">@lang('Updated')</div><strong>{{ $finance->date_diff_for_humans }}</strong>
         				</td>
+                <td>
+                  <div class="small text-muted"></div><strong>{{ $finance->date_diff_for_humans_created }}</strong>
+                </td>
                 <td>
                   <x-actions-modal.delete-icon function="delete" :id="$finance->id" />
                 </td>

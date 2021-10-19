@@ -44,7 +44,7 @@ class ColorTable extends Component
 
     protected $rules = [
         'name' => 'required|min:3',
-        'short_name' => 'required|min:1|unique:colors',
+        'short_name' => 'required|min:3|max:6|unique:colors',
         'color' => 'required|unique:colors',
         'secondary_color' => '',
     ];
@@ -179,6 +179,8 @@ class ColorTable extends Component
 
     public function edit($id)
     {
+        $this->resetValidation();
+
         $record = Color::findOrFail($id);
 
         $this->selected_id = $id;
@@ -202,7 +204,7 @@ class ColorTable extends Component
         $this->validate([
             'selected_id' => 'required|numeric',
             'name' => 'required|min:3',
-            'short_name' => 'required|min:1|unique:App\Models\Color,short_name,'.$this->selected_id,
+            'short_name' => 'required|min:3|unique:App\Models\Color,short_name,'.$this->selected_id,
             'color' => 'required',
             'secondary_color' => ''
         ]);
@@ -227,8 +229,11 @@ class ColorTable extends Component
 
     private function resetInputFields()
     {
+
+        $this->resetValidation();
         $this->name = '';
         $this->color = '';
+        $this->short_name = '';
     }
 
     public function export()

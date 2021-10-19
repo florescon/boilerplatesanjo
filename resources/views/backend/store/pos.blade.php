@@ -24,7 +24,7 @@
 							<a href="index.html"> <i class="fa fa-search"></i> </a>
 						</li>
 						<li class="breadcrumb-item">
-							<a href="#!">@lang('Search product')</a>
+							<a href="#!" data-toggle="modal" wire:click="searchproduct()" data-target="#searchProduct">@lang('Search product')</a>
 						</li>
 					</ul>
 				</div>
@@ -371,5 +371,9 @@
 		</div>
 	</div>
 </div>
+
+
+	<livewire:backend.store.pos.search-product />
+	<livewire:backend.store.pos.details-product />
 
 @endsection

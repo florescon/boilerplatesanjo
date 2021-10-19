@@ -14,20 +14,28 @@ class EditSize extends Component
 
     public function edit($id)
     {
+        $this->resetInputFields();
+
         $record = Size::withTrashed()->findOrFail($id);
         $this->selected_id = $id;
         $this->name = $record->name;
         $this->short_name = $record->short_name;
         $this->slug = $record->slug;
+    }
 
+    private function resetInputFields()
+    {
+        $this->resetValidation();
+        $this->name = '';
+        $this->short_name = '';
     }
 
     public function update()
     {
         $this->validate([
             'selected_id' => 'required|numeric',
-            'name' => 'required|min:1',
-            'short_name' => 'required|min:1|max:4|unique:App\Models\Size,short_name,'.$this->selected_id,
+            'name' => 'required|min:3',
+            'short_name' => 'required|min:3|max:6|unique:App\Models\Size,short_name,'.$this->selected_id,
         ]);
         if ($this->selected_id) {
             $record = Size::find($this->selected_id);
@@ -45,7 +53,6 @@ class EditSize extends Component
             'icon' => 'success',
             'title'   => __('Actualizado'), 
         ]);
-
     }
 
 

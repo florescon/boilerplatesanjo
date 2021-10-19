@@ -50,7 +50,6 @@ class SizeTable extends TableComponent
     public $sortDirection = 'desc';
 
 
-
     /**
      * @var array
      */
@@ -59,9 +58,7 @@ class SizeTable extends TableComponent
         'bootstrap.classes.table' => 'table table-striped table-bordered',
         'bootstrap.classes.thead' => 'thead-dark border-bottom-3px',
         'bootstrap.responsive' => true,
-
     ];
-
 
     /**
      * @param  string  $status
@@ -97,7 +94,7 @@ class SizeTable extends TableComponent
             Column::make(__('Name'), 'name')
                 ->searchable()
                 ->sortable(),
-            Column::make(__('Short name'), 'short_name')
+            Column::make(__('Coding'), 'short_name')
                 ->searchable()
                 ->sortable(),
             Column::make(__('Slug'), 'slug')
@@ -133,7 +130,6 @@ class SizeTable extends TableComponent
 
     public function delete($id)
     {
-
         if($id){
             $color = Size::where('id', $id);
             $color->delete();
@@ -144,7 +140,6 @@ class SizeTable extends TableComponent
             'icon' => 'success',
             'title'   => __('Deleted'), 
         ]);
-
     }
 
     public function restore($id)
@@ -159,8 +154,6 @@ class SizeTable extends TableComponent
             'icon' => 'success',
             'title'   => __('Restored'), 
         ]);
-
     }
-
 
 }

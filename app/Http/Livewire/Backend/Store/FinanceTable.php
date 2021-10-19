@@ -37,6 +37,10 @@ class FinanceTable extends Component
     public $dateInput = '';
     public $dateOutput = '';
 
+    public bool $currentMonth = false;
+    public bool $currentWeek = false;
+    public bool $today = false;
+
     public $status;
 
     protected $listeners = ['filter' => 'filter', 'delete', 'restore', 'triggerRefresh' => '$refresh'];
@@ -88,8 +92,17 @@ class FinanceTable extends Component
         $query = Finance::query()->with('user')
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?
-                    $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', now()]) :
-                    $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59']);
+                    $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', now()]) :
+                    $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59']);
+            })
+            ->when($this->currentMonth, function ($query) {
+                    $query->currentMonth();
+            })
+            ->when($this->currentWeek, function ($query) {
+                    $query->currentWeek();
+            })
+            ->when($this->today, function ($query) {
+                    $query->today();
             })
             ->when($this->sortField, function ($query) {
                 $query->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc');
@@ -135,12 +148,43 @@ class FinanceTable extends Component
     {
         $this->dateInput = '';
         $this->dateOutput = '';
+        $this->clearRangeDate();
+    }
+
+    public function clearRangeDate()
+    {
+        $this->currentWeek = FALSE;
+        $this->today = FALSE;
+        $this->currentMonth = FALSE;
+    }
+
+    public function isCurrentMonth()
+    {
+        $this->clearFilterDate();
+        $this->currentWeek = FALSE;
+        $this->today = FALSE;
+        $this->currentMonth = TRUE;
+    }
+
+    public function isCurrentWeek()
+    {
+        $this->clearFilterDate();
+        $this->currentMonth = FALSE;
+        $this->today = FALSE;
+        $this->currentWeek = TRUE;
+    }
+
+    public function isToday()
+    {
+        $this->clearFilterDate();
+        $this->currentMonth = FALSE;
+        $this->currentWeek = FALSE;
+        $this->today = TRUE;
     }
 
     public function clearAll()
     {
-        $this->dateInput = '';
-        $this->dateOutput = '';
+        $this->clearFilterDate();
         $this->searchTerm = '';
         $this->page = 1;
         $this->perPage = '10';

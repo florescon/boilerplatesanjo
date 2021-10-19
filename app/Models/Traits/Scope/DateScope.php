@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models\Traits\Scope;
+use Carbon\Carbon;
 
 /**
  * Class DateScope.
@@ -15,8 +16,27 @@ trait DateScope
      */
     public function scopeCurrentMonth($query)
     {
-        $now = Carbon::now();
-        return $query->whereBetween('updated_at', [$now->startOfMonth(), $now]);
+        return $query->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()]);
+    }   
+
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeCurrentWeek($query)
+    {
+        return $query->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
+    }   
+
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeToday($query)
+    {
+        return $query->where('created_at', '>=', Carbon::today());
     }   
 
 }

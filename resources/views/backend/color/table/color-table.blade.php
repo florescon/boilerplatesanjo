@@ -141,7 +141,7 @@ background: linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(148,233,202,1) 1
                   @include('backend.includes._sort-icon', ['field' => 'name'])
                 </a>
               </th>
-              <th scope="col">@lang('Short name')</th>
+              <th scope="col">@lang('Coding')</th>
               
               <th scope="col">@lang('Slug')</th>
 

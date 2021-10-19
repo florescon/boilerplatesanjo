@@ -13,14 +13,16 @@ class CreateSize extends Component
     protected $listeners = ['createmodal'];
 
     protected $rules = [
-        'name' => 'required|min:1',
-        'short_name' => 'required|min:1|unique:sizes',
+        'name' => 'required|min:3',
+        'short_name' => 'required|min:3|max:6|unique:sizes',
     ];
 
     private function resetInputFields()
     {
+        $this->resetValidation();
         $this->name = '';
         $this->short_name = '';
+
     }
 
     public function createmodal()

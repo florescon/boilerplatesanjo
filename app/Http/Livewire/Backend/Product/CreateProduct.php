@@ -26,7 +26,7 @@ class CreateProduct extends Component
         'description' => 'nullable|sometimes',
         'color_id' => 'required',
         'size_id' => 'required',
-        'photo' => 'image|max:4096', // 4MB Max
+        'photo' => 'image|max:4096|nullable', // 4MB Max
         'price' => 'required|numeric',
     ];
 

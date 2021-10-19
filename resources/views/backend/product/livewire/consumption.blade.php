@@ -83,7 +83,7 @@
           </div>
           @endif
             <div class="card-body">
-              <h5 class="card-title text-monospace font-weight-bold">{{ ($name_color || $name_size) ? __('Consumption').' '. $name_color.$name_size : __('General consumption') }}</h5>
+              <h5 class="card-title {{ $name_color || $name_size ? 'text-danger font-italic typewriter' : 'text-primary' }} text-monospace font-weight-bold">{{ ($name_color || $name_size) ? __('Consumption').' '. $name_color.$name_size : __('General consumption') }}</h5>
   
               <div class="float-right custom-control custom-switch custom-control-inline">
                 <input type="checkbox" wire:model="updateQuantity" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
@@ -161,6 +161,11 @@
                         @lang('Feedstock')
                         {{ $filters_c ? '- Detalles' : '' }}
                       </th>
+
+                      @if( (!$name_size && !$name_color) && ($updateQuantity == TRUE))
+                        <th scope="col" style="width: 180px;">@lang('Current quantity')</th>
+                      @endif
+
                       <th scope="col" style="width: 180px;">@lang('Quantity')</th>
 
                       @if(($name_color or $name_size) && ($updateQuantity == TRUE))
@@ -176,7 +181,15 @@
                       @foreach($consumo as $yas)
                         <tr class="{{ ($yas->color_id == null xor $yas->size_id == null)  ? 'table-primary' : 'table-warning' }}">
                           <th scope="row"></th>
-                          <th scope="row" class=" {{  ($yas->color_id != null || $yas->size_id != null) ? 'font-italic' : ''  }}" > {!! $yas->material->full_name !!} @if($yas->puntual == TRUE)<span class="badge badge-success">Puntual</span>@endif </th>
+                          <th scope="row" class=" {{  ($yas->color_id != null || $yas->size_id != null) ? 'font-italic' : ''  }}" > {!! $yas->material->full_name !!} @if($yas->puntual == TRUE)  <span class="badge badge-success">Puntual</span>@endif 
+                          </th>
+
+                          @if( (!$name_size && !$name_color) && ($updateQuantity == TRUE))
+                          <th scope="col">
+                            {!! $yas->quantity !!}
+                          </th>
+                          @endif
+
                           <th scope="row">
 
                             @if($updateQuantity == TRUE)

@@ -93,4 +93,9 @@ class Finance extends Model
     {
         return $this->updated_at->diffForHumans();
     }
+
+    public function getDateDiffForHumansCreatedAttribute()
+    {
+        return $this->created_at->diffForHumans();
+    }
 }

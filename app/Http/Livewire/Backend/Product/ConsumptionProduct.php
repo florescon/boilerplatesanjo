@@ -28,8 +28,6 @@ class ConsumptionProduct extends Component
     {
         $this->product_id = $product->id;
         $this->product_general = $product;
-
-
     }
 
     public function quantities(int $product_id): void
@@ -51,7 +49,6 @@ class ConsumptionProduct extends Component
                 }
             }
         }
-
 
 
         if($this->inputquantities_difference){
@@ -135,7 +132,6 @@ class ConsumptionProduct extends Component
     //         ->findOrFail($product->id);
     // }
 
-
     public function filterBySize($size)
     {
 
@@ -156,9 +152,7 @@ class ConsumptionProduct extends Component
             };
 
             $this->clearAll();
-    
         }
-
     }
 
     public function filterByColor($color)
@@ -181,9 +175,7 @@ class ConsumptionProduct extends Component
             };
 
             $this->clearAll();
-    
         }
-
     }
 
     public function applySizeFilter($product)

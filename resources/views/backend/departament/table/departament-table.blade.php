@@ -28,7 +28,7 @@
     @endif
     <div class="card-header-actions">
        <em> Última petición: {{ now()->format('h:i:s') }} </em>
-      <a href="#" class="card-header-action" style="color: green;"  data-toggle="modal" wire:click="createmodal()" data-target="#exampleModal"><i class="c-icon cil-plus"></i> @lang('Create departament') </a>
+      <a href="#" class="card-header-action" style="color: green;" data-toggle="modal" wire:click="createmodal()" data-target="#exampleModal"><i class="c-icon cil-plus"></i> @lang('Create departament') </a>
     </div>
 
     <div class="row justify-content-md-end">

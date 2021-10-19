@@ -11,7 +11,6 @@ class Consumption extends Model
 {
     use HasFactory, SoftDeletes;
 
-
     /**
      * The attributes that are mass assignable.
      *
@@ -26,11 +25,8 @@ class Consumption extends Model
         'puntual',
     ];
 
-
     public function material()
     {
         return $this->belongsTo(Material::class, 'material_id')->with('color', 'size', 'unit')->withTrashed();
     }
-
-
 }

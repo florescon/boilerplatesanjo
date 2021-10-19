@@ -12,8 +12,14 @@
         <label class="c-switch c-switch-danger">
           <input type="checkbox" class="c-switch-input" wire:model="checkboxExpense" checked>
           <span class="c-switch-slider"></span>
-          <strong>@lang('Expense')</strong>
         </label>
+        <div>
+          @if($checkboxExpense == false)
+            <strong>@lang('I want it to be expense')<i class="cil-hand-point-up"></i></strong>
+          @else
+            <strong>@lang('Now is an expense')</strong>
+          @endif
+        </div>
       </div>
 
       <label>@lang('Name')</label>

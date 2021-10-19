@@ -13,7 +13,7 @@
             <x-slot name="body">
 
                 <div class="form-group row">
-                    <label for="name" class="col-md-2 col-form-label">@lang('Name')</label>
+                    <label for="name" class="col-md-2 col-form-label">@lang('Name')<sup>*</sup></label>
 
                     <div class="col-md-10">
                         <input type="text" name="name" wire:model="name" class="form-control" placeholder="{{ __('Name') }}" value="{{ old('name') }}" maxlength="100" required />
@@ -23,7 +23,7 @@
                 </div><!--form-group-->
 
                 <div class="form-group row">
-                    <label for="code" class="col-md-2 col-form-label">@lang('Code')</label>
+                    <label for="code" class="col-md-2 col-form-label">@lang('Code')<sup>*</sup></label>
 
                     <div class="col-md-10">
                         <input type="text" name="code" wire:model="code" class="form-control" placeholder="{{ __('Code') }}" value="{{ old('code') }}" maxlength="100" required />
@@ -55,7 +55,7 @@
 
 
                 <div class="form-group row" wire:ignore>
-                    <label for="colorselect" class="col-sm-2 col-form-label">@lang('Colors')</label>
+                    <label for="colorselect" class="col-sm-2 col-form-label">@lang('Colors')<sup>*</sup></label>
 
                     <div class="col-sm-10" >
                         <select id="colorselect" multiple="multiple" class="custom-select" style="width: 100%;" aria-hidden="true" >
@@ -66,7 +66,7 @@
 
 
                 <div class="form-group row" wire:ignore>
-                    <label for="sizeselect" class="col-sm-2 col-form-label">@lang('Sizes')</label>
+                    <label for="sizeselect" class="col-sm-2 col-form-label">@lang('Sizes')<sup>*</sup></label>
 
                     <div class="col-sm-10" >
                         <select id="sizeselect" multiple="multiple" class="custom-select" style="width: 100%;" aria-hidden="true">
@@ -97,7 +97,7 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="price" class="col-md-2 col-form-label">@lang('Price')</label>
+                    <label for="price" class="col-md-2 col-form-label">@lang('Price')<sup>*</sup></label>
 
                     <div class="col-md-10">
                         <input type="text" name="price" wire:model="price" class="form-control" placeholder="{{ __('Price') }}" value="{{ old('price') }}" maxlength="100" required />
@@ -113,7 +113,7 @@
                     <div class="col-sm-6" >
 
                         <div class="custom-file">
-                          <input type="file" wire:model="photo" class="custom-file-input" id="customFileLangHTML">
+                          <input type="file" wire:model="photo" class="custom-file-input @error('photo') is-invalid  @enderror" id="customFileLangHTML">
                           <label class="custom-file-label" for="customFileLangHTML" data-browse="Principal">@lang('Image')</label>
                         </div>
 

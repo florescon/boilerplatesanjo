@@ -6,7 +6,7 @@
 	<div class="row mb-4 justify-content-md-center">
 		<div class="col-8">
 		  <div class="input-group">
-		    <input wire:model.debounce.350ms="searchTerm" class="input-search" type="text" placeholder="{{ __('Search') }}..." />
+		    <input wire:model.debounce.350ms="searchTerm" class="input-search" type="text" placeholder="{{ __('Search general product') }}..." />
       		<span class="border-input-search"></span>
 		  </div>
 		</div>
@@ -69,7 +69,7 @@
 			    </li>
 
 			    <li class="list-group-item">
-			    	<strong>@lang('Stock'): </strong> {{ $product->total_stock }}
+			    	<strong>@lang('Quantity of all inventories'): </strong> {{ $product->total_stock }}
 			    </li>
 			    @if($product->children_count > 0)
 				    <li class="list-group-item">
