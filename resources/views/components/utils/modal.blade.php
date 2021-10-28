@@ -1,4 +1,4 @@
-@props(['id' => null, 'width' => null, 'tform' => null, 'footer' => null, 'ariaLabelledby' => 'exampleModalLabel'])
+@props(['id' => null, 'width' => null, 'tform' => null, 'footer' => null, 'ariaLabelledby' => 'exampleModalLabel', 'bgcolor' => null])
 <div 
     wire:ignore.self  
     class="modal fade"  
@@ -10,7 +10,7 @@
     
 >
         <div class="modal-dialog {{ $width }}" role="document">
-            <div class="modal-content">
+            <div class="modal-content {{ $bgcolor }}">
                 
                 <div class="modal-header">
                 <h5 class="modal-title" id="{{ $ariaLabelledby }}">{{ $title }}</h5>

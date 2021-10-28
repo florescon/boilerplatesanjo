@@ -28,6 +28,7 @@
         "laravel/socialite": "^5.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.0",
+        "livewire-ui/modal": "^1.0",
         "livewire/livewire": "^2.0",
         "maatwebsite/excel": "^3.1",
         "rappasoft/laravel-livewire-tables": "^0.4",

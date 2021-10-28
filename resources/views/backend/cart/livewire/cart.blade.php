@@ -100,7 +100,7 @@
 			                    <livewire:backend.cart-update-form :item="$product_sale" :key="$product_sale->id" :typeCart="'products_sale'" />
 						      </td>
 						      <td>
-						      	@json($product_sale->amount)
+						      	{{-- @json($product_sale->amount) --}}
 								<a wire:click="removeFromCart({{ $product_sale->id }}, 'products_sale')" class="badge badge-danger text-white">@lang('Delete')</a>
 						  	  </td>
 						    </tr>
@@ -159,7 +159,7 @@
 
 			<div class="card text-center border-light">
 			  <div class="card-body">
-			    <p class="card-text">@lang('¡Your cart order is empty!')</p>
+			    <p class="card-text">@lang('Your cart order is empty!')</p>
 			    <a href="{{ route('admin.product.index') }}" class="btn btn-primary">@lang('Go to products')</a>
 			  </div>
 			</div>

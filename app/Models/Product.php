@@ -85,7 +85,7 @@ class Product extends Model
      */
     public function getSizeNameAttribute()
     {
-        return $this->size_id ? '| '.$this->size->name : '';
+        return $this->size_id ? '&nbsp;&nbsp; '.$this->size->name : '';
     }
 
     /**
@@ -101,7 +101,7 @@ class Product extends Model
      */
     public function getFullNameAttribute()
     {
-        return $this->parent_id != null ? '<strong>'.$this->parent->name.'</strong> '.$this->size_name.' '.$this->color_name : $this->name." <span class='badge badge-primary'>".__('Main').'</span>';
+        return $this->parent_id != null ? '<strong>'.$this->parent->name.'</strong> <em>'.$this->size_name.' '.$this->color_name.'</em>' : $this->name." <span class='badge badge-primary'>".__('Main').'</span>';
     }
 
     /**

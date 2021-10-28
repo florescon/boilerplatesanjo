@@ -177,7 +177,7 @@
     <div class="row">
         <div class="col-12">
             <h2 class="display-8 text-center mb-4">
-                @lang('¡Your cart order is empty!')
+                @lang('Your cart order is empty!')
             </h2>
 
             <div class="col-12 text-center pt-5"> 

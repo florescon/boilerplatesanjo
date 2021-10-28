@@ -147,7 +147,7 @@
                             :href="route('admin.store.pos')"
                             class="c-sidebar-nav-link"
                             :text="__('Shop panel')"
-                            :active="activeClass(Route::is('admin.store.pos*'), 'c-active')" />
+                            :active="activeClass(Route::is('admin.store.pos.*'), 'c-active')" />
                     </li>
 
                     <li class="c-sidebar-nav-item">
@@ -156,7 +156,7 @@
                             :href="route('admin.store.finances.index')"
                             class="c-sidebar-nav-link"
                             :text="__('Incomes and expenses')"
-                            :active="activeClass(Route::is('admin.store.finances*'), 'c-active')"/>
+                            :active="activeClass(Route::is('admin.store.finances.*'), 'c-active')"/>
                     </li>
 
                     <li class="c-sidebar-nav-item">
@@ -165,7 +165,7 @@
                             :href="route('admin.store.box')"
                             class="c-sidebar-nav-link"
                             :text="__('Daily cash closing')"
-                            :active="activeClass(Route::is('admin.store.box*'), 'c-active')"/>
+                            :active="activeClass(Route::is('admin.store.box.*'), 'c-active')"/>
                     </li>
             </ul>
         </li>
@@ -232,7 +232,7 @@
                             :href="route('admin.setting.index')"
                             class="c-sidebar-nav-link"
                             :text="__('General Settings')"
-                            :active="activeClass(Route::is('admin.setting.index*'), 'c-active')" />
+                            :active="activeClass(Route::is('admin.setting.index.*'), 'c-active')" />
                     </li>
 
                     <li class="c-sidebar-nav-item">
@@ -240,7 +240,7 @@
                             :href="route('admin.setting.pages')"
                             class="c-sidebar-nav-link"
                             :text="__('Pages')"
-                            :active="activeClass(Route::is('admin.setting.pages*'), 'c-active')"/>
+                            :active="activeClass(Route::is('admin.setting.pages.*'), 'c-active')"/>
                     </li>
             </ul>
         </li>
