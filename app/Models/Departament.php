@@ -22,4 +22,15 @@ class Departament extends Model
         'comment',
     ];
 
+    public function getDateForHumansAttribute()
+    {
+        return $this->updated_at->format('M, d Y');
+    }
+
+    public function getDateForHumansCreatedAttribute()
+    {
+        return $this->created_at->format('M, d Y');
+    }
+
+
 }

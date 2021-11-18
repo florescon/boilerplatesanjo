@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Finance;
+use App\Models\Cash;
 use Illuminate\Database\Seeder;
 use Database\Seeders\Traits\DisableForeignKeys;
 
-class FinanceSeeder extends Seeder
+class CashSeeder extends Seeder
 {
     use DisableForeignKeys;
 
@@ -20,7 +20,7 @@ class FinanceSeeder extends Seeder
         $this->disableForeignKeys();
 
         if (app()->environment() !== 'production') {
-            Finance::factory()->times(10)->create();
+            Cash::factory()->times(100)->create();
         }
 
         $this->enableForeignKeys();

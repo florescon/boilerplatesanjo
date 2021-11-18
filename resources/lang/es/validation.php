@@ -161,6 +161,7 @@ return [
         'departament' => 'departamento',
         'user' => 'usuario',
         'amount' => 'cantidad',
-        'ticket_text' => 'texto del ticket'
+        'ticket_text' => 'texto del ticket',
+        'title' => 'título'
     ],
 ];

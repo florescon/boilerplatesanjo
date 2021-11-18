@@ -145,17 +145,14 @@
                   </label>
               </td>
               <th scope="row">
-                <div class="media align-items-center">
-                  <div class="media-body">
-                    <span class="mb-0 text-sm">{{ $color->name }}</span>
-                  </div>
-                </div>
+                  <div> {{ $color->name }} </div>
+                  <div class="small text-muted">@lang('Registered'): {{ $color->date_for_humans_created }}</div>
               </th>
               <td>
                 {{ $color->email }}
               </td>
               <td>
-                {{ $color->comment }}
+                <x-utils.undefined :data="$color->comment"/>
               </td>
               <td>
                 {{ $color->updated_at }}

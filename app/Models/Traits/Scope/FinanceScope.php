@@ -26,4 +26,14 @@ trait FinanceScope
     {
         return $query->whereType('expense');
     }   
+
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeOnlyNullCash($query)
+    {
+        return $query->whereNull('cash_id');
+    }   
 }

@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Http\Livewire\Backend\Store;
+namespace App\Http\Livewire\Backend\Store\Box;
 
-use App\Models\Finance;
 use Livewire\Component;
+use App\Models\Cash;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Livewire\Backend\DataTable\WithBulkActions;
 use App\Http\Livewire\Backend\DataTable\WithCachedRows;
 use Carbon\Carbon;
-use Symfony\Component\HttpFoundation\Response;
 
-class FinanceTable extends Component
+class BoxHistory extends Component
 {
     use Withpagination, WithBulkActions, WithCachedRows;
 
@@ -21,15 +20,13 @@ class FinanceTable extends Component
         'searchTerm' => ['except' => ''],
         'perPage',
         'deleted' => ['except' => FALSE],
-        'incomes' => ['except' => FALSE],
-        'expenses' => ['except' => FALSE],
         'dateInput' => ['except' => ''],
         'dateOutput' => ['except' => '']
     ];
 
     public $perPage = '10';
 
-    public $sortField = 'created_at';
+    public $sortField = 'id';
     public $sortAsc = false;
     
     public $searchTerm = '';
@@ -47,33 +44,6 @@ class FinanceTable extends Component
 
     public $name, $short_name, $color, $secondary_color, $created, $updated, $selected_id, $deleted;
 
-    public bool $incomes = false;
-    public bool $expenses = false;
-
-    protected $rules = [
-        'name' => 'required|min:3',
-        'short_name' => 'required|min:1|unique:colors',
-        'color' => 'required|unique:colors',
-        'secondary_color' => '',
-    ];
-
-    public function updated($propertyName)
-    {
-        $this->validateOnly($propertyName);
-    }
-
-    public function filter($type_finance)
-    {
-        if($type_finance === 'incomes'){
-            $this->expenses = false;
-            $this->incomes = ! $this->incomes;
-        }
-
-        if($type_finance === 'expenses'){
-            $this->incomes = false;
-            $this->expenses = ! $this->expenses;
-        }
-    }
 
     public function sortBy($field)
     {
@@ -88,7 +58,8 @@ class FinanceTable extends Component
 
     public function getRowsQueryProperty()
     {
-        $query = Finance::query()->with('user')
+        $query = Cash::query()
+            ->where('checked', true)
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?
                     $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', now()]) :
@@ -109,17 +80,14 @@ class FinanceTable extends Component
 
 
         if ($this->status === 'deleted') {
+            $this->applySearchDeletedFilter($query);
+
             return $query->onlyTrashed();
         }
+        else{
+            $this->applySearchFilter($query);
+        }        
 
-        if ($this->incomes === TRUE) {
-            return $query->onlyIncomes();
-        }
-        if ($this->expenses === TRUE) {
-            return $query->onlyExpenses();
-        }
-
-        $this->applySearchFilter($query);
 
         return $query;
     }
@@ -127,14 +95,25 @@ class FinanceTable extends Component
     private function applySearchFilter($searchFinance)
     {
         if ($this->searchTerm) {
-            return $searchFinance->whereRaw("name LIKE \"%$this->searchTerm%\"")
+            return $searchFinance->whereRaw("title LIKE \"%$this->searchTerm%\"")
                         ->orWhereRaw("comment LIKE \"%$this->searchTerm%\"")
-                        ->orWhereRaw("ticket_text LIKE \"%$this->searchTerm%\"")
-                        ->orWhereRaw("amount LIKE \"%$this->searchTerm%\"");
+                        ->orWhereRaw("initial LIKE \"%$this->searchTerm%\"");
         }
 
         return null;
     }
+
+    private function applySearchDeletedFilter($searchFinance)
+    {
+        if ($this->searchTerm) {
+            return $searchFinance->onlyTrashed()
+                    ->whereRaw("title LIKE \"%$this->searchTerm%\"")
+                    ->orWhereRaw("comment LIKE \"%$this->searchTerm%\"");
+        }
+
+        return null;
+    }
+
 
     public function getRowsProperty()
     {
@@ -200,6 +179,7 @@ class FinanceTable extends Component
         $this->perPage = '10';
     }
 
+
     public function updatedSearchTerm()
     {
         $this->page = 1;
@@ -226,7 +206,7 @@ class FinanceTable extends Component
     public function delete($id)
     {
         if($id){
-            $color = Finance::where('id', $id);
+            $color = Cash::where('id', $id);
             $color->delete();
         }
        $this->emit('swal:alert', [
@@ -235,12 +215,14 @@ class FinanceTable extends Component
         ]);
     }
 
+
     public function render()
     {
         $date = Carbon::now()->startOfMonth();
-        return view('backend.store.livewire.finance-table', [
-            'finances' => $this->rows,
+        return view('backend.store.livewire.box-history-table', [
+            'cashes' => $this->rows,
             'date' => $date,
+            'latest_box_history' => Cash::query()->latest('id')->where('checked', true)->first() ?? null,
         ]);
     }
 }

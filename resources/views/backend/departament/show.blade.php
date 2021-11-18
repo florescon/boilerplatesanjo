@@ -24,15 +24,21 @@
                 </td>
               </tr>
               <tr>
+                <th scope="row">@lang('Comment')</th>
+                <td>   
+                  <x-utils.undefined :data="$comment"/>
+                </td>
+              </tr>
+              <tr>
                 <th scope="row">@lang('Created at')</th>
                 <td>   
-                  {{ $comment }}       
+                  {{ $created }}       
                 </td>
               </tr>
               <tr>
                 <th scope="row">@lang('Updated at')</th>
                 <td>          
-                  <p>{{ $created }}</p>
+                  <p>{{ $updated }}</p>
                 </td>
               </tr>
             </tbody>

@@ -132,7 +132,7 @@
                 :text="__('Feedstocks')" />
         </li>
 
-        <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.store.pos.*') || Route::is('admin.store.finances.*'), 'c-open c-show') }}">
+        <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.store.pos.*') || Route::is('admin.store.finances.*') || Route::is('admin.store.box.*'), 'c-open c-show') }}">
             <x-utils.link
                 new="true"
                 href="#"
@@ -162,7 +162,7 @@
                     <li class="c-sidebar-nav-item">
                         <x-utils.link
                             new="true"
-                            :href="route('admin.store.box')"
+                            :href="route('admin.store.box.index')"
                             class="c-sidebar-nav-link"
                             :text="__('Daily cash closing')"
                             :active="activeClass(Route::is('admin.store.box.*'), 'c-active')"/>

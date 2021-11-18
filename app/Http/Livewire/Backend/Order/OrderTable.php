@@ -58,7 +58,6 @@ class OrderTable extends Component
                 $query->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc');
             });
 
-        $this->applySearchFilter($query);
 
         if ($this->status === 'deleted') {
             $this->title = ['title' => 'Deleted orders', 'color' => 'danger'];
@@ -82,6 +81,8 @@ class OrderTable extends Component
         }
 
         $this->title = ['title' => 'List of orders', 'color' => 'primary'];
+
+        $this->applySearchFilter($query);
 
         return $query->onlyOrders();
     }

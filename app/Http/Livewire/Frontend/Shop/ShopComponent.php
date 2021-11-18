@@ -49,8 +49,6 @@ class ShopComponent extends Component
             ->whereNull('parent_id')
             ->onlyActive();
 
-        $this->applySearchFilter($query);
-
         // $query->whereNull('parent_id');
 
         if($this->line){
@@ -91,6 +89,8 @@ class ShopComponent extends Component
         else if($this->sorting == 'price-desc'){
             return $query->priceDesc();
         }
+
+        $this->applySearchFilter($query);
 
         return $query->defaultOrder();
     }

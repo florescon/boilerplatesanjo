@@ -19,6 +19,8 @@ class CreateProductsTable extends Migration
             $table->string('slug')->unique()->nullable();
             $table->string('code',100)->unique()->nullable();
             $table->decimal('price', 8, 2)->nullable();
+            $table->decimal('average_wholesale_price', 8, 2)->nullable();
+            $table->decimal('wholesale_price', 8, 2)->nullable();
             $table->double('stock')->default(0);
             $table->double('stock_revision')->default(0);
             $table->double('stock_store')->default(0);

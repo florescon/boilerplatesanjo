@@ -41,6 +41,18 @@ class CartPos extends Component
         ]);
     }
 
+    public function clearCartAll()
+    {
+        CartFacade::clear();
+        $this->emit('clearCartAll');
+        $this->cart = CartFacade::get();
+
+    }
+
+    public function checkout()
+    {
+        return redirect()->route('admin.cart.index');
+    }
 
     public function removeRedirectLink()
     {
@@ -49,6 +61,25 @@ class CartPos extends Component
         if(count($this->cart['products']) && count($this->cart['products_sale'])){
             return redirect()->route('admin.store.pos');
         }
+    }
+
+
+
+    /**
+     * Define is cart exists.
+     *
+     * @return false
+     */
+    public function isCountCart(): bool
+    {
+        if (
+            count($cartVar['products']) ||
+            count($cartVar['products_sale']) 
+        ) {
+            return true;
+        }
+
+        return false;
     }
 
     public function render()

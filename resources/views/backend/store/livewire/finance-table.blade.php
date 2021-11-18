@@ -22,7 +22,6 @@
             @if($incomes == TRUE)
               <ul class="list-group list-group-flush text-center">
                 <li class="list-group-item">@lang('Quantity'): {{ $finances->total() }} </li>
-                <li class="list-group-item"> @lang('Total'): </li>
               </ul>
               {{-- <small class="text-muted"> {{ $finances->total() }} </small> --}}
             @endif
@@ -56,8 +55,6 @@
             @if($expenses == TRUE)
               <ul class="list-group list-group-flush text-center">
                 <li class="list-group-item">@lang('Quantity'):</li>
-                <li class="list-group-item">Dapibus ac facilisis in</li>
-                <li class="list-group-item">Vestibulum at eros</li>
               </ul>
               {{-- <small class="text-muted"> {{ $finances->total() }} </small> --}}
             @endif
@@ -202,9 +199,9 @@
                 </td>
         				<td>
         					<div> {{ $finance->name }} </div>
-        					<div class="small text-muted">@lang('Registered'): {{ $finance->date_for_humans }}</div>
+        					<div class="small text-muted">@lang('Registered'): {{ $finance->date_for_humans_created }}</div>
         				</td>
-        				<td class="text-center">
+        				<td class="text-center {{ $finance->finance_text }}">
                   ${{ $finance->amount }}
         				</td>
         				<td>

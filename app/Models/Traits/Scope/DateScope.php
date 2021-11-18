@@ -39,4 +39,14 @@ trait DateScope
         return $query->where('created_at', '>=', Carbon::today());
     }   
 
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeYesterday($query)
+    {
+        return $query->whereBetween('created_at', [Carbon::yesterday(), Carbon::today()]);
+    }   
+
 }

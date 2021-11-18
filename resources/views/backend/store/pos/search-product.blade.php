@@ -1,3 +1,7 @@
+@push('after-styles')
+    <link rel="stylesheet" href="{{ asset('css_custom/search-product.css') }}">
+@endpush
+
 <x-utils.modal id="searchProduct">
   <x-slot name="title">
     @lang('Search product')
@@ -46,7 +50,7 @@
                 <p class="form__answer"> 
                   <input type="radio" name="match" id="match_1" wire:model="match" value="products_sale" checked> 
                   <label for="match_1">
-                    {{-- <img class="" src="{{ asset('img/cover.jpeg') }}" height="45" > --}}
+                    <img class="" src="{{ asset('img/sale.png') }}" height="55" >
                     @lang('Sale')
                   </label> 
                 </p>
@@ -54,7 +58,7 @@
                 <p class="form__answer"> 
                   <input type="radio" name="match" wire:model="match" id="match_2" value="products"> 
                   <label for="match_2">
-                  {{-- <img class="" src="{{ asset('img/gradient-mesh.jpg') }}" height="45" > --}}
+                  <img class="" src="{{ asset('img/order.png') }}" height="55" >
                     @lang('Order')
                   </label> 
                 </p>
@@ -163,8 +167,6 @@
       <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('Close')</button>
   </x-slot>
 </x-utils.modal>
-
-
 
 @push('after-scripts')
     <script>

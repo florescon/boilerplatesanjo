@@ -27,6 +27,7 @@ class Finance extends Model
         'ticket_text',
         'type',
         'audi_id',
+        'cash_id',
     ];
 
     /**
@@ -49,6 +50,23 @@ class Finance extends Model
                 return 'bg-primary';
             case FinanceType::EXPENSE:
                 return 'bg-danger';
+        }
+
+        return '';
+    }
+
+    /**
+     * Return status style classes.
+     *
+     * @return string
+     */
+    public function getFinanceTextAttribute(): string
+    {
+        switch ($this->type) {
+            case FinanceType::INCOME:
+                return 'text-primary';
+            case FinanceType::EXPENSE:
+                return 'text-danger';
         }
 
         return '';
@@ -84,9 +102,22 @@ class Finance extends Model
         return $this->type === FinanceType::EXPENSE;
     }
 
+    /**
+     * Cashable.
+     */
+    public function cashes()
+    {
+        return $this->morphMany(Cashable::class, 'cashable');
+    }
+
     public function getDateForHumansAttribute()
     {
         return $this->updated_at->format('M, d Y');
+    }
+
+    public function getDateForHumansCreatedAttribute()
+    {
+        return $this->created_at->format('M, d Y');
     }
 
     public function getDateDiffForHumansAttribute()
@@ -98,4 +129,5 @@ class Finance extends Model
     {
         return $this->created_at->diffForHumans();
     }
+
 }

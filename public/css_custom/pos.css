@@ -3581,6 +3581,9 @@ table thead .border-bottom-info th,table tbody .border-bottom-info th,table tbod
 .bg-c-green{
     background:#11c15b
 }
+.bg-c-dark{
+    background:#000
+}
 .text-c-green{
     color:#11c15b
 }

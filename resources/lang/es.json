@@ -231,6 +231,14 @@
     "Save expense": "Guardar egreso",
     "Create expense": "Crear egreso",
     "Create income or expense": "Crear ingreso o egreso",
+    "Show the list of expenses": "Mostrar la lista de egresos",
+    "Show the list of incomes": "Mostrar la lista de ingresos",
+    "Expenses for the week": "Egresos de la semana",
+    "Incomes for the week": "Ingresos de la semana",
+    "Yesterday's expense": "Gastos de ayer",
+    "Yesterday's income": "Ingresos de ayer",
+    "Today's income" : "Ingresos de hoy",
+    "Today's expense": "Egresos de hoy",
     "I want it to be expense": "Quiero que sea egreso",
     "Now is an expense": "Ahora es un egreso",
     "More of": "Más de",
@@ -329,6 +337,7 @@
     "Deleted lines": "Líneas eliminadas",
 
     "Refresh": "Recargar",
+    "Load more": "Cargar más",
 
     "Unit": "Unidad",
     "Units": "Unidades",
@@ -495,6 +504,7 @@
     "Clear cart sale": "Limpiar carrito de venta",
     "Clear cart order": "Limpiar carrito de orden",
     "orders and/or sales" : "órdenes y/o ventas",
+    "Title": "Título",
     "Comment": "Comentario",
     "Define comment": "Definir comentario",
     "Approved": "Aprobada",
@@ -615,6 +625,7 @@
     "Main": "Principal",
 
     "Departament": "Departamento",
+    "Departament Management": "Administración de departamentos",
     "Departaments": "Departamentos",
     "Choose departament": "Elegir departamento",
     "Create departament": "Crear departamento",
@@ -650,8 +661,18 @@
     "Current month": "Mes actual",
     "Current week": "Semana actual",
     "Today": "Hoy",
+    "yesterday": "ayer",
+    "this week": "esta semana",
     "Ticket text": "Texto del ticket",
+    "History": "Historial",
     "Daily cash closing": "Corte de caja",
+    "Daily cash closing Management": "Administración de corte de caja",
+    "Daily cash closing history Management": "Administración del historial de corte de caja",
+    "Go to daily cash closings": "Ir a cortes de caja",
+    "Initial": "Inicial",
+    "Add initial daily cash closing": "Agregar corte de caja inicial",
+    "Welcome to daily cash closing panel": "Bienvenido al panel de corte de caja",
     "Coding": "Codifiacion",
-    "max :characters characters": "máximo :characters caracteres" 
+    "max :characters characters": "máximo :characters caracteres",
+    "to return": "regresar" 
 }

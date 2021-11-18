@@ -17,7 +17,21 @@ class Order extends Model
 
     protected $cascadeDeletes = ['product_order', 'product_sale', 'materials_order'];
 
-    protected $fillable = ['date_entered'];
+    protected $fillable = [
+        'date_entered', 
+        'cash_id',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'automatic_production' => 'boolean',
+        'from_store' => 'boolean',
+        'approved' => 'boolean',
+    ];
 
     /**
      * Return the sluggable configuration array for this model.
@@ -230,6 +244,14 @@ class Order extends Model
     }
 
     /**
+     * @return bool
+     */
+    public function isFromStore(): bool
+    {
+        return $this->from_store;
+    }
+
+    /**
      * @return string
      */
     public function getApprovedLabelAttribute()
@@ -244,6 +266,15 @@ class Order extends Model
         }
 
         return "--<em> ".__('not applicable')." </em>--";
+    }
+
+
+    /**
+     * Cashable.
+     */
+    public function cashes()
+    {
+        return $this->morphMany(Cashable::class, 'cashable');
     }
 
     public function getDateForHumansAttribute()

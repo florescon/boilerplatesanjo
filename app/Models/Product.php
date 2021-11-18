@@ -43,6 +43,8 @@ class Product extends Model
         'slug',
         'code',
         'price',
+        'average_wholesale_price',
+        'wholesale_price',
         'file_name',
         'description',
         'line_id',
@@ -338,7 +340,6 @@ class Product extends Model
                 });
         });
     }
-
 
     /**
      * The attributes that should be cast.

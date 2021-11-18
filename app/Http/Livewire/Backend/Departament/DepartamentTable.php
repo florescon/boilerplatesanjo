@@ -40,8 +40,8 @@ class DepartamentTable extends Component
 
     protected $rules = [
         'name' => 'required|min:3',
-        'email' => 'required|min:3',
-        'comment' => 'required|min:3',
+        'email' => 'required|email|min:3',
+        'comment' => 'sometimes|min:3',
     ];
 
     public function getRowsQueryProperty()
@@ -68,6 +68,11 @@ class DepartamentTable extends Component
         });
     }
 
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
+    }
+
     public function updatedSearchTerm()
     {
         $this->page = 1;
@@ -81,6 +86,14 @@ class DepartamentTable extends Component
     public function updatedPerPage()
     {
         $this->page = 1;
+    }
+
+    public function updatedDeleted()
+    {
+        $this->page = 1;
+        $this->selectAll = false;
+        $this->selectPage = false;
+        $this->selected = [];
     }
 
     public function sortBy($field)
@@ -146,8 +159,8 @@ class DepartamentTable extends Component
         $this->validate([
             'selected_id' => 'required|numeric',
             'name' => 'required|min:3',
-            'email' => 'required',
-            'comment' => 'required',
+            'email' => 'required|email|min:3',
+            'comment' => 'sometimes',
         ]);
         if ($this->selected_id) {
             $record = Departament::find($this->selected_id);

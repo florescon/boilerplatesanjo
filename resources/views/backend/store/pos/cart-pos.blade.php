@@ -1,4 +1,14 @@
 <div class="col-xl-6 col-md-12">
+
+	@if(count($cartVar['products']) || count($cartVar['products_sale']))
+		<div class="card text-center" style="background-color: rgba(245, 245, 245, 1); opacity: .9;">
+			<div class="card-body">
+				<a href="#" wire:click="clearCartAll" class="btn btn-danger mr-3">@lang('Clear cart')</a>
+				<a href="#" wire:click="checkout" class="btn btn-primary ml-3">@lang('Checkout')</a>
+			</div>
+		</div>
+    @endif
+
 	<div class="card table-card">
 		<div class="card-header">
 
@@ -151,6 +161,17 @@
 			</div>
 		</div>
 	</div>
+
+
+	@if(count($cartVar['products']) || count($cartVar['products_sale']))
+		<div class="card text-center" style="background-color: rgba(245, 245, 245, 1); opacity: .9;">
+			<div class="card-body">
+				<a href="#" wire:click="clearCartAll" class="btn btn-danger mr-3">@lang('Clear cart')</a>
+				<a href="#" wire:click="checkout" class="btn btn-primary ml-3">@lang('Checkout')</a>
+			</div>
+		</div>
+    @endif
+
 </div>
 
 

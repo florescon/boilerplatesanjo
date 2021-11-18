@@ -114,7 +114,7 @@ class SearchProduct extends Component
                 $this->addToCart($id, $this->match);
                 $this->emit('swal:alert', [
                     'icon' => 'success',
-                    'title'   => $id, 
+                    'title'   => $product->full_name, 
                 ]);
             }
             else{
