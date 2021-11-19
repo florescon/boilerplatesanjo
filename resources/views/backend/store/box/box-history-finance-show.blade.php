@@ -1,6 +1,9 @@
 @if($finances->count())
 	<div class="col-xl-6 col-md-12">
-		<table class="table">
+        <h3 class="text-center text-dark">
+            @lang('Incomes and expenses')
+        </h3>
+		<table class="table mt-5">
 		  <thead class="thead-dark">
 		    <tr>
 		      <th scope="col">#</th>
@@ -28,4 +31,10 @@
 			</div>
 		@endif
 	</div>
+@else
+	<div class="col-xl-6 col-md-12 mt-5">
+        <h5 class="text-center text-dark font-italic">
+            @lang('No incomes and expenses were found matching your selection')
+        </h5>
+    </div>
 @endif

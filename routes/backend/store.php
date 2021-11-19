@@ -3,6 +3,7 @@
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\CashController;
 use App\Models\Finance;
+use App\Models\Cash;
 use Tabuna\Breadcrumbs\Trail;
 
 Route::group([
@@ -64,6 +65,17 @@ Route::group([
                 $trail->parent('admin.store.box.index')
                     ->push(__('Deleted box history'), route('admin.store.box.deleted'));
             });
+
+        Route::group(['prefix' => '{box}'], function () {
+            Route::get('show', [CashController::class, 'show'])
+                ->name('show')
+                ->breadcrumbs(function (Trail $trail, Cash $box) {
+                    $trail->parent('admin.store.box.history')
+                        ->push(__('Show daily cash closing').': #'.$box->id, route('admin.store.box.show', $box));
+                });
+        });
+
+
     });
 
 

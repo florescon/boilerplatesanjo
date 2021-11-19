@@ -1,4 +1,4 @@
- <?php
+<?php
 
 use App\Http\Controllers\OrderController;
 use App\Models\Order;

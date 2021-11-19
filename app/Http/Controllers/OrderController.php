@@ -39,7 +39,6 @@ class OrderController extends Controller
         return view('backend.order.all_list');
     }
 
-
     public function edit(Order $order)
     {
         $vvar =  $order->created_at->timestamp;

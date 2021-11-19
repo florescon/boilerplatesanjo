@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Traits\Scope\DateScope;
+use Carbon\Carbon;
 
 class Cash extends Model
 {
@@ -34,6 +35,22 @@ class Cash extends Model
         'checked' => 'boolean',
     ];
 
+    /**
+     * @return mixed
+     */
+    public function finances()
+    {
+        return $this->hasMany(Finance::class)->orderBy('created_at', 'desc');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function orders()
+    {
+        return $this->hasMany(Order::class)->orderBy('created_at', 'desc');
+    }
+
     public function getDateForHumansAttribute()
     {
         return $this->updated_at->format('M, d Y');
@@ -49,5 +66,31 @@ class Cash extends Model
         return $this->created_at->diffForHumans();
     }
 
+    /**
+     * @return bool
+     */
+    public function lastDay(): bool
+    {
+        if($this->created_at->gt(\Carbon\Carbon::now()->subDay())){
+            return true;
+        }
 
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getlastDayAttribute()
+    {
+        return $this->lastDay();
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastDayLabelAttribute()
+    {
+        return $this->lastDay() ? '('.__('Available 24 hours').')' : '';
+    }
 }

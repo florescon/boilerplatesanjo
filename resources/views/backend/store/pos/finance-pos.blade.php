@@ -86,11 +86,12 @@
 		  </tbody>
 		</table>
 	</div>
-	<div class="card text-center" style="background-color: rgba(245, 245, 245, 1); opacity: .9;">
-		<div class="card-body">
-			<button type="button" class="btn btn-primary" wire:click="$emit('load-more')">@lang('Load more')</button>
+	@if($finances->hasMorePages())
+		<div class="card text-center" style="background-color: rgba(245, 245, 245, 1); opacity: .9;">
+			<div class="card-body">
+				<button type="button" class="btn btn-primary" wire:click="$emit('load-more')">@lang('Load more')</button>
+			</div>
 		</div>
-	</div>
-
+	@endif
 
 </div>

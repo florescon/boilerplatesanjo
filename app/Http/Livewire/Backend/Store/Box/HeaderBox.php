@@ -67,7 +67,7 @@ class HeaderBox extends Component
 
         sleep(2);
 
-        return redirect()->route('admin.store.box');
+        return redirect()->route('admin.store.box.index');
     }
 
     public function render()

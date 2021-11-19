@@ -656,6 +656,7 @@
     "Scan this code to track": "Escanea este código para dar seguimiento",
     "Scan me for go track": "Escanéame para ir al seguimiento", 
     "Available": "Disponible",
+    "Available 24 hours": "Disponible 24 hrs",
     "Show details": "Mostrar detalles",
     "Finances Management": "Administración de finanzas",
     "Current month": "Mes actual",
@@ -666,6 +667,8 @@
     "Ticket text": "Texto del ticket",
     "History": "Historial",
     "Daily cash closing": "Corte de caja",
+    "Show daily cash closing": "Mostrar corte de caja",
+    "View daily cash closing": "Ver corte de caja",
     "Daily cash closing Management": "Administración de corte de caja",
     "Daily cash closing history Management": "Administración del historial de corte de caja",
     "Go to daily cash closings": "Ir a cortes de caja",
@@ -674,5 +677,7 @@
     "Welcome to daily cash closing panel": "Bienvenido al panel de corte de caja",
     "Coding": "Codifiacion",
     "max :characters characters": "máximo :characters caracteres",
-    "to return": "regresar" 
+    "to return": "regresar",
+    "No orders were found matching your selection": "No se encontraron ordenes que coincidan con su selección",
+    "No incomes and expenses were found matching your selection": "No se encontraron ingresos y egresos que coincidan con su selección" 
 }

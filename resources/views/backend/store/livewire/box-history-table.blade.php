@@ -149,9 +149,11 @@
                 </td>
                 <td >
                   <div class="btn-group" role="group" aria-label="Basic example">
-                    <x-actions-modal.show-icon />
-                    @if($cash->id === $latest_box_history->id)
-                      <x-actions-modal.delete-icon function="delete" :id="$cash->id" />
+                    @if(!$cash->trashed())
+                      <x-utils.view-button :href="route('admin.store.box.show', $cash->id)" />
+                    @endif
+                    @if($cash->id === $latest_box_history->id && $cash->last_day)
+                      <x-actions-modal.delete-icon textExtra="{{ $cash->last_day_label }}" function="delete" :id="$cash->id" />
                     @endif
                   </div>
                 </td>
