@@ -23,7 +23,13 @@
 	            	<span class="badge badge-secondary">{{ $finance->payment_method }}</span>
 				</p>
 		      </td>
-		      <td>{{ $finance->comment ?: '--' }}</td>
+		      <td>
+		      	{{ $finance->comment ?: '--' }}
+		      	<p>
+                    {!! $finance->user_name !!}
+                    {!! $finance->order_track !!}
+		      	</p>
+		      </td>
 		    </tr>
 		    @endforeach
 		  </tbody>

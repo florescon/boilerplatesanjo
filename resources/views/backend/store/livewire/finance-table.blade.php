@@ -184,7 +184,7 @@
         				<th></th>
                 <th>@lang('Name')</th>
         				<th class="text-center">@lang('Amount')</th>
-                <th class="text-center">@lang('User')</th>
+                <th class="text-center">@lang('User')/@lang('Associated order')/@lang('Daily cash closing')</th>
         				<th class="text-center">@lang('Comment')</th>
                 <th class="text-center">@lang('Type')</th>
         				<th>@lang('Activity')</th>
@@ -209,12 +209,9 @@
         				</td>
         				<td>
         					<div class="clearfix">
-        						<div class="float-left"><strong>
-                      <x-utils.undefined :data="optional($finance->user)->name"/>
-                    </strong></div>
-                    @if($finance->user_id)
-          						<div class="float-right"><small class="text-muted">Jun 11, 2015 - Jul 10, 2015</small></div>
-                    @endif
+                    {!! $finance->user_name !!}
+                    {!! $finance->order_track !!}
+                    {!! $finance->cash_title !!}
         					</div>
         				</td>
                 <td class="text-center">

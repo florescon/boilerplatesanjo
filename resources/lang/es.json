@@ -456,11 +456,13 @@
     "Enter to save, Esc to cancel": "Enter para guardar, Esc para cancelar",
     "Difference": "Diferencia",
     "Order": "Orden",
+    "Associated order": "Orden asociada",
     "Order track": "Seguimiento de orden",
     "Tracking number": "Número de seguimiento",
     "Tracking": "Seguimiento",
     "Go to track": "Ir a seguimiento",
-    "Deleted orders - sales - suborders": "Órdenes eliminadas",
+    "Deleted orders": "Órdenes eliminadas",
+    "Deleted orders - sales - suborders": "Órdenes eliminadas - ventas - subórdenes",
     "Order - Sale Management": "Administración de órdenes - ventas",
     "Order - Sale": "Orden - Venta",
     "Order/Sale": "Orden/Venta",
@@ -685,5 +687,7 @@
     "No incomes and expenses were found matching your selection": "No se encontraron ingresos y egresos que coincidan con su selección",
     "Payment method": "Método de pago", 
     "Choose payment method": "Elegir método de pago",
-    "undefined payment": "pago no definido"
+    "undefined payment": "pago no definido",
+    "undefined order/sale": "orden/venta no definida",
+    "undefined user": "usuario no definido"
 }

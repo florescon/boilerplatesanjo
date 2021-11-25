@@ -42,6 +42,22 @@ class Finance extends Model
         return $this->belongsTo(User::class)->withTrashed();
     }
 
+    /**
+     * @return mixed
+     */
+    public function order()
+    {
+        return $this->belongsTo(Order::class)->withTrashed();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function cash()
+    {
+        return $this->belongsTo(Cash::class)->withTrashed();
+    }
+
     public function payment(): BelongsTo
     {
         return $this->belongsTo(PaymentMethod::class, 'payment_method_id');
@@ -54,6 +70,30 @@ class Finance extends Model
         }
 
         return '-- '.__('undefined payment').' --';
+    }
+
+    public function getOrderTrackAttribute(): ?string
+    {
+        if($this->order_id !== null){
+            return $this->order ? "<span class='badge badge-dark'>".$this->order->slug.'</span>' : "<span class='badge badge-secondary'>".__('undefined order/sale').'</span>';
+        }
+        return "<span class='badge badge-secondary'>".__('undefined order/sale').'</span>';
+    }
+
+    public function getUserNameAttribute(): ?string
+    {
+        if($this->user_id !== null){
+            return $this->user ? "<span class='badge badge-dark'>".$this->user->name.'</span>' : "<span class='badge badge-secondary'>".__('undefined user').'</span>';
+        }
+        return "<span class='badge badge-secondary'>".__('undefined user').'</span>';
+    }
+
+    public function getCashTitleAttribute(): ?string
+    {
+        if($this->cash_id !== null){
+            return $this->cash ? "<span class='badge badge-dark'>".__('Daily cash closing').': '.$this->cash->id.'</span>' : "<span class='badge badge-secondary'>".__('undefined').'</span>';
+        }
+        return "<span class='badge badge-secondary'>".__('undefined').'</span>';
     }
 
     /**
