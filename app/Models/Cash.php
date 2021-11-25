@@ -27,15 +27,6 @@ class Cash extends Model
     ];
 
     /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'checked' => 'boolean',
-    ];
-
-    /**
      * @return mixed
      */
     public function finances()
@@ -66,12 +57,17 @@ class Cash extends Model
         return $this->created_at->diffForHumans();
     }
 
+    public function getDateDiffForHumansCheckedAttribute()
+    {
+        return $this->checked->diffForHumans();
+    }
+
     /**
      * @return bool
      */
     public function lastDay(): bool
     {
-        if($this->created_at->gt(\Carbon\Carbon::now()->subDay())){
+        if($this->checked->gt(Carbon::now()->subDay())){
             return true;
         }
 
@@ -93,4 +89,7 @@ class Cash extends Model
     {
         return $this->lastDay() ? '('.__('Available 24 hours').')' : '';
     }
+
+    protected $dates = ['checked'];
+
 }

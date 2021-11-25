@@ -37,7 +37,7 @@ class CreateCash extends Component
         $validatedData = $this->validate();
 
         Cash::updateOrCreate(
-            ['checked' => false],
+            ['checked' => null],
             ['initial' => $this->initial],
         );
         

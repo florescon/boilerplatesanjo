@@ -59,7 +59,7 @@ class BoxHistory extends Component
     public function getRowsQueryProperty()
     {
         $query = Cash::query()
-            ->where('checked', true)
+            ->whereNotNull('checked')
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?
                     $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', now()]) :
@@ -96,6 +96,7 @@ class BoxHistory extends Component
     {
         if ($this->searchTerm) {
             return $searchFinance->whereRaw("title LIKE \"%$this->searchTerm%\"")
+                        ->orWhereRaw("id LIKE \"%$this->searchTerm%\"")
                         ->orWhereRaw("comment LIKE \"%$this->searchTerm%\"")
                         ->orWhereRaw("initial LIKE \"%$this->searchTerm%\"");
         }
@@ -185,11 +186,6 @@ class BoxHistory extends Component
         $this->page = 1;
     }
 
-    public function hydratesortField()
-    {
-        $this->page = 1;
-    }
-
     public function updatedPerPage()
     {
         $this->page = 1;
@@ -222,7 +218,7 @@ class BoxHistory extends Component
         return view('backend.store.livewire.box-history-table', [
             'cashes' => $this->rows,
             'date' => $date,
-            'latest_box_history' => Cash::query()->latest('id')->where('checked', true)->first() ?? null,
+            'latest_box_history' => Cash::query()->latest('id')->whereNotNull('checked')->first() ?? null,
         ]);
     }
 }

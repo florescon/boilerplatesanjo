@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDepartamentsTable extends Migration
+class CreatePaymentMethodsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateDepartamentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('departaments', function (Blueprint $table) {
+        Schema::create('payment_methods', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique()->nullable();
-            $table->longText('comment')->nullable();
+            $table->string('title');
+            $table->string('short_title')->nullable();
+            $table->string('slug')->unique()->nullable();
+            $table->text('description')->nullable();
             $table->boolean('is_enabled')->default(true);
             $table->softDeletes();
             $table->timestamps();
@@ -31,6 +32,6 @@ class CreateDepartamentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('departaments');
+        Schema::dropIfExists('payment_methods');
     }
 }

@@ -28,6 +28,7 @@ class FinanceFactory extends Factory
             'comment' => $this->faker->realText(rand(10, 305)),
             'ticket_text' => $this->faker->realText(rand(50, 100)),
             'type' => $this->faker->randomElement(['income', 'expense']),
+            'payment_method_id' =>  rand(0, 7),
             'audi_id' => rand(1, 2),
         ];
     }

@@ -5,7 +5,7 @@
 @section('content')
     <x-backend.card>
         <x-slot name="header">
-            @lang('View daily cash closing') #{{ $box->id }}
+            <strong>@lang('View daily cash closing') #{{ $box->id }}</strong> <em>{{ $box->checked }}</em>
         </x-slot>
 
         <x-slot name="headerActions">

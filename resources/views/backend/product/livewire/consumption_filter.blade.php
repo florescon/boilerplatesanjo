@@ -43,9 +43,12 @@
 
 			<div class="col-12 col-sm-6 col-md-6">
 			    <div class="card card-flyer-without-hover border-0">
-			      {{-- <div class="card-header text-center">
-				    <h5 class="card-title"><strong> General </strong></h5>
-				  </div> --}}
+			      <div class="card-header text-center">
+				    <h5 class="card-title"><strong> @lang('Punctual consumption') </strong></h5>
+				    @if($model->parent_id)
+					    <p><a href="{{ route('admin.product.consumption', $model->parent_id) }}">@lang('Go to consumption')</a></p>
+					@endif
+				  </div>
 			      <div class="card-body">
 					<div class="list-group list-group-accent">
 						<div class="list-group-item list-group-item-accent-warning list-group-item-warning">

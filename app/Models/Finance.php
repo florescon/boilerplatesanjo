@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\FinanceType;
 use App\Models\Traits\Scope\FinanceScope;
 use App\Models\Traits\Scope\DateScope;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Finance extends Model
 {
@@ -22,10 +23,13 @@ class Finance extends Model
      */
     protected $fillable = [
         'name',
+        'order_id',
+        'user_id',
         'amount',
         'comment',
         'ticket_text',
         'type',
+        'payment_method_id',
         'audi_id',
         'cash_id',
     ];
@@ -36,6 +40,20 @@ class Finance extends Model
     public function user()
     {
         return $this->belongsTo(User::class)->withTrashed();
+    }
+
+    public function payment(): BelongsTo
+    {
+        return $this->belongsTo(PaymentMethod::class, 'payment_method_id');
+    }
+
+    public function getPaymentMethodAttribute(): ?string
+    {
+        if ($this->payment_method_id !== null) {
+            return $this->payment->short_title ?? '-- '.__('undefined payment').' --';
+        }
+
+        return '-- '.__('undefined payment').' --';
     }
 
     /**

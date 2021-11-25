@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Finance;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Arr;
 
 class HeaderBox extends Component
 {
@@ -36,7 +37,7 @@ class HeaderBox extends Component
                 'title' => $this->title,
                 'comment' => $this->comment,
                 'audi_id' => Auth::id(),
-                'checked' => true
+                'checked' => now()
             ]);
 
             $orders = Order::query()->onlyCashable()->get();
@@ -77,7 +78,7 @@ class HeaderBox extends Component
         return view('backend.store.box.header-box',[
             'countOrders' => Order::query()->onlyCashable()->count(),
             'countFinances' => Finance::query()->onlyNullCash()->count(),
-            'last_record_cash' => $last_order_cash ? ($last_order_cash->checked == false ? $last_order_cash->initial : '') : '',
+            'last_record_cash' => $last_order_cash ? ($last_order_cash->checked == false ? Arr::add(['initial'   => $last_order_cash->initial], 'id', $last_order_cash->id) : '') : '',
         ]);
     }
 }

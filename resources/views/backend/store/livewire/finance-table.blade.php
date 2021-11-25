@@ -203,6 +203,9 @@
         				</td>
         				<td class="text-center {{ $finance->finance_text }}">
                   ${{ $finance->amount }}
+                  <p>
+                    <span class="badge badge-secondary">{{ $finance->payment_method }}</span>
+                  </p>
         				</td>
         				<td>
         					<div class="clearfix">

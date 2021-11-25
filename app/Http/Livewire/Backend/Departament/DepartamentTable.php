@@ -78,10 +78,6 @@ class DepartamentTable extends Component
         $this->page = 1;
     }
 
-    public function hydratesortField()
-    {
-        $this->page = 1;
-    }
 
     public function updatedPerPage()
     {

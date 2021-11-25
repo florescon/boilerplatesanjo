@@ -88,7 +88,7 @@ class FinanceTable extends Component
 
     public function getRowsQueryProperty()
     {
-        $query = Finance::query()->with('user')
+        $query = Finance::query()->with('user', 'payment')
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?
                     $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', now()]) :
@@ -205,10 +205,10 @@ class FinanceTable extends Component
         $this->page = 1;
     }
 
-    public function hydratesortField()
-    {
-        $this->page = 1;
-    }
+    // public function hydratesortField()
+    // {
+    //     $this->page = 1;
+    // }
 
     public function updatedPerPage()
     {

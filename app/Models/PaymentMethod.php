@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Departament extends Model
+class PaymentMethod extends Model
 {
-    use HasFactory, SoftDeletes;
-
+    use HasFactory, SoftDeletes, Sluggable;
 
     /**
      * The attributes that are mass assignable.
@@ -17,11 +17,27 @@ class Departament extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'email',
-        'comment',
+        'title',
+        'short_title',
+        'slug',
+        'description',
         'is_enabled',
     ];
+
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title',
+                'onUpdate' => true,
+            ]
+        ];
+    }
 
     /**
      * The attributes that should be cast.
@@ -36,16 +52,5 @@ class Departament extends Model
     {
         return $query->where('is_enabled', true);
     }
-
-    public function getDateForHumansAttribute()
-    {
-        return $this->updated_at->format('M, d Y');
-    }
-
-    public function getDateForHumansCreatedAttribute()
-    {
-        return $this->created_at->format('M, d Y');
-    }
-
 
 }

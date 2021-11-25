@@ -127,14 +127,14 @@ background: linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(148,233,202,1) 1
           <thead style="
           " class="thead-dark">
             <tr>
-
-              <th style="width:30px; max-width: 30px;">
-                <label class="form-checkbox">
-                  <input type="checkbox" wire:model="selectPage">
-                  <i class="form-icon"></i>
-                </label>
-              </th>
-
+              @if(!$deleted)
+                <th style="width:30px; max-width: 30px;">
+                  <label class="form-checkbox">
+                    <input type="checkbox" wire:model="selectPage">
+                    <i class="form-icon"></i>
+                  </label>
+                </th>
+              @endif
               <th scope="col">
                 <a style="color:white;" wire:click.prevent="sortBy('name')" role="button" href="#">
                   @lang('Name')
@@ -169,13 +169,14 @@ background: linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(148,233,202,1) 1
           <tbody>
             @foreach($colors as $color)
             <tr>
-
-              <td>
-                <label class="form-checkbox">
-                    <input type="checkbox" wire:model="selected" value="{{ $color->id }}">
-                  <i class="form-icon"></i>
-                  </label>
-              </td>
+              @if(!$deleted)
+                <td>
+                  <label class="form-checkbox">
+                      <input type="checkbox" wire:model="selected" value="{{ $color->id }}">
+                    <i class="form-icon"></i>
+                    </label>
+                </td>
+              @endif
               <th scope="row">
                 <div class="media align-items-center">
                   <div class="media-body">

@@ -11,9 +11,7 @@ use Rappasoft\LaravelLivewireTables\Views\Column;
 
 class LineTable extends TableComponent
 {
-    use HtmlComponents;
-
-    use WithPagination;
+    use HtmlComponents, WithPagination;
 
     public $search;
 
@@ -33,7 +31,6 @@ class LineTable extends TableComponent
     protected $queryString = [
         'search' => ['except' => ''], 
         'perPage',
-
     ];
 
     protected $listeners = ['delete', 'restore', 'triggerRefresh' => '$refresh'];
@@ -44,8 +41,6 @@ class LineTable extends TableComponent
     public $sortField = 'updated_at';
 
     public $sortDirection = 'desc';
-
-
 
     /**
      * @var array
@@ -71,7 +66,6 @@ class LineTable extends TableComponent
      */
     public function query(): Builder
     {
-
         $query = Line::query()->with('products');
 
         if ($this->status === 'deleted') {
@@ -148,5 +142,4 @@ class LineTable extends TableComponent
             'title'   => __('Restored'), 
         ]);
     }
-
 }

@@ -27,7 +27,7 @@ class CashFactory extends Factory
             'initial' => rand(10, 1000),
             'total' => rand(2000, 3000),
             'audi_id' => rand(1, 2),
-            'checked' => $this->faker->boolean(true),
+            'checked' => now(),
         ];
     }
 }

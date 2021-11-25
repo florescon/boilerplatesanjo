@@ -145,7 +145,7 @@
                   ${{ $cash->total }}
                 </td>
                 <td>
-                  <div class="small text-muted"></div><strong>{{ $cash->date_diff_for_humans_created }}</strong>
+                  <div class="small text-muted"></div><strong>{{ $cash->date_diff_for_humans_checked }}</strong>
                 </td>
                 <td >
                   <div class="btn-group" role="group" aria-label="Basic example">

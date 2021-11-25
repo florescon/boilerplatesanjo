@@ -10,6 +10,7 @@ use Dyrynda\Database\Support\CascadeSoftDeletes;
 use App\Models\Traits\Scope\OrderScope;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Order extends Model
 {
@@ -43,6 +44,7 @@ class Order extends Model
         return [
             'slug' => [
                 'source' => 'full_slug',
+                'onUpdate' => false,
             ]
         ];
     }
@@ -126,6 +128,20 @@ class Order extends Model
     public function suborders()
     {
         return $this->hasMany(self::class, 'parent_order_id')->orderBy('created_at', 'desc');
+    }
+
+    public function payment(): BelongsTo
+    {
+        return $this->belongsTo(PaymentMethod::class, 'payment_method_id');
+    }
+
+    public function getPaymentMethodAttribute(): ?string
+    {
+        if ($this->payment_method_id !== null) {
+            return $this->payment->short_title ?? '-- '.__('undefined payment').' --';
+        }
+
+        return '-- '.__('undefined payment').' --';
     }
 
     /**

@@ -20,7 +20,7 @@ class CashSeeder extends Seeder
         $this->disableForeignKeys();
 
         if (app()->environment() !== 'production') {
-            Cash::factory()->times(100)->create();
+            Cash::factory()->times(10)->create();
         }
 
         $this->enableForeignKeys();

@@ -116,12 +116,14 @@
           <thead style="
           " class="thead-dark">
             <tr>
-              <th style="width:30px; max-width: 30px;">
-                <label class="form-checkbox">
-                  <input type="checkbox" wire:model="selectPage">
-                  <i class="form-icon"></i>
-                </label>
-              </th>
+              @if(!$deleted)
+                <th style="width:30px; max-width: 30px;">
+                  <label class="form-checkbox">
+                    <input type="checkbox" wire:model="selectPage">
+                    <i class="form-icon"></i>
+                  </label>
+                </th>
+              @endif
               <th scope="col">
                 <a style="color:white;" wire:click.prevent="sortBy('name')" role="button" href="#">
                   @lang('Name')
@@ -137,13 +139,14 @@
           <tbody>
             @foreach($departaments as $color)
             <tr>
-
-              <td>
-                <label class="form-checkbox">
-                    <input type="checkbox" wire:model="selected" value="{{ $color->id }}">
-                  <i class="form-icon"></i>
-                  </label>
-              </td>
+              @if(!$deleted)
+                <td>
+                  <label class="form-checkbox">
+                      <input type="checkbox" wire:model="selected" value="{{ $color->id }}">
+                    <i class="form-icon"></i>
+                    </label>
+                </td>
+              @endif
               <th scope="row">
                   <div> {{ $color->name }} </div>
                   <div class="small text-muted">@lang('Registered'): {{ $color->date_for_humans_created }}</div>

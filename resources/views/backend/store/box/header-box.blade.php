@@ -10,7 +10,7 @@
 				<div class="col-md-3">
 					<ul class="breadcrumb">
 						<li class="breadcrumb-item">
-							<a href="#!" data-toggle="modal" wire:click="$emitTo('backend.store.pos.create-cash', 'createmodal')" data-target="#createCash"> {{ $last_record_cash ? $last_record_cash : __('Add initial daily cash closing') }} </a>
+							<a href="#!" data-toggle="modal" wire:click="$emitTo('backend.store.pos.create-cash', 'createmodal')" data-target="#createCash"> {{ $last_record_cash ? '$'.$last_record_cash['initial'] : __('Add initial daily cash closing') }} </a>
 						</li>
 					</ul>
 				</div>
@@ -18,7 +18,7 @@
 					<div class="col-md-3">
 						<ul class="breadcrumb">
 							<li class="breadcrumb-item">
-								<a href="#" wire:click="process">@lang('Process Daily cash closing') <i class="fa fa-caret-square-o-right mr-1 ml-1"></i></a>
+								<a href="#" wire:click="process">@lang('Process Daily cash closing') #{{ $last_record_cash['id'] }} <i class="fa fa-caret-square-o-right mr-1 ml-1"></i></a>
 							</li>
 						</ul>
 					</div>

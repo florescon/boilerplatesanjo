@@ -8,7 +8,6 @@ use App\Models\Status;
 
 class StatusSeeder extends Seeder
 {
-
     use DisableForeignKeys;
 
     /**
@@ -18,7 +17,6 @@ class StatusSeeder extends Seeder
      */
     public function run()
     {
-
         $this->disableForeignKeys();
 
         Status::create([

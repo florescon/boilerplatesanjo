@@ -16,11 +16,13 @@ class CreateFinancesTable extends Migration
         Schema::create('finances', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
+            $table->unsignedBigInteger('order_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->decimal('amount', 8, 2)->nullable();
             $table->longText('comment')->nullable();
             $table->longText('ticket_text')->nullable();
             $table->string('type', 32);
+            $table->unsignedBigInteger('payment_method_id')->nullable();
             $table->unsignedBigInteger('audi_id')->nullable();
             $table->unsignedBigInteger('cash_id')->nullable();
             $table->timestamps();

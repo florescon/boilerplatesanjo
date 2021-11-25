@@ -11,11 +11,7 @@ use Rappasoft\LaravelLivewireTables\Views\Column;
 
 class SizeTable extends TableComponent
 {
-
-    use HtmlComponents;
-
-    use WithPagination;
-
+    use HtmlComponents, WithPagination;
 
     public $search;
 
@@ -35,12 +31,9 @@ class SizeTable extends TableComponent
     protected $queryString = [
         'search' => ['except' => ''], 
         'perPage',
-
     ];
 
-
     protected $listeners = ['delete', 'restore', 'triggerRefresh' => '$refresh'];
-
 
     /**
      * @var string
@@ -48,7 +41,6 @@ class SizeTable extends TableComponent
     public $sortField = 'updated_at';
 
     public $sortDirection = 'desc';
-
 
     /**
      * @var array
@@ -68,13 +60,11 @@ class SizeTable extends TableComponent
         $this->status = $status;
     }
 
-
     /**
      * @return Builder
      */
     public function query(): Builder
     {
-
         $query = Size::query();
 
         if ($this->status === 'deleted') {
@@ -83,7 +73,6 @@ class SizeTable extends TableComponent
 
         return $query;
     }
-
 
     /**
      * @return array
@@ -155,5 +144,4 @@ class SizeTable extends TableComponent
             'title'   => __('Restored'), 
         ]);
     }
-
 }

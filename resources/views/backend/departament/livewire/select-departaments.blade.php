@@ -1,8 +1,10 @@
 <div class="form-group row" wire:ignore>
-    <label for="departamentselect" class="col-sm-3 col-form-label">@lang('Departament')</label>
-    <div class="col-sm-9" >
-		<select id="departamentselect"  class="custom-select" style="width: 100%;" aria-hidden="true">
-		</select>
+    @if(!$clear)
+        <label for="departamentselect" class="col-sm-3 col-form-label">@lang('Departament')</label>
+    @endif
+    <div class="{{ $clear ? 'col-sm-12 text-center' : 'col-sm-9' }}" >
+        <select id="departamentselect"  class="custom-select" style="width: 100%;" aria-hidden="true">
+        </select>
     </div>
 </div><!--form-group-->
 
@@ -45,7 +47,7 @@
 
           $('#departamentselect').on('change', function (e) {
             var data = $('#departamentselect').select2("val");
-            livewire.emit('selectedCompanyItem', data)
+            livewire.emit('selectedDeparament', data)
 
           });
 

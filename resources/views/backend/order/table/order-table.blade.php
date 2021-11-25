@@ -108,7 +108,7 @@
 	                  @lang('Date')
 	              </th>
 	              <th scope="col">
-	                  @lang('Type')
+	                  @lang('Details')
 	              </th>
 	            </tr>
 	          </thead>
@@ -138,6 +138,7 @@
 	              </td>
                 <td>
                 	{!! $order->type_order !!}
+                  <span class="badge badge-secondary"><strong>{{ $order->payment_method }}</strong></span>
                 </td>
 	            </tr>
 	            @endforeach

@@ -14,7 +14,12 @@
 		    <tr>
 		      <th scope="row">{{ $finance->id }}</th>
 		      <td>{{ $finance->name }}</td>
-		      <td class="{{ $finance->finance_text }}">{{ $finance->amount }}</td>
+		      <td class="{{ $finance->finance_text }}">
+		      		{{ $finance->amount }}
+		      		<p>
+                  		<span class="badge badge-secondary">{{ $finance->payment_method }}</span>
+	                </p>
+		      </td>
 		      <td>{{ $finance->comment ?: '--' }}</td>
 		    </tr>
 		    @endforeach

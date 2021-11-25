@@ -12,22 +12,38 @@ use Illuminate\Support\Facades\Auth;
 
 class Cart extends Component
 {
+    public $cart, $inputedit, $comment, $sale, $user, $departament, $payment, $archive;
 
-    public $cart, $inputedit, $comment, $sale, $user, $archive;
+    public bool $fromStore = false;
 
     public $isVisible = false;
 
-    protected $listeners = ['selectedCompanyItem', 'cartUpdated' => '$refresh'];
+    protected $listeners = ['selectPaymentMethod', 'selectedCompanyItem', 'selectedDeparament', 'cartUpdated' => '$refresh'];
 
-    public function selectedCompanyItem($item)
+    public function selectedCompanyItem($user)
     {
         $this->init();
-
-        if ($item) {
-            $this->user = $item;
+        if ($user) {
+            $this->user = $user;
         }
         else
             $this->user = null;
+    }
+
+    public function selectPaymentMethod($payment)
+    {
+        if ($payment)
+            $this->payment = $payment;
+        else
+            $this->payment = null;
+    }
+
+    public function selectedDeparament($departament)
+    {
+        if ($departament)
+            $this->departament = $departament;
+        else
+            $this->departament = null;
     }
 
     public function updatedIsVisible()
@@ -35,12 +51,10 @@ class Cart extends Component
         $this->init();
     }
 
-
     // public function mount(): void
     // {
     //     $this->cart = CartFacade::get();
     // }
-
 
     private function init()
     {
@@ -51,18 +65,6 @@ class Cart extends Component
     {
         // $this->cartItems = \Cart::session(auth()->id())->getContent()->toArray();
         $this->init();
-    }
-
-    public function render()
-    {
-
-        // dd(Session::get('cart'));
-        // return view('backend.cart.livewire.cart');
-
-        $cartVar = CartFacade::get();
-
-        return view('backend.cart.livewire.cart')->with(compact('cartVar'));
-
     }
 
     public function removeFromCart($productId, $typeCart)
@@ -94,9 +96,8 @@ class Cart extends Component
         $this->inputedit = [];
     }
 
-
-    private function defineType (bool $order, bool $sale){
-        
+    private function defineType (bool $order, bool $sale)
+    {
         if($sale){
             if($order){
                 return 3;                
@@ -106,7 +107,6 @@ class Cart extends Component
         else{
             return 1;
         }
-
     }
 
     public function checkout(): void
@@ -115,16 +115,18 @@ class Cart extends Component
 
         // dd($this->isVisible);
 
-
         $cart = CartFacade::get()['products'];
         $cartSale = CartFacade::get()['products_sale'];
 
         $order = new Order();
         $order->user_id = $this->isVisible == true  ? null : $this->user;
+        $order->departament_id = $this->isVisible == true  ? null : $this->departament;
+        $order->payment_method_id = $this->isVisible == true  ? null : $this->payment;
         $order->comment = $this->comment;
         $order->date_entered = Carbon::now()->format('Y-m-d');
         $order->type = $this->defineType(count($cart), count($cartSale));
         $order->audi_id = Auth::id();
+        $order->from_store = $this->fromStore == true ? true : null;
         $order->approved = 1;
         $order->save();
 
@@ -142,7 +144,6 @@ class Cart extends Component
                         'type' => 1,
                     ]);
                 }
-    
             }
         }
     
@@ -170,7 +171,15 @@ class Cart extends Component
             'icon' => 'success',
             'title'   => __('Order created'), 
         ]);
-
     }
 
+    public function render()
+    {
+        // dd(Session::get('cart'));
+        // return view('backend.cart.livewire.cart');
+
+        $cartVar = CartFacade::get();
+
+        return view('backend.cart.livewire.cart')->with(compact('cartVar'));
+    }
 }

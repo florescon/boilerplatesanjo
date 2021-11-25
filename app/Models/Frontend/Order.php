@@ -31,6 +31,7 @@ class Order extends Model
         return [
             'slug' => [
                 'source' => 'full_slug',
+                'onUpdate' => false,
             ]
         ];
     }

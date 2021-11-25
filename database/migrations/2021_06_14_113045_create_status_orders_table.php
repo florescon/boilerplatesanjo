@@ -15,7 +15,7 @@ class CreateStatusOrdersTable extends Migration
     {
         Schema::create('status_orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('order_id')->nullable();
+            $table->unsignedBigInteger('order_id')->nullable();
             $table->unsignedInteger('status_id')->nullable();
             $table->unsignedBigInteger('audi_id')->nullable();
             $table->timestamps();

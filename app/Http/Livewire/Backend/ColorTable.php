@@ -15,7 +15,6 @@ use Excel;
 
 class ColorTable extends Component
 {
-
 	use Withpagination, WithBulkActions, WithCachedRows;
 
     protected $paginationTheme = 'bootstrap';
@@ -67,7 +66,6 @@ class ColorTable extends Component
 
     public function getRowsQueryProperty()
     {
-        
         return Color::query()
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?
@@ -88,14 +86,12 @@ class ColorTable extends Component
             });
     }
 
-
     public function getRowsProperty()
     {
         return $this->cache(function () {
             return $this->rowsQuery->paginate($this->perPage);
         });
     }
-
 
     public function render()
     {
@@ -123,7 +119,6 @@ class ColorTable extends Component
         $this->selected = [];
     }
 
-
     public function clear()
     {
         $this->searchTerm = '';
@@ -132,11 +127,6 @@ class ColorTable extends Component
     }
 
     public function updatedSearchTerm()
-    {
-        $this->page = 1;
-    }
-
-    public function hydratesortField()
     {
         $this->page = 1;
     }
@@ -161,7 +151,6 @@ class ColorTable extends Component
 
     public function store()
     {
-
         $validatedData = $this->validate();
 
         Color::create($validatedData);
@@ -175,7 +164,6 @@ class ColorTable extends Component
         ]);
         // session()->flash('message-success', __('The color was successfully created.'));
     }
-
 
     public function edit($id)
     {
@@ -247,6 +235,7 @@ class ColorTable extends Component
     {
         return $this->selectedRowsQuery->get()->pluck('id')->map(fn($id) => (string) $id)->toArray();
     }
+
     public function exportMaatwebsite($extension)
     {   
         abort_if(!in_array($extension, ['csv', 'xlsx', 'pdf', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
@@ -280,5 +269,4 @@ class ColorTable extends Component
             'title'   => __('Restored'), 
         ]);
     }
-
 }

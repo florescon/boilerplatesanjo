@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\PaymentMethodController;
 use App\Models\Setting;
 use Tabuna\Breadcrumbs\Trail;
 
@@ -27,3 +28,5 @@ Route::group([
         });
 
 });
+
+Route::get('select2-load-payment-method', [PaymentMethodController::class, 'select2LoadMore'])->name('payments.select');

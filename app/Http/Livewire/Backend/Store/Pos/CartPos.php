@@ -51,7 +51,7 @@ class CartPos extends Component
 
     public function checkout()
     {
-        return redirect()->route('admin.cart.index');
+        return redirect()->route('admin.cart.from_store');
     }
 
     public function removeRedirectLink()

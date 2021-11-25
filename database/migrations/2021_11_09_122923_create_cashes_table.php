@@ -20,7 +20,7 @@ class CreateCashesTable extends Migration
             $table->decimal('initial', 8, 2)->nullable();
             $table->decimal('total', 8, 2)->nullable();
             $table->unsignedBigInteger('audi_id')->nullable();
-            $table->boolean('checked')->default(false);
+            $table->timestamp('checked')->nullable();            
             $table->timestamps();
             $table->softDeletes();
         });

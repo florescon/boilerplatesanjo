@@ -29,6 +29,14 @@ Route::group([
             $trail->parent('admin.dashboard')
                 ->push(__('Cart Management'), route('admin.cart.index'));
         });
+
+    Route::get('from_store', [CartController::class, 'from_store'])
+        ->name('from_store')
+        // ->middleware('permission:admin.access.cloth.list')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.dashboard')
+                ->push(__('Cart Management'), route('admin.cart.from_store'));
+        });
 });
 
 

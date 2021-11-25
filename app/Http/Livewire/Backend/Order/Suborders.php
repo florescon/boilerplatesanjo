@@ -16,7 +16,7 @@ class Suborders extends Component
 
     public $order_id, $quantityy, $departament, $status_name;
 
-    protected $listeners = ['selectedCompanyItem', 'savesuborder' => '$refresh'];
+    protected $listeners = ['selectedDeparament', 'savesuborder' => '$refresh'];
 
     public function mount(Order $order)
     {
@@ -27,7 +27,7 @@ class Suborders extends Component
         'departament' => 'required',
     ];
 
-    public function selectedCompanyItem($item)
+    public function selectedDeparament($item)
     {
         if ($item)
             $this->departament = $item;

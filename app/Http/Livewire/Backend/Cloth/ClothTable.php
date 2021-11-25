@@ -11,11 +11,7 @@ use Rappasoft\LaravelLivewireTables\Views\Column;
 
 class ClothTable extends TableComponent
 {
-
-    use HtmlComponents;
-
-    use WithPagination;
-
+    use HtmlComponents, WithPagination;
 
     public $search;
 

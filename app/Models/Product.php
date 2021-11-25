@@ -26,7 +26,7 @@ class Product extends Model
         return [
             'slug' => [
                 'source' => 'name',
-                'onUpdate' => true,
+                'onUpdate' => false,
             ]
         ];
     }
@@ -298,7 +298,7 @@ class Product extends Model
 
     public function getNewProductAttribute()
     {
-        if($this->created_at->gt(\Carbon\Carbon::now()->subMonth())){
+        if($this->created_at->gt(Carbon::now()->subMonth())){
             return __('New'). ' |';
         }
 

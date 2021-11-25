@@ -136,6 +136,9 @@
               </a>
             @endif
           </div>
+          <div class="card-footer text-center">
+            @lang('Payment method'): <span class="badge badge-secondary"><strong>{{ $model->payment_method }}</strong></span>
+          </div>
           <div class="card-footer text-muted text-center">
             {{ $model->date_diff_for_humans }}
           </div>

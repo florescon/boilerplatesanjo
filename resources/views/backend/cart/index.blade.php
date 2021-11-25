@@ -4,7 +4,7 @@
 
 @section('content')
 
-	<livewire:backend.cart />
+	<livewire:backend.cart :fromStore="$fromStore" />
 
 @endsection
 

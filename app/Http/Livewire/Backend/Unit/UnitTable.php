@@ -11,10 +11,7 @@ use Rappasoft\LaravelLivewireTables\Views\Column;
 
 class UnitTable extends TableComponent
 {
-    use HtmlComponents;
-
-    use WithPagination;
-
+    use HtmlComponents, WithPagination;
 
     public $search;
 
@@ -34,11 +31,9 @@ class UnitTable extends TableComponent
     protected $queryString = [
         'search' => ['except' => ''], 
         'perPage',
-
     ];
 
     protected $listeners = ['delete', 'restore', 'triggerRefresh' => '$refresh'];
-
 
     /**
      * @var string
@@ -46,8 +41,6 @@ class UnitTable extends TableComponent
     public $sortField = 'updated_at';
 
     public $sortDirection = 'desc';
-
-
 
     /**
      * @var array
@@ -57,9 +50,7 @@ class UnitTable extends TableComponent
         'bootstrap.classes.table' => 'table table-striped table-bordered',
         'bootstrap.classes.thead' => 'thead-dark border-bottom-3px',
         'bootstrap.responsive' => true,
-
     ];
-
 
     /**
      * @param  string  $status
@@ -69,13 +60,11 @@ class UnitTable extends TableComponent
         $this->status = $status;
     }
 
-
     /**
      * @return Builder
      */
     public function query(): Builder
     {
-
         $query = Unit::query();
 
         if ($this->status === 'deleted') {
@@ -88,7 +77,6 @@ class UnitTable extends TableComponent
             // $query->onlyTrashed();
         // });
     }
-
 
     /**
      * @return array
@@ -124,7 +112,6 @@ class UnitTable extends TableComponent
 
     public function delete($id)
     {
-
         if($id){
             $unit = Unit::where('id', $id);
             $unit->delete();
@@ -135,7 +122,6 @@ class UnitTable extends TableComponent
             'icon' => 'success',
             'title'   => __('Deleted'), 
         ]);
-
     }
 
     public function restore($id)
@@ -150,7 +136,5 @@ class UnitTable extends TableComponent
             'icon' => 'success',
             'title'   => __('Restored'), 
         ]);
-
     }
-
 }

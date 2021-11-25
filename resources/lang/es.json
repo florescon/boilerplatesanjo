@@ -188,6 +188,7 @@
     "View User": "Ver usuario",
     "Back": "Atrás",
     "Status": "Estado",
+    "Create status": "Crear estado",
     "Status changed": "Estado de orden actualizado",
     "Next status": "Siguiente estado",
     "Previous status": "Anterior estado",
@@ -289,6 +290,7 @@
     "Store stock": "Stock de tienda",
     "Quantity of all inventories": "Cantidad todos los inventarios",
     "Show in store": "Mostrar en tienda",
+    "Back to store": "Regresar a la tienda",
     "Unit": "Unidad",
     "List of colors": "Listado de colores",
     "List of deleted colors": "Listado de colores eliminados",
@@ -572,6 +574,7 @@
 
     "Move": "Mover",
     "Detail": "Detalle",
+    "Details": "Detalles",
     "Move between stocks": "Mover entre stocks",
     "Drag and drop, or select": "Arrastrar y soltar, o seleccione",
     "Check the quantity": "Verifique la cantidad",
@@ -679,5 +682,8 @@
     "max :characters characters": "máximo :characters caracteres",
     "to return": "regresar",
     "No orders were found matching your selection": "No se encontraron ordenes que coincidan con su selección",
-    "No incomes and expenses were found matching your selection": "No se encontraron ingresos y egresos que coincidan con su selección" 
+    "No incomes and expenses were found matching your selection": "No se encontraron ingresos y egresos que coincidan con su selección",
+    "Payment method": "Método de pago", 
+    "Choose payment method": "Elegir método de pago",
+    "undefined payment": "pago no definido"
 }

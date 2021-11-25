@@ -78,7 +78,7 @@ Route::group([
         Route::get('consumption_filter', [ProductController::class, 'consumption_filter'])
             ->name('consumption_filter')
             ->breadcrumbs(function (Trail $trail, Product $product) {
-                $trail->parent('admin.product.edit', $product)
+                $trail->parent('admin.product.index')
                     ->push(__('Product consumption filter'), route('admin.product.consumption_filter', $product));
             });
 
