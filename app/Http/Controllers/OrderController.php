@@ -12,7 +12,6 @@ use Carbon\Carbon;
 
 class OrderController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -53,7 +52,6 @@ class OrderController extends Controller
 
     public function ticket(Order $order)
     {
-
         $pdf = PDF::loadView('backend.order.ticket-suborder',compact('order'))->setPaper([0, 0, 1385.98, 296.85], 'landscape');
     
         // ->setPaper('A8', 'portrait')
@@ -73,7 +71,6 @@ class OrderController extends Controller
 
     public function ticket_materia(Order $order)
     {
-
         $order->load(['materials_order' => function($query){
                     $query->groupBy('material_id')->selectRaw('*, sum(quantity) as sum');
                 }]
@@ -86,14 +83,11 @@ class OrderController extends Controller
 
     public function advanced(Order $order)
     {
-
         return view('backend.order.advanced-order', compact('order'));
     }
 
-
     public function records(Order $order)
     {
-
         if($order->parent_order_id == true){
             abort(401);
         }
@@ -104,22 +98,18 @@ class OrderController extends Controller
 
     public function where_is_products(Order $order)
     {
-
         return view('backend.order.where-is-products')
             ->withOrder($order);
     }
 
-
     public function suborders(Order $order)
     {
-
         return view('backend.order.suborders')
             ->withOrder($order);
     }
 
     public function assignments(Order $order, Status $status)
     {
-        
         if($status->to_add_users == false){
             abort(401);
         }
@@ -140,6 +130,4 @@ class OrderController extends Controller
         }
         return redirect()->route('admin.order.index')->withFlashSuccess(__('The order/sale was successfully deleted.'));
     }
-
-
 }

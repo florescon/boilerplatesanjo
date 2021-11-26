@@ -64,7 +64,7 @@ class OrderTable extends Component
             return $query->onlyTrashed();
         }
         if ($this->status === 'suborders') {
-            $this->title = ['title' => 'List of suborders', 'color' => 'info'];
+            $this->title = ['title' => 'List of suborders', 'color' => 'secondary'];
             return $query->onlySuborders();
         }
         if ($this->status === 'sales') {

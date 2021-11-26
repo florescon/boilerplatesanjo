@@ -1,38 +1,30 @@
 <x-backend.card borderClass="{{ $title['color'] }}">
 
   <x-slot name="header">
-    <strong class="text-{{ $title['color'] }}"> @lang($title['title']) </strong>
-
-    <div class="card-header-actions">
-      <x-utils.link class="card-header-action btn btn-secondary text-dark {{ $status == 'all' ? 'button-large pulsate' : '' }}" :href="route('admin.order.all')" :text="__('all')" />
-			  &nbsp;&nbsp;
-      <x-utils.link class="card-header-action btn btn-primary text-white {{ $status == '' ? 'button-large pulsate' : '' }}" :href="route('admin.order.index')" :text="__('Orders')" />
-		    &nbsp;&nbsp;
-      <x-utils.link class="card-header-action btn btn-success text-white {{ $status == 'sales' ? 'button-large pulsate' : '' }}" :href="route('admin.order.sales')" :text="__('Sales')" />
-		    &nbsp;&nbsp;
-      <x-utils.link class="card-header-action btn btn-warning text-white {{ $status == 'mix' ? 'button-large pulsate' : '' }}" :href="route('admin.order.mix')" :text="__('Mix')" />
-		    &nbsp;&nbsp;
-      <x-utils.link class="card-header-action btn btn-info text-white {{ $status == 'suborders' ? 'button-large pulsate' : '' }}" :href="route('admin.order.suborders')" :text="__('Suborders')" />
+  	<h3>
+	    <strong class="text-{{ $title['color'] }}"> @lang($title['title']) </strong>
+	  </h3>
+    <div class="card-header-actions mb-3">
+      <x-utils.link class="mt-2 mr-2 card-header-action btn btn-secondary text-dark {{ $status == 'all' ? 'button-large pulsate' : '' }}" :href="route('admin.order.all')" :text="__('all')" />
+      <x-utils.link class="mt-2 mr-2 card-header-action btn btn-primary text-white {{ $status == '' ? 'button-large pulsate' : '' }}" :href="route('admin.order.index')" :text="__('Orders')" />
+      <x-utils.link class="mt-2 mr-2 card-header-action btn btn-success text-white {{ $status == 'sales' ? 'button-large pulsate' : '' }}" :href="route('admin.order.sales')" :text="__('Sales')" />
+      <x-utils.link class="mt-2 mr-2 card-header-action btn btn-warning text-white {{ $status == 'mix' ? 'button-large pulsate' : '' }}" :href="route('admin.order.mix')" :text="__('Mix')" />
+      <x-utils.link style="background-color: purple;" class="mt-2 card-header-action btn text-white {{ $status == 'suborders' ? 'button-large pulsate' : '' }}" :href="route('admin.order.suborders')" :text="__('Suborders')" />
     </div>
 
-    <br>
-    <br>
-    &nbsp;
-
-    <div class="page-header-subtitle">@lang('Filter by update date range')</div>
+    <div class="page-header-subtitle mt-5 mb-2"><em>@lang('Filter by update date range')</em></div>
 
     <div class="row input-daterange">
-        <div class="col-md-3">
+        <div class="col-md-3 mr-2 mb-2 pr-5=">
           <x-input.date wire:model="dateInput" id="dateInput" borderClass="{{ $title['color'] }}" placeholder="{{ __('From') }}"/>
         </div>
-        &nbsp;
 
-        <div class="col-md-3">
+        <div class="col-md-3 mr-2 mb-2">
           <x-input.date wire:model="dateOutput" id="dateOutput" borderClass="{{ $title['color'] }}" placeholder="{{ __('To') }}"/>
         </div>
         &nbsp;
 
-        <div class="col-md-3">
+        <div class="col-md-3 mb-2">
           <div class="btn-group mr-2" role="group" aria-label="First group">
             <button type="button" class="btn btn-outline-{{ $title['color'] }}" wire:click="clearFilterDate"  class="btn btn-default">@lang('Clear date')</button>
             <button type="button" class="btn btn-{{ $title['color'] }}" wire:click="clearAll" class="btn btn-default">@lang('Clear all')</button>

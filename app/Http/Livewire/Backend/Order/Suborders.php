@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Auth;
 
 class Suborders extends Component
 {
-
     public $order_id, $quantityy, $departament, $status_name;
 
     protected $listeners = ['selectedDeparament', 'savesuborder' => '$refresh'];
@@ -65,6 +64,8 @@ class Suborders extends Component
                 $suborder->departament_id = $this->departament ?? null;
                 $suborder->date_entered = Carbon::now()->format('Y-m-d');
                 $suborder->audi_id = Auth::id();
+                $suborder->approved = true;
+                $suborder->type = 4;
                 $suborder->save();
 
                 foreach($this->quantityy as $key => $product){
