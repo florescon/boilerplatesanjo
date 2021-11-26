@@ -172,6 +172,8 @@
 							</div>
 
 		                    <livewire:backend.setting.select-payment-method/>
+					         
+					        @error('payment') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
                         </div>
                     </div>

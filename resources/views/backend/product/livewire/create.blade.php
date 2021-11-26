@@ -88,7 +88,7 @@
                         @if($autoCodes == false)
                             <span class="error" style="color: red;">
                                 <p>
-                                Desactivar el codigo automatico implica que se tienen codigos externos a la aplicacion y/o se requiere realizarlos posteriormente de manera manual.                                    
+                                @lang('Deactivating the automatic code implies that there are codes external to the application and/or it is necessary to do them manually later.')                               
                                 </p>
                             </span> 
                         @endif

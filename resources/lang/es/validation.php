@@ -162,6 +162,7 @@ return [
         'user' => 'usuario',
         'amount' => 'cantidad',
         'ticket_text' => 'texto del ticket',
-        'title' => 'título'
+        'title' => 'título',
+        "payment" => 'método de pago'
     ],
 ];

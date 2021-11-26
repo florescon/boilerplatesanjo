@@ -21,7 +21,7 @@ class CreateDescriptionsTable extends Migration
             $table->longText('extra')->nullable();
             $table->longText('dimensions')->nullable();
             $table->longText('standards')->nullable();
-            $table->boolean('status')->default(1);
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

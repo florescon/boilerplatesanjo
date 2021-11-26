@@ -22,7 +22,7 @@ class CreateAssignmentsTable extends Migration
             $table->double('quantity')->nullable();
             $table->integer('assignmentable_id')->unsigned();
             $table->string('assignmentable_type');
-            $table->boolean('output')->default(0);
+            $table->boolean('output')->default(false);
             $table->timestamps();
 
             $table->foreign('ticket_id')

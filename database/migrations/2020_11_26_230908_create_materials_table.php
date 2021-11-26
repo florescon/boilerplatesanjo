@@ -18,9 +18,9 @@ class CreateMaterialsTable extends Migration
             $table->string('part_number')->unique()->nullable();
             $table->string('name')->nullable();
             $table->longText('description')->nullable();
-            $table->double('acquisition_cost')->nullable();
+            $table->decimal('acquisition_cost', 8, 2)->nullable();
             $table->decimal('price', 8, 2)->nullable();
-            $table->double('stock')->nullable();
+            $table->double('stock')->default(0);
             $table->unsignedSmallInteger('unit_id')->nullable();
             $table->unsignedMediumInteger('color_id')->nullable();
             $table->unsignedSmallInteger('size_id')->nullable();

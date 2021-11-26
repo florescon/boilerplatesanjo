@@ -450,6 +450,7 @@
     "Automatic codes": "Códigos automaticos",
     "Automatic codes disabled": "Códigos automaticos desactivados",
     "Disable automatic codes": "Desactivar códigos automaticos",
+    "Deactivating the automatic code implies that there are codes external to the application and/or it is necessary to do them manually later.": "Desactivar el código automático implica que se tienen códigos externos a la aplicación y/o se requiere realizarlos posteriormente de manera manual.",
     "Saved": "Guardado",
     "Something went wrong while uploading the file.": "Se produjo un error al cargar el archivo.",
     "Main Stock": "Stock principal",

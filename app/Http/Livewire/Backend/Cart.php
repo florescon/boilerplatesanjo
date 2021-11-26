@@ -20,6 +20,10 @@ class Cart extends Component
 
     protected $listeners = ['selectPaymentMethod', 'selectedCompanyItem', 'selectedDeparament', 'cartUpdated' => '$refresh'];
 
+    protected $rules = [
+        'payment' => 'required_with:user,departament',
+    ];
+
     public function selectedCompanyItem($user)
     {
         $this->init();
@@ -51,11 +55,6 @@ class Cart extends Component
         $this->init();
     }
 
-    // public function mount(): void
-    // {
-    //     $this->cart = CartFacade::get();
-    // }
-
     private function init()
     {
         $this->cart = CartFacade::get()['products'];
@@ -63,25 +62,14 @@ class Cart extends Component
 
     public function onCartUpdate()
     {
-        // $this->cartItems = \Cart::session(auth()->id())->getContent()->toArray();
         $this->init();
     }
 
     public function removeFromCart($productId, $typeCart)
     {
-
         CartFacade::remove($productId, $typeCart);
 
         return redirect()->route('admin.cart.index');
-
-        // $this->cart = CartFacade::get()[$typeCart];
-
-        // if($typeCart == 'products'){
-        //     $this->emit('productRemoved');
-        // }
-        // elseif($typeCart == 'products_sale'){
-        //     $this->emit('productRemovedSale');
-        // }
     }
 
     public function clearCartAll(): void
@@ -111,9 +99,9 @@ class Cart extends Component
 
     public function checkout(): void
     {
-        // dd(CartFacade::get()['products']);
-
-        // dd($this->isVisible);
+        if(!$this->isVisible){
+            $this->validate();
+        }
 
         $cart = CartFacade::get()['products'];
         $cartSale = CartFacade::get()['products_sale'];
@@ -130,11 +118,8 @@ class Cart extends Component
         $order->approved = 1;
         $order->save();
 
-        // dd($order->id);
-
         if(count($cart)){
             foreach ($cart as  $item) {
-    
                 if($item->amount >= 1){
                     $order->product_order()->create([
                         'product_id' => $item->id,
@@ -149,7 +134,6 @@ class Cart extends Component
     
         if(count($cartSale)){
             foreach ($cartSale as  $item) {
-    
                 if($item->amount >= 1){
                     $order->product_order()->create([
                         'product_id' => $item->id,
@@ -159,7 +143,6 @@ class Cart extends Component
                         'type' => 2,
                     ]);
                 }
-    
             }
         }
 
@@ -175,11 +158,7 @@ class Cart extends Component
 
     public function render()
     {
-        // dd(Session::get('cart'));
-        // return view('backend.cart.livewire.cart');
-
         $cartVar = CartFacade::get();
-
         return view('backend.cart.livewire.cart')->with(compact('cartVar'));
     }
 }

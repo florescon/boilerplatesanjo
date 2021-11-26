@@ -33,7 +33,7 @@ class CreateProductsTable extends Migration
             $table->double('discount')->default(0);
             $table->tinyInteger('sort')->default(1);
             $table->boolean('automatic_code')->default(true);
-            $table->boolean('type')->default(true);
+            $table->boolean('type')->default(true)->comment('Product: true, Service: false');
             $table->boolean('status')->default(true);
             $table->softDeletes();
             $table->timestamps();
