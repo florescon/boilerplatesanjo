@@ -60,29 +60,33 @@ class OrderTable extends Component
 
 
         if ($this->status === 'deleted') {
+            $this->applySearchDeletedFilter($query);
+
             $this->title = ['title' => 'Deleted orders', 'color' => 'danger'];
             return $query->onlyTrashed();
         }
-        if ($this->status === 'suborders') {
-            $this->title = ['title' => 'List of suborders', 'color' => 'secondary'];
-            return $query->onlySuborders();
-        }
-        if ($this->status === 'sales') {
-            $this->title = ['title' => 'List of sales', 'color' => 'success'];
-            return $query->onlySales();
-        }
-        if ($this->status === 'mix') {
-            $this->title = ['title' => 'List of mix', 'color' => 'warning'];
-            return $query->onlyMix();
-        }
-        if ($this->status === 'all') {
-            $this->title = ['title' => 'List of all', 'color' => 'dark'];
-            return $query->onlyAll();
+        else{
+            $this->applySearchFilter($query);
+
+            if ($this->status === 'suborders') {
+                $this->title = ['title' => 'List of suborders', 'color' => 'secondary'];
+                return $query->onlySuborders();
+            }
+            if ($this->status === 'sales') {
+                $this->title = ['title' => 'List of sales', 'color' => 'success'];
+                return $query->onlySales();
+            }
+            if ($this->status === 'mix') {
+                $this->title = ['title' => 'List of mix', 'color' => 'warning'];
+                return $query->onlyMix();
+            }
+            if ($this->status === 'all') {
+                $this->title = ['title' => 'List of all', 'color' => 'dark'];
+                return $query->onlyAll();
+            }
         }
 
         $this->title = ['title' => 'List of orders', 'color' => 'primary'];
-
-        $this->applySearchFilter($query);
 
         return $query->onlyOrders();
     }
@@ -92,7 +96,19 @@ class OrderTable extends Component
     {
         if ($this->searchTerm) {
             return $orders->whereRaw("comment LIKE \"%$this->searchTerm%\"")
-                        ->orWhereRaw("id LIKE \"%$this->searchTerm%\"");
+                        ->orWhereRaw("id LIKE \"%$this->searchTerm%\"")
+                        ->orWhereRaw("slug LIKE \"%$this->searchTerm%\"");
+
+        }
+
+        return null;
+    }
+
+    private function applySearchDeletedFilter($orders)
+    {
+        if ($this->searchTerm) {
+            return $orders->whereRaw("id LIKE \"%$this->searchTerm%\"")
+                        ->orWhereRaw("slug LIKE \"%$this->searchTerm%\"");
 
         }
 
