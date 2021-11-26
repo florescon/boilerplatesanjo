@@ -88,7 +88,6 @@ class Order extends Model
         return $this->user_id ? $this->user->name : "<span class='badge badge-primary'>Stock ".appName().'</span>';
     }
 
-
     /**
      * @return mixed
      */
@@ -105,7 +104,6 @@ class Order extends Model
         return $this->hasMany(ProductOrder::class)->with('product.parent', 'product.color', 'product.size')->where('type', 1);
     }
 
-
     /**
      * @return mixed
      */
@@ -119,7 +117,7 @@ class Order extends Model
      */
     public function product_suborder()
     {
-        return $this->hasMany(ProductOrder::class, 'suborder_id');
+        return $this->hasMany(ProductOrder::class, 'suborder_id')->with('parent_order.product.parent', 'parent_order.product.color', 'parent_order.product.size');
     }
 
     /**
@@ -284,7 +282,6 @@ class Order extends Model
         return "--<em> ".__('not applicable')." </em>--";
     }
 
-
     /**
      * Cashable.
      */
@@ -302,5 +299,4 @@ class Order extends Model
     {
         return $this->updated_at->diffForHumans();
     }
-
 }

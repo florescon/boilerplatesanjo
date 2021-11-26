@@ -28,6 +28,4 @@ Route::group([
                     ->push(__('Edit'), route('frontend.track.show', $order));
             });
     });
-
-
 });

@@ -69,6 +69,14 @@ class Order extends Model
         return $this->hasMany(ProductOrder::class)->with('product.parent', 'product.color', 'product.size')->where('type', 2);
     }
 
+    /**
+     * @return mixed
+     */
+    public function product_suborder()
+    {
+        return $this->hasMany(ProductOrder::class, 'suborder_id')->with('parent_order.product.parent', 'parent_order.product.color', 'parent_order.product.size');
+    }
+
     public function last_status_order()
     {
         return $this->hasOne(StatusOrder::class)->latestOfMany();

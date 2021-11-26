@@ -9,10 +9,8 @@ use App\Models\Frontend\Order;
 use App\Http\Requests\Frontend\Order\SearchRequest;
 use Carbon\Carbon;
 
-
 class TrackController extends Controller
 {
-
     public function orderTrack()
     {
         return view('frontend.track.index');
@@ -26,7 +24,6 @@ class TrackController extends Controller
 
     public function show(Order $order)
     {
-
         $site = \App\Models\Setting::first()->days_orders ?? 30;
 
         $limit = $order->created_at->addDays($site);

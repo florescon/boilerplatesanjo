@@ -10,7 +10,6 @@ use Exception;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-
 class Suborders extends Component
 {
 
@@ -100,16 +99,13 @@ class Suborders extends Component
         ]);
     }
 
-
     public function resetInput()
     {
         $this->quantityy = '';
     }
 
-
     public function render()
     {
-
         $model = Order::with('suborders.user', 'product_order.product')->findOrFail($this->order_id);
 
         return view('backend.order.livewire.suborders')->with(compact('model'));

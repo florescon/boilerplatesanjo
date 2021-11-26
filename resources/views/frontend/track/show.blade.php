@@ -71,6 +71,9 @@
 													@if($order->product_sale->count())
 														<a href="#sale" class="link size-16 w-100 mt-1" data-hover="{{ __('Sale') }}">@lang('Sale')</a>
 													@endif 
+													@if($order->product_suborder->count())	
+														<a href="#order" class="link size-16 w-100 mt-1" data-hover="{{ __('Suborder') }}">@lang('Suborder')</a> 
+													@endif
 												</div>									
 											</nav>	
 										</div>
@@ -133,6 +136,46 @@
 															<td class="text-center">${{ $product->total_by_product }}</td>
 														</tr>
 														@endforeach
+													</tbody>
+												</table>	
+											</div>
+										</div>
+									</div>
+								</div>
+							@endif
+							@if($order->product_suborder->count())	
+								<div class="container padding-top" id="order">
+									<div class="row">
+										<div class="col-lg-8">
+											<h4 class="mb-2">@lang('Order')</h4>
+											<p class="mb-3 pb-3">@lang('Order details').</p>
+										</div>
+										<div class="section"></div>
+										<div class="col-12">
+											<div class="table-responsive">
+												<table class="table table-hover">
+													<thead>
+														<tr>
+										                    <th scope="col">@lang('Product')</th>
+										                    <th scope="col" class="text-center">@lang('Quantity')</th>
+										                    <th scope="col" class="text-center">@lang('Price')</th>
+										                    <th scope="col" class="text-center">Total</th>
+
+														</tr>
+													</thead>
+													<tbody>
+											            @php($total = 0)
+										                @foreach($order->product_suborder as $product)
+														<tr>
+															<td>{{ $product->parent_order->product->parent->name}}
+											                    {{ $product->parent_order->product->color->name. '  '.$product->parent_order->product->size->name }}
+															</td>
+															<td class="text-center">{{ $product->quantity }}</td>
+															<td class="text-center">${{ $product->parent_order->price }}</td>
+															<td class="text-center">${{ number_format($totalprod = $product->parent_order->price * $product->quantity, 2, ".", ",") }}</td>
+														</tr>
+														@endforeach
+											            @php($total += $totalprod)
 													</tbody>
 												</table>	
 											</div>

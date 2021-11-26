@@ -86,9 +86,13 @@ class ListProducts extends Component
     {
         $this->dateInput = '';
         $this->dateOutput = '';
+        $this->searchTerm = '';
         $this->page = 1;
         $this->perPage = '12';
         $this->selectPage = false;
+        $this->selectAll = false;
+        $this->selected = [];
+
     }
 
     public function updatedSearchTerm()
