@@ -138,6 +138,15 @@ class ColorTable extends Component
 
     public function updatedDeleted()
     {
+
+        // $colors = Product::all();
+
+        // foreach($colors as $color){
+            // $name = $color->name;
+            // $color->update(['name' => 'a'.$name]);
+            // $color->update(['name' => substr($name, 1)]);
+        // }
+
         $this->page = 1;
         $this->selectAll = false;
         $this->selectPage = false;

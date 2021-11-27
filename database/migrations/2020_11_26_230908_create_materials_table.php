@@ -20,7 +20,7 @@ class CreateMaterialsTable extends Migration
             $table->longText('description')->nullable();
             $table->decimal('acquisition_cost', 8, 2)->nullable();
             $table->decimal('price', 8, 2)->nullable();
-            $table->double('stock')->default(0);
+            $table->double('stock')->default(0)->nullable();
             $table->unsignedSmallInteger('unit_id')->nullable();
             $table->unsignedMediumInteger('color_id')->nullable();
             $table->unsignedSmallInteger('size_id')->nullable();

@@ -27,17 +27,18 @@ class DatabaseSeeder extends Seeder
 
         $this->call(AuthSeeder::class);
         $this->call(AnnouncementSeeder::class);
-        $this->call(ClothSeeder::class);
+        // $this->call(ClothSeeder::class);
 
-        $this->call(ColorSeeder::class);
-        $this->call(LineSeeder::class);
-        $this->call(SizeSeeder::class);
-        $this->call(UnitSeeder::class);
+        // $this->call(ColorSeeder::class);
+        // $this->call(LineSeeder::class);
+        // $this->call(SizeSeeder::class);
+        // $this->call(UnitSeeder::class);
 
-        $this->call(MaterialSeeder::class);
+        // $this->call(MaterialSeeder::class);
         
-        $this->call(ProductSeeder::class);
+        // $this->call(ProductSeeder::class);
         $this->call(StatusSeeder::class);
+        $this->call(PaymentMethodSeeder::class);
 
         Model::reguard();
     }
