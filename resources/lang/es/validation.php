@@ -163,6 +163,9 @@ return [
         'amount' => 'cantidad',
         'ticket_text' => 'texto del ticket',
         'title' => 'título',
-        "payment" => 'método de pago'
+        "payment" => 'método de pago',
+        "retail_price" => "precio menudeo",
+        "average_wholesale_price" => "precio medio mayoreo",
+        "wholesale_price" => "precio mayoreo"
     ],
 ];

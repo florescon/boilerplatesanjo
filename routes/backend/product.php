@@ -51,7 +51,7 @@ Route::group([
             ->name('prices')
             ->breadcrumbs(function (Trail $trail, Product $product) {
                 $trail->parent('admin.product.edit', $product)
-                    ->push(__('Prices'), route('admin.product.prices', $product));
+                    ->push(__('Prices and codes'), route('admin.product.prices', $product));
             });
 
         Route::get('pictures', [ProductController::class, 'pictures'])

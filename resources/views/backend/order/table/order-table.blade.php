@@ -11,8 +11,12 @@
       <x-utils.link class="mt-2 mr-2 card-header-action btn btn-warning text-white {{ $status == 'mix' ? 'button-large pulsate' : '' }}" :href="route('admin.order.mix')" :text="__('Mix')" />
       <x-utils.link style="background-color: purple;" class="mt-2 card-header-action btn text-white {{ $status == 'suborders' ? 'button-large pulsate' : '' }}" :href="route('admin.order.suborders')" :text="__('Suborders')" />
     </div>
-
-    <div class="page-header-subtitle mt-5 mb-2"><em>@lang('Filter by update date range')</em></div>
+    
+    <div class="page-header-subtitle mt-5 mb-2">
+    	<em>
+    		@lang('Filter by update date range')
+    	</em>
+    </div>
 
     <div class="row input-daterange">
         <div class="col-md-3 mr-2 mb-2 pr-5=">
@@ -36,44 +40,43 @@
 
   <x-slot name="body">
 
-  <div class="row mb-4">
-    <div class="col form-inline">
-      @lang('Per page'): &nbsp;
+	  <div class="row mb-4">
+	    <div class="col form-inline">
+	      @lang('Per page'): &nbsp;
 
-      <select wire:model="perPage" class="form-control">
-        <option>10</option>
-        <option>25</option>
-        <option>50</option>
-        <option>100</option>
-      </select>
-    </div><!--col-->
+	      <select wire:model="perPage" class="form-control">
+	        <option>10</option>
+	        <option>25</option>
+	        <option>50</option>
+	        <option>100</option>
+	      </select>
+	    </div><!--col-->
 
-    <div class="col">
-      <div class="input-group">
-        <input wire:model.debounce.350ms="searchTerm" class="form-control" type="text" placeholder="{{ __('Search') }}..." />
-        @if($searchTerm !== '')
-        <div class="input-group-append">
-          <button type="button" wire:click="clear" class="close" aria-label="Close">
-            <span aria-hidden="true"> &nbsp; &times; &nbsp;</span>
-          </button>
+	    <div class="col">
+	      <div class="input-group">
+	        <input wire:model.debounce.350ms="searchTerm" class="form-control" type="text" placeholder="{{ __('Search') }}..." />
+	        @if($searchTerm !== '')
+		        <div class="input-group-append">
+		          <button type="button" wire:click="clear" class="close" aria-label="Close">
+		            <span aria-hidden="true"> &nbsp; &times; &nbsp;</span>
+		          </button>
+		        </div>
+	        @endif
+	      </div>
+	    </div>
 
-        </div>
-        @endif
-      </div>
-    </div>
+	    @if($selected && $colors->count())
+		    <div class="dropdown table-export">
+		      <button class="dropdown-toggle btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		        @lang('Export')        
+		      </button>
 
-    @if($selected && $colors->count())
-    <div class="dropdown table-export">
-      <button class="dropdown-toggle btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        @lang('Export')        
-      </button>
-
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" wire:click="export">CSV</a>
-      </div>
-    </div><!--export-dropdown-->
-    @endif
-  </div><!--row-->
+		      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+		        <a class="dropdown-item" wire:click="export">CSV</a>
+		      </div>
+		    </div><!--export-dropdown-->
+	    @endif
+	  </div><!--row-->
 
 	  <div class="row mt-4">
 	    <div class="col">
@@ -85,7 +88,7 @@
 	              	@lang('Folio')
 	              </th>
 	              <th scope="col">
-	              	@lang('Name')
+	              	@lang('User')
 	              </th>
                 <th scope="col">
                   @lang('Comment')
@@ -106,48 +109,54 @@
 	          </thead>
 	          <tbody>
 	            @foreach($orders as $order)
-	            <tr class="table-tr" data-url="{{ route('admin.order.edit', $order->id) }}">
-	            	<td>
-	            		#{{ $order->id }}
-	            	</td>
-	              <td>
-	              	{!! $order->user_name !!}
-	              </td>
-                <td>
-                  {!! Str::limit($order->comment, 200) ?? '<span class="badge badge-secondary">'.__('undefined').'</span>' !!}
-                </td>
-                <td>
-                	{!! $order->approved_label !!}
-                </td>
-                <td>
-                   {!! $order->last_status_order_label !!}
+		            <tr class="table-tr" data-url="{{ route('admin.order.edit', $order->id) }}">
+		            	<td class="align-middle">
+		            		#{{ $order->id }}
+		            	</td>
+		              <td class="align-middle">
+		              	{!! $order->user_name !!}
+		              </td>
+	                <td class="align-middle">
+	                  {!! Str::limit($order->comment, 200) ?? '<span class="badge badge-secondary">'.__('undefined').'</span>' !!}
+	                </td>
+	                <td class="align-middle">
+	                	{!! $order->approved_label !!}
+	                </td>
+	                <td class="align-middle">
+	                   {!! $order->last_status_order_label !!}
 
-                </td>
-	              <td>
-	                <span class="badge badge-dot mr-4">
-	                  <i class="bg-warning"></i> {{ $order->date_for_humans }}
-	                </span>
-	              </td>
-                <td>
-                	{!! $order->type_order !!}
-                  <span class="badge badge-secondary"><strong>{{ $order->payment_method }}</strong></span>
-                </td>
-	            </tr>
+	                </td>
+		              <td class="align-middle">
+		                <span class="badge badge-dot mr-4">
+		                  <i class="bg-warning"></i> {{ $order->date_for_humans }}
+		                </span>
+		              </td>
+	                <td>
+	                	{!! $order->type_order !!}
+	                  <span class="badge badge-secondary"><strong>{{ $order->payment_method }}</strong></span>
+	                	@if($order->parent_order_id)
+		                  <span class="badge badge-primary">
+		                  	@lang('Order'): <strong class="ml-1">{{ $order->parent_order }}</strong>
+		                  </span>
+	                  @endif
+										<span class="badge badge-dark"><strong>{{ $order->tracking_number }}</strong></span>
+	                </td>
+		            </tr>
 	            @endforeach
 	          </tbody>
 	        </table>
 
 	        @if($orders->count())
-	        <div class="row">
-	          <div class="col">
-	            <nav>
-	              {{ $orders->onEachSide(1)->links() }}
-	            </nav>
-	          </div>
-	              <div class="col-sm-3 text-muted text-right">
-	                Mostrando {{ $orders->firstItem() }} - {{ $orders->lastItem() }} de {{ $orders->total() }} resultados
-	              </div>
-	        </div>
+		        <div class="row">
+		          <div class="col">
+		            <nav>
+		              {{ $orders->onEachSide(1)->links() }}
+		            </nav>
+		          </div>
+		              <div class="col-sm-3 text-muted text-right">
+		                Mostrando {{ $orders->firstItem() }} - {{ $orders->lastItem() }} de {{ $orders->total() }} resultados
+		              </div>
+		        </div>
 	        @else
 	          @lang('No search results') 
 	          @if($searchTerm)
@@ -171,19 +180,12 @@
 
 </x-backend.card>
 
-
 @push('after-scripts')
-
-<script type="text/javascript">
-	
-$(function () {
-
-    $(".js-table").on("click", "tr[data-url]", function () {
-        window.location = $(this).data("url");
-    });
-
-});
-
-</script>
-
+	<script type="text/javascript">
+		$(function () {
+		    $(".js-table").on("click", "tr[data-url]", function () {
+		        window.location = $(this).data("url");
+		    });
+		});
+	</script>
 @endpush

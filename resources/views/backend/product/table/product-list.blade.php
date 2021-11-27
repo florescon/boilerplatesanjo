@@ -111,13 +111,12 @@
 	          <tbody>
 	            @foreach($products as $product)
     	        <tr>
-
-              <td>
-                <label class="form-checkbox">
-                    <input type="checkbox" wire:model="selected" value="{{ $product->id }}">
-                  <i class="form-icon"></i>
-                  </label>
-              </td>
+	              <td>
+	                <label class="form-checkbox">
+	                    <input type="checkbox" wire:model="selected" value="{{ $product->id }}">
+	                  <i class="form-icon"></i>
+	                  </label>
+	              </td>
 	              <td scope="row">
 	              	{!! $product->code_subproduct !!}
 	              </td>
@@ -146,10 +145,7 @@
 	              </td>
 	              <td>
 
-                    <a  href="{{ route('admin.product.consumption_filter', $product->id) }}" class="btn btn-transparent-dark text-warning">
-                      <i class='cil-list-filter'></i>
-                      @lang('Punctual consumption')
-                    </a>
+						      <x-utils.link class="mt-2 mr-2 card-header-action btn btn-warning text-white" :href="route('admin.product.consumption_filter', $product->id)" :text="__('Punctual consumption')" />
 
 	              </td>
     	        </tr>

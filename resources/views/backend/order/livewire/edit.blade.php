@@ -73,7 +73,6 @@
                     <div class="col-12 col-lg-12">
                       {{-- {{ $model->comment }} --}}
                       <x-input.input-alpine nameData="isComment" :inputText="$isComment" :originalInput="$isComment" wireSubmit="savecomment" modelName="comment" maxlength="200" className="" />
-
                       @error('comment') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
                   </div>

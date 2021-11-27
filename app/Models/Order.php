@@ -88,6 +88,11 @@ class Order extends Model
         return $this->user_id ? $this->user->name : "<span class='badge badge-primary'>Stock ".appName().'</span>';
     }
 
+    public function getTrackingNumberAttribute(): ?string
+    {
+        return $this->slug ?? '';
+    }
+
     /**
      * @return mixed
      */
@@ -127,6 +132,24 @@ class Order extends Model
     {
         return $this->hasMany(self::class, 'parent_order_id')->orderBy('created_at', 'desc');
     }
+
+    /**
+     * @return bool
+     */
+    public function isChildren(): ?bool
+    {
+        return $this->parent_order_id;
+    }
+
+    public function getParentOrderAttribute(): ?string
+    {
+        if ($this->isChildren()) {
+            return $this->parent_order_id ?? '';
+        }
+
+        return '';
+    }
+
 
     public function payment(): BelongsTo
     {

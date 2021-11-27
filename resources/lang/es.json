@@ -283,6 +283,16 @@
     "Prices": "Precios",
     "Prices product": "Precios de producto",
     "General price": "Precio general",
+    "Retail price": "Precio menudeo",
+    "Average wholesale price": "Precio medio mayoreo",
+    "Wholesale price": "Precio mayoreo",
+    "Only save": "Sólo guardar",
+    "Save and clear all retail price variants": "Guardar y borrar todas las variantes de precios al menudeo",
+    "Save and clear all average wholesale price variants": "Guardar y borrar todas las variantes de precios al medio mayoreo",
+    "Save and clear all wholesale price variants": "Guardar y borrar todas las variantes de precios al por mayor",
+    "Retail": "Menudeo",
+    "Average wholesale": "Medio mayoreo",
+    "Wholesale": "Mayoreo",
     "Stock": "Stock",
     "Total stock": "Stock total",
     "Revision stock": "Stock de revisión",
@@ -691,5 +701,6 @@
     "Choose payment method": "Elegir método de pago",
     "undefined payment": "pago no definido",
     "undefined order/sale": "orden/venta no definida",
-    "undefined user": "usuario no definido"
+    "undefined user": "usuario no definido",
+    "Custom": "Personalizado"
 }
