@@ -84,6 +84,14 @@ class Size extends Model
 
     }
 
+    public function getUndefinedCodingAttribute(): ?string
+    {
+        if($this->short_name == null){
+            return "<span class='badge badge-danger'>".__('undefined size coding').'</span>';
+        }
+        return '';
+    }
+
     /**
      * The attributes that are mass assignable.
      *

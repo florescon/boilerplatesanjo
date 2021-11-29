@@ -34,8 +34,8 @@ class EditSize extends Component
     {
         $this->validate([
             'selected_id' => 'required|numeric',
-            'name' => 'required|min:3',
-            'short_name' => 'required|min:3|max:6|unique:App\Models\Size,short_name,'.$this->selected_id,
+            'name' => 'required|min:1',
+            'short_name' => 'required|min:1|max:6|unique:App\Models\Size,short_name,'.$this->selected_id,
         ]);
         if ($this->selected_id) {
             $record = Size::find($this->selected_id);

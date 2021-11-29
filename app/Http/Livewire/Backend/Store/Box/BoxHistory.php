@@ -201,16 +201,15 @@ class BoxHistory extends Component
 
     public function delete($id)
     {
-        if($id){
+        if($id)
             $color = Cash::where('id', $id);
             $color->delete();
-        }
+
        $this->emit('swal:alert', [
             'icon' => 'success',
             'title'   => __('Deleted'), 
         ]);
     }
-
 
     public function render()
     {

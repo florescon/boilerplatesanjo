@@ -147,7 +147,9 @@
                                         <tr>
                                           <th scope="row">{{ $subproduct->id }}</th>
                                           <td>
-                                              <span class="mb-0 text-sm">{!! '<strong>' .$subproduct->parent->name.' </strong> ('.optional($subproduct->color)->name.'  '.optional($subproduct->size)->name.') ' !!}</span>
+                                              <span class="mb-0 text-sm mr-2">{!! '<strong>' .$subproduct->parent->name.' </strong> ('.optional($subproduct->color)->name.'  '.optional($subproduct->size)->name.') ' !!}</span>
+                                                  {!! optional($subproduct->color)->undefined_coding !!}
+                                                  {!! optional($subproduct->size)->undefined_coding !!}
                                           </td>
                                           <td class="table-danger">{!! $subproduct->code_subproduct !!}</td>
                                           <td class="table-info">${!! number_format((float)$subproduct->price_subproduct, 2) !!}</td>

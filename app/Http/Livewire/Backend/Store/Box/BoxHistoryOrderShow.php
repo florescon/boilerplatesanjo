@@ -23,7 +23,8 @@ class BoxHistoryOrderShow extends Component
     public function render()
     {
         return view('backend.store.box.box-history-order-show',[
-            'orders' => $this->cash->orders()->orderBy('created_at', 'DESC')->paginate($this->limitPerPage),
+            'cash_orders' => $this->cash,
+            'orders' => $this->cash->orders()->with('user', 'payment')->orderBy('created_at', 'DESC')->paginate($this->limitPerPage),
         ]);
     }
 }

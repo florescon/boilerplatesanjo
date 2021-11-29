@@ -120,7 +120,8 @@
                 </th>
                 <th class="text-center">@lang('Comment')</th>
         				<th class="text-center">@lang('Initial')</th>
-                <th class="text-center">@lang('Total')</th>
+                <th class="text-center">@lang('Total cash')</th>
+                <th class="text-center">@lang('Balance')</th>
                 <th>@lang('Created')</th>
                 <th></th>
         			</tr>
@@ -142,7 +143,10 @@
                   ${{ $cash->initial }}
                 </td>
                 <td class="text-center">
-                  ${{ $cash->total }}
+                  ${{ $cash->total_amount_cash_finances }}
+                </td>
+                <td class="text-center">
+                  ${{ $cash->daily_cash_closing }}
                 </td>
                 <td>
                   <div class="small text-muted"></div><strong>{{ $cash->date_diff_for_humans_checked }}</strong>

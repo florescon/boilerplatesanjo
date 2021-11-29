@@ -1,9 +1,22 @@
 @if($finances->count())
 	<div class="col-xl-6 col-md-12">
-        <h3 class="text-center text-dark">
-            @lang('Incomes and expenses')
+        <div class="row justify-content-md-center">
+			<div class="card text-center col-md-9 mt-4 shadow">
+			  <div class="card-body">
+			    <h4 class="card-title">Balance</h4>
+			    <h3 class="text-info">${{ number_format($cash_finances->daily_cash_closing, 2, '.', '') }}</h3>
+			    <h5>@lang('Initial'): ${{ $cash_finances->initial }}</h5>
+			    <a href="#" class="card-link text-primary">{{ $cash_finances->incomes->count() }} @lang('Incomes'): <strong>{{ '+$'.number_format($cash_finances->amount_incomes, 2, '.', '') }}</strong></a>
+			    <a href="#" class="card-link text-danger">{{ $cash_finances->expenses->count() }} @lang('Expenses'): <strong>{{ '-$'.number_format($cash_finances->amount_expenses, 2, '.', '') }}</strong></a>
+			  </div>
+			</div>
+		</div>
+
+        <h3 class="text-center text-dark mt-3">
+            @lang('Incomes and expenses')<br>
         </h3>
-		<table class="table mt-5">
+
+		<table class="table mt-3">
 		  <thead class="thead-dark">
 		    <tr>
 		      <th scope="col">#</th>

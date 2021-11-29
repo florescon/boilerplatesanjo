@@ -91,6 +91,14 @@ class Color extends Model
         return !$this->color ? "<span class='badge badge-light font-italic'>".__('undefined color').'</span>' : '';
     }
 
+    public function getUndefinedCodingAttribute(): ?string
+    {
+        if($this->short_name == null){
+            return "<span class='badge badge-danger'>".__('undefined color coding').'</span>';
+        }
+        return '';
+    }
+
     public function getDateForHumansAttribute()
     {
         return $this->updated_at->format('M, d Y');

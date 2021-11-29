@@ -18,7 +18,7 @@
 					<div class="col-md-3">
 						<ul class="breadcrumb">
 							<li class="breadcrumb-item">
-								<a href="#" wire:click="process">@lang('Process Daily cash closing') #{{ $last_record_cash['id'] }} <i class="fa fa-caret-square-o-right mr-1 ml-1"></i></a>
+								<a href="#" wire:click="process">@lang('Process daily cash closing') #{{ $last_record_cash['id'] }} <i class="fa fa-caret-square-o-right mr-1 ml-1"></i></a>
 							</li>
 						</ul>
 					</div>

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Livewire\Backend\Product;
 
 use App\Models\Product;
@@ -26,7 +25,6 @@ class EditProduct extends Component
         'subtractStockRevision' => ['except' => FALSE],
         'increaseStockStore' => ['except' => FALSE],
         'subtractStockStore' => ['except' => FALSE],
-
     ];
 
     protected $listeners = ['filterByColor' => 'filterByColor', 'filterBySize' => 'filterBySize', 'increase', 'savecolor', 'storemultiple', 'clearAll' => '$refresh'];
@@ -107,7 +105,6 @@ class EditProduct extends Component
             if(count($this->filters) >= 2){
                 array_shift($this->filters);
             };
-    
         }
     }
 
@@ -124,7 +121,6 @@ class EditProduct extends Component
             if(count($this->filtersz) >= 2){
                 array_shift($this->filtersz);
             };
-    
         }
     }
 
@@ -526,12 +522,10 @@ class EditProduct extends Component
         // $model = Product::with('children');
         // $this->applyColorFilter($model);
 
-
         $model = $model
                 ->findOrFail($this->product_id);
 
         $attributes = Product::with('children')->findOrFail($this->product_id);
-
 
         return view('backend.product.livewire.edit')->with(compact('model', 'attributes'));
     }

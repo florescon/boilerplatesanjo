@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 namespace App\Http\Livewire\Backend\Size;
 
@@ -7,14 +7,13 @@ use Livewire\Component;
 
 class CreateSize extends Component
 {
-
     public $name, $short_name;
 
     protected $listeners = ['createmodal'];
 
     protected $rules = [
-        'name' => 'required|min:3',
-        'short_name' => 'required|min:3|max:6|unique:sizes',
+        'name' => 'required|min:1',
+        'short_name' => 'required|min:1|max:6|unique:sizes',
     ];
 
     private function resetInputFields()
@@ -22,13 +21,11 @@ class CreateSize extends Component
         $this->resetValidation();
         $this->name = '';
         $this->short_name = '';
-
     }
 
     public function createmodal()
     {
         $this->resetInputFields();
-
     }
 
     public function updated($propertyName)
@@ -38,7 +35,6 @@ class CreateSize extends Component
 
     public function store()
     {
-
         $validatedData = $this->validate();
 
         Size::create($validatedData);
@@ -52,15 +48,11 @@ class CreateSize extends Component
 		    'title'   => __('Created'), 
 		]);
 
-
     	$this->emitTo('backend.size.size-table', 'triggerRefresh');
-
-
     }
 
     public function render()
     {
         return view('backend.size.create-size');
     }
-
 }

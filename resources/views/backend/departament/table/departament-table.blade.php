@@ -32,16 +32,13 @@
     </div>
 
     <div class="row justify-content-md-end">
-        <div class="col-md-2">
-        <br>
+        <div class="col-md-2 mt-2">
           <div class="custom-control custom-switch">
             <input type="checkbox" wire:model="deleted" class="custom-control-input" id="deletedSwitch">
             <label class="custom-control-label" for="deletedSwitch"> <p class="{{ $deleted ? 'text-primary' : 'text-dark' }}"> @lang('Deletions')</p></label>
           </div>
         </div>
-
     </div>
-
   </div>
 
 <div class="card-body">
@@ -137,39 +134,42 @@
             </tr>
           </thead>
           <tbody>
-            @foreach($departaments as $color)
+            @foreach($departaments as $departament)
             <tr>
               @if(!$deleted)
                 <td>
                   <label class="form-checkbox">
-                      <input type="checkbox" wire:model="selected" value="{{ $color->id }}">
+                      <input type="checkbox" wire:model="selected" value="{{ $departament->id }}">
                     <i class="form-icon"></i>
                     </label>
                 </td>
               @endif
               <th scope="row">
-                  <div> {{ $color->name }} </div>
-                  <div class="small text-muted">@lang('Registered'): {{ $color->date_for_humans_created }}</div>
+                  <div> {{ $departament->name }} </div>
+                  <div class="small text-muted">@lang('Registered'): {{ $departament->date_for_humans_created }}</div>
+                  <div>
+                    {!! $departament->is_disabled !!}
+                  </div>
               </th>
               <td>
-                {{ $color->email }}
+                {{ $departament->email }}
               </td>
               <td>
-                <x-utils.undefined :data="$color->comment"/>
+                <x-utils.undefined :data="$departament->comment"/>
               </td>
               <td>
-                {{ $color->updated_at }}
+                {{ $departament->updated_at }}
               </td>
               <td>
                 <div class="btn-group" role="group" aria-label="Basic example">
 
-                    <button type="button" data-toggle="modal" data-target="#showModal" wire:click="show({{ $color->id }})" class="btn btn-transparent-dark">
+                    <button type="button" data-toggle="modal" data-target="#showModal" wire:click="show({{ $departament->id }})" class="btn btn-transparent-dark">
                         <i class='far fa-eye'></i>
                     </button>
 
-                  @if(!$color->trashed())
+                  @if(!$departament->trashed())
 
-                    <button type="button" data-toggle="modal" data-target="#updateModal" wire:click="edit({{ $color->id }})" class="btn btn-transparent-dark">
+                    <button type="button" data-toggle="modal" data-target="#updateModal" wire:click="edit({{ $departament->id }})" class="btn btn-transparent-dark">
                       <i class='far fa-edit'></i>
                     </button>
 
@@ -178,7 +178,12 @@
                           <i class="fas fa-ellipsis-v"></i>
                       </a>
                       <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                        <a class="dropdown-item" wire:click="delete({{ $color->id }})">@lang('Delete')</a>
+                        @if($departament->is_enabled)
+                          <a class="dropdown-item" wire:click="disable({{ $departament->id }})">@lang('Disable')</a>
+                        @else
+                          <a class="dropdown-item" wire:click="enable({{ $departament->id }})">@lang('Enable')</a>
+                        @endif
+                        <a class="dropdown-item" wire:click="delete({{ $departament->id }})">@lang('Delete')</a>
                       </div>
                     </div>
 
@@ -188,7 +193,7 @@
                           <i class="fas fa-ellipsis-v"></i>
                       </a>
                       <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                        <a class="dropdown-item" href="#" wire:click="restore({{ $color->id }})">
+                        <a class="dropdown-item" href="#" wire:click="restore({{ $departament->id }})">
                           @lang('Restore')
                         </a>
                       </div>

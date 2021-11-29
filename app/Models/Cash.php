@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Traits\Scope\DateScope;
 use Carbon\Carbon;
+use App\Models\FinanceType;
 
 class Cash extends Model
 {
@@ -40,6 +41,51 @@ class Cash extends Model
     public function orders()
     {
         return $this->hasMany(Order::class)->orderBy('created_at', 'desc');
+    }
+
+    public function getIncomesAttribute()
+    {
+        return $this->finances->where('type', FinanceType::INCOME);
+    }
+
+    public function getExpensesAttribute()
+    {
+        return $this->finances->where('type', FinanceType::EXPENSE);
+    }
+
+    public function getAmountIncomesAttribute()
+    {
+        return $this->incomes->sum('amount');
+    }
+
+    public function getAmountExpensesAttribute()
+    {
+        return $this->expenses->sum('amount');
+    }
+
+    public function getAmountIncomesCashAttribute()
+    {
+        return $this->incomes->where('payment_method_id', 1)->sum('amount');
+    }
+
+    public function getAmountExpensesCashAttribute()
+    {
+        return $this->expenses->where('payment_method_id', 1)->sum('amount');
+    }
+
+    public function getTotalAmountCashFinancesAttribute()
+    {
+        return $this->amount_incomes_cash - $this->amount_expenses_cash;
+    }
+
+    public function getTotalAmountFinancesAttribute()
+    {
+        return $this->amount_incomes - $this->amount_expenses;
+    }
+
+    public function getDailyCashClosingAttribute()
+    {
+        return $this->total_amount_finances + $this->initial;
     }
 
     public function getDateForHumansAttribute()

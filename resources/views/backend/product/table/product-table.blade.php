@@ -4,7 +4,7 @@
 
 	@if($status != 'deleted')
 	<div class="row mb-4 justify-content-md-center">
-		<div class="col-8">
+		<div class="col-9">
 		  <div class="input-group">
 		    <input wire:model.debounce.350ms="searchTerm" class="input-search" type="text" placeholder="{{ __('Search general product') }}..." />
       		<span class="border-input-search"></span>
@@ -81,8 +81,8 @@
 
 		    <div class="card-footer">
 				@if (!$product->trashed())
-					<a href="{{ route('admin.product.consumption',  $product->id) }}" class="btn btn-warning text-white">@lang('Consumption')</a>
-					<a href="{{ route('admin.product.edit',  $product->id) }}" class="btn btn-primary">@lang('Edit product')</a>
+					<a href="{{ route('admin.product.consumption',  $product->id) }}" class="btn btn-warning text-white mb-1">@lang('Consumption')</a>
+					<a href="{{ route('admin.product.edit',  $product->id) }}" class="btn btn-primary mb-1">@lang('Edit product')</a>
 				@else
 				    <div class="dropright" style="display:inline-block;">
 				      <a class="btn btn-icon-only" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

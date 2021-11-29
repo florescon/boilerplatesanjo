@@ -181,7 +181,6 @@ class Product extends Model
         return $this->price;
     }
 
-
     /**
      * Get the description associated with the product.
      */
@@ -195,7 +194,6 @@ class Product extends Model
         return $this->advanced->status ?? false;
     }
 
-
     /**
      * @return string
      */
@@ -208,7 +206,6 @@ class Product extends Model
         return "<span class='badge badge-danger'>".__('Inactive').'</span>';
     }
 
-
     /**
      * @return mixed
      */
@@ -216,7 +213,6 @@ class Product extends Model
     {
         return $this->hasMany(Picture::class);
     }
-
 
     public function getTotalPicturesAttribute(): int
     {
@@ -258,14 +254,12 @@ class Product extends Model
         });
     }
 
-
     public function getTotalStockbyID($byID)
     {
         return $this->children->where('id', $byID)->sum(function($parent) {
           return $parent->stock + $parent->stock_revision + $parent->stock_store;
         });
     }
-
 
     public function getTotStock()
     {

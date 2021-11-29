@@ -36,6 +36,12 @@
                 </td>
               </tr>
               <tr>
+                <th scope="row">@lang('Enabled')</th>
+                <td>          
+                  <p>{!! $is_enabled !!}</p>
+                </td>
+              </tr>
+              <tr>
                 <th scope="row">@lang('Updated at')</th>
                 <td>          
                   <p>{{ $updated }}</p>

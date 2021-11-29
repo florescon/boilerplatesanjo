@@ -94,10 +94,12 @@
                 </a> --}}
               </div>
               <div class="col-md-4 mb-3 text-left">
-                <a href="{{ route('admin.order.sub', $model->id) }}" style="color:purple;">
-                  <p> @lang('I want to assign suborders') <i class="cil-library"></i></p> 
-                </a>
-  
+                @if(!$model->user_id)
+                  <a href="{{ route('admin.order.sub', $model->id) }}" style="color:purple;">
+                    <p> @lang('I want to assign suborders') <i class="cil-library"></i></p> 
+                  </a>
+                @endif
+
                 @php
                   $colors_counter = 0;
                   $colors = array(0=>"primary", 1=>"info", 2=>"secondary", 3=>"light");

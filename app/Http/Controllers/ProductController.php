@@ -108,12 +108,10 @@ class ProductController extends Controller
     public function createCodes(Product $product)
     {
         $product->load('children');
-        $order = 7;
 
         DB::beginTransaction();
 
         try {
-
             foreach ($product->children as $prod) {
                 if($prod->size->short_name && $prod->color->short_name){
                     $prod->update(['code' => $product->code.optional($prod->color)->short_name.optional($prod->size)->short_name]);

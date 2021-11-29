@@ -3,12 +3,13 @@
 namespace App\Http\Livewire\Backend\Store\Box;
 
 use Livewire\Component;
-use App\Models\Finance;
 use App\Models\Cash;
 
 class BoxHistoryFinanceShow extends Component
 {
     public Cash $cash;
+
+    public $filerPayment;
 
     public $limitPerPage = 8;
 
@@ -23,8 +24,13 @@ class BoxHistoryFinanceShow extends Component
 
     public function render()
     {
+        $this->filerPayment = 1;
+
         return view('backend.store.box.box-history-finance-show',[
-            'finances' => $this->cash->finances()->orderBy('created_at', 'DESC')->paginate($this->limitPerPage),
+            'cash_finances' => $this->cash,
+            'finances' => 
+                $this->cash->finances()->with('user', 'payment', 'order')
+                ->orderBy('created_at', 'DESC')->paginate($this->limitPerPage),
         ]);
     }
 }

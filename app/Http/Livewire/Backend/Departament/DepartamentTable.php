@@ -34,7 +34,7 @@ class DepartamentTable extends Component
 
     protected $listeners = ['delete' => '$refresh', 'restore' => '$refresh'];
 
-    public $name, $email, $comment;
+    public $name, $email, $comment, $is_enabled, $is_disabled;
 
     public $created, $updated, $deleted, $selected_id;
 
@@ -130,7 +130,6 @@ class DepartamentTable extends Component
         ]);
     }
 
-
     public function edit($id)
     {
         $record = Departament::findOrFail($id);
@@ -146,6 +145,7 @@ class DepartamentTable extends Component
         $this->name = $record->name;
         $this->email = $record->email;
         $this->comment = $record->comment;
+        $this->is_enabled = $record->is_enabled_departament;
         $this->created = $record->created_at;
         $this->updated = $record->updated_at;
     }
@@ -215,12 +215,36 @@ class DepartamentTable extends Component
         ]);
     }
 
-    public function delete($id)
+    public function enable(Departament $departament)
     {
-        if($id){
-            $color = Departament::where('id', $id);
-            $color->delete();
-        }
+        if($departament)
+            $departament->update([
+                'is_enabled' => true
+            ]);
+
+       $this->emit('swal:alert', [
+            'icon' => 'success',
+            'title'   => __('Enabled'), 
+        ]);
+    }
+
+    public function disable(Departament $departament)
+    {
+        if($departament)
+            $departament->update([
+                'is_enabled' => false
+            ]);
+
+       $this->emit('swal:alert', [
+            'icon' => 'success',
+            'title'   => __('Disabled'), 
+        ]);
+    }
+
+    public function delete(Departament $departament)
+    {
+        if($departament)
+            $departament->delete();
 
        $this->emit('swal:alert', [
             'icon' => 'success',
