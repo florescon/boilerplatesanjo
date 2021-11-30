@@ -3,7 +3,7 @@
 			<div class="row align-items-center">
 				<div class="col-md-6">
 					<div class="page-header-title">
-						<h5 class="m-b-10"> {{ now()->format('l jS \of F') }}</h5>
+						<h5 class="m-b-10"> {{ ucfirst(now()->monthName).' '.now()->format('j, Y') }}</h5>
 						<p class="m-b-0">@lang('Welcome to daily cash closing panel') {{ Auth::user()->name }}</p>
 					</div>
 				</div>

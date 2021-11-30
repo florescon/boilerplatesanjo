@@ -87,11 +87,11 @@
 
           </div>
 
-            <br>
-            <br>
-
-            &nbsp;
-            <div class="page-header-subtitle">@lang('Filter by created date range')</div>
+            <div class="page-header-subtitle mt-5 mb-2">
+              <em>
+                @lang('Filter by created date range')
+              </em>
+            </div>
 
             <div class="row input-daterange">
                 <div class="col-md-2">
@@ -178,7 +178,7 @@
           </div><!--row-->
 
 
-        	<table class="table table-responsive-sm table-hover table-outline mb-0">
+        	<table class="table table-responsive-sm table-hover table-outline mb-0 shadow">
         		<thead class="thead-dark">
         			<tr>
         				<th></th>

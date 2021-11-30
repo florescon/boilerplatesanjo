@@ -53,6 +53,24 @@ class Cash extends Model
         return $this->finances->where('type', FinanceType::EXPENSE);
     }
 
+    public function getTotalIncomesLabelAttribute()
+    {
+        if($this->incomes->count()){
+            return "<span class='badge badge-primary'>".__('Incomes').': &nbsp;'.$this->incomes->count().'</span>';
+        }
+
+        return '';
+    }
+
+    public function getTotalExpensesLabelAttribute()
+    {
+        if($this->expenses->count()){
+            return "<span class='badge badge-danger'>".__('Expenses').': &nbsp;'.$this->expenses->count().'</span>';
+        }
+
+        return '';
+    }
+
     public function getAmountIncomesAttribute()
     {
         return $this->incomes->sum('amount');

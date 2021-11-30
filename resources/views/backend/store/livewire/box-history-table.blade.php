@@ -23,7 +23,11 @@
                 </div>
             </div>
 
-            <div class="page-header-subtitle mt-2">@lang('Filter by created date range')</div>
+            <div class="page-header-subtitle mt-5 mb-2">
+              <em>
+                @lang('Filter by update date range')
+              </em>
+            </div>
 
             <div class="row input-daterange">
                 <div class="col-md-2">
@@ -103,7 +107,7 @@
           </div><!--row-->
 
 
-        	<table class="table table-responsive-sm table-hover table-outline mb-0">
+        	<table class="table table-responsive-sm table-hover table-outline mb-0 shadow">
         		<thead class="thead-dark">
         			<tr>
         				<th>
@@ -118,7 +122,7 @@
                     @include('backend.includes._sort-icon', ['field' => 'title'])
                   </a>
                 </th>
-                <th class="text-center">@lang('Comment')</th>
+                <th class="text-center">@lang('Details')</th>
         				<th class="text-center">@lang('Initial')</th>
                 <th class="text-center">@lang('Total cash')</th>
                 <th class="text-center">@lang('Balance')</th>
@@ -138,15 +142,19 @@
         				</td>
         				<td class="text-center">
                   <x-utils.undefined :data="Str::limit($cash->comment, 60)"/>
+                  <p>
+                    {!! $cash->total_incomes_label !!}
+                    {!! $cash->total_expenses_label !!}
+                  </p>
         				</td>
                 <td class="text-center">
                   ${{ $cash->initial }}
                 </td>
                 <td class="text-center">
-                  ${{ $cash->total_amount_cash_finances }}
+                  ${{ number_format($cash->total_amount_cash_finances, 2) }}
                 </td>
                 <td class="text-center">
-                  ${{ $cash->daily_cash_closing }}
+                  ${{ number_format($cash->daily_cash_closing, 2) }}
                 </td>
                 <td>
                   <div class="small text-muted"></div><strong>{{ $cash->date_diff_for_humans_checked }}</strong>

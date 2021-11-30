@@ -16,11 +16,11 @@ background: linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(148,233,202,1) 1
     <a href="#" class="card-header-action" style="color: green;"  data-toggle="modal" wire:click="createmodal()" data-target="#exampleModal"><i class="c-icon cil-plus"></i> @lang('Create color') </a>
   </div>
 
-    <br>
-    <br>
-
-    &nbsp;
-    <div class="page-header-subtitle">@lang('Filter by update date range')</div>
+    <div class="page-header-subtitle mt-5 mb-2">
+      <em>
+        @lang('Filter by update date range')
+      </em>
+    </div>
 
     <div class="row input-daterange">
         <div class="col-md-3">

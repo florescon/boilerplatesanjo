@@ -15,8 +15,8 @@
 	<div class="pcoded-inner-content">
 		<div class="main-body">
 			<div class="page-wrapper">
-				<div class="alert alert-success text-center py-4" role="alert">
-				  <a href="{{ route('admin.store.box.history') }}" class="alert-link">@lang('Go to daily cash closings')</a>
+				<div class="alert alert-light text-center py-4 shadow-lg rounded mb-5" role="alert">
+				  <a href="{{ route('admin.store.box.history') }}" class="btn btn-success shadow">@lang('Go to daily cash closings')</a>
 				</div>
 				<div class="page-body">
 					<div class="row">

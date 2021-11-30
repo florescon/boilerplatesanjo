@@ -705,6 +705,8 @@
     "No orders were found matching your selection": "No se encontraron órdenes que coincidan con su selección",
     "No incomes and expenses were found matching your selection": "No se encontraron ingresos y egresos que coincidan con su selección",
     "Payment method": "Método de pago", 
+    "Payment methods": "Métodos de pago",
+    "Select payment method to filter": "Seleccionar método de pago para filtrar", 
     "Choose payment method": "Elegir método de pago",
     "undefined payment": "pago no definido",
     "undefined order/sale": "orden/venta no definida",
