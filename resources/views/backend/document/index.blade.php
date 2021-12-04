@@ -1,22 +1,22 @@
 @extends('backend.layouts.app')
 
-@section('title', __('Departament'))
+@section('title', __('Document'))
 
 @section('content')
 
-    <livewire:backend.departament.departament-table />
+    <livewire:backend.document.document-table />
 
 @endsection
 
 @push('after-scripts')
     <script type="text/javascript">
-      Livewire.on("departamentStore", () => {
+      Livewire.on("documentStore", () => {
           $("#exampleModal").modal("hide");
       });
     </script>
 
     <script type="text/javascript">
-      Livewire.on("departamentUpdate", () => {
+      Livewire.on("documentUpdate", () => {
           $("#updateModal").modal("hide");
       });
     </script>

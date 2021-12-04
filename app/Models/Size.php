@@ -37,7 +37,6 @@ class Size extends Model
         ;
     }
 
-
     public function product(): HasMany
     {
         return $this->hasMany(Product::class, 'size_id')->with('parent')
@@ -99,8 +98,7 @@ class Size extends Model
      */
     protected $fillable = [
         'name',
-        'short_name',
         'slug',
+        'short_name',
     ];
-
 }

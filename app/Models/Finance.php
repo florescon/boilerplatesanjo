@@ -15,7 +15,6 @@ class Finance extends Model
 {
     use HasFactory, SoftDeletes, FinanceScope, DateScope;
 
-
     /**
      * The attributes that are mass assignable.
      *
@@ -29,10 +28,28 @@ class Finance extends Model
         'comment',
         'ticket_text',
         'type',
+        'date_entered',
         'payment_method_id',
         'audi_id',
         'cash_id',
     ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'amount' => 'decimal:2',
+        'from_store' => 'boolean',
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['date_entered'];
 
     /**
      * @return mixed
@@ -141,6 +158,14 @@ class Finance extends Model
     }
 
     /**
+     * @return bool
+     */
+    public function isFromStore(): bool
+    {
+        return $this->from_store;
+    }
+
+    /**
      * Determine if on finance is in income type.
      *
      * @return bool
@@ -187,5 +212,4 @@ class Finance extends Model
     {
         return $this->created_at->diffForHumans();
     }
-
 }

@@ -85,7 +85,7 @@
 	          <thead style="color: #0061f2;">
 	            <tr>
 	              <th scope="col">
-	              	@lang('Folio')
+	              	f.º
 	              </th>
 	              <th scope="col">
 	              	@lang('User')
@@ -94,7 +94,7 @@
                   @lang('Comment')
                 </th>
                 <th scope="col">
-                  @lang('Approved')
+                  @lang('Information')
                 </th>
                 <th scope="col">
                   @lang('Status')
@@ -127,9 +127,10 @@
 
 	                </td>
 		              <td class="align-middle">
-		                <span class="badge badge-dot mr-4">
+		                <span class="badge badge-dot">
 		                  <i class="bg-warning"></i> {{ $order->date_for_humans }}
 		                </span>
+		                {!! $order->date_diff_for_humans_created !!}
 		              </td>
 	                <td>
 	                	{!! $order->type_order !!}

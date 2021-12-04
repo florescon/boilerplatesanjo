@@ -160,6 +160,8 @@
 
 							    <livewire:backend.cart.user-cart :clear="true"/>
 								
+					        	@error('user') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+
 								<div class="form-group row">
 								    <div class="col-sm-12 text-center">
 								    	ó
@@ -167,13 +169,23 @@
 								</div><!--form-group-->
 
 							    <livewire:backend.departament.select-departaments :clear="true"/>
+						        @error('departament') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
 							  </div>
 							</div>
 
+							<div class="form-group row" wire:ignore>
+							    <label for="payment" class="col-sm-3 col-form-label">@lang('Payment')</label>
+							    <div class="col-sm-9" >
+									<input class="form-control" wire:model.defer="payment" type="number" step="any" id="payment" />
+							    </div>
+							</div><!--form-group-->
+
+					        @error('payment') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+
 		                    <livewire:backend.setting.select-payment-method/>
 					         
-					        @error('payment') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+					        @error('payment_method') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
                         </div>
                     </div>

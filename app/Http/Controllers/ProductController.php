@@ -10,7 +10,6 @@ use Exception;
 
 class ProductController extends Controller
 {
-
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -33,7 +32,6 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
-
     	if($product->isChildren()){
     		abort(401);
     	}
@@ -41,10 +39,8 @@ class ProductController extends Controller
         return view('backend.product.edit-product', compact('product'));
     }
 
-
     public function advanced(Product $product)
     {
-
         if($product->isChildren()){
             abort(404);
         }
@@ -55,7 +51,6 @@ class ProductController extends Controller
 
     public function prices(Product $product)
     {
-
         if($product->isChildren()){
             abort(404);
         }
@@ -66,7 +61,6 @@ class ProductController extends Controller
 
     public function pictures(Product $product)
     {
-
         if($product->isChildren()){
             abort(404);
         }
@@ -77,7 +71,6 @@ class ProductController extends Controller
 
     public function moveStock(Product $product)
     {
-
         if($product->isChildren()){
             abort(404);
         }
@@ -126,7 +119,6 @@ class ProductController extends Controller
 
         DB::commit();
 
-
         return redirect()->back()->withFlashSuccess(__('Updated codes'));
     }
 
@@ -157,6 +149,4 @@ class ProductController extends Controller
         $data = Product::with('children')->where('name', 'like', '%' . $search . '%')->orderBy('name')->paginate(5);
         return response()->json(['products' => $data->toArray()['data'], 'pagination' => $data->nextPageUrl() ? true : false]);
     }
-
-
 }

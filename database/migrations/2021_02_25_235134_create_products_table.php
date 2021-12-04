@@ -26,9 +26,10 @@ class CreateProductsTable extends Migration
             $table->double('stock_store')->default(0);
             $table->string('file_name')->nullable();
             $table->longText('description')->nullable();
-            $table->unsignedInteger('line_id')->nullable();
-            $table->unsignedInteger('color_id')->nullable();
-            $table->unsignedInteger('size_id')->nullable();
+            $table->unsignedBigInteger('color_id')->nullable();
+            $table->unsignedBigInteger('size_id')->nullable();
+            $table->unsignedBigInteger('line_id')->nullable();
+            $table->unsignedBigInteger('brand_id')->nullable();
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->double('discount')->default(0);
             $table->tinyInteger('sort')->default(1);

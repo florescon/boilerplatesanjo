@@ -4,7 +4,6 @@ namespace App\Models;
 
 class FinanceType
 {
-
     /**
      * Finances that has been income..
      */

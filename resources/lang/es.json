@@ -704,6 +704,7 @@
     "to return": "regresar",
     "No orders were found matching your selection": "No se encontraron órdenes que coincidan con su selección",
     "No incomes and expenses were found matching your selection": "No se encontraron ingresos y egresos que coincidan con su selección",
+    "Payment": "Pago", 
     "Payment method": "Método de pago", 
     "Payment methods": "Métodos de pago",
     "Select payment method to filter": "Seleccionar método de pago para filtrar", 
@@ -711,5 +712,18 @@
     "undefined payment": "pago no definido",
     "undefined order/sale": "orden/venta no definida",
     "undefined user": "usuario no definido",
-    "Custom": "Personalizado"
+    "Custom": "Personalizado",
+    "Document": "Documento",
+    "Documents": "Documentos",
+    "File DST": "Archivo DST",
+    "File EMB": "Archivo EMB",
+    "Document Management": "Gestión de documentos",
+    "List of documents": "Lista de documentos",
+    "List of deleted documents": "Lista de documentos eliminados",
+    "Create document": "Crear documento",
+    "Update document": "Actualizar documento",
+    "Date entered": "Fecha ingresada",
+    "Download": "Descargar",
+    "Download DST": "Descargar DST",
+    "Download EMB": "Descargar EMB"
 }

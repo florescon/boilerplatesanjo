@@ -2,7 +2,7 @@
 	<table class="table">
 	  <thead class="thead-light">
 	    <tr>
-	      <th scope="col">#</th>
+	      <th scope="col">f.º</th>
 	      <th scope="col">@lang('User')</th>
 	      <th scope="col">@lang('Comment')</th>
 	      <th scope="col">@lang('Type')</th>

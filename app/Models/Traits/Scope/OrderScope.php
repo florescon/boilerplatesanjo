@@ -66,5 +66,4 @@ trait OrderScope
     {
         return $query->where('from_store', true)->whereNull('cash_id');
     }   
-
 }

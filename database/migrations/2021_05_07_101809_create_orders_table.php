@@ -27,6 +27,7 @@ class CreateOrdersTable extends Migration
             $table->boolean('from_store')->nullable();
             $table->unsignedBigInteger('cash_id')->nullable();
             $table->boolean('approved')->default(false);
+            $table->string('status_delivery', 32);
             $table->tinyInteger('type')->nullable();
             $table->softDeletes();
             $table->timestamps();

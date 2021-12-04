@@ -34,6 +34,10 @@
       <input wire:model="comment" type="text" class="form-control"/>
       @error('comment') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
+      <label class="mt-2">@lang('Date')</label>
+      <input wire:model="date" type="date" class="form-control"/>
+      @error('date') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+
       <label class="mt-2">@lang('Ticket text')</label>
       <input wire:model="ticket_text" type="text" class="form-control"/>
       @error('ticket_text') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror

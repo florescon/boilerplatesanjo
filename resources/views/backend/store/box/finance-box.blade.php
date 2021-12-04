@@ -3,7 +3,7 @@
 		<table class="table">
 		  <thead class="thead-dark">
 		    <tr>
-		      <th scope="col">#</th>
+		      <th scope="col">f.º</th>
 		      <th scope="col">@lang('Name')</th>
 		      <th scope="col">@lang('Amount')</th>
 		      <th scope="col">@lang('Comment')</th>

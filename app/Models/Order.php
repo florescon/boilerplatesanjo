@@ -11,6 +11,8 @@ use App\Models\Traits\Scope\OrderScope;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\OrderStatusPayment;
+use App\Models\OrderStatusDelivery;
 
 class Order extends Model
 {
@@ -29,6 +31,7 @@ class Order extends Model
      * @var array
      */
     protected $casts = [
+        'date_entered' => 'date',
         'automatic_production' => 'boolean',
         'from_store' => 'boolean',
         'approved' => 'boolean',
@@ -48,6 +51,13 @@ class Order extends Model
             ]
         ];
     }
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['date_entered'];
 
     public function getFullSlugAttribute(): string
     {
@@ -315,11 +325,16 @@ class Order extends Model
 
     public function getDateForHumansAttribute()
     {
-        return $this->updated_at->format('M, d Y');
+        return $this->created_at->format('M, d Y');
+    }
+
+    public function getDateDiffForHumansCreatedAttribute()
+    {
+        return "<span class='badge badge-danger'>".$this->created_at->diffForHumans(null, false, false, 2).'</span>';
     }
 
     public function getDateDiffForHumansAttribute()
     {
-        return $this->updated_at->diffForHumans();
+        return $this->created_at->diffForHumans();
     }
 }

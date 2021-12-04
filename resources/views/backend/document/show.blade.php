@@ -1,9 +1,9 @@
 <!-- Modal Show -->
 <div wire:ignore.self  class="modal fade" id="showModal" tabindex="-1" role="dialog" aria-labelledby="showModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="showModalLabel">@lang('View departament')</h5>
+        <h5 class="modal-title" id="showModalLabel">@lang('View document')</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -12,15 +12,21 @@
           <table class="table">
             <tbody>
               <tr>
-                <th scope="row">@lang('Name')</th>
+                <th scope="row">@lang('Title')</th>
                 <td>
-                  {{ $name }}
+                  {{ $title }}
                 </td>
               </tr>
               <tr>
-                <th scope="row">@lang('Email')</th>
+                <th scope="row">@lang('File DST')</th>
                 <td>          
-                  {{ $email }}
+                  {!! $file_dst !!}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">@lang('File EMB')</th>
+                <td>          
+                  {!! $file_emb !!}
                 </td>
               </tr>
               <tr>

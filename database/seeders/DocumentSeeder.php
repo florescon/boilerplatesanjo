@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Departament;
+use App\Models\Document;
 use Illuminate\Database\Seeder;
 use Database\Seeders\Traits\DisableForeignKeys;
 
-class DepartamentSeeder extends Seeder
+class DocumentSeeder extends Seeder
 {
     use DisableForeignKeys;
 
@@ -20,7 +20,7 @@ class DepartamentSeeder extends Seeder
         $this->disableForeignKeys();
 
         if (app()->environment() !== 'production') {
-            Departament::factory()->times(100)->create();
+            Document::factory()->times(20)->create();
         }
 
         $this->enableForeignKeys();

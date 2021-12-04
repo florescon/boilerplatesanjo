@@ -54,7 +54,7 @@
             </div>
             @if($expenses == TRUE)
               <ul class="list-group list-group-flush text-center">
-                <li class="list-group-item">@lang('Quantity'):</li>
+                <li class="list-group-item">@lang('Quantity'): {{ $finances->total() }}</li>
               </ul>
               {{-- <small class="text-muted"> {{ $finances->total() }} </small> --}}
             @endif
@@ -181,7 +181,7 @@
         	<table class="table table-responsive-sm table-hover table-outline mb-0 shadow">
         		<thead class="thead-dark">
         			<tr>
-        				<th></th>
+        				<th>f.º</th>
                 <th>@lang('Name')</th>
         				<th class="text-center">@lang('Amount')</th>
                 <th class="text-center">@lang('User')/@lang('Associated order')/@lang('Daily cash closing')</th>
@@ -196,10 +196,15 @@
               @foreach($finances as $finance)
         			<tr>
                 <td>
+                  #{{ $finance->id }}
                 </td>
         				<td>
         					<div> {{ $finance->name }} </div>
-        					<div class="small text-muted">@lang('Registered'): {{ $finance->date_for_humans_created }}</div>
+        					<div class="small text-muted">@lang('Date entered'): 
+                    <strong>
+                      {{ $finance->date_entered->format('d-m') }}
+                    </strong>
+                  </div>
         				</td>
         				<td class="text-center {{ $finance->finance_text }}">
                   ${{ $finance->amount }}

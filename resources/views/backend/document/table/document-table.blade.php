@@ -2,7 +2,7 @@
     <style>
       .table-striped>tbody>tr:nth-child(odd)>td, 
       .table-striped>tbody>tr:nth-child(odd)>th {
-       background-color: #BEFFDF;
+       background-color: #ffcccc;
       }
       .table-striped>tbody>tr:nth-child(even)>td, 
       .table-striped>tbody>tr:nth-child(even)>th {
@@ -16,19 +16,19 @@
 
 <div class="card shadow-lg p-3 mb-5 bg-white rounded ">
 
-  @include('backend.departament.create')
-  @include('backend.departament.show')
-  @include('backend.departament.update')
+  @include('backend.document.create')
+  @include('backend.document.show')
+  @include('backend.document.update')
 
-  <div class="card-header" style="background-color:#E6F3ED;">
+  <div class="card-header" style="background-color:#ffffcc;">
     @if($deleted)
-      <strong style="color: red;"> @lang('List of deleted departaments') </strong>
+      <strong style="color: red;"> @lang('List of deleted documents') </strong>
     @else
-      <strong style="color: #0061f2;"> @lang('List of departaments') </strong>
+      <strong style="color: black;"> @lang('List of documents') </strong>
     @endif
     <div class="card-header-actions">
        <em> Última petición: {{ now()->format('h:i:s') }} </em>
-      <a href="#" class="card-header-action" style="color: green;" data-toggle="modal" wire:click="createmodal()" data-target="#exampleModal"><i class="c-icon cil-plus"></i> @lang('Create departament') </a>
+      <a href="#" class="card-header-action" style="color: green;" data-toggle="modal" wire:click="createmodal()" data-target="#exampleModal"><i class="c-icon cil-plus"></i> @lang('Create document') </a>
     </div>
 
     <div class="row justify-content-md-end">
@@ -74,7 +74,7 @@
       </div>
     </div>
 
-    @if($selected && $departaments->count() && !$deleted)
+    @if($selected && $documents->count() && !$deleted)
     <div class="dropdown table-export">
       <button class="dropdown-toggle btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         @lang('Export')        
@@ -98,10 +98,10 @@
 @if($selectPage)
 <x-utils.alert type="primary">
   @unless($selectAll)
-  <span>Tienes seleccionado <strong>{{ $departaments->count() }}</strong> departamentos, ¿quieres seleccionar  <strong>{{ $departaments->total() }} </strong> departamentos?</span>
+  <span>Tienes seleccionado <strong>{{ $documents->count() }}</strong> documentos, ¿quieres seleccionar  <strong>{{ $documents->total() }} </strong> documentos?</span>
     <a href="#" wire:click="selectAll" class="alert-link">Seleccionar todo</a>
   @else
-    <span>Actualmente seleccionaste <strong>{{ $departaments->total() }}</strong> departamentos.</span>
+    <span>Actualmente seleccionaste <strong>{{ $documents->total() }}</strong> documentos.</span>
   @endif
 </x-utils.alert>
 @endif
@@ -109,7 +109,7 @@
   <div class="row mt-4">
     <div class="col">
       <div class="table-responsive">
-        <table class="table table-sm align-items-center table-striped table-flush table-bordered table-hover">
+        <table class="table table-sm align-items-center table-striped table-flush  table-hover">
           <thead style="
           " class="thead-dark">
             <tr>
@@ -122,68 +122,72 @@
                 </th>
               @endif
               <th scope="col">
-                <a style="color:white;" wire:click.prevent="sortBy('name')" role="button" href="#">
-                  @lang('Name')
-                  @include('backend.includes._sort-icon', ['field' => 'name'])
+                <a style="color:white;" wire:click.prevent="sortBy('title')" role="button" href="#">
+                  @lang('Title')
+                  @include('backend.includes._sort-icon', ['field' => 'title'])
                 </a>
               </th>
-              <th scope="col">@lang('Email')</th>
+              <th scope="col">@lang('File DST')</th>
+              <th scope="col">@lang('File EMB')</th>
               <th scope="col">@lang('Comment')</th>
               <th scope="col">@lang('Updated at')</th>
               <th scope="col" style="width:90px; max-width: 90px;">@lang('Actions')</th>
             </tr>
           </thead>
           <tbody>
-            @foreach($departaments as $departament)
+            @foreach($documents as $document)
             <tr>
               @if(!$deleted)
                 <td>
                   <label class="form-checkbox">
-                      <input type="checkbox" wire:model="selected" value="{{ $departament->id }}">
+                      <input type="checkbox" wire:model="selected" value="{{ $document->id }}">
                     <i class="form-icon"></i>
                     </label>
                 </td>
               @endif
               <th scope="row">
-                  <div> {{ $departament->name }} </div>
-                  <div class="small text-muted">@lang('Registered'): {{ $departament->date_for_humans_created }}</div>
+                  <div> {{ $document->title }} </div>
+                  <div class="small text-muted">@lang('Registered'): {{ $document->date_for_humans_created }}</div>
                   <div>
-                    {!! $departament->is_disabled !!}
+                    {!! $document->is_disabled !!}
                   </div>
               </th>
               <td>
-                {{ $departament->email }}
+                {!! $document->download_dst !!}
               </td>
               <td>
-                <x-utils.undefined :data="$departament->comment"/>
+                {!! $document->download_emb !!}
               </td>
               <td>
-                {{ $departament->updated_at }}
+                <x-utils.undefined :data="$document->comment"/>
+              </td>
+              <td>
+                {{ $document->updated_at }}
               </td>
               <td>
                 <div class="btn-group" role="group" aria-label="Basic example">
 
-                    <button type="button" data-toggle="modal" data-target="#showModal" wire:click="show({{ $departament->id }})" class="btn btn-transparent-dark">
+                    <button type="button" data-toggle="modal" data-target="#showModal" wire:click="show({{ $document->id }})" class="btn btn-transparent-dark">
                         <i class='far fa-eye'></i>
                     </button>
 
-                  @if(!$departament->trashed())
+                  @if(!$document->trashed())
 
-                    <button type="button" data-toggle="modal" data-target="#updateModal" wire:click="edit({{ $departament->id }})" class="btn btn-transparent-dark">
+                    {{-- <button type="button" data-toggle="modal" data-target="#updateModal" wire:click="edit({{ $document->id }})" class="btn btn-transparent-dark">
                       <i class='far fa-edit'></i>
-                    </button>
+                    </button> --}}
 
                     <div class="dropdown">
                       <a class="btn btn-icon-only " href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           <i class="fas fa-ellipsis-v"></i>
                       </a>
                       <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                        @if($departament->is_enabled)
-                          <a class="dropdown-item" wire:click="disable({{ $departament->id }})">@lang('Disable')</a>
+                        @if($document->is_enabled)
+                          <a class="dropdown-item" wire:click="disable({{ $document->id }})">@lang('Disable')</a>
                         @else
-                          <a class="dropdown-item" wire:click="enable({{ $departament->id }})">@lang('Enable')</a>
+                          <a class="dropdown-item" wire:click="enable({{ $document->id }})">@lang('Enable')</a>
                         @endif
-                        <a class="dropdown-item" wire:click="delete({{ $departament->id }})">@lang('Delete')</a>
+                        <a class="dropdown-item" wire:click="delete({{ $document->id }})">@lang('Delete')</a>
                       </div>
                     </div>
 
@@ -193,7 +197,7 @@
                           <i class="fas fa-ellipsis-v"></i>
                       </a>
                       <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                        <a class="dropdown-item" href="#" wire:click="restore({{ $departament->id }})">
+                        <a class="dropdown-item" href="#" wire:click="restore({{ $document->id }})">
                           @lang('Restore')
                         </a>
                       </div>
@@ -207,15 +211,15 @@
           </tbody>
         </table>
 
-        @if($departaments->count())
+        @if($documents->count())
         <div class="row">
           <div class="col">
             <nav>
-              {{ $departaments->links() }}
+              {{ $documents->links() }}
             </nav>
           </div>
               <div class="col-sm-3 text-muted text-right">
-                Mostrando {{ $departaments->firstItem() }} - {{ $departaments->lastItem() }} de {{ $departaments->total() }} resultados
+                Mostrando {{ $documents->firstItem() }} - {{ $documents->lastItem() }} de {{ $documents->total() }} resultados
               </div>
         </div>
         @else

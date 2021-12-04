@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Cart extends Component
 {
-    public $cart, $inputedit, $comment, $sale, $user, $departament, $payment, $archive;
+    public $cart, $inputedit, $comment, $sale, $user, $departament, $payment, $payment_method, $archive;
 
     public bool $fromStore = false;
 
@@ -21,7 +21,10 @@ class Cart extends Component
     protected $listeners = ['selectPaymentMethod', 'selectedCompanyItem', 'selectedDeparament', 'cartUpdated' => '$refresh'];
 
     protected $rules = [
+        'user' => 'required_without:departament',
+        'departament' => 'required_without:user',
         'payment' => 'required_with:user,departament',
+        'payment_method' => 'required_with:user,departament',
     ];
 
     public function selectedCompanyItem($user)
@@ -34,12 +37,12 @@ class Cart extends Component
             $this->user = null;
     }
 
-    public function selectPaymentMethod($payment)
+    public function selectPaymentMethod($payment_method)
     {
-        if ($payment)
-            $this->payment = $payment;
+        if ($payment_method)
+            $this->payment_method = $payment_method;
         else
-            $this->payment = null;
+            $this->payment_method = null;
     }
 
     public function selectedDeparament($departament)
@@ -103,13 +106,17 @@ class Cart extends Component
             $this->validate();
         }
 
+        // dd('yasss');
+
+        // dd($this->payment);
+
         $cart = CartFacade::get()['products'];
         $cartSale = CartFacade::get()['products_sale'];
 
         $order = new Order();
         $order->user_id = $this->isVisible == true  ? null : $this->user;
         $order->departament_id = $this->isVisible == true  ? null : $this->departament;
-        $order->payment_method_id = $this->isVisible == true  ? null : $this->payment;
+        $order->payment_method_id = $this->isVisible == true  ? null : $this->payment_method;
         $order->comment = $this->comment;
         $order->date_entered = Carbon::now()->format('Y-m-d');
         $order->type = $this->defineType(count($cart), count($cartSale));

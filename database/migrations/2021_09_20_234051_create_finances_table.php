@@ -22,6 +22,8 @@ class CreateFinancesTable extends Migration
             $table->longText('comment')->nullable();
             $table->longText('ticket_text')->nullable();
             $table->string('type', 32);
+            $table->date('date_entered')->nullable();
+            $table->boolean('from_store')->nullable();
             $table->unsignedBigInteger('payment_method_id')->nullable();
             $table->unsignedBigInteger('audi_id')->nullable();
             $table->unsignedBigInteger('cash_id')->nullable();

@@ -112,7 +112,7 @@
         			<tr>
         				<th>
                   <a style="color:white;" wire:click.prevent="sortBy('id')" role="button" href="#">
-                    #
+                    f.º
                     @include('backend.includes._sort-icon', ['field' => 'id'])
                   </a>
                 </th>

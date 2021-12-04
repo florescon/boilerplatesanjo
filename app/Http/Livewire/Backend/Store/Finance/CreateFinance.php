@@ -5,15 +5,16 @@ namespace App\Http\Livewire\Backend\Store\Finance;
 use App\Models\Finance;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class CreateFinance extends Component
 {
-
     public bool $checkboxExpense = false;
     public ?string $name = null;
     public ?string $amount = null;
     public ?string $comment = null;
     public ?string $ticket_text = null;
+    public ?string $date = null;
 
     protected $listeners = ['createmodal'];
 
@@ -30,6 +31,7 @@ class CreateFinance extends Component
         $this->amount = '';
         $this->comment = '';
         $this->ticket_text = '';
+        $this->date = '';
     }
 
     public function createmodal()
@@ -46,10 +48,15 @@ class CreateFinance extends Component
     {
         $validatedData = $this->validate();
 
+        if($this->date){
+            // dd('sii');
+        }
+
         Finance::create([
             'name' => $this->name,
             'amount' => $this->amount,
             'comment' => $this->comment,
+            'date_entered' => $this->date ?: today(),
             'ticket_text' => $this->ticket_text,
             'type' => $this->checkboxExpense ? 'expense' : 'income',
             'audi_id' => Auth::id(),

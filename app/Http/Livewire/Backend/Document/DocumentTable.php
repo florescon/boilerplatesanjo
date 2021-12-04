@@ -1,21 +1,23 @@
 <?php
 
-namespace App\Http\Livewire\Backend\Departament;
+namespace App\Http\Livewire\Backend\Document;
 
 use Livewire\Component;
-use App\Models\Departament;
+use Livewire\WithFileUploads;
+use App\File;
+use App\Models\Document;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Livewire\Backend\DataTable\WithBulkActions;
 use App\Http\Livewire\Backend\DataTable\WithCachedRows;
 use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Response;
-use App\Exports\DepartamentsExport;
+use App\Exports\DocumentsExport;
 use Excel;
 
-class DepartamentTable extends Component
+class DocumentTable extends Component
 {
-    use Withpagination, WithBulkActions, WithCachedRows;
+    use Withpagination, WithBulkActions, WithCachedRows, WithFileUploads;
 
     protected $paginationTheme = 'bootstrap';
 
@@ -27,30 +29,29 @@ class DepartamentTable extends Component
 
     public $perPage = '10';
 
-    public $sortField = 'name';
+    public $sortField = 'title';
     public $sortAsc = true;
     
     public $searchTerm = '';
 
     protected $listeners = ['delete' => '$refresh', 'restore' => '$refresh'];
 
-    public $name, $email, $comment, $is_enabled, $is_disabled;
+    public $title, $file_emb, $file_dst, $email, $comment, $is_enabled, $is_disabled;
 
     public $created, $updated, $deleted, $selected_id;
 
     protected $rules = [
-        'name' => 'required|min:3',
-        'email' => 'required|email|min:3',
-        'comment' => 'sometimes|min:3',
+        'title' => 'required|min:3',
+        'file_dst' => 'sometimes|mimetypes:application/octet-stream|max:2048',
+        'file_emb' => 'sometimes|mimetypes:application/vnd.ms-office|max:2048',
     ];
 
     public function getRowsQueryProperty()
     {
         
-        return Departament::query()
+        return Document::query()
             ->where(function ($query) {
-                $query->where('name', 'like', '%' . $this->searchTerm . '%')
-                    ->orWhere('email', 'like', '%' . $this->searchTerm . '%')
+                $query->where('title', 'like', '%' . $this->searchTerm . '%')
                     ->orWhere('comment', 'like', '%' . $this->searchTerm . '%');
             })
             ->when($this->deleted, function ($query) {
@@ -77,7 +78,6 @@ class DepartamentTable extends Component
     {
         $this->page = 1;
     }
-
 
     public function updatedPerPage()
     {
@@ -117,14 +117,28 @@ class DepartamentTable extends Component
 
     public function store()
     {
+        // $yas = $this->file_emb->getMimeType();
+        // dd($yas);
+
         $validatedData = $this->validate();
 
-        Departament::create($validatedData);
+        if($this->file_dst || $this->file_emb) {
+            $date = date("Y-m-d");
+            $documentModel = new Document;
+            $fileDST = $this->file_dst ? $this->file_dst->store("documents/".$date,'public') : null;
+            $fileEMB = $this->file_emb ? $this->file_emb->store("documents/".$date,'public') : null;
+
+            $documentModel->title = $this->title;
+            $documentModel->file_dst = $this->file_dst ? $fileDST : null;
+            $documentModel->file_emb = $this->file_emb ? $fileEMB : null;
+            $documentModel->comment = $this->comment ?? null;
+            $documentModel->save();
+        }
 
         $this->resetInputFields();
-        $this->emit('departamentStore');
+        $this->emit('documentStore');
 
-       $this->emit('swal:alert', [
+        $this->emit('swal:alert', [
             'icon' => 'success',
             'title'   => __('Created'), 
         ]);
@@ -132,20 +146,22 @@ class DepartamentTable extends Component
 
     public function edit($id)
     {
-        $record = Departament::findOrFail($id);
+        $record = Document::findOrFail($id);
         $this->selected_id = $id;
-        $this->name = $record->name;
-        $this->email = $record->email;
+        $this->title = $record->title;
+        $this->file_dst = $record->file_dst;
+        $this->file_emb = $record->file_emb;
         $this->comment = $record->comment;
     }
 
     public function show($id)
     {
-        $record = Departament::withTrashed()->findOrFail($id);
-        $this->name = $record->name;
-        $this->email = $record->email;
+        $record = Document::withTrashed()->findOrFail($id);
+        $this->title = $record->title;
+        $this->file_dst = $record->file_dst_label;
+        $this->file_emb = $record->file_emb_label;
         $this->comment = $record->comment;
-        $this->is_enabled = $record->is_enabled_departament;
+        $this->is_enabled = $record->is_enabled_document;
         $this->created = $record->created_at;
         $this->updated = $record->updated_at;
     }
@@ -154,21 +170,24 @@ class DepartamentTable extends Component
     {
         $this->validate([
             'selected_id' => 'required|numeric',
-            'name' => 'required|min:3',
-            'email' => 'required|email|min:3',
+            'title' => 'required|min:3',
+            'file_dst' => 'sometimes|nullable|mimetypes:application/octet-stream|max:2048',
+            'file_emb' => 'sometimes|nullable|mimetypes:application/vnd.ms-office|max:2048',
             'comment' => 'sometimes',
         ]);
+
         if ($this->selected_id) {
-            $record = Departament::find($this->selected_id);
+            $record = Document::find($this->selected_id);
             $record->update([
-                'name' => $this->name,
-                'email' => $this->email,
+                'title' => $this->title,
+                'file_dst' => $this->file_dst ? $this->file_dst->store("documents",'public') : null,
+                'file_emb' => $this->file_emb ? $this->file_emb->store("documents",'public') : null,
                 'comment' => $this->comment
             ]);
             $this->resetInputFields();
         }
 
-        $this->emit('departamentUpdate');
+        $this->emit('documentUpdate');
 
        $this->emit('swal:alert', [
             'icon' => 'success',
@@ -176,11 +195,11 @@ class DepartamentTable extends Component
         ]);
     }
 
-
     private function resetInputFields()
     {
-        $this->name = '';
-        $this->email = '';
+        $this->title = '';
+        $this->file_emb = '';
+        $this->file_dst = '';
         $this->comment = '';
     }
 
@@ -188,23 +207,23 @@ class DepartamentTable extends Component
     {
         return response()->streamDownload(function () {
             echo $this->selectedRowsQuery->toCsv();
-        }, 'departament-list.csv');
+        }, 'document-list.csv');
     }
 
-    private function getSelectedDepartaments()
+    private function getSelectedDocuments()
     {
         return $this->selectedRowsQuery->get()->pluck('id')->map(fn($id) => (string) $id)->toArray();
     }
     public function exportMaatwebsite($extension)
     {   
         abort_if(!in_array($extension, ['csv', 'xlsx', 'pdf', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
-        return Excel::download(new DepartamentsExport($this->getSelectedDepartaments()), 'departaments.'.$extension);
+        return Excel::download(new DocumentsExport($this->getSelectedDocuments()), 'documents.'.$extension);
     }
 
     public function restore($id)
     {
         if($id){
-            $restore_color = Departament::withTrashed()
+            $restore_color = Document::withTrashed()
                 ->where('id', $id)
                 ->restore();
         }
@@ -215,10 +234,10 @@ class DepartamentTable extends Component
         ]);
     }
 
-    public function enable(Departament $departament)
+    public function enable(Document $document)
     {
-        if($departament)
-            $departament->update([
+        if($document)
+            $document->update([
                 'is_enabled' => true
             ]);
 
@@ -228,10 +247,10 @@ class DepartamentTable extends Component
         ]);
     }
 
-    public function disable(Departament $departament)
+    public function disable(Document $document)
     {
-        if($departament)
-            $departament->update([
+        if($document)
+            $document->update([
                 'is_enabled' => false
             ]);
 
@@ -241,10 +260,10 @@ class DepartamentTable extends Component
         ]);
     }
 
-    public function delete(Departament $departament)
+    public function delete(Document $document)
     {
-        if($departament)
-            $departament->delete();
+        if($document)
+            $document->delete();
 
        $this->emit('swal:alert', [
             'icon' => 'success',
@@ -254,8 +273,8 @@ class DepartamentTable extends Component
 
     public function render()
     {
-        return view('backend.departament.table.departament-table', [
-            'departaments' => $this->rows,
+        return view('backend.document.table.document-table', [
+            'documents' => $this->rows,
         ]);
     }
 }

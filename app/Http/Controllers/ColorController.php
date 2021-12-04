@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class ColorController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -48,5 +47,4 @@ class ColorController extends Controller
         $data = Color::select(['id', 'name'])->where('name', 'like', '%' . $search . '%')->orderBy('name')->paginate(5);
         return response()->json(['items' => $data->toArray()['data'], 'pagination' => $data->nextPageUrl() ? true : false]);
     }
-
 }

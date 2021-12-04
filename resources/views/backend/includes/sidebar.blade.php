@@ -248,6 +248,15 @@
         <li class="c-sidebar-nav-item">
             <x-utils.link
                 class="c-sidebar-nav-link"
+                :href="route('admin.document.index')"
+                :active="activeClass(Route::is('admin.document.*'), 'c-active')"
+                icon="c-sidebar-nav-icon cil-brightness"
+                :text="__('Documents')" />
+        </li>
+
+        <li class="c-sidebar-nav-item">
+            <x-utils.link
+                class="c-sidebar-nav-link"
                 :href="route('admin.status.index')"
                 :active="activeClass(Route::is('admin.status.*'), 'c-active')"
                 icon="c-sidebar-nav-icon cil-brightness"

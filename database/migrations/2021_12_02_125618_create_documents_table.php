@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSizesTable extends Migration
+class CreateDocumentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,14 @@ class CreateSizesTable extends Migration
      */
     public function up()
     {
-        Schema::create('sizes', function (Blueprint $table) {
+        Schema::create('documents', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->string('slug')->unique()->nullable();
-            $table->string('short_name')->unique()->nullable();
+            $table->string('title')->nullable();
+            $table->string('slug')->nullable();
+            $table->string('file_emb')->nullable();
+            $table->string('file_dst')->nullable();
+            $table->longText('comment')->nullable();
+            $table->boolean('is_enabled')->default(true);
             $table->softDeletes();
             $table->timestamps();
         });
@@ -30,6 +33,6 @@ class CreateSizesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sizes');
+        Schema::dropIfExists('documents');
     }
 }
