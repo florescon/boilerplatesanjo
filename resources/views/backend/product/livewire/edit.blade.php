@@ -90,9 +90,7 @@
 
 	                <x-input.input-alpine nameData="isEditing" :inputText="$isDescription" :originalInput="$origDescription" wireSubmit="savedescription" modelName="newDescription" />
 
-				    <br>
-
-			        <p class="card-text"><strong>@lang('Total stock'): </strong>{{ $model->total_stock }}</p>
+			        <p class="card-text mt-3"><strong>@lang('Total stock'): </strong>{{ $model->total_stock }}</p>
 			        <p class="card-text"><strong>@lang('Line'):</strong> 
 			            <x-utils.undefined :data="optional($model->line)->name"/>
 
@@ -105,13 +103,29 @@
 
 			                @if($line_id)
 						        <div x-show="show">
-				                	<a role="button" wire:click="saveLine" class="btn btn-sm btn-primary float-right mt-2 text-white" type="submit">@lang('Save')</a>
+				                	<a role="button" wire:click="saveLine" class="btn btn-sm btn-primary float-right mt-2 text-white" type="submit">@lang('Save line')</a>
 				                </div>
 			                @endif
 					    </div>
 			        </p>
 
+			        <p class="card-text"><strong>@lang('Brand'):</strong> 
+			            <x-utils.undefined :data="optional($model->brand)->name"/>
 
+					    <div x-data="{ show: false }" class="d-inline">
+					        <button class="btn btn-dark btn-sm " @click="show = !show"> {{ $model->brand_id ? __('Change brand') : __('Choose brand') }}</button>
+					        <div x-show="show" class="mt-2" wire:ignore>
+		                        <select id="brandselect" class="custom-select" style="width: 100%;" aria-hidden="true" >
+		                        </select>
+					        </div>
+
+			                @if($brand_id)
+						        <div x-show="show">
+				                	<a role="button" wire:click="saveBrand" class="btn btn-sm btn-primary float-right mt-2 text-white" type="submit">@lang('Save brand')</a>
+				                </div>
+			                @endif
+					    </div>
+			        </p>
 
 			        <p class="card-text"><strong>@lang('Price'): </strong>${{ $model->price }}</p>
 			        <p class="card-text"><strong>@lang('Updated at'): </strong>{{ $model->updated_at }}</p>
@@ -276,10 +290,8 @@
 				</div>
 				@endif
 
-				<br>
-
 				@if($model->children->count())
-  				<div class="row">
+  				<div class="row mt-2">
 	  				<div class="col-9">
 
 					<table class="table table-borderless">
@@ -351,12 +363,10 @@
 		        </div>
 				@endif
 
-				<br>
-
 				@if($model->children->count())
 
 				  	@foreach($model->children->sortBy('color.name')->groupBy('color_id') as $childrens)
-				    <div class="card card-box edit-product" style="{{ optional($childrens->first()->color)->color ? 'border: '. $childrens->first()->color->color. ' 3px solid' : '' }} ">
+				    <div class="card card-box edit-product mt-4" style="{{ optional($childrens->first()->color)->color ? 'border: '. $childrens->first()->color->color. ' 3px solid' : '' }} ">
 				      <div class="card-body">
 
 					    <h5 class="card-title">
@@ -661,7 +671,6 @@
       });
     </script>
 
-
     <script>
       $(document).ready(function() {
         $('#lineselect').select2({
@@ -706,6 +715,49 @@
       });
     </script>
 
+    <script>
+      $(document).ready(function() {
+        $('#brandselect').select2({
+          placeholder: '@lang("Choose brand")',
+          width: 'resolve',
+          theme: 'bootstrap4',
+          allowClear: true,
+          ajax: {
+                url: '{{ route('admin.brand.select') }}',
+                data: function (params) {
+                    return {
+                        search: params.term,
+                        page: params.page || 1
+                    };
+                },
+                dataType: 'json',
+                processResults: function (data) {
+                    data.page = data.page || 1;
+                    return {
+                        results: data.items.map(function (item) {
+                            return {
+                                id: item.id,
+                                text: item.name
+                            };
+                        }),
+                        pagination: {
+                            more: data.pagination
+                        }
+                    }
+                },
+                cache: true,
+                delay: 250,
+                dropdownautowidth: true
+            }
+          });
+
+          $('#brandselect').on('change', function (e) {
+            var data = $('#brandselect').select2("val");
+            @this.set('brand_id', data);
+          });
+
+      });
+    </script>
 
     {{-- <script>
     	document.querySelector(".button").addEventListener("click", function (e) {

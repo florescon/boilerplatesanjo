@@ -11,7 +11,7 @@
 
     <x-backend.card>
         <x-slot name="header">
-            <strong style="color: red;"> @lang('Deleted brand') </strong>  
+            <strong style="color: red;"> @lang('Deleted brands') </strong>  
         </x-slot>
 
         <x-slot name="headerActions">

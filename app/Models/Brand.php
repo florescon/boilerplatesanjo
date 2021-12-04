@@ -28,20 +28,7 @@ class Brand extends Model
 
     public function products(): HasMany
     {
-        return $this->hasMany(Product::class, 'brand_id')->with('parent')
-            ->whereHas('parent', function ($query) {
-                $query->whereNull('deleted_at');
-            })
-        ;
-    }
-
-    public function product(): HasMany
-    {
-        return $this->hasMany(Product::class, 'brand_id')->with('parent')
-            ->whereHas('parent', function ($query) {
-                $query->whereNull('deleted_at');
-            })->groupBy('parent_id')
-        ;
+        return $this->hasMany(Product::class, 'brand_id');
     }
 
     /**
@@ -52,7 +39,6 @@ class Brand extends Model
     public function getTotalVariantsAttribute() : int
     {
         return Product::where('parent_id', '<>', NULL)->count();
-
     }
 
     /**
@@ -63,16 +49,6 @@ class Brand extends Model
     public function getcountProductsAttribute() : int
     {
         return $this->products->count();
-    }
-
-    /**
-     * Count the number products.
-     *
-     * @return int
-     */
-    public function getcountProductAttribute() : int
-    {
-        return $this->product->count();
     }
 
     public function getTotalPercentageAttribute() 

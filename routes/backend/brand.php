@@ -25,13 +25,6 @@ Route::group([
         });
 
     Route::group(['prefix' => '{brand}'], function () {
-        Route::get('associates_sub', [BrandController::class, 'associates_sub'])
-            ->name('associates_sub')
-            ->breadcrumbs(function (Trail $trail, Brand $brand) {
-                $trail->parent('admin.brand.index', $brand)
-                    ->push(__('Associated subproducts of').' '.$brand->name, route('admin.brand.associates_sub', $brand));
-            });
-
         Route::get('associates', [BrandController::class, 'associates'])
             ->name('associates')
             ->breadcrumbs(function (Trail $trail, Brand $brand) {

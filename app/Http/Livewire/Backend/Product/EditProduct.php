@@ -11,7 +11,7 @@ class EditProduct extends Component
 {
     use WithFileUploads;
 
-    public $slug, $isCode, $code, $isName, $name, $isDescription, $origDescription, $newDescription, $increaseStock, $subtractStock, $increaseStockRevision, $subtractStockRevision, $increaseStockStore, $subtractStockStore, $inputincrease, $inputsubtract, $inputincreaserevision, $inputsubtractrevision, $inputincreasestore, $inputsubtractstore, $product_id, $color_id_select, $size_id_select, $photo, $imageName, $origPhoto, $colorss, $line_id;
+    public $slug, $isCode, $code, $isName, $name, $isDescription, $origDescription, $newDescription, $increaseStock, $subtractStock, $increaseStockRevision, $subtractStockRevision, $increaseStockStore, $subtractStockStore, $inputincrease, $inputsubtract, $inputincreaserevision, $inputsubtractrevision, $inputincreasestore, $inputsubtractstore, $product_id, $color_id_select, $size_id_select, $photo, $imageName, $origPhoto, $colorss, $line_id, $brand_id;
 
     public $colorsmultiple_id = [];
     public $sizesmultiple_id = [];
@@ -65,6 +65,12 @@ class EditProduct extends Component
     public function saveLine()
     {
         Product::whereId($this->product_id)->update(['line_id' => $this->line_id]);
+        return $this->redirectRoute('admin.product.edit', $this->product_id);
+    }
+
+    public function saveBrand()
+    {
+        Product::whereId($this->product_id)->update(['brand_id' => $this->brand_id]);
         return $this->redirectRoute('admin.product.edit', $this->product_id);
     }
 
@@ -230,7 +236,6 @@ class EditProduct extends Component
             'title'   => __('Saved photo'), 
         ]);
     }
-
 
     public function storemultiple()
     {

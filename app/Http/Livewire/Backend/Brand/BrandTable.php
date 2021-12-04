@@ -95,13 +95,9 @@ class BrandTable extends TableComponent
                 ->exportFormat(function(Brand $model) {
                     return $model->slug;
                 }),
-            Column::make('# '.__('Associated products'), 'count_product')
+            Column::make('# '.__('Associated products'), 'count_products')
                 ->format(function(Brand $model) {
-                    return $this->link(route('admin.brand.associates', $model->id), $model->count_product);
-                }),
-            Column::make('# '.__('Associated subproducts'), 'count_products')
-                ->format(function(Brand $model) {
-                    return $this->link(route('admin.brand.associates_sub', $model->id), $model->count_products);
+                    return $this->link(route('admin.brand.associates', $model->id), $model->count_products);
                 }),
             Column::make(__('Created at'), 'created_at')
                 ->searchable()

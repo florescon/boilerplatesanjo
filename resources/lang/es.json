@@ -344,6 +344,9 @@
 
     "Brand": "Marca",
     "Brands": "Marcas",
+    "Brand Management": "Administración de marcas",
+    "Save brand": "Guardar marca",
+    "Change brand": "Cambiar marca",
     "Choose brand": "Elegir marca",
     "Choose brands": "Elegir marcas",
     "Size already exists": "Marca ya existe",
@@ -355,6 +358,7 @@
 
     "Line": "Línea",
     "Lines": "Líneas",
+    "Save line": "Guardar línea",
     "Undefined line": "Línea no definida",
     "Change line": "Cambiar línea de producto",
     "Choose line": "Elegir línea de producto",

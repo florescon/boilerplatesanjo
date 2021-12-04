@@ -71,6 +71,13 @@ class Product extends Model
         return $this->belongsTo(Line::class)->withTrashed();
     }
 
+    /**
+     * Get the brand associated with the Product.
+     */
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class)->withTrashed();
+    }
     
     public function size()
     {

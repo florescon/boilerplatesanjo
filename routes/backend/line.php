@@ -24,7 +24,6 @@ Route::group([
                 ->push(__('Deleted lines'), route('admin.line.deleted'));
         });
 
-
     Route::group(['prefix' => '{line}'], function () {
         Route::get('associates', [LineController::class, 'associates'])
             ->name('associates')

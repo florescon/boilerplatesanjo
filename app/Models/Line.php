@@ -41,7 +41,6 @@ class Line extends Model
     public function getTotalVariantsAttribute() : int
     {
         return Product::where('parent_id', '<>', NULL)->count();
-
     }
 
     /**
@@ -57,7 +56,6 @@ class Line extends Model
     public function getTotalPercentageAttribute() 
     {
         return ($this->count_products * 100) / $this->total_variants;
-
     }
 
     /**
@@ -69,5 +67,4 @@ class Line extends Model
         'name',
         'slug',
     ];
-
 }
