@@ -1,4 +1,4 @@
- <?php
+<?php
 
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\CashController;

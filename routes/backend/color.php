@@ -1,9 +1,8 @@
- <?php
+<?php
 
 use App\Http\Controllers\ColorController;
 use App\Models\Color;
 use Tabuna\Breadcrumbs\Trail;
-
 
 Route::group([
     'prefix' => 'color',
@@ -33,7 +32,6 @@ Route::group([
                     ->push(__('Associates of').' '.$color->name, route('admin.color.associates', $color));
             });
     });
-
 });
 
 Route::get('select2-load-color', [ColorController::class, 'select2LoadMore'])->name('color.select');

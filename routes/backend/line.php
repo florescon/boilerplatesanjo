@@ -1,9 +1,8 @@
- <?php
+<?php
 
 use App\Http\Controllers\LineController;
 use App\Models\Line;
 use Tabuna\Breadcrumbs\Trail;
-
 
 Route::group([
     'prefix' => 'line',
@@ -34,8 +33,6 @@ Route::group([
                     ->push(__('Associates of').' '.$line->name, route('admin.line.associates', $line));
             });
     });
-
 });
-
 
 Route::get('select2-load-line', [LineController::class, 'select2LoadMore'])->name('line.select');

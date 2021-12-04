@@ -16,7 +16,6 @@ use Tabuna\Breadcrumbs\Trail;
 
 // Route::get('/cart' , App\Http\Livewire\Backend\Cart::class)->name('cart');
 
-
 Route::group([
     'prefix' => 'cart',
     'as' => 'cart.',

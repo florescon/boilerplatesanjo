@@ -16,5 +16,4 @@ Route::group([
             $trail->parent('admin.dashboard')
                 ->push(__('Document Management'), route('admin.document.index'));
         });
-
 });

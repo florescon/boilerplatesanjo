@@ -1,4 +1,4 @@
- <?php
+<?php
 
 use App\Http\Controllers\ClothController;
 use App\Models\Cloth;

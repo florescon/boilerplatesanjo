@@ -1,9 +1,8 @@
- <?php
+<?php
 
 use App\Http\Controllers\SizeController;
 use App\Models\Size;
 use Tabuna\Breadcrumbs\Trail;
-
 
 Route::group([
     'prefix' => 'size',
@@ -39,11 +38,7 @@ Route::group([
                 $trail->parent('admin.size.index', $size)
                     ->push(__('Associates of').' '.$size->name, route('admin.size.associates', $size));
             });
-
     });
-
-
-
 });
 
 Route::get('select2-load-size', [SizeController::class, 'select2LoadMore'])->name('size.select');

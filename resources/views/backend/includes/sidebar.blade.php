@@ -217,6 +217,15 @@
                 :text="__('Units')" />
         </li>
 
+        <li class="c-sidebar-nav-item">
+            <x-utils.link
+                class="c-sidebar-nav-link"
+                :href="route('admin.brand.index')"
+                :active="activeClass(Route::is('admin.brand.index'), 'c-active')"
+                icon="c-sidebar-nav-icon cil-color-fill"
+                :text="__('Brands')" />
+        </li>
+
         <li class="c-sidebar-nav-title">@lang('Others')</li>
 
         <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.setting.index.*') || Route::is('admin.auth.pages.*'), 'c-open c-show') }}">

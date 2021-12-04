@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class SizeController extends Controller
 {
-
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -52,5 +51,4 @@ class SizeController extends Controller
         $data = Size::select(['id', 'name'])->where('name', 'like', '%' . $search . '%')->orderBy('name')->paginate(5);
         return response()->json(['items' => $data->toArray()['data'], 'pagination' => $data->nextPageUrl() ? true : false]);
     }
-
 }

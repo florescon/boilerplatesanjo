@@ -22,7 +22,9 @@ class BrandFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->userName,
+            'website' => $this->faker->domainName,
+            'description' => $this->faker->realText(rand(10, 30)),
         ];
     }
 }

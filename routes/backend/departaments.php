@@ -16,7 +16,6 @@ Route::group([
             $trail->parent('admin.dashboard')
                 ->push(__('Departament Management'), route('admin.departament.index'));
         });
-
 });
 
 Route::get('select2-load-departament', [DepartamentController::class, 'select2LoadMore'])->name('departament.select');

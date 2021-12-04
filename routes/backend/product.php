@@ -1,9 +1,8 @@
- <?php
+<?php
 
 use App\Http\Controllers\ProductController;
 use App\Models\Product;
 use Tabuna\Breadcrumbs\Trail;
-
 
 Route::group([
     'prefix' => 'product',
@@ -85,13 +84,10 @@ Route::group([
         Route::delete('/', [ProductController::class, 'destroy'])->name('destroy');
     });
 
-
-
     Route::group(['prefix' => '{product}'], function () {
         Route::post('create-codes', [ProductController::class, 'createCodes'])
             ->name('create-codes');
     });
-
 
     Route::get('deleted', [ProductController::class, 'deleted'])
         ->name('deleted')

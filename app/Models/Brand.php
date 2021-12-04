@@ -26,6 +26,60 @@ class Brand extends Model
         'position',
     ];
 
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class, 'brand_id')->with('parent')
+            ->whereHas('parent', function ($query) {
+                $query->whereNull('deleted_at');
+            })
+        ;
+    }
+
+    public function product(): HasMany
+    {
+        return $this->hasMany(Product::class, 'brand_id')->with('parent')
+            ->whereHas('parent', function ($query) {
+                $query->whereNull('deleted_at');
+            })->groupBy('parent_id')
+        ;
+    }
+
+    /**
+     * Count the number products.
+     *
+     * @return int
+     */
+    public function getTotalVariantsAttribute() : int
+    {
+        return Product::where('parent_id', '<>', NULL)->count();
+
+    }
+
+    /**
+     * Count the number products.
+     *
+     * @return int
+     */
+    public function getcountProductsAttribute() : int
+    {
+        return $this->products->count();
+    }
+
+    /**
+     * Count the number products.
+     *
+     * @return int
+     */
+    public function getcountProductAttribute() : int
+    {
+        return $this->product->count();
+    }
+
+    public function getTotalPercentageAttribute() 
+    {
+        return ($this->count_products * 100) / $this->total_variants;
+    }
+
     /**
      * Return the sluggable configuration array for this model.
      *

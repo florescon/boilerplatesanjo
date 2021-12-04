@@ -1,9 +1,8 @@
- <?php
+<?php
 
 use App\Http\Controllers\StatusController;
 use App\Models\Status;
 use Tabuna\Breadcrumbs\Trail;
-
 
 Route::group([
     'prefix' => 'status',
@@ -18,15 +17,12 @@ Route::group([
                 ->push(__('Status Management'), route('admin.status.index'));
         });
 
-
     Route::get('deleted', [StatusController::class, 'deleted'])
         ->name('deleted')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.status.index')
                 ->push(__('Deleted statuses'), route('admin.status.deleted'));
         });
-
 });
-
 
 Route::get('select2-load-status', [StatusController::class, 'select2LoadMore'])->name('status.select');

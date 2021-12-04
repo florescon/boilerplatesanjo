@@ -1,9 +1,8 @@
- <?php
+<?php
 
 use App\Http\Controllers\UnitController;
 use App\Models\Unit;
 use Tabuna\Breadcrumbs\Trail;
-
 
 Route::group([
     'prefix' => 'unit',
@@ -24,10 +23,7 @@ Route::group([
             $trail->parent('admin.unit.index')
                 ->push(__('Deleted units'), route('admin.unit.deleted'));
         });
-
-
 });
-
 
 Route::get('select2-load-unit', [UnitController::class, 'select2LoadMore'])->name('unit.select');
 

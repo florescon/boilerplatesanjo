@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Livewire\Backend\Size;
+namespace App\Http\Livewire\Backend\Brand;
 
-use App\Models\Size;
+use App\Models\Brand;
 use Livewire\Component;
 
-class EditSize extends Component
+class EditBrand extends Component
 {
-    public $selected_id, $name, $short_name, $slug;
+    public $selected_id, $name, $website, $description, $slug;
 
     protected $listeners = ['edit'];
 
@@ -15,38 +15,39 @@ class EditSize extends Component
     {
         $this->resetInputFields();
 
-        $record = Size::withTrashed()->findOrFail($id);
+        $record = Brand::withTrashed()->findOrFail($id);
         $this->selected_id = $id;
         $this->name = $record->name;
-        $this->short_name = $record->short_name;
+        $this->website = $record->website;
         $this->slug = $record->slug;
+        $this->description = $record->description;
     }
 
     private function resetInputFields()
     {
         $this->resetValidation();
         $this->name = '';
-        $this->short_name = '';
+        $this->website = '';
     }
 
     public function update()
     {
         $this->validate([
             'selected_id' => 'required|numeric',
-            'name' => 'required|min:1',
-            'short_name' => 'required|min:1|max:6|unique:App\Models\Size,short_name,'.$this->selected_id,
+            'name' => 'required|min:1|max:30',
+            'website' => 'sometimes|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/'
         ]);
         if ($this->selected_id) {
-            $record = Size::find($this->selected_id);
+            $record = Brand::find($this->selected_id);
             $record->update([
                 'name' => $this->name,
-                'short_name' => $this->short_name,
+                'website' => $this->website,
             ]);
             // $this->resetInputFields();
         }
 
-        $this->emit('sizeUpdate');
-        $this->emitTo('backend.size.size-table', 'triggerRefresh');
+        $this->emit('brandUpdate');
+        $this->emitTo('backend.brand.brand-table', 'triggerRefresh');
 
        $this->emit('swal:alert', [
             'icon' => 'success',
@@ -54,9 +55,8 @@ class EditSize extends Component
         ]);
     }
 
-
     public function render()
     {
-        return view('backend.size.edit-size');
+        return view('backend.brand.edit-brand');
     }
 }

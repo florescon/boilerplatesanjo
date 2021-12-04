@@ -80,7 +80,6 @@ class Size extends Model
     public function getTotalPercentageAttribute() 
     {
         return ($this->count_products * 100) / $this->total_variants;
-
     }
 
     public function getUndefinedCodingAttribute(): ?string

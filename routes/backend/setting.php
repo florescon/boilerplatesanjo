@@ -26,7 +26,6 @@ Route::group([
             $trail->parent('admin.dashboard')
                 ->push(__('Pages Management'), route('admin.setting.pages'));
         });
-
 });
 
 Route::get('select2-load-payment-method', [PaymentMethodController::class, 'select2LoadMore'])->name('payments.select');

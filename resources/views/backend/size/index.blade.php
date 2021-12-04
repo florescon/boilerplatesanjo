@@ -33,18 +33,13 @@
         </x-slot>
     </x-backend.card>
 
-
-
-
     <livewire:backend.size.create-size />
     <livewire:backend.size.show-size />
     <livewire:backend.size.edit-size />
 
 @endsection
 
-
 @push('after-scripts')
-
     <script type="text/javascript">
       Livewire.on("sizeStore", () => {
           $("#createSize").modal("hide");
@@ -56,5 +51,4 @@
           $("#editSize").modal("hide");
       });
     </script>
-
 @endpush

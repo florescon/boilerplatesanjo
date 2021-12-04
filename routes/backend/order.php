@@ -5,7 +5,6 @@ use App\Models\Order;
 use App\Models\Status;
 use Tabuna\Breadcrumbs\Trail;
 
-
 Route::group([
     'prefix' => 'order',
     'as' => 'order.',
@@ -48,8 +47,6 @@ Route::group([
             $trail->parent('admin.order.index')
                 ->push(__('Deleted products'), route('admin.order.deleted'));
         });
-
-
 
     Route::group(['prefix' => '{order}'], function () {
         Route::get('edit', [OrderController::class, 'edit'])
@@ -126,6 +123,5 @@ Route::group([
 
         Route::delete('/', [OrderController::class, 'destroy'])->name('destroy');
     });
-
 
 });

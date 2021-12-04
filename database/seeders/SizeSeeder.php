@@ -8,7 +8,6 @@ use Database\Seeders\Traits\DisableForeignKeys;
 
 class SizeSeeder extends Seeder
 {
-
     use DisableForeignKeys;
 
     /**
@@ -25,6 +24,5 @@ class SizeSeeder extends Seeder
         }
 
         $this->enableForeignKeys();
-
     }
 }
