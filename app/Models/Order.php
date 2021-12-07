@@ -151,6 +151,22 @@ class Order extends Model
         return $this->parent_order_id;
     }
 
+    /**
+     * @return bool
+     */
+    public function isNullUserDepartament(): ?bool
+    {
+        return !$this->user_id && !$this->departament_id;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getExistUserDepartamentAttribute(): ?bool
+    {
+        return $this->isNullUserDepartament();
+    }
+
     public function getParentOrderAttribute(): ?string
     {
         if ($this->isChildren()) {
@@ -159,7 +175,6 @@ class Order extends Model
 
         return '';
     }
-
 
     public function payment(): BelongsTo
     {

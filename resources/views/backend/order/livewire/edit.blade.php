@@ -61,7 +61,7 @@
                   <br>
                   <div class="row">
                     <div class="col-6 col-lg-6">
-                      <x-input.input-alpine nameData="isDate" :inputText="$isDate" :originalInput="$isDate" wireSubmit="savedate" modelName="date_entered" maxlength="200" inputType="date" className=""/>
+                      <x-input.input-alpine nameData="isDate" :inputText="$isDate" :originalInput="$isDate" wireSubmit="savedate" modelName="date_entered" inputType="date" className=""/>
 
                     </div>
                     <div class="col-6 col-lg-6">
@@ -72,7 +72,7 @@
                   <div class="row">
                     <div class="col-12 col-lg-12">
                       {{-- {{ $model->comment }} --}}
-                      <x-input.input-alpine nameData="isComment" :inputText="$isComment" :originalInput="$isComment" wireSubmit="savecomment" modelName="comment" maxlength="200" className="" />
+                      <x-input.input-alpine nameData="isComment" :inputText="$isComment" :originalInput="$isComment" wireSubmit="savecomment" modelName="comment" maxlength="100" className="" />
                       @error('comment') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
                   </div>
@@ -94,7 +94,7 @@
                 </a> --}}
               </div>
               <div class="col-md-4 mb-3 text-left">
-                @if(!$model->user_id)
+                @if($model->exist_user_departament)
                   <a href="{{ route('admin.order.sub', $model->id) }}" style="color:purple;">
                     <p> @lang('I want to assign suborders') <i class="cil-library"></i></p> 
                   </a>

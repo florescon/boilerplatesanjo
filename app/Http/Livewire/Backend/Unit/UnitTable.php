@@ -91,7 +91,7 @@ class UnitTable extends TableComponent
                 ->searchable()
                 ->sortable()
                 ->format(function(Unit $model) {
-                    return $this->html($model->slug ? $model->slug : '<span class="badge badge-secondary">'.__('undefined').'</span>');
+                    return $this->html($model->slug ?: '<span class="badge badge-secondary">'.__('undefined').'</span>');
                 })
                 ->exportFormat(function(Unit $model) {
                     return $model->slug;
@@ -110,7 +110,7 @@ class UnitTable extends TableComponent
         ];
     }
 
-    public function delete($id)
+    public function delete(int $id)
     {
         if($id){
             $unit = Unit::where('id', $id);
@@ -124,7 +124,7 @@ class UnitTable extends TableComponent
         ]);
     }
 
-    public function restore($id)
+    public function restore(int $id)
     {
         if($id){
             $restore_unit = Unit::withTrashed()

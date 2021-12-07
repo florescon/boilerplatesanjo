@@ -138,7 +138,6 @@ class ColorTable extends Component
 
     public function updatedDeleted()
     {
-
         // $colors = Product::all();
 
         // foreach($colors as $color){
@@ -174,7 +173,7 @@ class ColorTable extends Component
         // session()->flash('message-success', __('The color was successfully created.'));
     }
 
-    public function edit($id)
+    public function edit(int $id)
     {
         $this->resetValidation();
 
@@ -186,7 +185,7 @@ class ColorTable extends Component
         $this->color = $record->color;
     }
 
-    public function show($id)
+    public function show(int $id)
     {
         $record = Color::withTrashed()->findOrFail($id);
         $this->name = $record->name;
@@ -226,7 +225,6 @@ class ColorTable extends Component
 
     private function resetInputFields()
     {
-
         $this->resetValidation();
         $this->name = '';
         $this->color = '';
@@ -251,9 +249,8 @@ class ColorTable extends Component
         return Excel::download(new ColorsExport($this->getSelectedColors()), 'colors.'.$extension);
     }
 
-    public function delete($id)
+    public function delete(int $id)
     {
-
         if($id){
             $color = Color::where('id', $id);
             $color->delete();
@@ -265,7 +262,7 @@ class ColorTable extends Component
         ]);
     }
 
-    public function restore($id)
+    public function restore(int $id)
     {
         if($id){
             $restore_color = Color::withTrashed()

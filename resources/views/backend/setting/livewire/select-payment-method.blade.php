@@ -1,7 +1,9 @@
 <div class="form-group row" wire:ignore>
-    <label for="paymentselect" class="col-sm-3 col-form-label">@lang('Payment method')</label>
-    <div class="col-sm-9" >
-		<select id="paymentselect"  class="custom-select" style="width: 100%;" aria-hidden="true">
+    @if(!$clear)
+        <label for="paymentselect" class="col-sm-3 col-form-label">@lang('Payment method')</label>
+    @endif
+    <div class="{{ $clear ? 'col-sm-12 text-center' : 'col-sm-9' }}" >
+		<select id="paymentselect" class="custom-select" style="width: 100%;" aria-hidden="true">
 		</select>
     </div>
 </div><!--form-group-->
@@ -42,7 +44,6 @@
                 dropdownautowidth: true
             }
           });
-
           $('#paymentselect').on('change', function (e) {
             var data = $('#paymentselect').select2("val");
             livewire.emit('selectPaymentMethod', data)

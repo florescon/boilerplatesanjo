@@ -42,7 +42,7 @@ class EditOrder extends Component
     private function initdate(Order $order)
     {
         $this->date_entered = $order->date_entered;
-        $this->isDate = $order->date_entered || empty($order) ? $order->date_entered : __('Define date');
+        $this->isDate = $order->date_entered || empty($order) ? $order->date_entered->format('d-m-Y') : __('Define date');
     }
 
     public function savecomment()

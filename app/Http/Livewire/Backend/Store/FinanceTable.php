@@ -43,7 +43,7 @@ class FinanceTable extends Component
 
     public $status;
 
-    protected $listeners = ['filter' => 'filter', 'delete', 'restore', 'triggerRefresh' => '$refresh'];
+    protected $listeners = ['filter' => 'filter', 'delete', 'restore', 'refreshFinanceTable' => '$refresh'];
 
     public $name, $short_name, $color, $secondary_color, $created, $updated, $selected_id, $deleted;
 
@@ -223,7 +223,7 @@ class FinanceTable extends Component
         $this->selected = [];
     }
 
-    public function delete($id)
+    public function delete(int $id)
     {
         if($id){
             $color = Finance::where('id', $id);

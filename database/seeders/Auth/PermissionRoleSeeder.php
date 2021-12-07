@@ -41,8 +41,6 @@ class PermissionRoleSeeder extends Seeder
             'name' => 'admin.access.user',
             'description' => 'Todos los permisos de usuario',
         ]);
-
-
         $users->children()->saveMany([
             new Permission([
                 'type' => User::TYPE_ADMIN,
@@ -86,34 +84,12 @@ class PermissionRoleSeeder extends Seeder
             'name' => 'admin.access.material',
             'description' => 'Todos los permisos de materia prima',
         ]);
-
-
         $material->children()->saveMany([
             new Permission([
                 'type' => User::TYPE_ADMIN,
                 'name' => 'admin.access.material.list',
                 'description' => 'Ver materia prima',
             ]),
-        ]);
-
-
-        $color = Permission::create([
-            'type' => User::TYPE_ADMIN,
-            'name' => 'admin.access.color',
-            'description' => 'Todos los permisos de colores',
-        ]);
-
-
-        $color->children()->saveMany([
-            new Permission([
-                'type' => User::TYPE_ADMIN,
-                'name' => 'admin.access.color.list',
-                'description' => 'Ver colores',
-            ]),
-        ]);
-
-
-        $material->children()->saveMany([
             new Permission([
                 'type' => User::TYPE_ADMIN,
                 'name' => 'admin.access.material.show-quantities',
@@ -156,11 +132,20 @@ class PermissionRoleSeeder extends Seeder
             ]),
         ]);
 
-
+        $color = Permission::create([
+            'type' => User::TYPE_ADMIN,
+            'name' => 'admin.access.color',
+            'description' => 'Todos los permisos de colores',
+        ]);
         $color->children()->saveMany([
             new Permission([
                 'type' => User::TYPE_ADMIN,
                 'name' => 'admin.access.color.list',
+                'description' => 'Ver colores',
+            ]),
+            new Permission([
+                'type' => User::TYPE_ADMIN,
+                'name' => 'admin.access.color.create',
                 'description' => 'Crear colores',
             ]),
             new Permission([
@@ -170,7 +155,7 @@ class PermissionRoleSeeder extends Seeder
             ]),
             new Permission([
                 'type' => User::TYPE_ADMIN,
-                'name' => 'admin.access.color.modify',
+                'name' => 'admin.access.color.export',
                 'description' => 'Exportar colores',
             ]),
             new Permission([
@@ -185,7 +170,6 @@ class PermissionRoleSeeder extends Seeder
             ]),
         ]);
 
-
         $size = Permission::create([
             'type' => User::TYPE_ADMIN,
             'name' => 'admin.access.size',
@@ -199,7 +183,7 @@ class PermissionRoleSeeder extends Seeder
             ]),
             new Permission([
                 'type' => User::TYPE_ADMIN,
-                'name' => 'admin.access.size.list',
+                'name' => 'admin.access.size.create',
                 'description' => 'Crear tallas',
             ]),
             new Permission([
@@ -209,7 +193,7 @@ class PermissionRoleSeeder extends Seeder
             ]),
             new Permission([
                 'type' => User::TYPE_ADMIN,
-                'name' => 'admin.access.size.modify',
+                'name' => 'admin.access.size.export',
                 'description' => 'Exportar tallas',
             ]),
             new Permission([
@@ -224,7 +208,6 @@ class PermissionRoleSeeder extends Seeder
             ]),
         ]);
 
-
         $cloth = Permission::create([
             'type' => User::TYPE_ADMIN,
             'name' => 'admin.access.cloth',
@@ -238,7 +221,7 @@ class PermissionRoleSeeder extends Seeder
             ]),
             new Permission([
                 'type' => User::TYPE_ADMIN,
-                'name' => 'admin.access.cloth.list',
+                'name' => 'admin.access.cloth.create',
                 'description' => 'Crear telas',
             ]),
             new Permission([
@@ -248,7 +231,7 @@ class PermissionRoleSeeder extends Seeder
             ]),
             new Permission([
                 'type' => User::TYPE_ADMIN,
-                'name' => 'admin.access.cloth.modify',
+                'name' => 'admin.access.cloth.export',
                 'description' => 'Exportar telas',
             ]),
             new Permission([
@@ -277,7 +260,7 @@ class PermissionRoleSeeder extends Seeder
             ]),
             new Permission([
                 'type' => User::TYPE_ADMIN,
-                'name' => 'admin.access.line.list',
+                'name' => 'admin.access.line.create',
                 'description' => 'Crear lineas',
             ]),
             new Permission([
@@ -287,7 +270,7 @@ class PermissionRoleSeeder extends Seeder
             ]),
             new Permission([
                 'type' => User::TYPE_ADMIN,
-                'name' => 'admin.access.line.modify',
+                'name' => 'admin.access.line.export',
                 'description' => 'Exportar lineas',
             ]),
             new Permission([
@@ -302,7 +285,6 @@ class PermissionRoleSeeder extends Seeder
             ]),
         ]);
 
-
         $unit = Permission::create([
             'type' => User::TYPE_ADMIN,
             'name' => 'admin.access.unit',
@@ -316,7 +298,7 @@ class PermissionRoleSeeder extends Seeder
             ]),
             new Permission([
                 'type' => User::TYPE_ADMIN,
-                'name' => 'admin.access.unit.list',
+                'name' => 'admin.access.unit.create',
                 'description' => 'Crear unidades',
             ]),
             new Permission([
@@ -326,7 +308,7 @@ class PermissionRoleSeeder extends Seeder
             ]),
             new Permission([
                 'type' => User::TYPE_ADMIN,
-                'name' => 'admin.access.unit.modify',
+                'name' => 'admin.access.unit.export',
                 'description' => 'Exportar unidades',
             ]),
             new Permission([
@@ -341,7 +323,43 @@ class PermissionRoleSeeder extends Seeder
             ]),
         ]);
 
-
+        $brand = Permission::create([
+            'type' => User::TYPE_ADMIN,
+            'name' => 'admin.access.brand',
+            'description' => 'Todos los permisos de marcas',
+        ]);
+        $brand->children()->saveMany([
+            new Permission([
+                'type' => User::TYPE_ADMIN,
+                'name' => 'admin.access.brand.list',
+                'description' => 'Ver marcas',
+            ]),
+            new Permission([
+                'type' => User::TYPE_ADMIN,
+                'name' => 'admin.access.brand.create',
+                'description' => 'Crear marcas',
+            ]),
+            new Permission([
+                'type' => User::TYPE_ADMIN,
+                'name' => 'admin.access.brand.modify',
+                'description' => 'Modificar marcas',
+            ]),
+            new Permission([
+                'type' => User::TYPE_ADMIN,
+                'name' => 'admin.access.brand.export',
+                'description' => 'Exportar marcas',
+            ]),
+            new Permission([
+                'type' => User::TYPE_ADMIN,
+                'name' => 'admin.access.brand.delete',
+                'description' => 'Eliminar marcas',
+            ]),
+            new Permission([
+                'type' => User::TYPE_ADMIN,
+                'name' => 'admin.access.brand.deleted',
+                'description' => 'Ver marcas eliminados',
+            ]),
+        ]);
 
         $product = Permission::create([
             'type' => User::TYPE_ADMIN,
@@ -397,7 +415,7 @@ class PermissionRoleSeeder extends Seeder
             new Permission([
                 'type' => User::TYPE_ADMIN,
                 'name' => 'admin.access.product.deleted',
-                'description' => 'Ver productos eliminada',
+                'description' => 'Ver productos eliminados',
             ]),
             new Permission([
                 'type' => User::TYPE_ADMIN,
@@ -410,7 +428,6 @@ class PermissionRoleSeeder extends Seeder
                 'description' => 'Modificar consumos',
             ]),
         ]);
-
 
         $order = Permission::create([
             'type' => User::TYPE_ADMIN,
@@ -440,7 +457,7 @@ class PermissionRoleSeeder extends Seeder
             ]),
             new Permission([
                 'type' => User::TYPE_ADMIN,
-                'name' => 'admin.access.order.list',
+                'name' => 'admin.access.order.create',
                 'description' => 'Crear ordenes',
             ]),
             new Permission([
@@ -450,7 +467,7 @@ class PermissionRoleSeeder extends Seeder
             ]),
             new Permission([
                 'type' => User::TYPE_ADMIN,
-                'name' => 'admin.access.order.modify',
+                'name' => 'admin.access.order.export',
                 'description' => 'Exportar ordenes',
             ]),
             new Permission([

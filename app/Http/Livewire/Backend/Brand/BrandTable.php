@@ -85,12 +85,15 @@ class BrandTable extends TableComponent
                 ->sortable(),
             Column::make(__('Website'), 'website')
                 ->searchable()
-                ->sortable(),
+                ->sortable()
+                ->format(function(Brand $model) {
+                    return $this->html($model->website ?: '<span class="badge badge-secondary">'.__('undefined').'</span>');
+                }),
             Column::make(__('Slug'), 'slug')
                 ->searchable()
                 ->sortable()
                 ->format(function(Brand $model) {
-                    return $this->html($model->slug ? $model->slug : '<span class="badge badge-secondary">'.__('undefined').'</span>');
+                    return $this->html($model->slug ?: '<span class="badge badge-secondary">'.__('undefined').'</span>');
                 })
                 ->exportFormat(function(Brand $model) {
                     return $model->slug;
@@ -113,24 +116,21 @@ class BrandTable extends TableComponent
         ];
     }
 
-    public function delete($id)
+    public function delete(Brand $brand)
     {
-        if($id){
-            $color = Brand::where('id', $id);
-            $color->delete();
-        }
+        $brand->delete();
 
-       $this->emit('swal:alert', [
+        $this->emit('swal:alert', [
             'icon' => 'success',
             'title'   => __('Deleted'), 
         ]);
     }
 
-    public function restore($id)
+    public function restore(?int $id = null)
     {
         if($id){
-            $restore_color = Brand::withTrashed()
-                ->where('id', $id)
+            $restore_brand = Brand::withTrashed()
+                ->find($id)
                 ->restore();
         }
 

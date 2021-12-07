@@ -30,6 +30,10 @@
       <input wire:model="amount" type="number" step="any" class="form-control"/>
       @error('amount') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
+      <label class="mt-2">@lang('Payment method')</label>
+      <livewire:backend.setting.select-payment-method :clear="true"/>
+      @error('payment_method') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+
       <label class="mt-2">@lang('Comment')</label>
       <input wire:model="comment" type="text" class="form-control"/>
       @error('comment') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror

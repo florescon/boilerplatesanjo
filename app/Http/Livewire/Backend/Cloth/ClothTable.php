@@ -116,7 +116,7 @@ class ClothTable extends TableComponent
         ];
     }
 
-    public function delete($id)
+    public function delete(int $id)
     {
 
         if($id){
@@ -132,7 +132,7 @@ class ClothTable extends TableComponent
 
     }
 
-    public function restore($id)
+    public function restore(int $id)
     {
         if($id){
             $restore_cloth = Cloth::withTrashed()

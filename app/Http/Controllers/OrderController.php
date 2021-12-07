@@ -104,6 +104,10 @@ class OrderController extends Controller
 
     public function suborders(Order $order)
     {
+        if(!$order->exist_user_departament){
+            abort(401);
+        }
+
         return view('backend.order.suborders')
             ->withOrder($order);
     }

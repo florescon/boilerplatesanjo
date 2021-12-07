@@ -13,7 +13,7 @@ class CreateBrand extends Component
 
     protected $rules = [
         'name' => 'required|min:1|max:30',
-        'website' => 'sometimes|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/'
+        'website' => 'nullable|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/'
     ];
 
     private function resetInputFields()

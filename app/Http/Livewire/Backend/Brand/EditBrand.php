@@ -35,7 +35,7 @@ class EditBrand extends Component
         $this->validate([
             'selected_id' => 'required|numeric',
             'name' => 'required|min:1|max:30',
-            'website' => 'sometimes|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/'
+            'website' => 'nullable|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/'
         ]);
         if ($this->selected_id) {
             $record = Brand::find($this->selected_id);

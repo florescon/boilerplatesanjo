@@ -73,10 +73,6 @@ class LineTable extends TableComponent
         }
 
         return $query;
-		// return Line::query()
-        // ->when($this->deleted, function ($query) {
-            // $query->onlyTrashed();
-        // });
     }
 
     /**
@@ -92,7 +88,7 @@ class LineTable extends TableComponent
                 ->searchable()
                 ->sortable()
                 ->format(function(Line $model) {
-                    return $this->html($model->slug ? $model->slug : '<span class="badge badge-secondary">'.__('undefined').'</span>');
+                    return $this->html($model->slug ?: '<span class="badge badge-secondary">'.__('undefined').'</span>');
                 })
                 ->exportFormat(function(Line $model) {
                     return $model->slug;
@@ -115,7 +111,7 @@ class LineTable extends TableComponent
         ];
     }
 
-    public function delete($id)
+    public function delete(int $id)
     {
         if($id){
             $line = Line::where('id', $id);
@@ -129,7 +125,7 @@ class LineTable extends TableComponent
         ]);
     }
 
-    public function restore($id)
+    public function restore(int $id)
     {
         if($id){
             $restore_line = Line::withTrashed()

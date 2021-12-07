@@ -90,7 +90,7 @@ class SizeTable extends TableComponent
                 ->searchable()
                 ->sortable()
                 ->format(function(Size $model) {
-                    return $this->html($model->slug ? $model->slug : '<span class="badge badge-secondary">'.__('undefined').'</span>');
+                    return $this->html($model->slug ?: '<span class="badge badge-secondary">'.__('undefined').'</span>');
                 })
                 ->exportFormat(function(Size $model) {
                     return $model->slug;
@@ -117,29 +117,25 @@ class SizeTable extends TableComponent
         ];
     }
 
-    public function delete($id)
+    public function delete(Size $size)
     {
-        if($id){
-            $color = Size::where('id', $id);
-            $color->delete();
+        $size->delete();
 
-        }
-
-       $this->emit('swal:alert', [
+        $this->emit('swal:alert', [
             'icon' => 'success',
             'title'   => __('Deleted'), 
         ]);
     }
 
-    public function restore($id)
+    public function restore(?int $id = null)
     {
         if($id){
-            $restore_color = Size::withTrashed()
-                ->where('id', $id)
+            $restore_size = Size::withTrashed()
+                ->find($id)
                 ->restore();
         }
 
-      $this->emit('swal:alert', [
+        $this->emit('swal:alert', [
             'icon' => 'success',
             'title'   => __('Restored'), 
         ]);
