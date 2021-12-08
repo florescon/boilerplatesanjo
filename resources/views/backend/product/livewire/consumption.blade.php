@@ -186,7 +186,7 @@
 
                           @if( (!$name_size && !$name_color) && ($updateQuantity == TRUE))
                           <th scope="col">
-                            {!! $yas->quantity !!}
+                            {!! $yas->quantity_formatted !!}
                           </th>
                           @endif
 
@@ -197,11 +197,11 @@
                               @if($yas->color_id == null && (!$name_color && !$name_size))
                                 <input class="form-control form-control-sm is-valid" style="background-image: none; padding-right: inherit;" wire:model="inputquantities.{{ $yas->id }}.consumption" wire:keydown.enter="quantities({{ $yas->id }})" type="number" step="any" required {{ ($yas->color_id == null || $yas->size_id == null) && $name_color ? 'disabled' : '' }}>
                               @else
-                                {!! ($yas->color_id <> null || $yas->size_id <> null) ? __('Difference').' actual: '. $yas->quantity : $yas->quantity.'  <small class="text-muted"><em>(General)</em></small>' !!}
+                                {!! ($yas->color_id <> null || $yas->size_id <> null) ? __('Difference').' actual: '. $yas->quantity_formatted : $yas->quantity_formatted.'  <small class="text-muted"><em>(General)</em></small>' !!}
                               @endif
                             @else
 
-                                {!! $yas->quantity !!}
+                                {!! $yas->quantity_formatted !!}
 
                             @endif
                             {{-- <input type="text" class="form-control" name="quantity"> --}}

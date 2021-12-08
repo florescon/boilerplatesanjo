@@ -52,7 +52,7 @@ class ConsumptionProductFilter extends Component
         foreach($grouped as $key => $item) {
             $groups->push([
                 'material_id' => $item[0]->material->full_name,
-                'quantity' => $item->sum('quantity'),
+                'quantity' => rtrim(rtrim(sprintf('%.8F', $item->sum('quantity')), '0'), "."),
             ]);
         }
 

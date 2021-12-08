@@ -25,6 +25,23 @@ class Consumption extends Model
         'puntual',
     ];
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'quantity_formatted',
+    ];
+
+    /**
+     * Return formatted stock.
+     */
+    public function getQuantityFormattedAttribute(): string
+    {
+        return rtrim(rtrim(sprintf('%.8F', $this->quantity), '0'), ".");
+    }
+
     public function material()
     {
         return $this->belongsTo(Material::class, 'material_id')->with('color', 'size', 'unit')->withTrashed();

@@ -227,10 +227,10 @@
                               {{ $consumption['material'] }}
                             </td>
                             <td>
-                                {{ $consumption['unit'] }}
+                                {{ rtrim(rtrim(sprintf('%.8F', $consumption['unit']), '0'), ".") }}
                             </td>
                             <td>
-                                {{ $consumption['quantity'] }}
+                                {{ rtrim(rtrim(sprintf('%.8F', $consumption['quantity']), '0'), ".") }}
                             </td>
                           </tr>
                         @endforeach
@@ -310,8 +310,8 @@
                         {!! $material->material->full_name !!}
                       </td>
                       <td class="text-center">${{ $material->price }}</td>
-                      <td class="text-center">{{ $material->sum }}</td>
-                      <td class="text-center">${{ $material->total_by_material }}</td>
+                      <td class="text-center">{{ rtrim(rtrim(sprintf('%.8F', $material->sum), '0'), ".") }}</td>
+                      <td class="text-center">{{ rtrim(rtrim(sprintf('%.8F', $material->total_by_material), '0'), ".") }}</td>
                     </tr>
                   @endforeach
                 </tbody>

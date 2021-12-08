@@ -110,7 +110,7 @@
       @foreach($order->materials_order as $materia)
       <tr>
         <td scope="row">{!! $materia->material->full_name !!}</tf>
-        <td align="center">{{ $materia->sum }}</td>
+        <td align="center">{{ rtrim(rtrim(sprintf('%.8F', $materia->sum), '0'), ".") }}</td>
 
       </tr>
       @endforeach

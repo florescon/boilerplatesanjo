@@ -59,7 +59,7 @@
 		                  	@foreach($model->consumption_filter->where('color_id', null)->where('size_id', null) as $consumption)
 							    <tr>
 							      <td>{{ $consumption->material->name }}</td>
-							      <th scope="row">{{ $consumption->quantity }}</th>
+							      <th scope="row">{{ $consumption->quantity_formatted }}</th>
 							    </tr>
 		                  	@endforeach
 						  </tbody>
@@ -82,7 +82,7 @@
 		                  	@foreach($model->consumption_filter->where('color_id', $model->color_id) as $consumption)
 							    <tr>
 							      <td>{{ $consumption->material->name }}</td>
-							      <th scope="row">{{ $consumption->quantity }}</th>
+							      <th scope="row">{{ $consumption->quantity_formatted }}</th>
 							    </tr>
 		                  	@endforeach
 						  </tbody>
@@ -98,7 +98,7 @@
 		                  	@foreach($model->consumption_filter->where('size_id', $model->size_id) as $consumption)
 							    <tr>
 							      <td>{{ $consumption->material->name }}</td>
-							      <th scope="row">{{ $consumption->quantity }}</th>
+							      <th scope="row">{{ $consumption->quantity_formatted }}</th>
 							    </tr>
 		                  	@endforeach
 						  </tbody>

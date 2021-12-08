@@ -18,6 +18,23 @@ class MaterialOrder extends Model
     ];
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'quantity_formatted',
+    ];
+
+    /**
+     * Return formatted stock.
+     */
+    public function getQuantityFormattedAttribute(): string
+    {
+        return rtrim(rtrim(sprintf('%.8F', $this->quantity), '0'), ".");
+    }
+
+    /**
      * @return mixed
      */
     public function material()
