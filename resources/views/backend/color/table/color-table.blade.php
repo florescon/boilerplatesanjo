@@ -67,7 +67,6 @@ background: linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(148,233,202,1) 1
         <option>10</option>
         <option>25</option>
         <option>50</option>
-        <option>100</option>
       </select>
     </div><!--col-->
 
@@ -170,42 +169,48 @@ background: linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(148,233,202,1) 1
             @foreach($colors as $color)
             <tr>
               @if(!$deleted)
-                <td>
+                <td class="text-center">
                   <label class="form-checkbox">
                       <input type="checkbox" wire:model="selected" value="{{ $color->id }}">
-                    <i class="form-icon"></i>
+                      <i class="form-icon"></i>
                     </label>
                 </td>
               @endif
-              <th scope="row">
-                <div class="media align-items-center">
-                  <div class="media-body">
-                    <span class="mb-0 text-sm">{{ $color->name }}</span>
-                  </div>
-                </div>
+              <th >
+                {{ $color->name }}
               </th>
-              <td>
+              <td class="align-middle">
                 {{ $color->short_name }}
               </td>
-              <td>
+              <td class="align-middle">
                 {{ $color->slug }}
               </td>
-              <td>
+              <td class="align-middle">
                 {{ $color->color }}
               </td>
-              <td style="background-color: {{ $color->color }}">
-                {!! !$color->color ? '<i class="cil-x-circle"></i>' : '' !!}
+              <td class="align-middle" style="background-color: {{ $color->color }}">
+                {!! !$color->color ? 
+                  '<div class="d-flex justify-content-center">
+                    <i class="cil-x-circle"></i>
+                  </div>' 
+                  : '' 
+                !!}
               </td>
-              <td style="background-color: {{ $color->secondary_color }}">
-                {!! !$color->secondary_color ? '<i class="cil-x-circle"></i>' : '' !!}
+              <td class="align-middle" style="background-color: {{ $color->secondary_color }}">
+                {!! !$color->secondary_color ? 
+                  '<div class="d-flex justify-content-center">
+                    <i class="cil-x-circle"></i>
+                  </div>' 
+                  : '' 
+                !!}
               </td>
-              <td class="text-center">
+              <td class="text-center align-middle">
                 <a href="{{ route('admin.color.associates', $color->id) }}"> {{ $color->count_product }}</a>
               </td>
-              <td class="text-center">
+              <td class="text-center align-middle">
                 <a href="{{ route('admin.color.associates_sub', $color->id) }}"> {{ $color->count_products }}</a>
               </td>
-              <td>
+              <td class="align-middle">
                 <span class="badge badge-dot mr-4">
                   <i class="bg-warning"></i> {{ $color->date_for_humans }}
                 </span>
@@ -289,4 +294,3 @@ background: linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(148,233,202,1) 1
   </div>
 </div>
 </div>
-

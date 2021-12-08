@@ -99,9 +99,9 @@ class Color extends Model
         return '';
     }
 
-    public function getDateForHumansAttribute()
+    public function getDateForHumansAttribute(): ?string
     {
-        return $this->updated_at->format('M, d Y');
+        return $this->updated_at ? $this->updated_at->format('M, d Y') : null;
     }
 
     /**

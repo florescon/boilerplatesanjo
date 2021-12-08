@@ -21,7 +21,6 @@ class CreateSettingsTable extends Migration
             $table->string('site_whatsapp')->nullable();
             $table->string('site_facebook')->nullable();
             $table->string('days_orders')->nullable();
-
             $table->timestamps();
         });
     }

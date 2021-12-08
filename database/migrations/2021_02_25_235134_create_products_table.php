@@ -21,9 +21,9 @@ class CreateProductsTable extends Migration
             $table->decimal('price', 8, 2)->nullable();
             $table->decimal('average_wholesale_price', 8, 2)->nullable();
             $table->decimal('wholesale_price', 8, 2)->nullable();
-            $table->double('stock')->default(0);
-            $table->double('stock_revision')->default(0);
-            $table->double('stock_store')->default(0);
+            $table->integer('stock')->default(0);
+            $table->integer('stock_revision')->default(0);
+            $table->integer('stock_store')->default(0);
             $table->string('file_name')->nullable();
             $table->longText('description')->nullable();
             $table->unsignedBigInteger('color_id')->nullable();
@@ -31,7 +31,7 @@ class CreateProductsTable extends Migration
             $table->unsignedBigInteger('line_id')->nullable();
             $table->unsignedBigInteger('brand_id')->nullable();
             $table->unsignedBigInteger('parent_id')->nullable();
-            $table->double('discount')->default(0);
+            $table->integer('discount')->default(0);
             $table->unsignedSmallInteger('sort')->default(0);
             $table->boolean('automatic_code')->default(true);
             $table->boolean('type')->default(true)->comment('Product: true, Service: false');

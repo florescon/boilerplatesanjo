@@ -21,7 +21,7 @@ class BrandTable extends TableComponent
 
     public $tableFooterEnabled = true;
 
-    public $perPageOptions = ['10', '25', '50', '100'];
+    public $perPageOptions = ['10', '25', '50'];
 
     public $exports = ['csv', 'xls', 'xlsx', 'pdf'];
     public $exportFileName = 'brands';

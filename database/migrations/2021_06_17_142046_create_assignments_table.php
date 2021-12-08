@@ -19,7 +19,7 @@ class CreateAssignmentsTable extends Migration
             $table->unsignedBigInteger('ticket_id')->nullable();
             $table->unsignedInteger('status_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->double('quantity')->nullable();
+            $table->integer('quantity')->default(0)->nullable();
             $table->integer('assignmentable_id')->unsigned();
             $table->string('assignmentable_type');
             $table->boolean('output')->default(false);

@@ -482,6 +482,46 @@ class PermissionRoleSeeder extends Seeder
             ]),
         ]);
 
+
+        $document = Permission::create([
+            'type' => User::TYPE_ADMIN,
+            'name' => 'admin.access.document',
+            'description' => 'Todos los permisos de documentos',
+        ]);
+        $document->children()->saveMany([
+            new Permission([
+                'type' => User::TYPE_ADMIN,
+                'name' => 'admin.access.document.list',
+                'description' => 'Ver documentos',
+            ]),
+            new Permission([
+                'type' => User::TYPE_ADMIN,
+                'name' => 'admin.access.document.create',
+                'description' => 'Crear documento',
+            ]),
+            new Permission([
+                'type' => User::TYPE_ADMIN,
+                'name' => 'admin.access.document.show-dst',
+                'description' => 'Ver archivos DST',
+            ]),
+            new Permission([
+                'type' => User::TYPE_ADMIN,
+                'name' => 'admin.access.document.show-emb',
+                'description' => 'Ver archivos EMB',
+            ]),
+            new Permission([
+                'type' => User::TYPE_ADMIN,
+                'name' => 'admin.access.document.deactivate',
+                'description' => 'Desactivar documentos',
+            ]),
+            new Permission([
+                'type' => User::TYPE_ADMIN,
+                'name' => 'admin.access.document.deleted',
+                'description' => 'Ver documentos eliminados',
+            ]),
+        ]);
+
+
         }
 
         // Assign Permissions to other Roles

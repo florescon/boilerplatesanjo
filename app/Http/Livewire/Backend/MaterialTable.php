@@ -124,7 +124,13 @@ class MaterialTable extends TableComponent
                 ->sortable(),
             Column::make(__('Stock'), 'stock')
                 ->searchable()
-                ->sortable(),
+                ->sortable()
+                ->format(function(Material $model) {
+                    return $this->html($model->stock_formatted);
+                })
+                ->exportFormat(function(Material $model) {
+                    return $model->stock_formatted;
+                }),
             Column::make(__('Updated at'), 'updated_at')
                 ->searchable()
                 ->sortable()

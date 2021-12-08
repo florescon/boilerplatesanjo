@@ -28,6 +28,26 @@ class Material extends Model
         'size_id',
     ];
 
+    protected $casts = [
+        'price' => 'decimal:2',
+    ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'stock_formatted',
+    ];
+
+    /**
+     * Return formatted stock.
+     */
+    public function getStockFormattedAttribute(): string
+    {
+        return rtrim(rtrim(sprintf('%.8F', $this->stock), '0'), ".");
+    }
 
     /**
      * Get the color associated with the Material.
@@ -85,6 +105,4 @@ class Material extends Model
     {
         return $this->name.' '.$this->unit_name.' '.$this->size_name.' '.$this->color_name;
     }
-
-
 }

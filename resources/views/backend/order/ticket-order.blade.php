@@ -62,10 +62,10 @@ ventas@sj-uniformes.com
 
     <table width="100%">
         <tr>
-            @if($order->user)
-            <td><strong>A:</strong> {{ optional($order->user)->name }}</td>
+            @if($order->user || $order->departament)
+                <td><strong>A:</strong> {{ $order->user_name }}</td>
             @endif
-            <td><strong>Expedido por:</strong> </td>
+            <td><strong>Expedido por:</strong> {{ optional($order->audi)->name }} </td>
         </tr>
     </table>
 

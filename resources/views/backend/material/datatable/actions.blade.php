@@ -4,7 +4,7 @@
 
 	@if (!$material->trashed())
 
-		<x-actions-modal.edit-icon target="editMaterial" emitTo="backend.material.edit-material" function="edit" :id="$material->id" />
+		{{-- <x-actions-modal.edit-icon target="editMaterial" emitTo="backend.material.edit-material" function="edit" :id="$material->id" /> --}}
 		<x-actions-modal.delete-icon function="delete" :id="$material->id" />
 
 	@else

@@ -17,7 +17,7 @@ class CreateConsumptionsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('product_id')->nullable();
             $table->unsignedInteger('material_id')->nullable();
-            $table->double('quantity')->default(0);
+            $table->double('quantity', 15, 8)->default(0);
             $table->unsignedInteger('color_id')->nullable();
             $table->unsignedInteger('size_id')->nullable();
             $table->boolean('puntual')->default(false);

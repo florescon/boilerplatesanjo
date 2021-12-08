@@ -95,7 +95,14 @@ class Order extends Model
      */
     public function getUserNameAttribute(): string
     {
-        return $this->user_id ? $this->user->name : "<span class='badge badge-primary'>Stock ".appName().'</span>';
+        if($this->user_id){
+            return $this->user->name;
+        }
+        elseif($this->departament_id){
+           return $this->departament->name;
+        }
+
+        return "<span class='badge badge-primary'>Stock ".appName().'</span>';
     }
 
     public function getTrackingNumberAttribute(): ?string

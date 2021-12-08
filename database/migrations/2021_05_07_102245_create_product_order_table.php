@@ -19,7 +19,7 @@ class CreateProductOrderTable extends Migration
             $table->unsignedBigInteger('order_id')->nullable();
             $table->unsignedBigInteger('suborder_id')->nullable();
             $table->unsignedBigInteger('product_id')->nullable();
-            $table->double('quantity')->nullable();
+            $table->integer('quantity')->default(0);
             $table->decimal('price', 8, 2)->nullable();
             $table->tinyInteger('type')->nullable();
             $table->softDeletes();

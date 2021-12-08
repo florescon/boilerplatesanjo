@@ -20,7 +20,7 @@ class ShowMaterial extends Component
         $this->description = $record->description;
         $this->acquisition_cost = $record->acquisition_cost;
         $this->price = $record->price;
-        $this->stock = $record->stock;
+        $this->stock = $record->stock_formatted;
 
         $this->unit = optional($record->unit)->name;
         $this->color = optional($record->color)->name;

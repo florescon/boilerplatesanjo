@@ -18,9 +18,9 @@ class CreateMaterialOrdersTable extends Migration
             $table->unsignedBigInteger('order_id')->nullable();
             $table->unsignedBigInteger('product_order_id')->nullable();
             $table->unsignedBigInteger('material_id')->nullable();
-            $table->double('price')->nullable();
-            $table->double('unit_quantity')->nullable();
-            $table->double('quantity')->nullable();
+            $table->decimal('price', 8, 2)->default(0)->nullable();
+            $table->double('unit_quantity', 15, 8)->nullable();
+            $table->double('quantity', 15, 8)->nullable();
             $table->unsignedBigInteger('audi_id')->nullable();
             $table->softDeletes();
             $table->timestamps();
