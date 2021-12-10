@@ -6,7 +6,7 @@
 	<div class="row mb-4 justify-content-md-center">
 		<div class="col-9">
 		  <div class="input-group">
-		    <input wire:model.debounce.350ms="searchTerm" class="input-search" type="text" placeholder="{{ __('Search general product') }}..." />
+		    <input wire:model.debounce.350ms="searchTerm" class="input-search" type="text" placeholder="{{ __('Search general product by name or code') }}..." />
       		<span class="border-input-search"></span>
 		  </div>
 		</div>

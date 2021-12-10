@@ -40,7 +40,7 @@ class DepartamentTable extends Component
 
     protected $rules = [
         'name' => 'required|min:3',
-        'email' => 'required|email|min:3',
+        'email' => 'required|email|min:3|unique:departaments',
         'comment' => 'sometimes|min:3',
     ];
 

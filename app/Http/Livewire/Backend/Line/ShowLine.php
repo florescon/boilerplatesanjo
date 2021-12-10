@@ -18,7 +18,6 @@ class ShowLine extends Component
         $this->slug = $record->slug;
         $this->created = $record->created_at;
         $this->updated = $record->updated_at;
-
     }
 
     public function render()

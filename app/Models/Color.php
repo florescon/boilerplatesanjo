@@ -120,6 +120,17 @@ class Color extends Model
     }
 
     /**
+     * Set the color's name.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = ucfirst(strtolower($value));
+    }
+
+    /**
      * The attributes that should be mutated to dates.
      *
      * @var array

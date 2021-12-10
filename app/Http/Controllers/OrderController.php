@@ -53,11 +53,9 @@ class OrderController extends Controller
     public function ticket(Order $order)
     {
         $pdf = PDF::loadView('backend.order.ticket-suborder',compact('order'))->setPaper([0, 0, 1385.98, 296.85], 'landscape');
-    
         // ->setPaper('A8', 'portrait')
 
         return $pdf->stream();
-
         // return view('backend.order.ticket-order');
     }
 
@@ -75,7 +73,6 @@ class OrderController extends Controller
                     $query->groupBy('material_id')->selectRaw('*, sum(quantity) as sum');
                 }]
         );
-
         $pdf = PDF::loadView('backend.order.ticket-materia',compact('order'))->setPaper([0, 0, 1385.98, 296.85], 'landscape');
 
         return $pdf->stream();
@@ -132,6 +129,6 @@ class OrderController extends Controller
         if($order->id){
             $order->delete();
         }
-        return redirect()->route('admin.order.index')->withFlashSuccess(__('The order/sale was successfully deleted.'));
+        return redirect()->route('admin.order.index')->withFlashSuccess(__('The order/sale was successfully deleted'));
     }
 }

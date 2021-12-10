@@ -42,13 +42,11 @@ class ProductOrderObserver
      */
     public function deleted(ProductOrder $productOrder)
     {
-
         $product = Product::find($productOrder->product_id);
         
         if($productOrder->quantity > 0 && $productOrder->type == 2){
             $product->increment('stock_store', abs($productOrder->quantity));
         }
-
     }
 
     /**

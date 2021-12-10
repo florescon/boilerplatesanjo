@@ -256,6 +256,8 @@
     "Search" : "Buscar",
     "Search product" : "Buscar producto",
     "Search general product" : "Buscar producto general",
+    "Search general product by name or code" : "Buscar producto general por nombre o código",
+    "Search by folio or tracking number": "Buscar por folio o número de seguimiento",
     "Product name" : "Nombre de producto",
     "Search another product": "Buscar otro producto",
     "Go to view product" : "Ir a ver el producto",
@@ -742,5 +744,6 @@
     "Download": "Descargar",
     "Download DST": "Descargar DST",
     "Download EMB": "Descargar EMB",
-    "Is parent size": "Es talla padre"
+    "Is parent size": "Es talla padre",
+    "The order/sale was successfully deleted": "La orden/venta fue eliminada con éxito"
 }

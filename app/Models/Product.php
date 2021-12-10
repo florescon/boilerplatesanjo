@@ -57,7 +57,6 @@ class Product extends Model
         'status',
     ];
 
-
     public function getDescriptionLimitedAttribute()
     {
         return Str::words($this->description, '15');
@@ -88,7 +87,6 @@ class Product extends Model
     {
         return $this->belongsTo(Color::class)->withTrashed();
     }
-
 
     /**
      * @return string
@@ -121,7 +119,6 @@ class Product extends Model
     {
         return $this->size_name.' '.$this->color_name;
     }
-
 
     /**
      * @return mixed
@@ -343,6 +340,17 @@ class Product extends Model
         });
     }
 
+     /**
+     * Set the product's name.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = ucfirst(strtolower($value));
+    }
+
     /**
      * The attributes that should be cast.
      *
@@ -352,5 +360,4 @@ class Product extends Model
         'type' => 'boolean',
         'status' => 'boolean',
     ];
-
 }

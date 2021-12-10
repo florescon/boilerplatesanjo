@@ -59,6 +59,17 @@ class Line extends Model
     }
 
     /**
+     * Set the line's name.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = ucfirst(strtolower($value));
+    }
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array

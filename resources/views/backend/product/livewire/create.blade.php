@@ -16,7 +16,7 @@
                     <label for="name" class="col-md-2 col-form-label">@lang('Name')<sup>*</sup></label>
 
                     <div class="col-md-10">
-                        <input type="text" name="name" wire:model.lazy="name" class="form-control" placeholder="{{ __('Name') }}" value="{{ old('name') }}" maxlength="100" autofocus required />
+                        <input type="text" name="name" wire:model.lazy="name" class="form-control" placeholder="{{ __('Name') }}" value="{{ old('name') }}" maxlength="100" required />
                         
                         @error('name') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
