@@ -108,7 +108,7 @@
 
   <div class="row mt-4">
     <div class="col">
-      <div class="table-responsive">
+      <div class="table-responsive text-center">
         <table class="table table-sm align-items-center table-striped table-flush table-bordered table-hover">
           <thead style="
           " class="thead-dark">

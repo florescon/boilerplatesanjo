@@ -85,7 +85,13 @@ class SizeTable extends TableComponent
                 ->sortable(),
             Column::make(__('Coding'), 'short_name')
                 ->searchable()
-                ->sortable(),
+                ->sortable()
+                ->format(function(Size $model) {
+                    return $this->html($model->short_name ?: '<span class="badge badge-secondary">'.__('undefined').'</span>');
+                })
+                ->exportFormat(function(Size $model) {
+                    return $model->short_name;
+                }),
             Column::make(__('Slug'), 'slug')
                 ->searchable()
                 ->sortable()

@@ -140,11 +140,9 @@ background: linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(148,233,202,1) 1
                   @include('backend.includes._sort-icon', ['field' => 'name'])
                 </a>
               </th>
-              <th scope="col">@lang('Coding')</th>
+              <th scope="col" class="text-center">@lang('Coding')</th>
               
-              <th scope="col">@lang('Slug')</th>
-
-              <th scope="col">@lang('Color code')</th>
+              <th scope="col" class="text-center">@lang('Color hex code')</th>
 
               <th style="width:45px; max-width: 45px;">
                 @lang('Prim')
@@ -179,14 +177,11 @@ background: linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(148,233,202,1) 1
               <th >
                 {{ $color->name }}
               </th>
-              <td class="align-middle">
-                {{ $color->short_name }}
+              <td class="align-middle text-center">
+                <x-utils.undefined :data="$color->short_name"/>
               </td>
-              <td class="align-middle">
-                {{ $color->slug }}
-              </td>
-              <td class="align-middle">
-                {{ $color->color }}
+              <td class="align-middle text-center">
+                <x-utils.undefined :data="$color->color"/>
               </td>
               <td class="align-middle" style="background-color: {{ $color->color }}">
                 {!! !$color->color ? 

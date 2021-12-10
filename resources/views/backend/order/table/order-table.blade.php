@@ -93,16 +93,16 @@
                 <th scope="col">
                   @lang('Comment')
                 </th>
-                <th scope="col">
+                <th scope="col" class="text-center">
                   @lang('Information')
                 </th>
-                <th scope="col">
+                <th scope="col" class="text-center">
                   @lang('Status')
                 </th>
-	              <th scope="col">
+	              <th scope="col" class="text-center">
 	                  @lang('Date')
 	              </th>
-	              <th scope="col">
+	              <th scope="col" class="text-center">
 	                  @lang('Details')
 	              </th>
 	            </tr>
@@ -119,20 +119,20 @@
 	                <td class="align-middle">
 	                  {!! Str::limit($order->comment, 200) ?? '<span class="badge badge-secondary">'.__('undefined').'</span>' !!}
 	                </td>
-	                <td class="align-middle">
+	                <td class="align-middle text-center">
 	                	{!! $order->approved_label !!}
 	                </td>
-	                <td class="align-middle">
+	                <td class="align-middle text-center">
 	                   {!! $order->last_status_order_label !!}
 
 	                </td>
-		              <td class="align-middle">
+		              <td class="align-middle text-center">
 		                <span class="badge badge-dot">
 		                  <i class="bg-warning"></i> {{ $order->date_for_humans }}
 		                </span>
 		                {!! $order->date_diff_for_humans_created !!}
 		              </td>
-	                <td>
+	                <td class="text-center">
 	                	{!! $order->type_order !!}
 	                  <span class="badge badge-secondary"><strong>{{ $order->payment_method }}</strong></span>
 	                	@if($order->parent_order_id)
