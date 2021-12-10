@@ -16,7 +16,7 @@
                     <label for="name" class="col-md-2 col-form-label">@lang('Name')<sup>*</sup></label>
 
                     <div class="col-md-10">
-                        <input type="text" name="name" wire:model="name" class="form-control" placeholder="{{ __('Name') }}" value="{{ old('name') }}" maxlength="100" required />
+                        <input type="text" name="name" wire:model.lazy="name" class="form-control" placeholder="{{ __('Name') }}" value="{{ old('name') }}" maxlength="100" autofocus required />
                         
                         @error('name') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
@@ -26,7 +26,7 @@
                     <label for="code" class="col-md-2 col-form-label">@lang('Code')<sup>*</sup></label>
 
                     <div class="col-md-10">
-                        <input type="text" name="code" wire:model="code" class="form-control" placeholder="{{ __('Code') }}" value="{{ old('code') }}" maxlength="100" required />
+                        <input type="text" name="code" wire:model.lazy="code" class="form-control" placeholder="{{ __('Code') }}" value="{{ old('code') }}" maxlength="100" required />
 
                         @error('code') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
@@ -36,7 +36,7 @@
                     <label for="description" class="col-md-2 col-form-label">@lang('Short description')</label>
 
                     <div class="col-md-10">
-                        <textarea type="text" name="description" wire:model="description" class="form-control " placeholder="{{ __('Short description') }}" value="{{ old('description') }}" maxlength="200" ></textarea>
+                        <textarea type="text" name="description" wire:model.lazy="description" class="form-control " placeholder="{{ __('Short description') }}" value="{{ old('description') }}" maxlength="200" ></textarea>
 
                         @error('description') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
@@ -100,7 +100,7 @@
                     <label for="price" class="col-md-2 col-form-label">@lang('Price')<sup>*</sup></label>
 
                     <div class="col-md-10">
-                        <input type="text" name="price" wire:model="price" class="form-control" placeholder="{{ __('Price') }}" value="{{ old('price') }}" maxlength="100" required />
+                        <input type="text" name="price" wire:model.lazy="price" class="form-control" placeholder="{{ __('Price') }}" value="{{ old('price') }}" maxlength="100" required />
 
                         @error('price') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
@@ -275,7 +275,7 @@
                         results: data.items.map(function (item) {
                             return {
                                 id: item.id,
-                                text: item.name
+                                text: item.name + ' ' + (item.is_parent ? '<span class="badge badge-primary">Es talla padre</span>' : '')
                             };
                         }),
                         pagination: {
@@ -286,7 +286,9 @@
                 cache: true,
                 delay: 250,
                 dropdownautowidth: true
-            }
+            },
+            escapeMarkup: function(m) { return m; }
+
           });
 
           $('#sizeselect').on('change', function (e) {

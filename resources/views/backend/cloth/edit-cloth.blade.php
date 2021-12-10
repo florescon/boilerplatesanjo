@@ -7,7 +7,7 @@
 
       <input type="hidden" wire:model="selected_id">
 
-      <input wire:model="name" type="text" class="form-control"/>
+      <input wire:model.lazy="name" type="text" class="form-control"/>
       @error('name') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
   </x-slot>
 

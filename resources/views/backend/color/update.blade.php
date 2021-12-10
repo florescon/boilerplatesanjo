@@ -15,11 +15,11 @@
           <input type="hidden" wire:model="selected_id">
 
           <label>@lang('Name')</label>
-          <input wire:model="name" type="text" class="form-control"/>
+          <input wire:model.lazy="name" type="text" class="form-control"/>
           @error('name') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
           <label>@lang('Short name') (@lang('For coding'))</label>
-          <input wire:model="short_name" type="text" class="form-control" placeholder="{{ __('max :characters characters', ['characters' => 6]) }}"/>
+          <input wire:model.lazy="short_name" type="text" class="form-control" placeholder="{{ __('max :characters characters', ['characters' => 6]) }}"/>
           @error('short_name') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
           <br>

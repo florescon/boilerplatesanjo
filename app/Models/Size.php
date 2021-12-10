@@ -28,6 +28,22 @@ class Size extends Model
         ];
     }
 
+    /**
+     * @return mixed
+     */
+    public function parent()
+    {
+        return $this->belongsTo(self::class);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function children()
+    {
+        return $this->hasMany(self::class, 'parent_id')->withTrashed();
+    }
+
     public function products(): HasMany
     {
         return $this->hasMany(Product::class, 'size_id')->with('parent')
@@ -54,7 +70,6 @@ class Size extends Model
     public function getTotalVariantsAttribute() : int
     {
         return Product::where('parent_id', '<>', NULL)->count();
-
     }
 
     /**
@@ -99,5 +114,16 @@ class Size extends Model
         'name',
         'slug',
         'short_name',
+        'parent_id',
+        'is_parent'
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'is_parent' => 'boolean',
     ];
 }

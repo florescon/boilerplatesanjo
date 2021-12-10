@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Validator;
 
 class CreateProduct extends Component
 {
-
     use WithFileUploads;
 
     public $name, $code, $description, $color, $size, $photo, $price, $imageName, $photoStatus, $line_id;
@@ -38,6 +37,7 @@ class CreateProduct extends Component
 
     public function store()
     {
+        dd($this->size_id);
 
         $this->validate();
 
@@ -73,7 +73,6 @@ class CreateProduct extends Component
             'icon' => 'success',
             'title'   => __('Created'), 
         ]);
-
     }
 
     public function removePhoto()

@@ -12,15 +12,15 @@
       <form wire:submit.prevent="store">
         <div class="modal-body">
           <label>@lang('Name')</label>
-          <input wire:model="name" type="text" class="form-control"/>
+          <input wire:model.lazy="name" type="text" class="form-control"/>
           @error('name') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
           <label>@lang('Email')</label>
-          <input wire:model="email" type="text" class="form-control"/>
+          <input wire:model.lazy="email" type="text" class="form-control"/>
           @error('email') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
           <label>@lang('Comment')</label>
-          <input wire:model="comment" type="text" class="form-control"/>
+          <input wire:model.lazy="comment" type="text" class="form-control"/>
           @error('comment') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
         </div>

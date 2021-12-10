@@ -25,7 +25,6 @@ class CreateLine extends Component
     public function createmodal()
     {
         $this->resetInputFields();
-
     }
 
     public function updated($propertyName)

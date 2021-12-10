@@ -4,17 +4,14 @@
   </x-slot>
 
   <x-slot name="content">
-
       <input type="hidden" wire:model="selected_id">
-
       <label>@lang('Name')</label>
-      <input wire:model="name" type="text" class="form-control"/>
+      <input wire:model.lazy="name" type="text" class="form-control"/>
       @error('name') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
       <label>@lang('Website')</label>
-      <input wire:model="website" type="text" class="form-control"/>
+      <input wire:model.lazy="website" type="text" class="form-control"/>
       @error('website') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
-
   </x-slot>
 
   <x-slot name="footer">
@@ -23,4 +20,3 @@
 
   </x-slot>
 </x-utils.modal>
-

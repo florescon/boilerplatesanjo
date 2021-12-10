@@ -99,10 +99,10 @@ class SizeTable extends TableComponent
                 ->format(function(Size $model) {
                     return $this->link(route('admin.size.associates', $model->id), $model->count_product);
                 }),
-            Column::make('# '.__('Associated subproducts'), 'count_products')
-                ->format(function(Size $model) {
-                    return $this->link(route('admin.size.associates_sub', $model->id), $model->count_products);
-                }),
+            // Column::make('# '.__('Associated subproducts'), 'count_products')
+            //     ->format(function(Size $model) {
+            //         return $this->link(route('admin.size.associates_sub', $model->id), $model->count_products);
+            //     }),
             Column::make(__('Created at'), 'created_at')
                 ->searchable()
                 ->sortable(),

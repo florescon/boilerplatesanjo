@@ -41,7 +41,7 @@
 
                                 <td class="table-info"> 
                                     <input type="number" 
-                                        wire:model="quantityy.{{ $product->id }}.available"
+                                        wire:model.lazy="quantityy.{{ $product->id }}.available"
                                         wire:keydown.enter="save" 
                                         class="form-control"
                                         style="color: blue; font-family:Arial, FontAwesome" 

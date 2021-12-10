@@ -41,7 +41,7 @@ class SizeController extends Controller
     public function select2LoadMore(Request $request)
     {
         $search = $request->get('search');
-        $data = Size::select(['id', 'name'])->where('name', 'like', '%' . $search . '%')->orderBy('name')->paginate(5);
+        $data = Size::select(['id', 'name', 'is_parent'])->where('name', 'like', '%' . $search . '%')->orderBy('name')->paginate(5);
         return response()->json(['items' => $data->toArray()['data'], 'pagination' => $data->nextPageUrl() ? true : false]);
     }
 

@@ -5,7 +5,7 @@
 
   <x-slot name="content">
       <label>@lang('Name')</label>
-      <input wire:model="name" type="text" class="form-control"/>
+      <input wire:model.lazy="name" type="text" class="form-control"/>
       @error('name') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
   </x-slot>
 

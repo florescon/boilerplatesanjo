@@ -59,7 +59,7 @@
                                               <div class="input-group-prepend">
                                                 <span class="input-group-text" id="basic-addon1">${{ $product_price }}</span>
                                               </div>
-                                              <input type="text" class="form-control" wire:model="retail_price" aria-label="Text input with segmented dropdown button" placeholder="@lang('Retail price')">
+                                              <input type="text" class="form-control" wire:model.lazy="retail_price" aria-label="Text input with segmented dropdown button" placeholder="@lang('Retail price')">
                                               <div class="input-group-append">
                                                 <button type="button" wire:click="saveRetail" class="btn btn-outline-primary">@lang('Save')</button>
                                                 <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -79,7 +79,7 @@
                                               <div class="input-group-prepend">
                                                 <span class="input-group-text" id="basic-addon1">${{ $product_average_wholesale_price }}</span>
                                               </div>
-                                              <input type="text" class="form-control" wire:model="average_wholesale_price" aria-label="Text input with segmented dropdown button" placeholder="@lang('Average wholesale price')">
+                                              <input type="text" class="form-control" wire:model.lazy="average_wholesale_price" aria-label="Text input with segmented dropdown button" placeholder="@lang('Average wholesale price')">
                                               <div class="input-group-append">
                                                 <button type="button" wire:click="saveAverageWholesale" class="btn btn-outline-primary">@lang('Save')</button>
                                                 <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -99,7 +99,7 @@
                                               <div class="input-group-prepend">
                                                 <span class="input-group-text" id="basic-addon1">${{ $product_wholesale_price }}</span>
                                               </div>
-                                              <input type="text" class="form-control" wire:model="wholesale_price" aria-label="Text input with segmented dropdown button" placeholder="@lang('Wholesale price')">
+                                              <input type="text" class="form-control" wire:model.lazy="wholesale_price" aria-label="Text input with segmented dropdown button" placeholder="@lang('Wholesale price')">
                                               <div class="input-group-append">
                                                 <button type="button" wire:click="saveWholesale" class="btn btn-outline-primary">@lang('Save')</button>
                                                 <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -157,7 +157,7 @@
                                           @if($customPrices == true)
                                               <td class="table-info"> 
                                                 <input type="number" 
-                                                    wire:model="productModel.{{ $key }}.price"
+                                                    wire:model.lazy="productModel.{{ $key }}.price"
                                                     wire:keydown.enter="save" 
                                                     class="form-control" placeholder="{{ $product_price }}"
                                                     step="any" 

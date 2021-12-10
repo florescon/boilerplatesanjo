@@ -40,9 +40,7 @@ class MaterialController extends Controller
 
         return redirect()->back()
           ->withFlashSuccess('Materia prima actualizada con éxito');
-
     }
-
 
     public function select2LoadMore(Request $request)
     {
@@ -52,5 +50,4 @@ class MaterialController extends Controller
         ->paginate(5);
         return response()->json(['items' => $data->toArray()['data'], 'pagination' => $data->nextPageUrl() ? true : false]);
     }
-
 }
