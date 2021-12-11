@@ -37,8 +37,6 @@ class CreateProduct extends Component
 
     public function store()
     {
-        dd($this->size_id);
-
         $this->validate();
 
         if($this->photo){

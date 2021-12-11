@@ -8,14 +8,12 @@ use Livewire\Component;
 class CreateSize extends Component
 {
     public $name, $short_name;
-    public bool $is_parent_size = false;
-    public ?int $parent = null;
-    
+
     protected $listeners = ['createmodal'];
 
     protected $rules = [
         'name' => 'required|min:1',
-        'short_name' => 'required_if:is_parent_size,false|nullable|min:1|max:6|unique:sizes',
+        'short_name' => 'required|min:1|max:6|unique:sizes',
     ];
 
     private function resetInputFields()
@@ -23,7 +21,6 @@ class CreateSize extends Component
         $this->resetValidation();
         $this->name = '';
         $this->short_name = '';
-        $this->is_parent_size = false;
     }
 
     public function createmodal()
@@ -40,15 +37,11 @@ class CreateSize extends Component
     {
         $validatedData = $this->validate();
 
-        Size::create([
-            'name' => $this->name,
-            'short_name' => !$this->is_parent_size ? $this->short_name : null,
-            'parent_id' => $this->parent ?: null,
-            'is_parent' => $this->is_parent_size ? true : false,
-        ]);
+        Size::create($validatedData);
 
         $this->resetInputFields();
         $this->emit('sizeStore');
+
 
 		$this->emit('swal:alert', [
 		    'icon' => 'success',

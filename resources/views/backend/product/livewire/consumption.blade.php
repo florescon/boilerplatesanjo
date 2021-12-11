@@ -250,6 +250,7 @@
   <script>
     $(document).ready(function() {
       $('#materialmultiple').select2({
+        closeOnSelect: false,
         placeholder: '@lang("Choose feedstocks")',
         width: 'resolve',
         theme: 'bootstrap4',

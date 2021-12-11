@@ -16,8 +16,8 @@
                     <label for="name" class="col-md-2 col-form-label">@lang('Name')<sup>*</sup></label>
 
                     <div class="col-md-10">
-                        <input type="text" name="name" wire:model.lazy="name" class="form-control" placeholder="{{ __('Name') }}" value="{{ old('name') }}" maxlength="100" required />
-                        
+                        <input type="text" name="name" wire:model.lazy="name" class="form-control" placeholder="{{ __('Name') }}" value="{{ old('name') }}" maxlength="100" autofocus required />
+                                                
                         @error('name') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
                 </div><!--form-group-->
@@ -100,7 +100,7 @@
                     <label for="price" class="col-md-2 col-form-label">@lang('Price')<sup>*</sup></label>
 
                     <div class="col-md-10">
-                        <input type="text" name="price" wire:model.lazy="price" class="form-control" placeholder="{{ __('Price') }}" value="{{ old('price') }}" maxlength="100" required />
+                        <input type="text" name="price" wire:model="price" class="form-control" placeholder="{{ __('Price') }}" value="{{ old('price') }}" maxlength="100" required />
 
                         @error('price') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
@@ -210,6 +210,7 @@
     <script>
       $(document).ready(function() {
         $('#colorselect').select2({
+          closeOnSelect: false,
           placeholder: '@lang("Choose colors")',
           width: 'resolve',
           theme: 'bootstrap4',
@@ -275,7 +276,7 @@
                         results: data.items.map(function (item) {
                             return {
                                 id: item.id,
-                                text: item.name + ' ' + (item.is_parent ? '<span class="badge badge-primary">Es talla padre</span>' : '')
+                                text: item.name
                             };
                         }),
                         pagination: {
@@ -286,9 +287,7 @@
                 cache: true,
                 delay: 250,
                 dropdownautowidth: true
-            },
-            escapeMarkup: function(m) { return m; }
-
+            }
           });
 
           $('#sizeselect').on('change', function (e) {
