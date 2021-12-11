@@ -159,6 +159,8 @@
                         <th scope="col" style="width: 180px;">@lang('Difference')</th>
                       @endif
 
+                      <th></th>
+
                     </tr>
                   </thead>
                   <tbody>
@@ -201,7 +203,18 @@
                             @endif
                           </td>
                         @endif
-                        
+                          <td>
+                            @if($yas->puntual == TRUE)
+                              <div class="dropdown">
+                                <a class="btn btn-icon-only " href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                  <a class="dropdown-item" wire:click="delete({{ $yas->id }})">@lang('Delete')</a>
+                                </div>
+                              </div>
+                            @endif                        
+                          </td>
                         </tr>
                       @endforeach
 

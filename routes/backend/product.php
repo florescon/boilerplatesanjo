@@ -81,6 +81,13 @@ Route::group([
                     ->push(__('Product consumption filter'), route('admin.product.consumption_filter', $product));
             });
 
+        Route::get('large-qr', [ProductController::class, 'large_qr'])
+            ->name('large-qr')
+            ->breadcrumbs(function (Trail $trail, Product $product) {
+                $trail->parent('admin.product.index', $product)
+                    ->push(__('Large qr'), route('admin.product.large-qr', $product));
+            });
+
         Route::delete('/', [ProductController::class, 'destroy'])->name('destroy');
     });
 

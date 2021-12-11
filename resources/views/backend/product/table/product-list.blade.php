@@ -105,6 +105,9 @@
 	              <th scope="col">
 	                  @lang('Updated at')
 	              </th>
+	              <th scope="col">
+	                  @lang('QR Label')
+	              </th>
 	              <th scope="col" style="width:200px; max-width: 200px;">@lang('Actions')</th>
 	            </tr>
 	          </thead>
@@ -137,7 +140,6 @@
 	              <td>
 	              	{{ $product->stock_store }}
 	              </td>
-
 	              <td>
 	                <span class="badge badge-dot mr-4">
 	                  <i class="bg-warning"></i> {{ $product->date_for_humans }}
@@ -145,8 +147,10 @@
 	              </td>
 	              <td>
 
+				          <a href="{{ route('admin.product.large-qr', $product->id) }}" target="_blank"><span class='badge badge-primary'><i class="cil-print"></i> @lang('Label')</span></a>
+	              </td>
+	              <td>
 						      <x-utils.link class="mt-2 mr-2 card-header-action btn btn-warning text-white" :href="route('admin.product.consumption_filter', $product->id)" :text="__('Punctual consumption')" />
-
 	              </td>
     	        </tr>
     	        @endforeach

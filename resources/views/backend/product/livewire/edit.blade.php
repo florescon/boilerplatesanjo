@@ -239,7 +239,7 @@
 						</h5>
 					</div>
 
-	  				<div class="col-12">
+	  				<div class="col-12 mt-2">
 	  					<h5> @lang('Sizes'):
 					    <div style="display:inline-block;" 
 					        x-data="
@@ -583,6 +583,8 @@
     <script>
       $(document).ready(function() {
         $('#colorselectmultiple').select2({
+          maximumSelectionLength: 10,
+          closeOnSelect: false,
           placeholder: '@lang("Choose colors")',
           width: 'resolve',
           theme: 'bootstrap4',
@@ -628,6 +630,8 @@
     <script>
       $(document).ready(function() {
         $('#sizeselectmuliple').select2({
+          maximumSelectionLength: 10,
+          closeOnSelect: false,
           placeholder: '@lang("Choose sizes")',
           width: 'resolve',
           theme: 'bootstrap4',

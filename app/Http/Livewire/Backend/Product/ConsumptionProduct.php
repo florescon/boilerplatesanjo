@@ -22,7 +22,7 @@ class ConsumptionProduct extends Component
         'updateQuantity' => ['except' => FALSE],
     ];
 
-    protected $listeners = ['filterByColor' => 'filterByColor', 'filterBySize' => 'filterBySize', 'store', 'clearAll' => '$refresh'];
+    protected $listeners = ['filterByColor' => 'filterByColor', 'filterBySize' => 'filterBySize', 'store', 'delete' => '$refresh', 'clearAll' => '$refresh'];
 
     public function mount(Product $product)
     {
@@ -221,6 +221,17 @@ class ConsumptionProduct extends Component
         return null;
     }
 
+
+   public function delete(Consumption $consumption)
+    {
+        if($consumption)
+            $consumption->delete();
+
+       $this->emit('swal:alert', [
+            'icon' => 'success',
+            'title'   => __('Deleted'), 
+        ]);
+    }
 
     public function render()
     {

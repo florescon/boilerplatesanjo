@@ -746,5 +746,9 @@
     "Download DST": "Descargar DST",
     "Download EMB": "Descargar EMB",
     "Is parent size": "Es talla padre",
-    "The order/sale was successfully deleted": "La orden/venta fue eliminada con éxito"
+    "The order/sale was successfully deleted": "La orden/venta fue eliminada con éxito",
+    "Large": "Largo",
+    "Short": "Corto",
+    "Label": "Etiqueta",
+    "QR Label": "Etiqueta QR"
 }

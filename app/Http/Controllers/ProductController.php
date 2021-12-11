@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\GeneralException;
 use Exception;
+use PDF;
 
 class ProductController extends Controller
 {
@@ -122,6 +123,18 @@ class ProductController extends Controller
         return redirect()->back()->withFlashSuccess(__('Updated codes'));
     }
 
+    public function large_qr(Product $product)
+    {
+        if(!$product->isChildren()){
+            abort(404);
+        }
+
+        $pdf = PDF::loadView('backend.product.ticket.large-qr',compact('product'))->setPaper([0, 0, 1385.98, 296.85], 'landscape');
+        // ->setPaper('A8', 'portrait')
+
+        return $pdf->stream();
+        // return view('backend.order.ticket-order');
+    }
 
     public function destroy(Product $product)
     {
