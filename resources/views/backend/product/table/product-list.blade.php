@@ -24,10 +24,11 @@
 	      @lang('Per page'): &nbsp;
 
 	      <select wire:model="perPage" class="form-control">
-	        <option>12</option>
+	        <option>15</option>
 	        <option>25</option>
 	        <option>50</option>
 	        <option>100</option>
+	        <option>200</option>
 	      </select>
 	    </div><!--col-->
 
@@ -106,7 +107,7 @@
 	                  @lang('Updated at')
 	              </th>
 	              <th scope="col">
-	                  @lang('QR Label')
+	                  @lang('Barcode Label')
 	              </th>
 	              <th scope="col" style="width:200px; max-width: 200px;">@lang('Actions')</th>
 	            </tr>
@@ -147,7 +148,10 @@
 	              </td>
 	              <td>
 
-				          <a href="{{ route('admin.product.large-qr', $product->id) }}" target="_blank"><span class='badge badge-primary'><i class="cil-print"></i> @lang('Label')</span></a>
+				          <a href="{{ route('admin.product.large-barcode', $product->id) }}" target="_blank"><span class='badge badge-primary'><i class="cil-print"></i> @lang('Large')</span></a>
+
+				          <a href="{{ route('admin.product.short-barcode', $product->id) }}" target="_blank"><span class='badge badge-success'><i class="cil-print"></i> @lang('Short')</span></a>
+
 	              </td>
 	              <td>
 						      <x-utils.link class="mt-2 mr-2 card-header-action btn btn-warning text-white" :href="route('admin.product.consumption_filter', $product->id)" :text="__('Punctual consumption')" />

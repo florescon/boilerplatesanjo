@@ -21,7 +21,7 @@ class ListProducts extends Component
     public $search;
 
     public $searchTerm = '';
-    public $perPage = '12';
+    public $perPage = '15';
     public $dateInput = '';
     public $dateOutput = '';
 
@@ -79,7 +79,7 @@ class ListProducts extends Component
     {
         $this->searchTerm = '';
         $this->page = 1;
-        $this->perPage = '12';
+        $this->perPage = '15';
     }
 
     public function clearAll()
@@ -88,7 +88,7 @@ class ListProducts extends Component
         $this->dateOutput = '';
         $this->searchTerm = '';
         $this->page = 1;
-        $this->perPage = '12';
+        $this->perPage = '15';
         $this->selectPage = false;
         $this->selectAll = false;
         $this->selected = [];

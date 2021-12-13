@@ -32,7 +32,7 @@
         {{-- @if($product->code) --}}
           <tr>
             <td align="center">
-              <img src="data:image/png;base64,{{   DNS1D::getBarcodePNG('ASDLILIHASDASDASDOH', 'C128',2,33,array(1,1,1), false)  }}"  style="        
+              <img src="data:image/png;base64,{{   DNS1D::getBarcodePNG($product->code_label, 'C128',2,33,array(1,1,1), false)  }}"  style="        
                     /*position: relative;*/
                 /*margin-top: -10px;*/
                 height:150px;
@@ -44,8 +44,10 @@
                 " 
                 alt="barcode"
               />
+            <i style="font-size: 13px;">{{ $product->code_label }}</i>
 
-{{--                   <img src="data:image/png;base64, {{ base64_encode(\QrCode::format('svg')->size(140)->generate(route('frontend.track.show', 'ASDASD131'))) }} "/>
+
+{{--                   <img src="data:image/png;base64, {{ base64_encode(\QrCode::format('svg')->size(140)->generate(route('frontend.track.show', $product->code_label))) }} "/>
  --}}              
             </td>
           </tr>

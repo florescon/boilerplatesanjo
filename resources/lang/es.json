@@ -750,5 +750,6 @@
     "Large": "Largo",
     "Short": "Corto",
     "Label": "Etiqueta",
+    "Barcode Label": "Etiqueta de barras",
     "QR Label": "Etiqueta QR"
 }

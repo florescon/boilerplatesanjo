@@ -169,6 +169,15 @@ class Product extends Model
         return $this->code;
     }
 
+    public function getCodeLabelAttribute()
+    {
+        if(!$this->hasCodeSubproduct()){
+            return $this->parent->code;
+        }
+
+        return $this->code;
+    }
+
     /**
      * @return bool
      */

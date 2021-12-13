@@ -45,13 +45,13 @@
         <td rowspan="2" class="td-width">
             <img src="{{ public_path('img/logo22-rotate.png') }}" class="rotate" width="140" style="
               /*border: 1px solid;*/
-              margin-top: -20px;
+              margin-top: 20px;
             " 
           />
         </td>
         <td align="center">
           <div style="padding-right: 5px; padding-top: 10px;">
-            <img src="data:image/png;base64,{{   DNS1D::getBarcodePNG('ASDLILIHASDOH', 'C128',1,33,array(1,1,1), false)  }}"  style="        
+            <img src="data:image/png;base64,{{   DNS1D::getBarcodePNG($product->code_label, 'C128',1,33,array(1,1,1), false)  }}"  style="        
                   /*position: relative;*/
               margin-top: -10px;
               height:150px;
@@ -63,26 +63,20 @@
               " 
               alt="barcode"
             />
-            <i style="font-size: 35px;">{{ $product->parent->name }}</i>
+            <i style="font-size: 35px;">{{ $product->code_label }}</i>
           </div>
         </td>
         <td rowspan="2" style="padding-left: 10px;">
-          
-          <img src="data:image/png;base64, {{ base64_encode(\QrCode::format('svg')->size(140)->generate(route('frontend.track.show', 'ASDASD131'))) }} "/>
+          <img src="data:image/png;base64, {{ base64_encode(\QrCode::format('svg')->size(140)->generate($product->code_label)) }} "/>
 
         </td>
       </tr>
       <tr>
         <td align="center">
-          
             <h2>
               {{ $product->parent->name }}
-              {{ $product->parent->name }}
-              {{ $product->parent->name }}
-              {{ $product->parent->name }}
-              {{ $product->color_id ? $product->color->name : '' }} | {!! $product->size_id ? $product->size->name : '' !!}
+              <em>{{ $product->color_id ? $product->color->name : '' }} | {!! $product->size_id ? $product->size->name : '' !!}</em>
             </h2>
-
         </td>
       </tr>
     </table> 

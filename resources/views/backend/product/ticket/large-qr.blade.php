@@ -32,7 +32,7 @@
         {{-- @if($product->code) --}}
           <tr>
               <td align="center">
-                  <img src="data:image/png;base64, {{ base64_encode(\QrCode::format('svg')->size(140)->generate(route('frontend.track.show', 'ASDASD131'))) }} "/>
+                  <img src="data:image/png;base64, {{ base64_encode(\QrCode::format('svg')->size(140)->generate(route('frontend.track.show', $product->code_label))) }} "/>
               </td>
           </tr>
        {{-- @endif --}}
