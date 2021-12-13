@@ -49,7 +49,6 @@ class ProductController extends Controller
         return view('backend.product.advanced-product', compact('product'));
     }
 
-
     public function prices(Product $product)
     {
         if($product->isChildren()){
@@ -59,7 +58,6 @@ class ProductController extends Controller
         return view('backend.product.prices-product', compact('product'));
     }
 
-
     public function pictures(Product $product)
     {
         if($product->isChildren()){
@@ -68,7 +66,6 @@ class ProductController extends Controller
 
         return view('backend.product.pictures-product', compact('product'));
     }
-
 
     public function moveStock(Product $product)
     {
@@ -130,6 +127,32 @@ class ProductController extends Controller
         }
 
         $pdf = PDF::loadView('backend.product.ticket.large-qr',compact('product'))->setPaper([0, 0, 1385.98, 296.85], 'landscape');
+        // ->setPaper('A8', 'portrait')
+
+        return $pdf->stream();
+        // return view('backend.order.ticket-order');
+    }
+
+    public function large_barcode(Product $product)
+    {
+        if(!$product->isChildren()){
+            abort(404);
+        }
+
+        $pdf = PDF::loadView('backend.product.ticket.large-barcode',compact('product'))->setPaper([0, 0, 1385.98, 296.85], 'landscape');
+        // ->setPaper('A8', 'portrait')
+
+        return $pdf->stream();
+        // return view('backend.order.ticket-order');
+    }
+
+    public function short_barcode(Product $product)
+    {
+        if(!$product->isChildren()){
+            abort(404);
+        }
+
+        $pdf = PDF::loadView('backend.product.ticket.short-barcode',compact('product'))->setPaper([0, 0, 320.98, 796.85], 'landscape');
         // ->setPaper('A8', 'portrait')
 
         return $pdf->stream();

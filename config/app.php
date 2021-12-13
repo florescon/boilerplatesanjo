@@ -186,8 +186,7 @@ return [
 
         Barryvdh\DomPDF\ServiceProvider::class,
         Cviebrock\EloquentSluggable\ServiceProvider::class,
-
-
+        Milon\Barcode\BarcodeServiceProvider::class,
     ],
 
     /*
@@ -244,7 +243,8 @@ return [
         'Cart'=> App\Facades\Cart::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
 
-
+        'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
+        'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
     ],
 
 ];

@@ -31,9 +31,23 @@
       <table width="100%">
         {{-- @if($product->code) --}}
           <tr>
-              <td align="center">
-                  <img src="data:image/png;base64, {{ base64_encode(\QrCode::format('svg')->size(140)->generate(route('frontend.track.show', 'ASDASD131'))) }} "/>
-              </td>
+            <td align="center">
+              <img src="data:image/png;base64,{{   DNS1D::getBarcodePNG('ASDLILIHASDASDASDOH', 'C128',2,33,array(1,1,1), false)  }}"  style="        
+                    /*position: relative;*/
+                /*margin-top: -10px;*/
+                height:150px;
+                /*padding-bottom: 0;*/
+                width: 100%;
+                /*overflow: hidden;*/
+                /*border: 1px solid;*/
+                
+                " 
+                alt="barcode"
+              />
+
+{{--                   <img src="data:image/png;base64, {{ base64_encode(\QrCode::format('svg')->size(140)->generate(route('frontend.track.show', 'ASDASD131'))) }} "/>
+ --}}              
+            </td>
           </tr>
        {{-- @endif --}}
         <tr>

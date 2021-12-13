@@ -87,6 +87,19 @@ Route::group([
                 $trail->parent('admin.product.index', $product)
                     ->push(__('Large qr'), route('admin.product.large-qr', $product));
             });
+        Route::get('large-barcode', [ProductController::class, 'large_barcode'])
+            ->name('large-barcode')
+            ->breadcrumbs(function (Trail $trail, Product $product) {
+                $trail->parent('admin.product.index', $product)
+                    ->push(__('Large barcode'), route('admin.product.large-barcode', $product));
+            });
+
+        Route::get('short-barcode', [ProductController::class, 'short_barcode'])
+            ->name('short-barcode')
+            ->breadcrumbs(function (Trail $trail, Product $product) {
+                $trail->parent('admin.product.index', $product)
+                    ->push(__('Short barcode'), route('admin.product.short-barcode', $product));
+            });
 
         Route::delete('/', [ProductController::class, 'destroy'])->name('destroy');
     });
