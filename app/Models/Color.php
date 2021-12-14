@@ -120,6 +120,28 @@ class Color extends Model
     }
 
     /**
+     * Get the color's name.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getNameAttribute($value)
+    {
+        return ucfirst(strtolower($value));
+    }
+
+    /**
+     * Get the color's short_name.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getShortNameAttribute($value)
+    {
+        return strtoupper($value);
+    }
+
+    /**
      * Set the color's name.
      *
      * @param  string  $value

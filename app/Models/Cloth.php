@@ -28,6 +28,17 @@ class Cloth extends Model
     }
 
     /**
+     * Get the cloth's name.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getNameAttribute($value)
+    {
+        return ucfirst(strtolower($value));
+    }
+
+    /**
      * Set the cloth's name.
      *
      * @param  string  $value

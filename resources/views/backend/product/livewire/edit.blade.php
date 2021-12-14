@@ -308,20 +308,26 @@
 					      <th scope="row"><span class="text-monospace text-success"><u>@lang('Increase')</u></span></th>
 					      <td>
 							<div class="custom-control custom-switch custom-control-inline">
-								<input type="checkbox" wire:model="increaseStock" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
-								<label class="custom-control-label" for="customRadioInline1"></label>
+		                        <label class="c-switch c-switch-success">
+		                          <input type="checkbox" class="c-switch-input" wire:model="increaseStock">
+		                          <span class="c-switch-slider"></span>
+		                        </label>
 							</div>
 					      </td>
 					      <td>
 					      	<div class="custom-control custom-switch custom-control-inline">
-								<input type="checkbox" wire:model="increaseStockRevision" id="customRadioInline3" name="customRadioInline3" class="custom-control-input">
-								<label class="custom-control-label" for="customRadioInline3"></label>
+		                        <label class="c-switch c-switch-success">
+		                          <input type="checkbox" class="c-switch-input" wire:model="increaseStockRevision">
+		                          <span class="c-switch-slider"></span>
+		                        </label>
 							</div>
 					      </td>
 					      <td>
 					      	<div class="custom-control custom-switch custom-control-inline">
-								<input type="checkbox" wire:model="increaseStockStore" id="customRadioInline5" name="customRadioInline5" class="custom-control-input">
-								<label class="custom-control-label" for="customRadioInline5"></label>
+		                        <label class="c-switch c-switch-success">
+		                          <input type="checkbox" class="c-switch-input" wire:model="increaseStockStore">
+		                          <span class="c-switch-slider"></span>
+		                        </label>
 							</div>
 					      </td>
 					    </tr>
@@ -329,21 +335,26 @@
 					      <th scope="row"><span class="text-monospace text-danger"><u>@lang('Subtract')</u></span></th>
 					      <td>
 					      	<div class="custom-control custom-switch custom-control-inline">
-								<input type="checkbox" wire:model="subtractStock" id="customRadioInline2" name="customRadioInline2" class="custom-control-input">
-								<label class="custom-control-label" for="customRadioInline2"></label>
-							</div>
-
-					      </td>
-					      <td>
-					      	<div class="custom-control custom-switch custom-control-inline">
-								<input type="checkbox" wire:model="subtractStockRevision" id="customRadioInline4" name="customRadioInline4" class="custom-control-input">
-								<label class="custom-control-label" for="customRadioInline4"></label>
+		                        <label class="c-switch c-switch-danger">
+		                          <input type="checkbox" class="c-switch-input" wire:model="subtractStock">
+		                          <span class="c-switch-slider"></span>
+		                        </label>
 							</div>
 					      </td>
 					      <td>
 					      	<div class="custom-control custom-switch custom-control-inline">
-								<input type="checkbox" wire:model="subtractStockStore" id="customRadioInline6" name="customRadioInline6" class="custom-control-input">
-								<label class="custom-control-label" for="customRadioInline6"></label>
+		                        <label class="c-switch c-switch-danger">
+		                          <input type="checkbox" class="c-switch-input" wire:model="subtractStockRevision">
+		                          <span class="c-switch-slider"></span>
+		                        </label>
+							</div>
+					      </td>
+					      <td>
+					      	<div class="custom-control custom-switch custom-control-inline">
+		                        <label class="c-switch c-switch-danger">
+		                          <input type="checkbox" class="c-switch-input" wire:model="subtractStockStore">
+		                          <span class="c-switch-slider"></span>
+		                        </label>
 							</div>
 					      </td>
 					    </tr>

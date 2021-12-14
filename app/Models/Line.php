@@ -59,6 +59,17 @@ class Line extends Model
     }
 
     /**
+     * Get the line's name.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getNameAttribute($value)
+    {
+        return ucfirst(strtolower($value));
+    }
+
+    /**
      * Set the line's name.
      *
      * @param  string  $value

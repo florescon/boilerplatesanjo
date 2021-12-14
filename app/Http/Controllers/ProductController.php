@@ -152,7 +152,7 @@ class ProductController extends Controller
             abort(404);
         }
 
-        $pdf = PDF::loadView('backend.product.ticket.short-barcode',compact('product'))->setPaper([0, 0, 320.98, 796.85], 'landscape');
+        $pdf = PDF::loadView('backend.product.ticket.short-barcode',compact('product'))->setPaper([0, 0, 320.98, 896.85], 'landscape');
         // ->setPaper('A8', 'portrait')
 
         return $pdf->stream();

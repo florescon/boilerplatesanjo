@@ -11,20 +11,22 @@ class CreateProduct extends Component
 {
     use WithFileUploads;
 
-    public $name, $code, $description, $color, $size, $photo, $price, $imageName, $photoStatus, $line_id;
-    public $color_id = [];
-    public $size_id = [];
+    public $name, $code, $description, $photo, $price, $imageName, $photoStatus;
 
-    public $foo;
+    public ?int $line = null;
+    public ?int $brand = null;
+
+    public $colors = [];
+    public $sizes = [];
 
     public bool $autoCodes = true;
 
     protected $rules = [
         'name' => 'required|min:3',
-        'code' => 'required|min:3|unique:products',
+        'code' => 'required|min:3|max:15|unique:products',
         'description' => 'nullable|sometimes',
-        'color_id' => 'required',
-        'size_id' => 'required',
+        'colors' => 'required',
+        'sizes' => 'required',
         'photo' => 'image|max:4096|nullable', // 4MB Max
         'price' => 'required|numeric',
     ];
@@ -32,7 +34,6 @@ class CreateProduct extends Component
     private function resetInputFields()
     {
         $this->name = '';
-        $this->color = '';        
     }
 
     public function store()
@@ -47,17 +48,18 @@ class CreateProduct extends Component
             'name' => $this->name,                
             'code' => $this->code,
             'description' => $this->description ? $this->description : null,                
-            'line_id' => $this->line_id ?? null,                
+            'line_id' => $this->line,                
+            'brand_id' => $this->brand,                
             'file_name' => $this->photo ? $imageName : null,
             'price' => $this->price,
-            'automatic_code' => false,
-            // 'size_id' => $this->size_id,
-            // 'color_id' => $this->color_id,
+            'automatic_code' => $this->autoCodes,
+            // 'sizes' => $this->sizes,
+            // 'color_id' => $this->colors,
         ]);
 
-        foreach($this->color_id as $color){
+        foreach($this->colors as $color){
             
-            foreach($this->size_id as $size){        
+            foreach($this->sizes as $size){        
                 $product->children()->saveMany([
                     new Product([
                         'size_id' => $size,

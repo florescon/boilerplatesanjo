@@ -31,11 +31,14 @@
       <a href="#" class="card-header-action" style="color: green;" data-toggle="modal" wire:click="createmodal()" data-target="#exampleModal"><i class="c-icon cil-plus"></i> @lang('Create document') </a>
     </div>
 
-    <div class="row justify-content-md-end">
+    <div class="row justify-content-md-end custom-control custom-switch custom-control-inline">
+      <em class="{{ $deleted ? 'text-danger' : 'text-dark' }} mt-2"> @lang('Deletions')</em>
         <div class="col-md-2 mt-2">
-          <div class="custom-control custom-switch">
-            <input type="checkbox" wire:model="deleted" class="custom-control-input" id="deletedSwitch">
-            <label class="custom-control-label" for="deletedSwitch"> <p class="{{ $deleted ? 'text-primary' : 'text-dark' }}"> @lang('Deletions')</p></label>
+          <div class="form-check">
+            <label class="c-switch c-switch-danger">
+              <input type="checkbox" class="c-switch-input" wire:model="deleted">
+              <span class="c-switch-slider"></span>
+            </label>
           </div>
         </div>
     </div>

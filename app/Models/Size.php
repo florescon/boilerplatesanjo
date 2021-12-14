@@ -82,6 +82,17 @@ class Size extends Model
         return ($this->count_products * 100) / $this->total_variants;
     }
 
+    /**
+     * Get the size's short_name.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getShortNameAttribute($value)
+    {
+        return strtoupper($value);
+    }
+
     public function getUndefinedCodingAttribute(): ?string
     {
         if($this->short_name == null){

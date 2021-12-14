@@ -195,6 +195,15 @@ class Product extends Model
         return $this->price;
     }
 
+    public function getPriceSubproductLabelAttribute()
+    {
+        if(!$this->hasPriceSubproduct()){
+            return $this->parent->price;
+        }
+
+        return $this->price;
+    }
+
     /**
      * Get the description associated with the product.
      */
@@ -349,6 +358,17 @@ class Product extends Model
         });
     }
 
+    /**
+     * Get the product's code.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getCodeAttribute($value)
+    {
+        return strtoupper($value);
+    }
+
      /**
      * Set the product's name.
      *
@@ -368,5 +388,6 @@ class Product extends Model
     protected $casts = [
         'type' => 'boolean',
         'status' => 'boolean',
+        'automatic_code' => 'boolean',
     ];
 }

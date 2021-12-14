@@ -27,7 +27,7 @@
     font-size: 45px;
   }
   h2 {
-    font-size: 30px;
+    font-size: 40px;
   }
 
   .rotate {
@@ -45,18 +45,18 @@
         <td rowspan="2" class="td-width">
             <img src="{{ public_path('img/logo22-rotate.png') }}" class="rotate" width="140" style="
               /*border: 1px solid;*/
-              margin-top: 20px;
+              margin-top: 40px;
             " 
           />
         </td>
         <td align="center">
-          <div style="padding-right: 5px; padding-top: 10px;">
+          <div style="padding-right: 5px; padding-top: 20px;">
             <img src="data:image/png;base64,{{   DNS1D::getBarcodePNG($product->code_label, 'C128',1,33,array(1,1,1), false)  }}"  style="        
                   /*position: relative;*/
               margin-top: -10px;
               height:150px;
               /*padding-bottom: 0;*/
-              width: 100%;
+              width: 115%;
               /*overflow: hidden;*/
               /*border: 1px solid;*/
               
@@ -66,8 +66,12 @@
             <i style="font-size: 35px;">{{ $product->code_label }}</i>
           </div>
         </td>
-        <td rowspan="2" style="padding-left: 10px;">
-          <img src="data:image/png;base64, {{ base64_encode(\QrCode::format('svg')->size(140)->generate($product->code_label)) }} "/>
+        <td rowspan="2" style="padding-left: 6px;">
+          <img src="data:image/png;base64, {{ base64_encode(\QrCode::format('svg')->size(170)->generate($product->code_label)) }}" style=" margin-top: 40px;" />
+
+          <h2>
+            {{ '$'.$product->price_subproduct_label }}
+          </h2>
 
         </td>
       </tr>
@@ -81,4 +85,4 @@
       </tr>
     </table> 
   </body>
-</html>
+</html

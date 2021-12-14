@@ -306,7 +306,7 @@
     "Total cash": "Total efectivo",
     "Revision stock": "Stock de revisión",
     "Store stock": "Stock de tienda",
-    "Store stock": "Stock de tienda",
+    "Edit stock": "Editar stock",
     "Quantity of all inventories": "Cantidad todos los inventarios",
     "Show in store": "Mostrar en tienda",
     "Back to store": "Regresar a la tienda",
@@ -745,11 +745,14 @@
     "Download": "Descargar",
     "Download DST": "Descargar DST",
     "Download EMB": "Descargar EMB",
+    "Delete DST": "Eliminar DST",
+    "Delete EMB": "Eliminar EMB",
     "Is parent size": "Es talla padre",
     "The order/sale was successfully deleted": "La orden/venta fue eliminada con éxito",
     "Large": "Largo",
     "Short": "Corto",
     "Label": "Etiqueta",
     "Barcode Label": "Etiqueta de barras",
-    "QR Label": "Etiqueta QR"
+    "QR Label": "Etiqueta QR",
+    "Incorrect format": "Formato incorrecto"
 }

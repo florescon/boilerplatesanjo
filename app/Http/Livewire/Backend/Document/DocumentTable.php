@@ -41,9 +41,15 @@ class DocumentTable extends Component
     public $created, $updated, $deleted, $selected_id;
 
     protected $rules = [
-        'title' => 'required|min:3',
+        'title' => 'required|min:3|max:60',
         'file_dst' => 'sometimes|mimetypes:application/octet-stream|max:2048',
         'file_emb' => 'sometimes|mimetypes:application/vnd.ms-office|max:2048',
+        'comment' => 'max:100',
+    ];
+
+    protected $messages = [
+        'file_dst.mimetypes' => 'Incorrect format',
+        'file_emb.mimetypes' => 'Incorrect format',
     ];
 
     public function getRowsQueryProperty()
@@ -117,6 +123,7 @@ class DocumentTable extends Component
 
     public function store()
     {
+        // dd($this->file_dst);
         // $yas = $this->file_emb->getMimeType();
         // dd($yas);
 
@@ -133,15 +140,21 @@ class DocumentTable extends Component
             $documentModel->file_emb = $this->file_emb ? $fileEMB : null;
             $documentModel->comment = $this->comment ?? null;
             $documentModel->save();
+
+            $this->emit('swal:alert', [
+                'icon' => 'success',
+                'title'   => __('Created'), 
+            ]);
+        }
+        else {
+            $this->emit('swal:alert', [
+                'icon' => 'warning',
+                'title'   => 'No puedes crear algo en blanco :)', 
+            ]);
         }
 
         $this->resetInputFields();
         $this->emit('documentStore');
-
-        $this->emit('swal:alert', [
-            'icon' => 'success',
-            'title'   => __('Created'), 
-        ]);
     }
 
     public function edit($id)
@@ -258,6 +271,18 @@ class DocumentTable extends Component
             'icon' => 'success',
             'title'   => __('Disabled'), 
         ]);
+    }
+
+    public function removeDST()
+    {
+        $this->file_dst = '';
+        $this->resetValidation();
+    }
+
+    public function removeEMB()
+    {
+        $this->file_emb = '';
+        $this->resetValidation();
     }
 
     public function delete(Document $document)

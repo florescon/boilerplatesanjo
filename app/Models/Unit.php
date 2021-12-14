@@ -28,6 +28,17 @@ class Unit extends Model
     }
 
     /**
+     * Get the unit's name.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getNameAttribute($value)
+    {
+        return ucfirst(strtolower($value));
+    }
+
+    /**
      * Set the unit's name.
      *
      * @param  string  $value
