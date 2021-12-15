@@ -148,9 +148,9 @@
 	              </td>
 	              <td>
 
-				          <a href="{{ route('admin.product.large-barcode', $product->id) }}" target="_blank"><span class='badge badge-primary'><i class="cil-print"></i> @lang('Large')</span></a>
+				          <a href="{{ route('admin.product.large-barcode', $product->id) }}" target="_blank"><span class='badge badge-dark'><i class="cil-print"></i> @lang('Large')</span></a>
 
-				          <a href="{{ route('admin.product.short-barcode', $product->id) }}" target="_blank"><span class='badge badge-success'><i class="cil-print"></i> @lang('Short')</span></a>
+				          <a href="{{ route('admin.product.short-barcode', $product->id) }}" target="_blank"><span class='badge badge-info'><i class="cil-print"></i> @lang('Short')</span></a>
 
 	              </td>
 	              <td>

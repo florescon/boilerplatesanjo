@@ -11,7 +11,21 @@ class EditProduct extends Component
 {
     use WithFileUploads;
 
-    public $slug, $isCode, $code, $isName, $name, $isDescription, $origDescription, $newDescription, $increaseStock, $subtractStock, $increaseStockRevision, $subtractStockRevision, $increaseStockStore, $subtractStockStore, $inputincrease, $inputsubtract, $inputincreaserevision, $inputsubtractrevision, $inputincreasestore, $inputsubtractstore, $product_id, $color_id_select, $size_id_select, $photo, $imageName, $origPhoto, $colorss, $line_id, $brand_id;
+    public $slug, $isCode, $code, $isName, $name, $isDescription, $origDescription, $newDescription, $inputincrease, $inputsubtract, $inputincreaserevision, $inputsubtractrevision, $inputincreasestore, $inputsubtractstore, $product_id, $color_id_select, $size_id_select, $photo, $imageName, $origPhoto;
+
+
+    public ?int $line_id = null;
+    public ?int $brand_id = null;
+
+    public bool $increaseStock = false;
+    public bool $subtractStock = false;
+    public bool $increaseStockRevision = false;
+    public bool $subtractStockRevision = false;
+    public bool $increaseStockStore = false;
+    public bool $subtractStockStore = false;
+
+    public bool $showCodes = false;
+    public bool $showLabels = false;
 
     public $colorsmultiple_id = [];
     public $sizesmultiple_id = [];
@@ -25,6 +39,8 @@ class EditProduct extends Component
         'subtractStockRevision' => ['except' => FALSE],
         'increaseStockStore' => ['except' => FALSE],
         'subtractStockStore' => ['except' => FALSE],
+        'showCodes' => ['except' => FALSE],
+        'showLabels' => ['except' => FALSE],
     ];
 
     protected $listeners = ['filterByColor' => 'filterByColor', 'filterBySize' => 'filterBySize', 'increase', 'savecolor', 'storemultiple', 'clearAll' => '$refresh'];
@@ -342,6 +358,12 @@ class EditProduct extends Component
         $this->subtractStockStore = FALSE;
     }
 
+    public function clearCodeAndLabels()
+    {
+        $this->showCodes = FALSE;
+        $this->showLabels = FALSE;
+    }
+
     public function increase()
     {
         $this->validate([
@@ -426,12 +448,23 @@ class EditProduct extends Component
         ]);
     }
 
+    public function updatedShowCodes()
+    {
+        $this->clearAll();
+    }
+
+    public function updatedShowLabels()
+    {
+        $this->clearAll();
+    }
+
     public function updatedIncreaseStock()
     {
         $this->subtractStock = FALSE;
         // $this->increaseStockRevision = FALSE;
         $this->subtractStockRevision= FALSE;
         $this->subtractStockStore= FALSE;
+        $this->clearCodeAndLabels();
     }
 
     public function updatedSubtractStock()
@@ -439,6 +472,7 @@ class EditProduct extends Component
         $this->increaseStock = FALSE;
         $this->increaseStockRevision = FALSE;
         $this->increaseStockStore = FALSE;
+        $this->clearCodeAndLabels();
     }
 
     public function updatedIncreaseStockRevision()
@@ -446,6 +480,7 @@ class EditProduct extends Component
         $this->subtractStock = FALSE;
         $this->subtractStockRevision = FALSE;
         $this->subtractStockStore = FALSE;
+        $this->clearCodeAndLabels();
     }
 
     public function updatedSubtractStockRevision()
@@ -453,6 +488,7 @@ class EditProduct extends Component
         $this->increaseStock = FALSE;
         $this->increaseStockRevision = FALSE;
         $this->increaseStockStore = FALSE;
+        $this->clearCodeAndLabels();
     }
 
     public function updatedIncreaseStockStore()
@@ -460,6 +496,7 @@ class EditProduct extends Component
         $this->subtractStock = FALSE;
         $this->subtractStockRevision = FALSE;
         $this->subtractStockStore = FALSE;
+        $this->clearCodeAndLabels();
     }
 
     public function updatedSubtractStockStore()
@@ -467,6 +504,7 @@ class EditProduct extends Component
         $this->increaseStock = FALSE;
         $this->increaseStockRevision = FALSE;
         $this->increaseStockStore = FALSE;
+        $this->clearCodeAndLabels();
     }
 
     private function init(Product $product)

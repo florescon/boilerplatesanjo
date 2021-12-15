@@ -754,5 +754,8 @@
     "Label": "Etiqueta",
     "Barcode Label": "Etiqueta de barras",
     "QR Label": "Etiqueta QR",
-    "Incorrect format": "Formato incorrecto"
+    "Incorrect format": "Formato incorrecto",
+    "Show codes": "Mostrar códigos",
+    "Show labels": "Mostrar etiquetas",
+    "Labels": "Etiquetas"
 }

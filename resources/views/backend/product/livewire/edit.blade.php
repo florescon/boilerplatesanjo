@@ -1,5 +1,4 @@
 <x-backend.card>
-
 	<x-slot name="header">
         @lang('Update product')
  	</x-slot>
@@ -24,10 +23,8 @@
 			</div>
 		@endif
 
-		<div class="row ">
-
+		<div class="row">
 			<div class="col-12 col-md-4">
-
 			    <div class="card card-product_not_hover card-flyer-without-hover">
 
 	                @if ($photo)
@@ -75,7 +72,6 @@
 				    	<strong>
 				    
                   			<x-input.input-alpine nameData="isName" :inputText="$isName" :originalInput="$isName" wireSubmit="savename" modelName="name" maxlength="200" />
-
 
 				    	</strong>
 				    </h5>
@@ -152,9 +148,7 @@
 						  <a href="{{ route('admin.product.move', $model->id) }}" class="card-link">@lang('Move between stocks')</a>
 					    </li>
 					  </ul>
-
 		                {{-- <x-input.rich-text wire:model.lazy="about" id="about" :initial-value="$about" /> --}}
-	
 			      </div>
 			    </div>
 			</div>
@@ -162,67 +156,114 @@
   			<div class="col-12 col-sm-6 col-md-8">
 
 				@if(!$model->children->count())
-				<form wire:submit.prevent="storemultiple">
+					<form wire:submit.prevent="storemultiple">
 
-	                <div class="form-group row" wire:ignore>
-	                    <label for="colorselectmultiple" class="col-sm-2 col-form-label">@lang('Colors')</label>
+		                <div class="form-group row" wire:ignore>
+		                    <label for="colorselectmultiple" class="col-sm-2 col-form-label">@lang('Colors')</label>
 
-	                    <div class="col-sm-10" >
-	                        <select id="colorselectmultiple" multiple="multiple" class="custom-select" style="width: 100%;" aria-hidden="true" >
-	                        </select>
-	                    </div>
-	                </div><!--form-group-->
+		                    <div class="col-sm-10" >
+		                        <select id="colorselectmultiple" multiple="multiple" class="custom-select" style="width: 100%;" aria-hidden="true" >
+		                        </select>
+		                    </div>
+		                </div><!--form-group-->
 
 
-	                <div class="form-group row" wire:ignore>
-	                    <label for="sizeselectmuliple" class="col-sm-2 col-form-label">@lang('Sizes')</label>
+		                <div class="form-group row" wire:ignore>
+		                    <label for="sizeselectmuliple" class="col-sm-2 col-form-label">@lang('Sizes')</label>
 
-	                    <div class="col-sm-10" >
-	                        <select id="sizeselectmuliple" multiple="multiple" class="custom-select" style="width: 100%;" aria-hidden="true">
-	                        </select>
-	                    </div>
-	                </div><!--form-group-->
-	                @if($colorsmultiple_id && $sizesmultiple_id)
-	                	<button class="btn btn-sm btn-primary float-right" type="submit">@lang('Save')</button>
-	                @endif
+		                    <div class="col-sm-10" >
+		                        <select id="sizeselectmuliple" multiple="multiple" class="custom-select" style="width: 100%;" aria-hidden="true">
+		                        </select>
+		                    </div>
+		                </div><!--form-group-->
+		                @if($colorsmultiple_id && $sizesmultiple_id)
+		                	<button class="btn btn-sm btn-primary float-right" type="submit">@lang('Save')</button>
+		                @endif
 
-	            </form>
+		            </form>
                 @else 
+	  				<div class="row">
+		  				<div class="col-12">
+		  					<h5> @lang('Colors'): 
+		
+							    <div style="display:inline-block;" 
+							        x-data="
+							            {
+							                 isNewColor: false,
+							            }
+							        "
+							        x-cloak
+							    >
+						            <div
+							            x-show=!isNewColor
+							        >
+										<span class="badge bg-success text-white" x-on:click="isNewColor = true; $nextTick(() => focus())"> <i class="cil-plus"></i> </span>
 
-  				<div class="row">
-	  				<div class="col-12">
-	  					<h5> @lang('Colors'): 
-	
+								    </div>
+
+							        <div x-show=isNewColor >
+							            <form class="flex" wire:submit.prevent="savecolor">
+
+											<div class="input-group w-80 input-group-sm">
+										    	<div wire:ignore x-on:keydown.escape="isNewColor = false">
+									     			<select  id="colorselect"  class="custom-select" aria-hidden="true" required style="width: 180px; ">
+									        		</select>
+									    		</div>
+
+										    	<div class="input-group-append input-group-sm">
+												    <span class="input-group-text" x-on:click="isNewColor = false">
+												    	<i class="cil-x"></i>
+												    </span>
+				
+											 		<button class="btn btn-primary" x-on:click="isNewColor = false" type="submit"><i class="cil-check-alt"></i></button>
+
+											  	</div>
+											</div>
+							    		</form>
+							        </div>
+							    </div>
+
+		  						@foreach($attributes->children->unique('color_id')->sortBy('color.name') as $children) 	
+									<span class="badge text-white {{ in_array($children->color_id, $filters) ? 'bg-primary' : 'bg-dark' }}" 
+						                  wire:click="$emit('filterByColor', {{ $children->color_id }})"
+										  style="cursor:pointer"
+									>{{ optional($children->color)->name }}</span>
+								@endforeach
+							</h5>
+						</div>
+
+		  				<div class="col-12 mt-2">
+		  					<h5> @lang('Sizes'):
 						    <div style="display:inline-block;" 
 						        x-data="
 						            {
-						                 isNewColor: false,
+						                 isNewSize: false,
 						            }
 						        "
 						        x-cloak
 						    >
 					            <div
-						            x-show=!isNewColor
+						            x-show=!isNewSize
 						        >
-									<span class="badge bg-success text-white" x-on:click="isNewColor = true; $nextTick(() => focus())"> <i class="cil-plus"></i> </span>
+									<span class="badge bg-success text-white" x-on:click="isNewSize = true; $nextTick(() => focus())"> <i class="cil-plus"></i> </span>
 
 							    </div>
 
-						        <div x-show=isNewColor >
-						            <form class="flex" wire:submit.prevent="savecolor">
+						        <div x-show=isNewSize >
+						            <form class="flex" wire:submit.prevent="savesize">
 
 										<div class="input-group w-80 input-group-sm">
-									    	<div wire:ignore x-on:keydown.escape="isNewColor = false">
-								     			<select  id="colorselect"  class="custom-select" aria-hidden="true" required style="width: 180px; ">
+									    	<div wire:ignore x-on:keydown.escape="isNewSize = false">
+								     			<select  id="sizeselect"  class="custom-select" aria-hidden="true" required style="width: 180px; ">
 								        		</select>
 								    		</div>
 
 									    	<div class="input-group-append input-group-sm">
-											    <span class="input-group-text" x-on:click="isNewColor = false">
+											    <span class="input-group-text" x-on:click="isNewSize = false">
 											    	<i class="cil-x"></i>
 											    </span>
 			
-										 		<button class="btn btn-primary" x-on:click="isNewColor = false" type="submit"><i class="cil-check-alt"></i></button>
+										 		<button class="btn btn-primary"  x-on:click="isNewSize = false" type="submit"><i class="cil-check-alt"></i></button>
 
 										  	</div>
 										</div>
@@ -230,148 +271,135 @@
 						        </div>
 						    </div>
 
-	  						@foreach($attributes->children->unique('color_id')->sortBy('color.name') as $children) 	
-								<span class="badge text-white {{ in_array($children->color_id, $filters) ? 'bg-primary' : 'bg-dark' }}" 
-					                  wire:click="$emit('filterByColor', {{ $children->color_id }})"
+	  						@foreach($attributes->children->unique('size_id')->sortBy('size.name') as $children) 	
+								<span class="badge text-white {{ in_array($children->size_id, $filtersz) ? 'bg-primary' : 'bg-dark' }}" 
+					                  wire:click="$emit('filterBySize', {{ $children->size_id }})"
 									  style="cursor:pointer"
-								>{{ optional($children->color)->name }}</span>
+								>{{ optional($children->size)->name }}</span>
 							@endforeach
-						</h5>
+
+							</h5>
+						</div>
 					</div>
-
-	  				<div class="col-12 mt-2">
-	  					<h5> @lang('Sizes'):
-					    <div style="display:inline-block;" 
-					        x-data="
-					            {
-					                 isNewSize: false,
-					            }
-					        "
-					        x-cloak
-					    >
-				            <div
-					            x-show=!isNewSize
-					        >
-								<span class="badge bg-success text-white" x-on:click="isNewSize = true; $nextTick(() => focus())"> <i class="cil-plus"></i> </span>
-
-						    </div>
-
-					        <div x-show=isNewSize >
-					            <form class="flex" wire:submit.prevent="savesize">
-
-									<div class="input-group w-80 input-group-sm">
-								    	<div wire:ignore x-on:keydown.escape="isNewSize = false">
-							     			<select  id="sizeselect"  class="custom-select" aria-hidden="true" required style="width: 180px; ">
-							        		</select>
-							    		</div>
-
-								    	<div class="input-group-append input-group-sm">
-										    <span class="input-group-text" x-on:click="isNewSize = false">
-										    	<i class="cil-x"></i>
-										    </span>
-		
-									 		<button class="btn btn-primary"  x-on:click="isNewSize = false" type="submit"><i class="cil-check-alt"></i></button>
-
-									  	</div>
-									</div>
-					    		</form>
-					        </div>
-					    </div>
-
-  						@foreach($attributes->children->unique('size_id')->sortBy('size.name') as $children) 	
-							<span class="badge text-white {{ in_array($children->size_id, $filtersz) ? 'bg-primary' : 'bg-dark' }}" 
-				                  wire:click="$emit('filterBySize', {{ $children->size_id }})"
-								  style="cursor:pointer"
-							>{{ optional($children->size)->name }}</span>
-						@endforeach
-
-						</h5>
-					</div>
-				</div>
 				@endif
 
 				@if($model->children->count())
-  				<div class="row mt-2">
-	  				<div class="col-9">
+	  				<div class="row mt-2">
+		  				<div class="col-9">
 
-					<table class="table table-borderless">
-					  <thead class="border-bottom border-start">
-					    <tr>
-					      <th scope="col">@lang('Action')</th>
-					      <th scope="col">@lang('Stock')</th>
-					      <th scope="col">@lang('S.R.I')</th>
-					      <th scope="col">@lang('Store stock')</th>
-					    </tr>
-					  </thead>
-					  <tbody>
-					    <tr class="">
-					      <th scope="row"><span class="text-monospace text-success"><u>@lang('Increase')</u></span></th>
-					      <td>
-							<div class="custom-control custom-switch custom-control-inline">
-		                        <label class="c-switch c-switch-success">
-		                          <input type="checkbox" class="c-switch-input" wire:model="increaseStock">
-		                          <span class="c-switch-slider"></span>
-		                        </label>
-							</div>
-					      </td>
-					      <td>
-					      	<div class="custom-control custom-switch custom-control-inline">
-		                        <label class="c-switch c-switch-success">
-		                          <input type="checkbox" class="c-switch-input" wire:model="increaseStockRevision">
-		                          <span class="c-switch-slider"></span>
-		                        </label>
-							</div>
-					      </td>
-					      <td>
-					      	<div class="custom-control custom-switch custom-control-inline">
-		                        <label class="c-switch c-switch-success">
-		                          <input type="checkbox" class="c-switch-input" wire:model="increaseStockStore">
-		                          <span class="c-switch-slider"></span>
-		                        </label>
-							</div>
-					      </td>
-					    </tr>
-					    <tr class="">
-					      <th scope="row"><span class="text-monospace text-danger"><u>@lang('Subtract')</u></span></th>
-					      <td>
-					      	<div class="custom-control custom-switch custom-control-inline">
-		                        <label class="c-switch c-switch-danger">
-		                          <input type="checkbox" class="c-switch-input" wire:model="subtractStock">
-		                          <span class="c-switch-slider"></span>
-		                        </label>
-							</div>
-					      </td>
-					      <td>
-					      	<div class="custom-control custom-switch custom-control-inline">
-		                        <label class="c-switch c-switch-danger">
-		                          <input type="checkbox" class="c-switch-input" wire:model="subtractStockRevision">
-		                          <span class="c-switch-slider"></span>
-		                        </label>
-							</div>
-					      </td>
-					      <td>
-					      	<div class="custom-control custom-switch custom-control-inline">
-		                        <label class="c-switch c-switch-danger">
-		                          <input type="checkbox" class="c-switch-input" wire:model="subtractStockStore">
-		                          <span class="c-switch-slider"></span>
-		                        </label>
-							</div>
-					      </td>
-					    </tr>
-					  </tbody>
-					</table>
+						<table class="table table-borderless table-responsive">
+						  <thead class="border-bottom border-start">
+						    <tr>
+						      <th scope="col">@lang('Action')</th>
+						      <th scope="col">@lang('Stock')</th>
+						      <th scope="col">@lang('S.R.I')</th>
+						      <th scope="col">@lang('Store stock')</th>
+						    </tr>
+						  </thead>
+						  <tbody>
+						    <tr class="">
+						      <th scope="row"><span class="text-monospace text-success"><u>@lang('Increase')</u></span></th>
+						      <td>
+								<div class="custom-control custom-switch custom-control-inline">
+			                        <label class="c-switch c-switch-success">
+			                          <input type="checkbox" class="c-switch-input" wire:model="increaseStock">
+			                          <span class="c-switch-slider"></span>
+			                        </label>
+								</div>
+						      </td>
+						      <td>
+						      	<div class="custom-control custom-switch custom-control-inline">
+			                        <label class="c-switch c-switch-success">
+			                          <input type="checkbox" class="c-switch-input" wire:model="increaseStockRevision">
+			                          <span class="c-switch-slider"></span>
+			                        </label>
+								</div>
+						      </td>
+						      <td>
+						      	<div class="custom-control custom-switch custom-control-inline">
+			                        <label class="c-switch c-switch-success">
+			                          <input type="checkbox" class="c-switch-input" wire:model="increaseStockStore">
+			                          <span class="c-switch-slider"></span>
+			                        </label>
+								</div>
+						      </td>
+						    </tr>
+						    <tr class="">
+						      <th scope="row"><span class="text-monospace text-danger"><u>@lang('Subtract')</u></span></th>
+						      <td>
+						      	<div class="custom-control custom-switch custom-control-inline">
+			                        <label class="c-switch c-switch-danger">
+			                          <input type="checkbox" class="c-switch-input" wire:model="subtractStock">
+			                          <span class="c-switch-slider"></span>
+			                        </label>
+								</div>
+						      </td>
+						      <td>
+						      	<div class="custom-control custom-switch custom-control-inline">
+			                        <label class="c-switch c-switch-danger">
+			                          <input type="checkbox" class="c-switch-input" wire:model="subtractStockRevision">
+			                          <span class="c-switch-slider"></span>
+			                        </label>
+								</div>
+						      </td>
+						      <td>
+						      	<div class="custom-control custom-switch custom-control-inline">
+			                        <label class="c-switch c-switch-danger">
+			                          <input type="checkbox" class="c-switch-input" wire:model="subtractStockStore">
+			                          <span class="c-switch-slider"></span>
+			                        </label>
+								</div>
+						      </td>
+						    </tr>
+						  </tbody>
+						</table>
 
-					</div>
+						</div>
 
-	  				<div class="col-3">
-	  					<div class="d-flex justify-content-center">
-				            <button type="button" class="btn btn-outline-dark btn-sm text-monospace font-weight-bold" wire:click="clearAll">
-				            	<u>@lang('Clear filters')</u>
-				            </button>
+		  				<div class="col-3">
+		  					<div class="d-flex justify-content-left">
+					            <button type="button" class="btn btn-outline-dark btn-sm text-monospace font-weight-bold" wire:click="clearAll">
+					            	<u>@lang('Clear filters')</u>
+					            </button>
+					        </div>
 				        </div>
-			        </div>
 
-		        </div>
+		  				<div class="col-12">
+							<table class="table">
+							  <thead>
+							    <tr class="text-center">
+							      <th scope="col">
+								    <div class="row justify-content-md-center custom-control custom-switch custom-control-inline">
+								      <em class=" mt-2"> @lang('Show codes')</em>
+								        <div class="col-md-2 mt-2">
+								          <div class="form-check">
+								            <label class="c-switch c-switch-label c-switch-primary">
+								              <input type="checkbox" wire:model="showCodes" class="c-switch-input">
+								              <span class="c-switch-slider" data-checked="OK" data-unchecked="NO"></span>
+								            </label>
+								          </div>
+								        </div>
+								    </div>
+							      </th>
+							      <th scope="col">
+								    <div class="row justify-content-md-center custom-control custom-switch custom-control-inline">
+								      <em class=" mt-2"> @lang('Show labels')</em>
+								        <div class="col-md-2 mt-2">
+								          <div class="form-check">
+								            <label class="c-switch c-switch-label c-switch-primary">
+								              <input type="checkbox" wire:model="showLabels" class="c-switch-input">
+								              <span class="c-switch-slider" data-checked="OK" data-unchecked="NO"></span>
+								            </label>
+								          </div>
+								        </div>
+								    </div>
+							      </th>
+							    </tr>
+							  </thead>
+							</table>
+		  				</div>
+		  				
+			        </div>
 				@endif
 
 				@if($model->children->count())
@@ -389,6 +417,12 @@
 						<table class="table table-sm">
 						  <thead>
 						    <tr>
+						      @if($showCodes)
+							      <th scope="col">@lang('Code')</th>
+							  @endif
+						      @if($showLabels)
+							      <th scope="col">@lang('Labels')</th>
+							  @endif
 						      <th scope="col">@lang('Color')</th>
 						      <th scope="col">@lang('Size_')</th>
 						      <th scope="col">@lang('Stock')</th>
@@ -421,6 +455,15 @@
 					        @foreach($childrens->sortBy('size.name') as $children)
 
 							    <tr>
+							      @if($showCodes)
+								      <td>{!! $children->code_subproduct !!}</td>
+								  @endif
+							      @if($showLabels)
+								      <td>
+								          <a href="{{ route('admin.product.large-barcode', $children->id) }}" target="_blank"><span class='badge badge-dark'><i class="cil-print"></i> @lang('Large')</span></a>
+								          <a href="{{ route('admin.product.short-barcode', $children->id) }}" target="_blank"><span class='badge badge-info'><i class="cil-print"></i> @lang('Short')</span></a>
+								      </td>
+								  @endif
 							      <td style="{{ $children->trashed() ? 'text-decoration: line-through;' : '' }}">{{ optional($children->color)->name}}</td>
 							      <td style="{{ $children->trashed() ? 'text-decoration: line-through;' : '' }}">{{ optional($children->size)->name}}</td>
 							      <td>{{ $children->stock }}</td>
@@ -487,7 +530,6 @@
 		</div>
 	</x-slot>
     <x-slot name="footer">
-
         <x-utils.delete-button :text="__('Delete product')" :href="route('admin.product.destroy', $model->id)" />
 
 			<footer class="float-right">
@@ -500,7 +542,6 @@
 			</footer>
 	</x-slot>
 </x-backend.card> 
-
 
 @push('after-scripts')
     <script>
@@ -634,7 +675,6 @@
             var data = $('#colorselectmultiple').select2("val");
             @this.set('colorsmultiple_id', data);
           });
-
       });
     </script>
 
@@ -681,8 +721,6 @@
             var data = $('#sizeselectmuliple').select2("val");
             @this.set('sizesmultiple_id', data);
           });
-
-
       });
     </script>
 
@@ -770,10 +808,8 @@
             var data = $('#brandselect').select2("val");
             @this.set('brand_id', data);
           });
-
       });
     </script>
-
     {{-- <script>
     	document.querySelector(".button").addEventListener("click", function (e) {
    			party.sparkles(this, {
@@ -781,5 +817,4 @@
     		});
 		});
     </script> --}}
-
 @endpush
