@@ -73,7 +73,6 @@ class Material extends Model
         return $this->belongsTo(Unit::class)->withTrashed();
     }
 
-
     /**
      * @return string
      */
