@@ -6,6 +6,7 @@ use App\Models\Product;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class CreateProduct extends Component
 {
@@ -53,25 +54,34 @@ class CreateProduct extends Component
             'file_name' => $this->photo ? $imageName : null,
             'price' => $this->price,
             'automatic_code' => $this->autoCodes,
-            // 'sizes' => $this->sizes,
-            // 'color_id' => $this->colors,
         ]);
 
-        foreach($this->colors as $color){
-            
-            foreach($this->sizes as $size){        
-                $product->children()->saveMany([
-                    new Product([
-                        'size_id' => $size,
-                        'color_id' => $color,
-                    ]),
+        $combinations = 0;
+
+
+        foreach($this->colors as $color){        
+            foreach($this->sizes as $size){ 
+
+                $combinations++;
+
+                DB::table('products')->insert([
+                    'size_id' => $size,
+                    'color_id' => $color,
+                    'parent_id' => $product->id
                 ]);
+
+                // $product->children()->saveMany([
+                //     new Product([
+                //         'size_id' => $size,
+                //         'color_id' => $color,
+                //     ]),
+                // ]);
             }
         }
 
         $this->emit('swal:alert', [
             'icon' => 'success',
-            'title'   => __('Created'), 
+            'title'   => 'Se crearon '.$combinations.' combinaciones de productos', 
         ]);
     }
 

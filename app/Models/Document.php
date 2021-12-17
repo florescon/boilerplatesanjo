@@ -27,6 +27,7 @@ class Document extends Model
         'file_dst',
         'comment',
         'is_enabled',
+        'image',
     ];
 
     /**

@@ -41,6 +41,14 @@
                   <p>{!! $is_enabled !!}</p>
                 </td>
               </tr>
+              @if($imageShow)
+              <tr>
+                <th scope="row">@lang('Image')</th>
+                <td>          
+                  <img src="{{ asset('/storage/' . $imageShow) }}" width="400px">
+                </td>
+              </tr>
+              @endif
               <tr>
                 <th scope="row">@lang('Created at')</th>
                 <td>   

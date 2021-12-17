@@ -334,15 +334,15 @@ class Product extends Model
         // cause a restore of a folder to cascade
         // to children so they are also restored
 
-        static::created(function($create_product) {
+        // static::created(function($create_product) {
 
-            $create_product->log()->create(['body' => 
-                (!$create_product->name ? 'Sub' : null).'Producto creado '.
-                ($create_product->name ?? null).' '.
-                ($create_product->parent->name ?? null).' - '.
-                ($create_product->color->name ?? null).', '.
-                ($create_product->size->name ?? null)]);
-        }); 
+        //     $create_product->log()->create(['body' => 
+        //         (!$create_product->name ? 'Sub' : null).'Producto creado '.
+        //         ($create_product->name ?? null).' '.
+        //         ($create_product->parent->name ?? null).' - '.
+        //         ($create_product->color->name ?? null).', '.
+        //         ($create_product->size->name ?? null)]);
+        // }); 
 
 
         static::restoring(function($restore_subproducts) {

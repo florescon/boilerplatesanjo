@@ -34,6 +34,10 @@ class DocumentTable extends Component
     
     public $searchTerm = '';
 
+    public $image;
+
+    public $imageShow;
+
     protected $listeners = ['delete' => '$refresh', 'restore' => '$refresh'];
 
     public $title, $file_emb, $file_dst, $email, $comment, $is_enabled, $is_disabled;
@@ -134,10 +138,15 @@ class DocumentTable extends Component
             $documentModel = new Document;
             $fileDST = $this->file_dst ? $this->file_dst->store("documents/".$date,'public') : null;
             $fileEMB = $this->file_emb ? $this->file_emb->store("documents/".$date,'public') : null;
+    
+            if($this->image){
+                $imageName = $this->image->store("documents/".$date,'public');
+            }
 
             $documentModel->title = $this->title;
             $documentModel->file_dst = $this->file_dst ? $fileDST : null;
             $documentModel->file_emb = $this->file_emb ? $fileEMB : null;
+            $documentModel->image = $this->image ? $imageName : null;
             $documentModel->comment = $this->comment ?? null;
             $documentModel->save();
 
@@ -174,6 +183,7 @@ class DocumentTable extends Component
         $this->file_dst = $record->file_dst_label;
         $this->file_emb = $record->file_emb_label;
         $this->comment = $record->comment;
+        $this->imageShow = $record->image;
         $this->is_enabled = $record->is_enabled_document;
         $this->created = $record->created_at;
         $this->updated = $record->updated_at;
@@ -271,6 +281,11 @@ class DocumentTable extends Component
             'icon' => 'success',
             'title'   => __('Disabled'), 
         ]);
+    }
+
+    public function removeImage()
+    {
+        $this->image = '';
     }
 
     public function removeDST()

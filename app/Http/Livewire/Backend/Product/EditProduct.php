@@ -543,7 +543,7 @@ class EditProduct extends Component
         if ($this->filters || $this->filtersz) {
             if($this->filters){
                 foreach ($this->filters as $filter) {     
-                    $model = Product::with(['children' => function($query) use ($filter){
+                    $model = Product::with(['children.parent.parent', 'children' => function($query) use ($filter){
                             $query->where('color_id', $filter);
                         }]
                     );
@@ -551,7 +551,7 @@ class EditProduct extends Component
             }
             else{
                 foreach ($this->filtersz as $filter) {     
-                    $model = Product::with(['children' => function($query) use ($filter){
+                    $model = Product::with(['children.parent', 'children' => function($query) use ($filter){
                             $query->where('size_id', $filter);
                         }]
                     );
@@ -559,7 +559,7 @@ class EditProduct extends Component
             }
         }
         else{
-            $model = Product::with('children', 'line');
+            $model = Product::with('children.parent', 'line');
         }
 
         // $model = Product::with('children');

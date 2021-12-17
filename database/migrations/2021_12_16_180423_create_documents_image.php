@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCaresTable extends Migration
+class CreateDocumentsImage extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateCaresTable extends Migration
      */
     public function up()
     {
-        Schema::create('cares', function (Blueprint $table) {
-            $table->id();
+        Schema::table('documents', function (Blueprint $table) {
             $table->string('image')->nullable();
-            $table->softDeletes();
-            $table->timestamps();
         });
     }
 
@@ -28,6 +25,6 @@ class CreateCaresTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cares');
+        Schema::dropIfExists('documents_image');
     }
 }

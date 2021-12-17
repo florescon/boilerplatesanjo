@@ -56,6 +56,51 @@
             </div>
           </div>
 
+            <div class="form-group row">
+                <label for="image" class="col-sm-2 col-form-label">@lang('Image')</label>
+
+                <div class="col-sm-6" >
+
+                    <div class="custom-file">
+                      <input type="file" wire:model="image" class="custom-file-input @error('image') is-invalid  @enderror" id="customFileLangHTML">
+                      <label class="custom-file-label" for="customFileLangHTML" data-browse="Principal">@lang('Image')</label>
+                    </div>
+
+                    <div wire:loading wire:target="image">@lang('Uploading')...</div>
+                    @error('image') <span class="text-danger">{{ $message }}</span> @enderror
+
+                    @if ($image)
+                        <br><br>
+                        @php
+                            try {
+                               $url = $image->temporaryUrl();
+                               $photoStatus = true;
+                            }catch (RuntimeException $exception){
+                                $this->photoStatus =  false;
+                            }
+                        @endphp
+                        @if($photoStatus)
+                            <img class="img-fluid" alt="Responsive image" src="{{ $url }}">
+                        @else
+                            @lang('Something went wrong while uploading the file.')
+                        @endif
+                    @endif
+
+                </div>
+
+                @if($image)
+                    <div wire:loading.remove wire:target="image"> 
+                        <div class="col-sm-3 float-left">
+                            <button type="button" wire:click="removeImage" class="btn btn-light">
+                                <i class="cil-x-circle"></i>
+                            </button>
+                        </div>
+                    </div>
+                @endif
+
+            </div><!--form-group-->
+
+
           <label class="mt-4">@lang('Comment')</label>
           <input wire:model.lazy="comment" type="text" class="form-control"/>
           @error('comment') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror

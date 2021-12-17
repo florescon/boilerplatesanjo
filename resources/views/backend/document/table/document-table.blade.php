@@ -149,7 +149,14 @@
                 </td>
               @endif
               <th scope="row">
-                  <div> {{ $document->title }} </div>
+                  <div> 
+                    {{ $document->title }} 
+                    @if($document->image)
+                      <span class="badge badge-success">
+                        <i class="fa fa-picture-o" aria-hidden="true"></i>
+                      </span>
+                    @endif
+                  </div>
                   <div class="small text-muted">@lang('Registered'): {{ $document->date_for_humans_created }}</div>
                   <div>
                     {!! $document->is_disabled !!}

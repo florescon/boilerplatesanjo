@@ -35,7 +35,7 @@ class PricesProduct extends Component
         $this->product_id = $product->id;
         $this->product_slug = $product->slug;
 
-        $product->load('children');
+        $product->load('children.parent');
 
         $this->productModel = $product->children;
 

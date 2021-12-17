@@ -5,6 +5,12 @@
         </x-slot>
 
         <x-slot name="headerActions">
+
+
+            <div wire:loading>
+                <em class="text-right text-primary">@lang('Loading')...</em>
+            </div>
+
             <x-utils.link class="card-header-action" :href="route('admin.product.create')" :text="__('Refresh')" />
 
             <x-utils.link class="card-header-action" :href="route('admin.product.index')" :text="__('Cancel')" />
@@ -232,7 +238,7 @@
     <script>
       $(document).ready(function() {
         $('#colorselect').select2({
-          maximumSelectionLength: 10,
+          maximumSelectionLength: 16,
           closeOnSelect: false,
           placeholder: '@lang("Choose colors")',
           width: 'resolve',
@@ -324,7 +330,7 @@
     <script>
       $(document).ready(function() {
         $('#sizeselect').select2({
-          maximumSelectionLength: 10,
+          maximumSelectionLength: 15,
           closeOnSelect: false,
           placeholder: '@lang("Choose sizes")',
           width: 'resolve',
