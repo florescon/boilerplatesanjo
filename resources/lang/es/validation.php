@@ -171,5 +171,7 @@ return [
         'is_parent_size' => 'es talla padre',
         "colors" => 'colores',
         "sizes" => 'tallas',
+        "sort" => 'orden',
+        "abbreviation" => 'abreviatura'
     ],
 ];

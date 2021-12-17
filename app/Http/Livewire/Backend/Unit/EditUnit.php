@@ -8,7 +8,7 @@ use Livewire\Component;
 class EditUnit extends Component
 {
 
-    public $selected_id, $name, $slug;
+    public $selected_id, $name, $abbreviation, $slug;
 
     protected $listeners = ['edit'];
 
@@ -17,8 +17,8 @@ class EditUnit extends Component
         $record = Unit::withTrashed()->findOrFail($id);
         $this->selected_id = $id;
         $this->name = $record->name;
+        $this->abbreviation = $record->abbreviation;
         $this->slug = $record->slug;
-
     }
 
     public function update()
@@ -26,11 +26,13 @@ class EditUnit extends Component
         $this->validate([
             'selected_id' => 'required|numeric',
             'name' => 'required|min:3',
+            'abbreviation' => 'required|min:1|max:4',
         ]);
         if ($this->selected_id) {
             $record = Unit::find($this->selected_id);
             $record->update([
                 'name' => $this->name,
+                'abbreviation' => $this->abbreviation,
             ]);
             // $this->resetInputFields();
         }

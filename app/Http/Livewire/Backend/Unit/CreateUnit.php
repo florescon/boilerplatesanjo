@@ -7,23 +7,24 @@ use Livewire\Component;
 
 class CreateUnit extends Component
 {
-    public $name;
+    public $name, $abbreviation;
 
     protected $listeners = ['createmodal'];
 
     protected $rules = [
         'name' => 'required|min:3',
+        'abbreviation' => 'required|min:1|max:4',
     ];
 
     private function resetInputFields()
     {
         $this->name = '';
+        $this->abbreviation = '';
     }
 
     public function createmodal()
     {
         $this->resetInputFields();
-
     }
 
     public function updated($propertyName)
@@ -33,7 +34,6 @@ class CreateUnit extends Component
 
     public function store()
     {
-
         $validatedData = $this->validate();
 
         Unit::create($validatedData);
@@ -49,8 +49,6 @@ class CreateUnit extends Component
 
 
     	$this->emitTo('backend.unit.unit-table', 'triggerRefresh');
-
-
     }
 
     public function render()

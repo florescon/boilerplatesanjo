@@ -57,5 +57,6 @@ class Unit extends Model
     protected $fillable = [
         'name',
         'slug',
+        'abbreviation',
     ];
 }

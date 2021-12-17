@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class ShowUnit extends Component
 {
-    public $name, $slug, $created, $updated;
+    public $name, $abbreviation, $slug, $created, $updated;
 
     protected $listeners = ['show'];
 
@@ -15,6 +15,7 @@ class ShowUnit extends Component
     {
         $record = Unit::withTrashed()->findOrFail($id);
         $this->name = $record->name;
+        $this->abbreviation = $record->abbreviation;
         $this->slug = $record->slug;
         $this->created = $record->created_at;
         $this->updated = $record->updated_at;

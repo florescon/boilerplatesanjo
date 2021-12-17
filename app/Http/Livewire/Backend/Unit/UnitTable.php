@@ -87,21 +87,26 @@ class UnitTable extends TableComponent
             Column::make(__('Name'), 'name')
                 ->searchable()
                 ->sortable(),
+            Column::make(__('Abbreviation'), 'abbreviation')
+                ->searchable()
+                ->format(function(Unit $model) {
+                    return $this->html($model->abbreviation ?: '<span class="badge badge-secondary">'.__('undefined').'</span>');
+                })
+                ->sortable(),
             Column::make(__('Slug'), 'slug')
                 ->searchable()
                 ->sortable()
                 ->format(function(Unit $model) {
                     return $this->html($model->slug ?: '<span class="badge badge-secondary">'.__('undefined').'</span>');
                 })
-                ->exportFormat(function(Unit $model) {
-                    return $model->slug;
-                }),
+                ->excludeFromExport(),
             Column::make(__('Created at'), 'created_at')
                 ->searchable()
                 ->sortable(),
             Column::make(__('Updated at'), 'updated_at')
                 ->searchable()
-                ->sortable(),
+                ->sortable()
+                ->excludeFromExport(),
             Column::make(__('Actions'))
                 ->format(function (Unit $model) {
                     return view('backend.unit.datatable.actions', ['unit' => $model]);
