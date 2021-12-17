@@ -111,5 +111,6 @@ class Size extends Model
         'slug',
         'short_name',
         'keywords',
+        'sort',
     ];
 }

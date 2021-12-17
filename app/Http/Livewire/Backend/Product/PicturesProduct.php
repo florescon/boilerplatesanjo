@@ -10,7 +10,6 @@ use Livewire\WithFileUploads;
 
 class PicturesProduct extends Component
 {
-
     use WithFileUploads;
 
     public $product_id, $product_general, $name_color, $color;
@@ -21,20 +20,17 @@ class PicturesProduct extends Component
 
     protected $listeners = ['filterByColor' => 'filterByColor'];
 
-
     public function mount(Product $product)
     {
         $this->product_id = $product->id;
         $this->product_slug = $product->slug;
         $this->product_general = $product;
-
     }
 
     private function init()
     {
         $this->origAllPictures = Product::where('id', $this->product_id)->with('pictures')->get()->pluck('pictures')[0];
     }
-
 
     public function filterByColor($color)
     {
@@ -70,8 +66,6 @@ class PicturesProduct extends Component
 
         return null;
     }
-
-
 
     public function savePictures()
     {
@@ -111,7 +105,6 @@ class PicturesProduct extends Component
 
         $this->init();
     }
-
 
     public function render()
     {

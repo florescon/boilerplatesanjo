@@ -31,6 +31,7 @@ class ProductTable extends Component
     public function getRowsQueryProperty()
     {
         $query = Product::query()
+            ->with('children')
             ->withCount('children')
             ->whereNull('parent_id')
             ->orderBy('updated_at', 'desc');

@@ -9,11 +9,14 @@ class CreateSize extends Component
 {
     public $name, $short_name;
 
+    public $sort = 0;
+
     protected $listeners = ['createmodal'];
 
     protected $rules = [
         'name' => 'required|min:1',
-        'short_name' => 'required|min:1|max:6|unique:sizes',
+        'short_name' => 'required|min:1|max:4|unique:sizes',
+        'sort' => 'sometimes|integer|min:0'
     ];
 
     private function resetInputFields()

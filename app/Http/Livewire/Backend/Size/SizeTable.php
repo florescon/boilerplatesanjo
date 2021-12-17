@@ -65,7 +65,7 @@ class SizeTable extends TableComponent
      */
     public function query(): Builder
     {
-        $query = Size::query();
+        $query = Size::query()->with('product');
 
         if ($this->status === 'deleted') {
             return $query->onlyTrashed();
@@ -109,6 +109,10 @@ class SizeTable extends TableComponent
             //     ->format(function(Size $model) {
             //         return $this->link(route('admin.size.associates_sub', $model->id), $model->count_products);
             //     }),
+            Column::make(__('Sort'), 'sort')
+                ->searchable()
+                ->sortable()
+                ->excludeFromExport(),
             Column::make(__('Created at'), 'created_at')
                 ->searchable()
                 ->sortable(),

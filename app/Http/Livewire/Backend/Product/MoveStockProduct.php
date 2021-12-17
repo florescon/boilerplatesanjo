@@ -15,7 +15,6 @@ class MoveStockProduct extends Component
         'moveToStock' => ['except' => FALSE],
         'moveToRevisionStock' => ['except' => FALSE],
         'moveToStoreStock' => ['except' => FALSE],
-
     ];
 
     protected $validationAttributes = [
@@ -24,9 +23,7 @@ class MoveStockProduct extends Component
         'inputmovefromStore' => '',
     ];
 
-
     protected $listeners = ['moveToStore', 'moveToStock', 'moveToRevision', 'clearAll' => '$refresh'];
-
 
     public function mount(Product $product)
     {
@@ -36,7 +33,6 @@ class MoveStockProduct extends Component
 
     public function moveToStore(int $productId)
     {
-
         // dd($this->inputmovefromRevision);
         $product_to_move = Product::where('id', $productId)->first();
 
@@ -69,13 +65,10 @@ class MoveStockProduct extends Component
             'icon' => 'success',
             'title'   => __('Amount moved'), 
         ]);
-
     }
-
 
     public function moveToRevision(int $productId)
     {
-
         // dd($this->inputmovefromRevision);
         $product_to_move = Product::where('id', $productId)->first();
 
@@ -108,12 +101,10 @@ class MoveStockProduct extends Component
             'icon' => 'success',
             'title'   => __('Amount moved'), 
         ]);
-
     }
 
     public function moveToStock(int $productId)
     {
-
         // dd($this->inputmovefromRevision);
         $product_to_move = Product::where('id', $productId)->first();
 
@@ -145,18 +136,13 @@ class MoveStockProduct extends Component
             'icon' => 'success',
             'title'   => __('Amount moved'), 
         ]);
-
     }
-
-
 
     public function clearAll()
     {
-
         $this->inputmove = [];
         $this->inputmovefromRevision = [];
         $this->inputmovefromStore = [];
-
     }
 
     public function updatedMoveToStock()
@@ -179,7 +165,6 @@ class MoveStockProduct extends Component
 
     public function render()
     {
-
         $model = Product::with('children.parent')->findOrFail($this->product_id);
         $parents = $model->children->toArray();
 

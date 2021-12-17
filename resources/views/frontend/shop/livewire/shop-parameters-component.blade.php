@@ -33,7 +33,7 @@
 		<div class="col-12 col-md-3 col-lg-3 col-xl-12">
 			<div class="form-group mx-auto">
 				<div class="row px-2">
-					@foreach($attributes->children->unique('size_id')->sortBy('size.name') as $children) 
+					@foreach($attributes->children->unique('size_id')->sortBy('size.sort') as $children) 
 					<div class="col px-2" style="min-width:3rem; max-width: 3rem ;height:3rem">
 						<input class="checkbox-size" type="radio" wire:model="size_id" value="{{ $children->size_id }}" name="size" id="size-{{ $children->size_id }}">
 						<label class="for-checkbox-size" for="size-{{ $children->size_id }}">{{ optional($children->size)->short_name ?: optional($children->size)->name }}</label>

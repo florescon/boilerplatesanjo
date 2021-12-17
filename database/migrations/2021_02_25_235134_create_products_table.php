@@ -32,7 +32,7 @@ class CreateProductsTable extends Migration
             $table->unsignedBigInteger('brand_id')->nullable();
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->integer('discount')->default(0);
-            $table->unsignedSmallInteger('sort')->default(0);
+            $table->integer('sort')->default(0);
             $table->boolean('automatic_code')->default(true);
             $table->boolean('type')->default(true)->comment('Product: true, Service: false');
             $table->boolean('status')->default(true);

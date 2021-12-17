@@ -65,7 +65,7 @@ class BrandTable extends TableComponent
      */
     public function query(): Builder
     {
-        $query = Brand::query();
+        $query = Brand::query()->with('products');
 
         if ($this->status === 'deleted') {
             return $query->onlyTrashed();

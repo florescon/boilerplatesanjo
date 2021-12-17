@@ -271,7 +271,7 @@
 						        </div>
 						    </div>
 
-	  						@foreach($attributes->children->unique('size_id')->sortBy('size.name') as $children) 	
+	  						@foreach($attributes->children->unique('size_id')->sortBy('size.sort') as $children) 	
 								<span class="badge text-white {{ in_array($children->size_id, $filtersz) ? 'bg-primary' : 'bg-dark' }}" 
 					                  wire:click="$emit('filterBySize', {{ $children->size_id }})"
 									  style="cursor:pointer"
