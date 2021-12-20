@@ -99,6 +99,18 @@ class Color extends Model
         return '';
     }
 
+    public function getUndefinedIconCodingAttribute(): ?string
+    {
+        if($this->short_name == null){
+            return 
+                '<button type="button" class="btn btn-white" data-toggle="tooltip" data-placement="top" title="'.__('undefined color coding').'">
+                      <i class="fa fa-exclamation-triangle icon-red" aria-hidden="true"></i>
+                </button>'
+                ;
+        }
+        return '';
+    }
+
     public function getDateForHumansAttribute(): ?string
     {
         return $this->updated_at ? $this->updated_at->format('M, d Y') : null;

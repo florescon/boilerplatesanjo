@@ -101,6 +101,18 @@ class Size extends Model
         return '';
     }
 
+    public function getUndefinedIconCodingAttribute(): ?string
+    {
+        if($this->short_name == null){
+            return 
+                '<button type="button" class="btn btn-white" data-toggle="tooltip" data-placement="top" title="'.__('undefined size coding').'">
+                      <i class="fa fa-exclamation-triangle icon-red" aria-hidden="true"></i>
+                </button>'
+                ;
+        }
+        return '';
+    }
+
     /**
      * The attributes that are mass assignable.
      *

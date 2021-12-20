@@ -170,9 +170,9 @@
           @else
           <br>
             <div class="row card-body justify-content-center text-center mt-5 mb-5">
-                <button class="btn btn-sm btn-warning text-white mt-5 mb-5" style="width: 150px">
+                <a href="{{ route('frontend.shop.datasheet', $product->slug) }}" target="_blank" class="btn btn-sm btn-warning text-white mt-5 mb-5" style="width: 150px">
                   @lang('Show and print')
-                </button>
+                </a>
             </div>
           @endif
         </div>

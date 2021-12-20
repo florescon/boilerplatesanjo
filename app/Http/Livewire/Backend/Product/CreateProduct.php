@@ -67,7 +67,9 @@ class CreateProduct extends Component
                 DB::table('products')->insert([
                     'size_id' => $size,
                     'color_id' => $color,
-                    'parent_id' => $product->id
+                    'parent_id' => $product->id,
+                    'created_at' => now(),
+                    'updated_at' => now(),
                 ]);
 
                 // $product->children()->saveMany([

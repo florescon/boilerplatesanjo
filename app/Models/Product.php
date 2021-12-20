@@ -323,8 +323,10 @@ class Product extends Model
 
     public function getNewProductAttribute()
     {
-        if($this->created_at->gt(Carbon::now()->subMonth())){
-            return __('New'). ' |';
+        if($this->created_at){
+            if($this->created_at->gt(Carbon::now()->subMonth())){
+                return __('New'). ' |';
+            }
         }
 
         return '';
@@ -332,7 +334,7 @@ class Product extends Model
 
     public function getDateForHumansAttribute()
     {
-        return $this->updated_at->format('M, d Y');
+        return $this->updated_at ? $this->updated_at->format('M, d Y') : '';
     }
 
     public static function boot()
