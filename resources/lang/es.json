@@ -431,6 +431,7 @@
     "Define date": "Definir fecha",
     "Initialize": "Inicializar",
     "Clear all": "Limpiar todo",
+    "Clear all descriptions": "Limpiar todas las descripciones",
     "Clear filter": "Limpiar filtro",
     "Clear filters": "Limpiar filtros",
     "Created at": "Creado",
@@ -761,5 +762,6 @@
     "Show codes": "Mostrar códigos",
     "Show labels": "Mostrar etiquetas",
     "Labels": "Etiquetas",
-    "Abbreviation": "Abreviatura"
+    "Abbreviation": "Abreviatura",
+    "Show and print": "Ver e imprimir"
 }

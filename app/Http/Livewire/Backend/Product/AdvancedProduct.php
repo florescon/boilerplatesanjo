@@ -7,11 +7,22 @@ use App\Models\Product;
 
 class AdvancedProduct extends Component
 {
+    public Product $product;
 
-    public $product_id, $description, $information, $standards, $dimensions, $extra;
+    public int $product_id;
+    public ?string $information = null;
+    public ?string $standards  = null;
+    public ?string $dimensions  = null;
+    public ?string $extra  = null;
+    public ?string $description  = null;
+
+    protected $listeners = [
+        'advancedRender' => 'render'
+    ];
 
     public function mount(Product $product)
     {
+        $this->product = $product;
         $this->product_id = $product->id;
         $this->information = optional($product->advanced)->information;
         $this->standards = optional($product->advanced)->standards;
@@ -19,114 +30,126 @@ class AdvancedProduct extends Component
         $this->extra = optional($product->advanced)->extra;
         $this->description = optional($product->advanced)->description;
 
+        $this->emit('advancedRender');
     }
 
     public function storedescription()
     {
-
-        $product = Product::findOrFail($this->product_id);
-
         $this->validate([
-            'description' => 'required',
+            'description' => 'required|min:3',
         ]);
 
-        $product->advanced()->updateOrCreate(
+        $this->product->advanced()->updateOrCreate(
             ['product_id' => $this->product_id], 
             ['description' => $this->description,]
         );
 
+        $this->emit('advancedRender');
+
         $this->emit('swal:alert', [
            'icon' => 'success',
             'title'   => __('Updated at'), 
         ]);
-
     }
 
     public function storeinformation()
     {
-
-        $product = Product::findOrFail($this->product_id);
-
         $this->validate([
-            'information' => 'required',
+            'information' => 'required|min:3',
         ]);
 
-        $product->advanced()->updateOrCreate(['product_id' => $this->product_id], [
+        $this->product->advanced()->updateOrCreate(['product_id' => $this->product_id], [
             'information' => $this->information,
         ]);
 
+        $this->emit('advancedRender');
+
         $this->emit('swal:alert', [
            'icon' => 'success',
             'title'   => __('Updated at'), 
         ]);
-
     }
-
 
     public function storedimensions()
     {
-
-        $product = Product::findOrFail($this->product_id);
-
         $this->validate([
-            'dimensions' => 'required',
+            'dimensions' => 'required|min:3',
         ]);
 
-        $product->advanced()->updateOrCreate(['product_id' => $this->product_id], [
+        $this->product->advanced()->updateOrCreate(['product_id' => $this->product_id], [
             'dimensions' => $this->dimensions,
         ]);
 
+        $this->emit('advancedRender');
+
         $this->emit('swal:alert', [
            'icon' => 'success',
             'title'   => __('Updated at'), 
         ]);
-
     }
-
 
     public function storeextra()
     {
-
-        $product = Product::findOrFail($this->product_id);
-
         $this->validate([
-            'extra' => 'required',
+            'extra' => 'required|min:3',
         ]);
 
-        $product->advanced()->updateOrCreate(['product_id' => $this->product_id], [
+        $this->product->advanced()->updateOrCreate(['product_id' => $this->product_id], [
             'extra' => $this->extra,
         ]);
+
+        $this->emit('advancedRender');
 
         $this->emit('swal:alert', [
            'icon' => 'success',
             'title'   => __('Updated at'), 
         ]);
-
     }
 
     public function storestandards()
     {
-
-        $product = Product::findOrFail($this->product_id);
-
         $this->validate([
-            'standards' => 'required',
+            'standards' => 'required|min:3',
         ]);
 
-        $product->advanced()->updateOrCreate(['product_id' => $this->product_id], [
+        $this->product->advanced()->updateOrCreate(['product_id' => $this->product_id], [
             'standards' => $this->standards,
         ]);
+
+        $this->emit('advancedRender');
 
         $this->emit('swal:alert', [
            'icon' => 'success',
             'title'   => __('Updated at'), 
         ]);
+    }
 
+    public function clearField(int $id, string $Field)
+    {
+        $this->product->advanced()->update([$Field => null]);
+
+        $this->initField($this->product, $Field);
+
+        $this->emit('swal:alert', [
+            'icon' => 'success',
+            'title'   => __('Deleted'), 
+        ]);
+    }
+
+    private function initField(Product $product, string $Field)
+    {
+        $this->$Field = $product->$Field;
+    }
+
+    public function clearAll()
+    {
+        $this->product->advanced()->delete();
+
+        return redirect()->route('admin.product.advanced', $this->product_id);
     }
 
     public function render()
     {
-
         $model = Product::with('advanced')->findOrFail($this->product_id);
 
         return view('backend.product.livewire.advanced')->with(compact('model'));

@@ -238,7 +238,7 @@
     <script>
       $(document).ready(function() {
         $('#colorselect').select2({
-          maximumSelectionLength: 16,
+          maximumSelectionLength: 35,
           closeOnSelect: false,
           placeholder: '@lang("Choose colors")',
           width: 'resolve',
@@ -330,7 +330,7 @@
     <script>
       $(document).ready(function() {
         $('#sizeselect').select2({
-          maximumSelectionLength: 15,
+          maximumSelectionLength: 12,
           closeOnSelect: false,
           placeholder: '@lang("Choose sizes")',
           width: 'resolve',

@@ -78,7 +78,6 @@ class DepartamentTable extends Component
         $this->page = 1;
     }
 
-
     public function updatedPerPage()
     {
         $this->page = 1;
@@ -175,7 +174,6 @@ class DepartamentTable extends Component
             'title'   => __('Updated'), 
         ]);
     }
-
 
     private function resetInputFields()
     {

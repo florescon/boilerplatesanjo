@@ -218,6 +218,14 @@ class Product extends Model
     }
 
     /**
+     * @return bool
+     */
+    public function getDifferentNullAdvancedAttribute(): bool
+    {
+        return $this->advanced->information != null;
+    }
+
+    /**
      * @return string
      */
     public function getStatusAdvancedAttribute()
