@@ -6,7 +6,7 @@ use App\Models\Product;
 use Illuminate\Database\Seeder;
 use Database\Seeders\Traits\DisableForeignKeys;
 
-class ProductSeeder extends Seeder
+class ServiceSeeder extends Seeder
 {
     use DisableForeignKeys;
 
@@ -20,7 +20,7 @@ class ProductSeeder extends Seeder
         $this->disableForeignKeys();
 
         if (app()->environment() !== 'production') {
-            Product::factory()->times(100)->create();
+            Service::factory()->times(100)->create();
         }
 
         $this->enableForeignKeys();

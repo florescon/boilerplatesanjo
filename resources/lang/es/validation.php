@@ -172,6 +172,7 @@ return [
         "colors" => 'colores',
         "sizes" => 'tallas',
         "sort" => 'orden',
-        "abbreviation" => 'abreviatura'
+        "abbreviation" => 'abreviatura',
+        'initial' => 'inicial'
     ],
 ];

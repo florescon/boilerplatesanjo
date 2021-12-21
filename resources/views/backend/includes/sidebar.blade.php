@@ -125,6 +125,16 @@
 
         <li class="c-sidebar-nav-item">
             <x-utils.link
+                new="true"
+                class="c-sidebar-nav-link"
+                :href="route('admin.service.index')"
+                :active="activeClass(Route::is('admin.service.*'), 'c-active')"
+                icon="c-sidebar-nav-icon cil-tag"
+                :text="__('Services')" />
+        </li>
+
+        <li class="c-sidebar-nav-item">
+            <x-utils.link
                 class="c-sidebar-nav-link"
                 :href="route('admin.material.index')"
                 :active="activeClass(Route::is('admin.material.*'), 'c-active')"
@@ -256,6 +266,7 @@
 
         <li class="c-sidebar-nav-item">
             <x-utils.link
+                new="true"
                 class="c-sidebar-nav-link"
                 :href="route('admin.document.index')"
                 :active="activeClass(Route::is('admin.document.*'), 'c-active')"

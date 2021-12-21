@@ -21,6 +21,16 @@ class ProductController extends Controller
 	    return view('backend.product.index');
 	}
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexService()
+    {
+        return view('backend.service.index');
+    }
+
     public function create()
     {
         return view('backend.product.create-product');
@@ -171,6 +181,11 @@ class ProductController extends Controller
 	{
 	    return view('backend.product.deleted');
 	}
+
+    public function deletedService()
+    {
+        return view('backend.service.deleted');
+    }
 
     public function select2LoadMore(Request $request)
     {

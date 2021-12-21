@@ -162,7 +162,6 @@ class EditProduct extends Component
 
     public function savedescription()
     {
-
         // foreach (Product::all() as $producte) {
         //     // dd($product->id);
 

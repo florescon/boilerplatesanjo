@@ -18,7 +18,7 @@
       </div>
 
       <label class="mt-2">@lang('Sort')</label>
-      <input wire:model.lazy="sort" type="text" class="form-control" maxlength="7" placeholder="{{ __('enter number') }}"/>
+      <input wire:model.lazy="sort" type="text" class="form-control" maxlength="4" placeholder="{{ __('enter number') }}"/>
       @error('sort') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
 

@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Cviebrock\EloquentSluggable\Sluggable;
+use App\Models\Traits\Scope\ProductScope;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 class Product extends Model
 {
-    use HasFactory, SoftDeletes, CascadeSoftDeletes, Sluggable;
+    use HasFactory, SoftDeletes, CascadeSoftDeletes, Sluggable, ProductScope;
 
     protected $cascadeDeletes = ['children'];
 
@@ -55,6 +56,7 @@ class Product extends Model
         'sort',
         'automatic_code',
         'status',
+        'type',
     ];
 
     public function getDescriptionLimitedAttribute()
@@ -102,6 +104,14 @@ class Product extends Model
     public function getColorNameAttribute()
     {
         return $this->color_id ? '| '.$this->color->name : '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstCharacterNameAttribute()
+    {
+        return $this->name ? substr($this->name, 0, 1) : '';
     }
 
     /**
@@ -202,6 +212,19 @@ class Product extends Model
         }
 
         return $this->price;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getStatusNameAttribute()
+    {
+        if ($this->status == TRUE) {
+            return '<i class="bg-success"></i>'. __('Active');
+        }
+
+        return '<i class="bg-warning"></i>'. __('Inactive');
     }
 
     /**

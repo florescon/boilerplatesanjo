@@ -48,7 +48,7 @@
 
 						<livewire:backend.store.pos.finance-pos />
 
-						<div class="col-xl-12">
+						{{-- <div class="col-xl-12">
 							<div class="card proj-progress-card">
 								<div class="card-block">
 									<div class="row">
@@ -83,7 +83,7 @@
 									</div>
 								</div>
 							</div>
-						</div>
+						</div> --}}
 
 					</div>
 				</div>

@@ -14,11 +14,18 @@
 			<div class="col-12 col-sm-6 col-md-6">
 			    <div class="card card-product_not_hover card-flyer-without-hover">
 			      <div class="card-header text-center">
-				    <h5 class="card-title"><strong> {!! '<strong>' .$model->parent->name.' </strong> ' !!} </strong></h5>
+				    <h5 class="card-title">
+				    	<strong> {!! $model->parent->name !!} </strong>
+				    </h5>
+				    <h5 class="card-title text-danger">
+				    	<strong>{!! $model->code_subproduct !!} </strong>
+				    </h5>
 			        <h6 class="card-subtitle mb-2 text-muted">
-			        	{!! '('.optional($model->color)->name.'  '.optional($model->size)->name.')' !!}
+			        	{!! optional($model->color)->name !!}
 			        </h6>
-
+			        <h6 class="card-subtitle mb-2 text-muted">
+			        	{!! optional($model->size)->name !!}
+			        </h6>
 				  </div>
 
 			      <div class="card-body">
@@ -46,7 +53,10 @@
 			      <div class="card-header text-center">
 				    <h5 class="card-title"><strong> @lang('Punctual consumption') </strong></h5>
 				    @if($model->parent_id)
-					    <p><a href="{{ route('admin.product.consumption', $model->parent_id) }}">@lang('Go to consumption')</a></p>
+					    <p>
+					    	<a href="{{ route('admin.product.edit', $model->parent_id) }}" class="mr-4">@lang('Go to view product')</a>
+					    	<a href="{{ route('admin.product.consumption', $model->parent_id) }}" class="ml-4">@lang('Go to consumption')</a>
+					    </p>
 					@endif
 				  </div>
 			      <div class="card-body">

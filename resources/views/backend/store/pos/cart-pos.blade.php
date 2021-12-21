@@ -34,7 +34,7 @@
 							<tr>
 								<td>
 									<div class="d-inline-block align-middle">
-	                                    <img alt="user image" class="img-40 align-top m-r-15" src="{{ asset('/storage/' . $product->parent->file_name) }}" onerror="this.onerror=null;this.src='/img/ga/not0.png';" >
+	                                    <img alt="product image" class="img-40 align-top m-r-15" src="{{ asset('/storage/' . $product->parent->file_name) }}" onerror="this.onerror=null;this.src='/img/ga/not0.png';" >
 
 										<div class="d-inline-block">
 											<h6>{!! $product->full_name !!}</h6>
@@ -112,7 +112,7 @@
 							<tr>
 								<td>
 									<div class="d-inline-block align-middle">
-	                                    <img alt="user image" class="img-40 align-top m-r-15" src="{{ asset('/storage/' . $product->parent->file_name) }}" onerror="this.onerror=null;this.src='/img/ga/not0.png';" >
+	                                    <img alt="product image" class="img-40 align-top m-r-15" src="{{ asset('/storage/' . $product->parent->file_name) }}" onerror="this.onerror=null;this.src='/img/ga/not0.png';" >
 										<div class="d-inline-block">
 											<h6>{!! $product->full_name !!}</h6>
 											<p class="text-muted m-b-0">@lang('General price'): ${{ optional($product->parent)->price }}</p>

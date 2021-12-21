@@ -42,7 +42,7 @@
 						  <ul class="list-group list-group-flush">
 						    <li class="list-group-item">
 		                        <div wire:loading.remove wire:target="photo"> 
-								    <a href="#" wire:click="removePhoto" class="card-link">Cancelar</a>
+								    <a href="#" wire:click="removePhoto" class="card-link">@lang('Cancel')</a>
 								    <a href="#" wire:click="savePhoto" class="card-link pulsingButton">@lang('Save photo')</a>
 								</div>
 						    </li>

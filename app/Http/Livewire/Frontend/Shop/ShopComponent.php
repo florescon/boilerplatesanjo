@@ -45,6 +45,7 @@ class ShopComponent extends Component
     public function getRowsQueryProperty()
     {
         $query = Product::query()
+            ->onlyProducts()
             ->with('children', 'line')
             ->whereNull('parent_id')
             ->onlyActive();

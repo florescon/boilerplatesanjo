@@ -21,7 +21,7 @@ class SizeTable extends TableComponent
 
     public $tableFooterEnabled = true;
 
-    public $perPageOptions = ['10', '25', '50'];
+    public $perPageOptions = ['10', '25', '50', '100'];
 
     public $exports = ['csv', 'xls', 'xlsx', 'pdf'];
     public $exportFileName = 'sizes';
@@ -38,9 +38,9 @@ class SizeTable extends TableComponent
     /**
      * @var string
      */
-    public $sortField = 'updated_at';
+    public $sortField = 'sort';
 
-    public $sortDirection = 'desc';
+    public $sortDirection = 'asc';
 
     /**
      * @var array

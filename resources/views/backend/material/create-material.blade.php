@@ -97,12 +97,9 @@
   </x-slot>
 </x-utils.modal>
 
-
-
 @push('after-scripts')
 
     <script>
-
       $(document).ready(function() {
         $('#unitselect').select2({
           dropdownParent: $("#createMaterial"),
@@ -144,12 +141,9 @@
           });
 
       });
-
-
     </script>
 
     <script>
-
       $(document).ready(function() {
         $('#colorselect').select2({
           dropdownParent: $("#createMaterial"),
@@ -191,14 +185,9 @@
           });
 
       });
-
-
     </script>
 
-
-
     <script>
-
       $(document).ready(function() {
         $('#sizeselect').select2({
           dropdownParent: $("#createMaterial"),
@@ -240,8 +229,6 @@
           });
 
       });
-
-
     </script>
 
   <script type="text/javascript">
@@ -251,5 +238,4 @@
       $('#sizeselect').val([]).trigger("change");
     });
   </script>
-
 @endpush

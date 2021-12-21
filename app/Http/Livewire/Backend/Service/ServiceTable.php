@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Backend\Product;
+namespace App\Http\Livewire\Backend\Service;
 
 use App\Models\Product;
 use Livewire\Component;
@@ -10,13 +10,13 @@ use App\Http\Livewire\Backend\DataTable\WithBulkActions;
 use App\Http\Livewire\Backend\DataTable\WithCachedRows;
 use Carbon\Carbon;
 
-class ProductTable extends Component
+class ServiceTable extends Component
 {
-	use Withpagination, WithBulkActions, WithCachedRows;
+    use Withpagination, WithBulkActions, WithCachedRows;
 
     protected $paginationTheme = 'bootstrap';
 
-	protected $queryString = [
+    protected $queryString = [
         'searchTerm' => ['except' => ''],
         'perPage',
     ];
@@ -26,15 +26,12 @@ class ProductTable extends Component
     public $status;
     public $searchTerm = '';
 
-    protected $listeners = ['restore' => '$refresh'];
+    protected $listeners = ['triggerRefresh' => '$refresh', 'delete' => '$refresh', 'restore' => '$refresh'];
 
     public function getRowsQueryProperty()
     {
         $query = Product::query()
-            ->onlyProducts()
-            ->with('children')
-            ->withCount('children')
-            ->whereNull('parent_id')
+            ->onlyServices()
             ->orderBy('updated_at', 'desc');
 
         if ($this->status === 'deleted') {
@@ -53,10 +50,10 @@ class ProductTable extends Component
         });
     }
 
-    private function applySearchFilter($products)
+    private function applySearchFilter($services)
     {
         if ($this->searchTerm) {
-            return $products->whereRaw("code LIKE \"%$this->searchTerm%\"")
+            return $services->whereRaw("code LIKE \"%$this->searchTerm%\"")
                             ->orWhereRaw("name LIKE \"%$this->searchTerm%\"")
                             ->orWhereRaw("description LIKE \"%$this->searchTerm%\"");
         }
@@ -93,10 +90,21 @@ class ProductTable extends Component
         ]);
     }
 
+    public function delete(Product $service)
+    {
+        if($service)
+            $service->delete();
+
+       $this->emit('swal:alert', [
+            'icon' => 'success',
+            'title'   => __('Deleted'), 
+        ]);
+    }
+
     public function render()
     {
-        return view('backend.product.table.product-table', [
-            'products' => $this->rows,
+        return view('backend.service.table.service-table', [
+            'services' => $this->rows,
         ]);
     }
 }

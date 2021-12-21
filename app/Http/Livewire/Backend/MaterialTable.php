@@ -42,7 +42,6 @@ class MaterialTable extends TableComponent
 
     protected $listeners = ['postAdded' => 'updateEditStock', 'delete', 'restore', 'triggerRefresh' => '$refresh'];
 
-
     /**
      * @var string
      */
@@ -58,7 +57,6 @@ class MaterialTable extends TableComponent
         'bootstrap.responsive' => true,
     ];
 
-
     /**
      * @param  string  $status
      */
@@ -66,7 +64,6 @@ class MaterialTable extends TableComponent
     {
         $this->status = $status;
     }
-
 
     public function updateEditStock()
     {
@@ -78,7 +75,6 @@ class MaterialTable extends TableComponent
      */
     public function query(): Builder
     {
-
         $query = Material::query()->with('color', 'size', 'unit');
 
         if ($this->status === 'deleted') {
@@ -87,7 +83,6 @@ class MaterialTable extends TableComponent
 
         return $query;
     }
-
 
     /**
      * @return array
@@ -147,7 +142,6 @@ class MaterialTable extends TableComponent
                 })
                 ->excludeFromExport()
                 ->hideIf($this->editStock == false),
-
         ];
     }
 
@@ -165,7 +159,6 @@ class MaterialTable extends TableComponent
         ]);
     }
 
-
     public function restore($id)
     {
         if($id){
@@ -179,6 +172,4 @@ class MaterialTable extends TableComponent
             'title'   => __('Restored'), 
         ]);
     }
-
-
 }

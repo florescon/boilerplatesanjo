@@ -52,12 +52,11 @@
 					    </tr>
 					  </thead>
 					  <tbody>
+
 			            @foreach($cartVar['products'] as $product)
 						    <tr>
 					    	  <td>
-					    	  	{{!is_null($product->code) || !empty($product->code)? 
-						      			$product->code : $product->parent->code 
-						      		}}
+						      	{!! $product->code_subproduct !!}
 					    	  </td>
 						      <td>
 								<a href="{{ route('admin.product.consumption_filter', $product->id) }}" target=”_blank”> <span class="badge badge-warning"> <i class="cil-color-fill"></i></span></a>
@@ -132,7 +131,7 @@
 
                     <div x-data="{ internalControl : @entangle('isVisible')  }">
                         <div class="form-group row">
-                            <label for="internal_control" class="col-md-8 col-form-label"><h5>Control interno <span class="badge badge-secondary">@lang('Click me')</span></h5>
+                            <label for="internal_control" class="col-md-8 col-form-label"><h5>@lang('Internal control') <span class="badge badge-secondary">@lang('Click here')</span></h5>
 							</label>
 
                             <div class="col-md-4">
@@ -205,7 +204,8 @@
 			<div class="card text-center border-light">
 			  <div class="card-body">
 			    <p class="card-text">@lang('Your cart order is empty!')</p>
-			    <a href="{{ route('admin.product.index') }}" class="btn btn-primary">@lang('Go to products')</a>
+				<a href="{{ route('admin.order.index') }}" class="btn btn-primary mr-2">@lang('Go to orders')</a>
+			    <a href="{{ route('admin.product.index') }}" class="btn btn-outline-primary ml-2">@lang('Go to products')</a>
 			  </div>
 			</div>
 

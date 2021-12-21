@@ -34,7 +34,6 @@ class ConsumptionProductFilter extends Component
 
     public function render()
     {
-
         $model = Product::with('parent', 'consumption_filter'
     			)->findOrFail($this->product_id);
 

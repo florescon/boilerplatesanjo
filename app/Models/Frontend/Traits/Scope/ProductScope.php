@@ -7,7 +7,6 @@ namespace App\Models\Frontend\Traits\Scope;
  */
 trait ProductScope
 {
-
     /**
      * @param $query
      *
@@ -38,7 +37,6 @@ trait ProductScope
         return $query->orderBy('price', 'asc');
     }   
 
-
     /**
      * @param $query
      *
@@ -59,5 +57,23 @@ trait ProductScope
         return $query->whereStatus(true);
     }
 
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeOnlyServices($query)
+    {
+        return $query->whereType(false);
+    }
 
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeOnlyProducts($query)
+    {
+        return $query->whereType(true);
+    }
 }

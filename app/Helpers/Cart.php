@@ -33,15 +33,12 @@ class Cart
         $this->set($cart);
     }
 
-
-
     public function remove(int $productId, string $typeCart): void
     {
         $cart = $this->get();
         array_splice($cart[$typeCart], array_search($productId, array_column($cart[$typeCart], 'id')), 1);
         $this->set($cart);
     }
-
 
     public function clear(): void
     {
@@ -56,7 +53,6 @@ class Cart
         ];
     }
     
-
     public function get(): ?array
     {
         return request()->session()->get('cart');

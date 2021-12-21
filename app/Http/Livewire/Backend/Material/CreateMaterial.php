@@ -8,7 +8,6 @@ use Livewire\Component;
 
 class CreateMaterial extends Component
 {
-
     public $part_number, $name, $description, $acquisition_cost, $price, $stock, $unit_id, $color_id, $size_id, $colors;
 
     protected $listeners = ['createmodal'];
@@ -25,12 +24,10 @@ class CreateMaterial extends Component
         'description' => 'min:5|nullable',
     ];
 
-
     // public function mount()
     // {
     //     $this->colors = Color::select(['id', 'name', 'color'])->orderBy('name')->get();
     // }
-
 
     public function updated($propertyName)
     {
@@ -55,9 +52,7 @@ class CreateMaterial extends Component
 
     public function store()
     {
-
         try {
-
             $this->validate();
 
             Material::create([
@@ -74,31 +69,27 @@ class CreateMaterial extends Component
             ]);
 
             $this->resetInputFields();
+
             $this->emit('materialStore');
 
-
-    		$this->emit('swal:alert', [
-    		    'icon' => 'success',
-    		    'title'   => __('Created'), 
-    		]);
-
-
             $this->emit('materialResetSelect');
+
         	$this->emitTo('backend.material-table', 'triggerRefresh');
         
+            $this->emit('swal:alert', [
+                'icon' => 'success',
+                'title'   => __('Created'), 
+            ]);
+
         } catch (Exception $e) {
             DB::rollBack();
 
             throw new GeneralException(__('There was a problem creating the material.'));
         }
-
-
-
     }
 
     public function render()
     {
         return view('backend.material.create-material');
     }
-
 }
