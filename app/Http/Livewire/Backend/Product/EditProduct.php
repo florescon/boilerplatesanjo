@@ -16,6 +16,7 @@ class EditProduct extends Component
 
     public ?int $line_id = null;
     public ?int $brand_id = null;
+    public ?int $model_product = null;
 
     public bool $increaseStock = false;
     public bool $subtractStock = false;
@@ -87,6 +88,12 @@ class EditProduct extends Component
     public function saveBrand()
     {
         Product::whereId($this->product_id)->update(['brand_id' => $this->brand_id]);
+        return $this->redirectRoute('admin.product.edit', $this->product_id);
+    }
+
+    public function saveModel()
+    {
+        Product::whereId($this->product_id)->update(['model_product_id' => $this->model_product]);
         return $this->redirectRoute('admin.product.edit', $this->product_id);
     }
 
@@ -278,13 +285,13 @@ class EditProduct extends Component
 
     public function savecolor()
     {
-        $product = Product::with('children')->findOrFail($this->product_id);
+        $product = Product::with('childrenWithTrashed')->findOrFail($this->product_id);
 
         if($this->color_id_select){
-            if(!$product->children->contains('color_id', $this->color_id_select))
+            if(!$product->childrenWithTrashed->contains('color_id', $this->color_id_select))
             {
-                foreach($product->children->unique('size_id') as $sizes){
-                    $product->children()->saveMany([
+                foreach($product->childrenWithTrashed->unique('size_id') as $sizes){
+                    $product->childrenWithTrashed()->saveMany([
                         new Product([
                             'size_id' => $sizes->size->id,
                             'color_id' => $this->color_id_select,
@@ -298,6 +305,10 @@ class EditProduct extends Component
             }
             else{
 
+                $product->childrenWithTrashed()
+                    ->where('color_id', $this->color_id_select)
+                    ->restore();
+
                 $this->emit('swal:alert', [
                     'icon' => 'warning',
                     'title'   => __('Color already exists'), 
@@ -310,13 +321,13 @@ class EditProduct extends Component
 
     public function savesize()
     {
-        $product = Product::with('children')->findOrFail($this->product_id);
+        $product = Product::with('childrenWithTrashed')->findOrFail($this->product_id);
 
         if($this->size_id_select){
-            if(!$product->children->contains('size_id', $this->size_id_select))
+            if(!$product->childrenWithTrashed->contains('size_id', $this->size_id_select))
             {
-                foreach($product->children->unique('color_id') as $colors){
-                    $product->children()->saveMany([
+                foreach($product->childrenWithTrashed->unique('color_id') as $colors){
+                    $product->childrenWithTrashed()->saveMany([
                         new Product([
                             'size_id' => $this->size_id_select,
                             'color_id' => $colors->color->id,
@@ -329,6 +340,11 @@ class EditProduct extends Component
                 ]);
             }
             else{
+
+                $product->childrenWithTrashed()
+                    ->where('size_id', $this->size_id_select)
+                    ->restore();
+
                 $this->emit('swal:alert', [
                     'icon' => 'warning',
                     'title'   => __('Size already exists'), 

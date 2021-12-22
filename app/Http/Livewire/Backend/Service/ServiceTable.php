@@ -55,7 +55,8 @@ class ServiceTable extends Component
         if ($this->searchTerm) {
             return $services->whereRaw("code LIKE \"%$this->searchTerm%\"")
                             ->orWhereRaw("name LIKE \"%$this->searchTerm%\"")
-                            ->orWhereRaw("description LIKE \"%$this->searchTerm%\"");
+                            ->orWhereRaw("description LIKE \"%$this->searchTerm%\"")
+                            ->onlyServices();
         }
 
         return null;

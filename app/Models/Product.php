@@ -57,6 +57,7 @@ class Product extends Model
         'automatic_code',
         'status',
         'type',
+        'model_product_id',
     ];
 
     public function getDescriptionLimitedAttribute()
@@ -80,6 +81,14 @@ class Product extends Model
         return $this->belongsTo(Brand::class)->withTrashed();
     }
     
+    /**
+     * Get the model product associated with the Product.
+     */
+    public function model_product()
+    {
+        return $this->belongsTo(ModelProduct::class)->withTrashed();
+    }
+
     public function size()
     {
         return $this->belongsTo(Size::class)->withTrashed();
@@ -143,6 +152,14 @@ class Product extends Model
      */
     public function children()
     {
+        return $this->hasMany(self::class, 'parent_id')->with('children', 'size', 'color');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function childrenWithTrashed()
+    {
         return $this->hasMany(self::class, 'parent_id')->with('children', 'size', 'color')->withTrashed();
     }
 
@@ -151,7 +168,15 @@ class Product extends Model
      */
     public function childrenOnlyColors()
     {
-        return $this->hasMany(self::class, 'parent_id')->with('children', 'color')->withTrashed();
+        return $this->hasMany(self::class, 'parent_id')->with('children', 'color');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function childrenOnlySizes()
+    {
+        return $this->hasMany(self::class, 'parent_id')->with('children', 'size')->withTrashed();
     }
 
     /**

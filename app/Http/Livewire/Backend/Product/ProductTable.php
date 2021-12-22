@@ -58,7 +58,8 @@ class ProductTable extends Component
         if ($this->searchTerm) {
             return $products->whereRaw("code LIKE \"%$this->searchTerm%\"")
                             ->orWhereRaw("name LIKE \"%$this->searchTerm%\"")
-                            ->orWhereRaw("description LIKE \"%$this->searchTerm%\"");
+                            ->orWhereRaw("description LIKE \"%$this->searchTerm%\"")
+                            ->onlyProducts();
         }
 
         return null;

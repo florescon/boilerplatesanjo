@@ -22,7 +22,7 @@ class ProductOrder extends Model
      */
     public function product()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class)->withTrashed();
     }
 
     /**
@@ -30,7 +30,7 @@ class ProductOrder extends Model
      */
     public function parent_order()
     {
-        return $this->belongsTo(self::class, 'product_id');
+        return $this->belongsTo(self::class, 'product_id')->withTrashed();
     }
 
     /**

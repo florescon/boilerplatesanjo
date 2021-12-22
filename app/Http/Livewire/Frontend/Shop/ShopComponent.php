@@ -99,7 +99,8 @@ class ShopComponent extends Component
             return $products->whereRaw("code LIKE \"%$this->searchTermShop%\"")
                             ->orWhereRaw("name LIKE \"%$this->searchTermShop%\"")
                             ->orWhereRaw("description LIKE \"%$this->searchTermShop%\"")
-                            ->onlyActive();
+                            ->onlyActive()
+                            ->onlyProducts();
         }
 
         return null;

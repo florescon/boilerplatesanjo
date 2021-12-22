@@ -123,6 +123,24 @@
 					    </div>
 			        </p>
 
+			        <p class="card-text"><strong>@lang('Model'):</strong> 
+			            <x-utils.undefined :data="optional($model->model_product)->name"/>
+
+					    <div x-data="{ show: false }" class="d-inline">
+					        <button class="btn btn-dark btn-sm " @click="show = !show"> {{ $model->model_product ? __('Change model') : __('Choose model') }}</button>
+					        <div x-show="show" class="mt-2" wire:ignore>
+		                        <select id="modelselect" class="custom-select" style="width: 100%;" aria-hidden="true" >
+		                        </select>
+					        </div>
+
+			                @if($model_product)
+						        <div x-show="show">
+				                	<a role="button" wire:click="saveModel" class="btn btn-sm btn-primary float-right mt-2 text-white" type="submit">@lang('Save model')</a>
+				                </div>
+			                @endif
+					    </div>
+			        </p>
+
 			        <p class="card-text"><strong>@lang('Price'): </strong>${{ $model->price }}</p>
 			        <p class="card-text"><strong>@lang('Updated at'): </strong>{{ $model->updated_at }}</p>
 			        <p class="card-text"><strong>@lang('Created at'): </strong>{{ $model->created_at }}</p>
@@ -810,6 +828,49 @@
           $('#brandselect').on('change', function (e) {
             var data = $('#brandselect').select2("val");
             @this.set('brand_id', data);
+          });
+      });
+    </script>
+
+    <script>
+      $(document).ready(function() {
+        $('#modelselect').select2({
+          placeholder: '@lang("Choose model")',
+          width: 'resolve',
+          theme: 'bootstrap4',
+          allowClear: true,
+          ajax: {
+                url: '{{ route('admin.model.select') }}',
+                data: function (params) {
+                    return {
+                        search: params.term,
+                        page: params.page || 1
+                    };
+                },
+                dataType: 'json',
+                processResults: function (data) {
+                    data.page = data.page || 1;
+                    return {
+                        results: data.items.map(function (item) {
+                            return {
+                                id: item.id,
+                                text: item.name
+                            };
+                        }),
+                        pagination: {
+                            more: data.pagination
+                        }
+                    }
+                },
+                cache: true,
+                delay: 250,
+                dropdownautowidth: true
+            }
+          });
+
+          $('#modelselect').on('change', function (e) {
+            var data = $('#modelselect').select2("val");
+            @this.set('model_product', data);
           });
       });
     </script>
