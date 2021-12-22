@@ -129,7 +129,7 @@
                 class="c-sidebar-nav-link"
                 :href="route('admin.service.index')"
                 :active="activeClass(Route::is('admin.service.*'), 'c-active')"
-                icon="c-sidebar-nav-icon cil-tag"
+                icon="c-sidebar-nav-icon cil-task"
                 :text="__('Services')" />
         </li>
 
@@ -146,7 +146,7 @@
             <x-utils.link
                 new="true"
                 href="#"
-                icon="c-sidebar-nav-icon cil-settings"
+                icon="c-sidebar-nav-icon cil-wallet"
                 class="c-sidebar-nav-dropdown-toggle"
                 :text="__('Shop')" />
 
@@ -187,7 +187,7 @@
                 class="c-sidebar-nav-link"
                 :href="route('admin.color.index')"
                 :active="activeClass(Route::is('admin.color.*'), 'c-active')"
-                icon="c-sidebar-nav-icon cil-color-fill"
+                icon="c-sidebar-nav-icon cil-color-palette"
                 :text="__('Colors')" />
         </li>
 
@@ -236,6 +236,16 @@
                 :text="__('Brands')" />
         </li>
 
+        <li class="c-sidebar-nav-item">
+            <x-utils.link
+                new="true"
+                class="c-sidebar-nav-link"
+                :href="route('admin.model.index')"
+                :active="activeClass(Route::is('admin.model.index'), 'c-active')"
+                icon="c-sidebar-nav-icon cil-color-fill"
+                :text="__('Models')" />
+        </li>
+
         <li class="c-sidebar-nav-title">@lang('Others')</li>
 
         <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.setting.index.*') || Route::is('admin.auth.pages.*'), 'c-open c-show') }}">
@@ -270,7 +280,7 @@
                 class="c-sidebar-nav-link"
                 :href="route('admin.document.index')"
                 :active="activeClass(Route::is('admin.document.*'), 'c-active')"
-                icon="c-sidebar-nav-icon cil-brightness"
+                icon="c-sidebar-nav-icon cil-file"
                 :text="__('Documents')" />
         </li>
 

@@ -67,6 +67,13 @@ Route::group([
                     ->push(__('Move between stocks'), route('admin.product.move', $product));
             });
 
+        Route::get('delete-attributes', [ProductController::class, 'deleteAttributes'])
+            ->name('delete-attributes')
+            ->breadcrumbs(function (Trail $trail, Product $product) {
+                $trail->parent('admin.product.edit', $product)
+                    ->push(__('Delete attributes'), route('admin.product.delete-attributes', $product));
+            });
+
         Route::get('consumption', [ProductController::class, 'consumption'])
             ->name('consumption')
             ->breadcrumbs(function (Trail $trail, Product $product) {

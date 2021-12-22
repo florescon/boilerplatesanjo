@@ -147,6 +147,9 @@
 					    <li class="list-group-item">
 						  <a href="{{ route('admin.product.move', $model->id) }}" class="card-link">@lang('Move between stocks')</a>
 					    </li>
+					    <li class="list-group-item">
+						  <a href="{{ route('admin.product.delete-attributes', $model->id) }}" class="card-link">@lang('Delete attributes')</a>
+					    </li>
 					  </ul>
 		                {{-- <x-input.rich-text wire:model.lazy="about" id="about" :initial-value="$about" /> --}}
 			      </div>
@@ -810,6 +813,21 @@
           });
       });
     </script>
+
+	<script>
+	    document.addEventListener("DOMContentLoaded", () => {
+	        $(function () {
+	            $('[data-toggle="tooltip"]').tooltip()
+	        })
+
+	        Livewire.hook('message.processed', (message, component) => {
+	            $(function () {
+	                $('[data-toggle="tooltip"]').tooltip()
+	            })
+	        })
+	    });
+	</script> 
+	I
     {{-- <script>
     	document.querySelector(".button").addEventListener("click", function (e) {
    			party.sparkles(this, {

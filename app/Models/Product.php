@@ -170,6 +170,14 @@ class Product extends Model
         return $this->parent_id;
     }
 
+    /**
+     * @return bool
+     */
+    public function isService(): bool
+    {
+        return $this->type;
+    }
+
     public function getCodeSubproductAttribute()
     {
         if(!$this->hasCodeSubproduct()){
@@ -213,7 +221,6 @@ class Product extends Model
 
         return $this->price;
     }
-
 
     /**
      * @return string

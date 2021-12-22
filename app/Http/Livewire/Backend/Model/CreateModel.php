@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Livewire\Backend\Line;
+namespace App\Http\Livewire\Backend\Model;
 
-use App\Models\Line;
+use App\Models\ModelProduct;
 use Livewire\Component;
 
-class CreateLine extends Component
+class CreateModel extends Component
 {
     public $name;
 
@@ -34,22 +34,22 @@ class CreateLine extends Component
     {
         $validatedData = $this->validate();
 
-        Line::create($validatedData);
+        ModelProduct::create($validatedData);
 
         $this->resetInputFields();
-        $this->emit('lineStore');
+        $this->emit('modelStore');
 
 
-		$this->emit('swal:alert', [
-		    'icon' => 'success',
-		    'title'   => __('Created'), 
-		]);
+        $this->emit('swal:alert', [
+            'icon' => 'success',
+            'title'   => __('Created'), 
+        ]);
 
-    	$this->emitTo('backend.line.line-table', 'triggerRefresh');
+        $this->emitTo('backend.model.model-table', 'triggerRefresh');
     }
 
     public function render()
     {
-        return view('backend.line.create-line');
+        return view('backend.model.create-model');
     }
 }

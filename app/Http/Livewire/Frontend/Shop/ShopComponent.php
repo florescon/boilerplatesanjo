@@ -60,9 +60,6 @@ class ShopComponent extends Component
         }
 
         if($this->lineName){
-
-            // $this->validate(['lineName' => 'required|max:6']);
-
             $lineN = $this->lineName;
             $query->whereHas('line', function($queryLine) use ($lineN){
                 $queryLine->where('slug', $lineN);
@@ -95,8 +92,6 @@ class ShopComponent extends Component
 
         return $query->defaultOrder();
     }
-
-
 
     private function applySearchFilter($products)
     {
@@ -152,7 +147,6 @@ class ShopComponent extends Component
     {
         $this->line = null;
         $this->lineName = '';
-
     }
     public function clearFilterColor()
     {
@@ -212,7 +206,6 @@ class ShopComponent extends Component
             return $this->rowsQuery->paginate($this->perPage);
         });
     }
-
 
     public function render()
     {

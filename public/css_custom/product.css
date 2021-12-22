@@ -374,3 +374,13 @@ body {
 .icon-red{
   color: red;
 }
+
+
+.card-pricing.popular {
+    z-index: 1;
+    border: 3px solid red;
+}
+.card-pricing .list-unstyled li {
+    padding: .5rem 0;
+    color: red;
+}

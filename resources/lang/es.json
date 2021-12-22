@@ -373,6 +373,19 @@
     "Edit line": "Editar línea",
     "Deleted lines": "Líneas eliminadas",
 
+    "Model": "Modelo",
+    "Models": "Modelos",
+    "Save model": "Guardar modelo",
+    "Undefined model": "Modelo no definido",
+    "Change model": "Cambiar modelo de producto",
+    "Choose model": "Elegir modelo de producto",
+    "Model Management": "Administración de modelos",
+    "Create model": "Crear modelo",
+    "Show model": "Ver modelo",
+    "Show models": "Ver modelos",
+    "Edit model": "Editar modelo",
+    "Deleted models": "Modelos eliminados",
+
     "Refresh": "Recargar",
     "Load more": "Cargar más",
 
@@ -775,5 +788,6 @@
     "Abbreviation": "Abreviatura",
     "Show and print": "Ver e imprimir",
     "Click here": "Clic aquí",
-    "Internal control": "Control interno"
+    "Internal control": "Control interno",
+    "Delete attributes": "Eliminar atributos"
 }

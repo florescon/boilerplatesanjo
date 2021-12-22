@@ -43,7 +43,7 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
-    	if($product->isChildren()){
+    	if($product->isChildren() || !$product->isService()){
     		abort(401);
     	}
 
@@ -52,8 +52,8 @@ class ProductController extends Controller
 
     public function advanced(Product $product)
     {
-        if($product->isChildren()){
-            abort(404);
+        if($product->isChildren() || !$product->isService()){
+            abort(401);
         }
 
         return view('backend.product.advanced-product', compact('product'));
@@ -61,8 +61,8 @@ class ProductController extends Controller
 
     public function prices(Product $product)
     {
-        if($product->isChildren()){
-            abort(404);
+        if($product->isChildren() || !$product->isService()){
+            abort(401);
         }
 
         return view('backend.product.prices-product', compact('product'));
@@ -70,8 +70,8 @@ class ProductController extends Controller
 
     public function pictures(Product $product)
     {
-        if($product->isChildren()){
-            abort(404);
+        if($product->isChildren() || !$product->isService()){
+            abort(401);
         }
 
         return view('backend.product.pictures-product', compact('product'));
@@ -79,28 +79,35 @@ class ProductController extends Controller
 
     public function moveStock(Product $product)
     {
-        if($product->isChildren()){
-            abort(404);
+        if($product->isChildren() || !$product->isService()){
+            abort(401);
         }
 
         return view('backend.product.move-stock-product', compact('product'));
     }
 
+    public function deleteAttributes(Product $product)
+    {
+        if($product->isChildren() || !$product->isService()){
+            abort(401);
+        }
+
+        return view('backend.product.delete-attributes-product', compact('product'));
+    }
 
     public function consumption(Product $product)
     {
-        if($product->isChildren()){
-            abort(404);
+        if($product->isChildren() || !$product->isService()){
+            abort(401);
         }
         return view('backend.product.consumption-product')
             ->withProduct($product);
     }
 
-
     public function consumption_filter(Product $product)
     {
-        if(!$product->isChildren()){
-            abort(404);
+        if(!$product->isChildren() || !$product->isService()){
+            abort(401);
         }
         return view('backend.product.consumption-product-filter')
             ->withProduct($product);
@@ -132,8 +139,8 @@ class ProductController extends Controller
 
     public function large_qr(Product $product)
     {
-        if(!$product->isChildren()){
-            abort(404);
+        if(!$product->isChildren() || !$product->isService()){
+            abort(401);
         }
 
         $pdf = PDF::loadView('backend.product.ticket.large-qr',compact('product'))->setPaper([0, 0, 1385.98, 296.85], 'landscape');
@@ -145,8 +152,8 @@ class ProductController extends Controller
 
     public function large_barcode(Product $product)
     {
-        if(!$product->isChildren()){
-            abort(404);
+        if(!$product->isChildren() || !$product->isService()){
+            abort(401);
         }
 
         $pdf = PDF::loadView('backend.product.ticket.large-barcode',compact('product'))->setPaper([0, 0, 1385.98, 296.85], 'landscape');
@@ -158,8 +165,8 @@ class ProductController extends Controller
 
     public function short_barcode(Product $product)
     {
-        if(!$product->isChildren()){
-            abort(404);
+        if(!$product->isChildren() || !$product->isService()){
+            abort(401);
         }
 
         $pdf = PDF::loadView('backend.product.ticket.short-barcode',compact('product'))->setPaper([0, 0, 320.98, 896.85], 'landscape');

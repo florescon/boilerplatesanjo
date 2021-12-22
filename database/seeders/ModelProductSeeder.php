@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Line;
+use App\Models\ModelProduct;
 use Illuminate\Database\Seeder;
 use Database\Seeders\Traits\DisableForeignKeys;
 
-class LineSeeder extends Seeder
+class ModelProductSeeder extends Seeder
 {
     use DisableForeignKeys;
 
@@ -20,7 +20,7 @@ class LineSeeder extends Seeder
         $this->disableForeignKeys();
 
         if (app()->environment() !== 'production') {
-            Line::factory()->times(100)->create();
+            ModelProduct::factory()->times(100)->create();
         }
 
         $this->enableForeignKeys();

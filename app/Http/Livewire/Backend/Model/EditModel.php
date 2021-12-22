@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Livewire\Backend\Line;
+namespace App\Http\Livewire\Backend\Model;
 
-use App\Models\Line;
+use App\Models\ModelProduct;
 use Livewire\Component;
 
-class EditLine extends Component
+class EditModel extends Component
 {
     public $selected_id, $name, $slug;
 
@@ -13,7 +13,7 @@ class EditLine extends Component
 
     public function edit($id)
     {
-        $record = Line::withTrashed()->findOrFail($id);
+        $record = ModelProduct::withTrashed()->findOrFail($id);
         $this->selected_id = $id;
         $this->name = $record->name;
         $this->slug = $record->slug;
@@ -27,15 +27,15 @@ class EditLine extends Component
             'name' => 'required|min:3',
         ]);
         if ($this->selected_id) {
-            $record = Line::find($this->selected_id);
+            $record = ModelProduct::find($this->selected_id);
             $record->update([
                 'name' => $this->name,
             ]);
             // $this->resetInputFields();
         }
 
-        $this->emit('lineUpdate');
-        $this->emitTo('backend.line.line-table', 'triggerRefresh');
+        $this->emit('modelUpdate');
+        $this->emitTo('backend.model.model-table', 'triggerRefresh');
 
        $this->emit('swal:alert', [
             'icon' => 'success',
@@ -46,6 +46,6 @@ class EditLine extends Component
 
     public function render()
     {
-        return view('backend.line.edit-line');
+        return view('backend.model.edit-model');
     }
 }
