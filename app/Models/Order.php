@@ -307,17 +307,29 @@ class Order extends Model
     /**
      * @return bool
      */
-    public function isApproved(): bool
+    public function isFromStore(): ?bool
     {
-        return $this->approved;
+        return $this->from_store;
+    }
+
+    /**
+     * @return string
+     */
+    public function  getFromStoreLabelAttribute()
+    {
+        if ($this->isFromStore()) {
+            return "<span class='badge badge-danger'>".__('From store').'</span>';
+        }
+
+        return '';
     }
 
     /**
      * @return bool
      */
-    public function isFromStore(): bool
+    public function isApproved(): bool
     {
-        return $this->from_store;
+        return $this->approved;
     }
 
     /**

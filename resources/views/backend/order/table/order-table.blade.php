@@ -141,6 +141,7 @@
 		                  </span>
 	                  @endif
 										<span class="badge badge-dark"><strong>{{ $order->tracking_number }}</strong></span>
+										{!! $order->from_store_label !!}
 	                </td>
 		            </tr>
 	            @endforeach

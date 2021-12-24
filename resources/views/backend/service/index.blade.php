@@ -47,4 +47,10 @@
       });
     </script>
 
+    <script type="text/javascript">
+      Livewire.on("serviceUpdate", () => {
+          $("#updateModal").modal("hide");
+      });
+    </script>
+
 @endpush

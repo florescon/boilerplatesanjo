@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
 use App\Facades\Cart;
+use Illuminate\Validation\Rule;
 
 class EditProduct extends Component
 {
@@ -216,7 +217,7 @@ class EditProduct extends Component
     public function savecode()
     {
         $this->validate([
-            'code' => 'required|min:3|unique:products',
+            'code' => ['required', 'min:3', 'regex:/^\S*$/u', Rule::unique('products')->ignore($this->product_id)],
         ]);
 
         $product = Product::findOrFail($this->product_id);

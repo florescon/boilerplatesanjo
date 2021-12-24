@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Response;
 use App\Exports\ColorsExport;
 use Excel;
+use Illuminate\Validation\Rule;
 
 class ColorTable extends Component
 {
@@ -43,7 +44,7 @@ class ColorTable extends Component
 
     protected $rules = [
         'name' => 'required|min:3',
-        'short_name' => 'required|min:3|max:6|unique:colors',
+        'short_name' => 'required|min:3|max:6|regex:/^\S*$/u|unique:colors',
         'color' => 'required|unique:colors',
         'secondary_color' => '',
     ];
@@ -200,7 +201,7 @@ class ColorTable extends Component
         $this->validate([
             'selected_id' => 'required|numeric',
             'name' => 'required|min:3',
-            'short_name' => 'required|min:3|unique:App\Models\Color,short_name,'.$this->selected_id,
+            'short_name' => ['required', 'min:3', 'max:6', 'regex:/^\S*$/u', Rule::unique('colors')->ignore($this->selected_id)],
             'color' => 'required',
             'secondary_color' => ''
         ]);

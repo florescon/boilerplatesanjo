@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Backend\Size;
 
 use App\Models\Size;
 use Livewire\Component;
+use Illuminate\Validation\Rule;
 
 class EditSize extends Component
 {
@@ -36,7 +37,7 @@ class EditSize extends Component
         $this->validate([
             'selected_id' => 'required|numeric',
             'name' => 'required|min:1',
-            'short_name' => 'required|min:1|max:4|unique:App\Models\Size,short_name,'.$this->selected_id,
+            'short_name' => ['required', 'min:1', 'max:4', 'regex:/^\S*$/u', Rule::unique('sizes')->ignore($this->selected_id)],
             'sort' => 'sometimes|integer|min:0',
         ]);
         if ($this->selected_id) {
@@ -57,7 +58,6 @@ class EditSize extends Component
             'title'   => __('Actualizado'), 
         ]);
     }
-
 
     public function render()
     {

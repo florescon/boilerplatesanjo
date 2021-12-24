@@ -24,7 +24,7 @@ class CreateProduct extends Component
 
     protected $rules = [
         'name' => 'required|min:3',
-        'code' => 'required|min:3|max:15|unique:products',
+        'code' => 'required|min:3|max:15|regex:/^\S*$/u|unique:products',
         'description' => 'nullable|sometimes',
         'colors' => 'required',
         'sizes' => 'required',

@@ -13,7 +13,7 @@ class CreateService extends Component
 
     protected $rules = [
         'name' => 'required|min:3',
-        'code' => 'nullable|min:3|max:15|unique:products',
+        'code' => 'nullable|min:3|max:15|regex:/^\S*$/u|unique:products',
         'price' => 'required|numeric',
     ];
 

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Livewire\Backend\DataTable\WithBulkActions;
 use App\Http\Livewire\Backend\DataTable\WithCachedRows;
 use Carbon\Carbon;
+use Illuminate\Validation\Rule;
 
 class ServiceTable extends Component
 {
@@ -22,6 +23,10 @@ class ServiceTable extends Component
     ];
 
     public $perPage = '12';
+
+    public $name, $price, $code, $is_active;
+
+    public $created, $updated, $deleted, $selected_id;
 
     public $status;
     public $searchTerm = '';
@@ -77,6 +82,60 @@ class ServiceTable extends Component
     public function updatedPerPage()
     {
         $this->page = 1;
+    }
+
+    public function show($id)
+    {
+        $record = Product::withTrashed()->findOrFail($id);
+        $this->name = $record->name;
+        $this->code = $record->code;
+        $this->price = $record->price;
+        $this->is_active = $record->status_name;
+        $this->created = $record->created_at;
+        $this->updated = $record->updated_at;
+    }
+
+    public function edit($id)
+    {
+        $record = Product::findOrFail($id);
+        $this->selected_id = $id;
+        $this->name = $record->name;
+        $this->code = $record->code;
+        $this->price = $record->price;
+    }
+
+    private function resetInputFields()
+    {
+        $this->name = '';
+        $this->code = '';
+        $this->price = '';
+    }
+
+    public function update()
+    {
+        $this->validate([
+            'selected_id' => ['required', 'numeric'],
+            'name' => ['required', 'min:3'],
+            'code' => ['nullable', 'min:3', 'max:15', 'regex:/^\S*$/u', Rule::unique('products')->ignore($this->selected_id)],
+            'price' => ['required', 'numeric'],
+        ]);
+
+        if ($this->selected_id) {
+            $record = Product::find($this->selected_id);
+            $record->update([
+                'name' => $this->name,
+                'code' => $this->code,
+                'price' => $this->price
+            ]);
+            $this->resetInputFields();
+        }
+
+        $this->emit('serviceUpdate');
+
+       $this->emit('swal:alert', [
+            'icon' => 'success',
+            'title'   => __('Updated'), 
+        ]);
     }
 
     public function restore($id)

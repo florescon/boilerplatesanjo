@@ -62,8 +62,18 @@ trait OrderScope
      *
      * @return mixed
      */
+    public function scopeOnlyFromStore($query)
+    {
+        return $query->where('from_store', true);
+    }   
+
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
     public function scopeOnlyCashable($query)
     {
         return $query->where('from_store', true)->whereNull('cash_id');
-    }   
+    }
 }

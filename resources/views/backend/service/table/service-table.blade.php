@@ -21,6 +21,9 @@
 
   <div class="container">
 
+  @include('backend.service.show')
+  @include('backend.service.update')
+
     @if($services->count())
       <div class="row">
         @foreach($services as $service)
@@ -58,10 +61,10 @@
 
               </div>
               <h6 class="mb-0">${{ $service->price }}</h6>
-              <a href="#!"><small>@lang('Details')</small></a>
+              <a href="#!" data-toggle="modal" data-target="#showModal" wire:click="show({{ $service->id }})"><small>@lang('Details')</small></a>
               <div class="d-flex justify-content-between mt-4">
                 <div>
-                  <h5 class="mb-0"> <em class="text-primary">@lang('Edit')</em>
+                  <h5 class="mb-0"> <a href="#!" type="button" data-toggle="modal" data-target="#updateModal" wire:click="edit({{ $service->id }})"><em class="text-primary">@lang('Edit')</em></a>
                     <small class="ml-1">{{ $service->date_for_humans }}</small>
                   </h5>
                 </div>
@@ -102,7 +105,7 @@
     </div>
 
     @if($services->count() && $status != 'deleted')
-      <footer class="footer">
+      <footer class="footer mt-3">
           <div class="row align-items-center justify-content-xl-between">
             <div class="col-xl-6 m-auto text-center">
               <div>

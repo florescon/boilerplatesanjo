@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Response;
 use App\Exports\DepartamentsExport;
 use Excel;
+use Illuminate\Validation\Rule;
 
 class DepartamentTable extends Component
 {
@@ -40,7 +41,7 @@ class DepartamentTable extends Component
 
     protected $rules = [
         'name' => 'required|min:3',
-        'email' => 'required|email|min:3|unique:departaments',
+        'email' => 'required|email|min:3|regex:/^\S*$/u|unique:departaments',
         'comment' => 'sometimes|min:3',
     ];
 
@@ -152,11 +153,12 @@ class DepartamentTable extends Component
     public function update()
     {
         $this->validate([
-            'selected_id' => 'required|numeric',
-            'name' => 'required|min:3',
-            'email' => 'required|email|min:3',
-            'comment' => 'sometimes',
+            'selected_id' => ['required', 'numeric'],
+            'name' => ['required', 'min:3'],
+            'email' => ['required', 'email', 'min:3', 'regex:/^\S*$/u', Rule::unique('departaments')->ignore($this->selected_id)],
+            'comment' => ['sometimes', 'nullable'],
         ]);
+
         if ($this->selected_id) {
             $record = Departament::find($this->selected_id);
             $record->update([

@@ -24,7 +24,7 @@ class CreateOrdersTable extends Migration
             $table->date('date_entered')->nullable();
             $table->boolean('automatic_production')->default(false);
             $table->unsignedBigInteger('audi_id')->nullable();
-            $table->boolean('from_store')->nullable();
+            $table->boolean('from_store')->default(false);
             $table->unsignedBigInteger('cash_id')->nullable();
             $table->boolean('approved')->default(false);
             $table->string('status_delivery', 32);
