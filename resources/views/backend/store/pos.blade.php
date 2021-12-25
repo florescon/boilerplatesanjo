@@ -94,10 +94,9 @@
 	</div>
 </div>
 
+<livewire:backend.store.pos.search-product />
 
-	<livewire:backend.store.pos.search-product />
-
-  <livewire:backend.store.finance.create-finance />
+<livewire:backend.store.finance.create-finance />
 
 @endsection
 

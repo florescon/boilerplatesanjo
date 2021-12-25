@@ -43,7 +43,7 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
-    	if($product->isChildren() || !$product->isService()){
+    	if($product->isChildren() || !$product->isProduct()){
     		abort(401);
     	}
 
@@ -52,7 +52,7 @@ class ProductController extends Controller
 
     public function advanced(Product $product)
     {
-        if($product->isChildren() || !$product->isService()){
+        if($product->isChildren() || !$product->isProduct()){
             abort(401);
         }
 
@@ -61,7 +61,7 @@ class ProductController extends Controller
 
     public function prices(Product $product)
     {
-        if($product->isChildren() || !$product->isService()){
+        if($product->isChildren() || !$product->isProduct()){
             abort(401);
         }
 
@@ -70,7 +70,7 @@ class ProductController extends Controller
 
     public function pictures(Product $product)
     {
-        if($product->isChildren() || !$product->isService()){
+        if($product->isChildren() || !$product->isProduct()){
             abort(401);
         }
 
@@ -79,7 +79,7 @@ class ProductController extends Controller
 
     public function moveStock(Product $product)
     {
-        if($product->isChildren() || !$product->isService()){
+        if($product->isChildren() || !$product->isProduct()){
             abort(401);
         }
 
@@ -88,7 +88,7 @@ class ProductController extends Controller
 
     public function deleteAttributes(Product $product)
     {
-        if($product->isChildren() || !$product->isService()){
+        if($product->isChildren() || !$product->isProduct()){
             abort(401);
         }
 
@@ -97,7 +97,7 @@ class ProductController extends Controller
 
     public function consumption(Product $product)
     {
-        if($product->isChildren() || !$product->isService()){
+        if($product->isChildren() || !$product->isProduct()){
             abort(401);
         }
         return view('backend.product.consumption-product')
@@ -106,7 +106,7 @@ class ProductController extends Controller
 
     public function consumption_filter(Product $product)
     {
-        if(!$product->isChildren() || !$product->isService()){
+        if(!$product->isChildren() || !$product->isProduct()){
             abort(401);
         }
         return view('backend.product.consumption-product-filter')
@@ -139,7 +139,7 @@ class ProductController extends Controller
 
     public function large_qr(Product $product)
     {
-        if(!$product->isChildren() || !$product->isService()){
+        if(!$product->isChildren() || !$product->isProduct()){
             abort(401);
         }
 
@@ -152,7 +152,7 @@ class ProductController extends Controller
 
     public function large_barcode(Product $product)
     {
-        if(!$product->isChildren() || !$product->isService()){
+        if(!$product->isChildren() || !$product->isProduct()){
             abort(401);
         }
 
@@ -165,7 +165,7 @@ class ProductController extends Controller
 
     public function short_barcode(Product $product)
     {
-        if(!$product->isChildren() || !$product->isService()){
+        if(!$product->isChildren() || !$product->isProduct()){
             abort(401);
         }
 

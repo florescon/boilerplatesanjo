@@ -87,11 +87,12 @@
 	                <x-input.input-alpine nameData="isEditing" :inputText="$isDescription" :originalInput="$origDescription" wireSubmit="savedescription" modelName="newDescription" />
 
 			        <p class="card-text mt-3"><strong>@lang('Total stock'): </strong>{{ $model->total_stock }}</p>
+
 			        <p class="card-text"><strong>@lang('Line'):</strong> 
 			            <x-utils.undefined :data="optional($model->line)->name"/>
 
 					    <div x-data="{ show: false }" class="d-inline">
-					        <button class="btn btn-dark btn-sm {{ $model->line_id ?: 'pulsingButton'  }}" @click="show = !show"> {{ $model->line_id ? __('Change line') : __('Choose line') }}</button>
+					        <button class="badge badge-light {{ $model->line_id ?: 'pulsingButton'  }}" @click="show = !show"> {{ $model->line_id ? __('Change line') : __('Choose line') }}</button>
 					        <div x-show="show" class="mt-2" wire:ignore>
 		                        <select id="lineselect" class="custom-select" style="width: 100%;" aria-hidden="true" >
 		                        </select>
@@ -105,11 +106,13 @@
 					    </div>
 			        </p>
 
+			        <hr width="50%;" style="border:1px dashed #9A68A9">
+
 			        <p class="card-text"><strong>@lang('Brand'):</strong> 
 			            <x-utils.undefined :data="optional($model->brand)->name"/>
 
 					    <div x-data="{ show: false }" class="d-inline">
-					        <button class="btn btn-dark btn-sm " @click="show = !show"> {{ $model->brand_id ? __('Change brand') : __('Choose brand') }}</button>
+					        <button class="badge badge-light " @click="show = !show"> {{ $model->brand_id ? __('Change brand') : __('Choose brand') }}</button>
 					        <div x-show="show" class="mt-2" wire:ignore>
 		                        <select id="brandselect" class="custom-select" style="width: 100%;" aria-hidden="true" >
 		                        </select>
@@ -123,11 +126,13 @@
 					    </div>
 			        </p>
 
+			        <hr width="50%;" style="border:1px dashed #7C2E95">
+
 			        <p class="card-text"><strong>@lang('Model'):</strong> 
 			            <x-utils.undefined :data="optional($model->model_product)->name"/>
 
 					    <div x-data="{ show: false }" class="d-inline">
-					        <button class="btn btn-dark btn-sm " @click="show = !show"> {{ $model->model_product ? __('Change model') : __('Choose model') }}</button>
+					        <button class="badge badge-light " @click="show = !show"> {{ $model->model_product ? __('Change model') : __('Choose model') }}</button>
 					        <div x-show="show" class="mt-2" wire:ignore>
 		                        <select id="modelselect" class="custom-select" style="width: 100%;" aria-hidden="true" >
 		                        </select>
@@ -140,6 +145,8 @@
 			                @endif
 					    </div>
 			        </p>
+
+			        <hr width="50%;" style="border:1px dashed #661181">
 
 			        <p class="card-text"><strong>@lang('Price'): </strong>${{ $model->price }}</p>
 			        <p class="card-text"><strong>@lang('Updated at'): </strong>{{ $model->updated_at }}</p>
@@ -473,7 +480,7 @@
 						  </thead>
 						  <tbody>
 
-					        @foreach($childrens->sortBy('size.name') as $children)
+					        @foreach($childrens->sortBy('size.sort') as $children)
 
 							    <tr>
 							      @if($showCodes)

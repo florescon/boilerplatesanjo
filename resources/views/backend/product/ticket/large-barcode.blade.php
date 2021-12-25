@@ -56,6 +56,7 @@
           <td align="center">
             <h2>
 {{ $product->parent->name }}
+{{ optional($product->parent->model_product)->name }}
             </h2>
           </td>
         </tr>

@@ -46,7 +46,6 @@ class CartPos extends Component
         CartFacade::clear();
         $this->emit('clearCartAll');
         $this->cart = CartFacade::get();
-
     }
 
     public function checkout()
@@ -62,8 +61,6 @@ class CartPos extends Component
             return redirect()->route('admin.store.pos');
         }
     }
-
-
 
     /**
      * Define is cart exists.

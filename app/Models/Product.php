@@ -128,7 +128,17 @@ class Product extends Model
      */
     public function getFullNameAttribute()
     {
-        return $this->parent_id != null ? '<strong>'.$this->parent->name.'</strong> <em>'.$this->size_name.' '.$this->color_name.'</em>' : $this->name." <span class='badge badge-primary'>".__('Main').'</span>';
+        if($this->parent_id != null){
+            return '<strong>'.$this->parent->name.'</strong> <em>'.$this->size_name.' '.$this->color_name.'</em>';
+        }
+        else{
+            if(!$this->isProduct()){
+                return $this->name." <span class='badge badge-info' style='color: white; background-color: #85144b;'>".__('Service').'</span>';
+            }
+            else{
+                return $this->name." <span class='badge badge-primary'>".__('Main').'</span>';
+            }
+        }
     }
 
     /**
@@ -198,7 +208,7 @@ class Product extends Model
     /**
      * @return bool
      */
-    public function isService(): bool
+    public function isProduct(): bool
     {
         return $this->type;
     }

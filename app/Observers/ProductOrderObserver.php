@@ -19,7 +19,9 @@ class ProductOrderObserver
         $product = Product::find($productOrder->product_id);
         
         if($productOrder->quantity > 0 && $productOrder->type == 2){
-            $product->decrement('stock_store', abs($productOrder->quantity));
+            if($product->isProduct()){
+                $product->decrement('stock_store', abs($productOrder->quantity));
+            }
         }
     }
 
@@ -45,7 +47,9 @@ class ProductOrderObserver
         $product = Product::find($productOrder->product_id);
         
         if($productOrder->quantity > 0 && $productOrder->type == 2){
-            $product->increment('stock_store', abs($productOrder->quantity));
+            if($product->isProduct()){
+                $product->increment('stock_store', abs($productOrder->quantity));
+            }
         }
     }
 

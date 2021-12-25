@@ -63,7 +63,7 @@
 			    </li>
 			    <li class="list-group-item">
 			    	<strong>@lang('Sizes'): </strong> 
-			    	@foreach($product->children->unique('size_id')->sortBy('size.name') as $sizes)
+			    	@foreach($product->children->unique('size_id')->sortBy('size.sort') as $sizes)
 						<a class="badge badge-light">{{ optional($sizes->size)->name }}</a>
 			    	@endforeach
 			    </li>
@@ -81,7 +81,7 @@
 
 		    <div class="card-footer">
 				@if (!$product->trashed())
-					<a href="{{ route('admin.product.consumption',  $product->id) }}" class="btn btn-warning text-white mb-1">@lang('Consumption')</a>
+					<a href="{{ route('admin.product.consumption',  $product->id) }}" class="btn btn-warning text-white mb-1 mr-1">@lang('Consumption')</a>
 					<a href="{{ route('admin.product.edit',  $product->id) }}" class="btn btn-primary mb-1">@lang('Edit product')</a>
 				@else
 				    <div class="dropright" style="display:inline-block;">

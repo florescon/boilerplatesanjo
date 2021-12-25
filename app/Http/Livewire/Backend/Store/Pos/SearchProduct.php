@@ -33,9 +33,7 @@ class SearchProduct extends Component
         $this->full_name = null;
         array_shift($this->filters);
         array_shift($this->filtersz);
-
     }
-
 
     public function filterByColor($color)
     {
@@ -71,7 +69,6 @@ class SearchProduct extends Component
         }
     }
 
-
     public function incrementHighlight()
     {
         if ($this->highlightIndex === count($this->products) - 1) {
@@ -101,26 +98,31 @@ class SearchProduct extends Component
         }
     }
 
-    public function selectProduct($id)
+    public function selectProduct(Product $product)
     {
-        if ($id) {
 
-            // $this->emitTo('addToCart', 'backend.product.edit-product', [$id, 'products'] );
-
-            $product = Product::findOrFail($id);
-
+        if ($product) {
 
             if($product->parent_id){
-                $this->addToCart($id, $this->match);
+                $this->addToCart($product->id, $this->match);
                 $this->emit('swal:alert', [
                     'icon' => 'success',
                     'title'   => $product->full_name, 
                 ]);
             }
             else{
-                $this->MainProduct($id);
-            }
+                if(!$product->isProduct()){
+                    $this->addToCart($product->id, $this->match);
+                    $this->emit('swal:alert', [
+                        'icon' => 'info',
+                        'title'   => __('Service').' '.$product->name, 
+                    ]);
 
+                }
+                else{
+                    $this->MainProduct($product->id);
+                }
+            }
         }
     }
 
@@ -147,7 +149,6 @@ class SearchProduct extends Component
         }
 
         $this->emit('onProductCartAdded');
-
     }
 
     public function updatedQuery()
@@ -159,7 +160,6 @@ class SearchProduct extends Component
             ->toArray();
  
        $this->selectedProduct = null;
- 
     }
 
     public function render()

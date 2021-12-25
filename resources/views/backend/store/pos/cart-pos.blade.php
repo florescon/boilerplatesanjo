@@ -34,7 +34,7 @@
 							<tr>
 								<td>
 									<div class="d-inline-block align-middle">
-	                                    <img alt="product image" class="img-40 align-top m-r-15" src="{{ asset('/storage/' . $product->parent->file_name) }}" onerror="this.onerror=null;this.src='/img/ga/not0.png';" >
+	                                    <img alt="product image" class="img-40 align-top m-r-15" src="{{ asset('/storage/' . optional($product->parent)->file_name) }}" onerror="this.onerror=null;this.src='/img/ga/not0.png';" >
 
 										<div class="d-inline-block">
 											<h6>{!! $product->full_name !!}</h6>
@@ -87,7 +87,6 @@
 		</div>
 	</div>
 
-
 	<div class="card table-card">
 		<div class="card-header">
 			<div class="badge {{ count($cartVar['products_sale']) ? 'badge-success' : 'badge-secondary' }} text-wrap" >
@@ -112,7 +111,7 @@
 							<tr>
 								<td>
 									<div class="d-inline-block align-middle">
-	                                    <img alt="product image" class="img-40 align-top m-r-15" src="{{ asset('/storage/' . $product->parent->file_name) }}" onerror="this.onerror=null;this.src='/img/ga/not0.png';" >
+	                                    <img alt="product image" class="img-40 align-top m-r-15" src="{{ asset('/storage/' . optional($product->parent)->file_name) }}" onerror="this.onerror=null;this.src='/img/ga/not0.png';" >
 										<div class="d-inline-block">
 											<h6>{!! $product->full_name !!}</h6>
 											<p class="text-muted m-b-0">@lang('General price'): ${{ optional($product->parent)->price }}</p>
@@ -162,7 +161,6 @@
 		</div>
 	</div>
 
-
 	@if(count($cartVar['products']) || count($cartVar['products_sale']))
 		<div class="card text-center" style="background-color: rgba(245, 245, 245, 1); opacity: .9;">
 			<div class="card-body">
@@ -173,5 +171,3 @@
     @endif
 
 </div>
-
-

@@ -79,6 +79,8 @@
         <td align="center">
             <h2>
               {{ $product->parent->name }}
+              {{ optional($product->parent->model_product)->name }}
+              &nbsp;
               <em>{{ $product->color_id ? $product->color->name : '' }} | {!! $product->size_id ? $product->size->name : '' !!}</em>
             </h2>
         </td>

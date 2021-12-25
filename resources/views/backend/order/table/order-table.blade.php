@@ -54,7 +54,7 @@
 
 	    <div class="col">
 	      <div class="input-group">
-	        <input wire:model.debounce.350ms="searchTerm" class="form-control" type="text" placeholder="{{ __('Search by folio or tracking number') }}..." />
+	        <input wire:model.debounce.350ms="searchTerm" class="form-control" type="text" placeholder="{{ __('Search by folio, comment or tracking number') }}..." />
 	        @if($searchTerm !== '')
 		        <div class="input-group-append">
 		          <button type="button" wire:click="clear" class="close" aria-label="Close">

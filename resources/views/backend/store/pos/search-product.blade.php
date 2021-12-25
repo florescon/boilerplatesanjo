@@ -86,7 +86,8 @@
                       (!is_null($product['code']) ? '<p class="font-weight-bold" style="display:inline">'.$product['code'].'</p> '  :  '').'&nbsp;&nbsp;&nbsp;&nbsp;  '. 
                       (!is_null($product['color']) ? '<em>'.$product['color']['name'].'</em>'  :  '').' '. 
                       (!is_null($product['size']) ? '<em>'.$product['size']['name'].'</em>'  :  '').'  '.
-                      (is_null($product['parent_id']) ? " <span class='badge badge-primary'>".__('Main').'</span>': '')
+                      (is_null($product['parent_id']) ? " <span class='badge badge-primary'>".__('Main').'</span>': '').' '
+.                      (!$product['type'] === true ? " <span class='badge badge-info' style='background-color: #85144b'>".__('Service').'</span>' : '')
  
                   !!}
                 </a>

@@ -39,7 +39,7 @@
                 <div class="card-body">
                   @if($attributes->children->unique('size_id')->count() > 1)
                     <div class="list-group list-group-accent">
-                      @foreach($attributes->children->unique('size_id')->sortBy('size.name') as $children)
+                      @foreach($attributes->children->unique('size_id')->sortBy('size.sort') as $children)
                         <div class="list-group-item {{ in_array($children->size_id, $filtersz) ? ' list-group-item-accent-danger list-group-item-danger' : 'list-group-item-accent-light list-group-item-light' }}" wire:click="$emit('filterBySize', {{ $children->size_id }})"
                         style="cursor:pointer"><strong>{{ optional($children->size)->name }}</strong> <em class="text-right">{{ optional($children->size)->short_name }}</em></div>
                       @endforeach
