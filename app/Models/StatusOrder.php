@@ -40,10 +40,8 @@ class StatusOrder extends Model
         return $this->belongsTo(Order::class);
     }
 
-
     public function getNameStatusAttribute()
     {
         return $this->status->name;
     }
-
 }

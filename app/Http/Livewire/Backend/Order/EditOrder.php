@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Order;
 use App\Models\Status;
 use App\Models\StatusOrder;
+use App\Models\OrderStatusDelivery;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -14,6 +15,12 @@ class EditOrder extends Component
     public $order_id, $lates_statusId, $slug, $isComment, $comment, $isDate, $date_entered;
 
     public $previousMaterialByProduct, $maerialAll;
+
+    public $order_status_delivery;
+    public $last_order_delivery;
+    public $last_order_delivery_formatted;
+
+    public $order;
 
     protected $queryString = [
         'previousMaterialByProduct' => ['except' => FALSE],
@@ -24,13 +31,35 @@ class EditOrder extends Component
 
     public function mount(Order $order)
     {
+        $this->order = $order;
         $this->order_id = $order->id;
         $this->slug = $order->slug;
         $this->lates_statusId = $order->load('last_status_order')->last_status_order->status_id ?? null;
         $this->initcomment($order);
         $this->initdate($order);
 
+        $this->last_order_delivery = $order->last_order_delivery->type ?? null;
+        $this->last_order_delivery_formatted = $order->last_order_delivery->formatted_type ?? null;
+
         $this->initstatus($order);
+    }
+
+    protected $rules = [
+        'order_status_delivery' => 'required|min:2',
+    ];
+
+    public function updatedOrderStatusDelivery($value)
+    {
+        $this->validate();
+
+        if($this->last_order_delivery != $value){
+            $this->order->orders_delivery()->create(['type' => $value, 'audi_id' => Auth::id()]);
+        }
+
+        session()->flash('message', 'The status delivery was successfully changed.');
+
+        return redirect()->route('admin.order.edit', $this->order_id);
+
     }
 
     private function initcomment(Order $order)
@@ -131,24 +160,11 @@ class EditOrder extends Component
 
         $statuses = Status::orderBy('level')->get();
 
-        // $collection = collect([
-        //     ['item_id' => 10, 'status_id' => 1, 'point' => 3],
-        //     ['item_id' => 11, 'status_id' => 5, 'point' => 2],
-        //     ['item_id' => 12, 'status_id' => 9, 'point' => 4],
-        //     ['item_id' => 13, 'status_id' => 3, 'point' => 1],
-        // ]);
-
-        // $grouped = $collection->groupBy('status_id')
-        //                     ->map(function ($item) {
-        //                         return $item->sum('point');
-        //                     });
-
-        // dd($grouped);
-
         $orderExists = $model->product_order()->exists();
         $saleExists = $model->product_sale()->exists();
 
+        $OrderStatusDelivery = OrderStatusDelivery::values();    
 
-        return view('backend.order.livewire.edit')->with(compact('model', 'orderExists', 'saleExists', 'statuses'));
+        return view('backend.order.livewire.edit')->with(compact('model', 'orderExists', 'saleExists', 'statuses', 'OrderStatusDelivery'));
     }
 }

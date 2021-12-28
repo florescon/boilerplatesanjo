@@ -118,6 +118,20 @@ class Order extends Model
         return $this->hasMany(Ticket::class)->orderBy('created_at', 'desc');
     }
 
+
+    /**
+     * @return mixed
+     */
+    public function orders_delivery()
+    {
+        return $this->hasMany(OrdersDelivery::class);
+    }
+
+    public function last_order_delivery()
+    {
+        return $this->hasOne(OrdersDelivery::class)->latestOfMany();
+    }
+
     /**
      * @return mixed
      */
@@ -212,14 +226,12 @@ class Order extends Model
 
     public function getLastStatusOrderLabelAttribute()
     {
-
         if (!$this->parent_order_id) {
             if(!$this->last_status_order){
                 return "<span class='badge badge-secondary'>".__('undefined').'</span>';
             }
 
             return $this->last_status_order->name_status;
-
         }
 
         return "--<em> ".__('not applicable')." </em>--";

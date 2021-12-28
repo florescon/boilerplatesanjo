@@ -13,8 +13,14 @@
     <x-utils.link class="card-header-action" :href="route('admin.order.index')" :text="__('Back')" />
   </x-slot>
   <x-slot name="body">
-    <div class="row ">
 
+        @if (session()->has('message'))
+            <div class="alert alert-success">
+                {{ session('message') }}
+            </div>
+        @endif
+
+    <div class="row ">
       <div class="col-12 col-sm-12 {{ $orderExists ? 'col-md-8' : 'col-md-12' }} " style="margin-top: 40px;">
         <div class="card card-product_not_hover card-flyer-without-hover">
           @if($slug)
@@ -58,8 +64,8 @@
                     </div>
                     @endif
                   </div>
-                  <br>
-                  <div class="row">
+
+                  <div class="row mt-3">
                     <div class="col-6 col-lg-6">
                       <x-input.input-alpine nameData="isDate" :inputText="$isDate" :originalInput="$isDate" wireSubmit="savedate" modelName="date_entered" inputType="date" className=""/>
 
@@ -68,8 +74,7 @@
                       {{ $model->created_at }}
                     </div>
                   </div>
-                  <br>
-                  <div class="row">
+                  <div class="row mt-3">
                     <div class="col-12 col-lg-12">
                       {{-- {{ $model->comment }} --}}
                       <x-input.input-alpine nameData="isComment" :inputText="$isComment" :originalInput="$isComment" wireSubmit="savecomment" modelName="comment" maxlength="100" className="" />
@@ -140,6 +145,31 @@
           <div class="card-footer text-center">
             @lang('Payment method'): <span class="badge badge-secondary"><strong>{{ $model->payment_method }}</strong></span>
           </div>
+
+          @if($model->user_id)
+            <div class="card-footer text-center">
+              <div class="row">
+                <div class="col-6 col-lg-6">
+                  <strong>Pago:</strong> Pending
+                  <h5 class="mt-2"><a href="#!" style="color: #ee2e31;">Crear pago</a></h5>
+                  <br>
+                  <a href="{{ route('admin.order.records', $model->id) }}" class="card-link">@lang('View status records')</a>
+                </div>
+                <div class="col-6 col-lg-6">
+                  <strong>Entrega:</strong> {{ $last_order_delivery_formatted ?? __('Pending') }}
+                  <select class="form-control text-center mt-2" style="border: 1px solid #fe8a71" wire:model.debounce.800ms="order_status_delivery">
+                    <option value="" hidden>@lang('Select order delivery status')</option>
+                    @foreach($OrderStatusDelivery as $key => $value)
+                          <option value="{{ $key }}">{{ $value }}</option>
+                    @endforeach
+                  </select>
+                  <br>
+                  <a href="{{ route('admin.order.records', $model->id) }}" class="card-link">@lang('View status records')</a>
+                </div>
+              </div>
+            </div>
+          @endif
+
           <div class="card-footer text-muted text-center">
             @lang('Created'): {{ $model->date_diff_for_humans }}
           </div>
@@ -182,8 +212,11 @@
 
             <div class="table-responsive">
               <table class="table table-striped table-bordered table-hover">
-                <thead class="thead-dark">
-                  <tr >
+                <thead style="background-color: #321fdb; border-color: #321fdb; color: white;">
+                  <tr class="text-center">
+                    <th colspan="4">@lang('Order')</th>
+                  </tr>
+                  <tr class="thead-dark">
                     <th >@lang('Product')</th>
                     <th>@lang('Price')</th>
                     <th class="text-center">@lang('Quantity')</th>
@@ -260,8 +293,11 @@
             @if($saleExists)
             <div class="table-responsive">
               <table class="table table-striped table-bordered table-hover">
-                <thead class="thead-dark">
-                  <tr>
+                <thead style="background-color: #248f48; border-color: #218543; color: white;">
+                  <tr class="text-center">
+                    <th colspan="4" >@lang('Sale')</th>
+                  </tr>
+                  <tr class="thead-dark">
                     <th>@lang('Product')</th>
                     <th>@lang('Price')</th>
                     <th class="text-center">@lang('Quantity')</th>
@@ -271,7 +307,7 @@
                 <tbody>
 
                   @foreach($model->product_sale as $product)
-                  <tr class="table-info">
+                  <tr >
                     <td>
                       {!! $product->product->full_name !!}
                     </td>
@@ -342,7 +378,7 @@
                       {{ $status->id == $lates_statusId ? 'badge-dot-xl2' : 'badge-dot-xl' }}
                       badge-primary"> </i> </span>
                       <div class="vertical-timeline-element-content bounce-in" style="{{ $status->id == $lates_statusId ? 'font-size: medium;' : '' }}">
-                        <p class="timeline-title  {{ $status->id == $lates_statusId ? 'text-primary' : 'text-success' }}">{{ $status->name }}</p>
+                        <p class="timeline-title  {{ $status->id == $lates_statusId ? 'text-primary' : 'text-info' }}">{{ $status->name }}</p>
                         <p>{{ $status->description }}</p> 
                         @if($status->to_add_users)
                         <a href="{{ route('admin.order.assignments', [$model->id, $status->id]) }}">

@@ -59,7 +59,6 @@ class OrderController extends Controller
         // return view('backend.order.ticket-order');
     }
 
-
     public function ticket_order(Order $order)
     {
         $pdf = PDF::loadView('backend.order.ticket-order',compact('order'))->setPaper([0, 0, 1385.98, 296.85], 'landscape');

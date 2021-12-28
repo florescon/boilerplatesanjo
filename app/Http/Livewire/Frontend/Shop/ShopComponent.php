@@ -15,7 +15,6 @@ use Carbon\Carbon;
 
 class ShopComponent extends Component
 {
-
 	use Withpagination, WithBulkActions, WithCachedRows;
 
     protected $paginationTheme = 'bootstrap';
@@ -174,7 +173,6 @@ class ShopComponent extends Component
         $this->perPage = '12';
     }
 
-
     public function updatedSearchTermShop()
     {
         $this->page = 1;
@@ -210,7 +208,6 @@ class ShopComponent extends Component
 
     public function render()
     {
-
         $colors = Color::inRandomOrder()->limit(8)->get();
         $sizes = Size::inRandomOrder()->limit(5)->get();
         $lines = Line::inRandomOrder()->limit(6)->get();

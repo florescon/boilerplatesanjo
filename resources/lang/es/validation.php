@@ -151,6 +151,7 @@ return [
         'short_name' => 'nombre corto',
         'color' => 'color',
         'price' => 'precio',
+        'acquisition_cost' => 'costo de adquisición',
         'code' => 'código',
         'part_number' => 'número de parte',
         'description' => 'descripción',

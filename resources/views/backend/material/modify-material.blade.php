@@ -1,4 +1,4 @@
-<div class="custom-control custom-switch custom-control-inline">
+<div class="custom-control custom-switch custom-control-inline fw-bolder font-weight-bold text-primary shadow border-0 pt-3 pr-3">
 
     @lang('Edit stock')
 

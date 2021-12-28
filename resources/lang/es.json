@@ -554,6 +554,8 @@
     "Status order": "Estado de orden",
     "Order states": "Estados de orden",
     "Order statuses": "Estados de órdenes",
+    "Order delivery status": "Estado de entrega de orden",
+    "Select order delivery status": "Seleccione estado de entrega de orden",
     "Sale": "Venta",
     "Sales": "Ventas",
     "Cart": "Carrito de compra",
@@ -577,6 +579,8 @@
     "Define comment": "Definir comentario",
     "Approved": "Aprobada",
     "Pending": "Pendiente",
+    "Ready for delivery": "Listo para entrega",
+    "Delivered": "Entregado",
     "Shop": "Tienda",
     "Starter store": "Tienda de inicio",
     "Share": "Compartir",
@@ -793,5 +797,7 @@
     "Show and print": "Ver e imprimir",
     "Click here": "Clic aquí",
     "Internal control": "Control interno",
-    "Delete attributes": "Eliminar atributos"
+    "Delete attributes": "Eliminar atributos",
+    "Maximum scale of 8 decimal digits": "Escala máxima de 8 dígitos decimales",
+    "Scale of 2 decimal digits": "Escala de 2 dígitos decimales"
 }

@@ -98,9 +98,7 @@ class SizeTable extends TableComponent
                 ->format(function(Size $model) {
                     return $this->html($model->slug ?: '<span class="badge badge-secondary">'.__('undefined').'</span>');
                 })
-                ->exportFormat(function(Size $model) {
-                    return $model->slug;
-                }),
+                ->excludeFromExport(),
             Column::make('# '.__('Associated products'), 'count_product')
                 ->format(function(Size $model) {
                     return $this->link(route('admin.size.associates', $model->id), $model->count_product);

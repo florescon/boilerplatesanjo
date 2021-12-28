@@ -24,7 +24,6 @@ class MaterialController extends Controller
 
     public function updateStock(Request $request)
     {
-
         $this->validate($request, [
             'stock' => 'numeric',
         ]);

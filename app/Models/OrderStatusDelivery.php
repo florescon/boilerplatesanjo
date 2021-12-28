@@ -12,12 +12,12 @@ class OrderStatusDelivery
     /**
      * Orders that has been ready..
      */
-    public const READY_FOR_DELIVERY = 'Entregado';
+    public const READY_FOR_DELIVERY = 'ready_for_delivery';
 
     /**
      * Orders that has been delivered..
      */
-    public const DELIVERED = 'Entregado';
+    public const DELIVERED = 'delivered';
 
 
     public static function values(): array

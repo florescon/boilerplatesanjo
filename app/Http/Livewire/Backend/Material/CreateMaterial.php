@@ -15,8 +15,8 @@ class CreateMaterial extends Component
     protected $rules = [
         'part_number' => 'min:3|nullable|unique:materials',
         'name' => 'required|min:3',
-        'price' => 'required|numeric',
-        'acquisition_cost' => 'nullable|numeric|sometimes',
+        'price' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/',
+        'acquisition_cost' => 'nullable|numeric|sometimes|regex:/^\d+(\.\d{1,2})?$/',
         'unit_id' => 'required|numeric',
         'color_id' => 'required|numeric',
         'size_id' => 'nullable|sometimes|numeric',

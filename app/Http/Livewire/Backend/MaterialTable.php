@@ -107,12 +107,15 @@ class MaterialTable extends TableComponent
                     return $this->html(!empty($model->color_id) && isset($model->color->id) ? '<i style="border-bottom: 1px solid; font-size:14px; color:'.(optional($model->color)->color ?  optional($model->color)->color : 'transparent').';" class="fa">&#xf0c8;</i> '. optional($model->color)->name : '<span class="badge badge-pill badge-secondary"> <em>No definido</em></span>');
                 })
                 ->exportFormat(function(Material $model) {
-                    return optional($model->color)->name;
+                    return (!empty($model->color_id) && isset($model->color->id)) ? optional($model->color)->name : '';
                 }),
             Column::make(__('Size_'), 'size.name')
                 ->searchable()
                 ->format(function(Material $model) {
                     return $this->html(!empty($model->size_id) && isset($model->size->id) ? $model->size->name : '<span class="badge badge-pill badge-secondary"> <em>No asignada</em></span>');
+                })
+                ->exportFormat(function(Material $model) {
+                    return (!empty($model->size_id) && isset($model->size->id)) ? optional($model->size)->name : '';
                 }),
             Column::make(__('Price'), 'price')
                 ->searchable()

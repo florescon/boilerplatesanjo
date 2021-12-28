@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 
 class ShopController extends Controller
 {
-
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -31,7 +30,6 @@ class ShopController extends Controller
         return view('frontend.shop.show', compact('shop', 'related_products'));
     }
 
-
     public function datasheet(Product $shop)
     {
     	if($shop->parent_id || !$shop->status){
@@ -40,5 +38,4 @@ class ShopController extends Controller
 
         return view('frontend.shop.datasheet', compact('shop'));
     }
-
 }

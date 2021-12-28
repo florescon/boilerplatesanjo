@@ -41,7 +41,6 @@ class ShopShowComponent extends Component
             );
 
             return redirect()->back();
-
     }
 
     public function render()
@@ -57,7 +56,5 @@ class ShopShowComponent extends Component
         $lines = Line::inRandomOrder()->limit(4)->get();
 
 		return view('frontend.shop.livewire.shop-show-component')->with(compact('model', 'attributes', 'lines', 'featured_products'));
-
     }
-
 }

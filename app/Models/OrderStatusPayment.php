@@ -12,7 +12,7 @@ class OrderStatusPayment
     /**
      * Orders that has been registered..
      */
-    public const ADVANCED = 'register';
+    public const ADVANCED = 'advanced';
 
     /**
      * Orders that has been paid..
