@@ -92,6 +92,26 @@ class OrderController extends Controller
         return view('backend.order.records-status-order', compact('order', 'records'));
     }
 
+    public function records_delivery(Order $order)
+    {
+        if($order->parent_order_id == true){
+            abort(401);
+        }
+
+        $records_delivery = $order->status_order()->orderBy('created_at', 'desc')->paginate('10')->fragment('main');
+        return view('backend.order.records-delivery-order', compact('order', 'records_delivery'));
+    }
+
+    public function records_payment(Order $order)
+    {
+        if($order->parent_order_id == true){
+            abort(401);
+        }
+
+        $records_payment = $order->status_order()->orderBy('created_at', 'desc')->paginate('10')->fragment('main');
+        return view('backend.order.records-payment-order', compact('order', 'records_payment'));
+    }
+
     public function where_is_products(Order $order)
     {
         return view('backend.order.where-is-products')

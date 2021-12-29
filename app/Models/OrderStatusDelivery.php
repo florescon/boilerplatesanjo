@@ -19,7 +19,6 @@ class OrderStatusDelivery
      */
     public const DELIVERED = 'delivered';
 
-
     public static function values(): array
     {
         return [

@@ -17,7 +17,6 @@ class EditLine extends Component
         $this->selected_id = $id;
         $this->name = $record->name;
         $this->slug = $record->slug;
-
     }
 
     public function update()
@@ -41,7 +40,6 @@ class EditLine extends Component
             'icon' => 'success',
             'title'   => __('Actualizado'), 
         ]);
-
     }
 
     public function render()

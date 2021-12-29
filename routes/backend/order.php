@@ -121,6 +121,20 @@ Route::group([
                     ->push(__('Status records'), route('admin.order.records', $order));
             });
 
+        Route::get('records_delivery', [OrderController::class, 'records_delivery'])
+            ->name('records_delivery')
+            ->breadcrumbs(function (Trail $trail, Order $order) {
+                $trail->parent('admin.order.edit', $order)
+                    ->push(__('Status records delivery'), route('admin.order.records_delivery', $order));
+            });
+
+        Route::get('records_payment', [OrderController::class, 'records_payment'])
+            ->name('records_payment')
+            ->breadcrumbs(function (Trail $trail, Order $order) {
+                $trail->parent('admin.order.edit', $order)
+                    ->push(__('Status records payment'), route('admin.order.records_payment', $order));
+            });
+
         Route::delete('/', [OrderController::class, 'destroy'])->name('destroy');
     });
 

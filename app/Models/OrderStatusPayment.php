@@ -7,17 +7,17 @@ class OrderStatusPayment
     /**
      * Pending orders are brand new orders that have not been processed yet.
      */
-    public const PENDING = 'pending';
+    public const PENDING = 'Pending';
 
     /**
      * Orders that has been registered..
      */
-    public const ADVANCED = 'advanced';
+    public const ADVANCED = 'Advanced';
 
     /**
      * Orders that has been paid..
      */
-    public const PAID = 'paid';
+    public const PAID = 'Paid';
 
     public static function values(): array
     {

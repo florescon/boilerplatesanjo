@@ -14,13 +14,13 @@
 
     {{-- <link rel="stylesheet" type="text/css" href="{{ url('css/start.css') }}"> --}}
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('css_custom/app/pikaday.css') }}">
-    <link rel="stylesheet" href="{{ asset('css_custom/app/bootstrap-table.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.css">
 
-    <link href="{{ asset('css_custom/app/select2.min.css') }}" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-    <link rel="stylesheet" href="{{ asset('css_custom/app/select2-bootstrap4.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css_custom/app/trix.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@1.3.1/dist/trix.css">
 
     {{-- Strawberry --}}
     {{-- <link rel="stylesheet" href="{{ asset('css_custom/strawberry.css') }}"> --}}
@@ -33,9 +33,9 @@
         }
     </style>
 
-    <link rel="stylesheet" href="{{ asset('css_custom/app/all.min.css') }}" />
-    <link href="{{ asset('css_custom/app/filepond.css') }}" rel="stylesheet">
-    <link href="{{ asset('css_custom/app/filepond-plugin-image-preview.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ asset('css_custom/product.css') }}">
     <link rel="stylesheet" href="{{ asset('css_custom/custom.css') }}">
@@ -73,28 +73,27 @@
 
     @include('backend.layouts.sweet')
 
-    <script src="{{ asset('js_custom/app/moment.js') }}"></script>
-    <script src="{{ asset('js_custom/app/pikaday.js') }}"></script>
+    <script src="https://unpkg.com/moment"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
 
-    <script src="{{ asset('js_custom/app/bootstrap-table.min.js') }}"></script>
-    <script src="{{ asset('js_custom/app/vanilla-picker.min.js') }}"></script>
-    <script src="{{ asset('js_custom/app/trix.js') }}"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
+    <script src="https://unpkg.com/vanilla-picker@2"></script>
+    <script src="https://unpkg.com/trix@1.3.1/dist/trix.js"></script>
 
-    <script src="{{ asset('js_custom/app/select2.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
         $.fn.select2.defaults.set('language', '@lang('labels.general.language')');
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/i18n/es.js"></script>
 
-    <script src="{{ asset('js_custom/app/es.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.1/dist/alpine.min.js" defer></script>
 
-    <script src="{{ asset('js_custom/app/alpine.min.js') }}" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/party-js@latest/bundle/party.min.js"></script>
 
-    <script src="{{ asset('js_custom/app/party.min.js') }}"></script>
-
-    <script src="{{ asset('js_custom/app/filepond-plugin-image-preview.js') }}"></script>
-    <script src="{{ asset('js_custom/app/filepond-plugin-file-validate-type.js') }}"></script>
-    <script src="{{ asset('js_custom/app/filepond.js') }}"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+    <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
     
     <livewire:scripts />
 

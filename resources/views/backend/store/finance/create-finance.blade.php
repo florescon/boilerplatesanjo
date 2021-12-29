@@ -56,4 +56,3 @@
       @endif
   </x-slot>
 </x-utils.modal>
-

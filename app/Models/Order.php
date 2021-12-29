@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\OrderStatusPayment;
 use App\Models\OrderStatusDelivery;
+use App\Models\OrdersDelivery;
 
 class Order extends Model
 {
@@ -23,6 +24,17 @@ class Order extends Model
     protected $fillable = [
         'date_entered', 
         'cash_id',
+    ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'total_payments',
+        'total_payments_remaining',
+        'payment_label',
     ];
 
     /**
@@ -130,6 +142,53 @@ class Order extends Model
     public function last_order_delivery()
     {
         return $this->hasOne(OrdersDelivery::class)->latestOfMany();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function orders_payments()
+    {
+        return $this->hasMany(Finance::class);
+    }
+
+    public function total_payments()
+    {
+        return $this->orders_payments->sum('amount');
+    }
+
+    /**
+     * Return Total order price without shipping amount.
+     */
+    public function getTotalPaymentsAttribute(): string
+    {
+        return $this->total_payments();
+    }
+
+    /**
+     * Return Total order price without shipping amount.
+     */
+    public function getTotalPaymentsRemainingAttribute(): string
+    {
+        return $this->total_sale_and_order - $this->total_payments();
+    }
+
+    /**
+     * Return payment label.
+     */
+    public function getPaymentLabelAttribute()
+    {
+        if($this->orders_payments()->exists()){
+            if($this->total_payments_remaining == 0){
+                return "<span class='badge badge-success'>".__(OrderStatusPayment::PAID).'</span>';
+            }
+            else{
+                return "<span class='badge badge-warning text-white'>".__(OrderStatusPayment::ADVANCED).'</span>';
+            }
+        }
+        else{
+            return "<span class='badge badge-danger'>".__('Payment').' '.__(OrderStatusPayment::PENDING).'</span>';
+        }
     }
 
     /**
@@ -274,6 +333,11 @@ class Order extends Model
         return $this->product_sale->sum(function($parent) {
           return $parent->quantity * $parent->price;
         });
+    }
+
+    public function getTotalSaleAndOrderAttribute(): string
+    {
+        return $this->total_sale + $this->total_order;
     }
 
     public function getTotalProductsSuborderAttribute(): int

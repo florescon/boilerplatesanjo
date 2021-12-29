@@ -29,6 +29,7 @@ class Finance extends Model
         'ticket_text',
         'type',
         'date_entered',
+        'from_store',
         'payment_method_id',
         'audi_id',
         'cash_id',

@@ -799,5 +799,7 @@
     "Internal control": "Control interno",
     "Delete attributes": "Eliminar atributos",
     "Maximum scale of 8 decimal digits": "Escala máxima de 8 dígitos decimales",
-    "Scale of 2 decimal digits": "Escala de 2 dígitos decimales"
+    "Scale of 2 decimal digits": "Escala de 2 dígitos decimales",
+    "Paid": "Pagado",
+    "Advanced": "Adelanto"
 }

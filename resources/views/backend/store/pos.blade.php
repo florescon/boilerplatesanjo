@@ -100,8 +100,6 @@
 
 @endsection
 
-
-
 @push('after-scripts')
     <script type="text/javascript">
       Livewire.on("financeStore", () => {

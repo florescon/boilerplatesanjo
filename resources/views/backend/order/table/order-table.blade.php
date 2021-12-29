@@ -82,7 +82,7 @@
 	    <div class="col">
 	      <div class="table-responsive">
 	        <table class="table table-sm align-items-center table-flush table-bordered table-hover js-table">
-	          <thead style="color: #0061f2;">
+	          <thead  class="thead-dark">
 	            <tr>
 	              <th scope="col">
 	              	f.º
@@ -134,7 +134,7 @@
 		              </td>
 	                <td class="text-center">
 	                	{!! $order->type_order !!}
-	                  <span class="badge badge-secondary"><strong>{{ $order->payment_method }}</strong></span>
+										{!! $order->payment_label !!}
 	                	@if($order->parent_order_id)
 		                  <span class="badge badge-primary">
 		                  	@lang('Order'): <strong class="ml-1">{{ $order->parent_order }}</strong>

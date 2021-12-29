@@ -67,6 +67,7 @@ class CreateFinance extends Component
             'date_entered' => $this->date ?: today(),
             'ticket_text' => $this->ticket_text,
             'type' => $this->checkboxExpense ? 'expense' : 'income',
+            'from_store' => true,
             'payment_method_id' => $this->payment_method,
             'audi_id' => Auth::id(),
         ]);

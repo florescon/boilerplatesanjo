@@ -82,9 +82,12 @@
             <strong style="color: #0061f2;"> @lang('Incomes and expenses') </strong>
           @endif
           <div class="card-header-actions">
-             <em> Última petición: {{ now()->format('h:i:s') }} </em>
-            <a href="#" class="card-header-action" style="color: green;"  data-toggle="modal" wire:click="$emitTo('backend.store.finance.create-finance', 'createmodal')" data-target="#createFinance"><i class="c-icon cil-plus"></i> @lang('Create income or expense') </a>
-
+            <em> Última petición: {{ now()->format('h:i:s') }} </em>
+            @if(!$status == 'deleted')
+              <a href="#" class="card-header-action" style="color: green;"  data-toggle="modal" wire:click="$emitTo('backend.store.finance.create-finance', 'createmodal')" data-target="#createFinance"><i class="c-icon cil-plus"></i> @lang('Create income or expense') </a>
+            @else
+              <a href="{{ route('admin.store.finances.index') }}" class="card-header-action"><i class="fa fa-chevron-left"></i> @lang('Back') </a>
+            @endif
           </div>
 
             <div class="page-header-subtitle mt-5 mb-2">
@@ -236,7 +239,9 @@
                   <div class="small text-muted"></div><strong>{{ $finance->date_diff_for_humans_created }}</strong>
                 </td>
                 <td>
-                  <x-actions-modal.delete-icon function="delete" :id="$finance->id" />
+                  @if(!$status == 'deleted')
+                    <x-actions-modal.delete-icon function="delete" :id="$finance->id" />
+                  @endif
                 </td>
         			</tr>
               @endforeach

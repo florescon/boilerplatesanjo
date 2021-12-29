@@ -150,10 +150,14 @@
             <div class="card-footer text-center">
               <div class="row">
                 <div class="col-6 col-lg-6">
-                  <strong>Pago:</strong> Pending
-                  <h5 class="mt-2"><a href="#!" style="color: #ee2e31;">Crear pago</a></h5>
+                  <p><strong>Total: </strong> ${{ $model->total_sale_and_order }}</p>
+                  <p><strong>Pago:</strong> {!! $model->payment_label !!} ${{  number_format((float)$model->total_payments) }}</p>
+                  @if($model->total_payments_remaining > 0)
+                    <p><strong>Restante:</strong> ${{ number_format((float)$model->total_payments_remaining, 2)  }}</p>
+                    <h5 class="mt-2"><a href="#!" data-toggle="modal" wire:click="$emitTo('backend.order.create-payment', 'createmodal', {{ $order_id }})" data-target="#createPayment" style="color: #ee2e31;">Crear pago</a></h5>
+                  @endif
                   <br>
-                  <a href="{{ route('admin.order.records', $model->id) }}" class="card-link">@lang('View status records')</a>
+                  <a href="{{ route('admin.order.records_payment', $model->id) }}" class="card-link">@lang('View payment records')</a>
                 </div>
                 <div class="col-6 col-lg-6">
                   <strong>Entrega:</strong> {{ $last_order_delivery_formatted ?? __('Pending') }}
@@ -164,7 +168,7 @@
                     @endforeach
                   </select>
                   <br>
-                  <a href="{{ route('admin.order.records', $model->id) }}" class="card-link">@lang('View status records')</a>
+                  <a href="{{ route('admin.order.records_delivery', $model->id) }}" class="card-link">@lang('View delivery records')</a>
                 </div>
               </div>
             </div>
@@ -319,8 +323,8 @@
                   <tr>
                     <td></td>
                     <td class="text-right">Total:</td>
-                    <td class="text-center">{{ $model->total_products }}</td>
-                    <td class="text-center">${{ $model->total_order }}</td>
+                    <td class="text-center">{{ $model->total_products_sale }}</td>
+                    <td class="text-center">${{ $model->total_sale }}</td>
                   </tr>
 
                 </tbody>
@@ -414,4 +418,15 @@
     </footer>
   </x-slot>
 
+
 </x-backend.card>
+
+<livewire:backend.order.create-payment />
+
+@push('after-scripts')
+    <script type="text/javascript">
+      Livewire.on("paymentStore", () => {
+          $("#createPayment").modal("hide");
+      });
+    </script>
+@endpush
