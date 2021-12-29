@@ -13,7 +13,7 @@
     <x-slot name="headerActions">
         <x-utils.link class="card-header-action btn btn-primary text-white" :href="route('admin.order.edit', $order_id)" :text="__('Go to edit order')" />
 
-        <x-utils.link class="card-header-action" :href="route('admin.order.index')" :text="__('Back')" />
+        <x-utils.link class="card-header-action" :href="route('admin.order.index')" icon="fa fa-chevron-left" :text="__('Back')" />
     </x-slot>
     <x-slot name="body">
 
@@ -55,8 +55,8 @@
                                         wire:model="quantityy.{{ $product->id }}.available"
                                         wire:keydown.enter="savesuborder" 
                                         class="form-control"
-                                        style="color: red; font-family:Arial, FontAwesome" 
-                                        placeholder="&#xf0a4; {{ $product->quantity - $model->getTotalAvailableByProduct($product->id) }}" 
+                                        style="color: red;" 
+                                        placeholder="{{ $product->quantity - $model->getTotalAvailableByProduct($product->id) }}" 
                                     >
                                     @error('quantityy.'.$product->id.'.available') 
                                       <span class="error" style="color: red;">

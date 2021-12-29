@@ -6,7 +6,7 @@
     <x-slot name="headerActions">
         <x-utils.link class="card-header-action btn btn-primary text-white" :href="route('admin.order.edit', $order_id)" :text="__('Go to edit order')" />
 
-        <x-utils.link class="card-header-action" :href="route('admin.order.index')" :text="__('Back')" />
+        <x-utils.link class="card-header-action" :href="route('admin.order.index')" icon="fa fa-chevron-left" :text="__('Back')" />
     </x-slot>
     <x-slot name="body">
         <div class="row ">
@@ -17,12 +17,11 @@
                         <h2 class="card-header-title text-white pt-3">@lang('Order') #{{ $order_id }}</h2>
                     </div>
                     <div class="card-body text-center">
-                        <p class="card-text" style="font-family:Arial, FontAwesome">
+                        <p class="card-text">
                             <ins><em>
                               @lang('Where is products?')
                             </em></ins> 
-                            &#xf288;
-
+                            <i class="fa fa-question" aria-hidden="true"></i>
                         </p>
                     </div>
                 </div>

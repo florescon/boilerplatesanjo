@@ -10,7 +10,7 @@
   </x-slot>
 
   <x-slot name="headerActions">
-    <x-utils.link class="card-header-action" :href="route('admin.order.index')" :text="__('Back')" />
+    <x-utils.link class="card-header-action" :href="route('admin.order.index')" icon="fa fa-chevron-left" :text="__('Back')" />
   </x-slot>
   <x-slot name="body">
 
@@ -54,13 +54,13 @@
                       {!! $model->user_name !!}
                     </div>
                     @if($orderExists)
-                    <div class="col-6 col-lg-6" style="font-family:Arial, FontAwesome">
+                    <div class="col-6 col-lg-6">
                       <a href="{{ route('admin.order.whereIs',$model->id) }}" style="color:#a20909ff;">
                         <em>
                           @lang('Where is products?')
                         </em> 
-                        &#xf288;
                       </a>                                   
+                      <i class="fa fa-question" aria-hidden="true"></i>
                     </div>
                     @endif
                   </div>
