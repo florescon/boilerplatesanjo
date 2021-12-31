@@ -7,6 +7,10 @@
     border-bottom: 3px solid orange;
 }
 
+.border-bottom-3px-yellow{
+    border-bottom: 3px solid yellow;
+}
+
 .gradient-box {
   border-image: conic-gradient(red, yellow, lime, aqua, blue, magenta, red) 1;
 }

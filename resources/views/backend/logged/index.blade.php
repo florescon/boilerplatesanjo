@@ -1,0 +1,22 @@
+@extends('backend.layouts.app')
+
+@section('title', __('Logged'))
+
+@section('breadcrumb-links')
+    {{-- @include('backend.line.includes.breadcrumb-links') --}}
+@endsection
+
+@section('content')
+    <x-backend.card>
+        <x-slot name="header">
+            <strong style="color: #0061f2;"> @lang('Logged') </strong>
+        </x-slot>
+
+        <x-slot name="body">
+            <livewire:backend.logged.logged-table />
+        </x-slot>
+    </x-backend.card>
+
+    <livewire:backend.logged.show-logged />
+
+@endsection

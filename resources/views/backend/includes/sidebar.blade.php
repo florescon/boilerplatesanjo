@@ -91,6 +91,13 @@
                             class="c-sidebar-nav-link"
                             :text="__('Logs')" />
                     </li>
+                    <li class="c-sidebar-nav-item">
+                        <x-utils.link
+                            :href="route('admin.logged.index')"
+                            class="c-sidebar-nav-link"
+                            :text="__('Logged Management')"
+                            :active="activeClass(Route::is('admin.logged.*'), 'c-active')" />
+                    </li>
                 </ul>
             </li>
         @endif

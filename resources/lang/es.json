@@ -196,6 +196,8 @@
     "Next status": "Siguiente estado",
     "Previous status": "Anterior estado",
     "Last Login At": "Último inicio de sesión en",
+    "Login At": "Inicio de sesión a",
+    "IP Address": "Dirección IP",
     "Last Known IP Address": "Última dirección IP conocida",
     "Provider": "Proveedor",
     "Provider ID": "ID del proveedor",
@@ -801,5 +803,12 @@
     "Maximum scale of 8 decimal digits": "Escala máxima de 8 dígitos decimales",
     "Scale of 2 decimal digits": "Escala de 2 dígitos decimales",
     "Paid": "Pagado",
-    "Advanced": "Adelanto"
+    "Advanced": "Adelanto",
+    "City": "Ciudad",
+    "State name": "Estado",
+    "Postal code": "Código postal",
+    "Latitude": "Latitud",
+    "Longitude": "Longitud",
+    "Timezone": "Zona horaria",
+    "Location": "Ubicación"
 }

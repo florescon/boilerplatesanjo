@@ -26,6 +26,11 @@ class UserEventListener
             'last_login_at' => now(),
             'last_login_ip' => request()->getClientIp(),
         ]);
+
+        $event->user->loggeds()->create([
+            'last_login_at' => now(),
+            'last_login_ip' => request()->getClientIp(),
+        ]);
     }
 
     /**

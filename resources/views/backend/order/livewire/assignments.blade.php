@@ -6,7 +6,7 @@
     <x-slot name="headerActions">
         <x-utils.link class="card-header-action btn btn-primary text-white" :href="route('admin.order.edit', $order_id)" :text="__('Go to edit order')" />
 
-        <x-utils.link class="card-header-action" :href="route('admin.order.index')" icon="fa fa-chevron-left" :text="__('Back')" />
+        <x-utils.link class="card-header-action" :href="route('admin.order.index')" :text="__('Cancel')" />
     </x-slot>
     <x-slot name="body">
 
