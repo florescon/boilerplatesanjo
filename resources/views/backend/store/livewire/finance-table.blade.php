@@ -74,7 +74,7 @@
     <div class="col-lg-12">
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-align-justify"></i>
+          <i class="fas fa-store"></i>
 
           @if($status == 'deleted')
             <strong style="color: red;"> @lang('Incomes and expenses deleted') </strong>

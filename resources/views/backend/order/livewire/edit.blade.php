@@ -21,7 +21,7 @@
         @endif
 
     <div class="row ">
-      <div class="col-12 col-sm-12 {{ $orderExists ? 'col-md-8' : 'col-md-12' }} " style="margin-top: 40px;">
+      <div class="col-12 col-sm-12 {{ $orderExists ? 'col-md-8' : 'col-md-12' }}">
         <div class="card card-product_not_hover card-flyer-without-hover">
           @if($slug)
             <div class="card-header">
@@ -35,7 +35,7 @@
             </div>
           @endif
           <div class="card-body">
-            <h5 class="card-title">#{{ $model->id }}</h5>
+            <h5 class="card-title">#{{ $order_id }}</h5>
             <p class="card-text">
               <div class="form-row ">
                 
@@ -55,7 +55,7 @@
                     </div>
                     @if($orderExists)
                     <div class="col-6 col-lg-6">
-                      <a href="{{ route('admin.order.whereIs',$model->id) }}" style="color:#a20909ff;">
+                      <a href="{{ route('admin.order.whereIs',$order_id) }}" style="color:#a20909ff;">
                         <em>
                           @lang('Where is products?')
                         </em> 
@@ -89,18 +89,18 @@
             @if($orderExists)
 
             <div class="form-row">
-              <div class="col-md-4 mb-3">
+              <div class="col-md-4 mb-3" style="text-decoration: underline;">
                 {!! $model->last_status_order->status->name ?? '<span class="badge badge-secondary">'.__('undefined status').'</span>' !!}
                 <div wire:loading wire:target="updateStatus" class="loading"></div>
               </div>
               <div class="col-md-4 mb-3">
-                {{-- <a href="{{ route('admin.order.advanced', $model->id) }}" style="color:#1ab394;">
+                {{-- <a href="{{ route('admin.order.advanced', $order_id) }}" style="color:#1ab394;">
                   <p> Opciones avanzadas </p>
                 </a> --}}
               </div>
               <div class="col-md-4 mb-3 text-left">
                 @if($model->exist_user_departament)
-                  <a href="{{ route('admin.order.sub', $model->id) }}" style="color:purple;">
+                  <a href="{{ route('admin.order.sub', $order_id) }}" style="color:purple;">
                     <p> @lang('I want to assign suborders') <i class="cil-library"></i></p> 
                   </a>
                 @endif
@@ -129,21 +129,18 @@
             </div>
             @endif
 
-            <a href="{{ route('admin.order.ticket_order', $model->id) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
+            <a href="{{ route('admin.order.ticket_order', $order_id) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
               <ins>
                 General
               </ins>
             </a>
             @if($model->materials_order()->exists())
-              <a href="{{ route('admin.order.ticket_materia', $model->id) }}" class="card-link text-warning" target="_blank"><i class="cil-print"></i>
+              <a href="{{ route('admin.order.ticket_materia', $order_id) }}" class="card-link text-warning" target="_blank"><i class="cil-print"></i>
                 <ins>
                   @lang('Feedstock')
                 </ins>
               </a>
             @endif
-          </div>
-          <div class="card-footer text-center">
-            @lang('Payment method'): <span class="badge badge-secondary"><strong>{{ $model->payment_method }}</strong></span>
           </div>
 
           @if($model->user_id)
@@ -157,7 +154,7 @@
                     <h5 class="mt-2"><a href="#!" data-toggle="modal" wire:click="$emitTo('backend.order.create-payment', 'createmodal', {{ $order_id }})" data-target="#createPayment" style="color: #ee2e31;">Crear pago</a></h5>
                   @endif
                   <br>
-                  <a href="{{ route('admin.order.records_payment', $model->id) }}" class="card-link">@lang('View payment records')</a>
+                  <a href="{{ route('admin.order.records_payment', $order_id) }}" class="card-link">@lang('View payment records')</a>
                 </div>
                 <div class="col-6 col-lg-6">
                   <strong>Entrega:</strong> {{ $last_order_delivery_formatted ?? __('Pending') }}
@@ -168,7 +165,7 @@
                     @endforeach
                   </select>
                   <br>
-                  <a href="{{ route('admin.order.records_delivery', $model->id) }}" class="card-link">@lang('View delivery records')</a>
+                  <a href="{{ route('admin.order.records_delivery', $order_id) }}" class="card-link">@lang('View delivery records')</a>
                 </div>
               </div>
             </div>
@@ -385,7 +382,7 @@
                         <p class="timeline-title  {{ $status->id == $lates_statusId ? 'text-primary' : 'text-info' }}">{{ $status->name }}</p>
                         <p>{{ $status->description }}</p> 
                         @if($status->to_add_users)
-                        <a href="{{ route('admin.order.assignments', [$model->id, $status->id]) }}">
+                        <a href="{{ route('admin.order.assignments', [$order_id, $status->id]) }}">
                           <span class="vertical-timeline-element-date badge text-primary">
                             <i class="c-icon c-icon-4x cil-people"></i><i class="cil-plus"></i>
                           </span>
@@ -399,7 +396,7 @@
               </div>
 
               <div class="card-body text-center">
-                <a href="{{ route('admin.order.records', $model->id) }}" class="card-link">@lang('View status records')</a>
+                <a href="{{ route('admin.order.records', $order_id) }}" class="card-link">@lang('View status records')</a>
               </div>
 
             </div>
@@ -412,7 +409,7 @@
   </x-slot>
 
   <x-slot name="footer">
-    <x-utils.delete-button :text="__('Delete order')" :href="route('admin.order.destroy', $model->id)" />
+    <x-utils.delete-button :text="__('Delete order')" :href="route('admin.order.destroy', $order_id)" />
     <footer class="blockquote-footer float-right">
       Mies Van der Rohe <cite title="Source Title">Less is more</cite>
     </footer>

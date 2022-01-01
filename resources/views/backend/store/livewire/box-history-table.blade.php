@@ -9,6 +9,7 @@
             <div class="card p-3 border-0">
                 <div class="mt-3">
                   <h3 class="heading">
+                    <i class="fas fa-store"></i>
                     @lang('History')<br>@lang('Daily cash closing')
                     @if($status == 'deleted')
                       <span class="badge badge-danger">@lang('Deletions')</span>

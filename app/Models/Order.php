@@ -130,7 +130,6 @@ class Order extends Model
         return $this->hasMany(Ticket::class)->orderBy('created_at', 'desc');
     }
 
-
     /**
      * @return mixed
      */
@@ -285,7 +284,7 @@ class Order extends Model
 
     public function getLastStatusOrderLabelAttribute()
     {
-        if (!$this->parent_order_id) {
+        if (!$this->parent_order_id && $this->type != 2) {
             if(!$this->last_status_order){
                 return "<span class='badge badge-secondary'>".__('undefined').'</span>';
             }
@@ -294,6 +293,15 @@ class Order extends Model
         }
 
         return "--<em> ".__('not applicable')." </em>--";
+    }
+
+    public function getLastStatusOrderPercentageAttribute(): int
+    {
+            if(!$this->last_status_order){
+                return 0;
+            }
+
+            return $this->last_status_order->percentage_status;
     }
 
     /**
@@ -337,13 +345,20 @@ class Order extends Model
 
     public function getTotalSaleAndOrderAttribute(): string
     {
-        return $this->total_sale + $this->total_order;
+        return $this->total_sale + $this->total_order + $this->total_suborder;
     }
 
     public function getTotalProductsSuborderAttribute(): int
     {
         return $this->product_suborder->sum(function($product) {
           return $product->quantity;
+        });
+    }
+
+    public function getTotalSuborderAttribute()
+    {
+        return $this->product_suborder->sum(function($product) {
+          return $product->quantity * $product->parent_order->price;
         });
     }
 
@@ -381,6 +396,25 @@ class Order extends Model
     }
 
     /**
+     * @return string
+     */
+    public function getTypeOrderClassesAttribute()
+    {
+            switch ($this->type) {
+                case 2:
+                    return 'background-color:#DEFFDF';
+                case 3:
+                    return 'background-color: #FFFFDE';
+                case 4:
+                    return 'background-color: #F7DEFF';
+                default:
+                    return 'background-color: #DEE4FF';
+            }
+
+        return 'a';
+    }
+
+    /**
      * @return bool
      */
     public function isFromStore(): ?bool
@@ -389,12 +423,24 @@ class Order extends Model
     }
 
     /**
+     * @return bool
+     */
+    public function isCreatedByUser(): ?bool
+    {
+        return $this->user_id == $this->audi_id;
+    }
+
+    /**
      * @return string
      */
-    public function  getFromStoreLabelAttribute()
+    public function  getFromStoreorUserLabelAttribute()
     {
         if ($this->isFromStore()) {
-            return "<span class='badge badge-danger'>".__('From store').'</span>';
+            return "<span class='badge badge-dark'>".'<i class="fas fa-store"></i>'.'</span>';
+        }
+
+        if($this->isCreatedByUser()){
+            return "<span class='badge badge-dark'>".'<i class="fas fa-user"></i>'.'</span>';
         }
 
         return '';
@@ -408,6 +454,19 @@ class Order extends Model
         return $this->approved;
     }
 
+
+    /**
+     * @return string
+     */
+    public function getApprovedAlertAttribute()
+    {
+        if(!$this->isApproved()){
+            return '<i class="fas fa-exclamation-triangle" style="color:red;"></i>';
+        }
+
+        return '';
+    }
+
     /**
      * @return string
      */
@@ -419,7 +478,6 @@ class Order extends Model
             }
 
             return "<span class='badge badge-danger'>".__('Pending').'</span>';
-
         }
 
         return "--<em> ".__('not applicable')." </em>--";

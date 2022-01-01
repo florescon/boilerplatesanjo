@@ -7,6 +7,7 @@ use App\Domains\Auth\Models\User;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use DB;
+use App\Models\Order;
 
 /**
  * Class DashboardController.
@@ -46,11 +47,12 @@ class DashboardController extends Controller
             $user[] = User::where(\DB::raw('DATE_FORMAT(created_at, \'%Y-%m\')'), $value)->count();
         }
 
+        $orders = Order::with('product_sale', 'product_order', 'user', 'last_status_order.status')->orderByDesc('created_at')->simplePaginate(10);
 
         // dd($months2);
 
         // dd($user);
 
-        return view('backend.dashboard')->with('months2',json_encode($months2,JSON_NUMERIC_CHECK))->with('user',json_encode($user,JSON_NUMERIC_CHECK));
+        return view('backend.dashboard')->with('months2',json_encode($months2,JSON_NUMERIC_CHECK))->with('user',json_encode($user,JSON_NUMERIC_CHECK))->with(compact('orders'));
     }
 }

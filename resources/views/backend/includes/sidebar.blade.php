@@ -153,7 +153,7 @@
             <x-utils.link
                 new="true"
                 href="#"
-                icon="c-sidebar-nav-icon cil-wallet"
+                icon="c-sidebar-nav-icon fas fa-store"
                 class="c-sidebar-nav-dropdown-toggle"
                 :text="__('Shop')" />
 

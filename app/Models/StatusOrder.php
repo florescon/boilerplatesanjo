@@ -44,4 +44,9 @@ class StatusOrder extends Model
     {
         return $this->status->name;
     }
+
+    public function getPercentageStatusAttribute()
+    {
+        return $this->status->percentage;
+    }
 }

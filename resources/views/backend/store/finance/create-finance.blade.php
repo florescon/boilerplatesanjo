@@ -1,5 +1,6 @@
 <x-utils.modal id="createFinance" tform="store">
   <x-slot name="title">
+    <i class="fas fa-store"></i>
     @if($checkboxExpense == false)
       @lang('Create income') <i class="cil-plus"></i>
     @else

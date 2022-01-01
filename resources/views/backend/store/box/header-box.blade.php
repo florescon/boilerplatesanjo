@@ -3,7 +3,7 @@
 			<div class="row align-items-center">
 				<div class="col-md-6">
 					<div class="page-header-title">
-						<h5 class="m-b-10"> {{ ucfirst(now()->monthName).' '.now()->format('j, Y') }}</h5>
+						<h5 class="m-b-10"><i class="fas fa-store"></i> {{ ucfirst(now()->monthName).' '.now()->format('j, Y') }}</h5>
 						<p class="m-b-0">@lang('Welcome to daily cash closing panel') {{ Auth::user()->name }}</p>
 					</div>
 				</div>
@@ -46,7 +46,7 @@
 						@error('comment') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 					</div>
 					<div class="col-md-2">
-						<button type="button" wire:click="processDailyCashClosing" class="btn btn-primary" {{ ($countOrders || $countFinances) ?: 'disabled'  }} >@lang('Checkout')</button>
+						<button type="button" wire:click="processDailyCashClosing" class="btn btn-primary" {{ ($countOrders || $countFinances) ?: 'disabled'  }} ><i class="fas fa-store"></i> &nbsp;@lang('Checkout')</button>
 					</div>
 				</div>
 			@endif

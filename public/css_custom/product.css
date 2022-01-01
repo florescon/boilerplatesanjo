@@ -384,3 +384,14 @@ body {
     padding: .5rem 0;
     color: red;
 }
+
+
+.table-striped-orange>tbody>tr:nth-child(odd)>td, 
+.table-striped-orange>tbody>tr:nth-child(odd)>th {
+   background-color: #FFF0C1; // Choose your own color here
+ }
+
+.table-striped-yellow>tbody>tr:nth-child(odd)>td, 
+.table-striped-yellow>tbody>tr:nth-child(odd)>th {
+   background-color: #FFFEC1; // Choose your own color here
+ }

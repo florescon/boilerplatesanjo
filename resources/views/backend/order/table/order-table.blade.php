@@ -54,7 +54,7 @@
 
 	    <div class="col">
 	      <div class="input-group">
-	        <input wire:model.debounce.350ms="searchTerm" class="form-control" type="text" placeholder="{{ __('Search by folio, comment or tracking number') }}..." />
+	        <input wire:model.debounce.350ms="searchTerm" class="form-control" type="text" placeholder="{{ __('Search by folio, tracking number or comment') }}..." />
 	        @if($searchTerm !== '')
 		        <div class="input-group-append">
 		          <button type="button" wire:click="clear" class="close" aria-label="Close">
@@ -87,12 +87,12 @@
 	              <th scope="col">
 	              	f.º
 	              </th>
-	              <th scope="col">
-	              	@lang('User')
-	              </th>
                 <th scope="col">
                   @lang('Comment')
                 </th>
+	              <th scope="col">
+	              	@lang('User')
+	              </th>
                 <th scope="col" class="text-center">
                   @lang('Information')
                 </th>
@@ -109,22 +109,25 @@
 	          </thead>
 	          <tbody>
 	            @foreach($orders as $order)
-		            <tr class="table-tr" data-url="{{ route('admin.order.edit', $order->id) }}">
+		            <tr class="table-tr" data-url="{{ route('admin.order.edit', $order->id) }}" style="{{ $order->type_order_classes }}">
 		            	<td class="align-middle">
-		            		#{{ $order->id }}
+		            		<strong>
+			            		#{{ $order->id }}
+			            	</strong>
+										<span class="badge badge-light"><strong>{{ $order->tracking_number }}</strong></span>
 		            	</td>
-		              <td class="align-middle">
-		              	{!! $order->user_name !!}
-		              </td>
 	                <td class="align-middle">
 	                  {!! Str::limit($order->comment, 200) ?? '<span class="badge badge-secondary">'.__('undefined').'</span>' !!}
 	                </td>
+		              <td class="align-middle">
+		              	{!! $order->user_name !!}
+		              </td>
 	                <td class="align-middle text-center">
 	                	{!! $order->approved_label !!}
+	                	{!! $order->type_order !!}
 	                </td>
-	                <td class="align-middle text-center">
+	                <td class="align-middle text-center" style="text-decoration: underline;">
 	                   {!! $order->last_status_order_label !!}
-
 	                </td>
 		              <td class="align-middle text-center">
 		                <span class="badge badge-dot">
@@ -133,15 +136,13 @@
 		                {!! $order->date_diff_for_humans_created !!}
 		              </td>
 	                <td class="text-center">
-	                	{!! $order->type_order !!}
 										{!! $order->payment_label !!}
 	                	@if($order->parent_order_id)
 		                  <span class="badge badge-primary">
 		                  	@lang('Order'): <strong class="ml-1">{{ $order->parent_order }}</strong>
 		                  </span>
 	                  @endif
-										<span class="badge badge-dark"><strong>{{ $order->tracking_number }}</strong></span>
-										{!! $order->from_store_label !!}
+										{!! $order->from_store_or_user_label !!}
 	                </td>
 		            </tr>
 	            @endforeach

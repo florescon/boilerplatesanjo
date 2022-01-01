@@ -52,7 +52,7 @@ class MaterialTable extends TableComponent
      */
     protected $options = [
         'bootstrap.container' => false,
-        'bootstrap.classes.table' => 'table table-striped table-bordered',
+        'bootstrap.classes.table' => 'table table-striped-orange table-bordered',
         'bootstrap.classes.thead' => 'thead-dark border-bottom-3px-orange',
         'bootstrap.responsive' => true,
     ];

@@ -20,8 +20,6 @@ class EditOrder extends Component
     public $last_order_delivery;
     public $last_order_delivery_formatted;
 
-    public $order;
-
     protected $queryString = [
         'previousMaterialByProduct' => ['except' => FALSE],
         'maerialAll' => ['except' => FALSE],
@@ -31,10 +29,9 @@ class EditOrder extends Component
 
     public function mount(Order $order)
     {
-        $this->order = $order;
         $this->order_id = $order->id;
         $this->slug = $order->slug;
-        $this->lates_statusId = $order->load('last_status_order')->last_status_order->status_id ?? null;
+        $this->lates_statusId = $order->last_status_order->status_id ?? null;
         $this->initcomment($order);
         $this->initdate($order);
 
@@ -52,8 +49,10 @@ class EditOrder extends Component
     {
         $this->validate();
 
+        $order = Order::findOrFail($this->order_id);
+
         if($this->last_order_delivery != $value){
-            $this->order->orders_delivery()->create(['type' => $value, 'audi_id' => Auth::id()]);
+            $order->orders_delivery()->create(['type' => $value, 'audi_id' => Auth::id()]);
         }
 
         session()->flash('message', 'The status delivery was successfully changed.');

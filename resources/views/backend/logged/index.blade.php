@@ -2,10 +2,6 @@
 
 @section('title', __('Logged'))
 
-@section('breadcrumb-links')
-    {{-- @include('backend.line.includes.breadcrumb-links') --}}
-@endsection
-
 @section('content')
     <x-backend.card>
         <x-slot name="header">
