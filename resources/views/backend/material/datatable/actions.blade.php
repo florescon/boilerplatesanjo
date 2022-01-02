@@ -4,7 +4,10 @@
 
 	@if (!$material->trashed())
 
-		{{-- <x-actions-modal.edit-icon target="editMaterial" emitTo="backend.material.edit-material" function="edit" :id="$material->id" /> --}}
+		<a type="button" href="{{ route('admin.material.edit', $material->id) }}" class="btn btn-transparent-dark">
+		  <i class='far fa-edit'></i>
+		</a>
+
 		<x-actions-modal.delete-icon function="delete" :id="$material->id" />
 
 	@else

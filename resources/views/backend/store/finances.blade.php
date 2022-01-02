@@ -11,6 +11,7 @@
     <livewire:backend.store.finance-table />
 
     <livewire:backend.store.finance.create-finance />
+    <livewire:backend.store.finance.edit-finance />
 
 @endsection
 
@@ -23,10 +24,10 @@
       });
     </script>
 
-{{--     <script type="text/javascript">
-      Livewire.on("clothUpdate", () => {
-          $("#editCloth").modal("hide");
+    <script type="text/javascript">
+      Livewire.on("financeUpdate", () => {
+          $("#editFinance").modal("hide");
       });
     </script>
- --}}
+
 @endpush

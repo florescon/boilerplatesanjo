@@ -157,6 +157,7 @@ return [
         'description' => 'descripción',
         'size_id' => 'talla',
         'color_id' => 'color',
+        "unit_id" => 'unidad',
         'comment' => 'comentario',
         'Site phone' => 'Teléfono del sitio',
         'departament' => 'departamento',

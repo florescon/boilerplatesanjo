@@ -18,6 +18,20 @@ Route::group([
                 ->push(__('Feedstock Management'), route('admin.material.index'));
         });
 
+
+    Route::group(['prefix' => '{material}'], function () {
+        Route::get('edit', [MaterialController::class, 'edit'])
+            ->name('edit')
+            ->breadcrumbs(function (Trail $trail, Material $material) {
+                $trail->parent('admin.material.index')
+                    ->push(__('Edit feedstock'), route('admin.material.edit', $material));
+            });
+
+        Route::patch('/', [MaterialController::class, 'update'])->name('update');
+        // Route::delete('/', [UserController::class, 'destroy'])->name('destroy');
+    });
+
+
     Route::patch('material', [MaterialController::class, 'updateStock'])
         ->name('updateStock');
 

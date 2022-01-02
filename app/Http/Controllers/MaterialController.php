@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Material;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class MaterialController extends Controller
 {
@@ -21,6 +22,30 @@ class MaterialController extends Controller
     {
         return view('backend.material.deleted');
     }
+
+    public function edit(Material $material)
+    {
+        return view('backend.material.edit-material', compact('material'));
+    }
+
+    public function update(Request $request, Material $material)
+    {
+        $validated = $request->validate([
+            'part_number' => ['nullable', 'min:3', 'regex:/^\S*$/u', Rule::unique('materials')->ignore($material->id)],
+            'name' => ['required', 'min:3'],
+            'price' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/'],
+            'acquisition_cost' => ['nullable', 'numeric', 'sometimes', 'regex:/^\d+(\.\d{1,2})?$/'],
+            'unit_id' => ['numeric', Rule::requiredIf(!$material->unit_id)],
+            'color_id' => ['numeric', Rule::requiredIf(!$material->color_id)],
+            'size_id' => ['nullable', 'sometimes', 'numeric'],
+            'description' => ['min:5', 'nullable'],
+        ]);
+
+        $materialUpdated = $material->update($validated);
+
+        return redirect()->route('admin.material.edit', $material->id)->withFlashSuccess(__('The feedstock was successfully updated.'));
+    }
+
 
     public function updateStock(Request $request)
     {

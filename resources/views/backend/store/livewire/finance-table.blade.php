@@ -192,7 +192,7 @@
                 <th class="text-center">@lang('Type')</th>
         				<th>@lang('Activity')</th>
                 <th>@lang('Created')</th>
-                <th></th>
+                <th>@lang('Actions')</th>
         			</tr>
         		</thead>
         		<tbody>
@@ -240,7 +240,10 @@
                 </td>
                 <td>
                   @if(!$status == 'deleted')
+                  <div class="btn-group" role="group" aria-label="Basic example">
+                    <x-actions-modal.edit-icon target="editFinance" emitTo="backend.store.finance.edit-finance" function="edit" :id="$finance->id" />
                     <x-actions-modal.delete-icon function="delete" :id="$finance->id" />
+                  </div>
                   @endif
                 </td>
         			</tr>

@@ -149,6 +149,12 @@ class EditOrder extends Component
         $this->previousMaterialByProduct = FALSE;
     }
 
+    public function approve()
+    {
+        Order::whereId($this->order_id)->update(['approved' => true]);
+        return $this->redirectRoute('admin.order.edit', $this->order_id);
+    }
+
     public function render()
     {
         $model = Order::with(['product_order', 'product_sale', 'suborders.user', 'last_status_order', 

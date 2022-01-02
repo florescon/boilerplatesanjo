@@ -14,11 +14,17 @@
   </x-slot>
   <x-slot name="body">
 
-        @if (session()->has('message'))
-            <div class="alert alert-success">
-                {{ session('message') }}
-            </div>
-        @endif
+    @if(!$model->approved)
+      <div class="alert alert-danger" role="alert">
+        @lang('Not approved') <a wire:click="approve" href="#">@lang('Approve')</a> 
+      </div>
+    @endif
+
+    @if (session()->has('message'))
+        <div class="alert alert-success">
+            {{ session('message') }}
+        </div>
+    @endif
 
     <div class="row ">
       <div class="col-12 col-sm-12 {{ $orderExists ? 'col-md-8' : 'col-md-12' }}">

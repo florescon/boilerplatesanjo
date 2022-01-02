@@ -24,11 +24,6 @@ class CreateMaterial extends Component
         'description' => 'min:5|nullable',
     ];
 
-    // public function mount()
-    // {
-    //     $this->colors = Color::select(['id', 'name', 'color'])->orderBy('name')->get();
-    // }
-
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName);

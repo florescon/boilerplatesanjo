@@ -21,44 +21,51 @@
                         <div class="col-lg-12 grid-margin stretch-card ">
                             <div class="card ">
                                 <div class="card-body">
-                                    <h4 class="card-title">Basic Striped Table</h4>
-                                    <p class="card-description"> Basic stripped table example </p>
-                                    <div class="table-responsive">
-                                        <table class="table table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th> f.º </th>
-                                                    <th> @lang('User') </th>
-                                                    <th> @lang('Progress') </th>
-                                                    <th> @lang('Total') </th>
-                                                    <th> @lang('Created') </th>
-                                                    <th> </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach($orders as $order)
-                                                <tr style="{{ $order->type_order_classes }}">
-                                                    <td class="py-1"> 
-                                                        #{{ $order->id }}  
-                                                        {!! $order->approved_alert !!}
-                                                    </td>
-                                                    <td> {!! $order->user_name !!} </td>
-                                                    <td>
-                                                        @if($order->last_status_order)
-                                                            <div class="progress">
-                                                                <div class="progress-bar bg-success" role="progressbar" style="width: {{ $order->last_status_order_percentage }}%" aria-valuenow="{{ $order->last_status_order_percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
-                                                            </div>
-                                                        @endif
-                                                        {!! $order->last_status_order_label !!}
-                                                    </td>
-                                                    <td> $ {{ $order->total_sale_and_order }} </td>
-                                                    <td> {{ $order->date_for_humans }} </td>
-                                                    <td> {!! $order->from_store_or_user_label !!} </td>
-                                                </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                    <h4 class="card-title"> @lang('Orders')/@lang('Sales') </h4>
+                                    <p class="card-description"> @lang('Complete recent listing') </p>
+                                    @if($orders->count())
+                                        <div class="table-responsive">
+                                            <table class="table js-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th> f.º </th>
+                                                        <th> @lang('User') </th>
+                                                        <th> @lang('Progress') </th>
+                                                        <th> @lang('Total') </th>
+                                                        <th> @lang('Created') </th>
+                                                        <th> </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($orders as $order)
+                                                    <tr class="table-tr" style="{{ $order->type_order_classes }}" data-url="{{ route('admin.order.edit', $order->id) }}">
+                                                        <td class="py-1"> 
+                                                            #{{ $order->id }}  
+                                                            {!! $order->approved_alert !!}
+                                                        </td>
+                                                        <td> {!! $order->user_name !!} </td>
+                                                        <td>
+                                                            @if($order->last_status_order)
+                                                                <div class="progress">
+                                                                    <div class="progress-bar bg-success" role="progressbar" style="width: {{ $order->last_status_order_percentage }}%" aria-valuenow="{{ $order->last_status_order_percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                </div>
+                                                            @endif
+                                                            {!! $order->last_status_order_label !!}
+                                                        </td>
+                                                        <td> $ {{ $order->total_sale_and_order }} </td>
+                                                        <td> {{ $order->date_for_humans }} </td>
+                                                        <td> {!! $order->from_store_or_user_label !!} </td>
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        {{ $orders->links() }}
+                                    @else
+                                        <div class="text-center">
+                                            <em>Sin registros</em>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -211,6 +218,14 @@
             }
         });
     };
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        $(".js-table").on("click", "tr[data-url]", function () {
+            window.location = $(this).data("url");
+        });
+    });
 </script>
 
 @endpush
