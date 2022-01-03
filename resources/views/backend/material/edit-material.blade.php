@@ -106,7 +106,7 @@
     <script>
       $(document).ready(function() {
         $('#unitselect').select2({
-          placeholder: '@lang("Choose unit")',
+          placeholder: '@lang("Change unit")',
           // width: 'resolve',
           theme: 'bootstrap4',
           // allowClear: true,
@@ -145,7 +145,7 @@
     <script>
       $(document).ready(function() {
         $('#colorselect').select2({
-          placeholder: '@lang("Choose color")',
+          placeholder: '@lang("Change color")',
           // width: 'resolve',
           theme: 'bootstrap4',
           // allowClear: true,
@@ -184,7 +184,7 @@
     <script>
       $(document).ready(function() {
         $('#sizeselect').select2({
-          placeholder: '@lang("Choose size")',
+          placeholder: '@lang("Change size")',
           // width: 'resolve',
           theme: 'bootstrap4',
           // allowClear: true,

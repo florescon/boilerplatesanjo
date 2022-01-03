@@ -14,6 +14,6 @@ Route::group([
         // ->middleware('permission:admin.access.logged.list')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.dashboard')
-                ->push(__('Logged Management'), route('admin.logged.index'));
+                ->push(__('Session logins'), route('admin.logged.index'));
         });
 });

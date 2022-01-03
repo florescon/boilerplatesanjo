@@ -322,6 +322,7 @@
     "Color": "Color",
     "Secondary color": "Color secundario",
     "Choose color": "Elegir color",
+    "Change color": "Cambiar color",
     "Choose colors": "Elegir colores",
     "Colors": "Colores",
     "Color already exists": "Color ya existe",
@@ -341,6 +342,7 @@
     "Size_": "Talla",
     "Sizes": "Tallas",
     "Choose size": "Elegir talla",
+    "Change size": "Cambiar talla",
     "Choose sizes": "Elegir tallas",
     "Size already exists": "Talla ya existe",
     "Size Management": "Administración de tallas",
@@ -397,6 +399,7 @@
     "Unit": "Unidad",
     "Units": "Unidades",
     "Choose unit": "Elegir unidad",
+    "Change unit": "Cambiar unidad",
     "Unit Management": "Administración de unidades",
     "Create unit": "Crear unidad",
     "Show unit": "Ver unidad",
@@ -813,5 +816,6 @@
     "Longitude": "Longitud",
     "Timezone": "Zona horaria",
     "Location": "Ubicación",
-    "Complete recent listing": "Listado reciente completo"
+    "Complete recent listing": "Listado reciente completo",
+    "Session logins": "Inicios de sesión"
 }

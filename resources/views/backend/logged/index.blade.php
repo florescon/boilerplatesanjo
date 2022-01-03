@@ -1,11 +1,11 @@
 @extends('backend.layouts.app')
 
-@section('title', __('Logged'))
+@section('title', __('Session logins'))
 
 @section('content')
     <x-backend.card>
         <x-slot name="header">
-            <strong style="color: #0061f2;"> @lang('Logged') </strong>
+            <strong style="color: #0061f2;"> @lang('Session logins') </strong>
         </x-slot>
 
         <x-slot name="body">

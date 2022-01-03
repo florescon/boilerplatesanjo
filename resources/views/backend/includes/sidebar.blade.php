@@ -95,7 +95,7 @@
                         <x-utils.link
                             :href="route('admin.logged.index')"
                             class="c-sidebar-nav-link"
-                            :text="__('Logged Management')"
+                            :text="__('Session logins')"
                             :active="activeClass(Route::is('admin.logged.*'), 'c-active')" />
                     </li>
                 </ul>
