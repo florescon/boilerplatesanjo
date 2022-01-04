@@ -25,7 +25,7 @@ class EditOrder extends Component
         'maerialAll' => ['except' => FALSE],
     ];
 
-    protected $listeners = ['updateStatus' => '$refresh', 'paymentStore' => 'render'];
+    protected $listeners = ['updateStatus' => '$refresh', 'paymentStore' => 'render', 'serviceStore' => 'render'];
 
     public function mount(Order $order)
     {

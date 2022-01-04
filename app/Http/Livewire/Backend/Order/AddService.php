@@ -3,15 +3,18 @@
 namespace App\Http\Livewire\Backend\Order;
 
 use Livewire\Component;
+use App\Models\Product;
+use App\Models\Order;
 
-class CreateService extends Component
+class AddService extends Component
 {
-    public ?string $amount = null;
+    public ?int $amount = 1;
+    public ?string $price = null;
     public ?int $service = null;
 
     public $orderId;
 
-    protected $listeners = ['selectService', 'createmodal'];
+    protected $listeners = ['selectedService', 'createmodal'];
 
     public function createmodal(int $id)
     {
@@ -21,33 +24,35 @@ class CreateService extends Component
 
     private function resetInputFields()
     {
-        $this->amount = '';
+        $this->amount = 1;
+        $this->service = null;
+        $this->price = null;
     }
 
-    public function selectService($service)
+    public function selectedService($service)
     {
-        if ($service)
+        if ($service){
             $this->service = $service;
-        else
+            $getService = Product::findOrFail($service);
+            $this->price = $getService->price;
+        }
+        else{
             $this->service = null;
+        }
     }
 
     public function store()
     {
         $order = Order::find($this->orderId);
-        $serviceSelected = Product::find($this->service);
 
         $this->validate([
-            'amount' => 'required|numeric|min:0.01|regex:/^\d*(\.\d{1,2})?$/|max:'.$max->total_payments_remaining,
-            'comment' => 'sometimes',
-            'payment_method' => 'required_with:amount',
+            'amount' => 'required|numeric|min:1',
         ]);
 
         $order->product_order()->create([
             'product_id' => $this->service,
             'quantity' => $this->amount,
-            'price' =>  !is_null($this->price) || $this->price != 0 ? 
-                            $this->price : $serviceSelected->price,
+            'price' =>  $this->price,
             'type' => 1,
         ]);
 
@@ -62,6 +67,6 @@ class CreateService extends Component
 
     public function render()
     {
-        return view('backend.order.livewire.create-service');
+        return view('backend.order.livewire.add-service');
     }
 }

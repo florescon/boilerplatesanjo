@@ -126,3 +126,4 @@ Route::group([
 
 Route::get('select2-load-product', [ProductController::class, 'select2LoadMore'])->name('product.select');
 Route::get('select2-load-productgroup', [ProductController::class, 'select2LoadMoreGroup'])->name('product.selectgroup');
+Route::get('select2-load-service', [ProductController::class, 'select2ServiceLoadMore'])->name('service.select');

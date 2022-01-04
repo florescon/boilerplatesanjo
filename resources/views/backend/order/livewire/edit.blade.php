@@ -219,6 +219,9 @@
 
             <div class="table-responsive">
               <table class="table table-striped table-bordered table-hover">
+                <caption>
+                  <a href="#!" class="mt-2 ml-2" data-toggle="modal" wire:click="$emitTo('backend.order.add-service', 'createmodal', {{ $order_id }})" data-target="#addService" style="color: #ee2e31;">@lang('Add service')</a>
+                </caption>
                 <thead style="background-color: #321fdb; border-color: #321fdb; color: white;">
                   <tr class="text-center">
                     <th colspan="4">@lang('Order')</th>
@@ -300,6 +303,9 @@
             @if($saleExists)
             <div class="table-responsive">
               <table class="table table-striped table-bordered table-hover">
+                <caption>
+                  <a href="#!" class="mt-2 ml-2" data-toggle="modal" wire:click="$emitTo('backend.order.add-service', 'createmodal', {{ $order_id }})" data-target="#addService" style="color: #ee2e31;">@lang('Add service')</a>
+                </caption>
                 <thead style="background-color: #248f48; border-color: #218543; color: white;">
                   <tr class="text-center">
                     <th colspan="4" >@lang('Sale')</th>
@@ -425,11 +431,18 @@
 </x-backend.card>
 
 <livewire:backend.order.create-payment />
+<livewire:backend.order.add-service />
 
 @push('after-scripts')
     <script type="text/javascript">
       Livewire.on("paymentStore", () => {
           $("#createPayment").modal("hide");
+      });
+    </script>
+
+    <script type="text/javascript">
+      Livewire.on("serviceStore", () => {
+          $("#addService").modal("hide");
       });
     </script>
 @endpush

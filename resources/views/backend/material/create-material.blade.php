@@ -45,7 +45,6 @@
       </div>
     </div>
 
-
     <div class="form-group row" wire:ignore wire:key="first" id="data-importador">
       <label for="colorselect" class="col-sm-2 col-form-label">@lang('Color')</label>
       <div class="col-sm-10" >
@@ -53,7 +52,6 @@
         </select>
       </div>
     </div>
-
 
     <div class="form-group row" wire:ignore wire:key="first" id="data-importador">
       <label for="sizeselect" class="col-sm-2 col-form-label">@lang('Size')</label>
@@ -63,15 +61,6 @@
       </div>
     </div>
 
- {{--    <div class="form-group row" wire:ignore>
-      <label for="color" class="col-sm-2 col-form-label">@lang('Color')</label>
-      <div class="col-sm-10">
-          <select id="color" name="color_id" class="custom-select" style="width: 100%;" tabindex="-1" aria-hidden="true">
-          </select>
-       </div>
-    </div>
- --}}
-
     <div class="form-group row">
       <label for="stock" class="col-sm-2 col-form-label">@lang('Stock')</label>
       <div class="col-sm-10">
@@ -79,7 +68,6 @@
         @error('stock') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
       </div>
     </div>
-
 
     <div class="form-group row">
       <label for="description" class="col-sm-2 col-form-label">@lang('Description')</label>

@@ -55,8 +55,18 @@
         @if($filters || $filtersz)
           <div class="col-12 col-md-12">
             <div class="jumbotron text-center">
-              <h1 class="display-4">{{ $attributeColor->name ?? $attributeSize->name }}</h1>
-              <p class="lead">{{ optional($attributeColor)->short_name ?? optional($attributeSize)->short_name }}</p>
+            <div class="row">
+              <div class="col-sm">
+                <img src="{{ asset('/img/flame.gif')}}" alt="Porto Logo">
+              </div>
+              <div class="col-sm">
+                <h1 class="display-4">{{ $attributeColor->name ?? $attributeSize->name }}</h1>
+                <p class="lead">{{ optional($attributeColor)->short_name ?? optional($attributeSize)->short_name }}</p>
+              </div>
+              <div class="col-sm">
+                <img src="{{ asset('/img/flame.gif')}}" alt="Porto Logo">
+              </div>
+            </div>
               <hr class="my-4">
               <p>Acción irrevocable, se eliminarán todas las combinaciones creadas en este producto</p>
               @if($filters)
