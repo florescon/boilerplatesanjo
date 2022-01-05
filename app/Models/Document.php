@@ -90,7 +90,7 @@ class Document extends Model
     {
         if ($this->file_dst) {
             if (Storage::disk('public')->exists($this->file_dst)){
-                return "<a  href=".'/storage/'.$this->file_dst." class='btn btn-primary btn-sm'>".__('Download DST').'</a>';
+                return "<a  href=".route('admin.document.download_dst', $this->id)." class='btn btn-primary btn-sm'>".__('Download DST').'</a>';
             }
         }
 
@@ -100,8 +100,8 @@ class Document extends Model
     public function getDownloadEmbAttribute()
     {
         if ($this->file_emb) {
-            if (Storage::disk('public')->exists($this->file_emb)){
-                return "<a  href=".'/storage/'.$this->file_emb." class='btn btn-primary btn-sm'>".__('Download EMB').'</a>';
+            if (Storage::disk('public')->exists($this->file_dst)){
+                return "<a  href=".route('admin.document.download_emb', $this->id)." class='btn btn-primary btn-sm'>".__('Download EMB').'</a>';
             }
         }
 

@@ -28,7 +28,7 @@
                   <div wire:loading.remove wire:target="file_dst" class="mt-4"> 
                       <div class="float-left">
                           <button type="button" wire:click="removeDST" class="btn btn-light">
-                              <i class="cil-x-circle"></i> @lang('Delete DST')
+                              <i class="cil-x-circle"></i> @lang('Delete')
                           </button>
                       </div>
                   </div>
@@ -38,7 +38,7 @@
 
           <div class="form-row">
             <div class="form-group col-md-6">
-              <label class="mt-4">@lang('File DST')</label>
+              <label class="mt-4">@lang('File EMB')</label>
               <input wire:model="file_emb" type="file" class="form-control-file"/>
               @error('file_emb') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
             </div>
@@ -48,7 +48,7 @@
                   <div wire:loading.remove wire:target="file_emb" class="mt-4"> 
                       <div class="float-left">
                           <button type="button" wire:click="removeEMB" class="btn btn-light">
-                              <i class="cil-x-circle"></i> @lang('Delete DST')
+                              <i class="cil-x-circle"></i> @lang('Delete')
                           </button>
                       </div>
                   </div>

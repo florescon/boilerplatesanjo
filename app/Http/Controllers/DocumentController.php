@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Document;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Response;
 
 class DocumentController extends Controller
 {
@@ -15,6 +17,24 @@ class DocumentController extends Controller
     public function index()
     {
         return view('backend.document.index');
+    }
+
+    public function download_dst(Document $document)
+    {
+        $headers = [
+          'Content-Type' => 'mimetypes:application/octet-stream',
+        ];
+  
+        return Storage::disk('public')->download($document->file_dst, $document->title.'.DST', $headers);
+    }
+
+    public function download_emb(Document $document)
+    {
+        $headers = [
+          'Content-Type' => 'mimetypes:mimetypes:application/vnd.ms-office',
+        ];
+  
+        return Storage::disk('public')->download($document->file_emb, $document->title.'.EMB', $headers);
     }
 
     public function select2LoadMore(Request $request)

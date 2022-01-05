@@ -63,7 +63,6 @@ Route::group([
                     ->push(__('Where is products?'), route('admin.order.whereIs', $order));
             });
 
-
         Route::get('print', [OrderController::class, 'print'])
             ->name('print')
             ->breadcrumbs(function (Trail $trail, Order $order) {
@@ -84,7 +83,6 @@ Route::group([
                 $trail->parent('admin.order.edit', $order)
                     ->push(__('Ticket order'), route('admin.order.ticket_order', $order));
             });
-
 
         Route::get('ticket_materia', [OrderController::class, 'ticket_materia'])
             ->name('ticket_materia')

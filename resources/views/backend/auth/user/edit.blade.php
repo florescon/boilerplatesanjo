@@ -39,6 +39,42 @@
                     </div><!--form-group-->
 
                     <div class="form-group row">
+                        <label for="phone" class="col-md-2 col-form-label">@lang('Phone')</label>
+
+                        <div class="col-md-10">
+                            <input type="text" name="phone" class="form-control" placeholder="{{ __('Phone') }}" value="{{ old('phone') ?? optional($user->customer)->phone }}" maxlength="100" />
+                        </div>
+                    </div><!--form-group-->
+
+                    <div class="form-group row">
+                        <label for="address" class="col-md-2 col-form-label">@lang('Address')</label>
+
+                        <div class="col-md-10">
+                            <input type="text" name="address" class="form-control" placeholder="{{ __('Address') }}" value="{{ old('address') ?? optional($user->customer)->address }}" maxlength="100" />
+                        </div>
+                    </div><!--form-group-->
+
+                    <div class="form-group row">
+                        <label for="rfc" class="col-md-2 col-form-label">@lang('RFC')</label>
+
+                        <div class="col-md-10">
+                            <input type="text" name="rfc" class="form-control" placeholder="{{ __('RFC') }}" value="{{ old('rfc') ?? optional($user->customer)->rfc }}" maxlength="100" />
+                        </div>
+                    </div><!--form-group-->
+
+                    <div class="form-group row">
+                        <label for="name" class="col-md-2 col-form-label">@lang('Type price')</label>
+
+                        <div class="col-md-10">
+                            <select name="type_price" class="form-control">
+                                <option value="{{ $model::PRICE_RETAIL }}" {{ optional($user->customer)->type_price === $model::PRICE_RETAIL ? 'selected' : '' }}>@lang('Retail price')</option>
+                                <option value="{{ $model::PRICE_AVERAGE_WHOLESALE }}" {{ optional($user->customer)->type_price === $model::PRICE_AVERAGE_WHOLESALE ? 'selected' : '' }}>@lang('Average wholesale price')</option>
+                                <option value="{{ $model::PRICE_WHOLESALE }}" {{ optional($user->customer)->type_price === $model::PRICE_WHOLESALE ? 'selected' : '' }}>@lang('Wholesale price')</option>
+                            </select>
+                        </div>
+                    </div><!--form-group-->
+
+                    <div class="form-group row">
                         <label for="email" class="col-md-2 col-form-label">@lang('E-mail Address')</label>
 
                         <div class="col-md-10">

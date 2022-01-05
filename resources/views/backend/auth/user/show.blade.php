@@ -30,6 +30,26 @@
                 </tr>
 
                 <tr>
+                    <th>@lang('Phone')</th>
+                    <td>{{ optional($user->customer)->phone }}</td>
+                </tr>
+
+                <tr>
+                    <th>@lang('Address')</th>
+                    <td>{{ optional($user->customer)->address }}</td>
+                </tr>
+
+                <tr>
+                    <th>@lang('RFC')</th>
+                    <td>{{ optional($user->customer)->rfc }}</td>
+                </tr>
+
+                <tr>
+                    <th>@lang('Type price')</th>
+                    <td>@include('backend.auth.user.includes.type_price')</td>
+                </tr>
+
+                <tr>
                     <th>@lang('E-mail Address')</th>
                     <td>{{ $user->email }}</td>
                 </tr>

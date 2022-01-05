@@ -33,6 +33,15 @@ Route::group([
                     ->push(__('Finances Management'), route('admin.store.finances.index'));
             });
 
+        Route::group(['prefix' => '{finances}'], function () {
+            Route::get('print', [FinanceController::class, 'print'])
+                ->name('print')
+                ->breadcrumbs(function (Trail $trail, Finance $finances) {
+                    $trail->parent('admin.store.finances.index', $finances)
+                    ->push(__('Print finance'), route('admin.store.finances.print', $finances));
+                });
+        });
+
         Route::get('deleted', [FinanceController::class, 'deleted'])
             ->name('deleted')
             ->breadcrumbs(function (Trail $trail) {

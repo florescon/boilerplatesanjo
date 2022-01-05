@@ -37,6 +37,42 @@
                     </div><!--form-group-->
 
                     <div class="form-group row">
+                        <label for="phone" class="col-md-2 col-form-label">@lang('Phone')</label>
+
+                        <div class="col-md-10">
+                            <input type="text" name="phone" class="form-control" placeholder="{{ __('Phone') }}" value="{{ old('phone') }}" maxlength="100" />
+                        </div>
+                    </div><!--form-group-->
+
+                    <div class="form-group row">
+                        <label for="address" class="col-md-2 col-form-label">@lang('Address')</label>
+
+                        <div class="col-md-10">
+                            <input type="text" name="address" class="form-control" placeholder="{{ __('Address') }}" value="{{ old('address') }}" maxlength="100" />
+                        </div>
+                    </div><!--form-group-->
+
+                    <div class="form-group row">
+                        <label for="rfc" class="col-md-2 col-form-label">@lang('RFC')</label>
+
+                        <div class="col-md-10">
+                            <input type="text" name="rfc" class="form-control" placeholder="{{ __('RFC') }}" value="{{ old('rfc') }}" maxlength="100" />
+                        </div>
+                    </div><!--form-group-->
+
+                    <div class="form-group row">
+                        <label for="name" class="col-md-2 col-form-label">@lang('Type price')</label>
+
+                        <div class="col-md-10">
+                            <select name="type_price" class="form-control">
+                                <option value="{{ $model::PRICE_RETAIL }}">@lang('Retail price')</option>
+                                <option value="{{ $model::PRICE_AVERAGE_WHOLESALE }}">@lang('Average wholesale price')</option>
+                                <option value="{{ $model::PRICE_WHOLESALE }}">@lang('Wholesale price')</option>
+                            </select>
+                        </div>
+                    </div><!--form-group-->
+
+                    <div class="form-group row">
                         <label for="email" class="col-md-2 col-form-label">@lang('E-mail Address')</label>
 
                         <div class="col-md-10">

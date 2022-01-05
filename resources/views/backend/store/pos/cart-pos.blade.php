@@ -47,14 +47,14 @@
 			                    	<livewire:backend.cart-update-form :item="$product" :key="now()->timestamp.$product->id" :typeCart="'products'" />
 								</td>
 								<td class="text-right">
-									<h6 class="f-w-700">
+									<h6 class="f-w-700 mt-2">
 										${{!is_null($product->price) || $product->price != 0 ? 
 						      				$product->price : $product->parent->price 
 					      				}}
-										
-                           				<a wire:click="removeFromOrderList({{ $product->id }})" class="link link-dark-primary link-normal"  style="cursor:pointer;"><i class="fas fa-times text-c-blue m-l-10 "></i></a> 
-
 									</h6>
+
+                       				<a wire:click="removeFromOrderList({{ $product->id }})" class="link link-dark-primary link-normal"  style="cursor:pointer;"><i class="fas fa-times text-c-blue m-l-10 mt-4"></i></a> 
+
 								</td>
 							</tr>
 						@empty
@@ -123,12 +123,19 @@
 			                    	<livewire:backend.cart-update-form :item="$product" :key="now()->timestamp.$product->id" :typeCart="'products_sale'" />
 								</td>
 								<td class="text-right">
-									<h6 class="f-w-700">
-										${{!is_null($product->price) || $product->price != 0 ? 
-						      				$product->price : $product->parent->price 
-					      				}}
-                           				<a wire:click="removeFromSaleList({{ $product->id }})" class="link link-dark-primary link-normal"  style="cursor:pointer;" ><i class="fas fa-times text-c-green m-l-10 "></i></a> 
+									<h6 class="f-w-700 mt-2">
+										@if($product->isProduct())								
+											${{!is_null($product->price) || $product->price != 0 ? 
+							      				$product->price : $product->parent->price 
+						      				}}
+						      			@else
+											${{!is_null($product->price) || $product->price != 0 ? 
+							      				$product->price : $product->parent->price 
+						      				}}
+						      			@endif
 									</h6>
+                           				<a wire:click="removeFromSaleList({{ $product->id }})" class="link link-dark-primary link-normal"  style="cursor:pointer;" ><i class="fas fa-times text-c-green m-l-10  mt-4"></i></a> 
+
 								</td>
 							</tr>
 						@empty

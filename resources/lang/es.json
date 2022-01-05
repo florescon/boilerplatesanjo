@@ -558,6 +558,8 @@
     "Records": "Registros",
     "Status records": "Registros de Estados",
     "View status records": "Ver registros de Estados",
+    "View payment records": "Ver registros de Pagos",
+    "View delivery records": "Ver registros de Entrega",
     "Go to edit order": "Ir a editar orden",
     "Go to main order": "Ir a la orden principal",
     "Order created": "Orden creada",
@@ -821,5 +823,9 @@
     "Timezone": "Zona horaria",
     "Location": "Ubicación",
     "Complete recent listing": "Listado reciente completo",
-    "Session logins": "Inicios de sesión"
+    "Session logins": "Inicios de sesión",
+    "Phone": "Teléfono",
+    "Address": "Dirección",
+    "Type price": "Tipo de precio",
+    "Progress": "Progreso"
 }

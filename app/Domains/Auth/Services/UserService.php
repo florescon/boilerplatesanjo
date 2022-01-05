@@ -123,6 +123,13 @@ class UserService extends BaseService
                 'active' => isset($data['active']) && $data['active'] === '1',
             ]);
 
+            $user->customer()->create([
+                'phone' => $data['phone'], 
+                'address' => $data['address'], 
+                'rfc' => $data['rfc'],
+                'type_price' => $data['type_price'],
+            ]);
+
             $user->syncRoles($data['roles'] ?? []);
 
             if (! config('boilerplate.access.user.only_roles')) {
@@ -165,6 +172,15 @@ class UserService extends BaseService
             ]);
 
             if (! $user->isMasterAdmin()) {
+
+                $user->customer()->updateOrCreate([
+                    'user_id' => $user->id], [
+                    'phone' => $data['phone'], 
+                    'address' => $data['address'], 
+                    'rfc' => $data['rfc'],
+                    'type_price' => $data['type_price'],
+                ]);
+
                 // Replace selected roles/permissions
                 $user->syncRoles($data['roles'] ?? []);
 

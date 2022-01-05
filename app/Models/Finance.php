@@ -63,6 +63,39 @@ class Finance extends Model
     /**
      * @return mixed
      */
+    public function audi()
+    {
+        return $this->belongsTo(User::class, 'audi_id');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function departament()
+    {
+        return $this->belongsTo(Departament::class)->withTrashed();
+    }
+
+    /**
+     * Return the correct order status formatted.
+     *
+     * @return mixed
+     */
+    public function getUserNameOrDepartamentAttribute(): string
+    {
+        if($this->user_id){
+            return $this->user->name;
+        }
+        elseif($this->departament_id){
+           return $this->departament->name;
+        }
+
+        return '';
+    }
+
+    /**
+     * @return mixed
+     */
     public function order()
     {
         return $this->belongsTo(Order::class)->withTrashed();

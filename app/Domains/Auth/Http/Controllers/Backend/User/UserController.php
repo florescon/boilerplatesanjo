@@ -10,8 +10,10 @@ use App\Domains\Auth\Models\User;
 use App\Domains\Auth\Services\PermissionService;
 use App\Domains\Auth\Services\RoleService;
 use App\Domains\Auth\Services\UserService;
+use App\Domains\Auth\Services\CustomerService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Customer;
 
 /**
  * Class UserController.
@@ -34,17 +36,24 @@ class UserController extends Controller
     protected $permissionService;
 
     /**
+     * @var PermissionService
+     */
+    protected $customerService;
+
+    /**
      * UserController constructor.
      *
      * @param  UserService  $userService
      * @param  RoleService  $roleService
      * @param  PermissionService  $permissionService
+     * @param  CustomerService  $customerService
      */
-    public function __construct(UserService $userService, RoleService $roleService, PermissionService $permissionService)
+    public function __construct(UserService $userService, RoleService $roleService, PermissionService $permissionService, CustomerService $customerService)
     {
         $this->userService = $userService;
         $this->roleService = $roleService;
         $this->permissionService = $permissionService;
+        $this->customerService = $customerService;
     }
 
     /**
@@ -85,10 +94,11 @@ class UserController extends Controller
      *
      * @return mixed
      */
-    public function show(User $user)
+    public function show(User $user, Customer $customer)
     {
         return view('backend.auth.user.show')
-            ->withUser($user);
+            ->withUser($user)
+            ->withCustomer($customer);
     }
 
     /**
@@ -97,10 +107,11 @@ class UserController extends Controller
      *
      * @return mixed
      */
-    public function edit(EditUserRequest $request, User $user)
+    public function edit(EditUserRequest $request, User $user, Customer $customer)
     {
         return view('backend.auth.user.edit')
             ->withUser($user)
+            ->withCustomer($customer)
             ->withRoles($this->roleService->get())
             ->withCategories($this->permissionService->getCategorizedPermissions())
             ->withGeneral($this->permissionService->getUncategorizedPermissions())
