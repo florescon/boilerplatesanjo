@@ -42,7 +42,7 @@
 
     <table width="100%">
         <tr>
-          <td align="left"><strong>Fecha generado:</strong> {{ $finances->created_at }}</td>
+          <td align="left"><strong>@lang('Date Issued'):</strong> {{ $finances->created_at }}</td>
         </tr>
     </table>
 
@@ -83,14 +83,14 @@
         @endif
         <thead style="background-color: gray;">
           <tr align="center">
-            <th>Concepto</th>
-            <th>Precio</th>
+            <th>@lang('Concept')</th>
+            <th>@lang('Price')</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td scope="row">{{ $finances->name }}</tf>
-            <td align="center">{{ $finances->amount }}</td>
+            <td align="center">${{ $finances->amount }}</td>
           </tr>
         </tbody>
     </table>

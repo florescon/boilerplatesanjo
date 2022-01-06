@@ -21,10 +21,10 @@ class CreateFinance extends Component
     protected $listeners = ['selectPaymentMethod', 'selectedCompanyItem', 'createmodal'];
 
     protected $rules = [
-        'name' => 'required|min:3',
+        'name' => 'required|min:1|max:30',
         'amount' => 'required|numeric|min:1|regex:/^\d*(\.\d{1,2})?$/',
-        'comment' => 'sometimes',
-        'ticket_text' => 'sometimes',
+        'comment' => 'sometimes|max:100',
+        'ticket_text' => 'sometimes|max:100',
         'payment_method' => 'required_with:amount',
     ];
 

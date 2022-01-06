@@ -667,7 +667,7 @@
     "Assignments": "Asignaciones",
     "Show assignament" : "Mostrar asignación",
     "To give out": "Dar salida",
-    "Date Issued": "Fecha De Emisión",
+    "Date Issued": "Fecha de emisión",
     "Order To": "Orden a",
     "Print": "Imprimir",
     "Previous": "Anterior",
@@ -827,5 +827,6 @@
     "Phone": "Teléfono",
     "Address": "Dirección",
     "Type price": "Tipo de precio",
-    "Progress": "Progreso"
+    "Progress": "Progreso",
+    "Concept": "Concepto"
 }

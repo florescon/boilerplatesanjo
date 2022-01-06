@@ -35,8 +35,8 @@ class EditFinance extends Component
         $this->validate([
             'selected_id' => 'required|numeric',
             'name' => 'required|min:1|max:30',
-            'comment' => 'nullable|min:1',
-            'ticket_text' => 'nullable|min:1',
+            'comment' => 'nullable|min:1|max:100',
+            'ticket_text' => 'nullable|min:1|max:100',
         ]);
         if ($this->selected_id) {
             $record = Finance::find($this->selected_id);
