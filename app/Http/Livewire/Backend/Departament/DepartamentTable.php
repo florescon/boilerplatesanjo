@@ -37,12 +37,19 @@ class DepartamentTable extends Component
 
     public $name, $email, $comment, $is_enabled, $is_disabled;
 
+    public ?string $phone = null;
+    public ?string $address = null;
+    public ?string $rfc = null;
+
     public $created, $updated, $deleted, $selected_id;
 
     protected $rules = [
         'name' => 'required|min:3',
         'email' => 'required|email|min:3|regex:/^\S*$/u|unique:departaments',
-        'comment' => 'sometimes|min:3',
+        'comment' => 'sometimes|min:3|max:100',
+        'phone' => 'nullable|digits:10',
+        'address' => 'sometimes|max:100',
+        'rfc' => 'sometimes|max:50',
     ];
 
     public function getRowsQueryProperty()
@@ -137,6 +144,9 @@ class DepartamentTable extends Component
         $this->name = $record->name;
         $this->email = $record->email;
         $this->comment = $record->comment;
+        $this->phone = $record->phone;
+        $this->address = $record->address;
+        $this->rfc = $record->rfc;
     }
 
     public function show($id)
@@ -145,6 +155,9 @@ class DepartamentTable extends Component
         $this->name = $record->name;
         $this->email = $record->email;
         $this->comment = $record->comment;
+        $this->phone = $record->phone;
+        $this->address = $record->address;
+        $this->rfc = $record->rfc;
         $this->is_enabled = $record->is_enabled_departament;
         $this->created = $record->created_at;
         $this->updated = $record->updated_at;
@@ -157,6 +170,9 @@ class DepartamentTable extends Component
             'name' => ['required', 'min:3'],
             'email' => ['required', 'email', 'min:3', 'regex:/^\S*$/u', Rule::unique('departaments')->ignore($this->selected_id)],
             'comment' => ['sometimes', 'nullable'],
+            'phone' => ['nullable', 'digits:10'],
+            'address' => ['sometimes', 'max:100'],
+            'rfc' => ['sometimes','max:50'],
         ]);
 
         if ($this->selected_id) {
@@ -164,7 +180,10 @@ class DepartamentTable extends Component
             $record->update([
                 'name' => $this->name,
                 'email' => $this->email,
-                'comment' => $this->comment
+                'comment' => $this->comment,
+                'phone' => $this->phone,
+                'address' => $this->address,
+                'rfc' => $this->rfc,
             ]);
             $this->resetInputFields();
         }

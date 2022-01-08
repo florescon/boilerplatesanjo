@@ -21,6 +21,10 @@ class Departament extends Model
         'email',
         'comment',
         'is_enabled',
+        'phone',
+        'address',
+        'rfc',
+        'type_price',
     ];
 
     /**
@@ -40,6 +44,39 @@ class Departament extends Model
     public function scopeDisabled(Builder $query): Builder
     {
         return $query->where('is_enabled', false);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function isRetail(): bool
+    {
+        return $this->type_price === User::PRICE_RETAIL;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function isAverageWholesale(): bool
+    {
+        return $this->type_price === User::PRICE_AVERAGE_WHOLESALE;
+    }
+    /**
+     * @return mixed
+     */
+    public function isWholesale(): bool
+    {
+        return $this->type_price === User::PRICE_WHOLESALE;
+    }
+
+    /**
+     * @param $type_price
+     *
+     * @return bool
+     */
+    public function isTypePrice($type_price): bool
+    {
+        return $this->type_price === $type_price;
     }
 
     /**

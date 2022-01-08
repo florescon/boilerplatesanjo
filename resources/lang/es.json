@@ -193,6 +193,7 @@
     "Status": "Estado",
     "Create status": "Crear estado",
     "Status changed": "Estado de orden actualizado",
+    "The status delivery was successfully changed.": "Estado de entrega ha sido actualizado con éxito.",
     "Next status": "Siguiente estado",
     "Previous status": "Anterior estado",
     "Last Login At": "Último inicio de sesión en",

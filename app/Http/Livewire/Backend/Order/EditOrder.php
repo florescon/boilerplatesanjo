@@ -55,7 +55,7 @@ class EditOrder extends Component
             $order->orders_delivery()->create(['type' => $value, 'audi_id' => Auth::id()]);
         }
 
-        session()->flash('message', 'The status delivery was successfully changed.');
+        session()->flash('message', __('The status delivery was successfully changed.'));
 
         return redirect()->route('admin.order.edit', $this->order_id);
 

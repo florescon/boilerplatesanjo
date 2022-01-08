@@ -160,6 +160,7 @@ return [
         "unit_id" => 'unidad',
         'comment' => 'comentario',
         'Site phone' => 'Teléfono del sitio',
+        'phone' => 'teléfono',
         'departament' => 'departamento',
         'user' => 'usuario',
         'amount' => 'cantidad',

@@ -426,7 +426,29 @@
 							  </thead>
 							</table>
 		  				</div>
-		  				
+
+		  				<div class="col-12">
+							<table class="table">
+							  <thead>
+							    <tr class="text-center">
+							      <th scope="col">
+								    <div class="row justify-content-md-center custom-control custom-switch custom-control-inline">
+								      <em class=" mt-2"> Quiero ver los consumos especificos</em>
+								        <div class="col-md-2 mt-2">
+								          <div class="form-check">
+								            <label class="c-switch c-switch-label c-switch-warning">
+								              <input type="checkbox" wire:model="showSpecificConsumptions" class="c-switch-input">
+								              <span class="c-switch-slider" data-checked="OK" data-unchecked="NO"></span>
+								            </label>
+								          </div>
+								        </div>
+								    </div>
+							      </th>
+							    </tr>
+							  </thead>
+							</table>
+		  				</div>
+
 			        </div>
 				@endif
 
@@ -533,6 +555,7 @@
 								      </td>
 								  @endif
 
+								  @if($showSpecificConsumptions == FALSE)
 								  <td>
 								  	<div x-data="{ highlightedButton: '' }" style="display:inline;">
 									    <a @click="highlightedButton='order'"  :class="{'badge-danger': highlightedButton === 'order'}" onmousedown="party.sparkles(this)" class="badge badge-primary text-white" wire:click="addToCart({{ $children->id }}, 'products')" ><i class="cil-cart"> </i> @lang('Order')</a>
@@ -541,6 +564,13 @@
 									    <a @click="highlightedButton2='sale'"  :class="{'badge-danger': highlightedButton2 === 'sale'}" onmousedown="party.confetti(this)" class="badge badge-success text-white" wire:click="addToCart({{ $children->id }}, 'products_sale')" ><i class="cil-cart"> </i> @lang('Sale')</a>
 									</div>
 								  </td>
+								  @endif
+
+								  @if($showSpecificConsumptions == TRUE)
+								  <td>
+								      <x-utils.link class="badge badge-warning text-white" :href="route('admin.product.consumption_filter', $children->id)" :text="__('Punctual consumption')" :target="true"/>
+								  </td>
+								  @endif
 
 							    </tr>
 						    @endforeach

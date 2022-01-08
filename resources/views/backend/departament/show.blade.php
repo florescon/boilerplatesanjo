@@ -30,6 +30,24 @@
                 </td>
               </tr>
               <tr>
+                <th scope="row">@lang('Phone')</th>
+                <td>   
+                  <x-utils.undefined :data="$phone"/>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">@lang('Address')</th>
+                <td>   
+                  <x-utils.undefined :data="$address"/>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">@lang('RFC')</th>
+                <td>   
+                  <x-utils.undefined :data="$rfc"/>
+                </td>
+              </tr>
+              <tr>
                 <th scope="row">@lang('Enabled')</th>
                 <td>          
                   <p>{!! $is_enabled !!}</p>

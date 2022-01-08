@@ -128,6 +128,7 @@
                 </a>
               </th>
               <th scope="col">@lang('Email')</th>
+              <th scope="col">@lang('Phone')</th>
               <th scope="col">@lang('Comment')</th>
               <th scope="col">@lang('Updated at')</th>
               <th scope="col" style="width:90px; max-width: 90px;">@lang('Actions')</th>
@@ -153,6 +154,9 @@
               </th>
               <td>
                 {{ $departament->email }}
+              </td>
+              <td>
+                <x-utils.undefined :data="$departament->phone"/>
               </td>
               <td>
                 <x-utils.undefined :data="$departament->comment"/>

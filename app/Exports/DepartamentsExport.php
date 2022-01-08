@@ -35,6 +35,9 @@ class DepartamentsExport implements FromCollection, WithMapping, WithHeadings, W
             __('Name'),
             __('Email'),
             __('Comment'),
+            __('Phone'),
+            __('Address'),
+            __('RFC'),
             __('Updated at'),
         ];
     }
@@ -48,6 +51,9 @@ class DepartamentsExport implements FromCollection, WithMapping, WithHeadings, W
             $departament->name,
             $departament->email,
             $departament->comment,
+            $departament->phone,
+            $departament->address,
+            $departament->rfc,
             $departament->updated_at,
         ];
     }

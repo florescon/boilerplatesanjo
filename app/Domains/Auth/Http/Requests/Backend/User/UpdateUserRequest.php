@@ -34,7 +34,7 @@ class UpdateUserRequest extends FormRequest
                 return ! $this->user->isMasterAdmin();
             }), Rule::in([User::TYPE_ADMIN, User::TYPE_USER])],
             'name' => ['required', 'max:100'],
-            'phone' => ['sometimes', 'max:10'],
+            'phone' => ['nullable', 'digits:10'],
             'address' => ['sometimes'],
             'rfc' => ['sometimes'],
             'type_price' => [Rule::in([User::PRICE_RETAIL, User::PRICE_AVERAGE_WHOLESALE, User::PRICE_WHOLESALE])],

@@ -26,6 +26,18 @@
           <input wire:model.lazy="comment" type="text" class="form-control"/>
           @error('comment') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
+          <label>@lang('Phone')</label>
+          <input wire:model.lazy="phone" type="text" maxlength="10" class="form-control"/>
+          @error('phone') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+
+          <label>@lang('Address')</label>
+          <input wire:model.lazy="address" type="text" class="form-control"/>
+          @error('address') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+
+          <label>@lang('RFC')</label>
+          <input wire:model.lazy="rfc" type="text" class="form-control"/>
+          @error('rfc') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('Close')</button>
