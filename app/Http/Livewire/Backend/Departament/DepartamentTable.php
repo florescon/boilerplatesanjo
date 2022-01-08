@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Backend\Departament;
 
 use Livewire\Component;
 use App\Models\Departament;
+use App\Domains\Auth\Models\User;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Livewire\Backend\DataTable\WithBulkActions;
@@ -41,15 +42,18 @@ class DepartamentTable extends Component
     public ?string $address = null;
     public ?string $rfc = null;
 
+    public ?string $type_price = null;
+
     public $created, $updated, $deleted, $selected_id;
 
     protected $rules = [
-        'name' => 'required|min:3',
-        'email' => 'required|email|min:3|regex:/^\S*$/u|unique:departaments',
-        'comment' => 'sometimes|min:3|max:100',
-        'phone' => 'nullable|digits:10',
-        'address' => 'sometimes|max:100',
-        'rfc' => 'sometimes|max:50',
+        'name' => ['required', 'min:3'],
+        'email' => ['required', 'email', 'min:3', 'regex:/^\S*$/u', 'unique:departaments'],
+        'comment' => ['sometimes', 'min:3', 'max:100'],
+        'phone' => ['nullable', 'digits:10'],
+        'address' => ['sometimes', 'max:100'],
+        'rfc' => ['sometimes', 'max:50'],
+        'type_price' => ['nullable'],
     ];
 
     public function getRowsQueryProperty()
@@ -147,6 +151,7 @@ class DepartamentTable extends Component
         $this->phone = $record->phone;
         $this->address = $record->address;
         $this->rfc = $record->rfc;
+        $this->type_price = $record->type_price;
     }
 
     public function show($id)
@@ -165,6 +170,7 @@ class DepartamentTable extends Component
 
     public function update()
     {
+
         $this->validate([
             'selected_id' => ['required', 'numeric'],
             'name' => ['required', 'min:3'],
@@ -173,6 +179,7 @@ class DepartamentTable extends Component
             'phone' => ['nullable', 'digits:10'],
             'address' => ['sometimes', 'max:100'],
             'rfc' => ['sometimes','max:50'],
+            'type_price' => ['required', Rule::in([User::PRICE_RETAIL, User::PRICE_AVERAGE_WHOLESALE, User::PRICE_WHOLESALE])],
         ]);
 
         if ($this->selected_id) {
@@ -184,6 +191,7 @@ class DepartamentTable extends Component
                 'phone' => $this->phone,
                 'address' => $this->address,
                 'rfc' => $this->rfc,
+                'type_price' => $this->type_price,
             ]);
             $this->resetInputFields();
         }

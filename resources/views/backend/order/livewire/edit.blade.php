@@ -154,16 +154,16 @@
               <div class="row">
                 <div class="col-6 col-lg-6">
                   <p><strong>Total: </strong> ${{ $model->total_sale_and_order }}</p>
-                  <p><strong>Pago:</strong> {!! $model->payment_label !!} ${{  number_format((float)$model->total_payments) }}</p>
+                  <p><strong>@lang('Payment'):</strong> {!! $model->payment_label !!} ${{  number_format((float)$model->total_payments) }}</p>
                   @if($model->total_payments_remaining > 0)
-                    <p><strong>Restante:</strong> ${{ number_format((float)$model->total_payments_remaining, 2)  }}</p>
+                    <p><strong>@lang('Remaining'):</strong> ${{ number_format((float)$model->total_payments_remaining, 2)  }}</p>
                     <h5 class="mt-2"><a href="#!" data-toggle="modal" wire:click="$emitTo('backend.order.create-payment', 'createmodal', {{ $order_id }})" data-target="#createPayment" style="color: #ee2e31;">Crear pago</a></h5>
                   @endif
                   <br>
                   <a href="{{ route('admin.order.records_payment', $order_id) }}" class="card-link">@lang('View payment records')</a>
                 </div>
                 <div class="col-6 col-lg-6">
-                  <strong>Entrega:</strong> {{ $last_order_delivery_formatted ?? __('Pending') }}
+                  <strong>@lang('Delivery'):</strong> {{ $last_order_delivery_formatted ?? __('Pending') }}
                   <select class="form-control text-center mt-2" style="border: 1px solid #fe8a71" wire:model.debounce.800ms="order_status_delivery">
                     <option value="" hidden>@lang('Select order delivery status')</option>
                     @foreach($OrderStatusDelivery as $key => $value)
@@ -195,7 +195,7 @@
                     <div class="custom-control custom-switch custom-control-inline">
                       <input type="checkbox" wire:model="previousMaterialByProduct" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
                       <label class="custom-control-label" for="customRadioInline1">
-                        Ver materia prima por producto, previo al consumo
+                        @lang('See raw material by product, prior to consumption')
                      </label>
                     </div>
                   </div>
@@ -346,7 +346,7 @@
               <table class="table table-striped table-bordered table-hover">
                 <thead class="thead-dark">
                   <tr >
-                    <th>Materia prima</th>
+                    <th>@lang('Feedstock')</th>
                     <th>@lang('Price')</th>
                     <th class="text-center">@lang('Quantity')</th>
                     <th class="text-center">Total</th>

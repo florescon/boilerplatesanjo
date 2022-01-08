@@ -63,7 +63,7 @@
                                         {{ $orders->links() }}
                                     @else
                                         <div class="text-center">
-                                            <em>Sin registros</em>
+                                            <em>@lang('No results!')</em>
                                         </div>
                                     @endif
                                 </div>

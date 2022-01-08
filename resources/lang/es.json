@@ -289,6 +289,7 @@
     "Consumption product": "Consumo de producto",
     "Product consumption filter": "Filtro de consumos del producto",
     "General consumption": "Consumo general",
+    "I want to see the specific consumptions": "Quiero ver los consumos específicos",
     "Part number": "Número de parte",
     "Short description": "Breve descripción",
     "Description": "Descripción",
@@ -593,6 +594,7 @@
     "Approved": "Aprobada",
     "Pending": "Pendiente",
     "Ready for delivery": "Listo para entrega",
+    "Delivery": "Entrega",
     "Delivered": "Entregado",
     "Shop": "Tienda",
     "Starter store": "Tienda de inicio",
@@ -829,5 +831,12 @@
     "Address": "Dirección",
     "Type price": "Tipo de precio",
     "Progress": "Progreso",
-    "Concept": "Concepto"
+    "Concept": "Concepto",
+    "Irreversible action, all combinations created in this product will be eliminated": "Acción irreversible, se eliminarán todas las combinaciones creadas en este producto",
+    "Delete product color": "Eliminar color del producto",
+    "Delete size product": "Eliminar talla del producto",
+    "You only have one color, you can't remove": "Sólo tienes un color, no puedes eliminar",
+    "You only have one size, you can't remove": "Sólo tienes una talla, no puedes eliminar",
+    "See raw material by product, prior to consumption": "Ver materia prima, previa al consumo",
+    "Remaining": "Restante"
 }

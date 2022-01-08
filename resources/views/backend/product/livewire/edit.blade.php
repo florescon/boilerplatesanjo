@@ -433,7 +433,7 @@
 							    <tr class="text-center">
 							      <th scope="col">
 								    <div class="row justify-content-md-center custom-control custom-switch custom-control-inline">
-								      <em class=" mt-2"> Quiero ver los consumos especificos</em>
+								      <em class=" mt-2">@lang('I want to see the specific consumptions')</em>
 								        <div class="col-md-2 mt-2">
 								          <div class="form-check">
 								            <label class="c-switch c-switch-label c-switch-warning">

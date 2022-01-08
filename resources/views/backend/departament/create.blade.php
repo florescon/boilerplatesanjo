@@ -1,3 +1,5 @@
+@inject('model', '\App\Domains\Auth\Models\User')
+
 <!-- Modal -->
 <div wire:ignore.self  class="modal fade"  id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -35,6 +37,13 @@
           <label class="mt-2">@lang('RFC')</label>
           <input wire:model.lazy="rfc" type="text" class="form-control" placeholder="{{ __('RFC') }}"/>
           @error('rfc') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+
+          <label class="mt-2">@lang('Type price')</label>
+          <select wire:model.lazy="type_price" name="type_price" class="form-control">
+              <option value="{{ $model::PRICE_RETAIL }}">@lang('Retail price')</option>
+              <option value="{{ $model::PRICE_AVERAGE_WHOLESALE }}">@lang('Average wholesale price')</option>
+              <option value="{{ $model::PRICE_WHOLESALE }}">@lang('Wholesale price')</option>
+          </select>
 
         </div>
         <div class="modal-footer">

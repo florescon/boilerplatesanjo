@@ -28,7 +28,7 @@
                       @endforeach
                     </div>
                   @else
-                    <p class="text-center">Sólo tienes un color, no puedes eliminar</p>
+                    <p class="text-center">@lang('You only have one color, you can\'t remove')</p>
                   @endif
                 </div>
               </div>
@@ -45,7 +45,7 @@
                       @endforeach
                     </div>
                   @else
-                    <p class="text-center">Sólo tienes una talla, no puedes eliminar</p>
+                    <p class="text-center">@lang('You only have one size, you can\'t remove')</p>
                   @endif
                 </div>
               </div>
@@ -68,11 +68,11 @@
               </div>
             </div>
               <hr class="my-4">
-              <p>Acción irrevocable, se eliminarán todas las combinaciones creadas en este producto</p>
+              <p>@lang('Irreversible action, all combinations created in this product will be eliminated')</p>
               @if($filters)
-                <a class="btn btn-danger btn-lg" href="#" wire:click="deleteColor({{ $filters[0] }})" role="button">Eliminar color del producto</a>
+                <a class="btn btn-danger btn-lg" href="#" wire:click="deleteColor({{ $filters[0] }})" role="button">@lang('Delete product color')</a>
               @else
-                <a class="btn btn-danger btn-lg" href="#" wire:click="deleteSize({{ $filtersz[0] }})" role="button">Eliminar talla del producto</a>
+                <a class="btn btn-danger btn-lg" href="#" wire:click="deleteSize({{ $filtersz[0] }})" role="button">@lang('Delete size product')</a>
               @endif
             </div>
           </div>
