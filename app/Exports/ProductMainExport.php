@@ -7,7 +7,7 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class ProductsExport implements FromCollection, WithMapping, WithHeadings
+class ProductMainExport implements FromCollection, WithMapping, WithHeadings
 {
     private $productsIDs = [];
 
@@ -21,8 +21,6 @@ class ProductsExport implements FromCollection, WithMapping, WithHeadings
             __('Name'),
             __('Code'),
             __('Stock'),
-            __('Revision stock'),
-            __('Store stock'),
         ];
     }
 
@@ -34,9 +32,7 @@ class ProductsExport implements FromCollection, WithMapping, WithHeadings
         return [
             optional($product->parent)->name.', '.optional($product->color)->name.' '.optional($product->size)->name,
             $product->code ? $product->code : optional($product->parent)->code,
-            $product->stock,
-            $product->stock_revision,
-            $product->stock_store,
+            $product->stock ?? 0,
         ];
     }
 
