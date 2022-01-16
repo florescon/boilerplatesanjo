@@ -21,11 +21,12 @@ class Cart extends Component
     protected $listeners = ['selectPaymentMethod', 'selectedCompanyItem', 'selectedDeparament', 'cartUpdated' => '$refresh'];
 
     protected $rules = [
-        'user' => 'required_without:departament',
-        'departament' => 'required_without:user',
+        'user' => 'required_without:departament|prohibited_unless:departament,null',
+        'departament' => 'required_without:user|prohibited_unless:user,null',
         'payment' => 'required_with:user,departament',
-        'payment_method' => 'required_with:user,departament',
+        'payment_method' => 'required_with:user,departament|integer',
     ];
+
 
     public function selectedCompanyItem($user)
     {
@@ -105,10 +106,6 @@ class Cart extends Component
         if(!$this->isVisible){
             $this->validate();
         }
-
-        // dd('yasss');
-
-        // dd($this->payment);
 
         $cart = CartFacade::get()['products'];
         $cartSale = CartFacade::get()['products_sale'];

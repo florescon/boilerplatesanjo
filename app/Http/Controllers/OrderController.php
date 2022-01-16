@@ -79,7 +79,7 @@ class OrderController extends Controller
 
     public function advanced(Order $order)
     {
-        return view('backend.order.advanced-order', compact('order'));
+        return view('backend.order.advanced-order', compact('order', 'user'));
     }
 
     public function records(Order $order)
@@ -98,7 +98,7 @@ class OrderController extends Controller
             abort(401);
         }
 
-        $records_delivery = $order->status_order()->orderBy('created_at', 'desc')->paginate('10')->fragment('main');
+        $records_delivery = $order->orders_delivery()->orderBy('created_at', 'desc')->paginate('10')->fragment('delivery');
         return view('backend.order.records-delivery-order', compact('order', 'records_delivery'));
     }
 
@@ -108,7 +108,7 @@ class OrderController extends Controller
             abort(401);
         }
 
-        $records_payment = $order->status_order()->orderBy('created_at', 'desc')->paginate('10')->fragment('main');
+        $records_payment = $order->orders_payments()->orderBy('created_at', 'desc')->paginate('10')->fragment('payment');
         return view('backend.order.records-payment-order', compact('order', 'records_payment'));
     }
 

@@ -15,7 +15,7 @@ class UpdateSetting extends Component
         'state.site_email' => 'required|email',
         'state.site_address' => 'required|max:200',
         'state.site_whatsapp' => 'required|integer|digits:10',
-        'state.site_facebook' => 'required|/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
+        'state.site_facebook' => 'required|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
         'state.days_orders' => 'required|integer|min:1|max:999',
     ];
 

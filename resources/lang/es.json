@@ -841,5 +841,7 @@
     "You only have one color, you can't remove": "Sólo tienes un color, no puedes eliminar",
     "You only have one size, you can't remove": "Sólo tienes una talla, no puedes eliminar",
     "See raw material by product, prior to consumption": "Ver materia prima, previa al consumo",
-    "Remaining": "Restante"
+    "Remaining": "Restante",
+    "Department exists, must be one or the other": "Departamento existe, debe ser uno u otro",
+    "User exists, must be one or the other": "Usuario existe, debe ser uno u otro"
 }

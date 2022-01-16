@@ -135,7 +135,7 @@ class Order extends Model
      */
     public function orders_delivery()
     {
-        return $this->hasMany(OrdersDelivery::class);
+        return $this->hasMany(OrdersDelivery::class)->with('user');
     }
 
     public function last_order_delivery()
@@ -148,7 +148,7 @@ class Order extends Model
      */
     public function orders_payments()
     {
-        return $this->hasMany(Finance::class);
+        return $this->hasMany(Finance::class)->with('audi', 'payment');
     }
 
     public function total_payments()
