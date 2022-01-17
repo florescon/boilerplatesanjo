@@ -240,15 +240,15 @@
                 </td>
                 <td>
                   @if(!$status == 'deleted')
-                  <div class="btn-group" role="group" aria-label="Basic example">
+                    <div class="btn-group" role="group" aria-label="Basic example">
 
-                    <a type="button" href="{{ route('admin.store.finances.print', $finance->id) }}" target="_blank" class="btn btn-transparent-dark">
-                      <i class="fa fa-print"></i>
-                    </a>
+                      <a type="button" href="{{ route('admin.store.finances.print', $finance->id) }}" target="_blank" class="btn btn-transparent-dark">
+                        <i class="fa fa-print"></i>
+                      </a>
 
-                    <x-actions-modal.edit-icon target="editFinance" emitTo="backend.store.finance.edit-finance" function="edit" :id="$finance->id" />
-                    <x-actions-modal.delete-icon function="delete" :id="$finance->id" />
-                  </div>
+                      <x-actions-modal.edit-icon target="editFinance" emitTo="backend.store.finance.edit-finance" function="edit" :id="$finance->id" />
+                      <x-actions-modal.delete-icon function="delete" :id="$finance->id" />
+                    </div>
                   @endif
                 </td>
         			</tr>

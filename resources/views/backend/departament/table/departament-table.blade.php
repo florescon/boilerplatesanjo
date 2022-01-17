@@ -130,6 +130,7 @@
               <th scope="col">@lang('Email')</th>
               <th scope="col">@lang('Phone')</th>
               <th scope="col">@lang('Comment')</th>
+              <th scope="col">@lang('Type price')</th>
               <th scope="col">@lang('Updated at')</th>
               <th scope="col" style="width:90px; max-width: 90px;">@lang('Actions')</th>
             </tr>
@@ -160,6 +161,9 @@
               </td>
               <td>
                 <x-utils.undefined :data="$departament->comment"/>
+              </td>
+              <td>
+                @include('backend.departament.includes.type_price')
               </td>
               <td>
                 {{ $departament->updated_at }}

@@ -42,14 +42,14 @@ class DepartamentTable extends Component
     public ?string $address = null;
     public ?string $rfc = null;
 
-    public ?string $type_price = null;
+    public ?string $type_price = User::PRICE_RETAIL;
 
     public $created, $updated, $deleted, $selected_id;
 
     protected $rules = [
         'name' => ['required', 'min:3'],
         'email' => ['required', 'email', 'min:3', 'regex:/^\S*$/u', 'unique:departaments'],
-        'comment' => ['sometimes', 'min:3', 'max:100'],
+        'comment' => ['nullable', 'min:3', 'max:100'],
         'phone' => ['nullable', 'digits:10'],
         'address' => ['sometimes', 'max:100'],
         'rfc' => ['sometimes', 'max:50'],
@@ -170,7 +170,6 @@ class DepartamentTable extends Component
 
     public function update()
     {
-
         $this->validate([
             'selected_id' => ['required', 'numeric'],
             'name' => ['required', 'min:3'],

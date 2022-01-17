@@ -14,11 +14,11 @@
       <form wire:submit.prevent="store">
         <div class="modal-body">
 
-          <label>@lang('Name')</label>
+          <label>@lang('Name')<sup>*</sup></label>
           <input wire:model.lazy="name" type="text" class="form-control" placeholder="{{ __('Name') }}" />
           @error('name') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
-          <label class="mt-2">@lang('Email')</label>
+          <label class="mt-2">@lang('Email')<sup>*</sup></label>
           <input wire:model.lazy="email" type="text" class="form-control" placeholder="{{ __('Email') }}"/>
           @error('email') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
@@ -38,7 +38,7 @@
           <input wire:model.lazy="rfc" type="text" class="form-control" placeholder="{{ __('RFC') }}"/>
           @error('rfc') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
-          <label class="mt-2">@lang('Type price')</label>
+          <label class="mt-2">@lang('Type price')<sup>*</sup></label>
           <select wire:model.lazy="type_price" name="type_price" class="form-control">
               <option value="{{ $model::PRICE_RETAIL }}">@lang('Retail price')</option>
               <option value="{{ $model::PRICE_AVERAGE_WHOLESALE }}">@lang('Average wholesale price')</option>

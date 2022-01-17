@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
+use App\Domains\Auth\Models\User;
 
 class Departament extends Model
 {
@@ -112,5 +113,4 @@ class Departament extends Model
     {
         return $this->created_at->format('M, d Y');
     }
-
 }

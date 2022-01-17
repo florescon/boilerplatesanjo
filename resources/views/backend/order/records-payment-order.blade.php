@@ -7,6 +7,7 @@
 @endpush
 
 @section('content')
+
 <div class="page-content page-container" id="page-content">
     <div class="padding">
         <div class="row container d-flex justify-content-center">
@@ -33,6 +34,7 @@
                                             <th>@lang('Comment')</th>
                                             <th>Creado por</th>
                                             <th>@lang('Created at')</th>
+                                            <th>@lang('Actions')</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -47,6 +49,13 @@
                                                 </td>
                                                 <td>{{ optional($record->audi)->name }}</td>
                                                 <td>{{ $record->created_at }}</td>
+                                                <td>
+                                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                                      <a type="button" href="{{ route('admin.store.finances.print', $record->id) }}" target="_blank" class="btn btn-transparent-dark">
+                                                        <i class="fa fa-print"></i>
+                                                      </a>
+                                                    </div>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -65,3 +74,13 @@
     </div>
 </div>
 @endsection
+
+@push('after-scripts')
+
+    <script type="text/javascript">
+      Livewire.on("financeUpdate", () => {
+          $("#editFinance").modal("hide");
+      });
+    </script>
+
+@endpush

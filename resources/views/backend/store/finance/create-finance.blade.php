@@ -23,11 +23,11 @@
         </div>
       </div>
 
-      <label>@lang('Name')</label>
+      <label>@lang('Name')</label><sup>*</sup>
       <input wire:model.lazy="name" type="text" class="form-control"/>
       @error('name') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
-      <label class="mt-2">@lang('Amount')</label>
+      <label class="mt-2">@lang('Amount')</label><sup>*</sup>
       <input wire:model="amount" type="number" step="any" class="form-control"/>
       @error('amount') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
