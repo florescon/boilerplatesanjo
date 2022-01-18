@@ -14,10 +14,13 @@ class AddService extends Component
 
     public $orderId;
 
+    public ?int $parameter = 1;
+
     protected $listeners = ['selectedService', 'createmodal'];
 
-    public function createmodal(int $id)
+    public function createmodal(int $id, ?int $parameterr = 1)
     {
+        $this->parameter = $parameterr;
         $this->orderId = $id;
         $this->resetInputFields();
     }
@@ -31,6 +34,7 @@ class AddService extends Component
 
     public function selectedService($service)
     {
+        // dd($this->parameter);
         if ($service){
             $this->service = $service;
             $getService = Product::findOrFail($service);
@@ -53,7 +57,7 @@ class AddService extends Component
             'product_id' => $this->service,
             'quantity' => $this->amount,
             'price' =>  $this->price,
-            'type' => 1,
+            'type' => $this->parameter,
         ]);
 
         $this->resetInputFields();
@@ -63,7 +67,9 @@ class AddService extends Component
             'icon' => 'success',
             'title'   => __('Created'), 
         ]);
-    }
+ 
+         return $this->redirectRoute('admin.order.edit', $this->orderId);
+   }
 
     public function render()
     {

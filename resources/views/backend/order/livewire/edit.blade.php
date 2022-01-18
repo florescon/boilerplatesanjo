@@ -149,7 +149,7 @@
             @endif
           </div>
 
-          @if($model->user_id)
+          @if($model->user_id || $model->departament->id)
             <div class="card-footer text-center">
               <div class="row">
                 <div class="col-6 col-lg-6">
@@ -304,7 +304,7 @@
             <div class="table-responsive">
               <table class="table table-striped table-bordered table-hover">
                 <caption>
-                  <a href="#!" class="mt-2 ml-2" data-toggle="modal" wire:click="$emitTo('backend.order.add-service', 'createmodal', {{ $order_id }})" data-target="#addService" style="color: #ee2e31;">@lang('Add service')</a>
+                  <a href="#!" class="mt-2 ml-2" data-toggle="modal" wire:click="$emitTo('backend.order.add-service', 'createmodal', {{ $order_id }}, '2')" data-target="#addService" style="color: #ee2e31;">@lang('Add service')</a>
                 </caption>
                 <thead style="background-color: #248f48; border-color: #218543; color: white;">
                   <tr class="text-center">

@@ -46,7 +46,7 @@
 					      <th scope="col">@lang('Product')</th>
 
 					      {{-- <th scope="col">@lang('Amount')</th> --}}
-					      <th scope="col">@lang('Price')</th>
+					      <th scope="col" width="180">@lang('Price')</th>
 					      <th scope="col">@lang('Amount')</th>
 					      <th scope="col"></th>
 					    </tr>
@@ -62,11 +62,14 @@
 								<a href="{{ route('admin.product.consumption_filter', $product->id) }}" target=”_blank”> <span class="badge badge-warning"> <i class="cil-color-fill"></i></span></a>
 						      	{!! $product->full_name !!} </td>
 						      <td>
-						      	${{!is_null($product->price) || $product->price != 0 ? 
-						      			$product->price : $product->parent->price 
-						      	}}
+						      	@if($product->type == false)
+				                    <livewire:backend.cart-update-price-form :item="$product" :key="$product->id" :typeCart="'products'" />
+							    @else
+							      	${{!is_null($product->price) || $product->price != 0 ? 
+							      			$product->price : $product->parent->price 
+							      	}}
+							    @endif
 						      </td>
-
 						      <td style="width:120px; max-width: 120px;" >
 			                    <livewire:backend.cart-update-form :item="$product" :key="$product->id" :typeCart="'products'" />
 						      </td>
@@ -89,7 +92,7 @@
 					      <th scope="col">@lang('Code')</th>
 					      <th scope="col">@lang('Product')</th>
 					      {{-- <th scope="col">@lang('Amount')</th> --}}
-					      <th scope="col">@lang('Price')</th>
+					      <th scope="col" width="180">@lang('Price')</th>
 					      <th scope="col">@lang('Amount')</th>
 					      <th scope="col"></th>
 					    </tr>
@@ -106,9 +109,13 @@
 						      	{!! $product_sale->full_name !!} 
 						      </td>
 						      <td>
-						      	${{!is_null($product_sale->price) || $product_sale->price != 0 ? 
-						      			$product_sale->price : $product_sale->parent->price 
-						      	}}
+						      	@if($product_sale->type == false)
+				                    <livewire:backend.cart-update-price-form :item="$product_sale" :key="$product_sale->id" :typeCart="'products_sale'" />
+							    @else
+							      	${{!is_null($product_sale->price) || $product_sale->price != 0 ? 
+							      			$product_sale->price : $product_sale->parent->price 
+							      	}}
+							    @endif
 						      </td>
 						      <td>
 			                    <livewire:backend.cart-update-form :item="$product_sale" :key="$product_sale->id" :typeCart="'products_sale'" />

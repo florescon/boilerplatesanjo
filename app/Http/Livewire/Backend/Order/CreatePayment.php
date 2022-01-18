@@ -50,7 +50,7 @@ class CreatePayment extends Component
         ]);
 
         Finance::create([
-            'name' => '',
+            'name' => 'pago',
             'order_id' => $this->orderId,
             'amount' => $this->amount,
             'comment' => $this->comment,

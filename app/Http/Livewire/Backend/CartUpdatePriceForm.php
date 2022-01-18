@@ -5,10 +5,10 @@ namespace App\Http\Livewire\Backend;
 use Livewire\Component;
 use App\Facades\Cart as CartFacade;
 
-class CartUpdateForm extends Component
+class CartUpdatePriceForm extends Component
 {
     public $item = [];
-    public $quantity = 0;
+    public $price = 0;
     public string $typeCart;
 
     public function mount($item, string $typeCart)
@@ -17,33 +17,31 @@ class CartUpdateForm extends Component
 
         $this->typeCart = $typeCart;
 
-        $this->quantity = $item['amount'];
+        $this->price = $item['price'];
     }
 
-    public function updateCart()
+    public function updateCartPrice()
     {
+        // dd($this->price);
 
-    	// dd($this->quantity);
-
-    	// dd($this->quantity);
-    	// dd(Session::get('cart')['products']);
-    	// dd(CartFacade::get());
+        // dd($this->price);
+        // dd(Session::get('cart')['products']);
+        // dd(CartFacade::get());
 
         // dd($this->typeCart);
         $cart = CartFacade::get();
 
         $cart[$this->typeCart] = $this->productCartEdit($this->item['id'], $cart[$this->typeCart]);
 
-
         $this->emit('cartUpdated');
     }
 
     private function productCartEdit($productId, $cartItems)
     {
-        $amount = 1;
-        $cartItems = array_map(function ($item) use ($productId, $amount) {
+        $price = 1;
+        $cartItems = array_map(function ($item) use ($productId, $price) {
             if ($productId == $item['id']) {
-                $item['amount'] = $this->quantity;
+                $item['price'] = $this->price;
             }
 
             return $item;
@@ -54,6 +52,6 @@ class CartUpdateForm extends Component
 
     public function render()
     {
-        return view('backend.cart.livewire.cart-update-form');
+        return view('backend.cart.livewire.cart-update-price-form');
     }
 }
