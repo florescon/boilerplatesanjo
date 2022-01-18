@@ -4,10 +4,10 @@ namespace App\Http\Livewire\Backend\Unit;
 
 use App\Models\Unit;
 use Livewire\Component;
+use App\Events\Unit\UnitUpdated;
 
 class EditUnit extends Component
 {
-
     public $selected_id, $name, $abbreviation, $slug;
 
     protected $listeners = ['edit'];
@@ -29,28 +29,27 @@ class EditUnit extends Component
             'abbreviation' => 'required|min:1|max:4',
         ]);
         if ($this->selected_id) {
-            $record = Unit::find($this->selected_id);
-            $record->update([
+            $unit = Unit::find($this->selected_id);
+            $unit->update([
                 'name' => $this->name,
                 'abbreviation' => $this->abbreviation,
             ]);
             // $this->resetInputFields();
         }
 
+        event(new UnitUpdated($unit));
+
         $this->emit('unitUpdate');
         $this->emitTo('backend.unit.unit-table', 'triggerRefresh');
 
-       $this->emit('swal:alert', [
+        $this->emit('swal:alert', [
             'icon' => 'success',
             'title'   => __('Actualizado'), 
         ]);
-
     }
-
 
     public function render()
     {
         return view('backend.unit.edit-unit');
     }
-
 }

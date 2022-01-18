@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class ClothController extends Controller
 {
-
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -18,10 +17,8 @@ class ClothController extends Controller
 	    return view('backend.cloth.index');
 	}
 
-
 	public function deleted()
 	{
 	    return view('backend.cloth.deleted');
 	}
-
 }

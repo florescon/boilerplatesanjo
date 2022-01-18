@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Backend\Size;
 use App\Models\Size;
 use Livewire\Component;
 use Illuminate\Validation\Rule;
+use App\Events\Size\SizeUpdated;
 
 class EditSize extends Component
 {
@@ -41,8 +42,8 @@ class EditSize extends Component
             'sort' => 'sometimes|integer|min:0',
         ]);
         if ($this->selected_id) {
-            $record = Size::find($this->selected_id);
-            $record->update([
+            $size = Size::find($this->selected_id);
+            $size->update([
                 'name' => $this->name,
                 'short_name' => $this->short_name,
                 'sort'=> $this->sort,
@@ -50,10 +51,12 @@ class EditSize extends Component
             // $this->resetInputFields();
         }
 
+        event(new SizeUpdated($size));
+
         $this->emit('sizeUpdate');
         $this->emitTo('backend.size.size-table', 'triggerRefresh');
 
-       $this->emit('swal:alert', [
+        $this->emit('swal:alert', [
             'icon' => 'success',
             'title'   => __('Actualizado'), 
         ]);

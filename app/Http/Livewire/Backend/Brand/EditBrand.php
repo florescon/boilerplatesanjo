@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Backend\Brand;
 
 use App\Models\Brand;
 use Livewire\Component;
+use App\Events\Brand\BrandUpdated;
 
 class EditBrand extends Component
 {
@@ -38,18 +39,20 @@ class EditBrand extends Component
             'website' => 'nullable|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/'
         ]);
         if ($this->selected_id) {
-            $record = Brand::find($this->selected_id);
-            $record->update([
+            $brand = Brand::find($this->selected_id);
+            $brand->update([
                 'name' => $this->name,
                 'website' => $this->website,
             ]);
             // $this->resetInputFields();
         }
 
+        event(new BrandUpdated($brand));
+
         $this->emit('brandUpdate');
         $this->emitTo('backend.brand.brand-table', 'triggerRefresh');
 
-       $this->emit('swal:alert', [
+        $this->emit('swal:alert', [
             'icon' => 'success',
             'title'   => __('Actualizado'), 
         ]);

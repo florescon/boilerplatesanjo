@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\TableComponent;
 use Rappasoft\LaravelLivewireTables\Traits\HtmlComponents;
 use Rappasoft\LaravelLivewireTables\Views\Column;
+use App\Events\Cloth\ClothDeleted;
+use App\Events\Cloth\ClothRestored;
 
 class ClothTable extends TableComponent
 {
@@ -34,9 +36,7 @@ class ClothTable extends TableComponent
 
     ];
 
-
     protected $listeners = ['delete', 'restore', 'triggerRefresh' => '$refresh'];
-
 
     /**
      * @var string
@@ -44,8 +44,6 @@ class ClothTable extends TableComponent
     public $sortField = 'updated_at';
 
     public $sortDirection = 'desc';
-
-
 
     /**
      * @var array
@@ -58,7 +56,6 @@ class ClothTable extends TableComponent
 
     ];
 
-
     /**
      * @param  string  $status
      */
@@ -67,13 +64,11 @@ class ClothTable extends TableComponent
         $this->status = $status;
     }
 
-
     /**
      * @return Builder
      */
     public function query(): Builder
     {
-
         $query = Cloth::query();
 
         if ($this->status === 'deleted') {
@@ -82,7 +77,6 @@ class ClothTable extends TableComponent
 
         return $query;
     }
-
 
     /**
      * @return array
@@ -116,36 +110,34 @@ class ClothTable extends TableComponent
         ];
     }
 
-    public function delete(int $id)
+    public function delete(Cloth $cloth)
     {
-
-        if($id){
-            $cloth = Cloth::where('id', $id);
+        if($cloth){
+            event(new ClothDeleted($cloth));
             $cloth->delete();
-
         }
 
-       $this->emit('swal:alert', [
+        $this->emit('swal:alert', [
             'icon' => 'success',
             'title'   => __('Deleted'), 
         ]);
-
     }
 
     public function restore(int $id)
     {
-        if($id){
+       if($id){
             $restore_cloth = Cloth::withTrashed()
                 ->where('id', $id)
-                ->restore();
+                ->first();
+
+            event(new ClothRestored($restore_cloth));
+
+            $restore_cloth->restore();
         }
 
-      $this->emit('swal:alert', [
+        $this->emit('swal:alert', [
             'icon' => 'success',
             'title'   => __('Restored'), 
         ]);
-
     }
-
-
 }

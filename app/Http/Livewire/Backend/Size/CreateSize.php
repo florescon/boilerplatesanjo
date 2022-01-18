@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Backend\Size;
 
 use App\Models\Size;
 use Livewire\Component;
+use App\Events\Size\SizeCreated;
 
 class CreateSize extends Component
 {
@@ -40,11 +41,12 @@ class CreateSize extends Component
     {
         $validatedData = $this->validate();
 
-        Size::create($validatedData);
+        $size = Size::create($validatedData);
 
         $this->resetInputFields();
         $this->emit('sizeStore');
 
+        event(new SizeCreated($size));
 
 		$this->emit('swal:alert', [
 		    'icon' => 'success',

@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\TableComponent;
 use Rappasoft\LaravelLivewireTables\Traits\HtmlComponents;
 use Rappasoft\LaravelLivewireTables\Views\Column;
+use App\Events\Brand\BrandDeleted;
+use App\Events\Brand\BrandRestored;
 
 class BrandTable extends TableComponent
 {
@@ -118,7 +120,10 @@ class BrandTable extends TableComponent
 
     public function delete(Brand $brand)
     {
-        $brand->delete();
+        if($brand){
+            event(new BrandDeleted($brand));
+            $brand->delete();
+        }
 
         $this->emit('swal:alert', [
             'icon' => 'success',
@@ -130,8 +135,12 @@ class BrandTable extends TableComponent
     {
         if($id){
             $restore_brand = Brand::withTrashed()
-                ->find($id)
-                ->restore();
+                ->where('id', $id)
+                ->first();
+
+            event(new BrandRestored($restore_brand));
+
+            $restore_brand->restore();
         }
 
         $this->emit('swal:alert', [

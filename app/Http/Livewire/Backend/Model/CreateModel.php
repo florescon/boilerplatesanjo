@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Backend\Model;
 
 use App\Models\ModelProduct;
 use Livewire\Component;
+use App\Events\ModelProduct\ModelProductCreated;
 
 class CreateModel extends Component
 {
@@ -34,11 +35,12 @@ class CreateModel extends Component
     {
         $validatedData = $this->validate();
 
-        ModelProduct::create($validatedData);
+        $model_product = ModelProduct::create($validatedData);
 
         $this->resetInputFields();
         $this->emit('modelStore');
 
+        event(new ModelProductCreated($model_product));
 
         $this->emit('swal:alert', [
             'icon' => 'success',

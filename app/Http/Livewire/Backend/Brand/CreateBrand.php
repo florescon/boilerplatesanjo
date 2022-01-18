@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Backend\Brand;
 
 use App\Models\Brand;
 use Livewire\Component;
+use App\Events\Brand\BrandCreated;
 
 class CreateBrand extends Component
 {
@@ -37,10 +38,12 @@ class CreateBrand extends Component
     {
         $validatedData = $this->validate();
 
-        Brand::create($validatedData);
+        $brand = Brand::create($validatedData);
 
         $this->resetInputFields();
         $this->emit('brandStore');
+
+        event(new BrandCreated($brand));
 
         $this->emit('swal:alert', [
             'icon' => 'success',

@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\TableComponent;
 use Rappasoft\LaravelLivewireTables\Traits\HtmlComponents;
 use Rappasoft\LaravelLivewireTables\Views\Column;
+use App\Events\ModelProduct\ModelProductDeleted;
+use App\Events\ModelProduct\ModelProductRestored;
 
 class ModelTable extends TableComponent
 {
@@ -111,15 +113,14 @@ class ModelTable extends TableComponent
         ];
     }
 
-    public function delete(int $id)
+    public function delete(ModelProduct $model_product)
     {
-        if($id){
-            $model = ModelProduct::where('id', $id);
-            $model->delete();
-
+        if($model_product){
+            event(new ModelProductDeleted($model_product));
+            $model_product->delete();
         }
 
-       $this->emit('swal:alert', [
+        $this->emit('swal:alert', [
             'icon' => 'success',
             'title'   => __('Deleted'), 
         ]);
@@ -127,10 +128,14 @@ class ModelTable extends TableComponent
 
     public function restore(int $id)
     {
-        if($id){
-            $restore_model = ModelProduct::withTrashed()
+       if($id){
+            $restore_model_product = ModelProduct::withTrashed()
                 ->where('id', $id)
-                ->restore();
+                ->first();
+
+            event(new ModelProductRestored($restore_model_product));
+
+            $restore_model_product->restore();
         }
 
       $this->emit('swal:alert', [

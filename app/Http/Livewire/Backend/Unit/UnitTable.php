@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\TableComponent;
 use Rappasoft\LaravelLivewireTables\Traits\HtmlComponents;
 use Rappasoft\LaravelLivewireTables\Views\Column;
+use App\Events\Unit\UnitDeleted;
+use App\Events\Unit\UnitRestored;
 
 class UnitTable extends TableComponent
 {
@@ -115,15 +117,14 @@ class UnitTable extends TableComponent
         ];
     }
 
-    public function delete(int $id)
+    public function delete(Unit $unit)
     {
-        if($id){
-            $unit = Unit::where('id', $id);
+        if($unit){
+            event(new UnitDeleted($unit));
             $unit->delete();
-
         }
 
-       $this->emit('swal:alert', [
+        $this->emit('swal:alert', [
             'icon' => 'success',
             'title'   => __('Deleted'), 
         ]);
@@ -131,13 +132,17 @@ class UnitTable extends TableComponent
 
     public function restore(int $id)
     {
-        if($id){
+       if($id){
             $restore_unit = Unit::withTrashed()
                 ->where('id', $id)
-                ->restore();
+                ->first();
+
+            event(new UnitRestored($restore_unit));
+
+            $restore_unit->restore();
         }
 
-      $this->emit('swal:alert', [
+        $this->emit('swal:alert', [
             'icon' => 'success',
             'title'   => __('Restored'), 
         ]);

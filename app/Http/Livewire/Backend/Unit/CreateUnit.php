@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Backend\Unit;
 
 use App\Models\Unit;
 use Livewire\Component;
+use App\Events\Unit\UnitCreated;
 
 class CreateUnit extends Component
 {
@@ -36,17 +37,17 @@ class CreateUnit extends Component
     {
         $validatedData = $this->validate();
 
-        Unit::create($validatedData);
+        $unit = Unit::create($validatedData);
 
         $this->resetInputFields();
         $this->emit('unitStore');
 
+        event(new UnitCreated($unit));
 
 		$this->emit('swal:alert', [
 		    'icon' => 'success',
 		    'title'   => __('Created'), 
 		]);
-
 
     	$this->emitTo('backend.unit.unit-table', 'triggerRefresh');
     }

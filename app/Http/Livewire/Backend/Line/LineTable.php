@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\TableComponent;
 use Rappasoft\LaravelLivewireTables\Traits\HtmlComponents;
 use Rappasoft\LaravelLivewireTables\Views\Column;
+use App\Events\Line\LineDeleted;
+use App\Events\Line\LineRestored;
 
 class LineTable extends TableComponent
 {
@@ -50,7 +52,6 @@ class LineTable extends TableComponent
         'bootstrap.classes.table' => 'table table-striped table-bordered',
         'bootstrap.classes.thead' => 'thead-dark border-bottom-3px',
         'bootstrap.responsive' => true,
-
     ];
 
     /**
@@ -111,15 +112,14 @@ class LineTable extends TableComponent
         ];
     }
 
-    public function delete(int $id)
+    public function delete(Line $line)
     {
-        if($id){
-            $line = Line::where('id', $id);
+        if($line){
+            event(new LineDeleted($line));
             $line->delete();
-
         }
 
-       $this->emit('swal:alert', [
+        $this->emit('swal:alert', [
             'icon' => 'success',
             'title'   => __('Deleted'), 
         ]);
@@ -127,13 +127,17 @@ class LineTable extends TableComponent
 
     public function restore(int $id)
     {
-        if($id){
+       if($id){
             $restore_line = Line::withTrashed()
                 ->where('id', $id)
-                ->restore();
+                ->first();
+
+            event(new LineRestored($restore_line));
+
+            $restore_line->restore();
         }
 
-      $this->emit('swal:alert', [
+        $this->emit('swal:alert', [
             'icon' => 'success',
             'title'   => __('Restored'), 
         ]);

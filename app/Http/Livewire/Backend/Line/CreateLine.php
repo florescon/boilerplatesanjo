@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Backend\Line;
 
 use App\Models\Line;
 use Livewire\Component;
+use App\Events\Line\LineCreated;
 
 class CreateLine extends Component
 {
@@ -34,11 +35,12 @@ class CreateLine extends Component
     {
         $validatedData = $this->validate();
 
-        Line::create($validatedData);
+        $line = Line::create($validatedData);
 
         $this->resetInputFields();
         $this->emit('lineStore');
 
+        event(new LineCreated($line));
 
 		$this->emit('swal:alert', [
 		    'icon' => 'success',

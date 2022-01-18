@@ -13,6 +13,10 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Exports\ColorsExport;
 use Excel;
 use Illuminate\Validation\Rule;
+use App\Events\Color\ColorCreated;
+use App\Events\Color\ColorUpdated;
+use App\Events\Color\ColorDeleted;
+use App\Events\Color\ColorRestored;
 
 class ColorTable extends Component
 {
@@ -162,7 +166,9 @@ class ColorTable extends Component
     {
         $validatedData = $this->validate();
 
-        Color::create($validatedData);
+        $color = Color::create($validatedData);
+
+        event(new ColorCreated($color));
 
         $this->resetInputFields();
         $this->emit('colorStore');
@@ -206,8 +212,8 @@ class ColorTable extends Component
             'secondary_color' => ''
         ]);
         if ($this->selected_id) {
-            $record = Color::find($this->selected_id);
-            $record->update([
+            $color = Color::find($this->selected_id);
+            $color->update([
                 'name' => $this->name,
                 'short_name' => $this->short_name,
                 'color' => $this->color,
@@ -216,9 +222,11 @@ class ColorTable extends Component
             $this->resetInputFields();
         }
 
+        event(new ColorUpdated($color));
+
         $this->emit('colorUpdate');
 
-       $this->emit('swal:alert', [
+        $this->emit('swal:alert', [
             'icon' => 'success',
             'title'   => __('Updated'), 
         ]);
@@ -250,14 +258,14 @@ class ColorTable extends Component
         return Excel::download(new ColorsExport($this->getSelectedColors()), 'colors.'.$extension);
     }
 
-    public function delete(int $id)
+    public function delete(Color $color)
     {
-        if($id){
-            $color = Color::where('id', $id);
+        if($color){
+            event(new ColorDeleted($color));
             $color->delete();
         }
 
-       $this->emit('swal:alert', [
+        $this->emit('swal:alert', [
             'icon' => 'success',
             'title'   => __('Deleted'), 
         ]);
@@ -268,10 +276,14 @@ class ColorTable extends Component
         if($id){
             $restore_color = Color::withTrashed()
                 ->where('id', $id)
-                ->restore();
+                ->first();
+
+            event(new ColorRestored($restore_color));
+
+            $restore_color->restore();
         }
 
-      $this->emit('swal:alert', [
+        $this->emit('swal:alert', [
             'icon' => 'success',
             'title'   => __('Restored'), 
         ]);

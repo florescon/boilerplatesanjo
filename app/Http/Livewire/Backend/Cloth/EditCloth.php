@@ -4,10 +4,10 @@ namespace App\Http\Livewire\Backend\Cloth;
 
 use App\Models\Cloth;
 use Livewire\Component;
+use App\Events\Cloth\ClothUpdated;
 
 class EditCloth extends Component
 {
-
     public $selected_id, $name, $slug;
 
     protected $listeners = ['edit'];
@@ -18,7 +18,6 @@ class EditCloth extends Component
         $this->selected_id = $id;
         $this->name = $record->name;
         $this->slug = $record->slug;
-
     }
 
     public function update()
@@ -28,12 +27,14 @@ class EditCloth extends Component
             'name' => 'required|min:3',
         ]);
         if ($this->selected_id) {
-            $record = Cloth::find($this->selected_id);
-            $record->update([
+            $cloth = Cloth::find($this->selected_id);
+            $cloth->update([
                 'name' => $this->name,
             ]);
             // $this->resetInputFields();
         }
+
+        event(new ClothUpdated($cloth));
 
         $this->emit('clothUpdate');
         $this->emitTo('backend.cloth.cloth-table', 'triggerRefresh');
@@ -42,9 +43,7 @@ class EditCloth extends Component
             'icon' => 'success',
             'title'   => __('Actualizado'), 
         ]);
-
     }
-
 
     public function render()
     {

@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Backend\Cloth;
 
 use App\Models\Cloth;
 use Livewire\Component;
+use App\Events\Cloth\ClothCreated;
 
 class ClothForm extends Component
 {
@@ -30,7 +31,6 @@ class ClothForm extends Component
     public function createmodal()
     {
         $this->resetInputFields();
-
     }
 
     public function updated($propertyName)
@@ -42,11 +42,12 @@ class ClothForm extends Component
     {
         $validatedData = $this->validate();
 
-        Cloth::create($validatedData);
+        $cloth = Cloth::create($validatedData);
+
+        event(new ClothCreated($cloth));
 
         $this->resetInputFields();
         $this->emit('clothStore');
-
 
 		$this->emit('swal:alert', [
 		    'icon' => 'success',

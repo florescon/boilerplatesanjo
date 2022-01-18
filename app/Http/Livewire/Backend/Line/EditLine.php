@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Backend\Line;
 
 use App\Models\Line;
 use Livewire\Component;
+use App\Events\Line\LineUpdated;
 
 class EditLine extends Component
 {
@@ -26,12 +27,14 @@ class EditLine extends Component
             'name' => 'required|min:3',
         ]);
         if ($this->selected_id) {
-            $record = Line::find($this->selected_id);
-            $record->update([
+            $line = Line::find($this->selected_id);
+            $line->update([
                 'name' => $this->name,
             ]);
             // $this->resetInputFields();
         }
+
+        event(new LineUpdated($line));
 
         $this->emit('lineUpdate');
         $this->emitTo('backend.line.line-table', 'triggerRefresh');

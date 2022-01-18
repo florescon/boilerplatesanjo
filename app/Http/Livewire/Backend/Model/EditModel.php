@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Backend\Model;
 
 use App\Models\ModelProduct;
 use Livewire\Component;
+use App\Events\ModelProduct\ModelProductUpdated;
 
 class EditModel extends Component
 {
@@ -27,17 +28,19 @@ class EditModel extends Component
             'name' => 'required|min:3',
         ]);
         if ($this->selected_id) {
-            $record = ModelProduct::find($this->selected_id);
-            $record->update([
+            $model_product = ModelProduct::find($this->selected_id);
+            $model_product->update([
                 'name' => $this->name,
             ]);
             // $this->resetInputFields();
         }
 
+        event(new ModelProductUpdated($model_product));
+
         $this->emit('modelUpdate');
         $this->emitTo('backend.model.model-table', 'triggerRefresh');
 
-       $this->emit('swal:alert', [
+        $this->emit('swal:alert', [
             'icon' => 'success',
             'title'   => __('Actualizado'), 
         ]);

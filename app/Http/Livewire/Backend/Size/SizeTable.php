@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\TableComponent;
 use Rappasoft\LaravelLivewireTables\Traits\HtmlComponents;
 use Rappasoft\LaravelLivewireTables\Views\Column;
+use App\Events\Size\SizeDeleted;
+use App\Events\Size\SizeRestored;
 
 class SizeTable extends TableComponent
 {
@@ -127,6 +129,9 @@ class SizeTable extends TableComponent
 
     public function delete(Size $size)
     {
+
+        event(new SizeDeleted($size));
+
         $size->delete();
 
         $this->emit('swal:alert', [
@@ -138,9 +143,11 @@ class SizeTable extends TableComponent
     public function restore(?int $id = null)
     {
         if($id){
-            $restore_size = Size::withTrashed()
-                ->find($id)
-                ->restore();
+            $restore_size = Size::withTrashed()->find($id);
+
+            event(new SizeRestored($restore_size));
+
+            $restore_size->restore();
         }
 
         $this->emit('swal:alert', [
