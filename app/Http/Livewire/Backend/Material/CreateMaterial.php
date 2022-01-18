@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Backend\Material;
 use App\Models\Material;
 use App\Models\Color;
 use Livewire\Component;
+use App\Events\Material\MaterialCreated;
 
 class CreateMaterial extends Component
 {
@@ -50,7 +51,7 @@ class CreateMaterial extends Component
         try {
             $this->validate();
 
-            Material::create([
+            $material = Material::create([
                 'part_number' => $this->part_number ? $this->part_number : null,
                 'name' => $this->name,                
                 'price' => $this->price,                
@@ -62,6 +63,8 @@ class CreateMaterial extends Component
                 'description' => $this->description ? $this->description : null,                
 
             ]);
+
+            event(new MaterialCreated($material));
 
             $this->resetInputFields();
 

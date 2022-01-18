@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\TableComponent;
 use Rappasoft\LaravelLivewireTables\Traits\HtmlComponents;
 use Rappasoft\LaravelLivewireTables\Views\Column;
+use App\Events\Material\MaterialDeleted;
+use App\Events\Material\MaterialRestored;
 
 class MaterialTable extends TableComponent
 {
@@ -148,26 +150,29 @@ class MaterialTable extends TableComponent
         ];
     }
 
-    public function delete($id)
+    public function delete(Material $material)
     {
-        if($id){
-            $color = Material::where('id', $id);
-            $color->delete();
-
+        if($material){
+            event(new MaterialDeleted($material));
+            $material->delete();
         }
 
-       $this->emit('swal:alert', [
+        $this->emit('swal:alert', [
             'icon' => 'success',
             'title'   => __('Deleted'), 
         ]);
     }
 
-    public function restore($id)
+    public function restore(int $id)
     {
-        if($id){
+       if($id){
             $restore_material = Material::withTrashed()
                 ->where('id', $id)
-                ->restore();
+                ->first();
+
+            event(new MaterialRestored($restore_material));
+
+            $restore_material->restore();
         }
 
       $this->emit('swal:alert', [

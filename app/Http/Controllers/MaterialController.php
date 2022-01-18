@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Material;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Events\Material\MaterialUpdated;
 
 class MaterialController extends Controller
 {
@@ -42,6 +43,8 @@ class MaterialController extends Controller
         ]);
 
         $materialUpdated = $material->update($validated);
+
+        event(new MaterialUpdated($material));
 
         return redirect()->route('admin.material.edit', $material->id)->withFlashSuccess(__('The feedstock was successfully updated.'));
     }
