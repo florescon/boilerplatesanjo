@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Backend\Service;
 
 use Livewire\Component;
 use App\Models\Product;
+use App\Events\Service\ServiceCreated;
 
 class CreateService extends Component
 {
@@ -39,7 +40,7 @@ class CreateService extends Component
         try {
             $this->validate();
 
-            Product::create([
+            $service = Product::create([
                 'name' => $this->name,                
                 'code' => $this->code ?: null,                
                 'price' => $this->price,                
@@ -51,6 +52,8 @@ class CreateService extends Component
             $this->emit('serviceStore');
 
             $this->emitTo('backend.service.service-table', 'triggerRefresh');
+
+            event(new ServiceCreated($service));
 
             $this->emit('swal:alert', [
                 'icon' => 'success',

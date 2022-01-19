@@ -12,6 +12,7 @@ use App\Listeners\UnitEventListener;
 use App\Listeners\BrandEventListener;
 use App\Listeners\ModelProductEventListener;
 use App\Listeners\MaterialEventListener;
+use App\Listeners\ServiceEventListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -54,6 +55,7 @@ class EventServiceProvider extends ServiceProvider
         BrandEventListener::class,
         ModelProductEventListener::class,
         MaterialEventListener::class,
+        ServiceEventListener::class,
     ];
 
     /**

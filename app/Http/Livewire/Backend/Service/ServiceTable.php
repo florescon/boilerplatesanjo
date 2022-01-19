@@ -10,6 +10,9 @@ use App\Http\Livewire\Backend\DataTable\WithBulkActions;
 use App\Http\Livewire\Backend\DataTable\WithCachedRows;
 use Carbon\Carbon;
 use Illuminate\Validation\Rule;
+use App\Events\Service\ServiceUpdated;
+use App\Events\Service\ServiceDeleted;
+use App\Events\Service\ServiceRestored;
 
 class ServiceTable extends Component
 {
@@ -121,8 +124,8 @@ class ServiceTable extends Component
         ]);
 
         if ($this->selected_id) {
-            $record = Product::find($this->selected_id);
-            $record->update([
+            $service = Product::find($this->selected_id);
+            $service->update([
                 'name' => $this->name,
                 'code' => $this->code,
                 'price' => $this->price
@@ -130,18 +133,26 @@ class ServiceTable extends Component
             $this->resetInputFields();
         }
 
+        event(new ServiceUpdated($service));
+
         $this->emit('serviceUpdate');
 
-       $this->emit('swal:alert', [
+        $this->emit('swal:alert', [
             'icon' => 'success',
             'title'   => __('Updated'), 
         ]);
     }
 
-    public function restore($id)
+    public function restore(int $id)
     {
-        if($id){
-            Product::withTrashed()->find($id)->restore();
+       if($id){
+            $restore_service = Product::withTrashed()
+                ->where('id', $id)
+                ->first();
+
+            event(new ServiceRestored($restore_service));
+
+            $restore_service->restore();
         }
 
         $this->emit('swal:alert', [
@@ -152,10 +163,12 @@ class ServiceTable extends Component
 
     public function delete(Product $service)
     {
-        if($service)
+        if($service){
+            event(new ServiceDeleted($service));
             $service->delete();
+        }
 
-       $this->emit('swal:alert', [
+        $this->emit('swal:alert', [
             'icon' => 'success',
             'title'   => __('Deleted'), 
         ]);
