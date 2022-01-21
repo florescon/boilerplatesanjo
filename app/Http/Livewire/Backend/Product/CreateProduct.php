@@ -7,6 +7,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use App\Events\Product\ProductCreated;
 
 class CreateProduct extends Component
 {
@@ -80,6 +81,8 @@ class CreateProduct extends Component
                 // ]);
             }
         }
+
+        event(new ProductCreated($product));
 
         $this->emit('swal:alert', [
             'icon' => 'success',

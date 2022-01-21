@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Exceptions\GeneralException;
 use Exception;
 use PDF;
+use App\Events\Product\ProductDeleted;
 
 class ProductController extends Controller
 {
@@ -179,6 +180,7 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         if($product->id){
+            event(new ProductDeleted($product));
             $product->delete();
         }
         return redirect()->route('admin.product.index')->withFlashSuccess(__('The product was successfully deleted.'));

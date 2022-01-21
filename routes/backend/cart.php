@@ -37,5 +37,3 @@ Route::group([
                 ->push(__('Cart Management'), route('admin.cart.from_store'));
         });
 });
-
-

@@ -98,6 +98,13 @@
                             :text="__('Session logins')"
                             :active="activeClass(Route::is('admin.logged.*'), 'c-active')" />
                     </li>
+                    <li class="c-sidebar-nav-item">
+                        <x-utils.link
+                            :href="route('admin.activity.index')"
+                            class="c-sidebar-nav-link"
+                            :text="__('Activity panel')"
+                            :active="activeClass(Route::is('admin.activity.*'), 'c-active')" />
+                    </li>
                 </ul>
             </li>
         @endif

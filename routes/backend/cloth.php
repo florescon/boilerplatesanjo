@@ -4,7 +4,6 @@ use App\Http\Controllers\ClothController;
 use App\Models\Cloth;
 use Tabuna\Breadcrumbs\Trail;
 
-
 Route::group([
     'prefix' => 'cloth',
     'as' => 'cloth.',
@@ -24,8 +23,4 @@ Route::group([
             $trail->parent('admin.cloth.index')
                 ->push(__('Deleted cloths'), route('admin.cloth.deleted'));
         });
-
-
 });
-
-

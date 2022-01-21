@@ -4,7 +4,6 @@ use App\Http\Controllers\MaterialController;
 use App\Models\Material;
 use Tabuna\Breadcrumbs\Trail;
 
-
 Route::group([
     'prefix' => 'material',
     'as' => 'material.',
@@ -17,7 +16,6 @@ Route::group([
             $trail->parent('admin.dashboard')
                 ->push(__('Feedstock Management'), route('admin.material.index'));
         });
-
 
     Route::group(['prefix' => '{material}'], function () {
         Route::get('edit', [MaterialController::class, 'edit'])

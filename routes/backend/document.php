@@ -24,5 +24,4 @@ Route::group([
         Route::get('download_emb', [DocumentController::class, 'download_emb'])
             ->name('download_emb');
     });
-
 });

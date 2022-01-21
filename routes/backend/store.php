@@ -83,9 +83,6 @@ Route::group([
                         ->push(__('Show daily cash closing').': #'.$box->id, route('admin.store.box.show', $box));
                 });
         });
-
-
     });
-
 
 });

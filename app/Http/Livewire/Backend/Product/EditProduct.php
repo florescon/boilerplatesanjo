@@ -7,6 +7,12 @@ use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
 use App\Facades\Cart;
 use Illuminate\Validation\Rule;
+use App\Events\Product\ProductNameChanged;
+use App\Events\Product\ProductCodeChanged;
+use App\Events\Product\ProductDescriptionChanged;
+use App\Events\Product\ProductLineChanged;
+use App\Events\Product\ProductBrandChanged;
+use App\Events\Product\ProductModelChanged;
 
 class EditProduct extends Component
 {
@@ -84,19 +90,34 @@ class EditProduct extends Component
 
     public function saveLine()
     {
-        Product::whereId($this->product_id)->update(['line_id' => $this->line_id]);
+        $productUpdated = Product::find($this->product_id);
+        $productUpdated->update([
+            'line_id' => $this->line_id,
+        ]);
+        event(new ProductLineChanged($productUpdated));
+
         return $this->redirectRoute('admin.product.edit', $this->product_id);
     }
 
     public function saveBrand()
     {
-        Product::whereId($this->product_id)->update(['brand_id' => $this->brand_id]);
+        $productUpdated = Product::find($this->product_id);
+        $productUpdated->update([
+            'brand_id' => $this->brand_id,
+        ]);
+        event(new ProductBrandChanged($productUpdated));
+
         return $this->redirectRoute('admin.product.edit', $this->product_id);
     }
 
     public function saveModel()
     {
-        Product::whereId($this->product_id)->update(['model_product_id' => $this->model_product]);
+        $productUpdated = Product::find($this->product_id);
+        $productUpdated->update([
+            'model_product_id' => $this->model_product,
+        ]);
+        event(new ProductModelChanged($productUpdated));
+
         return $this->redirectRoute('admin.product.edit', $this->product_id);
     }
 
@@ -188,6 +209,8 @@ class EditProduct extends Component
         $product->description = $newDescription ?? null;
         $product->save();
 
+        event(new ProductDescriptionChanged($product));
+
         $this->init($product); // re-initialize the component state with fresh data after saving
 
         $this->emit('swal:alert', [
@@ -210,6 +233,8 @@ class EditProduct extends Component
 
         $this->initname($product); // re-initialize the component state with fresh data after saving
 
+        event(new ProductNameChanged($product));
+
         $this->emit('swal:alert', [
            'icon' => 'success',
             'title'   => __('Updated at'), 
@@ -228,6 +253,8 @@ class EditProduct extends Component
 
         $product->code = $newCode ?? null;
         $product->save();
+
+        event(new ProductCodeChanged($product));
 
         $this->initcode($product); // re-initialize the component state with fresh data after saving
 

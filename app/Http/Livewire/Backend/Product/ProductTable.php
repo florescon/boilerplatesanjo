@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Livewire\Backend\DataTable\WithBulkActions;
 use App\Http\Livewire\Backend\DataTable\WithCachedRows;
 use Carbon\Carbon;
+use App\Events\Product\ProductRestored;
 
 class ProductTable extends Component
 {
@@ -85,7 +86,13 @@ class ProductTable extends Component
     public function restore($id)
     {
         if($id){
-            Product::withTrashed()->find($id)->restore();
+            $restore_product = Product::withTrashed()
+                ->where('id', $id)
+                ->first();
+
+            event(new ProductRestored($restore_product));
+
+            $restore_product->restore();
         }
 
         $this->emit('swal:alert', [
