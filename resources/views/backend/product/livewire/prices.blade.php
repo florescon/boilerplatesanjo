@@ -67,7 +67,7 @@
                                                 <div class="dropdown-menu">
                                                   <a class="dropdown-item" href="#" wire:click="saveRetail">@lang('Only save')</a>
                                                   <div role="separator" class="dropdown-divider"></div>
-                                                  <a class="dropdown-item" href="#">@lang('Save and clear all retail price variants')</a>
+                                                  <a class="dropdown-item" href="#" wire:click="saveRetail(true)">@lang('Save and clear all retail price variants')</a>
                                                 </div>
                                               </div>
                                             </div>
@@ -87,7 +87,7 @@
                                                 <div class="dropdown-menu">
                                                   <a class="dropdown-item" href="#" wire:click="saveAverageWholesale">@lang('Only save')</a>
                                                   <div role="separator" class="dropdown-divider"></div>
-                                                  <a class="dropdown-item" href="#">@lang('Save and clear all average wholesale price variants')</a>
+                                                  <a class="dropdown-item" wire:click="saveAverageWholesale(true)" href="#">@lang('Save and clear all average wholesale price variants')</a>
                                                 </div>
                                               </div>
                                             </div>
@@ -107,7 +107,7 @@
                                                 <div class="dropdown-menu">
                                                   <a class="dropdown-item" href="#" wire:click="saveWholesale">@lang('Only save')</a>
                                                   <div role="separator" class="dropdown-divider"></div>
-                                                  <a class="dropdown-item" href="#">@lang('Save and clear all wholesale price variants')</a>
+                                                  <a class="dropdown-item" wire:click="saveWholesale(true)" href="#">@lang('Save and clear all wholesale price variants')</a>
                                                 </div>
                                               </div>
                                             </div>
@@ -128,14 +128,34 @@
                                         <th>#</th>
                                         <th>@lang('Product name')</th>
                                         <th class="table-secondary">@lang('Code')</th>
-                                        <th class="table-secondary">@lang('Price')</th>
+                                        <th class="table-secondary">@lang('Retail price')</th>
                                         @if($customPrices == true)
-                                        <th class="table-secondary col-2"></th>
+                                            <th class="table-secondary col-2"></th>
+                                        @endif
+                                        <th class="table-secondary">@lang('Average wholesale price')</th>
+                                        @if($customPrices == true)
+                                            <th class="table-secondary col-2"></th>
+                                        @endif
+                                        <th class="table-secondary">@lang('Wholesale price')</th>
+                                        @if($customPrices == true)
+                                            <th class="table-secondary col-2"></th>
                                         @endif
                                     </tr>
                                 </thead>
 
                                 @error('productModel.*.price')
+                                    <span class="error" style="color: red;">
+                                        <p>{{ $message }}</p>
+                                    </span>
+                                @enderror
+
+                                @error('productModel.*.average_wholesale_price')
+                                    <span class="error" style="color: red;">
+                                        <p>{{ $message }}</p>
+                                    </span>
+                                @enderror
+
+                                @error('productModel.*.wholesale_price')
                                     <span class="error" style="color: red;">
                                         <p>{{ $message }}</p>
                                     </span>
@@ -159,11 +179,36 @@
                                                 <input type="number" 
                                                     wire:model.lazy="productModel.{{ $key }}.price"
                                                     wire:keydown.enter="save" 
-                                                    class="form-control" placeholder="{{ $product_price }}"
+                                                    class="form-control" placeholder="{{ number_format((float)$subproduct->price_subproduct, 2) }}"
                                                     step="any" 
                                                 >
                                               </td>
                                           @endif
+
+                                          <td class="table-info">${!! number_format((float)$subproduct->price_average_wholesale_subproduct, 2) !!}</td>
+                                          @if($customPrices == true)
+                                              <td class="table-info"> 
+                                                <input type="number" 
+                                                    wire:model.lazy="productModel.{{ $key }}.average_wholesale_price"
+                                                    wire:keydown.enter="save" 
+                                                    class="form-control" placeholder="{!! number_format((float)$subproduct->price_average_wholesale_subproduct, 2) !!}"
+                                                    step="any" 
+                                                >
+                                              </td>
+                                          @endif
+
+                                          <td class="table-info">${!! number_format((float)$subproduct->price_wholesale_subproduct, 2) !!}</td>
+                                          @if($customPrices == true)
+                                              <td class="table-info"> 
+                                                <input type="number" 
+                                                    wire:model.lazy="productModel.{{ $key }}.wholesale_price"
+                                                    wire:keydown.enter="save" 
+                                                    class="form-control" placeholder="{!! number_format((float)$subproduct->price_wholesale_subproduct, 2) !!}"
+                                                    step="any" 
+                                                >
+                                              </td>
+                                          @endif
+
                                         </tr>
                                     @endforeach
 

@@ -10,6 +10,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use App\Models\Traits\Scope\ProductScope;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use App\Domains\Auth\Models\User;
 
 class Product extends Model
 {
@@ -239,13 +240,47 @@ class Product extends Model
         return $this->price;
     }
 
+    /**
+     * @return bool
+     */
+    public function hasAverageWholesalePriceSubproduct()
+    {
+        return $this->average_wholesale_price;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasWholesalePriceSubproduct()
+    {
+        return $this->wholesale_price;
+    }
+
     public function getPriceSubproductAttribute()
     {
         if(!$this->hasPriceSubproduct()){
             return $this->parent->price." <span class='badge badge-secondary'>".__('General').'</span>';
         }
 
-        return $this->price;
+        return $this->price != 0 ? $this->price : $this->parent->price;
+    }
+
+    public function getPriceAverageWholesaleSubproductAttribute()
+    {
+        if(!$this->hasAverageWholesalePriceSubproduct()){
+            return $this->parent->average_wholesale_price." <span class='badge badge-secondary'>".__('General').'</span>';
+        }
+
+        return $this->average_wholesale_price != 0 ? $this->average_wholesale_price : $this->parent->average_wholesale_price;
+    }
+
+    public function getPriceWholesaleSubproductAttribute()
+    {
+        if(!$this->hasWholesalePriceSubproduct()){
+            return $this->parent->wholesale_price." <span class='badge badge-secondary'>".__('General').'</span>';
+        }
+
+        return $this->wholesale_price != 0 ? $this->wholesale_price : $this->parent->wholesale_price;
     }
 
     public function getPriceSubproductLabelAttribute()
@@ -255,6 +290,29 @@ class Product extends Model
         }
 
         return $this->price;
+    }
+
+    public function getPrice(string $type_price = null)
+    {
+        switch ($type_price) {
+            case User::PRICE_RETAIL:
+                if(!$this->hasPriceSubproduct())
+                    return $this->parent->price;
+                else
+                    return $this->price != 0 ? $this->price : $this->parent->price;
+            case User::PRICE_AVERAGE_WHOLESALE:
+                if(!$this->hasAverageWholesalePriceSubproduct())
+                    return $this->parent->average_wholesale_price;
+                else
+                    return $this->average_wholesale_price != 0 ? $this->average_wholesale_price : $this->parent->average_wholesale_price;
+            case User::PRICE_WHOLESALE:
+                if(!$this->hasWholesalePriceSubproduct())
+                    return $this->wholesale_price != 0 ? $this->wholesale_price : $this->parent->wholesale_price;
+                else
+                    return $this->wholesale_price;
+        }
+
+        return $this->price != 0 ? $this->price : $this->parent->price;
     }
 
     /**

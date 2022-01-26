@@ -9,6 +9,7 @@ use App\Models\ProductOrder;
 use Session;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Domains\Auth\Models\User;
 
 class Cart extends Component
 {
@@ -18,7 +19,7 @@ class Cart extends Component
 
     public $isVisible = false;
 
-    protected $listeners = ['selectPaymentMethod', 'selectedCompanyItem', 'selectedDeparament', 'cartUpdated' => '$refresh'];
+    protected $listeners = ['selectPaymentMethod', 'selectedCompanyItem', 'selectedDeparament', 'cartUpdated' => '$refresh', 'selected' => 'render'];
 
     protected $rules = [
         'user' => 'required_without:departament|prohibited_unless:departament,null',
@@ -33,25 +34,36 @@ class Cart extends Component
         $this->init();
         if ($user) {
             $this->user = $user;
+            CartFacade::addUser(User::select('id', 'name')->
+                with(array('customer' => function($query) {
+                    $query->select('id', 'user_id', 'type_price');
+                }))->get()
+                ->find($user));
+            $this->emit('selected');
         }
-        else
+        else{
             $this->user = null;
+        }
     }
 
     public function selectPaymentMethod($payment_method)
     {
-        if ($payment_method)
+        if ($payment_method){
             $this->payment_method = $payment_method;
-        else
+        }
+        else{
             $this->payment_method = null;
+        }
     }
 
     public function selectedDeparament($departament)
     {
-        if ($departament)
+        if ($departament){
             $this->departament = $departament;
-        else
+        }
+        else{
             $this->departament = null;
+        }
     }
 
     public function updatedIsVisible()
@@ -83,6 +95,14 @@ class Cart extends Component
         $this->cart = CartFacade::get();
     }
 
+    public function clearUser()
+    {
+        CartFacade::clearUser();
+        $this->cart = CartFacade::get();
+
+        return redirect()->back();
+    }
+
     public function clearInput(): void
     {
         $this->inputedit = [];
@@ -110,6 +130,11 @@ class Cart extends Component
         $cart = CartFacade::get()['products'];
         $cartSale = CartFacade::get()['products_sale'];
 
+        $cartuser = CartFacade::get()['user'][0] ?? null;
+
+        if($cartuser != null){
+            $type_price = $cartuser->customer->type_price ?? 'retail';
+        }
         $order = new Order();
         $order->user_id = $this->isVisible == true  ? null : $this->user;
         $order->departament_id = $this->isVisible == true  ? null : $this->departament;
@@ -128,8 +153,7 @@ class Cart extends Component
                     $order->product_order()->create([
                         'product_id' => $item->id,
                         'quantity' => $item->amount,
-                        'price' =>  !is_null($item->price) || $item->price != 0 ? 
-                                        $item->price : $item->parent->price,
+                        'price' =>  $cartuser ? $item->getPrice($type_price) : $item->price,
                         'type' => 1,
                     ]);
                 }
@@ -163,6 +187,7 @@ class Cart extends Component
     public function render()
     {
         $cartVar = CartFacade::get();
+        // dd($cartVar);
         return view('backend.cart.livewire.cart')->with(compact('cartVar'));
     }
 }

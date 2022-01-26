@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\Product;
+use App\Domains\Auth\Models\User;
 
 class Cart
 {
@@ -33,6 +34,17 @@ class Cart
         $this->set($cart);
     }
 
+    public function addUser(User $user): void
+    {
+        $cart = $this->get();
+        $cartUserId = array_column($cart['user'], 'id');
+
+        array_splice($cart['user'], 0, 1);
+
+        array_push($cart['user'], $user);
+        $this->set($cart);
+    }
+
     public function remove(int $productId, string $typeCart): void
     {
         $cart = $this->get();
@@ -45,11 +57,19 @@ class Cart
         $this->set($this->empty());
     }
 
+    public function clearUser(): void
+    {
+        $cart = $this->get();
+        array_splice($cart['user'], 0, 1);
+        $this->set($cart);
+    }
+
     public function empty(): array
     {
         return [
             'products' => [],
             'products_sale' => [],
+            'user' => [],
         ];
     }
     

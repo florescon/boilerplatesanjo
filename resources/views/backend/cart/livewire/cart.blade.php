@@ -3,11 +3,15 @@
 	@if(count($cartVar['products']) > 0)
 		<x-slot name="header">
             <strong style="color: #0061f2;"> @lang('Cart order') </strong>
+            {{-- @json($cartVar['user'][0]) --}}
 	 	</x-slot>
 	@endif
 
   	<x-slot name="headerActions">
       <x-utils.link class="card-header-action" wire:click="clearCartAll" :text="__('Clear cart')" />
+      	@if(count($cartVar['user']))
+	    	<x-utils.link class="card-header-action" wire:click="clearUser" :text="__('Clear user')" />
+		@endif
 	</x-slot>
 
     <x-slot name="body">
@@ -32,6 +36,8 @@
 				@endif
 			</div>
 		</div>
+
+		{{-- @json($cartVar['products']) --}}
 
         @if(count($cartVar['products']) > 0 || count($cartVar['products_sale']))
 		<div class="row ">
@@ -65,8 +71,7 @@
 						      	@if($product->type == false)
 				                    <livewire:backend.cart-update-price-form :item="$product" :key="$product->id" :typeCart="'products'" />
 							    @else
-							      	${{!is_null($product->price) || $product->price != 0 ? 
-							      			$product->price : $product->parent->price 
+							      	${{ $product->getPrice($cartVar['user'][0]->customer->type_price ?? 'retail'); 
 							      	}}
 							    @endif
 						      </td>
@@ -112,9 +117,11 @@
 						      	@if($product_sale->type == false)
 				                    <livewire:backend.cart-update-price-form :item="$product_sale" :key="$product_sale->id" :typeCart="'products_sale'" />
 							    @else
-							      	${{!is_null($product_sale->price) || $product_sale->price != 0 ? 
-							      			$product_sale->price : $product_sale->parent->price 
+							      	${{ $product_sale->getPrice($cartVar['user'][0]->customer->type_price ?? 'retail'); 
 							      	}}
+							      	{{-- ${{!is_null($product_sale->price) || $product_sale->price != 0 ? 
+							      			$product_sale->price : $product_sale->parent->price 
+							      	}} --}}
 							    @endif
 						      </td>
 						      <td>

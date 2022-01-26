@@ -149,7 +149,7 @@
             @endif
           </div>
 
-          @if($model->user_id || $model->departament->id)
+          @if($model->user_id || $model->departament_id)
             <div class="card-footer text-center">
               <div class="row">
                 <div class="col-6 col-lg-6">

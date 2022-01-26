@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Backend\Header;
 
 use Livewire\Component;
 use App\Facades\Cart;
+use Illuminate\Support\Arr;
 
 class HeaderCart extends Component
 {
@@ -23,8 +24,8 @@ class HeaderCart extends Component
 
     public function mount(): void
     {
-        $this->cartTotal = count(Cart::get()['products']);
-        $this->cartTotalSale = count(Cart::get()['products_sale']);
+        $this->cartTotal = Arr::exists(Cart::get(), 'products') ? count(Cart::get()['products']) : 0;
+        $this->cartTotalSale = Arr::exists(Cart::get(), 'products_sale') ? count(Cart::get()['products_sale']) : 0;
     }
 
     public function updateCartTotal(): void
