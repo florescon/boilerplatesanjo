@@ -70,7 +70,7 @@
                       </strong>
                     </h3>     
                     <p class="text-left">
-                      {!! optional($shop->advanced)->information !!}
+                      {!! clean(optional($shop->advanced)->information) !!}
                     </p>
                   @endif
 
@@ -83,7 +83,7 @@
                       </strong>
                     </h3>     
                     <p class="text-left">
-                      {!! optional($shop->advanced)->standards !!}
+                      {!! clean(optional($shop->advanced)->standards) !!}
                     </p>
                   @endif
               </div>
@@ -102,7 +102,7 @@
                     </h3>     
 
                     <p class="text-left">
-                      {!! optional($shop->advanced)->dimensions !!}
+                      {!! clean(optional($shop->advanced)->dimensions) !!}
                     </p>
                   @endif
 
@@ -113,7 +113,7 @@
                       </strong>
                     </h3>     
                     <p class="text-left">
-                      {!! optional($shop->advanced)->extra !!}
+                      {!! clean(optional($shop->advanced)->extra) !!}
                     </p>
                   @endif
 
@@ -132,7 +132,7 @@
                     </h3>     
 
                     <p class="text-left">
-                      {!! optional($shop->advanced)->description !!}
+                      {!! clean(optional($shop->advanced)->description) !!}
                     </p>
                   @endif
               </div>

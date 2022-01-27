@@ -3,7 +3,7 @@
 use App\Http\Controllers\Frontend\ShopController;
 use App\Models\Frontend\Product;
 use Tabuna\Breadcrumbs\Trail;
-
+use App\Http\Middleware\XSS;
 
 Route::group([
     'prefix' => 'shop',
@@ -16,7 +16,7 @@ Route::group([
             ->push(__('Shop'), route('frontend.shop.index'));
     });
 
-	Route::group(['prefix' => '{shop}'], function () {
+	Route::group(['prefix' => '{shop}', 'middleware' => ['XSS']], function () {
 	    Route::get('/', [ShopController::class, 'show'])
 	        ->name('show')
 	        ->breadcrumbs(function (Trail $trail, Product $shop) {
