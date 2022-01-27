@@ -1,66 +1,3 @@
-body{
-    background-color:#f3f3f3;
-    font-size:.875em;
-    overflow-x:hidden;
-    color:#455a64;
-    font-family:open sans,sans-serif;
-    background-attachment:fixed;
-    background-image:linear-gradient(rgba(255,255,255,0.2) 180px,rgba(255,255,255,0.9) 0%)
-}
-ul{
-    padding-left:0;
-    list-style-type:none;
-    margin-bottom:0
-}
-*:focus{
-    outline:none
-}
-a{
-    font-size:13px;
-    color:#37474f;
-    -webkit-transition:all .3s ease-in-out;
-    transition:all .3s ease-in-out
-}
-@media only screen and (min-width:1400px){
-    a{
-        font-size:14px
-    }
-}
-a:focus,a:hover{
-    text-decoration:none;
-    color:#448aff
-}
-h1,h2,h3,h4,h5,h6{
-    font-weight:600
-}
-h1{
-    font-size:40px
-}
-h2{
-    font-size:32px
-}
-h3{
-    font-size:28px
-}
-h4{
-    font-size:22px
-}
-h5{
-    font-size:20px
-}
-h6{
-    font-size:14px
-}
-p{
-    font-size:13px
-}
-b,strong{
-    font-weight:500
-}
-code{
-    padding:0 3px;
-    border-radius:3px
-}
 .media-left{
     padding-right:20px
 }
@@ -3135,27 +3072,6 @@ select.form-control:not([size]):not([multiple]){
 .label-warning{
     color:#fff
 }
-.badge-primary{
-    background:#448aff
-}
-.badge-warning{
-    background:#ffe100
-}
-.badge-default{
-    background:#d6d6d6
-}
-.badge-danger{
-    background:#ff5252
-}
-.badge-success{
-    background:#11c15b
-}
-.badge-inverse{
-    background:#37474f
-}
-.badge-info{
-    background:#00bcd4
-}
 .bg-color-box{
     text-align:center;
     display:inline-block;
@@ -3168,34 +3084,6 @@ select.form-control:not([size]):not([multiple]){
     cursor:pointer
 }
 .bg-color-box span{
-    color:#fff
-}
-.bg-primary{
-    background-color:#448aff!important;
-    color:#fff
-}
-.bg-warning{
-    background-color:#ffe100!important;
-    color:#fff
-}
-.bg-default{
-    background-color:#d6d6d6!important;
-    color:#fff
-}
-.bg-danger{
-    background-color:#ff5252!important;
-    color:#fff
-}
-.bg-success{
-    background-color:#11c15b!important;
-    color:#fff
-}
-.bg-inverse{
-    background-color:#37474f!important;
-    color:#fff
-}
-.bg-info{
-    background-color:#00bcd4!important;
     color:#fff
 }
 .color-primary{
@@ -5130,10 +5018,6 @@ body.menu-bottom #collapse-menu{
 .pcoded .pcoded-navbar .pcoded-item .pcoded-hasmenu[subitem-icon=style7] .pcoded-submenu>li.active>a>.pcoded-mtext:after,.pcoded .pcoded-navbar .pcoded-item .pcoded-hasmenu[subitem-icon=style7] .pcoded-submenu>li:hover>a>.pcoded-mtext:after{
     background-color:#38a9f9
 }
-.btn-default .badge{
-    background-color:#fff;
-    color:#e0e0e0
-}
 .btn{
     border-radius:2px;
     text-transform:capitalize;
@@ -5596,26 +5480,6 @@ body.menu-bottom #collapse-menu{
     padding:5px 10px;
     line-height:14px;
     font-size:10px
-}
-.btn-primary .badge,.sweet-alert button.confirm .badge,.wizard>.actions a .badge{
-    color:#448aff;
-    background-color:#fff
-}
-.btn-success .badge{
-    color:#11c15b;
-    background-color:#fff
-}
-.btn-info .badge{
-    color:#00bcd4;
-    background-color:#fff
-}
-.btn-warning .badge{
-    color:#ffe100;
-    background-color:#fff
-}
-.btn-danger .badge{
-    color:#ff5252;
-    background-color:#fff
 }
 .btn-dribbble,.btn-dropbox,.btn-facebook,.btn-flickr,.btn-github,.btn-google-plus,.btn-instagram,.btn-linkedin,.btn-pinterest,.btn-skype,.btn-tumblr,.btn-twitter,.btn-youtube{
     color:#fff
@@ -7097,44 +6961,11 @@ select.form-control,select.form-control:focus,select.form-control:hover{
     vertical-align:middle;
     margin:8px 5px
 }
-.badge{
-    border-radius:10px;
-    padding:3px 7px
-}
-.badge-top-left{
-    margin-right:-10px;
-    right:100%;
-    top:-3px
-}
-.badge-top-right{
-    margin-left:-10px;
-    top:-3px
-}
-.badge-bottom-left{
-    margin-left:-33px;
-    bottom:-12px;
-    right:97%
-}
-.badge-bottom-right{
-    margin-left:-10px;
-    bottom:-12px
-}
 .label.label-lg{
     padding:8px 21px
 }
 .label.label-md{
     padding:6px 14px
-}
-.badge-lg{
-    padding:5px 9px;
-    font-size:14px
-}
-.badge-md{
-    padding:4px 8px;
-    font-size:14px
-}
-span.badge{
-    display:inline-block!important
 }
 .label-default{
     background-color:#d6d6d6!important;

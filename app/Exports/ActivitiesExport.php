@@ -11,7 +11,7 @@ use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class ActivitiesExport implements FromCollection, WithMapping, WithHeadings, WithStyles
+class ActivitiesExport implements FromCollection
 {
     /**
     * @return \Illuminate\Support\Collection

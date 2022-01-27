@@ -6,6 +6,10 @@
     @include('backend.product.includes.breadcrumb-links')
 @endsection
 
+@push('after-styles')
+    <link rel="stylesheet" href="{{ asset('css_custom/services.css') }}">
+@endpush
+
 @section('content')
 
     <x-backend.card>

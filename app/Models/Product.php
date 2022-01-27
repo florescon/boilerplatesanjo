@@ -119,6 +119,22 @@ class Product extends Model
     /**
      * @return string
      */
+    public function getSizeNameClearAttribute()
+    {
+        return $this->size_id ? $this->size->name.', ' : '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getColorNameClearAttribute()
+    {
+        return $this->color_id ? $this->color->name : '';
+    }
+
+    /**
+     * @return string
+     */
     public function getFirstCharacterNameAttribute()
     {
         return $this->name ? substr($this->name, 0, 1) : '';
@@ -138,6 +154,24 @@ class Product extends Model
             }
             else{
                 return $this->name." <span class='badge badge-primary'>".__('Main').'</span>';
+            }
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullNameClearAttribute()
+    {
+        if($this->parent_id != null){
+            return $this->parent->name.', '.$this->size_name_clear.' '.$this->color_name_clear;
+        }
+        else{
+            if(!$this->isProduct()){
+                return $this->name;
+            }
+            else{
+                return $this->name;
             }
         }
     }

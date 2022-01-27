@@ -129,7 +129,23 @@
 		    @endif
 
 		</div>
+
+
 	</div>
+
+    @if($products->count() && $status != 'deleted')
+      <footer class="footer mt-3">
+          <div class="row align-items-center justify-content-xl-between">
+            <div class="col-xl-6 m-auto text-center">
+              <div>
+                <p> 
+                  <a href="{{ route('admin.product.records') }}">Ir a registros de productos</a>
+                </p>
+              </div>
+            </div>
+          </div>
+      </footer>
+    @endif
 
 	</div>
 

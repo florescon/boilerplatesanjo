@@ -37,6 +37,11 @@ class ProductController extends Controller
         return view('backend.service.records');
     }
 
+    public function recordsProduct()
+    {
+        return view('backend.product.records');
+    }
+
     public function create()
     {
         return view('backend.product.create-product');

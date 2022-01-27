@@ -11,7 +11,7 @@ use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class ServicesRecordsExport implements FromCollection, WithMapping, WithHeadings, WithStyles
+class ProductsRecordsExport implements FromCollection, WithMapping, WithHeadings, WithStyles
 {
     private $serviceIDs = [];
 
@@ -45,7 +45,7 @@ class ServicesRecordsExport implements FromCollection, WithMapping, WithHeadings
     public function map($product_order): array
     {
         return [
-            optional($product_order->product)->name,
+            optional($product_order->product)->full_name_clear,
             $product_order->quantity,
             $product_order->price,
             $product_order->order_id,
@@ -59,6 +59,6 @@ class ServicesRecordsExport implements FromCollection, WithMapping, WithHeadings
     */
     public function collection()
     {
-        return ProductOrder::with('product')->find($this->serviceIDs);
+        return ProductOrder::with('product.parent', 'product.color', 'product.size')->find($this->serviceIDs);
     }
 }

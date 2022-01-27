@@ -24,6 +24,13 @@ Route::group([
                 ->push(__('List of products'), route('admin.product.list'));
         });
 
+    Route::get('records', [ProductController::class, 'recordsProduct'])
+        ->name('records')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.product.index')
+                ->push(__('Records of products'), route('admin.product.records'));
+        });
+
     Route::get('create', [ProductController::class, 'create'])
         ->name('create')
         ->breadcrumbs(function (Trail $trail) {
