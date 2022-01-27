@@ -148,6 +148,18 @@ class AdvancedProduct extends Component
         return redirect()->route('admin.product.advanced', $this->product_id);
     }
 
+    public function activateDescription()
+    {
+        $this->product->advanced()->update(['status' => true]);
+        return $this->redirectRoute('admin.product.advanced', $this->product_id);
+    }
+
+    public function desactivateDescription()
+    {
+        $this->product->advanced()->update(['status' => false]);
+        return $this->redirectRoute('admin.product.advanced', $this->product_id);
+    }
+
     public function render()
     {
         $model = Product::with('advanced')->findOrFail($this->product_id);

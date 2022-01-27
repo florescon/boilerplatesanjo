@@ -130,7 +130,7 @@
 													<tbody>
 										                @foreach($order->product_order as $product)
 														<tr>
-															<td>{!! $product->product->full_name !!}</td>
+															<td>{!! clean($product->product->full_name) !!}</td>
 															<td class="text-center">{{ $product->quantity }}</td>
 															<td class="text-center">${{ $product->price }}</td>
 															<td class="text-center">${{ $product->total_by_product }}</td>
@@ -206,7 +206,7 @@
 													<tbody>
 										                @foreach($order->product_sale as $product)
 														<tr>
-															<td>{!! $product->product->full_name !!}</td>
+															<td>{!! clean($product->product->full_name) !!}</td>
 															<td class="text-center">{{ $product->quantity }}</td>
 															<td class="text-center">${{ $product->price }}</td>
 															<td class="text-center">${{ $product->total_by_product }}</td>

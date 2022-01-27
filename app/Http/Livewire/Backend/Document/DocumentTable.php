@@ -239,7 +239,7 @@ class DocumentTable extends Component
     }
     public function exportMaatwebsite($extension)
     {   
-        abort_if(!in_array($extension, ['csv', 'xlsx', 'pdf', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
+        abort_if(!in_array($extension, ['csv', 'xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
         return Excel::download(new DocumentsExport($this->getSelectedDocuments()), 'documents.'.$extension);
     }
 

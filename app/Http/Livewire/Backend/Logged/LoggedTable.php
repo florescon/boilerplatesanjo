@@ -22,7 +22,7 @@ class LoggedTable extends TableComponent
 
     public $perPageOptions = ['10', '25', '50'];
 
-    public $exports = ['csv', 'xls', 'xlsx', 'pdf'];
+    public $exports = ['csv', 'xls', 'xlsx'];
     public $exportFileName = 'logged-in';
 
     public $clearSearchButton = true;

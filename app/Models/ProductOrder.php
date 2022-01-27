@@ -26,6 +26,36 @@ class ProductOrder extends Model
     }
 
     /**
+     * @return string
+     */
+    public function getTypeOrderAttribute()
+    {
+        switch ($this->type) {
+            case 1:
+                return __('Order');
+            case 2:
+                return __('Sale');
+        }
+
+        return '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getTypeOrderLabelAttribute()
+    {
+        switch ($this->type) {
+            case 1:
+                return "<span class='badge badge-primary'>".__('Order').'</span>';
+            case 2:
+                return "<span class='badge badge-success'>".__('Sale').'</span>';
+        }
+
+        return "<span class='badge badge-secondary'>".__('undefined').'</span>';
+    }
+
+    /**
      * @return mixed
      */
     public function parent_order()
@@ -149,5 +179,4 @@ class ProductOrder extends Model
     {
         return $this->morphMany(Assignment::class, 'assignmentable');
     }
-
 }

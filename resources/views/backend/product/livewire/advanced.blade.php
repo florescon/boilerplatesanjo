@@ -10,6 +10,13 @@
  	</x-slot>
 
   <x-slot name="body">
+
+    @if($model->advanced()->exists() && !$model->advanced->status)
+      <div class="alert alert-danger" role="alert">
+        @lang('Disabled information') <a wire:click="activateDescription" href="#">@lang('Activate')</a>
+      </div>
+    @endif
+
     <div class="row ">
       <div class="col-12 col-md-4">
         <div class="card card-product_not_hover">
@@ -197,6 +204,13 @@
           </div>
         </div>
       </div>
+
+      <footer class="float-right">
+          @if($model->advanced()->exists() && $product->advanced->status)
+            <a wire:click="desactivateDescription" class="ml-3" href="#">@lang('Disable information')</a>
+          @endif 
+      </footer>
+
     </x-slot>
   @endif
 </x-backend.card>

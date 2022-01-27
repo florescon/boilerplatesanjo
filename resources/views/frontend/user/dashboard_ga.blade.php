@@ -72,9 +72,9 @@
                                                         <td>{{ $order->id }}</td>
                                                         <td>{{ $order->slug }}</td>
                                                         <td>{{ $order->comment }}</td>
-                                                        <td>{!! $order->last_status_order_label !!}</td>
-                                                        <td>{!! $order->type_order !!}</td>
-                                                        <td>{!! $order->approved_label !!}</td>
+                                                        <td>{!! clean($order->last_status_order_label) !!}</td>
+                                                        <td>{!! clean($order->type_order) !!}</td>
+                                                        <td>{!! clean($order->approved_label) !!}</td>
                                                         <td>{{ $order->date_entered }}</td>
                                                     </tr>
                                                     @endforeach

@@ -19,7 +19,7 @@
                                     <img class="border-4" src="{{ asset('/storage/' . $product->parent->file_name) }}" onerror="this.onerror=null;this.src='/img/ga/not0.png';" alt="shop cart">
                                 </div>
                                 <div class="col align-self-center">
-                                    <a href="{{ route('frontend.shop.show', $product->parent->slug) }}" class="link link-gray mr-3" data-hover="{{ __('Go to view product') }}">{!! $product->full_name !!}</a> 
+                                    <a href="{{ route('frontend.shop.show', $product->parent->slug) }}" class="link link-gray mr-3" data-hover="{{ __('Go to view product') }}">{!! clean($product->full_name) !!}</a> 
                                     <p class="mb-0 lead font-weight-500 color-gray">${{ $product->price }}</p>
                                 </div>
                                 <div class="col-auto align-self-center">

@@ -188,64 +188,66 @@
 							</div>
 						</div>
 					</div>
-					<div class="row justify-content-center">
-						<div class="col-12 mt-5">
-							<div class="row">
-									<div class="col-sm">
-										<div class="accordion accordion-shadow" id="accordionExample">
-											<div class="card">
-												<div class="card-header" id="headingOne-1">
-													<div class="btn-accordion collapsed" role="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-														<i class="uil uil-microphone size-20 mr-2 pr-1"></i>@lang('Description')
+					@if($model->advanced()->exists())
+						<div class="row justify-content-center">
+							<div class="col-12 mt-5">
+								<div class="row">
+										<div class="col-sm">
+											<div class="accordion accordion-shadow" id="accordionExample">
+												<div class="card">
+													<div class="card-header" id="headingOne-1">
+														<div class="btn-accordion collapsed" role="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+															<i class="uil uil-microphone size-20 mr-2 pr-1"></i>@lang('Description')
+														</div>
 													</div>
-												</div>
-												<div id="collapseOne" class="collapse show" aria-labelledby="headingOne-1" data-parent="#accordionExample">
-													<div class="card-body">
-														{!! $model->advanced->description ?? '' !!}
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>          
-									<div class="col-sm">
-										<div class="accordion accordion-shadow" id="accordionExample-2">
-											<div class="card">
-												<div class="card-header" id="headingTwo-2">
-													<div class="btn-accordion collapsed" role="button" data-toggle="collapse" data-target="#collapseTwo-2" aria-expanded="true" aria-controls="collapseTwo-2">
-														<i class="uil uil-exclamation-triangle size-20 mr-2 pr-1"></i>Informacion tecnica
-													</div>
-												</div>
-												<div id="collapseTwo-2" class="collapse show" aria-labelledby="headingTwo-2" data-parent="#accordionExample-2">
-													<div class="card-body">
-														{!! $model->advanced->information ?? '' !!}
+													<div id="collapseOne" class="collapse show" aria-labelledby="headingOne-1" data-parent="#accordionExample">
+														<div class="card-body">
+															{!! clean($model->advanced->description) ?? '' !!}
+														</div>
 													</div>
 												</div>
 											</div>
-										</div>
-									</div>          
-									<div class="col-sm">
-										<div class="accordion accordion-shadow" id="accordionExample-3">
-											<div class="card">
-												<div class="card-header" id="headingThree-3">
-													<div class="btn-accordion collapsed" role="button" data-toggle="collapse" data-target="#collapseThree-3" aria-expanded="true" aria-controls="collapseThree-3">
-														<i class="uil uil-restaurant size-20 mr-2 pr-1"></i>Documentacion
+										</div>          
+										<div class="col-sm">
+											<div class="accordion accordion-shadow" id="accordionExample-2">
+												<div class="card">
+													<div class="card-header" id="headingTwo-2">
+														<div class="btn-accordion collapsed" role="button" data-toggle="collapse" data-target="#collapseTwo-2" aria-expanded="true" aria-controls="collapseTwo-2">
+															<i class="uil uil-exclamation-triangle size-20 mr-2 pr-1"></i>@lang('Technical information')
+														</div>
 													</div>
-												</div>
-												<div id="collapseThree-3" class="collapse show" aria-labelledby="headingThree-3" data-parent="#accordionExample-3">
-													<div class="card-body">
-						                                <li>
-						                                    <a href="{{ route('frontend.shop.datasheet', $model->slug) }}"
-						                                       target="_blank">@lang('Datasheet')</a>
-						                                </li>
+													<div id="collapseTwo-2" class="collapse show" aria-labelledby="headingTwo-2" data-parent="#accordionExample-2">
+														<div class="card-body">
+															{!! clean($model->advanced->information) ?? '' !!}
+														</div>
 													</div>
 												</div>
 											</div>
-										</div>
-									</div>          
+										</div>          
+										<div class="col-sm">
+											<div class="accordion accordion-shadow" id="accordionExample-3">
+												<div class="card">
+													<div class="card-header" id="headingThree-3">
+														<div class="btn-accordion collapsed" role="button" data-toggle="collapse" data-target="#collapseThree-3" aria-expanded="true" aria-controls="collapseThree-3">
+															<i class="uil uil-restaurant size-20 mr-2 pr-1"></i>@lang('Documentation')
+														</div>
+													</div>
+													<div id="collapseThree-3" class="collapse show" aria-labelledby="headingThree-3" data-parent="#accordionExample-3">
+														<div class="card-body">
+							                                <li>
+							                                    <a href="{{ route('frontend.shop.datasheet', $model->slug) }}"
+							                                       target="_blank">@lang('Datasheet')</a>
+							                                </li>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>          
 
+								</div>
 							</div>
 						</div>
-					</div>
+					@endif
 					<div class="row justify-content-center">
 						<div class="col-12 mt-5">
 							<div class="row">

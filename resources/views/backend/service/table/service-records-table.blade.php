@@ -1,19 +1,13 @@
-<div class="card shadow-lg p-3 mb-5 bg-white rounded gradient-box">
+<div class="card shadow-lg p-3 mb-5 bg-white rounded">
 
-  @include('backend.color.update')
-  @include('backend.color.create')
-  @include('backend.color.show')
-
-<div class="card-header" style="background: rgb(238,174,202);
-background: linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(148,233,202,1) 100%);">
+<div class="card-header">
   @if($deleted)
-    <strong style="color: red;"> @lang('List of deleted colors') </strong>
+    <strong style="color: red;"> @lang('List of deleted records service') </strong>
   @else
-    <strong style="color: #0061f2;"> @lang('List of colors') </strong>
+    <strong style="color: #0061f2;"> @lang('List of records service') </strong>
   @endif
   <div class="card-header-actions">
      <em> Última petición: {{ now()->format('h:i:s') }} </em>
-    <a href="#" class="card-header-action" style="color: green;"  data-toggle="modal" wire:click="createmodal()" data-target="#exampleModal"><i class="c-icon cil-plus"></i> @lang('Create color') </a>
   </div>
 
     <div class="page-header-subtitle mt-5 mb-2">
@@ -85,7 +79,7 @@ background: linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(148,233,202,1) 1
     </div>
 
 
-    @if($selected && $colors->count() && !$deleted)
+    @if($selected && $records->count() && !$deleted)
     <div class="dropdown table-export">
       <button class="dropdown-toggle btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         @lang('Export')        
@@ -110,10 +104,10 @@ background: linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(148,233,202,1) 1
 @if($selectPage)
 <x-utils.alert type="primary">
   @unless($selectAll)
-  <span>Tienes seleccionado <strong>{{ $colors->count() }}</strong> colores, ¿quieres seleccionar  <strong>{{ $colors->total() }} </strong> colores?</span>
+  <span>Tienes seleccionado <strong>{{ $records->count() }}</strong> registros, ¿quieres seleccionar  <strong>{{ $records->total() }} </strong> registros?</span>
     <a href="#" wire:click="selectAll" class="alert-link">Seleccionar todo</a>
   @else
-    <span>Actualmente seleccionaste <strong>{{ $colors->total() }}</strong> colores.</span>
+    <span>Actualmente seleccionaste <strong>{{ $records->total() }}</strong> registros.</span>
   @endif
 </x-utils.alert>
 @endif
@@ -139,128 +133,67 @@ background: linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(148,233,202,1) 1
                   @include('backend.includes._sort-icon', ['field' => 'name'])
                 </a>
               </th>
-              <th scope="col" class="text-center">@lang('Coding')</th>
+              <th scope="col" class="text-center">@lang('Quantity')</th>
               
-              <th scope="col" class="text-center">@lang('Color hex code')</th>
+              <th scope="col" class="text-center">@lang('Price')</th>
 
-              <th style="width:45px; max-width: 45px;">
-                @lang('Prim')
-              </th>
-              <th style="width:45px; max-width: 45px;">
-                @lang('Sec')
-              </th>
-              <th scope="col" class="text-center"># @lang('Associates')</th>
+              <th scope="col" class="text-center">@lang('Order/Sale')</th>
 
-              <th scope="col" class="text-center"># @lang('Associated subproducts')</th>
+              <th scope="col" class="text-center">@lang('Type')</th>
 
               <th scope="col">
-                <a style="color:white;" wire:click.prevent="sortBy('updated_at')" role="button" href="#">
-                  @lang('Updated at')
-                  @include('backend.includes._sort-icon', ['field' => 'updated_at'])
-              </a>
+                <a style="color:white;" wire:click.prevent="sortBy('created_at')" role="button" href="#">
+                  @lang('Created at')
+                  @include('backend.includes._sort-icon', ['field' => 'created_at'])
+                </a>
               </th>
-              <th scope="col" style="width:90px; max-width: 90px;">@lang('Actions')</th>
             </tr>
           </thead>
           <tbody>
-            @foreach($colors as $color)
+            @foreach($records as $record)
             <tr>
               @if(!$deleted)
                 <td class="text-center">
                   <label class="form-checkbox">
-                      <input type="checkbox" wire:model="selected" value="{{ $color->id }}">
+                      <input type="checkbox" wire:model="selected" value="{{ $record->id }}">
                       <i class="form-icon"></i>
                     </label>
                 </td>
               @endif
               <th >
-                {{ $color->name }}
+                {{ $record->product->name }}
               </th>
               <td class="align-middle text-center">
-                <x-utils.undefined :data="$color->short_name"/>
+                {{ $record->quantity }}
               </td>
               <td class="align-middle text-center">
-                <x-utils.undefined :data="$color->color"/>
+                ${{ $record->price }}
               </td>
-              <td class="align-middle" style="background-color: {{ $color->color }}">
-                {!! !$color->color ? 
-                  '<div class="d-flex justify-content-center">
-                    <i class="cil-x-circle"></i>
-                  </div>' 
-                  : '' 
-                !!}
+              <td class="align-middle text-center">
+                <a href="{{ route('admin.order.edit', $record->order_id) }}"> #{{ $record->order_id }}</a>
               </td>
-              <td class="align-middle" style="background-color: {{ $color->secondary_color }}">
-                {!! !$color->secondary_color ? 
-                  '<div class="d-flex justify-content-center">
-                    <i class="cil-x-circle"></i>
-                  </div>' 
-                  : '' 
-                !!}
-              </td>
-              <td class="text-center align-middle">
-                <a href="{{ route('admin.color.associates', $color->id) }}"> {{ $color->count_product }}</a>
-              </td>
-              <td class="text-center align-middle">
-                <a href="{{ route('admin.color.associates_sub', $color->id) }}"> {{ $color->count_products }}</a>
+              <td class="align-middle text-center">
+                {!! $record->type_order_label !!}
               </td>
               <td class="align-middle">
                 <span class="badge badge-dot mr-4">
-                  <i class="bg-warning"></i> {{ $color->date_for_humans }}
+                  <i class="bg-warning"></i> {{ $record->created_at }}
                 </span>
-              </td>
-              <td>
-                <div class="btn-group" role="group" aria-label="Basic example">
-
-
-                    <button type="button" data-toggle="modal" data-target="#showModal" wire:click="show({{ $color->id }})" class="btn btn-transparent-dark">
-                        <i class='far fa-eye'></i>
-                    </button>
-
-                  @if(!$color->trashed())
-
-                    <button type="button" data-toggle="modal" data-target="#updateModal" wire:click="edit({{ $color->id }})" class="btn btn-transparent-dark">
-                      <i class='far fa-edit'></i>
-                    </button>
-
-                    <div class="dropdown">
-                      <a class="btn btn-icon-only " href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <i class="fas fa-ellipsis-v"></i>
-                      </a>
-                      <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                        <a class="dropdown-item" wire:click="delete({{ $color->id }})">@lang('Delete')</a>
-                      </div>
-                    </div>
-
-                  @else
-                    <div class="dropdown">
-                      <a class="btn btn-icon-only" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <i class="fas fa-ellipsis-v"></i>
-                      </a>
-                      <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                        <a class="dropdown-item" href="#" wire:click="restore({{ $color->id }})">
-                          @lang('Restore')
-                        </a>
-                      </div>
-                    </div>
-                  @endif
-
-                </div>
               </td>
             </tr>
             @endforeach
           </tbody>
         </table>
 
-        @if($colors->count())
+        @if($records->count())
         <div class="row">
           <div class="col">
             <nav>
-              {{ $colors->onEachSide(1)->links() }}
+              {{ $records->onEachSide(1)->links() }}
             </nav>
           </div>
               <div class="col-sm-3 text-muted text-right">
-                Mostrando {{ $colors->firstItem() }} - {{ $colors->lastItem() }} de {{ $colors->total() }} resultados
+                Mostrando {{ $records->firstItem() }} - {{ $records->lastItem() }} de {{ $records->total() }} resultados
               </div>
         </div>
         @else

@@ -17,6 +17,13 @@ Route::group([
                 ->push(__('Service Management'), route('admin.service.index'));
         });
 
+    Route::get('records', [ProductController::class, 'recordsService'])
+        ->name('records')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.service.index')
+                ->push(__('Records of services'), route('admin.service.records'));
+        });
+
     Route::get('deleted', [ProductController::class, 'deletedService'])
         ->name('deleted')
         ->breadcrumbs(function (Trail $trail) {
