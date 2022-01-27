@@ -47,7 +47,7 @@ class DashboardController extends Controller
             $user[] = User::where(\DB::raw('DATE_FORMAT(created_at, \'%Y-%m\')'), $value)->count();
         }
 
-        $orders = Order::with('product_sale', 'product_order', 'user', 'last_status_order.status')->orderByDesc('created_at')->simplePaginate(15);
+        $orders = Order::with('product_sale', 'product_order', 'user', 'last_status_order.status')->orderByDesc('created_at')->simplePaginate(10);
 
         // dd($months2);
 

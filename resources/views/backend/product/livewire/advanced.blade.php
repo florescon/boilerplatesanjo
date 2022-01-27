@@ -15,7 +15,7 @@
         <div class="card card-product_not_hover">
           <div class="card-header text-primary">
             <h5>
-              Informacion técnica
+              @lang('Technical information')
             </h5>
           </div>
           <form wire:submit.prevent="storeinformation">
@@ -138,7 +138,7 @@
         <div class="card card-product_not_hover">
           <div class="card-header text-primary">
             <h5>
-              Características y descripción
+              @lang('Features and description')
             </h5>
           </div>
           <form wire:submit.prevent="storedescription">
