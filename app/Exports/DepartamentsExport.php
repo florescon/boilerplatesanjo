@@ -63,6 +63,6 @@ class DepartamentsExport implements FromCollection, WithMapping, WithHeadings, W
     */
     public function collection()
     {
-        return Departament::find($this->departamentIDs);
+        return Departament::find($this->departamentIDs)->sortByDesc('name');
     }
 }

@@ -45,6 +45,6 @@ class ProductsExport implements FromCollection, WithMapping, WithHeadings
     */
     public function collection()
     {
-        return Product::with('parent', 'color', 'size')->find($this->productsIDs);
+        return Product::with('parent', 'color', 'size')->find($this->productsIDs)->sortByDesc('created_at');
     }
 }

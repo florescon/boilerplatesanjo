@@ -102,6 +102,9 @@
   @else
     <span>Actualmente seleccionaste <strong>{{ $departaments->total() }}</strong> departamentos.</span>
   @endif
+
+  <em>-- @lang('Order by name') --</em>
+
 </x-utils.alert>
 @endif
 

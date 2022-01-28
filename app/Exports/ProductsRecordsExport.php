@@ -59,6 +59,6 @@ class ProductsRecordsExport implements FromCollection, WithMapping, WithHeadings
     */
     public function collection()
     {
-        return ProductOrder::with('product.parent', 'product.color', 'product.size')->find($this->serviceIDs);
+        return ProductOrder::with('product.parent', 'product.color', 'product.size')->find($this->serviceIDs)->sortByDesc('created_at');
     }
 }

@@ -63,6 +63,6 @@ class MaterialsRecordsExport implements FromCollection, WithMapping, WithHeading
     */
     public function collection()
     {
-        return MaterialOrder::with('material', 'product_order.product.color', 'product_order.product.size')->find($this->materialIDs);
+        return MaterialOrder::with('material', 'product_order.product.color', 'product_order.product.size')->find($this->materialIDs)->sortByDesc('created_at');
     }
 }

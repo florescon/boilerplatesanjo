@@ -102,14 +102,17 @@
 
 
 @if($selectPage)
-<x-utils.alert type="primary">
-  @unless($selectAll)
-  <span>Tienes seleccionado <strong>{{ $records->count() }}</strong> registros, ¿quieres seleccionar  <strong>{{ $records->total() }} </strong> registros?</span>
-    <a href="#" wire:click="selectAll" class="alert-link">Seleccionar todo</a>
-  @else
-    <span>Actualmente seleccionaste <strong>{{ $records->total() }}</strong> registros.</span>
-  @endif
-</x-utils.alert>
+  <x-utils.alert type="primary">
+    @unless($selectAll)
+    <span>Tienes seleccionado <strong>{{ $records->count() }}</strong> registros, ¿quieres seleccionar  <strong>{{ $records->total() }} </strong> registros?</span>
+      <a href="#" wire:click="selectAll" class="alert-link">Seleccionar todo</a>
+    @else
+      <span>Actualmente seleccionaste <strong>{{ $records->total() }}</strong> registros.</span>
+    @endif
+
+    <em>-- @lang('Order by created') --</em>
+
+  </x-utils.alert>
 @endif
 
   <div class="row mt-4">

@@ -544,6 +544,8 @@
     "Order": "Orden",
     "Associated order": "Orden asociada",
     "Order track": "Seguimiento de orden",
+    "Order by created": "Ordenado por fecha creada",
+    "Order by name": "Ordenado por nombre",
     "Tracking number": "Número de seguimiento",
     "Tracking": "Seguimiento",
     "Go to track": "Ir a seguimiento",

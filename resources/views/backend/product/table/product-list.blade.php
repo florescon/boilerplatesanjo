@@ -118,14 +118,17 @@
 
 
 	@if($selectPage)
-	<x-utils.alert type="primary">
-	  @unless($selectAll)
-	  <span>Tienes seleccionado <strong>{{ $products->count() }}</strong> productos, ¿quieres seleccionar  <strong>{{ $products->total() }} </strong> productos?</span>
-	    <a href="#" wire:click="selectAll" class="alert-link">Seleccionar todo</a>
-	  @else
-	    <span>Actualmente seleccionaste <strong>{{ $products->total() }}</strong> productos.</span>
-	  @endif
-	</x-utils.alert>
+		<x-utils.alert type="primary">
+		  @unless($selectAll)
+		  <span>Tienes seleccionado <strong>{{ $products->count() }}</strong> productos, ¿quieres seleccionar  <strong>{{ $products->total() }} </strong> productos?</span>
+		    <a href="#" wire:click="selectAll" class="alert-link">Seleccionar todo</a>
+		  @else
+		    <span>Actualmente seleccionaste <strong>{{ $products->total() }}</strong> productos.</span>
+		  @endif
+
+	    <em>-- @lang('Order by created') --</em>
+
+		</x-utils.alert>
 	@endif
 
 	  <div class="row mt-4">

@@ -57,7 +57,6 @@ class DocumentsExport implements FromCollection, WithMapping, WithHeadings, With
     */
     public function collection()
     {
-        return Document::all();
+        return Document::all()->sortByDesc('created_at');
     }
-
 }

@@ -59,6 +59,6 @@ class ServicesRecordsExport implements FromCollection, WithMapping, WithHeadings
     */
     public function collection()
     {
-        return ProductOrder::with('product')->find($this->serviceIDs);
+        return ProductOrder::with('product')->find($this->serviceIDs)->sortByDesc('created_at');
     }
 }

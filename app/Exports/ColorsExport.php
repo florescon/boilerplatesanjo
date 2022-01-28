@@ -55,6 +55,6 @@ class ColorsExport implements FromCollection, WithMapping, WithHeadings, WithSty
     */
     public function collection()
     {
-        return Color::find($this->colorIDs);
+        return Color::find($this->colorIDs)->sortByDesc('name');
     }
 }
