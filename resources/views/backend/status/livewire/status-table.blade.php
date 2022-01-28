@@ -4,7 +4,7 @@
 	<div class="card-header text-white" style="background-image: url({{ asset('/ga/img/color.jpg') }});">
     <strong> @lang('List of statuses') </strong>
     <div class="card-header-actions mb-5">
-       <em> Última petición: {{ now()->format('h:i:s') }} </em>
+       <em> @lang('Last request'): {{ now()->format('h:i:s') }} </em>
     </div>
 	</div>
 

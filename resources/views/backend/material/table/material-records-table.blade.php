@@ -7,7 +7,7 @@
     <strong style="color: #0061f2;"> @lang('List of records feedstock') </strong>
   @endif
   <div class="card-header-actions">
-     <em> Última petición: {{ now()->format('h:i:s') }} </em>
+     <em> @lang('Last request'): {{ now()->format('h:i:s') }} </em>
   </div>
 
     <div class="page-header-subtitle mt-5 mb-2">

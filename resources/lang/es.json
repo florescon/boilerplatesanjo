@@ -224,10 +224,12 @@
     "Authentication Code": "Código de autenticación",
     "Two Factor Authentication is required": "Se requiere autenticación de dos factores",
 
+    "Last request": "Última petición",
     "Are you sure you want to delete this item?" : "¿Seguro que desea eliminar este registro?",
     "or register with": "o regístrese con",
     "Registered": "Registrado",
     "Activity": "Actividad",
+    "Activity panel": "Panel de actividad",
     "Income": "Ingreso",
     "Incomes": "Ingresos",
     "Expense": "Egreso",

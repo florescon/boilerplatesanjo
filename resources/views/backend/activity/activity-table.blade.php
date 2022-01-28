@@ -1,9 +1,9 @@
 <div class="card shadow-lg p-3 mb-5 bg-white rounded " style="border-color: red; border:3px solid red">
 
   <div class="card-header">
-    <strong style="color: #0061f2;"> @lang('Activity') </strong>
+    <strong style="color: #0061f2;"> @lang('Activity panel') </strong>
     <div class="card-header-actions">
-       <em> Última petición: {{ now()->format('h:i:s') }} </em>
+       <em> @lang('Last request'): {{ now()->format('h:i:s') }} </em>
     </div>
   </div>
 
