@@ -110,7 +110,7 @@
             <div class="col-xl-6 m-auto text-center">
               <div>
                 <p> 
-                  <a href="{{ route('admin.service.records') }}">Ir a registros de servicios</a>
+                  <a href="{{ route('admin.service.records') }}">Ir a registros de servicios realizados en órdenes/ventas</a>
                 </p>
               </div>
             </div>

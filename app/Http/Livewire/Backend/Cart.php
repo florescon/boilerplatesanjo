@@ -153,7 +153,7 @@ class Cart extends Component
                     $order->product_order()->create([
                         'product_id' => $item->id,
                         'quantity' => $item->amount,
-                        'price' =>  $cartuser ? $item->getPrice($type_price) : $item->price,
+                        'price' =>  $cartuser ? $item->getPrice($type_price) : $item->parent->price,
                         'type' => 1,
                     ]);
                 }

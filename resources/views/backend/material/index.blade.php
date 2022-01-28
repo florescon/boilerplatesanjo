@@ -42,7 +42,7 @@
                 <div class="col-xl-6 m-auto text-center">
                   <div>
                     <p> 
-                      <a href="{{ route('admin.material.records') }}">Ir a registros de materia prima</a>
+                      <a href="{{ route('admin.material.records') }}">Ir a registros consumos de materia prima</a>
                     </p>
                   </div>
                 </div>

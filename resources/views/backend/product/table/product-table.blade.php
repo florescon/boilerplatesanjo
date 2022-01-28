@@ -139,7 +139,7 @@
             <div class="col-xl-6 m-auto text-center">
               <div>
                 <p> 
-                  <a href="{{ route('admin.product.records') }}">Ir a registros de productos</a>
+                  <a href="{{ route('admin.product.records') }}">Ir a registros de productos asociados a órdenes/ventas</a>
                 </p>
               </div>
             </div>
