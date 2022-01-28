@@ -19,6 +19,11 @@ class MaterialController extends Controller
         return view('backend.material.index');
     }
 
+    public function recordsMaterial()
+    {
+        return view('backend.material.records');
+    }
+
     public function deleted()
     {
         return view('backend.material.deleted');

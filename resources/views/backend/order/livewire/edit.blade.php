@@ -347,7 +347,7 @@
                 <thead class="thead-dark">
                   <tr >
                     <th>@lang('Feedstock')</th>
-                    <th>@lang('Price')</th>
+                    <th>@lang('Unit price')</th>
                     <th class="text-center">@lang('Quantity')</th>
                     <th class="text-center">Total</th>
                   </tr>
@@ -360,7 +360,7 @@
                       </td>
                       <td class="text-center">${{ $material->price }}</td>
                       <td class="text-center">{{ rtrim(rtrim(sprintf('%.8F', $material->sum), '0'), ".") }}</td>
-                      <td class="text-center">{{ rtrim(rtrim(sprintf('%.8F', $material->total_by_material), '0'), ".") }}</td>
+                      <td class="text-center">${{ rtrim(rtrim(sprintf('%.8F', $material->sumtotal), '0'), ".") }}</td>
                     </tr>
                   @endforeach
                 </tbody>

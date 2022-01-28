@@ -2,9 +2,9 @@
 
 <div class="card-header">
   @if($deleted)
-    <strong style="color: red;"> @lang('List of deleted records product') </strong>
+    <strong style="color: red;"> @lang('List of deleted records feedstock') </strong>
   @else
-    <strong style="color: #0061f2;"> @lang('List of records product') </strong>
+    <strong style="color: #0061f2;"> @lang('List of records feedstock') </strong>
   @endif
   <div class="card-header-actions">
      <em> Última petición: {{ now()->format('h:i:s') }} </em>
@@ -129,17 +129,22 @@
               @endif
               <th scope="col">
                 <a style="color:white;" wire:click.prevent="sortBy('name')" role="button" href="#">
-                  @lang('Name')
+                  @lang('Feedstock')
                   @include('backend.includes._sort-icon', ['field' => 'name'])
                 </a>
               </th>
-              <th scope="col" class="text-center">@lang('Quantity')</th>
+
+              <th scope="col" class="text-center">@lang('Product')</th>
+
+              <th scope="col" class="text-center">@lang('Consumption')</th>
+
+              <th scope="col" class="text-center">@lang('Total consumption')</th>
               
+              <th scope="col" class="text-center">@lang('Unit price')</th>
+
               <th scope="col" class="text-center">@lang('Price')</th>
 
-              <th scope="col" class="text-center">@lang('Order/Sale')</th>
-
-              <th scope="col" class="text-center">@lang('Type')</th>
+              <th scope="col" class="text-center">@lang('Order')</th>
 
               <th scope="col">
                 <a style="color:white;" wire:click.prevent="sortBy('created_at')" role="button" href="#">
@@ -160,8 +165,14 @@
                     </label>
                 </td>
               @endif
-              <td >
-                {!! $record->product->full_name !!}
+              <th>
+                {{ $record->material->name }}
+              </th>
+              <td>
+                {!! $record->product_order->product->full_name !!}
+              </td>
+              <td class="align-middle text-center">
+                {{ $record->unit_quantity }}
               </td>
               <td class="align-middle text-center">
                 {{ $record->quantity }}
@@ -170,10 +181,10 @@
                 ${{ $record->price }}
               </td>
               <td class="align-middle text-center">
-                <a href="{{ route('admin.order.edit', $record->order_id) }}"> #{{ $record->order_id }}</a>
+                ${{ rtrim(rtrim(sprintf('%.8F', $record->total_by_material), '0'), ".") }}
               </td>
               <td class="align-middle text-center">
-                {!! $record->type_order_label !!}
+                <a href="{{ route('admin.order.edit', $record->order_id) }}"> #{{ $record->order_id }}</a>
               </td>
               <td class="align-middle">
                 <span class="badge badge-dot mr-4">

@@ -159,7 +159,7 @@ class EditOrder extends Component
     {
         $model = Order::with(['product_order', 'product_sale', 'suborders.user', 'last_status_order', 
                     'materials_order' => function($query){
-                        $query->groupBy('material_id')->selectRaw('*, sum(quantity) as sum');
+                        $query->groupBy('material_id')->selectRaw('*, sum(quantity) as sum, sum(quantity) * price as sumtotal');
                     }
                 ])->findOrFail($this->order_id);
 

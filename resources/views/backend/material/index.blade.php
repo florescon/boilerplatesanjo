@@ -6,6 +6,10 @@
     @include('backend.material.includes.breadcrumb-links')
 @endsection
 
+@push('after-styles')
+    <link rel="stylesheet" href="{{ asset('css_custom/material.css') }}">
+@endpush
+
 @section('content')
 
     <x-backend.card>
@@ -30,6 +34,20 @@
 
         <x-slot name="body">
             <livewire:backend.material-table />
+        </x-slot>
+
+        <x-slot name="footer">
+          <footer class="footer mt-3">
+              <div class="row align-items-center justify-content-xl-between">
+                <div class="col-xl-6 m-auto text-center">
+                  <div>
+                    <p> 
+                      <a href="{{ route('admin.material.records') }}">Ir a registros de materia prima</a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+          </footer>
         </x-slot>
     </x-backend.card>
 

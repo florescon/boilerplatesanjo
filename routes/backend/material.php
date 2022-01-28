@@ -17,6 +17,13 @@ Route::group([
                 ->push(__('Feedstock Management'), route('admin.material.index'));
         });
 
+    Route::get('records', [MaterialController::class, 'recordsMaterial'])
+        ->name('records')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.material.index')
+                ->push(__('Records of feedstock'), route('admin.material.records'));
+        });
+
     Route::group(['prefix' => '{material}'], function () {
         Route::get('edit', [MaterialController::class, 'edit'])
             ->name('edit')
