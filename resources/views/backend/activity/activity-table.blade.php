@@ -69,7 +69,7 @@
       <span>Actualmente seleccionaste <strong>{{ $activities->total() }}</strong> activities.</span>
     @endif
   
-    <em>-- @lang('Order by created') --</em>
+    <em>-- @lang('Sorted by date created descending') --</em>
 
   </x-utils.alert>
 @endif

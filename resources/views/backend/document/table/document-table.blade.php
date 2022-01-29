@@ -106,7 +106,7 @@
     <span>Actualmente seleccionaste <strong>{{ $documents->total() }}</strong> documentos.</span>
   @endif
 
-  <em>-- @lang('Order by created') --</em>
+  <em>-- @lang('Sorted by date created descending') --</em>
 
 </x-utils.alert>
 @endif

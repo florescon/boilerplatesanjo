@@ -110,7 +110,7 @@
       <span>Actualmente seleccionaste <strong>{{ $records->total() }}</strong> registros.</span>
     @endif
 
-    <em>-- @lang('Order by created') --</em>
+    <em>-- @lang('Sorted by date created descending') --</em>
 
   </x-utils.alert>
 @endif
