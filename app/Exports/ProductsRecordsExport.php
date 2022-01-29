@@ -6,12 +6,10 @@ use App\Models\ProductOrder;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithHeadings;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
-use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class ProductsRecordsExport implements FromCollection, WithMapping, WithHeadings, WithStyles
+class ProductsRecordsExport implements FromCollection, WithMapping, WithHeadings
 {
     private $serviceIDs = [];
 

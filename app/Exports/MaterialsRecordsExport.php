@@ -10,8 +10,9 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
-class MaterialsRecordsExport implements FromCollection, WithMapping, WithHeadings, WithStyles
+class MaterialsRecordsExport implements FromCollection, WithMapping, WithHeadings, WithStyles, WithTitle
 {
     private $materialIDs = [];
 
@@ -56,6 +57,14 @@ class MaterialsRecordsExport implements FromCollection, WithMapping, WithHeading
             $material_order->order_id,
             $material_order->created_at,
         ];
+    }
+
+    /**
+     * @return string
+     */
+    public function title(): string
+    {
+        return __('Feedstock records').' '.now()->format('g:i a l jS F Y');
     }
 
     /**

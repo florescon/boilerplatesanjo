@@ -4,8 +4,11 @@ namespace App\Exports;
 
 use App\Models\Product;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class ProductStoreExport implements FromCollection, WithMapping, WithHeadings
 {
@@ -41,6 +44,6 @@ class ProductStoreExport implements FromCollection, WithMapping, WithHeadings
     */
     public function collection()
     {
-        return Product::with('parent', 'color', 'size')->find($this->productsIDs)->sortByDesc('created_at');
+        return Product::with('parent', 'color', 'size')->find($this->productsIDs)->sortBy('parent.name');
     }
 }

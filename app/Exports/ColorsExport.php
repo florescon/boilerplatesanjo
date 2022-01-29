@@ -10,8 +10,9 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
-class ColorsExport implements FromCollection, WithMapping, WithHeadings, WithStyles
+class ColorsExport implements FromCollection, WithMapping, WithHeadings, WithStyles, WithTitle
 {
     private $colorIDs = [];
 
@@ -48,6 +49,14 @@ class ColorsExport implements FromCollection, WithMapping, WithHeadings, WithSty
             $color->color,
             $color->created_at,
         ];
+    }
+
+    /**
+     * @return string
+     */
+    public function title(): string
+    {
+        return __('Colors').' '.now()->format('g:i a l jS F Y');
     }
 
     /**

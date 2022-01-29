@@ -10,8 +10,9 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
-class ActivitiesExport implements FromCollection, WithMapping, WithHeadings, WithStyles
+class ActivitiesExport implements FromCollection, WithMapping, WithHeadings, WithStyles, WithTitle
 {
     private $activityIDs = [];
 
@@ -22,11 +23,7 @@ class ActivitiesExport implements FromCollection, WithMapping, WithHeadings, Wit
 
     public function styles(Worksheet $sheet)
     {
-        return [
-           // Style the first row as bold text.
-           1    => ['font' => ['bold' => true, 'alignment' => 'center']],
-        ];
-        // $sheet->getStyle('1')->getFont()->setBold(true);
+        $sheet->getStyle('1')->getFont()->setBold(true);
     }
 
     public function headings(): array
@@ -50,6 +47,14 @@ class ActivitiesExport implements FromCollection, WithMapping, WithHeadings, Wit
             $activity->properties,
             $activity->created_at,
         ];
+    }
+
+    /**
+     * @return string
+     */
+    public function title(): string
+    {
+        return __('Activities').' '.now()->format('g:i a l jS F Y');
     }
 
     /**

@@ -10,8 +10,9 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
-class DocumentsExport implements FromCollection, WithMapping, WithHeadings, WithStyles
+class DocumentsExport implements FromCollection, WithMapping, WithHeadings, WithStyles, WithTitle
 {
     private $documentsIDs = [];
 
@@ -50,6 +51,14 @@ class DocumentsExport implements FromCollection, WithMapping, WithHeadings, With
             $document->comment,
             $document->updated_at,
         ];
+    }
+
+    /**
+     * @return string
+     */
+    public function title(): string
+    {
+        return __('Documents').' '.now()->format('g:i a l jS F Y');
     }
 
     /**

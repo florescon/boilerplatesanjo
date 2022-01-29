@@ -10,8 +10,9 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
-class DepartamentsExport implements FromCollection, WithMapping, WithHeadings, WithStyles
+class DepartamentsExport implements FromCollection, WithMapping, WithHeadings, WithStyles, WithTitle
 {
     private $departamentIDs = [];
 
@@ -56,6 +57,14 @@ class DepartamentsExport implements FromCollection, WithMapping, WithHeadings, W
             $departament->rfc,
             $departament->updated_at,
         ];
+    }
+
+    /**
+     * @return string
+     */
+    public function title(): string
+    {
+        return __('Departaments').' '.now()->format('g:i a l jS F Y');
     }
 
     /**

@@ -126,7 +126,7 @@
 		    <span>Actualmente seleccionaste <strong>{{ $products->total() }}</strong> productos.</span>
 		  @endif
 
-	    <em>-- @lang('Order by created') --</em>
+	    <em>-- @lang('Order by name') --</em>
 
 		</x-utils.alert>
 	@endif

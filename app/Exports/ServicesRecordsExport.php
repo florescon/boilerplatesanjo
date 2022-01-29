@@ -10,8 +10,9 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
-class ServicesRecordsExport implements FromCollection, WithMapping, WithHeadings, WithStyles
+class ServicesRecordsExport implements FromCollection, WithMapping, WithHeadings, WithStyles, WithTitle
 {
     private $serviceIDs = [];
 
@@ -52,6 +53,14 @@ class ServicesRecordsExport implements FromCollection, WithMapping, WithHeadings
             $product_order->type_order,
             $product_order->created_at,
         ];
+    }
+
+    /**
+     * @return string
+     */
+    public function title(): string
+    {
+        return __('Service records').' '.now()->format('g:i a l jS F Y');
     }
 
     /**
