@@ -54,7 +54,7 @@ class LoggedTable extends TableComponent
      */
     public function query(): Builder
     {
-        $query = Logged::query()->with('user');
+        $query = Logged::query()->with('user')->whereYear('created_at', now()->year);
 
         return $query;
     }

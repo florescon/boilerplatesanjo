@@ -21,7 +21,7 @@ Route::group([
         ->name('records')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.service.index')
-                ->push(__('Records of services'), route('admin.service.records'));
+                ->push(__('Service records'), route('admin.service.records'));
         });
 
     Route::get('deleted', [ProductController::class, 'deletedService'])

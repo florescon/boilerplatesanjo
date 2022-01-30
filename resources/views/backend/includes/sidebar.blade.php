@@ -156,6 +156,79 @@
                 :text="__('Feedstocks')" />
         </li>
 
+        <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.color.*')  || Route::is('admin.size.*') || Route::is('admin.cloth.*') || Route::is('admin.line.*') || Route::is('admin.unit.index') || Route::is('admin.brand.index') || Route::is('admin.model.index'), 'c-open c-show') }}">
+            <x-utils.link
+                new="true"
+                href="#"
+                icon="c-sidebar-nav-icon cil-library"
+                class="c-sidebar-nav-dropdown-toggle"
+                :text="__('Parameters')" />
+
+            <ul class="c-sidebar-nav-dropdown-items">
+
+                <li class="c-sidebar-nav-item">
+                    <x-utils.link
+                        class="c-sidebar-nav-link"
+                        :href="route('admin.color.index')"
+                        :active="activeClass(Route::is('admin.color.*'), 'c-active')"
+                        :text="__('Colors')" />
+
+
+                </li>
+
+                <li class="c-sidebar-nav-item">
+                    <x-utils.link
+                        class="c-sidebar-nav-link"
+                        :href="route('admin.size.index')"
+                        :active="activeClass(Route::is('admin.size.*'), 'c-active')"
+                        :text="__('Sizes')" />
+                </li>
+
+                <li class="c-sidebar-nav-item">
+                    <x-utils.link
+                        class="c-sidebar-nav-link"
+                        :href="route('admin.cloth.index')"
+                        :active="activeClass(Route::is('admin.cloth.*'), 'c-active')"
+                        :text="__('Cloths')" />
+                </li>
+
+                <li class="c-sidebar-nav-item">
+                    <x-utils.link
+                        class="c-sidebar-nav-link"
+                        :href="route('admin.line.index')"
+                        :active="activeClass(Route::is('admin.line.*'), 'c-active')"
+                        :text="__('Lines')" />
+                </li>
+
+                <li class="c-sidebar-nav-item">
+                    <x-utils.link
+                        class="c-sidebar-nav-link"
+                        :href="route('admin.unit.index')"
+                        :active="activeClass(Route::is('admin.unit.index'), 'c-active')"
+                        :text="__('Units')" />
+                </li>
+
+                <li class="c-sidebar-nav-item">
+                    <x-utils.link
+                        class="c-sidebar-nav-link"
+                        :href="route('admin.brand.index')"
+                        :active="activeClass(Route::is('admin.brand.index'), 'c-active')"
+                        :text="__('Brands')" />
+                </li>
+
+                <li class="c-sidebar-nav-item">
+                    <x-utils.link
+                        new="true"
+                        class="c-sidebar-nav-link"
+                        :href="route('admin.model.index')"
+                        :active="activeClass(Route::is('admin.model.index'), 'c-active')"
+                        :text="__('Models')" />
+                </li>
+
+            </ul>
+
+        </li>
+
         <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.store.pos.*') || Route::is('admin.store.finances.*') || Route::is('admin.store.box.*'), 'c-open c-show') }}">
             <x-utils.link
                 new="true"
@@ -192,72 +265,6 @@
                             :active="activeClass(Route::is('admin.store.box.*'), 'c-active')"/>
                     </li>
             </ul>
-        </li>
-
-        <li class="c-sidebar-nav-title">@lang('Parameters')</li>
-
-        <li class="c-sidebar-nav-item">
-            <x-utils.link
-                class="c-sidebar-nav-link"
-                :href="route('admin.color.index')"
-                :active="activeClass(Route::is('admin.color.*'), 'c-active')"
-                icon="c-sidebar-nav-icon cil-color-palette"
-                :text="__('Colors')" />
-        </li>
-
-        <li class="c-sidebar-nav-item">
-            <x-utils.link
-                class="c-sidebar-nav-link"
-                :href="route('admin.size.index')"
-                :active="activeClass(Route::is('admin.size.*'), 'c-active')"
-                icon="c-sidebar-nav-icon cil-color-fill"
-                :text="__('Sizes')" />
-        </li>
-
-        <li class="c-sidebar-nav-item">
-            <x-utils.link
-                class="c-sidebar-nav-link"
-                :href="route('admin.cloth.index')"
-                :active="activeClass(Route::is('admin.cloth.*'), 'c-active')"
-                icon="c-sidebar-nav-icon cil-color-fill"
-                :text="__('Cloths')" />
-        </li>
-
-        <li class="c-sidebar-nav-item">
-            <x-utils.link
-                class="c-sidebar-nav-link"
-                :href="route('admin.line.index')"
-                :active="activeClass(Route::is('admin.line.*'), 'c-active')"
-                icon="c-sidebar-nav-icon cil-color-fill"
-                :text="__('Lines')" />
-        </li>
-
-        <li class="c-sidebar-nav-item">
-            <x-utils.link
-                class="c-sidebar-nav-link"
-                :href="route('admin.unit.index')"
-                :active="activeClass(Route::is('admin.unit.index'), 'c-active')"
-                icon="c-sidebar-nav-icon cil-color-fill"
-                :text="__('Units')" />
-        </li>
-
-        <li class="c-sidebar-nav-item">
-            <x-utils.link
-                class="c-sidebar-nav-link"
-                :href="route('admin.brand.index')"
-                :active="activeClass(Route::is('admin.brand.index'), 'c-active')"
-                icon="c-sidebar-nav-icon cil-color-fill"
-                :text="__('Brands')" />
-        </li>
-
-        <li class="c-sidebar-nav-item">
-            <x-utils.link
-                new="true"
-                class="c-sidebar-nav-link"
-                :href="route('admin.model.index')"
-                :active="activeClass(Route::is('admin.model.index'), 'c-active')"
-                icon="c-sidebar-nav-icon cil-color-fill"
-                :text="__('Models')" />
         </li>
 
         <li class="c-sidebar-nav-title">@lang('Others')</li>

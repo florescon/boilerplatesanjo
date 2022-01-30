@@ -22,7 +22,11 @@ class ProductOrderFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'order_id' => 10,
+            'product_id' => 4338,
+            'quantity' => rand(1, 10),
+            'price' => rand(20, 50),
+            'type' => rand(1, 2),
         ];
     }
 }
