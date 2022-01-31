@@ -77,6 +77,9 @@ class MaterialRecordsTable extends Component
                     $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', now()]) :
                     $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59']);
             })
+            ->when(!$this->dateInput, function ($query) {
+                $query->whereYear('created_at', now()->year);
+            })
             ->where(function ($query) {
                 $query->whereHas('material', function($query) {
                     $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
