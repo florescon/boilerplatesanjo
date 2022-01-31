@@ -135,10 +135,10 @@ class Cart extends Component
         if($cartuser != null){
             $type_price = $cartuser->customer->type_price ?? 'retail';
         }
+
         $order = new Order();
         $order->user_id = $this->isVisible == true  ? null : $this->user;
         $order->departament_id = $this->isVisible == true  ? null : $this->departament;
-        $order->payment_method_id = $this->isVisible == true  ? null : $this->payment_method;
         $order->comment = $this->comment;
         $order->date_entered = Carbon::now()->format('Y-m-d');
         $order->type = $this->defineType(count($cart), count($cartSale));
@@ -146,6 +146,17 @@ class Cart extends Component
         $order->from_store = $this->fromStore == true ? true : null;
         $order->approved = 1;
         $order->save();
+
+        if($this->payment && $this->payment_method){
+            $order->orders_payments()->create([
+                'amount' => $this->payment,
+                'type' => 'income',
+                'date_entered' => today(),
+                'from_store' => $this->fromStore == true ? true : null,
+                'payment_method_id' => $this->payment_method,
+                'audi_id' => Auth::id(),
+            ]);
+        }
 
         if(count($cart)){
             foreach ($cart as  $item) {
