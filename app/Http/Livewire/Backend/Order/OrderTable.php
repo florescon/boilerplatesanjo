@@ -12,7 +12,6 @@ use Carbon\Carbon;
 
 class OrderTable extends Component
 {
-
     use Withpagination, WithBulkActions, WithCachedRows;
 
     protected $paginationTheme = 'bootstrap';
@@ -61,7 +60,6 @@ class OrderTable extends Component
                 $query->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc');
             });
 
-
         if ($this->status === 'deleted') {
             $this->applySearchDeletedFilter($query);
 
@@ -94,14 +92,12 @@ class OrderTable extends Component
         return $query->onlyOrders();
     }
 
-
     private function applySearchFilter($orders)
     {
         if ($this->searchTerm) {
             return $orders->whereRaw("id LIKE \"%$this->searchTerm%\"")
                         ->orWhereRaw("comment LIKE \"%$this->searchTerm%\"")
                         ->orWhereRaw("slug LIKE \"%$this->searchTerm%\"");
-
         }
 
         return null;

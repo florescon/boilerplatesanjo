@@ -26,10 +26,15 @@ class LoggedTable extends TableComponent
     public $exportFileName = 'logged-in';
 
     public $clearSearchButton = true;
-    
+ 
+    public $edateInput = '';
+    public $edateOutput = '';
+   
     protected $queryString = [
         'search' => ['except' => ''], 
         'perPage',
+        'edateInput' => ['except' => ''],
+        'edateOutput' => ['except' => '']
     ];
 
     /**
@@ -49,12 +54,38 @@ class LoggedTable extends TableComponent
         'bootstrap.responsive' => true,
     ];
 
+    protected $listeners = ['edateInput' => 'edateInput', 'edateOutput' => 'edateOutput', 'eclearFilterDate' => 'eclearFilterDate'];    
+
+    public function edateInput($dateInput)
+    {
+        $this->edateInput = $dateInput;
+    }
+
+    public function edateOutput($dateOutput)
+    {
+        $this->edateOutput = $dateOutput;
+    }
+
+    public function eclearFilterDate()
+    {
+        $this->edateInput = '';
+        $this->edateOutput = '';
+    }
+
     /**
      * @return Builder
      */
     public function query(): Builder
     {
-        $query = Logged::query()->with('user')->whereYear('created_at', now()->year);
+        $query = Logged::query()->with('user')
+            ->when($this->edateInput, function ($query) {
+                empty($this->edateOutput) ?
+                    $query->whereBetween('created_at', [$this->edateInput.' 00:00:00', now()]) :
+                    $query->whereBetween('created_at', [$this->edateInput.' 00:00:00', $this->edateOutput.' 23:59:59']);
+            })
+            ->when(!$this->edateInput, function ($query) {
+                $query->whereYear('created_at', now()->year);
+            });
 
         return $query;
     }

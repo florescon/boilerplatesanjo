@@ -17,7 +17,6 @@ use Illuminate\Validation\Rule;
 
 class ActivityTable extends Component
 {
-
     use Withpagination, WithBulkActions, WithCachedRows;
 
     protected $paginationTheme = 'bootstrap';
@@ -25,6 +24,8 @@ class ActivityTable extends Component
     protected $queryString = [
         'searchTerm' => ['except' => ''],
         'perPage',
+        'dateInput' => ['except' => ''],
+        'dateOutput' => ['except' => '']
     ];
 
     public $perPage = '10';
@@ -34,16 +35,26 @@ class ActivityTable extends Component
     
     public $searchTerm = '';
 
+    public $dateInput = '';
+    public $dateOutput = '';
+
     public $log_name;
 
     public function getRowsQueryProperty()
     {
-        
         return Activity::query()
             ->where(function ($query) {
                 $query->where('log_name', 'like', '%' . $this->searchTerm . '%')
                     ->orWhere('properties', 'like', '%' . $this->searchTerm . '%')
                     ->orWhere('description', 'like', '%' . $this->searchTerm . '%');
+            })
+            ->when($this->dateInput, function ($query) {
+                empty($this->dateOutput) ?
+                    $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', now()]) :
+                    $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59']);
+            })
+            ->when(!$this->dateInput, function ($query) {
+                $query->whereYear('created_at', now()->year);
             })
             ->when($this->sortField, function ($query) {
                 $query->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc');
@@ -83,6 +94,24 @@ class ActivityTable extends Component
         $this->searchTerm = '';
         $this->page = 1;
         $this->perPage = '10';
+    }
+
+    public function clearFilterDate()
+    {
+        $this->dateInput = '';
+        $this->dateOutput = '';
+    }
+
+    public function clearAll()
+    {
+        $this->dateInput = '';
+        $this->dateOutput = '';
+        $this->searchTerm = '';
+        $this->page = 1;
+        $this->perPage = '10';
+        $this->selectAll = false;
+        $this->selectPage = false;
+        $this->selected = [];
     }
 
     public function export()

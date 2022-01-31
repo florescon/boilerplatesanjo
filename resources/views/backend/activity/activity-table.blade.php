@@ -5,6 +5,27 @@
     <div class="card-header-actions">
        <em> @lang('Last request'): {{ now()->format('h:i:s') }} </em>
     </div>
+
+    <div class="row input-daterange mt-4">
+        <div class="col-md-3">
+          <x-input.date wire:model="dateInput" id="dateInput" placeholder="{{ __('From') }}"/>
+        </div>
+        &nbsp;
+
+        <div class="col-md-3">
+          <x-input.date wire:model="dateOutput" id="dateOutput" placeholder="{{ __('To') }}"/>
+        </div>
+        &nbsp;
+
+        <div class="col-md-3">
+          <div class="btn-group mr-2" role="group" aria-label="First group">
+            <button type="button" class="btn btn-outline-primary" wire:click="clearFilterDate"  class="btn btn-default">@lang('Clear date')</button>
+            <button type="button" class="btn btn-primary" wire:click="clearAll" class="btn btn-default">@lang('Clear all')</button>
+          </div>
+        </div>
+        &nbsp;
+    </div>
+
   </div>
 
 <div class="card-body">

@@ -6,7 +6,6 @@ use Livewire\Component;
 
 class ModifyFeedstock extends Component
 {
-
     public function render()
     {
         return view('backend.material.modify-material');
