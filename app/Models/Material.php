@@ -92,6 +92,14 @@ class Material extends Model
     /**
      * @return string
      */
+    public function getFullNameAttribute()
+    {
+        return $this->name.' '.$this->unit_name.' '.$this->size_name.' '.$this->color_name;
+    }
+
+    /**
+     * @return string
+     */
     public function getColorNameAttribute()
     {
         return $this->color_id ? '| '.$this->color->name : '';
@@ -100,8 +108,32 @@ class Material extends Model
     /**
      * @return string
      */
-    public function getFullNameAttribute()
+    public function getSizeNameClearAttribute()
     {
-        return $this->name.' '.$this->unit_name.' '.$this->size_name.' '.$this->color_name;
+        return $this->size_id ? ', '.$this->size->name : '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getColorNameClearAttribute()
+    {
+        return $this->color_id ? ', '.$this->color->name : '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getUnitNameClearAttribute()
+    {
+        return $this->unit_id ? ', '.$this->unit->name : '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullNameClearAttribute()
+    {
+        return $this->name.$this->size_name_clear.$this->color_name_clear.$this->unit_name_clear;
     }
 }

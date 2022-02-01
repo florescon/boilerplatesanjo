@@ -164,16 +164,18 @@
                 </td>
               @endif
               <td >
-                {!! $record->product->full_name !!}
+                {!! $record->name_order_or_suborder !!}
               </td>
               <td class="align-middle text-center">
                 {{ $record->quantity }}
               </td>
               <td class="align-middle text-center">
-                ${{ $record->price }}
+                ${{ $record->price_order_or_suborder }}
               </td>
               <td class="align-middle text-center">
-                <a href="{{ route('admin.order.edit', $record->order_id) }}"> #{{ $record->order_id }}</a>
+                @if($record->order_or_suborder)
+                  <a href="{{ route('admin.order.edit', $record->order_or_suborder ) }}"> #{{ $record->order_or_suborder }}</a>
+                @endif
               </td>
               <td class="align-middle text-center">
                 {!! $record->type_order_label !!}

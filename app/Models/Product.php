@@ -143,6 +143,42 @@ class Product extends Model
     /**
      * @return string
      */
+    public function getOnlyNameAttribute()
+    {
+        if($this->parent_id != null){
+            return $this->parent->name;
+        }
+        else{
+            if(!$this->isProduct()){
+                return $this->name;
+            }
+            else{
+                return $this->name;
+            }
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getOnlyParametersAttribute()
+    {
+        if($this->parent_id != null){
+            return '<em>'.$this->size_name.' '.$this->color_name.'</em>';
+        }
+        else{
+            if(!$this->isProduct()){
+                return '';
+            }
+            else{
+                return '';
+            }
+        }
+    }
+
+    /**
+     * @return string
+     */
     public function getFullNameAttribute()
     {
         if($this->parent_id != null){
@@ -250,20 +286,20 @@ class Product extends Model
 
     public function getCodeSubproductAttribute()
     {
-        if(!$this->hasCodeSubproduct()){
+        if(!$this->hasCodeSubproduct() && $this->isProduct()){
             return $this->parent->code." <span class='badge badge-secondary'>".__('General').'</span>';
         }
 
-        return $this->code;
+        return $this->code ?: __('undefined');
     }
 
     public function getCodeLabelAttribute()
     {
-        if(!$this->hasCodeSubproduct()){
+        if(!$this->hasCodeSubproduct() && $this->isProduct){
             return $this->parent->code;
         }
 
-        return $this->code;
+        return $this->code ?? __('undefined');
     }
 
     /**

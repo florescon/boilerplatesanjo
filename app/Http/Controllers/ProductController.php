@@ -124,6 +124,18 @@ class ProductController extends Controller
             ->withProduct($product);
     }
 
+    public function clear_consumption(Product $product)
+    {
+        if($product->isChildren() || !$product->isProduct()){
+            abort(401);
+        }
+
+        $product->consumption()->delete();
+
+        return view('backend.product.consumption-product')
+            ->withProduct($product);
+    }
+
     public function createCodes(Product $product)
     {
         $product->load('children');

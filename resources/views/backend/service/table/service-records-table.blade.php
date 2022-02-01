@@ -164,7 +164,7 @@
                 </td>
               @endif
               <th >
-                {{ $record->product->name }}
+                {!! $record->name_order_or_suborder !!}
               </th>
               <td class="align-middle text-center">
                 {{ $record->quantity }}

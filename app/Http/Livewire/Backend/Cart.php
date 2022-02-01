@@ -28,7 +28,6 @@ class Cart extends Component
         'payment_method' => 'required_with:user,departament|integer',
     ];
 
-
     public function selectedCompanyItem($user)
     {
         $this->init();
@@ -149,6 +148,7 @@ class Cart extends Component
 
         if($this->payment && $this->payment_method){
             $order->orders_payments()->create([
+                'name' => 'pago',
                 'amount' => $this->payment,
                 'type' => 'income',
                 'date_entered' => today(),
@@ -177,8 +177,7 @@ class Cart extends Component
                     $order->product_order()->create([
                         'product_id' => $item->id,
                         'quantity' => $item->amount,
-                        'price' =>  !is_null($item->price) || $item->price != 0 ? 
-                                        $item->price : $item->parent->price,
+                        'price' =>  $cartuser ? $item->getPrice($type_price) : $item->parent->price,
                         'type' => 2,
                     ]);
                 }

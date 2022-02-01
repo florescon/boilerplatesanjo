@@ -252,6 +252,7 @@
 
 
   <x-slot name="footer">
+    <x-utils.delete-button :text="__('Delete feedstocks')" :href="route('admin.product.clear_consumption', $model->id)" />
  	  <footer class="blockquote-footer float-right">
 		 Mies Van der Rohe <cite title="Source Title">Less is more</cite>
 	  </footer>

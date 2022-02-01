@@ -71,7 +71,7 @@ class ProductRecordsTable extends Component
 
     public function getRowsQueryProperty()
     {
-        return ProductOrder::query()->with('product.parent')
+        return ProductOrder::query()->with('product.parent', 'parent_order.product')
             ->whereHas('product', function($q) {
                 $q->where('type', true);
             })

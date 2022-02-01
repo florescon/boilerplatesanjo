@@ -93,7 +93,7 @@ ventas@sj-uniformes.com
     <tbody>
       @foreach($order->product_suborder as $product)
       <tr>
-        <td scope="row">{!! $product->parent_order->product->parent->name !!}</tf>
+        <td scope="row">{!! $product->parent_order->product->full_name !!}</tf>
         <td align="center">{{ $product->quantity }}</td>
         <td align="right">${{ $product->parent_order->price }}</td>
         <td align="right">${{ $product->parent_order->price * $product->quantity }}</td>
@@ -104,9 +104,9 @@ ventas@sj-uniformes.com
     <tfoot>
         <tr>
             <td align="right"></td>
-            <td align="center" class="gray"><strong></strong></td>
+            <td align="center" class="gray"><strong>{{ $order->total_products_suborder }}</strong></td>
             <td align="right">Total </td>
-            <td align="right" class="gray">$</td>
+            <td align="right" class="gray">${{ $order->total_suborder }}</td>
         </tr>
     </tfoot>
   </table>

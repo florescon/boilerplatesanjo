@@ -169,7 +169,7 @@
                 </td>
               @endif
               <th>
-                {{ $record->material->name }}
+                {!! $record->material->full_name !!}
               </th>
               <td>
                 {!! $record->product_order->product->full_name !!}

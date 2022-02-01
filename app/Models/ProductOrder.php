@@ -26,6 +26,30 @@ class ProductOrder extends Model
     }
 
     /**
+     * @return mixed
+     */
+    public function parent_order()
+    {
+        return $this->belongsTo(self::class, 'product_id')->withTrashed();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isOrder()
+    {
+        return $this->order_id;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSuborder()
+    {
+        return $this->suborder_id;
+    }
+
+    /**
      * @return string
      */
     public function getTypeOrderAttribute()
@@ -52,15 +76,57 @@ class ProductOrder extends Model
                 return "<span class='badge badge-success'>".__('Sale').'</span>';
         }
 
+        if($this->isSuborder()){
+            return "<span class='badge text-white' style='background-color: purple;'>".__('Suborder').'</span>';
+        }
+
         return "<span class='badge badge-secondary'>".__('undefined').'</span>';
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function parent_order()
+    public function getNameOrderOrSuborderAttribute()
     {
-        return $this->belongsTo(self::class, 'product_id')->withTrashed();
+        if($this->isOrder()){
+            return $this->product->full_name;
+        }
+
+        if($this->isSuborder()){
+            return $this->parent_order->product->full_name;            
+        }
+
+        return '';
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getPriceOrderOrSuborderAttribute()
+    {
+        if($this->isOrder()){
+            return $this->price;
+        }
+
+        if($this->isSuborder()){
+            return $this->parent_order->price;            
+        }
+
+        return '';
+    }
+
+    public function getOrderOrSuborderAttribute()
+    {
+        if($this->order_id){
+            return $this->order_id;
+        }
+
+        if($this->suborder_id){
+            return $this->suborder_id;
+        }
+
+        return null;
     }
 
     /**

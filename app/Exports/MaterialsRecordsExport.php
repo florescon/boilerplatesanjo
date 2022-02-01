@@ -48,7 +48,7 @@ class MaterialsRecordsExport implements FromCollection, WithMapping, WithHeading
     public function map($material_order): array
     {
         return [
-            optional($material_order->material)->name,
+            optional($material_order->material)->full_name_clear,
             optional($material_order->product_order->product)->full_name_clear,
             $material_order->unit_quantity,
             $material_order->quantity,
