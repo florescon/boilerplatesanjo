@@ -9,12 +9,6 @@
 
 @section('content')
 
-    @if(!$order->parent_order_id)
-        <livewire:backend.order.edit-order :order="$order"/>
-    @endif
-
-    @if($order->parent_order_id)
-        @include('backend.order.suborder')
-    @endif
+    <livewire:backend.order.edit-order :order="$order"/>
 
 @endsection

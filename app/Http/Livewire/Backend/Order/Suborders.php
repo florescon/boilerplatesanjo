@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Backend\Order;
 
 use Livewire\Component;
 use App\Models\Order;
+use App\Models\ProductOrder;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\GeneralException;
 use Exception;
@@ -38,6 +39,9 @@ class Suborders extends Component
         $this->validate();
 
         $orderModel = Order::with('product_order')->find($this->order_id);
+
+        // dd($this->quantityy);
+        // dd('nope');
 
         foreach($orderModel->product_order as $bal)
         {
@@ -76,9 +80,10 @@ class Suborders extends Component
                         $SuborderIntoPro = $suborder;
 
                         $SuborderIntoPro->product_suborder()->create([
-                            'product_id' => $key,
+                            'product_id' => ProductOrder::find($key)->product_id,
                             'quantity' => $product['available'],
                             'price' => null,
+                            'parent_product_id' => $key,
                         ]);
                     }
                 }

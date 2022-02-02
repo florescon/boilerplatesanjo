@@ -75,18 +75,6 @@ class ServiceRecordsTable extends Component
             ->whereHas('product', function($q) {
                 $q->where('type', false);
             })
-            // ->when(!$this->dateInput, function ($query) {
-            //     $query->whereHas('product', function($q) {
-            //         $q->where('type', false);
-            //     });
-            // })
-            // ->when(!$this->dateInput, function ($query) {
-            //     $query->whereHas('parent_order', function($q) {
-            //         $q->whereHas('product', function($q) {
-            //             $q->where('type', false);
-            //         });
-            //     })
-            // })
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?
                     $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', now()]) :

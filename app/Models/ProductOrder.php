@@ -14,7 +14,7 @@ class ProductOrder extends Model
     protected $table = 'product_order';
 
 	protected $fillable = [
-        'order_id', 'suborder_id', 'product_id', 'quantity', 'price', 'type'
+        'order_id', 'suborder_id', 'product_id', 'quantity', 'price', 'type', 'parent_product_id'
     ];
 
     /**
@@ -30,7 +30,7 @@ class ProductOrder extends Model
      */
     public function parent_order()
     {
-        return $this->belongsTo(self::class, 'product_id')->withTrashed();
+        return $this->belongsTo(self::class, 'parent_product_id')->withTrashed();
     }
 
     /**

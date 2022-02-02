@@ -19,7 +19,7 @@ class Order extends Model
 {
     use HasFactory, SoftDeletes, CascadeSoftDeletes, OrderScope, Sluggable;
 
-    protected $cascadeDeletes = ['product_order', 'product_sale', 'materials_order'];
+    protected $cascadeDeletes = ['product_order', 'product_sale', 'suborders', 'product_suborder', 'materials_order'];
 
     protected $fillable = [
         'date_entered', 
@@ -372,7 +372,7 @@ class Order extends Model
     public function getTotalAvailableByProduct($byID)
     {
         return $this->suborders->sum(function($suborders) use ($byID) {
-          return $suborders->product_suborder->where('product_id', $byID)->sum('quantity');
+          return $suborders->product_suborder->where('parent_product_id', $byID)->sum('quantity');
         });
     }
 
@@ -453,7 +453,6 @@ class Order extends Model
     {
         return $this->approved;
     }
-
 
     /**
      * @return string

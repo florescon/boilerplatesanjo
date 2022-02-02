@@ -94,20 +94,12 @@ class OrderController extends Controller
 
     public function records_delivery(Order $order)
     {
-        if($order->parent_order_id == true){
-            abort(401);
-        }
-
         $records_delivery = $order->orders_delivery()->orderBy('created_at', 'desc')->paginate('10')->fragment('delivery');
         return view('backend.order.records-delivery-order', compact('order', 'records_delivery'));
     }
 
     public function records_payment(Order $order)
     {
-        if($order->parent_order_id == true){
-            abort(401);
-        }
-
         $records_payment = $order->orders_payments()->orderBy('created_at', 'desc')->paginate('10')->fragment('payment');
         return view('backend.order.records-payment-order', compact('order', 'records_payment'));
     }

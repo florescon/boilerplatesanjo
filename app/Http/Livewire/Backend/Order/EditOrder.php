@@ -170,6 +170,11 @@ class EditOrder extends Component
 
         $OrderStatusDelivery = OrderStatusDelivery::values();    
 
-        return view('backend.order.livewire.edit')->with(compact('model', 'orderExists', 'saleExists', 'statuses', 'OrderStatusDelivery'));
+        if(!$model->parent_order_id){
+            return view('backend.order.livewire.edit')->with(compact('model', 'orderExists', 'saleExists', 'statuses', 'OrderStatusDelivery'));
+        }
+        else{ 
+            return view('backend.order.suborder')->with(compact('model', 'orderExists', 'saleExists', 'statuses', 'OrderStatusDelivery'));           
+        }
     }
 }

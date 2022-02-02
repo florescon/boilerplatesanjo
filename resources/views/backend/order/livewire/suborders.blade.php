@@ -49,7 +49,6 @@
                               <tr>
                                 <td class="text-left">{!! $product->product->full_name !!}</td>
                                 <td class="border-right-0">{{ $product->quantity }}</td>
-
                                 <td > 
                                     <input type="number" 
                                         wire:model="quantityy.{{ $product->id }}.available"
