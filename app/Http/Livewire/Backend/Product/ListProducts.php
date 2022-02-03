@@ -42,8 +42,11 @@ class ListProducts extends Component
     {
         if ($this->searchTerm) {
             return $products->whereHas('parent', function ($query) {
-     		   $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
-    		});
+     		   $query->whereRaw("name LIKE \"%$this->searchTerm%\"")
+                    ->orWhereRaw("code LIKE \"%$this->searchTerm%\"");
+    		})
+            ->orWhere('code', 'like', '%' . $this->searchTerm . '%')
+            ->where('parent_id', '<>', NULL);
         }
 
         return null;
@@ -97,7 +100,7 @@ class ListProducts extends Component
     public function clear()
     {
         $this->searchTerm = '';
-        $this->page = 1;
+        $this->resetPage();
         $this->perPage = '15';
     }
 
@@ -106,7 +109,7 @@ class ListProducts extends Component
         $this->dateInput = '';
         $this->dateOutput = '';
         $this->searchTerm = '';
-        $this->page = 1;
+        $this->resetPage();
         $this->perPage = '15';
         $this->selectPage = false;
         $this->selectAll = false;
@@ -116,12 +119,12 @@ class ListProducts extends Component
 
     public function updatedSearchTerm()
     {
-        $this->page = 1;
+        $this->resetPage();
     }
 
     public function updatedPerPage()
     {
-        $this->page = 1;
+        $this->resetPage();
     }
 
     public function export()

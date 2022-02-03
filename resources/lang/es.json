@@ -520,6 +520,7 @@
     "from": "desde",
     "The Code is invalid or has expired.": "El código es inválido o ha expirado.",
     "undefined" : "no definido",
+    "undefined price" : "precio no definido",
     "undefined status" : "Estado de orden no definido",
     "Image": "Imagen",
     "Uploading": "Subiendo",

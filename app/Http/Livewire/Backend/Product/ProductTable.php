@@ -69,18 +69,18 @@ class ProductTable extends Component
     public function clear()
     {
         $this->searchTerm = '';
-        $this->page = 1;
+        $this->resetPage();
         $this->perPage = '12';
     }
 
     public function updatedSearchTerm()
     {
-        $this->page = 1;
+        $this->resetPage();
     }
 
     public function updatedPerPage()
     {
-        $this->page = 1;
+        $this->resetPage();
     }
 
     public function restore($id)

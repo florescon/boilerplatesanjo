@@ -36,6 +36,7 @@
 
 		      <p class="card-text">{!! $product->description_limited !!}</p>
 		      <p class="card-text"><small class="text-muted">@lang('Last Updated') {{ $product->updated_at->diffForHumans() }}</small></p>
+		      <p class="card-text">{{ $product->price ? '$'.$product->price : 'undefined price' }}</p>
 
 		      @if(!$product->status)
 			      <p class="card-text">

@@ -583,6 +583,11 @@ class Product extends Model
         $this->attributes['name'] = ucfirst(strtolower($value));
     }
 
+    public function getNameAttribute($value)
+    {
+        return ucwords(strtolower($value));
+    }
+
     /**
      * The attributes that should be cast.
      *

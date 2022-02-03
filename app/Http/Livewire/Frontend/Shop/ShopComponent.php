@@ -169,18 +169,18 @@ class ShopComponent extends Component
     public function clear()
     {
         $this->searchTermShop = '';
-        $this->page = 1;
+        $this->resetPage();
         $this->perPage = '12';
     }
 
     public function updatedSearchTermShop()
     {
-        $this->page = 1;
+        $this->resetPage();
     }
 
     public function updatedPerPage()
     {
-        $this->page = 1;
+        $this->resetPage();
     }
 
     public function hydrateLine()
@@ -188,15 +188,15 @@ class ShopComponent extends Component
         // dd($this->line);
         // $lineModel = Line::find($this->line)->first();
         // $this->nameLine = $lineModel->name;
-        $this->page = 1;
+        $this->resetPage();
     }
     public function hydrateColor()
     {
-        $this->page = 1;
+        $this->resetPage();
     }
     public function hydrateSize()
     {
-        $this->page = 1;
+        $this->resetPage();
     }
 
     public function getRowsProperty()

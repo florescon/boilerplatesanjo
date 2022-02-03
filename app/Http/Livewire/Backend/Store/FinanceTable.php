@@ -185,7 +185,7 @@ class FinanceTable extends Component
     {
         $this->clearFilterDate();
         $this->searchTerm = '';
-        $this->page = 1;
+        $this->resetPage();
         $this->perPage = '10';
         $this->deleted = FALSE;
         $this->selectAll = false;
@@ -196,28 +196,28 @@ class FinanceTable extends Component
     public function clear()
     {
         $this->searchTerm = '';
-        $this->page = 1;
+        $this->resetPage();
         $this->perPage = '10';
     }
 
     public function updatedSearchTerm()
     {
-        $this->page = 1;
+        $this->resetPage();
     }
 
     // public function hydratesortField()
     // {
-    //     $this->page = 1;
+    //     $this->resetPage();
     // }
 
     public function updatedPerPage()
     {
-        $this->page = 1;
+        $this->resetPage();
     }
 
     public function updatedDeleted()
     {
-        $this->page = 1;
+        $this->resetPage();
         $this->selectAll = false;
         $this->selectPage = false;
         $this->selected = [];

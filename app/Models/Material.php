@@ -136,4 +136,10 @@ class Material extends Model
     {
         return $this->name.$this->size_name_clear.$this->color_name_clear.$this->unit_name_clear;
     }
+
+    public function getNameAttribute($value)
+    {
+        return ucwords(strtolower($value));
+    }
+
 }

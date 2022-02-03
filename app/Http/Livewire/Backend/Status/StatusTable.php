@@ -23,7 +23,6 @@ class StatusTable extends Component
         'perPage',
     ];
 
-
     public $perPage = '10';
 
     public $sortField = 'level';
@@ -33,7 +32,6 @@ class StatusTable extends Component
     public $searchTerm = '';
 
     public $deleted;
-
 
     /**
      * Assign users.
@@ -90,7 +88,7 @@ class StatusTable extends Component
     public function clear()
     {
         $this->searchTerm = '';
-        $this->page = 1;
+        $this->resetPage();
         $this->perPage = '10';
     }
 
@@ -98,7 +96,7 @@ class StatusTable extends Component
     public function clearAll()
     {
         $this->searchTerm = '';
-        $this->page = 1;
+        $this->resetPage();
         $this->perPage = '10';
     }
 

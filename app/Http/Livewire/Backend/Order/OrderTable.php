@@ -130,7 +130,7 @@ class OrderTable extends Component
     public function clear()
     {
         $this->searchTerm = '';
-        $this->page = 1;
+        $this->resetPage();
         $this->perPage = '10';
     }
 
@@ -139,7 +139,7 @@ class OrderTable extends Component
         $this->dateInput = '';
         $this->dateOutput = '';
         $this->searchTerm = '';
-        $this->page = 1;
+        $this->resetPage();
         $this->perPage = '10';
     }
 

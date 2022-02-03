@@ -60,7 +60,7 @@
                 </div>
 
               </div>
-              <h6 class="mb-0">${{ $service->price }}</h6>
+              <h6 class="mb-0">{{ $service->price ? '$'.$service->price : 'undefined price' }}</h6>
               <a href="#!" data-toggle="modal" data-target="#showModal" wire:click="show({{ $service->id }})"><small>@lang('Details')</small></a>
               <div class="d-flex justify-content-between mt-4">
                 <div>

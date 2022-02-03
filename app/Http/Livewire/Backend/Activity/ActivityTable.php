@@ -70,12 +70,12 @@ class ActivityTable extends Component
 
     public function updatedSearchTerm()
     {
-        $this->page = 1;
+        $this->resetPage();
     }
 
     public function updatedPerPage()
     {
-        $this->page = 1;
+        $this->resetPage();
     }
 
     public function sortBy($field)
@@ -92,7 +92,7 @@ class ActivityTable extends Component
     public function clear()
     {
         $this->searchTerm = '';
-        $this->page = 1;
+        $this->resetPage();
         $this->perPage = '10';
     }
 
@@ -107,7 +107,7 @@ class ActivityTable extends Component
         $this->dateInput = '';
         $this->dateOutput = '';
         $this->searchTerm = '';
-        $this->page = 1;
+        $this->resetPage();
         $this->perPage = '10';
         $this->selectAll = false;
         $this->selectPage = false;

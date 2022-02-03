@@ -109,7 +109,7 @@ class ProductRecordsTable extends Component
         $this->dateInput = '';
         $this->dateOutput = '';
         $this->searchTerm = '';
-        $this->page = 1;
+        $this->resetPage();
         $this->perPage = '10';
         $this->deleted = FALSE;
         $this->selectAll = false;
