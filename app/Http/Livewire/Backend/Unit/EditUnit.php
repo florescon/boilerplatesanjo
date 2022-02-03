@@ -25,7 +25,7 @@ class EditUnit extends Component
     {
         $this->validate([
             'selected_id' => 'required|numeric',
-            'name' => 'required|min:3',
+            'name' => 'required|min:3|max:20',
             'abbreviation' => 'required|min:1|max:4',
         ]);
         if ($this->selected_id) {

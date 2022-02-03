@@ -47,7 +47,7 @@ class ColorTable extends Component
     public $name, $short_name, $color, $secondary_color, $created, $updated, $selected_id, $deleted;
 
     protected $rules = [
-        'name' => 'required|min:3',
+        'name' => 'required|min:3|max:20',
         'short_name' => 'required|min:3|max:6|regex:/^\S*$/u|unique:colors',
         'color' => 'required|unique:colors',
         'secondary_color' => '',
@@ -206,7 +206,7 @@ class ColorTable extends Component
     {
         $this->validate([
             'selected_id' => 'required|numeric',
-            'name' => 'required|min:3',
+            'name' => 'required|min:3|max:20',
             'short_name' => ['required', 'min:3', 'max:6', 'regex:/^\S*$/u', Rule::unique('colors')->ignore($this->selected_id)],
             'color' => 'required',
             'secondary_color' => ''

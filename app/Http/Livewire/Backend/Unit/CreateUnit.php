@@ -13,7 +13,7 @@ class CreateUnit extends Component
     protected $listeners = ['createmodal'];
 
     protected $rules = [
-        'name' => 'required|min:3',
+        'name' => 'required|min:3|max:20',
         'abbreviation' => 'required|min:1|max:4',
     ];
 

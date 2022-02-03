@@ -15,7 +15,7 @@ class CreateSize extends Component
     protected $listeners = ['createmodal'];
 
     protected $rules = [
-        'name' => 'required|min:1',
+        'name' => 'required|min:1|max:20',
         'short_name' => 'required|min:1|max:4|regex:/^\S*$/u|unique:sizes',
         'sort' => 'sometimes|integer|min:0'
     ];

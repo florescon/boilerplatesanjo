@@ -37,14 +37,14 @@ class MaterialController extends Controller
     public function update(Request $request, Material $material)
     {
         $validated = $request->validate([
-            'part_number' => ['nullable', 'min:3', 'regex:/^\S*$/u', Rule::unique('materials')->ignore($material->id)],
-            'name' => ['required', 'min:3'],
+            'part_number' => ['nullable', 'min:3', 'max:30', 'regex:/^\S*$/u', Rule::unique('materials')->ignore($material->id)],
+            'name' => ['required', 'min:3', 'max:40'],
             'price' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/'],
             'acquisition_cost' => ['nullable', 'numeric', 'sometimes', 'regex:/^\d+(\.\d{1,2})?$/'],
             'unit_id' => ['numeric', Rule::requiredIf(!$material->unit_id)],
             'color_id' => ['numeric', Rule::requiredIf(!$material->color_id)],
             'size_id' => ['nullable', 'sometimes', 'numeric'],
-            'description' => ['min:5', 'nullable'],
+            'description' => ['min:5', 'max:100', 'nullable'],
         ]);
 
         $materialUpdated = $material->update($validated);

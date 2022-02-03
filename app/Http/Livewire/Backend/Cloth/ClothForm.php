@@ -13,7 +13,7 @@ class ClothForm extends Component
     protected $listeners = ['createmodal'];
 
     protected $rules = [
-        'name' => 'required|min:2',
+        'name' => 'required|min:2|max:20',
     ];
 
     public $count = 0;

@@ -14,15 +14,15 @@ class CreateMaterial extends Component
     protected $listeners = ['createmodal'];
 
     protected $rules = [
-        'part_number' => 'min:3|nullable|unique:materials',
-        'name' => 'required|min:3',
+        'part_number' => 'min:3|max:30|nullable|unique:materials',
+        'name' => 'required|min:3|max:40',
         'price' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/',
         'acquisition_cost' => 'nullable|numeric|sometimes|regex:/^\d+(\.\d{1,2})?$/',
         'unit_id' => 'required|numeric',
         'color_id' => 'required|numeric',
         'size_id' => 'nullable|sometimes|numeric',
         'stock' => 'required|numeric',
-        'description' => 'min:5|nullable',
+        'description' => 'min:5|max:100|nullable',
     ];
 
     public function updated($propertyName)

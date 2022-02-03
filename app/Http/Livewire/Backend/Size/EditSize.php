@@ -37,7 +37,7 @@ class EditSize extends Component
     {
         $this->validate([
             'selected_id' => 'required|numeric',
-            'name' => 'required|min:1',
+            'name' => 'required|min:1|max:20',
             'short_name' => ['required', 'min:1', 'max:4', 'regex:/^\S*$/u', Rule::unique('sizes')->ignore($this->selected_id)],
             'sort' => 'sometimes|integer|min:0',
         ]);

@@ -24,7 +24,7 @@ class EditCloth extends Component
     {
         $this->validate([
             'selected_id' => 'required|numeric',
-            'name' => 'required|min:3',
+            'name' => 'required|min:3|max:20',
         ]);
         if ($this->selected_id) {
             $cloth = Cloth::find($this->selected_id);

@@ -24,8 +24,8 @@ class CreateProduct extends Component
     public bool $autoCodes = true;
 
     protected $rules = [
-        'name' => 'required|min:3',
-        'code' => 'required|min:3|max:15|regex:/^\S*$/u|unique:products',
+        'name' => 'required|min:3|max:50',
+        'code' => 'required|min:3|max:20|regex:/^\S*$/u|unique:products',
         'description' => 'nullable|sometimes',
         'colors' => 'required',
         'sizes' => 'required',

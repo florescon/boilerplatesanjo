@@ -18,14 +18,13 @@ class EditModel extends Component
         $this->selected_id = $id;
         $this->name = $record->name;
         $this->slug = $record->slug;
-
     }
 
     public function update()
     {
         $this->validate([
             'selected_id' => 'required|numeric',
-            'name' => 'required|min:3',
+            'name' => 'required|min:3|max:15',
         ]);
         if ($this->selected_id) {
             $model_product = ModelProduct::find($this->selected_id);
@@ -44,7 +43,6 @@ class EditModel extends Component
             'icon' => 'success',
             'title'   => __('Actualizado'), 
         ]);
-
     }
 
     public function render()

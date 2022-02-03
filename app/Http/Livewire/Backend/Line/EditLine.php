@@ -24,7 +24,7 @@ class EditLine extends Component
     {
         $this->validate([
             'selected_id' => 'required|numeric',
-            'name' => 'required|min:3',
+            'name' => 'required|min:3|max:15',
         ]);
         if ($this->selected_id) {
             $line = Line::find($this->selected_id);

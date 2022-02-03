@@ -20,7 +20,6 @@ class EditProduct extends Component
 
     public $slug, $isCode, $code, $isName, $name, $isDescription, $origDescription, $newDescription, $inputincrease, $inputsubtract, $inputincreaserevision, $inputsubtractrevision, $inputincreasestore, $inputsubtractstore, $product_id, $color_id_select, $size_id_select, $photo, $imageName, $origPhoto;
 
-
     public ?int $line_id = null;
     public ?int $brand_id = null;
     public ?int $model_product = null;
@@ -222,7 +221,7 @@ class EditProduct extends Component
     public function savename()
     {
         $this->validate([
-            'name' => 'required|max:50',
+            'name' => 'required|min:3|max:50',
         ]);
 
         $product = Product::findOrFail($this->product_id);
@@ -244,7 +243,7 @@ class EditProduct extends Component
     public function savecode()
     {
         $this->validate([
-            'code' => ['required', 'min:3', 'regex:/^\S*$/u', Rule::unique('products')->ignore($this->product_id)],
+            'code' => ['required', 'min:3', 'max:20', 'regex:/^\S*$/u', Rule::unique('products')->ignore($this->product_id)],
         ]);
 
         $product = Product::findOrFail($this->product_id);
