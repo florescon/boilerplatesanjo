@@ -164,8 +164,8 @@ class DepartamentTable extends Component
         $this->address = $record->address;
         $this->rfc = $record->rfc;
         $this->is_enabled = $record->is_enabled_departament;
-        $this->created = $record->created_at;
-        $this->updated = $record->updated_at;
+        $this->created = $record->created_at_formatted;
+        $this->updated = $record->updated_at_formatted;
     }
 
     public function update()

@@ -14,6 +14,7 @@ use App\Exports\ProductMainExport;
 use App\Exports\ProductRevisionExport;
 use App\Exports\ProductStoreExport;
 use Excel;
+use DB;
 
 class ListProducts extends Component
 {
@@ -28,7 +29,7 @@ class ListProducts extends Component
     public $dateInput = '';
     public $dateOutput = '';
 
-    public $sortField = 'stock_store';
+    public $sortField = 'created_at';
     public $sortAsc = false;
 
 	protected $queryString = [
@@ -61,6 +62,22 @@ class ListProducts extends Component
         }
 
         $this->sortField = $field;
+    }
+
+    public function updateProductDates()
+    {
+        $NullDatesProducts = Product::with('parent')->whereNotNull('parent_id')->whereNull('created_at')->get();
+
+        if($NullDatesProducts->count()){
+            foreach($NullDatesProducts as $product){
+                $parent = $product->parent;
+
+                DB::table('products')->where('id', $product->id)->update(['created_at' => $parent->created_at, 'updated_at' => $parent->updated_at]);
+            }
+        }        
+ 
+        return redirect()->route('admin.product.list');
+
     }
 
     public function getRowsQueryProperty()
@@ -179,9 +196,11 @@ class ListProducts extends Component
 
     public function render()
     {
+        $NullDatesProducts = Product::with('parent')->whereNotNull('parent_id')->whereNull('created_at')->get();
+
         return view('backend.product.table.product-list', [
             'products' => $this->rows,
+            'NullDatesProducts' => $NullDatesProducts,
         ]);
-
     }
 }

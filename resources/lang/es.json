@@ -878,5 +878,6 @@
     "See raw material by product, prior to consumption": "Ver materia prima, previa al consumo",
     "Remaining": "Restante",
     "Department exists, must be one or the other": "Departamento existe, debe ser uno u otro",
-    "User exists, must be one or the other": "Usuario existe, debe ser uno u otro"
+    "User exists, must be one or the other": "Usuario existe, debe ser uno u otro",
+    "Update product dates": "Actualizar fechas de productos"
 }

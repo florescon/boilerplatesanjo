@@ -168,7 +168,7 @@
                 @include('backend.departament.includes.type_price')
               </td>
               <td>
-                {{ $departament->updated_at }}
+                {{ $departament->updated_at_formatted }}
               </td>
               <td>
                 <div class="btn-group" role="group" aria-label="Basic example">

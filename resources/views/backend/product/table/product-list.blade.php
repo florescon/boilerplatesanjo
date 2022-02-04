@@ -19,6 +19,13 @@
 	</div>
 
 	<div class="card-body">
+
+		@if($NullDatesProducts->count())
+			<div class="alert alert-danger" role="alert">
+			  @lang('Update product dates') <a wire:click="updateProductDates" href="#">@lang('Update')</a> 
+			</div>
+		@endif
+
 		<div class="row d-flex flex-row-reverse mb-2">
 	    @if($selected && $products->count())
 	    <div class="dropdown table-export" style="margin-right: 100px;">

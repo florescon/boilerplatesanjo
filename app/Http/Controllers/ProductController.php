@@ -19,6 +19,16 @@ class ProductController extends Controller
 	 */
 	public function index()
 	{
+        $products = Product::with('parent')->whereNotNull('parent_id')->whereNull('created_at')->get();
+
+        if($products->count()){
+            foreach($products as $product){
+                $parent = $product->parent;
+
+                DB::table('products')->where('id', $product->id)->update(['created_at' => $parent->created_at, 'updated_at' => $parent->updated_at]);
+            }
+        }
+
 	    return view('backend.product.index');
 	}
 
@@ -58,6 +68,9 @@ class ProductController extends Controller
     		abort(401);
     	}
 
+        $product->children()->update(['updated_at' => $product->updated_at]);
+        $product->children()->update(['created_at' => $product->created_at]);
+        
         return view('backend.product.edit-product', compact('product'));
     }
 
