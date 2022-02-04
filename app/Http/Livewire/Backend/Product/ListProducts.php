@@ -28,8 +28,8 @@ class ListProducts extends Component
     public $dateInput = '';
     public $dateOutput = '';
 
-    public $sortField = 'updated_at';
-    public $sortAsc = true;
+    public $sortField = 'stock_store';
+    public $sortAsc = false;
 
 	protected $queryString = [
         'searchTerm' => ['except' => ''],

@@ -50,18 +50,6 @@ class FinanceTable extends Component
     public bool $incomes = false;
     public bool $expenses = false;
 
-    protected $rules = [
-        'name' => 'required|min:3',
-        'short_name' => 'required|min:1|unique:colors',
-        'color' => 'required|unique:colors',
-        'secondary_color' => '',
-    ];
-
-    public function updated($propertyName)
-    {
-        $this->validateOnly($propertyName);
-    }
-
     public function filter($type_finance)
     {
         if($type_finance === 'incomes'){
@@ -226,8 +214,8 @@ class FinanceTable extends Component
     public function delete(int $id)
     {
         if($id){
-            $color = Finance::where('id', $id);
-            $color->delete();
+            $finance = Finance::where('id', $id);
+            $finance->delete();
         }
        $this->emit('swal:alert', [
             'icon' => 'success',

@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', __('List products'))
+@section('title', __('List of products'))
 
 @section('content')
 

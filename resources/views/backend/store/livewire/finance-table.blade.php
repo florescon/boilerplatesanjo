@@ -22,6 +22,24 @@
             @if($incomes == TRUE)
               <ul class="list-group list-group-flush text-center">
                 <li class="list-group-item">@lang('Quantity'): {{ $finances->total() }} </li>
+                <li class="list-group-item">
+                  @if($dateInput)
+                    {{ $dateInput }}
+                    @if($dateOutput)
+                      a {{ $dateOutput }}
+                    @endif
+                  @else 
+                    @if($currentMonth)
+                      @lang('Current month')
+                    @elseif($currentWeek)
+                      @lang('Current week')
+                    @elseif($today)
+                      @lang('Today')
+                    @else
+                      @lang('Current month')
+                    @endif
+                  @endif
+                </li>
               </ul>
               {{-- <small class="text-muted"> {{ $finances->total() }} </small> --}}
             @endif
@@ -55,6 +73,24 @@
             @if($expenses == TRUE)
               <ul class="list-group list-group-flush text-center">
                 <li class="list-group-item">@lang('Quantity'): {{ $finances->total() }}</li>
+                <li class="list-group-item">
+                  @if($dateInput)
+                    {{ $dateInput }}
+                    @if($dateOutput)
+                      a {{ $dateOutput }}
+                    @endif
+                  @else 
+                    @if($currentMonth)
+                      @lang('Current month')
+                    @elseif($currentWeek)
+                      @lang('Current week')
+                    @elseif($today)
+                      @lang('Today')
+                    @else
+                      @lang('Current month')
+                    @endif
+                  @endif
+                </li>
               </ul>
               {{-- <small class="text-muted"> {{ $finances->total() }} </small> --}}
             @endif
