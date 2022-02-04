@@ -10,6 +10,7 @@ use Session;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Domains\Auth\Models\User;
+use App\Models\Departament;
 
 class Cart extends Component
 {
@@ -21,9 +22,11 @@ class Cart extends Component
 
     protected $listeners = ['selectPaymentMethod', 'selectedCompanyItem', 'selectedDeparament', 'cartUpdated' => '$refresh', 'selected' => 'render'];
 
+    //prohibited_unless:departament,
+    // required_without:departament|
     protected $rules = [
-        'user' => 'required_without:departament|prohibited_unless:departament,null',
-        'departament' => 'required_without:user|prohibited_unless:user,null',
+        'user' => 'prohibited_unless:departament,null',
+        'departament' => 'prohibited_unless:user,null',
         'payment' => 'required_with:user,departament',
         'payment_method' => 'required_with:user,departament|integer',
     ];
@@ -31,6 +34,9 @@ class Cart extends Component
     public function selectedCompanyItem($user)
     {
         $this->init();
+
+        CartFacade::clearDepartament();
+
         if ($user) {
             $this->user = $user;
             CartFacade::addUser(User::select('id', 'name')->
@@ -43,6 +49,27 @@ class Cart extends Component
         else{
             $this->user = null;
         }
+
+        return redirect()->route('admin.cart.index');
+    }
+
+    public function selectedDeparament($departament)
+    {
+        $this->init();
+
+        CartFacade::clearUser();
+
+        if ($departament) {
+            $this->departament = $departament;
+            CartFacade::addDepartament(Departament::select('id', 'name', 'type_price')->get()
+                ->find($departament));
+            $this->emit('selected');
+        }
+        else{
+            $this->departament = null;
+        }
+
+        return redirect()->route('admin.cart.index');
     }
 
     public function selectPaymentMethod($payment_method)
@@ -52,16 +79,6 @@ class Cart extends Component
         }
         else{
             $this->payment_method = null;
-        }
-    }
-
-    public function selectedDeparament($departament)
-    {
-        if ($departament){
-            $this->departament = $departament;
-        }
-        else{
-            $this->departament = null;
         }
     }
 
@@ -99,7 +116,15 @@ class Cart extends Component
         CartFacade::clearUser();
         $this->cart = CartFacade::get();
 
-        return redirect()->back();
+        return redirect()->route('admin.cart.index');
+    }
+
+    public function clearDepartament()
+    {
+        CartFacade::clearDepartament();
+        $this->cart = CartFacade::get();
+
+        return redirect()->route('admin.cart.index');
     }
 
     public function clearInput(): void
@@ -130,14 +155,19 @@ class Cart extends Component
         $cartSale = CartFacade::get()['products_sale'];
 
         $cartuser = CartFacade::get()['user'][0] ?? null;
+        $cartdepartament = CartFacade::get()['departament'][0] ?? null;
 
         if($cartuser != null){
             $type_price = $cartuser->customer->type_price ?? 'retail';
         }
 
+        if($cartdepartament != null){
+            $type_price = $cartdepartament->type_price ?? 'retail';
+        }
+
         $order = new Order();
-        $order->user_id = $this->isVisible == true  ? null : $this->user;
-        $order->departament_id = $this->isVisible == true  ? null : $this->departament;
+        $order->user_id = $this->isVisible == true  ? null : ($cartuser->id ?? null);
+        $order->departament_id = $this->isVisible == true  ? null : ($cartdepartament->id ?? null);
         $order->comment = $this->comment;
         $order->date_entered = Carbon::now()->format('Y-m-d');
         $order->type = $this->defineType(count($cart), count($cartSale));
@@ -164,7 +194,7 @@ class Cart extends Component
                     $order->product_order()->create([
                         'product_id' => $item->id,
                         'quantity' => $item->amount,
-                        'price' =>  $cartuser ? $item->getPrice($type_price) : $item->parent->price,
+                        'price' =>  $cartuser || $cartdepartament ? $item->getPrice($type_price) : $item->parent->price,
                         'type' => 1,
                     ]);
                 }
@@ -177,7 +207,7 @@ class Cart extends Component
                     $order->product_order()->create([
                         'product_id' => $item->id,
                         'quantity' => $item->amount,
-                        'price' =>  $cartuser ? $item->getPrice($type_price) : $item->parent->price,
+                        'price' =>  $cartuser || $cartdepartament ? $item->getPrice($type_price) : $item->parent->price,
                         'type' => 2,
                     ]);
                 }

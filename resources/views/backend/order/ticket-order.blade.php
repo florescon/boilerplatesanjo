@@ -81,7 +81,7 @@ ventas@sj-uniformes.com
                     <td scope="row">{!! $product->product->full_name !!}</tf>
                     <td align="center">{{ $product->quantity }}</td>
                     <td align="right">${{ $product->price }}</td>
-                    <td align="right">${{ $product->total_by_product }}</td>
+                    <td align="right">${{ number_format((float)$product->total_by_product, 2) }}</td>
                   </tr>
                   @endforeach
                 </tbody>
@@ -91,7 +91,7 @@ ventas@sj-uniformes.com
                         <td align="right"></td>
                         <td align="center" class="gray"><strong>{{ $order->total_products }}</strong></td>
                         <td align="right">Total </td>
-                        <td align="right" class="gray">${{ $order->total_order }}</td>
+                        <td align="right" class="gray">${{ number_format((float)$order->total_order, 2) }}</td>
                     </tr>
                 </tfoot>
             </table>
@@ -119,7 +119,7 @@ ventas@sj-uniformes.com
                     <td scope="row">{!! $product->product->full_name !!}</tf>
                     <td align="center">{{ $product->quantity }}</td>
                     <td align="right">${{ $product->price }}</td>
-                    <td align="right">${{ $product->total_by_product }}</td>
+                    <td align="right">${{ number_format((float)$product->total_by_product, 2) }}</td>
                   </tr>
                   @endforeach
                 </tbody>
@@ -129,7 +129,7 @@ ventas@sj-uniformes.com
                         <td align="right"></td>
                         <td align="center" class="gray"><strong>{{ $order->total_products_sale }}</strong></td>
                         <td align="right">Total </td>
-                        <td align="right" class="gray">${{ $order->total_sale }}</td>
+                        <td align="right" class="gray">${{ number_format((float)$order->total_sale, 2) }}</td>
                     </tr>
                 </tfoot>
             </table>

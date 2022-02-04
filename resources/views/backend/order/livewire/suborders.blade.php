@@ -4,7 +4,6 @@
     </style>
 @endpush
 
-
 <x-backend.card>
     <x-slot name="header">
         @lang('Suborders') - @lang('Order') #{{ $order_id }}

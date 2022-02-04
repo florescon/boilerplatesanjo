@@ -39,7 +39,8 @@ class DepartamentsExport implements FromCollection, WithMapping, WithHeadings, W
             __('Phone'),
             __('Address'),
             __('RFC'),
-            __('Updated at'),
+            __('Updated at').' (d/m h:i A)',
+            __('Created at').' (d/m h:i A)',
         ];
     }
 
@@ -55,7 +56,8 @@ class DepartamentsExport implements FromCollection, WithMapping, WithHeadings, W
             $departament->phone,
             $departament->address,
             $departament->rfc,
-            $departament->updated_at,
+            $departament->updated_at_formatted,
+            $departament->created_at_formatted,
         ];
     }
 

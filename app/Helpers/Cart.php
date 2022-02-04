@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use App\Models\Product;
 use App\Domains\Auth\Models\User;
+use App\Models\Departament;
 
 class Cart
 {
@@ -17,7 +18,6 @@ class Cart
      * typeCart: products or products_sale
      *
      */
-
     public function add(Product $product, string $typeCart): void
     {
         $cart = $this->get();
@@ -45,6 +45,17 @@ class Cart
         $this->set($cart);
     }
 
+    public function addDepartament(Departament $departament): void
+    {
+        $cart = $this->get();
+        $cartDepartamentId = array_column($cart['departament'], 'id');
+
+        array_splice($cart['departament'], 0, 1);
+
+        array_push($cart['departament'], $departament);
+        $this->set($cart);
+    }
+
     public function remove(int $productId, string $typeCart): void
     {
         $cart = $this->get();
@@ -64,12 +75,20 @@ class Cart
         $this->set($cart);
     }
 
+    public function clearDepartament(): void
+    {
+        $cart = $this->get();
+        array_splice($cart['departament'], 0, 1);
+        $this->set($cart);
+    }
+
     public function empty(): array
     {
         return [
             'products' => [],
             'products_sale' => [],
             'user' => [],
+            'departament' => [],
         ];
     }
     

@@ -22,7 +22,13 @@
 
 		@if($NullDatesProducts->count())
 			<div class="alert alert-danger" role="alert">
-			  @lang('Update product dates') <a wire:click="updateProductDates" href="#">@lang('Update')</a> 
+			  @lang('Update product dates') 
+		    <div wire:loading.remove class="d-inline">
+			  	<a wire:click="updateProductDates" href="#">@lang('Update')</a>
+			  </div>
+	      <div wire:loading wire:target="updateProductDates">
+	      	@lang('Loading')...
+	      </div>
 			</div>
 		@endif
 

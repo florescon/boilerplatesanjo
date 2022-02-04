@@ -1,17 +1,17 @@
 <x-backend.card>
 
-	@if(count($cartVar['products']) > 0)
+	@if(count($cartVar['products']) > 0 || count($cartVar['products_sale']) > 0 )
 		<x-slot name="header">
             <strong style="color: #0061f2;"> @lang('Cart order') </strong>
             {{-- @json($cartVar['user'][0]) --}}
+            {{-- @json($cartVar['departament'][0]->type_price) --}}
+		    {{-- @json($cartVar) --}}
+
 	 	</x-slot>
 	@endif
 
   	<x-slot name="headerActions">
-      <x-utils.link class="card-header-action" wire:click="clearCartAll" :text="__('Clear cart')" />
-      	@if(count($cartVar['user']))
-	    	<x-utils.link class="card-header-action" wire:click="clearUser" :text="__('Clear user')" />
-		@endif
+    	<x-utils.link class="card-header-action" wire:click="clearCartAll" :text="__('Clear cart')" />
 	</x-slot>
 
     <x-slot name="body">
@@ -39,7 +39,7 @@
 
 		{{-- @json($cartVar['products']) --}}
 
-        @if(count($cartVar['products']) > 0 || count($cartVar['products_sale']))
+        @if(count($cartVar['products']) > 0 || count($cartVar['products_sale']) > 0)
 		<div class="row ">
 			<div class="col-12 col-sm-6 col-md-8" wire:ignore>
 
@@ -71,8 +71,15 @@
 						      	@if($product->type == false)
 				                    <livewire:backend.cart-update-price-form :item="$product" :key="$product->id" :typeCart="'products'" />
 							    @else
-							      	${{ $product->getPrice($cartVar['user'][0]->customer->type_price ?? 'retail'); 
-							      	}}
+							      	$
+							      	@if($cartVar['user'])
+							      		{{ $product->getPrice($cartVar['user'][0]->customer->type_price ?? 'retail'); }}
+							      	@elseif($cartVar['departament'])
+							      		{{ $product->getPrice($cartVar['departament'][0]->type_price  ?? 'retail'); }}
+							      	@else
+							      		{{ $product->getPrice('retail'); }}
+							      	@endif
+						      		{{-- {{ $product->getPrice($cartVar['user'][0]->customer->type_price ?? 'retail'); }}  --}}
 							    @endif
 						      </td>
 						      <td style="width:120px; max-width: 120px;" >
@@ -92,8 +99,11 @@
 				@if(count($cartVar['products_sale']) > 0)
 				<div class="table-responsive">
 					<table class="table">
-					  <thead class="table-success">
-					    <tr>
+					  <thead>
+	                  	<tr class="text-center table-success">
+	                    	<th colspan="5" >@lang('Sale')</th>
+	                  	</tr>
+	                  	<tr class="thead-white">
 					      <th scope="col">@lang('Code')</th>
 					      <th scope="col">@lang('Product')</th>
 					      {{-- <th scope="col">@lang('Amount')</th> --}}
@@ -117,8 +127,18 @@
 						      	@if($product_sale->type == false)
 				                    <livewire:backend.cart-update-price-form :item="$product_sale" :key="$product_sale->id" :typeCart="'products_sale'" />
 							    @else
-							      	${{ $product_sale->getPrice($cartVar['user'][0]->customer->type_price ?? 'retail'); 
-							      	}}
+							      	$
+							      	@if($cartVar['user'])
+							      		{{ $product_sale->getPrice($cartVar['user'][0]->customer->type_price ?? 'retail'); }}
+							      	@elseif($cartVar['departament'])
+							      		{{ $product_sale->getPrice($cartVar['departament'][0]->type_price ?? 'retail'); }}
+							      	@else
+							      		retail
+							      		{{ $product_sale->getPrice('retail'); }}
+							      	@endif
+
+							      	{{-- {{ $product_sale->getPrice($cartVar['user'][0]->customer->type_price ?? 'retail'); }} --}}
+
 							      	{{-- ${{!is_null($product_sale->price) || $product_sale->price != 0 ? 
 							      			$product_sale->price : $product_sale->parent->price 
 							      	}} --}}
@@ -171,9 +191,15 @@
 							<div class="card border-primary">
 							  <div class="card-body">
 
-							    <livewire:backend.cart.user-cart :clear="true"/>
-								
-					        	@error('user') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+								@if($cartVar['user'])
+									<h5 class="justify-content-center text-center">
+										<p>{{ $cartVar['user'][0]->name ?? '' }}</p>	
+										<span class="badge badge-danger" wire:click="clearUser">@lang('Clear user')</span>
+									</h5>
+								@else
+								    <livewire:backend.cart.user-cart :clear="true"/>
+						        	@error('user') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+						        @endif 
 
 								<div class="form-group row">
 								    <div class="col-sm-12 text-center">
@@ -181,24 +207,32 @@
 								    </div>
 								</div><!--form-group-->
 
-							    <livewire:backend.departament.select-departaments :clear="true"/>
-						        @error('departament') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
-
+								@if($cartVar['departament'])
+									<h5 class="justify-content-center text-center">
+										<p>{{ $cartVar['departament'][0]->name ?? '' }}</p>	
+										<span class="badge badge-danger" wire:click="clearDepartament">@lang('Clear departament')</span>
+									</h5>
+								@else
+								    <livewire:backend.departament.select-departaments :clear="true"/>
+							        @error('departament') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+							    @endif
 							  </div>
 							</div>
 
-							<div class="form-group row" wire:ignore>
-							    <label for="payment" class="col-sm-3 col-form-label">@lang('Payment')</label>
-							    <div class="col-sm-9" >
-									<input class="form-control" wire:model.defer="payment" type="number" step="any" id="payment" />
-							    </div>
-							</div><!--form-group-->
+							@if($cartVar['user'] || $cartVar['departament'])
+								<div class="form-group row" wire:ignore>
+								    <label for="payment" class="col-sm-3 col-form-label">@lang('Payment')</label>
+								    <div class="col-sm-9" >
+										<input class="form-control" wire:model.defer="payment" type="number" step="any" id="payment" />
+								    </div>
+								</div><!--form-group-->
 
-					        @error('payment') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+						        @error('payment') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
-		                    <livewire:backend.setting.select-payment-method/>
-					         
-					        @error('payment_method') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+			                    <livewire:backend.setting.select-payment-method/>
+						         
+						        @error('payment_method') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+					        @endif
 
                         </div>
                     </div>

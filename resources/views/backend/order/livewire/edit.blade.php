@@ -153,8 +153,8 @@
             <div class="card-footer text-center">
               <div class="row">
                 <div class="col-6 col-lg-6">
-                  <p><strong>Total: </strong> ${{ $model->total_sale_and_order }}</p>
-                  <p><strong>@lang('Payment'):</strong> {!! $model->payment_label !!} ${{  number_format((float)$model->total_payments) }}</p>
+                  <p><strong>Total: </strong> ${{ number_format((float)$model->total_sale_and_order, 2) }}</p>
+                  <p><strong>@lang('Payment'):</strong> {!! $model->payment_label !!} ${{  number_format((float)$model->total_payments, 2) }}</p>
                   @if($model->total_payments_remaining > 0)
                     <p><strong>@lang('Remaining'):</strong> ${{ number_format((float)$model->total_payments_remaining, 2)  }}</p>
                     <h5 class="mt-2"><a href="#!" data-toggle="modal" wire:click="$emitTo('backend.order.create-payment', 'createmodal', {{ $order_id }})" data-target="#createPayment" style="color: #ee2e31;">Crear pago</a></h5>
