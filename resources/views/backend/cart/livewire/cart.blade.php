@@ -130,7 +130,6 @@
 							      	@elseif($cartVar['departament'])
 							      		{{ $product_sale->getPrice($cartVar['departament'][0]->type_price ?? 'retail'); }}
 							      	@else
-							      		retail
 							      		{{ $product_sale->getPrice('retail'); }}
 							      	@endif
 

@@ -95,12 +95,10 @@
                           <span class="badge badge-success">Stock'. appName().'</span>
                           ' !!}
                           #{{ $ticket->id.' - '.$ticket->status->name }}
-                          <p>
-                          </p>
                         </div>
 
                         <div class="col-md-4 col-sm-3">
-                            <a href="#" class="card-link"><i class="cil-print"></i> Ticket</a>
+                            <a href="{{ route('admin.order.ticket_assignment', [$order_id, $ticket->id]) }}" class="card-link" target="_blank"><i class="cil-print"></i> Ticket </a>
                         </div>
                         <div class="col-md-2 col-sm-6 text-right">
                           {{-- <a href="{{ url('/') }}">

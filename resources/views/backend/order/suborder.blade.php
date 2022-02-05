@@ -97,7 +97,7 @@
               <div class="invoice-total-wrapper">
                 <div class="invoice-total-item">
                   <p class="invoice-total-title">Total:</p>
-                  <p class="invoice-total-amount">${{ $total }}</p>
+                  <p class="invoice-total-amount">${{ number_format((float)$total, 2) }}</p>
                 </div>
                 <hr class="my-50" />
               </div>

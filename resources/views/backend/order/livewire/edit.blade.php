@@ -291,7 +291,7 @@
                     <td></td>
                     <td class="text-right">Total:</td>
                     <td class="text-center">{{ $model->total_products }}</td>
-                    <td class="text-center">${{ $model->total_order }}</td>
+                    <td class="text-center">${{ number_format((float)$model->total_order, 2) }}</td>
                   </tr>
 
                 </tbody>
@@ -333,7 +333,7 @@
                     <td></td>
                     <td class="text-right">Total:</td>
                     <td class="text-center">{{ $model->total_products_sale }}</td>
-                    <td class="text-center">${{ $model->total_sale }}</td>
+                    <td class="text-center">${{ number_format((float)$model->total_sale, 2) }}</td>
                   </tr>
 
                 </tbody>

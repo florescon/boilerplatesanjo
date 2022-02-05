@@ -96,7 +96,7 @@ ventas@sj-uniformes.com
         <td scope="row">{!! $product->parent_order->product->full_name !!}</tf>
         <td align="center">{{ $product->quantity }}</td>
         <td align="right">${{ $product->price ? $product->price : $product->parent_order->price }}</td>
-        <td align="right">${{ ($product->price ? $product->price : $product->parent_order->price) * $product->quantity }}</td>
+        <td align="right">${{ number_format((float)($product->price ? $product->price : $product->parent_order->price) * $product->quantity, 2) }}</td>
       </tr>
       @endforeach
     </tbody>
@@ -106,7 +106,7 @@ ventas@sj-uniformes.com
             <td align="right"></td>
             <td align="center" class="gray"><strong>{{ $order->total_products_suborder }}</strong></td>
             <td align="right">Total </td>
-            <td align="right" class="gray">${{ $order->total_suborder }}</td>
+            <td align="right" class="gray">${{ number_format((float)$order->total_suborder, 2) }}</td>
         </tr>
     </tfoot>
   </table>

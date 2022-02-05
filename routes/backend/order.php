@@ -3,6 +3,7 @@
 use App\Http\Controllers\OrderController;
 use App\Models\Order;
 use App\Models\Status;
+use App\Models\Ticket;
 use Tabuna\Breadcrumbs\Trail;
 
 Route::group([
@@ -110,6 +111,13 @@ Route::group([
             ->breadcrumbs(function (Trail $trail, Order $order, Status $status) {
                 $trail->parent('admin.order.edit', $order)
                     ->push(__('Assignments').' - '.$status->name, route('admin.order.assignments', [$order, $status]));
+            });
+
+        Route::get('ticket_assignment/{ticket}', [OrderController::class, 'ticket_assignment'])
+            ->name('ticket_assignment')
+            ->breadcrumbs(function (Trail $trail, Ticket $ticket) {
+                $trail->parent('admin.order.edit', $ticket)
+                    ->push(__('Ticket assignment').' '.$ticket->id, route('admin.order.ticket_assignment', [$order, $ticket]));
             });
 
         Route::get('records', [OrderController::class, 'records'])

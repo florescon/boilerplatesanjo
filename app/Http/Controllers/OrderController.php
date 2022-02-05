@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Status;
 use App\Models\StatusOrder;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use PDF;
@@ -62,6 +63,13 @@ class OrderController extends Controller
     public function ticket_order(Order $order)
     {
         $pdf = PDF::loadView('backend.order.ticket-order',compact('order'))->setPaper([0, 0, 1385.98, 296.85], 'landscape');
+
+        return $pdf->stream();
+    }
+
+    public function ticket_assignment(Order $order, Ticket $ticket)
+    {
+        $pdf = PDF::loadView('backend.order.ticket-assignment',compact('ticket'))->setPaper([0, 0, 1385.98, 296.85], 'landscape');
 
         return $pdf->stream();
     }

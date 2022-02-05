@@ -197,6 +197,24 @@ class Product extends Model
     /**
      * @return string
      */
+    public function getFullNameLinkAttribute()
+    {
+        if($this->parent_id != null){
+            return '<a href="'.route('admin.product.edit', $this->parent_id).'"><strong>'.$this->parent->name.'</strong></a> <em>'.$this->size_name.' '.$this->color_name.'</em>';
+        }
+        else{
+            if(!$this->isProduct()){
+                return $this->name." <span class='badge badge-info' style='color: white; background-color: #85144b;'>".__('Service').'</span>';
+            }
+            else{
+                return $this->name." <span class='badge badge-primary'>".__('Main').'</span>';
+            }
+        }
+    }
+
+    /**
+     * @return string
+     */
     public function getFullNameClearAttribute()
     {
         if($this->parent_id != null){

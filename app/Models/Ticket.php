@@ -26,12 +26,18 @@ class Ticket extends Model
         return $this->belongsTo(User::class)->withTrashed();
     }
 
+    /**
+     * @return mixed
+     */
+    public function audi()
+    {
+        return $this->belongsTo(User::class, 'audi_id');
+    }
+
     public function status()
     {
         return $this->belongsTo(Status::class, 'status_id')->withTrashed();
     }
-
-
 
     public function getTotalProductsAttribute()
     {
@@ -63,6 +69,4 @@ class Ticket extends Model
     {
         return $this->updated_at->diffForHumans();
     }
-
-
 }
