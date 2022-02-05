@@ -82,13 +82,13 @@
               </p>
             </td>
             <td class="py-1">
-              <span class="font-weight-bold">${{ $product->parent_order->price }}</span>
+              <span class="font-weight-bold">${{ $product->price ? $product->price : $product->parent_order->price }}</span>
             </td>
             <td class="py-1">
               <span class="font-weight-bold">{{ $product->quantity }}</span>
             </td>
             <td class="py-1">
-              <span class="font-weight-bold">${{ number_format($totalprod = $product->parent_order->price * $product->quantity, 2, ".", ",") }}</span>
+              <span class="font-weight-bold">${{ number_format($totalprod = ($product->price ? $product->price : $product->parent_order->price) * $product->quantity, 2, ".", ",") }}</span>
             </td>
           </tr>
           @php($total += $totalprod)

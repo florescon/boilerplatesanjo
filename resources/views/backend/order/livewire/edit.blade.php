@@ -243,7 +243,7 @@
                     </td>
                     <td class="text-center">${{ $product->price }}</td>
                     <td class="text-center">{{ $product->quantity }}</td>
-                    <td class="text-center">${{ $product->total_by_product }}</td>
+                    <td class="text-center">${{ number_format((float)$product->total_by_product, 2) }}</td>
                   </tr>
 
                     {{-- @json($product->gettAllConsumption()) --}}
@@ -326,7 +326,7 @@
                     </td>
                     <td class="text-center">${{ $product->price }}</td>
                     <td class="text-center">{{ $product->quantity }}</td>
-                    <td class="text-center">${{ $product->total_by_product }}</td>
+                    <td class="text-center">${{ number_format((float)$product->total_by_product, 2) }}</td>
                   </tr>
                   @endforeach
                   <tr>

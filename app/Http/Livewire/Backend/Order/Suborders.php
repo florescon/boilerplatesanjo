@@ -4,7 +4,9 @@ namespace App\Http\Livewire\Backend\Order;
 
 use Livewire\Component;
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\ProductOrder;
+use App\Models\Departament;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\GeneralException;
 use Exception;
@@ -40,9 +42,6 @@ class Suborders extends Component
 
         $orderModel = Order::with('product_order')->find($this->order_id);
 
-        // dd($this->quantityy);
-        // dd('nope');
-
         foreach($orderModel->product_order as $bal)
         {
 
@@ -56,46 +55,41 @@ class Suborders extends Component
             }
         }
 
-        DB::beginTransaction();
 
-        try {
+        if(!empty($this->quantityy)){
 
-            if(!empty($this->quantityy)){
+            // dd($this->quantityy);
+            $suborder = new Order();
+            $suborder->parent_order_id = $this->order_id;
+            $suborder->departament_id = $this->departament ?? null;
+            $suborder->date_entered = Carbon::now()->format('Y-m-d');
+            $suborder->audi_id = Auth::id();
+            $suborder->approved = true;
+            $suborder->type = 4;
+            $suborder->save();
 
-                // dd($this->quantityy);
-                $suborder = new Order();
-                $suborder->parent_order_id = $this->order_id;
-                $suborder->departament_id = $this->departament ?? null;
-                $suborder->date_entered = Carbon::now()->format('Y-m-d');
-                $suborder->audi_id = Auth::id();
-                $suborder->approved = true;
-                $suborder->type = 4;
-                $suborder->save();
+            $departament = Departament::find($this->departament);
 
-                foreach($this->quantityy as $key => $product){
+            foreach($this->quantityy as $key => $product){
 
-                    // dd($product['available']);
-                    if(!empty($product['available'])){
+                // dd($product['available']);
+                if(!empty($product['available'])){
 
-                        $SuborderIntoPro = $suborder;
+                    $SuborderIntoPro = $suborder;
 
-                        $SuborderIntoPro->product_suborder()->create([
-                            'product_id' => ProductOrder::find($key)->product_id,
-                            'quantity' => $product['available'],
-                            'price' => null,
-                            'parent_product_id' => $key,
-                        ]);
-                    }
+                    $getProductOrder = ProductOrder::find($key)->product_id;
+
+                    $getProduct = Product::with('parent')->find($getProductOrder);
+
+                    $SuborderIntoPro->product_suborder()->create([
+                        'product_id' => $getProductOrder,
+                        'quantity' => $product['available'],
+                        'price' => $this->departament ? $getProduct->getPrice($departament->type_price ?? 'retail') : null,
+                        'parent_product_id' => $key,
+                    ]);
                 }
             }
-
-        } catch (Exception $e) {
-            DB::rollBack();
-
-            throw new GeneralException(__('There was a problem.'));
         }
-
-        DB::commit();
 
        $this->resetInput();
 

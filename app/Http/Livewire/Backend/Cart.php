@@ -27,8 +27,8 @@ class Cart extends Component
     protected $rules = [
         'user' => 'prohibited_unless:departament,null',
         'departament' => 'prohibited_unless:user,null',
-        'payment' => 'required_with:user,departament',
-        'payment_method' => 'required_with:user,departament|integer',
+        // 'payment' => 'required_with:user,departament',
+        // 'payment_method' => 'required_with:user,departament|integer',
     ];
 
     public function selectedCompanyItem($user)
@@ -189,12 +189,12 @@ class Cart extends Component
         }
 
         if(count($cart)){
-            foreach ($cart as  $item) {
+            foreach ($cart as $item) {
                 if($item->amount >= 1){
                     $order->product_order()->create([
                         'product_id' => $item->id,
                         'quantity' => $item->amount,
-                        'price' =>  $cartuser || $cartdepartament ? $item->getPrice($type_price) : $item->parent->price,
+                        'price' =>  ($cartuser || $cartdepartament) ? $item->getPrice($type_price) : $item->parent->price,
                         'type' => 1,
                     ]);
                 }
@@ -202,12 +202,12 @@ class Cart extends Component
         }
     
         if(count($cartSale)){
-            foreach ($cartSale as  $item) {
+            foreach ($cartSale as $item) {
                 if($item->amount >= 1){
                     $order->product_order()->create([
                         'product_id' => $item->id,
                         'quantity' => $item->amount,
-                        'price' =>  $cartuser || $cartdepartament ? $item->getPrice($type_price) : $item->parent->price,
+                        'price' =>  ($cartuser || $cartdepartament) ? $item->getPrice($type_price) : $item->parent->price,
                         'type' => 2,
                     ]);
                 }

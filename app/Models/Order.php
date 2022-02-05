@@ -358,7 +358,7 @@ class Order extends Model
     public function getTotalSuborderAttribute()
     {
         return $this->product_suborder->sum(function($product) {
-          return $product->quantity * $product->parent_order->price;
+          return $product->quantity * ($product->price ? $product->price : $product->parent_order->price);
         });
     }
 

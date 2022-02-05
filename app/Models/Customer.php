@@ -56,4 +56,19 @@ class Customer extends Model
     {
         return $this->type_price === $type_price;
     }
+
+    public function getTypePriceLabelAttribute()
+    {
+        if($this->isRetail()){
+            return __('Retail price');
+        }
+        elseif($this->isAverageWholesale()){
+            return __('Average wholesale price');
+        }
+        elseif($this->isWholesale()){
+            return __('Wholesale price');
+        }
+
+        return __('Retail price');
+    }
 }

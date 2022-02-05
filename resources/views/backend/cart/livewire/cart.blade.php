@@ -6,7 +6,6 @@
             {{-- @json($cartVar['user'][0]) --}}
             {{-- @json($cartVar['departament'][0]->type_price) --}}
 		    {{-- @json($cartVar) --}}
-
 	 	</x-slot>
 	@endif
 
@@ -87,7 +86,7 @@
 						      </td>
 
 						      <td>
-								<a wire:click="removeFromCart({{ $product->id }}, 'products')" class="badge badge-danger text-white">@lang('Delete')</a>
+								<a wire:click="removeFromCart({{ $product->id }}, 'products')" class="badge badge-danger text-white" style="cursor:pointer;">@lang('Delete')</a>
 						  	  </td>
 						    </tr>
 					    @endforeach
@@ -165,7 +164,7 @@
 
                     <div x-data="{ internalControl : @entangle('isVisible')  }">
                         <div class="form-group row">
-                            <label for="internal_control" class="col-md-8 col-form-label"><h5>@lang('Internal control') <span class="badge badge-secondary">@lang('Click here')</span></h5>
+                            <label for="internal_control" class="col-md-8 col-form-label" ><h5>@lang('Internal control') <span class="badge badge-secondary" style="cursor:pointer;">@lang('Click here')</span></h5>
 							</label>
 
                             <div class="col-md-4">
@@ -194,7 +193,12 @@
 								@if($cartVar['user'])
 									<h5 class="justify-content-center text-center">
 										<p>{{ $cartVar['user'][0]->name ?? '' }}</p>	
-										<span class="badge badge-danger" wire:click="clearUser">@lang('Clear user')</span>
+									</h5>
+									<h6 class="justify-content-center text-center">
+										<em>{{ $cartVar['user'][0]->customer->type_price_label ?? __('Retail price') }}</em>
+									</h6>
+									<h5 class="justify-content-center text-center mt-4">
+										<span class="badge badge-danger" wire:click="clearUser" style="cursor:pointer;">@lang('Clear user')</span>
 									</h5>
 								@else
 								    <livewire:backend.cart.user-cart :clear="true"/>
@@ -210,7 +214,12 @@
 								@if($cartVar['departament'])
 									<h5 class="justify-content-center text-center">
 										<p>{{ $cartVar['departament'][0]->name ?? '' }}</p>	
-										<span class="badge badge-danger" wire:click="clearDepartament">@lang('Clear departament')</span>
+									</h5>
+									<h6 class="justify-content-center text-center">
+										<em>{{ $cartVar['departament'][0]->type_price_label }}</em>
+									</h6>
+									<h5 class="justify-content-center text-center mt-4">
+										<span class="badge badge-danger" wire:click="clearDepartament" style="cursor:pointer;">@lang('Clear departament')</span>
 									</h5>
 								@else
 								    <livewire:backend.departament.select-departaments :clear="true"/>
