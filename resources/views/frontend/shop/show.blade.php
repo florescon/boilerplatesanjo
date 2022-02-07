@@ -71,7 +71,7 @@
 									@if($related_product->children->unique('size_id')->count())
 									<div class="shop-wrap-2-size">
 										<p class="mb-0 color-white text-uppercase size-13 font-weight-600">
-											@foreach($related_product->children->unique('size_id')->sortBy('size.name')->slice(0, 3) as $children) 
+											@foreach($related_product->children->unique('size_id')->sortBy('size.sort')->slice(0, 3) as $children) 
 												<span class="mx-1">{{ optional($children->size)->short_name }}</span>
 											@endforeach
 											@if($related_product->children->unique('size_id')->count() > 3)

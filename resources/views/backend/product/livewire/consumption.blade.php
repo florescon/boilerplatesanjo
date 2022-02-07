@@ -21,7 +21,7 @@
               </li>
               <li class="list-group-item">
                 <strong>@lang('Sizes'): </strong> 
-                @foreach($model->children->unique('size_id')->sortBy('size.name') as $sizes)
+                @foreach($model->children->unique('size_id')->sortBy('size.sort') as $sizes)
                   <button type="button" style="margin-top: 3px" class="btn {{ in_array($sizes->size_id, $filters_s) ? 'btn-primary text-white' : 'btn-outline-primary' }} btn-sm" wire:click="$emit('filterBySize', {{ $sizes->size_id }})">
                     {{ $sizes->size->name }} <span class="badge bg-danger text-white">{{ ltrim($product_general->getTotalConsumptionBySize($sizes->size_id), '0') }}</span>
                   </button>

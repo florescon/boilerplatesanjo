@@ -136,7 +136,11 @@
 		                {!! $order->date_diff_for_humans_created !!}
 		              </td>
 	                <td class="text-center">
-										{!! $order->payment_label !!}
+										@if(!$order->exist_user_departament)
+											{!! $order->payment_label !!}
+										@else
+											<span class="badge badge-dark">@lang('Internal control')</span>
+	                	@endif
 	                	@if($order->parent_order_id)
 		                  <span class="badge badge-primary">
 		                  	@lang('Order'): <strong class="ml-1">{{ $order->parent_order }}</strong>

@@ -33,7 +33,7 @@ class ProductTable extends Component
     {
         $query = Product::query()
             ->onlyProducts()
-            ->with('children')
+            ->with('children', 'consumption')
             ->withCount('children')
             ->whereNull('parent_id')
             ->orderBy('updated_at', 'desc');

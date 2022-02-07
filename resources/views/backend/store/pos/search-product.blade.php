@@ -115,7 +115,7 @@
         @if($selectedProduct->children->count())
           <div class="row mt-3">
             <div class="col-md-6 text-center">
-                  @foreach($selectedProduct->children->unique('size_id')->sortBy('size.name') as $children)  
+                  @foreach($selectedProduct->children->unique('size_id')->sortBy('size.sort') as $children)  
                   <span class="badge text-white {{ in_array($children->size_id, $filtersz) ? 'bg-danger' : 'bg-dark' }}" 
                               wire:click="$emit('filterBySize', {{ $children->size_id }})"
                       style="cursor:pointer"

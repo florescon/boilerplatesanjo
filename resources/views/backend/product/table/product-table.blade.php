@@ -82,7 +82,14 @@
 
 		    <div class="card-footer">
 				@if (!$product->trashed())
-					<a href="{{ route('admin.product.consumption',  $product->id) }}" class="btn btn-warning text-white mb-1 mr-1">@lang('Consumption')</a>
+						<a href="{{ route('admin.product.consumption',  $product->id) }}" class="btn btn-warning text-white mb-1 mr-1">
+							@if($product->consumption->count())
+								@lang('Edit')
+							@else
+								@lang('Add')
+							@endif
+							@lang('consumption')
+						</a>
 					<a href="{{ route('admin.product.edit',  $product->id) }}" class="btn btn-primary mb-1">@lang('Edit product')</a>
 				@else
 				    <div class="dropright" style="display:inline-block;">

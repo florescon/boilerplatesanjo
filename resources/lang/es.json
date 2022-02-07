@@ -302,6 +302,7 @@
     "Save feedstock product": "Guardar materia prima de producto",
     "Create feedstock": "Crear materia prima",
     "Consumption": "Consumo",
+    "consumption": "consumo",
     "Total consumption": "Consumo total",
     "Punctual consumption": "Consumo puntual",
     "Go to consumption": "Ir a consumo",
@@ -433,6 +434,7 @@
     "Deleted units": "Unidades eliminadas",
     "Navigation": "Navegación",
 
+    "Add": "Agregar",
     "Product": "Producto",
     "Products": "Productos",
     "products": "productos",
