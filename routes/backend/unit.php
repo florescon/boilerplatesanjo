@@ -7,11 +7,10 @@ use Tabuna\Breadcrumbs\Trail;
 Route::group([
     'prefix' => 'unit',
     'as' => 'unit.',
-    'middleware' =>  'role:'.config('boilerplate.access.role.admin'),
 ], function () {
     Route::get('/', [UnitController::class, 'index'])
         ->name('index')
-        // ->middleware('permission:admin.access.unit.list')
+        ->middleware('permission:admin.access.unit.list')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.dashboard')
                 ->push(__('Unit Management'), route('admin.unit.index'));
@@ -19,6 +18,7 @@ Route::group([
 
     Route::get('deleted', [UnitController::class, 'deleted'])
         ->name('deleted')
+        ->middleware('permission:admin.access.unit.deleted')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.unit.index')
                 ->push(__('Deleted units'), route('admin.unit.deleted'));

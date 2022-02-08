@@ -7,11 +7,10 @@ use Tabuna\Breadcrumbs\Trail;
 Route::group([
     'prefix' => 'cloth',
     'as' => 'cloth.',
-    'middleware' =>  'role:'.config('boilerplate.access.role.admin'),
 ], function () {
     Route::get('/', [ClothController::class, 'index'])
         ->name('index')
-        // ->middleware('permission:admin.access.cloth.list')
+        ->middleware('permission:admin.access.cloth.list')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.dashboard')
                 ->push(__('Cloth Management'), route('admin.cloth.index'));
@@ -19,6 +18,7 @@ Route::group([
 
     Route::get('deleted', [ClothController::class, 'deleted'])
         ->name('deleted')
+        ->middleware('permission:admin.access.cloth.deleted')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.cloth.index')
                 ->push(__('Deleted cloths'), route('admin.cloth.deleted'));

@@ -14,18 +14,19 @@
             <strong style="color: #0061f2;"> @lang('Cloths') </strong>
         </x-slot>
 
-
-        <x-slot name="headerActions">
-            <x-utils.link
-                icon="c-icon cil-plus"
-                class="card-header-action"
-                data-toggle="modal" 
-                style="color: green;"
-                wire:click="$emitTo('backend.cloth.cloth-form', 'createmodal')" 
-                data-target="#createCloth"
-                :text="__('Create cloth')"
-            />
-        </x-slot>
+        @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.cloth.create'))
+            <x-slot name="headerActions">
+                <x-utils.link
+                    icon="c-icon cil-plus"
+                    class="card-header-action"
+                    data-toggle="modal" 
+                    style="color: green;"
+                    wire:click="$emitTo('backend.cloth.cloth-form', 'createmodal')" 
+                    data-target="#createCloth"
+                    :text="__('Create cloth')"
+                />
+            </x-slot>
+        @endif
 
         <x-slot name="body">
 

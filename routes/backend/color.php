@@ -7,7 +7,6 @@ use Tabuna\Breadcrumbs\Trail;
 Route::group([
     'prefix' => 'color',
     'as' => 'color.',
-    'middleware' =>  'role:'.config('boilerplate.access.role.admin'),
 ], function () {
     Route::get('/', [ColorController::class, 'index'])
         ->name('index')
@@ -20,6 +19,7 @@ Route::group([
     Route::group(['prefix' => '{color}'], function () {
         Route::get('associates_sub', [ColorController::class, 'associates_sub'])
             ->name('associates_sub')
+            ->middleware('permission:admin.access.color.modify')
             ->breadcrumbs(function (Trail $trail, Color $color) {
                 $trail->parent('admin.color.index', $color)
                     ->push(__('Associated subproducts of').' '.$color->name, route('admin.color.associates_sub', $color));
@@ -27,6 +27,7 @@ Route::group([
 
         Route::get('associates', [ColorController::class, 'associates'])
             ->name('associates')
+            ->middleware('permission:admin.access.color.modify')
             ->breadcrumbs(function (Trail $trail, Color $color) {
                 $trail->parent('admin.color.index', $color)
                     ->push(__('Associates of').' '.$color->name, route('admin.color.associates', $color));

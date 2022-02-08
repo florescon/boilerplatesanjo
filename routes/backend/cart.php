@@ -19,11 +19,10 @@ use Tabuna\Breadcrumbs\Trail;
 Route::group([
     'prefix' => 'cart',
     'as' => 'cart.',
-    'middleware' =>  'role:'.config('boilerplate.access.role.admin'),
 ], function () {
     Route::get('/', [CartController::class, 'index'])
         ->name('index')
-        // ->middleware('permission:admin.access.cloth.list')
+        ->middleware('permission:admin.access.cart.list')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.dashboard')
                 ->push(__('Cart Management'), route('admin.cart.index'));
@@ -31,7 +30,7 @@ Route::group([
 
     Route::get('from_store', [CartController::class, 'from_store'])
         ->name('from_store')
-        // ->middleware('permission:admin.access.cloth.list')
+        ->middleware('permission:admin.access.cart.list')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.dashboard')
                 ->push(__('Cart Management'), route('admin.cart.from_store'));

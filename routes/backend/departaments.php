@@ -7,11 +7,10 @@ use Tabuna\Breadcrumbs\Trail;
 Route::group([
     'prefix' => 'departament',
     'as' => 'departament.',
-    'middleware' => config('boilerplate.access.middleware.confirm'),
 ], function () {
     Route::get('/', [DepartamentController::class, 'index'])
         ->name('index')
-        // ->middleware('permission:admin.access.departament.list')
+        ->middleware('permission:admin.access.departament.list')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.dashboard')
                 ->push(__('Departament Management'), route('admin.departament.index'));

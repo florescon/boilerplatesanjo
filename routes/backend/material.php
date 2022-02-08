@@ -7,7 +7,6 @@ use Tabuna\Breadcrumbs\Trail;
 Route::group([
     'prefix' => 'material',
     'as' => 'material.',
-    'middleware' =>  'role:'.config('boilerplate.access.role.admin'),
 ], function () {
     Route::get('/', [MaterialController::class, 'index'])
         ->name('index')
@@ -19,6 +18,7 @@ Route::group([
 
     Route::get('records', [MaterialController::class, 'recordsMaterial'])
         ->name('records')
+        ->middleware('permission:admin.access.material.modify')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.material.index')
                 ->push(__('Records of feedstock'), route('admin.material.records'));
@@ -27,6 +27,7 @@ Route::group([
     Route::group(['prefix' => '{material}'], function () {
         Route::get('edit', [MaterialController::class, 'edit'])
             ->name('edit')
+            ->middleware('permission:admin.access.material.modify')
             ->breadcrumbs(function (Trail $trail, Material $material) {
                 $trail->parent('admin.material.index')
                     ->push(__('Edit feedstock'), route('admin.material.edit', $material));
@@ -42,6 +43,7 @@ Route::group([
 
     Route::get('deleted', [MaterialController::class, 'deleted'])
         ->name('deleted')
+        ->middleware('permission:admin.access.material.deleted')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.material.index')
                 ->push(__('Deleted feedstocks'), route('admin.material.deleted'));

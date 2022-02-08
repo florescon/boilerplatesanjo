@@ -12,8 +12,10 @@ background: linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(148,233,202,1) 1
     <strong style="color: #0061f2;"> @lang('List of colors') </strong>
   @endif
   <div class="card-header-actions">
-     <em> @lang('Last request'): {{ now()->format('h:i:s') }} </em>
-    <a href="#" class="card-header-action" style="color: green;"  data-toggle="modal" wire:click="createmodal()" data-target="#exampleModal"><i class="c-icon cil-plus"></i> @lang('Create color') </a>
+    <em> @lang('Last request'): {{ now()->format('h:i:s') }} </em>
+    @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.color.create'))
+      <a href="#" class="card-header-action" style="color: green;"  data-toggle="modal" wire:click="createmodal()" data-target="#exampleModal"><i class="c-icon cil-plus"></i> @lang('Create color') </a>
+    @endif
   </div>
 
     <div class="page-header-subtitle mt-5 mb-2">
@@ -40,13 +42,15 @@ background: linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(148,233,202,1) 1
           </div>
         </div>
         &nbsp;
-
-        <div class="col-md-1">
-          <div class="custom-control custom-switch">
-            <input type="checkbox" wire:model="deleted" class="custom-control-input" id="deletedSwitch">
-            <label class="custom-control-label" for="deletedSwitch"> <p class="{{ $deleted ? 'text-primary' : 'text-dark' }}"> @lang('Deletions')</p></label>
+        
+        @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.color.deleted'))
+          <div class="col-md-1">
+            <div class="custom-control custom-switch">
+              <input type="checkbox" wire:model="deleted" class="custom-control-input" id="deletedSwitch">
+              <label class="custom-control-label" for="deletedSwitch"> <p class="{{ $deleted ? 'text-primary' : 'text-dark' }}"> @lang('Deletions')</p></label>
+            </div>
           </div>
-        </div>
+        @endif
     </div>
 </div>
 
@@ -127,7 +131,7 @@ background: linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(148,233,202,1) 1
           <thead style="
           " class="thead-dark">
             <tr>
-              @if(!$deleted)
+              @if(!$deleted && ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.color.export')))
                 <th style="width:30px; max-width: 30px;">
                   <label class="form-checkbox">
                     <input type="checkbox" wire:model="selectPage">
@@ -167,7 +171,7 @@ background: linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(148,233,202,1) 1
           <tbody>
             @foreach($colors as $color)
             <tr>
-              @if(!$deleted)
+              @if(!$deleted && ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.color.export')))
                 <td class="text-center">
                   <label class="form-checkbox">
                       <input type="checkbox" wire:model="selected" value="{{ $color->id }}">
@@ -221,18 +225,22 @@ background: linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(148,233,202,1) 1
 
                   @if(!$color->trashed())
 
-                    <button type="button" data-toggle="modal" data-target="#updateModal" wire:click="edit({{ $color->id }})" class="btn btn-transparent-dark">
-                      <i class='far fa-edit'></i>
-                    </button>
+                    @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.color.modify'))
+                      <button type="button" data-toggle="modal" data-target="#updateModal" wire:click="edit({{ $color->id }})" class="btn btn-transparent-dark">
+                        <i class='far fa-edit'></i>
+                      </button>
+                    @endif
 
-                    <div class="dropdown">
-                      <a class="btn btn-icon-only " href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <i class="fas fa-ellipsis-v"></i>
-                      </a>
-                      <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                        <a class="dropdown-item" wire:click="delete({{ $color->id }})">@lang('Delete')</a>
+                    @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.color.delete'))
+                      <div class="dropdown">
+                        <a class="btn btn-icon-only " href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                          <a class="dropdown-item" wire:click="delete({{ $color->id }})">@lang('Delete')</a>
+                        </div>
                       </div>
-                    </div>
+                    @endif
 
                   @else
                     <div class="dropdown">

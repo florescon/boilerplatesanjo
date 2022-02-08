@@ -14,17 +14,19 @@
         </x-slot>
 
 
-        <x-slot name="headerActions">
-            <x-utils.link
-                icon="c-icon cil-plus"
-                class="card-header-action"
-                data-toggle="modal" 
-                style="color: green;"
-                wire:click="$emitTo('backend.size.create-size', 'createmodal')" 
-                data-target="#createSize"
-                :text="__('Create size')"
-            />
-        </x-slot>
+        @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.size.create'))
+            <x-slot name="headerActions">
+                <x-utils.link
+                    icon="c-icon cil-plus"
+                    class="card-header-action"
+                    data-toggle="modal" 
+                    style="color: green;"
+                    wire:click="$emitTo('backend.size.create-size', 'createmodal')" 
+                    data-target="#createSize"
+                    :text="__('Create size')"
+                />
+            </x-slot>
+        @endif
 
         <x-slot name="body">
 

@@ -7,11 +7,10 @@ use Tabuna\Breadcrumbs\Trail;
 Route::group([
     'prefix' => 'line',
     'as' => 'line.',
-    'middleware' =>  'role:'.config('boilerplate.access.role.admin'),
 ], function () {
     Route::get('/', [LineController::class, 'index'])
         ->name('index')
-        // ->middleware('permission:admin.access.line.list')
+        ->middleware('permission:admin.access.line.list')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.dashboard')
                 ->push(__('Line Management'), route('admin.line.index'));
@@ -19,6 +18,7 @@ Route::group([
 
     Route::get('deleted', [LineController::class, 'deleted'])
         ->name('deleted')
+        ->middleware('permission:admin.access.line.deleted')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.line.index')
                 ->push(__('Deleted lines'), route('admin.line.deleted'));
@@ -27,6 +27,7 @@ Route::group([
     Route::group(['prefix' => '{line}'], function () {
         Route::get('associates', [LineController::class, 'associates'])
             ->name('associates')
+            ->middleware('permission:admin.access.line.modify')
             ->breadcrumbs(function (Trail $trail, Line $line) {
                 $trail->parent('admin.line.index', $line)
                     ->push(__('Associates of').' '.$line->name, route('admin.line.associates', $line));
