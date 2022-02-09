@@ -58,14 +58,14 @@
         @if($order->user)
         <td><strong>A:</strong> {{ optional($order->user)->name }}</td>
         @endif
-        <td><strong>Expedido por:</strong> </td>
+        <td><strong>Expedido por:</strong> {{ optional($order->audi)->name }}</td>
     </tr>
   </table>
 
 
   <table width="100%">
     <tr>
-        <td>Ticket text</td>
+        <td>{{ $order->comment }}</td>
     </tr>
   </table>
 

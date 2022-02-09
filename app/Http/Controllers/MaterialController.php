@@ -55,13 +55,11 @@ class MaterialController extends Controller
     }
 
 
-    public function updateStock(Request $request)
+    public function updateStock(Request $request, Material $material)
     {
         $this->validate($request, [
             'stock' => 'numeric',
         ]);
-
-        $material = Material::where('id', $request->id)->first();
 
         if($request->stock > 0){
             $material->increment('stock', abs($request->stock));

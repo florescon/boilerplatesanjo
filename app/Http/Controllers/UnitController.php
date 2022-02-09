@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class UnitController extends Controller
 {
-
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -18,18 +17,15 @@ class UnitController extends Controller
 	    return view('backend.unit.index');
 	}
 
-
 	public function deleted()
 	{
 	    return view('backend.unit.deleted');
 	}
 
-
     public function select2LoadMore(Request $request)
     {
         $search = $request->get('search');
-        $data = Unit::select(['id', 'name'])->where('name', 'like', '%' . $search . '%')->orderBy('name')->paginate(5);
+        $data = Unit::select(['id', 'name'])->where('name', 'like', '%' . $search . '%')->orderBy('name')->paginate(15);
         return response()->json(['items' => $data->toArray()['data'], 'pagination' => $data->nextPageUrl() ? true : false]);
     }
-
 }

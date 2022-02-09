@@ -1,4 +1,4 @@
-<?php
+f<?php
 
 use App\Http\Controllers\MaterialController;
 use App\Models\Material;
@@ -35,11 +35,13 @@ Route::group([
 
         Route::patch('/', [MaterialController::class, 'update'])->name('update');
         // Route::delete('/', [UserController::class, 'destroy'])->name('destroy');
+
+        Route::patch('updateStock', [MaterialController::class, 'updateStock'])
+            ->name('updateStock');
+
+        Route::patch('updatePrice', [MaterialController::class, 'updatePrice'])
+            ->name('updatePrice');
     });
-
-
-    Route::patch('material', [MaterialController::class, 'updateStock'])
-        ->name('updateStock');
 
     Route::get('deleted', [MaterialController::class, 'deleted'])
         ->name('deleted')

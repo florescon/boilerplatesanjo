@@ -32,6 +32,13 @@
                     <h3>San Jose Uniformes</h3>
                 </td>
             </tr>
+            @if($ticket->status)
+                <tr>
+                    <td align="center">
+                        <h3>{{ optional($ticket->status)->name }}</h3>
+                    </td>
+                </tr>
+            @endif
         </table>
 
         <table width="100%">
@@ -51,7 +58,9 @@
                 @if($ticket->user)
                     <td><strong>A:</strong> {{ optional($ticket->user)->name }}</td>
                 @endif
-                <td><strong>Expedido por:</strong> {{ optional($ticket->audi)->name }} </td>
+                @if($ticket->audi)
+                    <td><strong>Expedido por:</strong> {{ optional($ticket->audi)->name }} </td>
+                @endif
             </tr>
         </table>
 
@@ -81,6 +90,14 @@
             </table>
             <br>
         @endif
+
+        <table width="100%" style="margin-top:30px;">
+            <thead style="background-color: white;">
+                <tr align="center">
+                    <th>__________________________________</th>
+                </tr>
+            </thead>
+        </table>
 
     </body>
 </html>
