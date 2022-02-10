@@ -7,7 +7,6 @@
           <input type="checkbox" class="c-switch-input" wire:click="$emit('postPrice')" {{ Request::get('editPrice') ? 'checked' : '' }}>
           <span class="c-switch-slider"></span>
         </label>
-
     </div>
 
 </div>
