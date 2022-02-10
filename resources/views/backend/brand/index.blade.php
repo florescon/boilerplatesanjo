@@ -13,18 +13,19 @@
             <strong style="color: #0061f2;"> @lang('Brands') </strong>
         </x-slot>
 
-
-        <x-slot name="headerActions">
-            <x-utils.link
-                icon="c-icon cil-plus"
-                class="card-header-action"
-                data-toggle="modal" 
-                style="color: green;"
-                wire:click="$emitTo('backend.brand.create-brand', 'createmodal')" 
-                data-target="#createBrand"
-                :text="__('Create brand')"
-            />
-        </x-slot>
+        @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.brand.create'))
+            <x-slot name="headerActions">
+                <x-utils.link
+                    icon="c-icon cil-plus"
+                    class="card-header-action"
+                    data-toggle="modal" 
+                    style="color: green;"
+                    wire:click="$emitTo('backend.brand.create-brand', 'createmodal')" 
+                    data-target="#createBrand"
+                    :text="__('Create brand')"
+                />
+            </x-slot>
+        @endif
 
         <x-slot name="body">
 

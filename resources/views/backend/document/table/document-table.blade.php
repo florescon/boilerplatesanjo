@@ -28,20 +28,24 @@
     @endif
     <div class="card-header-actions">
        <em> @lang('Last request'): {{ now()->format('h:i:s') }} </em>
-      <a href="#" class="card-header-action" style="color: green;" data-toggle="modal" wire:click="createmodal()" data-target="#exampleModal"><i class="c-icon cil-plus"></i> @lang('Create document') </a>
+      @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.document.create'))
+        <a href="#" class="card-header-action" style="color: green;" data-toggle="modal" wire:click="createmodal()" data-target="#exampleModal"><i class="c-icon cil-plus"></i> @lang('Create document') </a>
+      @endif
     </div>
 
-    <div class="row justify-content-md-end custom-control custom-switch custom-control-inline">
-      <em class="{{ $deleted ? 'text-danger' : 'text-dark' }} mt-2"> @lang('Deletions')</em>
-        <div class="col-md-2 mt-2">
-          <div class="form-check">
-            <label class="c-switch c-switch-danger">
-              <input type="checkbox" class="c-switch-input" wire:model="deleted">
-              <span class="c-switch-slider"></span>
-            </label>
+    @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.document.deleted'))
+      <div class="row justify-content-md-end custom-control custom-switch custom-control-inline">
+        <em class="{{ $deleted ? 'text-danger' : 'text-dark' }} mt-2"> @lang('Deletions')</em>
+          <div class="col-md-2 mt-2">
+            <div class="form-check">
+              <label class="c-switch c-switch-danger">
+                <input type="checkbox" class="c-switch-input" wire:model="deleted">
+                <span class="c-switch-slider"></span>
+              </label>
+            </div>
           </div>
-        </div>
-    </div>
+      </div>
+    @endif
   </div>
 
 <div class="card-body">
@@ -132,8 +136,12 @@
                   @include('backend.includes._sort-icon', ['field' => 'title'])
                 </a>
               </th>
-              <th scope="col">@lang('File DST')</th>
-              <th scope="col">@lang('File EMB')</th>
+              @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.document.show-dst'))
+                <th scope="col">@lang('File DST')</th>
+              @endif
+              @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.document.show-emb'))
+                <th scope="col">@lang('File EMB')</th>
+              @endif
               <th scope="col">@lang('Comment')</th>
               <th scope="col">@lang('Updated at')</th>
               <th scope="col" style="width:90px; max-width: 90px;">@lang('Actions')</th>
@@ -164,12 +172,16 @@
                     {!! $document->is_disabled !!}
                   </div>
               </th>
-              <td>
-                {!! $document->download_dst !!}
-              </td>
-              <td>
-                {!! $document->download_emb !!}
-              </td>
+              @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.document.show-dst'))
+                <td>
+                  {!! $document->download_dst !!}
+                </td>
+              @endif
+              @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.document.show-emb'))
+                <td>
+                  {!! $document->download_emb !!}
+                </td>
+              @endif
               <td>
                 <x-utils.undefined :data="$document->comment"/>
               </td>
@@ -189,19 +201,21 @@
                       <i class='far fa-edit'></i>
                     </button> --}}
 
-                    <div class="dropdown">
-                      <a class="btn btn-icon-only " href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <i class="fas fa-ellipsis-v"></i>
-                      </a>
-                      <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                        @if($document->is_enabled)
-                          <a class="dropdown-item" wire:click="disable({{ $document->id }})">@lang('Disable')</a>
-                        @else
-                          <a class="dropdown-item" wire:click="enable({{ $document->id }})">@lang('Enable')</a>
-                        @endif
-                        <a class="dropdown-item" wire:click="delete({{ $document->id }})">@lang('Delete')</a>
+                    @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.document.deactivate'))
+                      <div class="dropdown">
+                        <a class="btn btn-icon-only " href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                          @if($document->is_enabled)
+                            <a class="dropdown-item" wire:click="disable({{ $document->id }})">@lang('Disable')</a>
+                          @else
+                            <a class="dropdown-item" wire:click="enable({{ $document->id }})">@lang('Enable')</a>
+                          @endif
+                          <a class="dropdown-item" wire:click="delete({{ $document->id }})">@lang('Delete')</a>
+                        </div>
                       </div>
-                    </div>
+                    @endif
 
                   @else
                     <div class="dropdown">

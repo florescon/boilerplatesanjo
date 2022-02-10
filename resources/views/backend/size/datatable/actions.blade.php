@@ -3,10 +3,12 @@
   <x-actions-modal.show-icon target="showModal" emitTo="backend.size.show-size" function="show" :id="$size->id" />
 
 	@if (!$size->trashed())
-
-	  <x-actions-modal.edit-icon target="editSize" emitTo="backend.size.edit-size" function="edit" :id="$size->id" />
-	  <x-actions-modal.delete-icon function="delete" :id="$size->id" />
-
+    @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.size.modify'))
+  	  <x-actions-modal.edit-icon target="editSize" emitTo="backend.size.edit-size" function="edit" :id="$size->id" />
+    @endif
+    @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.size.delete'))
+      <x-actions-modal.delete-icon function="delete" :id="$size->id" />
+    @endif
 	@else
 
     <div class="dropdown">

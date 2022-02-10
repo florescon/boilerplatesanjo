@@ -3,10 +3,12 @@
   <x-actions-modal.show-icon target="showModal" emitTo="backend.cloth.show-cloth" function="show" :id="$cloth->id" />
 
 	@if (!$cloth->trashed())
-
-	  <x-actions-modal.edit-icon target="editCloth" emitTo="backend.cloth.edit-cloth" function="edit" :id="$cloth->id" />
-	  <x-actions-modal.delete-icon function="delete" :id="$cloth->id" />
-
+    @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.cloth.modify'))
+  	  <x-actions-modal.edit-icon target="editCloth" emitTo="backend.cloth.edit-cloth" function="edit" :id="$cloth->id" />
+    @endif
+    @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.cloth.delete'))
+  	  <x-actions-modal.delete-icon function="delete" :id="$cloth->id" />
+    @endif
 	@else
 
     <div class="dropdown">

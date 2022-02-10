@@ -121,7 +121,8 @@ class MaterialTable extends TableComponent
                 }),
             Column::make(__('Price'), 'price')
                 ->searchable()
-                ->sortable(),
+                ->sortable()
+                ->hideIf(auth()->user()->cannot('admin.access.material.show-prices')),
             Column::make(__('Stock'), 'stock')
                 ->searchable()
                 ->sortable()
@@ -130,7 +131,8 @@ class MaterialTable extends TableComponent
                 })
                 ->exportFormat(function(Material $model) {
                     return $model->stock_formatted;
-                }),
+                })
+                ->hideIf(auth()->user()->cannot('admin.access.material.show-quantities')),
             Column::make(__('Updated at'), 'updated_at')
                 ->searchable()
                 ->sortable()

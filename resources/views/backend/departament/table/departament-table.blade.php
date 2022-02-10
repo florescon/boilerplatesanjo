@@ -26,19 +26,23 @@
     @else
       <strong style="color: #0061f2;"> @lang('List of departaments') </strong>
     @endif
-    <div class="card-header-actions">
-       <em> @lang('Last request'): {{ now()->format('h:i:s') }} </em>
-      <a href="#" class="card-header-action" style="color: green;" data-toggle="modal" wire:click="createmodal()" data-target="#exampleModal"><i class="c-icon cil-plus"></i> @lang('Create departament') </a>
-    </div>
+    @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.departament.create'))
+      <div class="card-header-actions">
+         <em> @lang('Last request'): {{ now()->format('h:i:s') }} </em>
+        <a href="#" class="card-header-action" style="color: green;" data-toggle="modal" wire:click="createmodal()" data-target="#exampleModal"><i class="c-icon cil-plus"></i> @lang('Create departament') </a>
+      </div>
+    @endif
 
-    <div class="row justify-content-md-end">
-        <div class="col-md-2 mt-2">
-          <div class="custom-control custom-switch">
-            <input type="checkbox" wire:model="deleted" class="custom-control-input" id="deletedSwitch">
-            <label class="custom-control-label" for="deletedSwitch"> <p class="{{ $deleted ? 'text-primary' : 'text-dark' }}"> @lang('Deletions')</p></label>
+    @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.departament.deleted'))
+      <div class="row justify-content-md-end">
+          <div class="col-md-2 mt-2">
+            <div class="custom-control custom-switch">
+              <input type="checkbox" wire:model="deleted" class="custom-control-input" id="deletedSwitch">
+              <label class="custom-control-label" for="deletedSwitch"> <p class="{{ $deleted ? 'text-primary' : 'text-dark' }}"> @lang('Deletions')</p></label>
+            </div>
           </div>
-        </div>
-    </div>
+      </div>
+    @endif
   </div>
 
   <div class="card-body">
@@ -173,29 +177,33 @@
                 <td>
                   <div class="btn-group" role="group" aria-label="Basic example">
 
+
                       <button type="button" data-toggle="modal" data-target="#showModal" wire:click="show({{ $departament->id }})" class="btn btn-transparent-dark">
                           <i class='far fa-eye'></i>
                       </button>
 
                     @if(!$departament->trashed())
+                      @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.departament.modify'))
+                        <button type="button" data-toggle="modal" data-target="#updateModal" wire:click="edit({{ $departament->id }})" class="btn btn-transparent-dark">
+                          <i class='far fa-edit'></i>
+                        </button>
+                      @endif
 
-                      <button type="button" data-toggle="modal" data-target="#updateModal" wire:click="edit({{ $departament->id }})" class="btn btn-transparent-dark">
-                        <i class='far fa-edit'></i>
-                      </button>
-
-                      <div class="dropdown">
-                        <a class="btn btn-icon-only " href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-ellipsis-v"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                          @if($departament->is_enabled)
-                            <a class="dropdown-item" wire:click="disable({{ $departament->id }})">@lang('Disable')</a>
-                          @else
-                            <a class="dropdown-item" wire:click="enable({{ $departament->id }})">@lang('Enable')</a>
-                          @endif
-                          <a class="dropdown-item" wire:click="delete({{ $departament->id }})">@lang('Delete')</a>
+                      @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.departament.delete'))
+                        <div class="dropdown">
+                          <a class="btn btn-icon-only " href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <i class="fas fa-ellipsis-v"></i>
+                          </a>
+                          <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                            @if($departament->is_enabled)
+                              <a class="dropdown-item" wire:click="disable({{ $departament->id }})">@lang('Disable')</a>
+                            @else
+                              <a class="dropdown-item" wire:click="enable({{ $departament->id }})">@lang('Enable')</a>
+                            @endif
+                            <a class="dropdown-item" wire:click="delete({{ $departament->id }})">@lang('Delete')</a>
+                          </div>
                         </div>
-                      </div>
+                      @endif
 
                     @else
                       <div class="dropdown">

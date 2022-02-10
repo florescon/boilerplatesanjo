@@ -4,11 +4,15 @@
 
 	@if (!$material->trashed())
 
-		<a type="button" href="{{ route('admin.material.edit', $material->id) }}" class="btn btn-transparent-dark">
-		  <i class='far fa-edit'></i>
-		</a>
+		@if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.material.modify'))
+			<a type="button" href="{{ route('admin.material.edit', $material->id) }}" class="btn btn-transparent-dark">
+			  <i class='far fa-edit'></i>
+			</a>
+		@endif
 
-		<x-actions-modal.delete-icon function="delete" :id="$material->id" />
+		@if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.material.delete'))
+			<x-actions-modal.delete-icon function="delete" :id="$material->id" />
+		@endif
 
 	@else
 

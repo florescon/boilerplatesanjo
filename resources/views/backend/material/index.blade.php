@@ -19,17 +19,21 @@
 
         <x-slot name="headerActions">
 
-            <livewire:backend.material.modify-feedstock />
+            @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.material.modify-quantities'))
+                <livewire:backend.material.modify-feedstock />
+            @endif
 
-            <x-utils.link
-                icon="c-icon cil-plus"
-                class="card-header-action"
-                data-toggle="modal" 
-                style="color: orange;"
-                wire:click="$emitTo('backend.material.create-material', 'createmodal')" 
-                data-target="#createMaterial"
-                :text="__('Create feedstock')"
-            />
+            @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.material.create'))
+                <x-utils.link
+                    icon="c-icon cil-plus"
+                    class="card-header-action"
+                    data-toggle="modal" 
+                    style="color: orange;"
+                    wire:click="$emitTo('backend.material.create-material', 'createmodal')" 
+                    data-target="#createMaterial"
+                    :text="__('Create feedstock')"
+                />
+            @endif
         </x-slot>
 
         <x-slot name="body">

@@ -44,30 +44,34 @@
                   </div>
                 </div>
 
-                <div class="dropdown">
-                  <a class="btn btn-icon-only text-primary" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="fas fa-ellipsis-v"></i>
-                  </a>
-                  @if(!$service->trashed())
-                    <div class="dropdown-menu ">
-                      <a class="dropdown-item" wire:click="delete({{ $service->id }})"><i class="fa fa-trash mr-1"> @lang('Delete')</i></a>
-                    </div>
-                  @else
-                    <div class="dropdown-menu ">
-                      <a class="dropdown-item" wire:click="restore({{ $service->id }})">@lang('Restore')</a>
-                    </div>
-                  @endif
-                </div>
+                @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.service.delete'))
+                  <div class="dropdown">
+                    <a class="btn btn-icon-only text-primary" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </a>
+                    @if(!$service->trashed())
+                      <div class="dropdown-menu ">
+                        <a class="dropdown-item" wire:click="delete({{ $service->id }})"><i class="fa fa-trash mr-1"> @lang('Delete')</i></a>
+                      </div>
+                    @else
+                      <div class="dropdown-menu ">
+                        <a class="dropdown-item" wire:click="restore({{ $service->id }})">@lang('Restore')</a>
+                      </div>
+                    @endif
+                  </div>
+                @endif
 
               </div>
               <h6 class="mb-0">{{ $service->price ? '$'.$service->price : 'undefined price' }}</h6>
               <a href="#!" data-toggle="modal" data-target="#showModal" wire:click="show({{ $service->id }})"><small>@lang('Details')</small></a>
               <div class="d-flex justify-content-between mt-4">
-                <div>
-                  <h5 class="mb-0"> <a href="#!" type="button" data-toggle="modal" data-target="#updateModal" wire:click="edit({{ $service->id }})"><em class="text-primary">@lang('Edit')</em></a>
-                    <small class="ml-1">{{ $service->date_for_humans }}</small>
-                  </h5>
-                </div>
+                @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.service.modify'))
+                  <div>
+                    <h5 class="mb-0"> <a href="#!" type="button" data-toggle="modal" data-target="#updateModal" wire:click="edit({{ $service->id }})"><em class="text-primary">@lang('Edit')</em></a>
+                      <small class="ml-1">{{ $service->date_for_humans }}</small>
+                    </h5>
+                  </div>
+                @endif
                 <span class="text-success font-weight-bold">@lang('Records')</span>
               </div>
             </div>

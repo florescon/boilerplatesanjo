@@ -13,17 +13,19 @@
             <strong style="color: #0061f2;"> @lang('Units') </strong>
         </x-slot>
 
-        <x-slot name="headerActions">
-            <x-utils.link
-                icon="c-icon cil-plus"
-                class="card-header-action"
-                data-toggle="modal" 
-                style="color: green;"
-                wire:click="$emitTo('backend.unit.create-unit', 'createmodal')" 
-                data-target="#createUnit"
-                :text="__('Create unit')"
-            />
-        </x-slot>
+        @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.unit.create'))
+            <x-slot name="headerActions">
+                <x-utils.link
+                    icon="c-icon cil-plus"
+                    class="card-header-action"
+                    data-toggle="modal" 
+                    style="color: green;"
+                    wire:click="$emitTo('backend.unit.create-unit', 'createmodal')" 
+                    data-target="#createUnit"
+                    :text="__('Create unit')"
+                />
+            </x-slot>
+        @endif
 
         <x-slot name="body">
             <livewire:backend.unit.unit-table />

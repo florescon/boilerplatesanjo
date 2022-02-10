@@ -17,17 +17,19 @@
           <strong style="color: #85144b;"> @lang('Services') </strong>
       </x-slot>
 
-      <x-slot name="headerActions">
-        <x-utils.link
-          style="color: #85144b;"
-          icon="c-icon cil-plus"
-          class="card-header-action"
-          data-toggle="modal" 
-          wire:click="$emitTo('backend.service.create-service', 'createmodal')" 
-          data-target="#createService"
-          :text="__('Create service')"
-        />
-      </x-slot>
+      @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.service.create'))
+        <x-slot name="headerActions">
+          <x-utils.link
+            style="color: #85144b;"
+            icon="c-icon cil-plus"
+            class="card-header-action"
+            data-toggle="modal" 
+            wire:click="$emitTo('backend.service.create-service', 'createmodal')" 
+            data-target="#createService"
+            :text="__('Create service')"
+          />
+        </x-slot>
+      @endif
 
       <x-slot name="body">
         <livewire:backend.service.service-table />

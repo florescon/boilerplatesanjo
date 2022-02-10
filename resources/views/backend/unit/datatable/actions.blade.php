@@ -3,10 +3,12 @@
   <x-actions-modal.show-icon target="showModal" emitTo="backend.unit.show-unit" function="show" :id="$unit->id" />
 
 	@if (!$unit->trashed())
-
-	  <x-actions-modal.edit-icon target="editUnit" emitTo="backend.unit.edit-unit" function="edit" :id="$unit->id" />
-	  <x-actions-modal.delete-icon function="delete" :id="$unit->id" />
-
+    @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.unit.modify'))
+  	  <x-actions-modal.edit-icon target="editUnit" emitTo="backend.unit.edit-unit" function="edit" :id="$unit->id" />
+	  @endif
+    @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.unit.delete'))
+      <x-actions-modal.delete-icon function="delete" :id="$unit->id" />
+    @endif
 	@else
 
     <div class="dropdown">

@@ -13,17 +13,19 @@
             <strong style="color: #0061f2;"> @lang('Models') </strong>
         </x-slot>
 
-        <x-slot name="headerActions">
-            <x-utils.link
-                icon="c-icon cil-plus"
-                class="card-header-action"
-                data-toggle="modal" 
-                style="color: green;"
-                wire:click="$emitTo('backend.model.create-model', 'createmodal')" 
-                data-target="#createModel"
-                :text="__('Create model')"
-            />
-        </x-slot>
+        @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.model_product.create'))
+            <x-slot name="headerActions">
+                <x-utils.link
+                    icon="c-icon cil-plus"
+                    class="card-header-action"
+                    data-toggle="modal" 
+                    style="color: green;"
+                    wire:click="$emitTo('backend.model.create-model', 'createmodal')" 
+                    data-target="#createModel"
+                    :text="__('Create model')"
+                />
+            </x-slot>
+        @endif
 
         <x-slot name="body">
             <livewire:backend.model.model-table />
