@@ -92,26 +92,6 @@ class PermissionRoleSeeder extends Seeder
                 ]),
                 new Permission([
                     'type' => User::TYPE_ADMIN,
-                    'name' => 'admin.access.product.show-quantities',
-                    'description' => 'Ver cantidades',
-                ]),
-                new Permission([
-                    'type' => User::TYPE_ADMIN,
-                    'name' => 'admin.access.product.modify-quantities',
-                    'description' => 'Modificar cantidades',
-                ]),
-                new Permission([
-                    'type' => User::TYPE_ADMIN,
-                    'name' => 'admin.access.product.show-prices',
-                    'description' => 'Ver precios',
-                ]),
-                new Permission([
-                    'type' => User::TYPE_ADMIN,
-                    'name' => 'admin.access.product.modify-prices-codes',
-                    'description' => 'Modificar precios y codigos',
-                ]),
-                new Permission([
-                    'type' => User::TYPE_ADMIN,
                     'name' => 'admin.access.product.create',
                     'description' => 'Crear productos',
                 ]),
@@ -127,13 +107,43 @@ class PermissionRoleSeeder extends Seeder
                 ]),
                 new Permission([
                     'type' => User::TYPE_ADMIN,
-                    'name' => 'admin.access.product.delete',
-                    'description' => 'Borrar productos',
+                    'name' => 'admin.access.product.show-quantities-stock',
+                    'description' => 'Ver cantidades Stock',
                 ]),
                 new Permission([
                     'type' => User::TYPE_ADMIN,
-                    'name' => 'admin.access.product.deleted',
-                    'description' => 'Ver productos eliminados',
+                    'name' => 'admin.access.product.show-quantities-sock-revision',
+                    'description' => 'Ver cantidades Stock de Revisión Intermedia',
+                ]),
+                new Permission([
+                    'type' => User::TYPE_ADMIN,
+                    'name' => 'admin.access.product.show-quantities-stock-store',
+                    'description' => 'Ver cantidades Stock de Tienda',
+                ]),
+                new Permission([
+                    'type' => User::TYPE_ADMIN,
+                    'name' => 'admin.access.product.modify-quantities',
+                    'description' => 'Modificar stock de los inventarios visibles',
+                ]),
+                new Permission([
+                    'type' => User::TYPE_ADMIN,
+                    'name' => 'admin.access.product.show-prices',
+                    'description' => 'Ver precios',
+                ]),
+                new Permission([
+                    'type' => User::TYPE_ADMIN,
+                    'name' => 'admin.access.product.modify-advanced-information',
+                    'description' => 'Modificar informacion avanzada',
+                ]),
+                new Permission([
+                    'type' => User::TYPE_ADMIN,
+                    'name' => 'admin.access.product.modify-images',
+                    'description' => 'Modificar imagenes',
+                ]),
+                new Permission([
+                    'type' => User::TYPE_ADMIN,
+                    'name' => 'admin.access.product.modify-prices-codes',
+                    'description' => 'Modificar precios y codigos',
                 ]),
                 new Permission([
                     'type' => User::TYPE_ADMIN,
@@ -144,6 +154,21 @@ class PermissionRoleSeeder extends Seeder
                     'type' => User::TYPE_ADMIN,
                     'name' => 'admin.access.product.modify-consumption',
                     'description' => 'Modificar consumos',
+                ]),
+                new Permission([
+                    'type' => User::TYPE_ADMIN,
+                    'name' => 'admin.access.product.delete-attributes',
+                    'description' => 'Eliminar atributos (colores y tallas)',
+                ]),
+                new Permission([
+                    'type' => User::TYPE_ADMIN,
+                    'name' => 'admin.access.product.delete',
+                    'description' => 'Borrar productos',
+                ]),
+                new Permission([
+                    'type' => User::TYPE_ADMIN,
+                    'name' => 'admin.access.product.deleted',
+                    'description' => 'Ver productos eliminados',
                 ]),
             ]);
 

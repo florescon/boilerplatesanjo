@@ -116,9 +116,11 @@
               <th>
                 @lang('Description')
               </th>
-              <th>
-                @lang('Properties')
-              </th>
+              @if($filters)
+                <th>
+                  @lang('Properties')
+                </th>
+              @endif
               <th scope="col">@lang('Created at')</th>
             </tr>
           </thead>
@@ -132,15 +134,21 @@
                   </label>
               </td>
               <th scope="row">
-                  <div> {{ $activity->log_name }} </div>
+                  <div> <button type="button" class="btn {{ in_array($activity->log_name, $filters) ? 'btn-primary text-white' : 'btn-outline-primary' }} btn-sm" wire:click="$emit('filterByLogName', {{ $activity->id }})"> {{ __($activity->log_name) }} </button></div>
                   <div class="small text-muted">@lang('Registered'): {{ $activity->date_for_humans_created }}</div>
               </th>
               <td>
                 {{ $activity->description }}
               </td>
-              <td>
-                {!! trim($activity->properties->values(), '[]') ?: '<span class="badge badge-secondary">Sin detalles</span>' !!}
-              </td>
+              @if($filters)
+                <td>
+                  @foreach($activity->getExtraProperty($filters[0]) as $key => $avr)
+                    @if($avr !== null)
+                      {{ __($key) }}: <mark>{{ $avr }}</mark>
+                    @endif
+                  @endforeach
+                </td>
+              @endif
               <td>
                 {{ $activity->updated_at }}
               </td>

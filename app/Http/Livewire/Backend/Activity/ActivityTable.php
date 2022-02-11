@@ -40,9 +40,44 @@ class ActivityTable extends Component
 
     public $log_name;
 
+    public $filters = [];
+
+    protected $listeners = ['filterByLogName' => 'filterByLogName'];
+
+    public function filterByLogName(Activity $logName)
+    {
+        if (in_array($logName->log_name, $this->filters)) {
+            $ix = array_search($logName->log_name, $this->filters);
+            unset($this->filters[$ix]);
+
+        } else {
+            $this->filters[] = $logName->log_name;
+
+            $this->resetPage();
+
+            if(count($this->filters) >= 2){
+                array_shift($this->filters);
+            };
+        }
+    }
+
+    public function applyLogNameFilter($activity)
+    {
+        if ($this->filters) {
+            foreach ($this->filters as $filter) {     
+                $activity->where('log_name', $filter);
+            }
+        }
+
+        return null;
+    }
+
     public function getRowsQueryProperty()
     {
         return Activity::query()
+            ->when($this->filters, function ($query) {
+                $query->where('log_name', $this->filters);
+            })
             ->where(function ($query) {
                 $query->where('log_name', 'like', '%' . $this->searchTerm . '%')
                     ->orWhere('properties', 'like', '%' . $this->searchTerm . '%')
@@ -104,6 +139,8 @@ class ActivityTable extends Component
 
     public function clearAll()
     {
+        array_shift($this->filters);
+
         $this->dateInput = '';
         $this->dateOutput = '';
         $this->searchTerm = '';
