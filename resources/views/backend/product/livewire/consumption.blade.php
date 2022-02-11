@@ -204,7 +204,7 @@
                           </td>
                         @endif
                           <td>
-                            @if($yas->puntual == TRUE)
+                            @if($yas->puntual == TRUE || $yas->size_id || $yas->color_id)
                               <div class="dropdown">
                                 <a class="btn btn-icon-only " href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fas fa-ellipsis-v"></i>
@@ -213,7 +213,17 @@
                                   <a class="dropdown-item" wire:click="delete({{ $yas->id }})">@lang('Delete')</a>
                                 </div>
                               </div>
-                            @endif                        
+                            @endif
+                            @if(!$name_size && !$name_color)
+                              <div class="dropdown">
+                                <a class="btn btn-icon-only " href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                  <a class="dropdown-item" wire:click="deleteRelationsFeedstock({{ $yas->id }})">@lang('Delete all relations')</a>
+                                </div>
+                              </div>
+                            @endif
                           </td>
                         </tr>
                       @endforeach

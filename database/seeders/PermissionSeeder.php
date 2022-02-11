@@ -10,6 +10,7 @@ use Database\Seeders\Traits\TruncateTable;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
 use Spatie\Permission\PermissionRegistrar;
+use DB;
 
 class PermissionSeeder extends Seeder
 {
@@ -21,6 +22,8 @@ class PermissionSeeder extends Seeder
     public function run()
     {
         $this->disableForeignKeys();
+
+        // DB::table('permissions')->truncate();
 
         $this->truncateMultiple([
             config('permission.table_names.permissions'),

@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Color;
 use App\Models\Size;
 use App\Models\Consumption;
+use DB;
 
 class ConsumptionProduct extends Component
 {
@@ -22,7 +23,7 @@ class ConsumptionProduct extends Component
         'updateQuantity' => ['except' => FALSE],
     ];
 
-    protected $listeners = ['filterByColor' => 'filterByColor', 'filterBySize' => 'filterBySize', 'store', 'delete' => '$refresh', 'clearAll' => '$refresh'];
+    protected $listeners = ['filterByColor' => 'filterByColor', 'filterBySize' => 'filterBySize', 'store', 'delete' => '$refresh', 'deleteRelationsFeedstock' => '$refresh', 'clearAll' => '$refresh'];
 
     public function mount(Product $product)
     {
@@ -226,6 +227,17 @@ class ConsumptionProduct extends Component
     {
         if($consumption)
             $consumption->delete();
+
+       $this->emit('swal:alert', [
+            'icon' => 'success',
+            'title'   => __('Deleted'), 
+        ]);
+    }
+
+   public function deleteRelationsFeedstock(Consumption $consumption)
+    {
+        $product_general = Product::find($consumption->product_id);
+        $product_general->consumption()->where('material_id', $consumption->material_id)->delete();
 
        $this->emit('swal:alert', [
             'icon' => 'success',
