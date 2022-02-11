@@ -134,11 +134,13 @@
                   </label>
               </td>
               <th scope="row">
-                  <div> <button type="button" class="btn {{ in_array($activity->log_name, $filters) ? 'btn-primary text-white' : 'btn-outline-primary' }} btn-sm" wire:click="$emit('filterByLogName', {{ $activity->id }})"> {{ __($activity->log_name) }} </button></div>
-                  <div class="small text-muted">@lang('Registered'): {{ $activity->date_for_humans_created }}</div>
+                  <div> 
+                    <button type="button" class="btn {{ in_array($activity->log_name, $filters) ? 'btn-primary text-white' : 'btn-outline-primary' }} btn-sm" wire:click="$emit('filterByLogName', {{ $activity->id }})"> {{ __($activity->log_name) }} </button>
+                  </div>
               </th>
               <td>
                 {{ $activity->description }}
+                <div class="small text-muted">@lang('Registered'): {{ $activity->date_diff_for_humans }}</div>
               </td>
               @if($filters)
                 <td>
