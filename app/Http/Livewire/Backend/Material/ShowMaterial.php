@@ -30,7 +30,6 @@ class ShowMaterial extends Component
 
         $this->created = $record->created_at;
         $this->updated = $record->updated_at;
-
     }
 
     public function render()

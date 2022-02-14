@@ -14,6 +14,7 @@ use App\Events\Product\ProductDescriptionChanged;
 use App\Events\Product\ProductLineChanged;
 use App\Events\Product\ProductBrandChanged;
 use App\Events\Product\ProductModelChanged;
+use App\Events\Product\ProductColorCreated;
 
 class ProductEventListener
 {
@@ -163,6 +164,22 @@ class ProductEventListener
     }
 
     /**
+     * @param $event
+     */
+    public function onColorCreated($event)
+    {
+        activity('product')
+            ->performedOn($event->product)
+            ->withProperties([
+                'product' => [
+                    'name' => $event->product->name,
+                    // 'color' => $event->product->color->name,
+                ],
+            ])
+            ->log(':causer.name created color product :subject.name');
+    }
+
+    /**
      * Register the listeners for the subscriber.
      *
      * @param \Illuminate\Events\Dispatcher $events
@@ -217,6 +234,11 @@ class ProductEventListener
         $events->listen(
             ProductRestored::class,
             'App\Listeners\ProductEventListener@onRestored'
+        );
+
+        $events->listen(
+            ProductColorCreated::class,
+            'App\Listeners\ProductEventListener@onColorCreated'
         );
     }
 }

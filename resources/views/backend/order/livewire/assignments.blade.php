@@ -162,7 +162,7 @@
                           </div>
                           @if($ticket->assignments_direct->where('output', false)->count())
                             <div class="col-6 col-md-6 text-right">
-                              <a wire:click="outputUpdateAll({{ $ticket->id }})" class="card-link text-right">Dar salida al ticket</a>
+                              <a wire:click="outputUpdateAll({{ $ticket->id }})" class="card-link text-right">Se recibieron los productos</a>
                             </div>
                           @endif
                         </div>

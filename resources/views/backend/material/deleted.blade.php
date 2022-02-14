@@ -2,7 +2,6 @@
 
 @section('title', __('Feedstock'))
 
-
 @section('breadcrumb-links')
     @include('backend.material.includes.breadcrumb-links')
 @endsection

@@ -140,15 +140,19 @@
               </th>
               <td>
                 {{ $activity->description }}
-                <div class="small text-muted">@lang('Registered'): {{ $activity->date_diff_for_humans }}</div>
+                <div class="small text-muted">
+                  @lang('Registered'): {{ $activity->date_diff_for_humans }}
+                </div>
               </td>
               @if($filters)
                 <td>
-                  @foreach($activity->getExtraProperty($filters[0]) as $key => $avr)
-                    @if($avr !== null)
-                      {{ __($key) }}: <mark>{{ $avr }}</mark>
-                    @endif
-                  @endforeach
+                  @if($activity->getExtraProperty($filters[0]))
+                    @foreach($activity->getExtraProperty($filters[0]) as $key => $avr)
+                      @if($avr !== null)
+                        {{ __($key) }}: <mark>{{ $avr }}</mark>
+                      @endif
+                    @endforeach
+                  @endif
                 </td>
               @endif
               <td>

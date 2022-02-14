@@ -74,6 +74,14 @@ class Material extends Model
     }
 
     /**
+     * @return mixed
+     */
+    public function history()
+    {
+        return $this->hasMany(MaterialHistory::class);
+    }
+
+    /**
      * @return string
      */
     public function getSizeNameAttribute()

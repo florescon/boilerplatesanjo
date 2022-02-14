@@ -12,6 +12,7 @@ use App\Exceptions\GeneralException;
 use Exception;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Events\Order\OrderCreated;
 
 class Suborders extends Component
 {
@@ -67,6 +68,8 @@ class Suborders extends Component
             $suborder->approved = true;
             $suborder->type = 4;
             $suborder->save();
+
+            event(new OrderCreated($suborder));
 
             $departament = Departament::find($this->departament);
 

@@ -392,7 +392,26 @@ class Order extends Model
                     return "<span class='badge badge-primary'>".__('Order').'</span>';
             }
 
-        return 'a';
+        return '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getTypeOrderClearAttribute()
+    {
+            switch ($this->type) {
+                case 2:
+                    return __('Sale');
+                case 3:
+                    return __('Mix:Order/Sale');
+                case 4:
+                    return __('Suborder');
+                case 1:
+                    return __('Order');
+            }
+
+        return '';
     }
 
     /**
@@ -411,7 +430,7 @@ class Order extends Model
                     return 'background-color: #DEE4FF';
             }
 
-        return 'a';
+        return '';
     }
 
     /**

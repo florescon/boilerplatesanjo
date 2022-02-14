@@ -372,14 +372,13 @@
         </div>
       </div>
 
-
       @if($orderExists)
       <div class="col-12 col-md-4">
         <div class="row d-flex justify-content-center mt-70 mb-70">
           <div class="col-md-12">
             <div class="main-card mb-3 card card-edit">
               <div class="card-body">
-                <h5 class="card-title">@lang('Status order')
+                <h5 class="card-title">@lang('Order production status')
                   <span class='badge badge-primary'>{{ $model->last_status_order->status->name ?? '' }}</span>
                 </h5>
                 <div wire:loading wire:target="updateStatus" class="loading">@lang('Wait 3 seconds')</div>

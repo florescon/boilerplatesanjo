@@ -9,6 +9,7 @@ use App\Models\StatusOrder;
 use App\Models\OrderStatusDelivery;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use App\Events\Order\OrderProductionStatusUpdated;
 
 class EditOrder extends Component
 {
@@ -116,14 +117,19 @@ class EditOrder extends Component
     public function updateStatus($statusId): void
     {
         if($statusId != $this->lates_statusId){
-            StatusOrder::create([
-                'order_id' => $this->order_id,
+
+            $order = Order::findOrFail($this->order_id);
+
+            $statusOrder = new StatusOrder([
                 'status_id' => $statusId,
                 'audi_id' => Auth::id(),
             ]);
+
+            $order->status_order()->save($statusOrder);
+
+            event(new OrderProductionStatusUpdated($order));
         }
 
-        $order = Order::findOrFail($this->order_id);
         $this->initstatus($order); // re-initialize the component state with fresh data after saving
 
         sleep(3);

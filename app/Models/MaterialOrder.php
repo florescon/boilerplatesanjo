@@ -70,6 +70,4 @@ class MaterialOrder extends Model
     {
         return $this->belongsTo(User::class, 'audi_id');
     }
-
-
 }

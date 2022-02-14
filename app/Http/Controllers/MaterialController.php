@@ -24,6 +24,11 @@ class MaterialController extends Controller
         return view('backend.material.records');
     }
 
+    public function recordsHistoryMaterial()
+    {
+        return view('backend.material.records-history');
+    }
+
     public function deleted()
     {
         return view('backend.material.deleted');
@@ -53,7 +58,6 @@ class MaterialController extends Controller
 
         return redirect()->route('admin.material.edit', $material->id)->withFlashSuccess(__('The feedstock was successfully updated.'));
     }
-
 
     public function updateStock(Request $request, Material $material)
     {

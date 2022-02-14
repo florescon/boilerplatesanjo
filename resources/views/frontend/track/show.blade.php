@@ -93,7 +93,7 @@
 									<div class="col-lg-6 mt-4">	
 										<div class="anime-box text-center shadow-lg" data-scroll-reveal="enter left move 80px over 1.2s after 0.3s">
 											<h5 class="mb-1">{{ $order->last_status_order->name_status ?? '' }}</h5>
-											<p class="mb-0">@lang('Status order')</p>
+											<p class="mb-0">@lang('Order production status')</p>
 										</div>									
 									</div>
 									@endif

@@ -46,7 +46,18 @@
                 <div class="col-xl-6 m-auto text-center">
                   <div>
                     <p> 
-                      <a href="{{ route('admin.material.records') }}">Ir a registros consumos de materia prima</a>
+                      <a href="{{ route('admin.material.records_history') }}">Historial de stock ingresado/sustraido de materia prima</a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+          </footer>
+          <footer class="footer mt-3">
+              <div class="row align-items-center justify-content-xl-between">
+                <div class="col-xl-6 m-auto text-center">
+                  <div>
+                    <p> 
+                      <a href="{{ route('admin.material.records') }}">Ir a registros de materia prima consumidos</a>
                     </p>
                   </div>
                 </div>
@@ -57,6 +68,8 @@
 
     <livewire:backend.material.create-material />
     <livewire:backend.material.show-material />
+
+    <livewire:backend.material.modal-stock-material />
 
 @endsection
 
@@ -69,10 +82,10 @@
       });
     </script>
 
-{{--     <script type="text/javascript">
+    <script type="text/javascript">
       Livewire.on("materialUpdate", () => {
-          $("#editMaterial").modal("hide");
+          $("#updateStockModal").modal("hide");
       });
     </script>
- --}}
+
 @endpush

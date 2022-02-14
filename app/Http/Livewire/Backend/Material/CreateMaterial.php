@@ -43,7 +43,6 @@ class CreateMaterial extends Component
     public function createmodal()
     {
         $this->resetInputFields();
-
     }
 
     public function store()

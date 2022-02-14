@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Domains\Auth\Models\User;
 use App\Models\Departament;
+use App\Events\Order\OrderCreated;
 
 class Cart extends Component
 {
@@ -176,6 +177,8 @@ class Cart extends Component
         $order->approved = 1;
         $order->save();
 
+        event(new OrderCreated($order));
+
         if($this->payment && $this->payment_method){
             $order->orders_payments()->create([
                 'name' => 'pago',
@@ -214,7 +217,7 @@ class Cart extends Component
             }
         }
 
-        CartFacade::clear();
+        // CartFacade::clear();
         $this->emit('clearCartAll');
         $this->cart = CartFacade::get();
 

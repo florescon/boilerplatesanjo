@@ -75,6 +75,7 @@ class ActivityTable extends Component
     public function getRowsQueryProperty()
     {
         return Activity::query()
+            // ->where('log_name', '<>', 'order')
             ->when($this->filters, function ($query) {
                 $query->where('log_name', $this->filters);
             })

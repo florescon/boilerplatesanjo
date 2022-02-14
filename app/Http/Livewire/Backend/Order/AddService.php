@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Backend\Order;
 use Livewire\Component;
 use App\Models\Product;
 use App\Models\Order;
+use App\Events\Order\OrderServiceCreated;
 
 class AddService extends Component
 {
@@ -59,6 +60,8 @@ class AddService extends Component
             'price' =>  $this->price,
             'type' => $this->parameter,
         ]);
+
+        // event(new OrderServiceCreated($order));
 
         $this->resetInputFields();
         $this->emit('serviceStore');

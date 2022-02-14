@@ -13,6 +13,7 @@ use App\Events\Product\ProductDescriptionChanged;
 use App\Events\Product\ProductLineChanged;
 use App\Events\Product\ProductBrandChanged;
 use App\Events\Product\ProductModelChanged;
+use App\Events\Product\ProductColorCreated;
 
 class EditProduct extends Component
 {
@@ -93,6 +94,7 @@ class EditProduct extends Component
         $productUpdated->update([
             'line_id' => $this->line_id,
         ]);
+
         event(new ProductLineChanged($productUpdated));
 
         return $this->redirectRoute('admin.product.edit', $this->product_id);
@@ -104,6 +106,7 @@ class EditProduct extends Component
         $productUpdated->update([
             'brand_id' => $this->brand_id,
         ]);
+
         event(new ProductBrandChanged($productUpdated));
 
         return $this->redirectRoute('admin.product.edit', $this->product_id);
@@ -115,6 +118,7 @@ class EditProduct extends Component
         $productUpdated->update([
             'model_product_id' => $this->model_product,
         ]);
+
         event(new ProductModelChanged($productUpdated));
 
         return $this->redirectRoute('admin.product.edit', $this->product_id);
@@ -315,6 +319,8 @@ class EditProduct extends Component
     public function savecolor()
     {
         $product = Product::with('childrenWithTrashed')->findOrFail($this->product_id);
+
+        // event(new ProductColorCreated($product));
 
         if($this->color_id_select){
             if(!$product->childrenWithTrashed->contains('color_id', $this->color_id_select))

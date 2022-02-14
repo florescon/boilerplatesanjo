@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use PDF;
 use Carbon\Carbon;
+use App\Events\Order\OrderDeleted;
 
 class OrderController extends Controller
 {
@@ -148,6 +149,9 @@ class OrderController extends Controller
         if($order->id){
             $order->delete();
         }
+
+        event(new OrderDeleted($order));
+
         return redirect()->route('admin.order.index')->withFlashSuccess(__('The order/sale was successfully deleted'));
     }
 }
