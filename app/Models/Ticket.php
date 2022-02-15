@@ -10,6 +10,14 @@ class Ticket extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'order_id', 
+        'status_id',
+        'user_id',
+        'date_entered',
+        'audi_id',
+    ];
+
     /**
      * @return mixed
      */

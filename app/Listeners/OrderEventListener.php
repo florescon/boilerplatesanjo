@@ -11,6 +11,7 @@ use App\Events\Order\OrderAssignmentCreated;
 use App\Events\Order\OrderAssignmentDeleted;
 use App\Events\Order\OrderServiceCreated;
 use App\Events\Order\OrderProductionStatusUpdated;
+use App\Events\Order\OrderStatusUpdated;
 
 class OrderEventListener
 {
@@ -63,11 +64,14 @@ class OrderEventListener
             ->performedOn($event->order)
             ->withProperties([
                 'order' => [
+                    'ticket' => $event->order->id,
                     'comment' => $event->order->name,
                     'tracking_number' => $event->order->slug,
+                    'status' => $event->order->last_ticket->status->name ?? null,
+                    'user' => $event->order->last_ticket->audi->name ?? null,
                 ],
             ])
-            ->log(':causer.name created assignment order :subject.id');
+            ->log(':causer.name created :properties.order.status assignment order: #:subject.id, user: :properties.order.user');
     }
 
     /**
@@ -79,11 +83,13 @@ class OrderEventListener
             ->performedOn($event->order)
             ->withProperties([
                 'order' => [
+                    'ticket' => $event->order->id,
                     'comment' => $event->order->name,
                     'tracking_number' => $event->order->slug,
+                    'status' => $event->order->last_ticket_updated->status->name ?? null,
                 ],
             ])
-            ->log(':causer.name deleted assignment order :subject.name');
+            ->log(':causer.name deleted :propertoes.order.status assignment order :subject.name');
     }
 
     /**
@@ -117,6 +123,22 @@ class OrderEventListener
                 ],
             ])
             ->log(':causer.name updated production order status, order #:subject.id');
+    }
+
+    /**
+     * @param $event
+     */
+    public function onStatusUpdated($event)
+    {
+        activity('order')
+            ->performedOn($event->order)
+            ->withProperties([
+                'order' => [
+                    'tracking_number' => $event->order->slug ?? null,
+                    'order_delivery_status' => $event->order->last_order_delivery->formatted_type ?: null,
+                ],
+            ])
+            ->log(':causer.name updated delivery order status, order #:subject.id');
     }
 
     /**
@@ -171,6 +193,11 @@ class OrderEventListener
         $events->listen(
             OrderProductionStatusUpdated::class,
             'App\Listeners\OrderEventListener@onProductionStatusUpdated'
+        );
+
+        $events->listen(
+            OrderStatusUpdated::class,
+            'App\Listeners\OrderEventListener@onStatusUpdated'
         );
 
         $events->listen(

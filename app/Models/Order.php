@@ -130,6 +130,16 @@ class Order extends Model
         return $this->hasMany(Ticket::class)->orderBy('created_at', 'desc');
     }
 
+    public function last_ticket()
+    {
+        return $this->hasOne(Ticket::class)->latestOfMany();
+    }
+
+    public function last_ticket_updated()
+    {
+        return $this->hasOne(Ticket::class)->latestOfMany()->where('updated_at', 'desc');
+    }
+
     /**
      * @return mixed
      */

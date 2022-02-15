@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use App\Exceptions\GeneralException;
 use Carbon\Carbon;
 use Exception;
+use App\Events\Order\OrderAssignmentCreated;
 
 class AssignmentsOrder extends Component
 {
@@ -65,7 +66,6 @@ class AssignmentsOrder extends Component
         // $this->editStock = !$this->editStock;
     }
 
-
     public function outputUpdateAll($ticketID)
     {
         $ticketUpd = Ticket::find($ticketID);
@@ -77,7 +77,6 @@ class AssignmentsOrder extends Component
             'title'   => __('Saved'), 
         ]);
     }
-
 
     public function save()
     {
@@ -106,13 +105,23 @@ class AssignmentsOrder extends Component
 
                 // dd($this->quantityy);
 
-                $order = new Ticket();
-                $order->order_id = $this->order_id;
-                $order->status_id = $this->status_id;
-                $order->user_id = $this->user ?? null;
-                // $order->date_entered = Carbon::now()->format('Y-m-d');
-                // $order->audi_id = Auth::id();
-                $order->save();
+                // $order = new Ticket();
+                // $order->order_id = $this->order_id;
+                // $order->status_id = $this->status_id;
+                // $order->user_id = $this->user ?? null;
+                // // $order->date_entered = Carbon::now()->format('Y-m-d');
+                // // $order->audi_id = Auth::id();
+                // $order->save();
+
+                $ticket = new Ticket([
+                    'status_id' => $this->status_id,
+                    'user_id' => $this->user ?? null,
+                    'audi_id' => Auth::id(),
+                ]);
+
+                $orderModel->tickets()->save($ticket);                
+
+                event(new OrderAssignmentCreated($orderModel));
 
                 foreach($this->quantityy as $key => $product){
                     // dd($product['available']);
@@ -122,7 +131,7 @@ class AssignmentsOrder extends Component
 
                         $productOder->assignments()->create([
                             'order_id' =>  $this->order_id,
-                            'ticket_id' =>  $order->id,
+                            'ticket_id' =>  $ticket->id,
                             'status_id' =>  $this->status_id,
                             'user_id' =>  $this->user ?? null,
                             'quantity' => $product['available'],

@@ -10,6 +10,7 @@ use App\Models\OrderStatusDelivery;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Events\Order\OrderProductionStatusUpdated;
+use App\Events\Order\OrderStatusUpdated;
 
 class EditOrder extends Component
 {
@@ -54,6 +55,9 @@ class EditOrder extends Component
 
         if($this->last_order_delivery != $value){
             $order->orders_delivery()->create(['type' => $value, 'audi_id' => Auth::id()]);
+
+            event(new OrderStatusUpdated($order));
+
         }
 
         session()->flash('message', __('The status delivery was successfully changed.'));

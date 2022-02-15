@@ -95,8 +95,13 @@
             @if($orderExists)
 
             <div class="form-row">
-              <div class="col-md-4 mb-3" style="text-decoration: underline;">
-                {!! $model->last_status_order->status->name ?? '<span class="badge badge-secondary">'.__('undefined status').'</span>' !!}
+              <div class="col-md-4 mb-3" >
+                @lang('Production status'):
+                <em class="text-primary">
+                  <strong>
+                    {!! $model->last_status_order->status->name ?? '<span class="badge badge-secondary">'.__('undefined status').'</span>' !!}
+                  </strong>
+                </em>
                 <div wire:loading wire:target="updateStatus" class="loading"></div>
               </div>
               <div class="col-md-4 mb-3">
@@ -386,7 +391,7 @@
 
                   @foreach($statuses as $status)
                   <div class="vertical-timeline-item vertical-timeline-element">
-                    <div> <span wire:click="updateStatus({{ $status->id }})" class="vertical-timeline-element-icon bounce-in"> <i  wire:loading.class.remove="badge-dot-xl badge-dot-xl2" class="badge badge-dot 
+                    <div> <span wire:click="updateStatus({{ $status->id }})" class="vertical-timeline-element-icon bounce-in"> <i  wire:loading.class.remove="badge-dot-xl badge-dot-xl2" class="badge badge-dot
                       {{ $status->id == $lates_statusId ? 'badge-dot-xl2' : 'badge-dot-xl' }}
                       badge-primary"> </i> </span>
                       <div class="vertical-timeline-element-content bounce-in" style="{{ $status->id == $lates_statusId ? 'font-size: medium;' : '' }}">

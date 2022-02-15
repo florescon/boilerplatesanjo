@@ -48,11 +48,11 @@
                             Ticket: #{{ $ticket->id}}
                           </p>
                         </div>
-                        <div class="col-md-3 col-sm-6 text-right">
+                        {{-- <div class="col-md-3 col-sm-6 text-right">
                           <a href="{{ url('/') }}">
                             <i class="cil-x-circle"></i>
                           </a>
-                        </div>
+                        </div> --}}
                       </div>
                     </div>
                     <div class="card-body ">
@@ -119,7 +119,7 @@
 
                           @if($ticket->assignments_direct->where('output', false)->count())
                             <div class="col-6 col-md-3 text-right">
-                              <a wire:click="outputUpdateAll({{ $ticket->id }})" class="card-link text-right">Dar salida al ticket</a>
+                              <a wire:click="outputUpdateAll({{ $ticket->id }})" class="card-link text-right">Se recibieron los productos</a>
                             </div>
                           @endif
                         </div>

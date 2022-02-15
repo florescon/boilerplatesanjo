@@ -60,6 +60,4 @@ class Status extends Model
     protected $casts = [
         'to_add_users' => 'boolean',
     ];
-
-
 }
