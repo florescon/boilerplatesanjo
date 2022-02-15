@@ -60,6 +60,14 @@
                                 <td>{{ $model2->total_products }}</td>
                                 <td>{{ $model2->total_products_assignments }}</td>
                               </tr>
+                              @if($quantityy)
+                                <tr>
+                                  <td colspan="2"></td>
+                                  <td>
+                                    <button type="button" wire:click="save" class="btn btn-primary btn-sm">@lang('Create ticket')</button>
+                                  </td>
+                                </tr>
+                              @endif
                           </tbody>
                         </table>
                       </div>

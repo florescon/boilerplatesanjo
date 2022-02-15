@@ -69,6 +69,14 @@
                                 <td class="border-right-0">{{ $model->total_products }}</td>
                                 <td style="color:purple;">{{ $model->total_products - $model->total_products_all_suborders }}</td>
                               </tr>
+                              @if($quantityy)
+                                <tr>
+                                  <td colspan="2"></td>
+                                  <td>
+                                    <button type="button" wire:click="savesuborder" style="background: purple; color: white;" class="btn btn-sm">@lang('Save suborder')</button>
+                                  </td>
+                                </tr>
+                              @endif
                           </tbody>
                         </table>
                       </div>

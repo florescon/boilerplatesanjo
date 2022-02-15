@@ -7,7 +7,7 @@
     <strong style="color: #0061f2;"> @lang('List of records consumed feedstock') </strong>
   @endif
   <div class="card-header-actions">
-     <em> @lang('Last request'): {{ now()->format('h:i:s') }} </em>
+    <x-utils.link class="card-header-action" icon="fa fa-chevron-left" :href="route('admin.material.index')" :text="__('Back to feedstock')" />
   </div>
 
     <div class="page-header-subtitle mt-5 mb-2">

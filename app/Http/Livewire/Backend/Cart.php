@@ -217,7 +217,7 @@ class Cart extends Component
             }
         }
 
-        // CartFacade::clear();
+        CartFacade::clear();
         $this->emit('clearCartAll');
         $this->cart = CartFacade::get();
 
