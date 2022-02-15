@@ -161,6 +161,14 @@ class Order extends Model
         return $this->hasMany(Finance::class)->with('audi', 'payment');
     }
 
+    /**
+     * @return mixed
+     */
+    public function last_payment()
+    {
+        return $this->hasOne(Finance::class)->latestOfMany();
+    }
+
     public function total_payments()
     {
         return $this->orders_payments->sum('amount');

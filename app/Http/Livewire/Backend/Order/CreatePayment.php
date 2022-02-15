@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Finance;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
+use App\Events\Order\OrderPaymentCreated;
 
 class CreatePayment extends Component
 {
@@ -41,17 +42,16 @@ class CreatePayment extends Component
 
     public function store()
     {
-        $max = Order::find($this->orderId);
+        $order = Order::find($this->orderId);
 
         $this->validate([
-            'amount' => 'required|numeric|min:0.01|regex:/^\d*(\.\d{1,2})?$/|max:'.$max->total_payments_remaining,
+            'amount' => 'required|numeric|min:0.01|regex:/^\d*(\.\d{1,2})?$/|max:'.$order->total_payments_remaining,
             'comment' => 'sometimes',
             'payment_method' => 'required_with:amount',
         ]);
 
-        Finance::create([
+        $payment = new Finance([
             'name' => 'pago',
-            'order_id' => $this->orderId,
             'amount' => $this->amount,
             'comment' => $this->comment,
             'date_entered' => $this->date ?: today(),
@@ -60,6 +60,10 @@ class CreatePayment extends Component
             'payment_method_id' => $this->payment_method,
             'audi_id' => Auth::id(),
         ]);
+
+        $order->orders_payments()->save($payment);
+
+        event(new OrderPaymentCreated($order));
 
         $this->resetInputFields();
         $this->emit('paymentStore');

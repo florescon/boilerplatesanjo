@@ -12,6 +12,7 @@ use App\Events\Order\OrderAssignmentDeleted;
 use App\Events\Order\OrderServiceCreated;
 use App\Events\Order\OrderProductionStatusUpdated;
 use App\Events\Order\OrderStatusUpdated;
+use App\Events\Order\OrderPaymentCreated;
 
 class OrderEventListener
 {
@@ -108,7 +109,6 @@ class OrderEventListener
             ->log(':causer.name created service order :subject.name');
     }
 
-
     /**
      * @param $event
      */
@@ -139,6 +139,23 @@ class OrderEventListener
                 ],
             ])
             ->log(':causer.name updated delivery order status, order #:subject.id');
+    }
+
+    /**
+     * @param $event
+     */
+    public function onPaymentCreated($event)
+    {
+        activity('order')
+            ->performedOn($event->order)
+            ->withProperties([
+                'order' => [
+                    'tracking_number' => $event->order->slug ?? null,
+                    'payment' => $event->order->last_payment->amount ?: null,
+                    'type' => $event->order->type_order_clear ?: null,
+                ],
+            ])
+            ->log(':causer.name created payment :properties.order.type #:subject.id, amount $:properties.order.payment');
     }
 
     /**
@@ -198,6 +215,11 @@ class OrderEventListener
         $events->listen(
             OrderStatusUpdated::class,
             'App\Listeners\OrderEventListener@onStatusUpdated'
+        );
+
+        $events->listen(
+            OrderPaymentCreated::class,
+            'App\Listeners\OrderEventListener@onPaymentCreated'
         );
 
         $events->listen(

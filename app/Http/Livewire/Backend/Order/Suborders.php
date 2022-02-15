@@ -56,7 +56,6 @@ class Suborders extends Component
             }
         }
 
-
         if(!empty($this->quantityy)){
 
             // dd($this->quantityy);
