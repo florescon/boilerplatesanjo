@@ -35,7 +35,7 @@
             $<x-utils.undefined :data="$old_price"/>
           </td>
           <td>
-            <input type="text" wire:model.lazy="price" class="form-control @error('price') is-invalid @enderror" id="price" placeholder="@lang('New price') (@lang('Optional'))">
+            <input type="number" step="any" wire:model.lazy="price" class="form-control @error('price') is-invalid @enderror" id="price" placeholder="@lang('New price') (@lang('Optional'))">
           </td>
         </tr>
 
@@ -45,7 +45,7 @@
             <x-utils.undefined :data="$old_stock"/>
           </td>
           <td>
-            <input type="text" wire:model.lazy="stock" class="form-control @error('stock') is-invalid @enderror" id="stock" placeholder="@lang('Add / Subtract') (@lang('Required'))">
+            <input type="number" step="any" wire:model.lazy="stock" class="form-control @error('stock') is-invalid @enderror" id="stock" placeholder="@lang('Add / Subtract') (@lang('Required'))">
           </td>
         </tr>
 

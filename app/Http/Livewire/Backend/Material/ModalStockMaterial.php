@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\GeneralException;
 use Exception;
+use App\Events\Material\MaterialUpdated;
 
 class ModalStockMaterial extends Component
 {
@@ -49,36 +50,38 @@ class ModalStockMaterial extends Component
 
             $material = Material::findOrFail($this->material_id);
 
-            if($this->stock > 0){
-                $material->increment('stock', abs($this->stock));
+            if($this->price > 0){
+                $changed_stock = $material->stock + $this->stock;
+                $material->update(['stock' => $changed_stock, 'price' => $this->price]);
+                event(new MaterialUpdated($material));
+
+                $material->history()->create([
+                    'old_stock' => $this->old_stock,
+                    'stock' => $this->stock,
+                    'old_price' => $this->old_price,
+                    'price' => $this->price > 0 ? $this->price : $this->old_price,
+                    'audi_id' => Auth::id(),
+                ]);
+
+                $this->resetInputStockFields();
+
+                $this->emit('materialUpdate');
+
+                $this->emitTo('backend.material-table', 'triggerRefresh');
+
+                $this->emit('swal:alert', [
+                    'icon' => 'success',
+                    'title'   => __('Created'), 
+                ]);
             }
             else{
-                $material->decrement('stock', abs($this->stock));
+                $this->emit('swal:alert', [
+                    'icon' => 'warning',
+                    'title'   => 'No puede ser el precio un número negativo :)', 
+                ]);
             }
 
-            if($this->price > 0){
-                $material->update(['price' => $this->price]);
-            }
-
-            $material->history()->create([
-                'old_stock' => $this->old_stock,
-                'stock' => $this->stock,
-                'old_price' => $this->old_price,
-                'price' => $this->price > 0 ? $this->price : $this->old_price,
-                'audi_id' => Auth::id(),
-            ]);
-
-            $this->resetInputStockFields();
-
-            $this->emit('materialUpdate');
-
-            $this->emitTo('backend.material-table', 'triggerRefresh');
         
-            $this->emit('swal:alert', [
-                'icon' => 'success',
-                'title'   => __('Created'), 
-            ]);
-
         } catch (Exception $e) {
             DB::rollBack();
 

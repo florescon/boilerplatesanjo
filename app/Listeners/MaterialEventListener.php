@@ -45,6 +45,7 @@ class MaterialEventListener
                     'description' => $event->material->description,
                     'acquisition_cost' => $event->material->acquisition_cost,
                     'price' => $event->material->price,
+                    'stock' => $event->material->stock,
                 ],
             ])
             ->log(':causer.name actualizó materia prima :subject.name');
