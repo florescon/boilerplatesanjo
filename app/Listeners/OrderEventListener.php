@@ -37,7 +37,7 @@ class OrderEventListener
                     'type' => $event->order->type_order_clear ?: null,
                 ],
             ])
-            ->log(':causer.name created :properties.order.type #:subject.id with tracking number: :properties.order.tracking_number');
+            ->log(':causer.name creó :properties.order.type #:subject.id número de seguimiento: :properties.order.tracking_number');
     }
 
     /**
@@ -53,7 +53,7 @@ class OrderEventListener
                     'tracking_number' => $event->order->slug,
                 ],
             ])
-            ->log(':causer.name updated order :subject.name');
+            ->log(':causer.name actualizó orden :subject.name');
     }
 
     /**
@@ -72,7 +72,7 @@ class OrderEventListener
                     'user' => $event->order->last_ticket->audi->name ?? null,
                 ],
             ])
-            ->log(':causer.name created :properties.order.status assignment order: #:subject.id, user: :properties.order.user');
+            ->log(':causer.name creó :properties.order.status ticket: #:subject.id, usuario: :properties.order.user');
     }
 
     /**
@@ -90,7 +90,7 @@ class OrderEventListener
                     'status' => $event->order->last_ticket_updated->status->name ?? null,
                 ],
             ])
-            ->log(':causer.name deleted :propertoes.order.status assignment order :subject.name');
+            ->log(':causer.name eliminó :propertoes.order.status ticket :subject.id');
     }
 
     /**
@@ -106,7 +106,7 @@ class OrderEventListener
                     'service' => $event->order->product_order->product->id
                 ],
             ])
-            ->log(':causer.name created service order :subject.name');
+            ->log(':causer.name agregó servicio a la orden :subject.id');
     }
 
     /**
@@ -122,7 +122,7 @@ class OrderEventListener
                     'order_production_status' => $event->order->last_status_order->status_id ? $event->order->last_status_order->status->name : null,
                 ],
             ])
-            ->log(':causer.name updated production order status, order #:subject.id');
+            ->log(':causer.name actualizó estado de producción, orden #:subject.id');
     }
 
     /**
@@ -138,7 +138,7 @@ class OrderEventListener
                     'order_delivery_status' => $event->order->last_order_delivery->formatted_type ?: null,
                 ],
             ])
-            ->log(':causer.name updated delivery order status, order #:subject.id');
+            ->log(':causer.name actualizó estado de entrega, order #:subject.id');
     }
 
     /**
@@ -155,7 +155,7 @@ class OrderEventListener
                     'type' => $event->order->type_order_clear ?: null,
                 ],
             ])
-            ->log(':causer.name created payment :properties.order.type #:subject.id, amount $:properties.order.payment');
+            ->log(':causer.name creó pago :properties.order.type #:subject.id, cantidad $:properties.order.payment');
     }
 
     /**
@@ -172,7 +172,7 @@ class OrderEventListener
                     'type' => $event->order->type_order_clear ?: null,
                 ],
             ])
-            ->log(':causer.name deleted :properties.order.type #:subject.id with tracking number: :properties.order.tracking_number');
+            ->log(':causer.name eliminó :properties.order.type #:subject.id con número de seguimiento: :properties.order.tracking_number');
     }
 
     /**

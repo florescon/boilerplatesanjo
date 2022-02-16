@@ -23,7 +23,7 @@ class LineEventListener
                     'name' => $event->line->name,
                 ],
             ])
-            ->log(':causer.name created line :subject.name');
+            ->log(':causer.name creó línea :subject.name');
     }
 
     /**
@@ -38,7 +38,7 @@ class LineEventListener
                     'name' => $event->line->name,
                 ],
             ])
-            ->log(':causer.name updated line :subject.name');
+            ->log(':causer.name actualizó línea :subject.name');
     }
 
     /**
@@ -48,7 +48,7 @@ class LineEventListener
     {
         activity('line')
             ->performedOn($event->line)
-            ->log(':causer.name deleted line :subject.name');
+            ->log(':causer.name eliminó línea :subject.name');
     }
 
     /**
@@ -58,7 +58,7 @@ class LineEventListener
     {
         activity('line')
             ->performedOn($event->line)
-            ->log(':causer.name restored line :subject.name');
+            ->log(':causer.name restauró línea :subject.name');
     }
 
     /**

@@ -24,7 +24,7 @@ class SizeEventListener
                     'short_name' => $event->size->short_name,
                 ],
             ])
-            ->log(':causer.name created size :subject.name');
+            ->log(':causer.name creó talla :subject.name');
     }
 
     /**
@@ -40,7 +40,7 @@ class SizeEventListener
                     'short_name' => $event->size->short_name,
                 ],
             ])
-            ->log(':causer.name updated size :subject.name');
+            ->log(':causer.name actualizó talla :subject.name');
     }
 
     /**
@@ -50,7 +50,7 @@ class SizeEventListener
     {
         activity('size')
             ->performedOn($event->size)
-            ->log(':causer.name deleted size :subject.name');
+            ->log(':causer.name eliminó talla :subject.name');
     }
 
     /**
@@ -60,7 +60,7 @@ class SizeEventListener
     {
         activity('size')
             ->performedOn($event->size)
-            ->log(':causer.name restored size :subject.name');
+            ->log(':causer.name restauró talla :subject.name');
     }
 
     /**

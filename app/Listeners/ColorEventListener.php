@@ -26,7 +26,7 @@ class ColorEventListener
                     'secondary_color' => $event->color->secondary_color,
                 ],
             ])
-            ->log(':causer.name created color :subject.name');
+            ->log(':causer.name creó color :subject.name');
     }
 
     /**
@@ -44,7 +44,7 @@ class ColorEventListener
                     'secondary_color' => $event->color->secondary_color,
                 ],
             ])
-            ->log(':causer.name updated color :subject.name');
+            ->log(':causer.name actualizó color :subject.name');
     }
 
     /**
@@ -54,7 +54,7 @@ class ColorEventListener
     {
         activity('color')
             ->performedOn($event->color)
-            ->log(':causer.name deleted color :subject.name');
+            ->log(':causer.name eliminó color :subject.name');
     }
 
     /**
@@ -64,7 +64,7 @@ class ColorEventListener
     {
         activity('color')
             ->performedOn($event->color)
-            ->log(':causer.name restored color :subject.name');
+            ->log(':causer.name restauró color :subject.name');
     }
 
     /**

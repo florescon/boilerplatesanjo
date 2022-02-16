@@ -23,7 +23,7 @@ class ClothEventListener
                     'name' => $event->cloth->name,
                 ],
             ])
-            ->log(':causer.name created cloth :subject.name');
+            ->log(':causer.name creó tela :subject.name');
     }
 
     /**
@@ -38,7 +38,7 @@ class ClothEventListener
                     'name' => $event->cloth->name,
                 ],
             ])
-            ->log(':causer.name updated cloth :subject.name');
+            ->log(':causer.name actualizó tela :subject.name');
     }
 
     /**
@@ -48,7 +48,7 @@ class ClothEventListener
     {
         activity('cloth')
             ->performedOn($event->cloth)
-            ->log(':causer.name deleted cloth :subject.name');
+            ->log(':causer.name eliminó tela :subject.name');
     }
 
     /**
@@ -58,7 +58,7 @@ class ClothEventListener
     {
         activity('cloth')
             ->performedOn($event->cloth)
-            ->log(':causer.name restored cloth :subject.name');
+            ->log(':causer.name restauró tela :subject.name');
     }
 
     /**

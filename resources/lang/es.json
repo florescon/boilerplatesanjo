@@ -192,6 +192,8 @@
     "View User": "Ver usuario",
     "Back": "Atrás",
     "user": "usuario",
+    "payment": "pago",
+    "code": "código",
     "status": "estado",
     "order_production_status": "estado de producción",
     "order_delivery_status": "estado de entrega",

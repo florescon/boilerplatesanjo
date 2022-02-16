@@ -28,7 +28,7 @@ class MaterialEventListener
                     'stock' => $event->material->stock,
                 ],
             ])
-            ->log(':causer.name created material :subject.name');
+            ->log(':causer.name creó materia prima :subject.name');
     }
 
     /**
@@ -47,7 +47,7 @@ class MaterialEventListener
                     'price' => $event->material->price,
                 ],
             ])
-            ->log(':causer.name updated material :subject.name');
+            ->log(':causer.name actualizó materia prima :subject.name');
     }
 
     /**
@@ -57,7 +57,7 @@ class MaterialEventListener
     {
         activity('material')
             ->performedOn($event->material)
-            ->log(':causer.name deleted material :subject.name');
+            ->log(':causer.name eliminó materia prima :subject.name');
     }
 
     /**
@@ -67,7 +67,7 @@ class MaterialEventListener
     {
         activity('material')
             ->performedOn($event->material)
-            ->log(':causer.name restored material :subject.name');
+            ->log(':causer.name restauró materia prima :subject.name');
     }
 
     /**

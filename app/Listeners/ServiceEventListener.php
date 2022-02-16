@@ -25,7 +25,7 @@ class ServiceEventListener
                     'price' => $event->service->price,
                 ],
             ])
-            ->log(':causer.name created service :subject.name');
+            ->log(':causer.name creó servicio :subject.name');
     }
 
     /**
@@ -42,7 +42,7 @@ class ServiceEventListener
                     'price' => $event->service->price,
                 ],
             ])
-            ->log(':causer.name updated service :subject.name');
+            ->log(':causer.name actualizó servicio :subject.name');
     }
 
     /**
@@ -52,7 +52,7 @@ class ServiceEventListener
     {
         activity('service')
             ->performedOn($event->service)
-            ->log(':causer.name deleted service :subject.name');
+            ->log(':causer.name eliminó servicio :subject.name');
     }
 
     /**
@@ -62,7 +62,7 @@ class ServiceEventListener
     {
         activity('service')
             ->performedOn($event->service)
-            ->log(':causer.name restored service :subject.name');
+            ->log(':causer.name restauró servicio :subject.name');
     }
 
     /**

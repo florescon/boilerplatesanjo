@@ -23,7 +23,7 @@ class ModelProductEventListener
                     'name' => $event->model_product->name,
                 ],
             ])
-            ->log(':causer.name created model_product :subject.name');
+            ->log(':causer.name creó modelo del producto :subject.name');
     }
 
     /**
@@ -38,7 +38,7 @@ class ModelProductEventListener
                     'name' => $event->model_product->name,
                 ],
             ])
-            ->log(':causer.name updated model_product :subject.name');
+            ->log(':causer.name actualizó modelo del producto :subject.name');
     }
 
     /**
@@ -48,7 +48,7 @@ class ModelProductEventListener
     {
         activity('model_product')
             ->performedOn($event->model_product)
-            ->log(':causer.name deleted model_product :subject.name');
+            ->log(':causer.name eliminó modelo del producto :subject.name');
     }
 
     /**
@@ -58,7 +58,7 @@ class ModelProductEventListener
     {
         activity('model_product')
             ->performedOn($event->model_product)
-            ->log(':causer.name restored model_product :subject.name');
+            ->log(':causer.name restauró modelo del producto :subject.name');
     }
 
     /**

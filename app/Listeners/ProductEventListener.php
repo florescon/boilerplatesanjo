@@ -33,7 +33,7 @@ class ProductEventListener
                     'price' => $event->product->price,
                 ],
             ])
-            ->log(':causer.name created product :subject.name');
+            ->log(':causer.name creó producto :subject.name');
     }
 
     /**
@@ -50,7 +50,7 @@ class ProductEventListener
                     'price' => $event->product->price,
                 ],
             ])
-            ->log(':causer.name updated product :subject.name');
+            ->log(':causer.name actualizó producto :subject.name');
     }
 
     /**
@@ -65,7 +65,7 @@ class ProductEventListener
                     'name' => $event->product->name,
                 ],
             ])
-            ->log(':causer.name changed product name :subject.name');
+            ->log(':causer.name cambió nombre de producto a :subject.name');
     }
 
     /**
@@ -80,7 +80,7 @@ class ProductEventListener
                     'code' => $event->product->code,
                 ],
             ])
-            ->log(':causer.name changed product code :subject.name');
+            ->log(':causer.name cambió código de producto a :subject.name');
     }
 
     /**
@@ -95,7 +95,7 @@ class ProductEventListener
                     'description' => $event->product->description,
                 ],
             ])
-            ->log(':causer.name changed product description :subject.name');
+            ->log(':causer.name cambió description de producto a :subject.name');
     }
 
     /**
@@ -110,7 +110,7 @@ class ProductEventListener
                     'line' => $event->product->line_id ? $event->product->line->name : 'None',
                 ],
             ])
-            ->log(':causer.name changed product line :subject.name');
+            ->log(':causer.name cambió línea de producto a :subject.name');
     }
 
     /**
@@ -125,7 +125,7 @@ class ProductEventListener
                     'brand' => $event->product->brand_id ? $event->product->brand->name : 'None',
                 ],
             ])
-            ->log(':causer.name changed product brand :subject.name');
+            ->log(':causer.name cambió marca de producto a :subject.name');
     }
 
     /**
@@ -140,7 +140,7 @@ class ProductEventListener
                     'line' => $event->product->model_product_id ? $event->product->model_product->name : 'None',
                 ],
             ])
-            ->log(':causer.name changed product model :subject.name');
+            ->log(':causer.name cambió modelo de producto a :subject.name');
     }
 
     /**
@@ -150,7 +150,7 @@ class ProductEventListener
     {
         activity('product')
             ->performedOn($event->product)
-            ->log(':causer.name deleted product :subject.name');
+            ->log(':causer.name eliminó producto :subject.name');
     }
 
     /**
@@ -160,7 +160,7 @@ class ProductEventListener
     {
         activity('product')
             ->performedOn($event->product)
-            ->log(':causer.name restored product :subject.name');
+            ->log(':causer.name restauró producto :subject.name');
     }
 
     /**
@@ -176,7 +176,7 @@ class ProductEventListener
                     // 'color' => $event->product->color->name,
                 ],
             ])
-            ->log(':causer.name created color product :subject.name');
+            ->log(':causer.name creó color de producto :subject.name');
     }
 
     /**

@@ -24,7 +24,7 @@ class UnitEventListener
                     'abbreviation' => $event->unit->abbreviation,
                 ],
             ])
-            ->log(':causer.name created unit :subject.name');
+            ->log(':causer.name creó unidad de medida :subject.name');
     }
 
     /**
@@ -40,7 +40,7 @@ class UnitEventListener
                     'abbreviation' => $event->unit->abbreviation,
                 ],
             ])
-            ->log(':causer.name updated unit :subject.name');
+            ->log(':causer.name actualizó unidad de medida :subject.name');
     }
 
     /**
@@ -50,7 +50,7 @@ class UnitEventListener
     {
         activity('unit')
             ->performedOn($event->unit)
-            ->log(':causer.name deleted unit :subject.name');
+            ->log(':causer.name eliminó unidad de medida :subject.name');
     }
 
     /**
@@ -60,7 +60,7 @@ class UnitEventListener
     {
         activity('unit')
             ->performedOn($event->unit)
-            ->log(':causer.name restored unit :subject.name');
+            ->log(':causer.name restauró unidad de medida :subject.name');
     }
 
     /**

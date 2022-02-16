@@ -26,7 +26,7 @@ class BrandEventListener
                     'position' => $event->brand->position,
                 ],
             ])
-            ->log(':causer.name created brand :subject.name');
+            ->log(':causer.name creó marca :subject.name');
     }
 
     /**
@@ -44,7 +44,7 @@ class BrandEventListener
                     'position' => $event->brand->position,
                 ],
             ])
-            ->log(':causer.name updated brand :subject.name');
+            ->log(':causer.name actualizó marca :subject.name');
     }
 
     /**
@@ -54,7 +54,7 @@ class BrandEventListener
     {
         activity('brand')
             ->performedOn($event->brand)
-            ->log(':causer.name deleted brand :subject.name');
+            ->log(':causer.name eliminó marca :subject.name');
     }
 
     /**
@@ -64,7 +64,7 @@ class BrandEventListener
     {
         activity('brand')
             ->performedOn($event->brand)
-            ->log(':causer.name restored brand :subject.name');
+            ->log(':causer.name restauró marca :subject.name');
     }
 
     /**
