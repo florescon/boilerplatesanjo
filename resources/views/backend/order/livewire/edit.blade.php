@@ -14,6 +14,16 @@
   </x-slot>
   <x-slot name="body">
 
+
+    @if($orderExists && $model->materials_order()->doesntExist())
+      <div class="alert alert-warning" role="alert">
+        <h4 class="alert-heading">Materia prima aún no consumida</h4>
+          Para hacerlo, el estado de producción de orden debe cambiarse a producción o posterior.
+        <hr>
+        <p class="mb-0">Nota: Se sugiere "Ver materia prima, previa al consumo" en la parte de abajo.</p>
+      </div>
+    @endif
+
     @if(!$model->approved)
       <div class="alert alert-danger" role="alert">
         @lang('Not approved') <a wire:click="approve" href="#">@lang('Approve')</a> 
