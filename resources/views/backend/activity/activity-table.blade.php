@@ -84,7 +84,7 @@
 @if($selectPage)
   <x-utils.alert type="primary">
     @unless($selectAll)
-    <span>Tienes seleccionado <strong>{{ $activities->count() }}</strong> activities, ¿quieres seleccionar  <strong>{{ $activities->total() }} </strong> activities?</span>
+    <span>Tienes seleccionado <strong>{{ $activities->count() }}</strong> activities, ¿quieres seleccionar  <strong>{{ $activities->total() }} </strong> actividades?</span>
       <a href="#" wire:click="selectAll" class="alert-link">Seleccionar todo</a>
     @else
       <span>Actualmente seleccionaste <strong>{{ $activities->total() }}</strong> activities.</span>
