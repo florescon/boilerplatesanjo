@@ -138,7 +138,7 @@ class OrderEventListener
                     'order_delivery_status' => $event->order->last_order_delivery->formatted_type ?: null,
                 ],
             ])
-            ->log(':causer.name actualizó estado de entrega, order #:subject.id');
+            ->log(':causer.name actualizó estado de entrega, orden #:subject.id');
     }
 
     /**

@@ -115,7 +115,7 @@
 			            @foreach($cartVar['products_sale'] as $product_sale)
 						    <tr>
 					    	  <td>
-						      	{!! $product->code_subproduct !!}
+						      	{!! $product_sale->code_subproduct !!}
 					    	  </td>
 						      <td>							
 						      	{!! $product_sale->full_name !!} 

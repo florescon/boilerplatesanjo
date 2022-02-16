@@ -6,7 +6,7 @@
 <x-backend.card>
 
   <x-slot name="header">
-    @lang('Show order') #{{ $order_id }}
+    @lang('View') {{ $model->type_order_clear }} #{{ $order_id }}
   </x-slot>
 
   <x-slot name="headerActions">
@@ -425,7 +425,7 @@
   </x-slot>
 
   <x-slot name="footer">
-    <x-utils.delete-button :text="__('Delete order')" :href="route('admin.order.destroy', $order_id)" />
+    <x-utils.delete-button :text="__('Delete').' '.$model->type_order_clear" :href="route('admin.order.destroy', $order_id)" />
     <footer class="blockquote-footer float-right">
       Mies Van der Rohe <cite title="Source Title">Less is more</cite>
     </footer>

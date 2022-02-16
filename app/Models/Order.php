@@ -422,7 +422,7 @@ class Order extends Model
                 case 2:
                     return __('Sale');
                 case 3:
-                    return __('Mix:Order/Sale');
+                    return __('Mix: Order/Sale');
                 case 4:
                     return __('Suborder');
                 case 1:
