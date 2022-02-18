@@ -71,9 +71,11 @@ class PicturesProduct extends Component
     {
         $pictureToDB = Product::find($this->product_id);
 
+        $date = date("Y-m-d");
+
         if($this->files){
             foreach($this->files as $phot){
-                $imageName = $phot->store("images",'public');
+                $imageName = $phot->store("pictures/".$date,'public');
                 $pictureToDB->pictures()->save(new Picture(["color_id" => $this->filters_c[0] ?? null, "picture" => $imageName]));
             }
         }

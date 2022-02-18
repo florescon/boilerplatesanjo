@@ -321,6 +321,31 @@
                             </li>
                         @endif
 
+
+                            <li class="c-sidebar-nav-item">
+                                <x-utils.link
+                                    :href="route('admin.setting.banner')"
+                                    class="c-sidebar-nav-link"
+                                    :text="__('Images Banner')"
+                                    :active="activeClass(Route::is('admin.setting.banner.*'), 'c-active')"/>
+                            </li>
+
+                            <li class="c-sidebar-nav-item">
+                                <x-utils.link
+                                    :href="route('admin.setting.logos')"
+                                    class="c-sidebar-nav-link"
+                                    :text="__('Brand Logos')"
+                                    :active="activeClass(Route::is('admin.setting.logos.*'), 'c-active')"/>
+                            </li>
+
+                            <li class="c-sidebar-nav-item">
+                                <x-utils.link
+                                    :href="route('admin.setting.gallery')"
+                                    class="c-sidebar-nav-link"
+                                    :text="__('Gallery')"
+                                    :active="activeClass(Route::is('admin.setting.gallery.*'), 'c-active')"/>
+                            </li>
+
                         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.settings.list_pages')))
                             <li class="c-sidebar-nav-item">
                                 <x-utils.link

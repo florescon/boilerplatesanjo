@@ -4,10 +4,12 @@
     x-init="
         FilePond.registerPlugin(FilePondPluginImagePreview);
         FilePond.registerPlugin(FilePondPluginFileValidateType);
+        FilePond.registerPlugin(FilePondPluginFileValidateSize);
         FilePond.setOptions({
             allowMultiple: {{ isset($attributes['multiple']) ? 'true' : 'false' }},
             acceptedFileTypes: ['image/png', 'image/jpeg'],
-            {{-- labelIdle: 'siuui', --}}
+            maxFileSize: '1MB',
+            labelIdle: '@lang('Drag & drop images or select here')',
             server: {
                 process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
                     @this.upload('{{ $attributes['wire:model'] }}', file, load, error, progress)

@@ -42,8 +42,10 @@ class CreateProduct extends Component
     {
         $this->validate();
 
+        $date = date("Y-m-d");
+
         if($this->photo){
-            $imageName = $this->photo->store("images",'public');
+            $imageName = $this->photo->store("pictures/".$date,'public');
         }
 
         $product = Product::create([

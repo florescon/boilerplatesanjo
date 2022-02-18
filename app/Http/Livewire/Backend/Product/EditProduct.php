@@ -273,8 +273,10 @@ class EditProduct extends Component
             'photo' => 'image|max:4096', // 4MB Max
         ]);
 
+        $date = date("Y-m-d");
+
         if($this->photo)
-            $imageName = $this->photo->store("images",'public');
+            $imageName = $this->photo->store("pictures/".$date,'public');
         
         $record = Product::find($this->product_id);
         $record->update([

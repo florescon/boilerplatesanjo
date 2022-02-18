@@ -94,6 +94,9 @@
 
     <script src="{{ asset('js_custom/app/filepond-plugin-image-preview.js') }}"></script>
     <script src="{{ asset('js_custom/app/filepond-plugin-file-validate-type.js') }}"></script>
+
+    <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
+
     <script src="{{ asset('js_custom/app/filepond.js') }}"></script>
     
     <livewire:scripts />
