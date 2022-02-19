@@ -37,7 +37,7 @@ class LogoTable extends Component
     {
         $query = Image::query()
             ->whereType('2')
-            ->orderBy('updated_at', 'desc');
+            ->orderBy('sort');
 
         if ($this->status === 'deleted') {
             return $query->onlyTrashed();
@@ -68,18 +68,13 @@ class LogoTable extends Component
     public function activateImage($modelId)
     {
         Image::whereId($modelId)->update(['is_active' => true]);
-        $this->redirectPages();
+        $this->redirectHere();
     }
 
     public function desactivateImage($modelId)
     {
         Image::whereId($modelId)->update(['is_active' => false]);
-        $this->redirectPages();
-    }
-
-    private function redirectPages()
-    {
-        return $this->redirectRoute('admin.setting.logos');
+        $this->redirectHere();
     }
 
     public function changeActive($modelId)

@@ -6,7 +6,8 @@
     'modelName' => '#',
     'inputType' => 'text',
     "maxlength" => '100',
-    "className" => 'mt-4'
+    "className" => 'mt-4',
+    'extraName' => '',
 ])
 
 <div
@@ -32,6 +33,9 @@
             x-on:click="nameData = true; $nextTick(() => focus())"
         >{{ $originalInput }}
             &nbsp;<i class="cil-pencil"></i>
+        <em>
+            {{ $extraName }}
+        </em>
         </p>
     </div>
 

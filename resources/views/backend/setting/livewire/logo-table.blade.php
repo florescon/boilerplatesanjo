@@ -1,4 +1,3 @@
-
 <x-backend.card>
 
 	<x-slot name="header">
@@ -38,8 +37,11 @@
                     @foreach($picture as $pic)
                         <div class="card">
                           <img class="card-img-top" src="{{ asset('/storage/' . $pic->image) }}" alt="Card image cap">
-                          <div class="card-body text-center">
-                            <div class="dropdown">
+                          <div class="card-body text-center">                            
+
+                            <livewire:backend.setting.edit-sort :image="$pic" :key="$pic->id" :extraName="__('edit sort')"/>
+
+                            <div class="dropdown mt-2">
                               <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 @lang('Action')
                               </button>
@@ -59,4 +61,5 @@
         </div>
     </div>
 	</x-slot>
+  
 </x-backend.card>
