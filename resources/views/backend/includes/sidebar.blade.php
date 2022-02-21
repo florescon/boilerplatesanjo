@@ -326,7 +326,7 @@
                                 <x-utils.link
                                     :href="route('admin.setting.banner')"
                                     class="c-sidebar-nav-link"
-                                    :text="__('Images Banner')"
+                                    :text="__('Banner images')"
                                     :active="activeClass(Route::is('admin.setting.banner.*'), 'c-active')"/>
                             </li>
 
@@ -334,7 +334,7 @@
                                 <x-utils.link
                                     :href="route('admin.setting.logos')"
                                     class="c-sidebar-nav-link"
-                                    :text="__('Brand Logos')"
+                                    :text="__('Brands images')"
                                     :active="activeClass(Route::is('admin.setting.logos.*'), 'c-active')"/>
                             </li>
 

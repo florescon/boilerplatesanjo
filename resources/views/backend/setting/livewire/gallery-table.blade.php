@@ -1,7 +1,7 @@
 <x-backend.card>
 
 	<x-slot name="header">
-        @lang('Product images')
+        @lang('Gallery')
  	</x-slot>
 
   <x-slot name="headerActions">

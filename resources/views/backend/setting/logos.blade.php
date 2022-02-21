@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', __('Pages'))
+@section('title', __('Brands images'))
 
 @section('content')
 
