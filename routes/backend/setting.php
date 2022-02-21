@@ -32,7 +32,7 @@ Route::group([
         ->middleware('permission:admin.access.settings.list_pages')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.dashboard')
-                ->push(__('Banner Management'), route('admin.setting.banner'));
+                ->push(__('Banner Images Management'), route('admin.setting.banner'));
         });
 
     Route::get('logos', function () {
@@ -41,7 +41,7 @@ Route::group([
         ->middleware('permission:admin.access.settings.list_pages')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.dashboard')
-                ->push(__('Logos Management'), route('admin.setting.logos'));
+                ->push(__('Brands Images Management'), route('admin.setting.logos'));
         });
 
     Route::get('gallery', function () {
