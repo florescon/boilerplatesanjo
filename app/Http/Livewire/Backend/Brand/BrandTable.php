@@ -89,7 +89,7 @@ class BrandTable extends TableComponent
                 ->searchable()
                 ->sortable()
                 ->format(function(Brand $model) {
-                    return $this->html($model->website ?: '<span class="badge badge-secondary">'.__('undefined').'</span>');
+                    return $this->html($model->website ? '<a href="'.$model->website.'" target="_blank">'.$model->website .'</a>': '<span class="badge badge-secondary">'.__('undefined').'</span>');
                 }),
             Column::make(__('Slug'), 'slug')
                 ->searchable()
