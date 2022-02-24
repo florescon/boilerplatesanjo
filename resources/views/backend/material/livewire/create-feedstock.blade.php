@@ -14,7 +14,7 @@
                     <label for="part_number" class="col-md-2 col-form-label">@lang('Part number')</label>
 
                     <div class="col-md-10">
-                        <input type="text" wire:model.defer="part_number" class="form-control" placeholder="{{ __('Part number') }}" maxlength="100" />
+                        <input type="text" wire:model.lazy="part_number" class="form-control" placeholder="{{ __('Part number') }}" maxlength="100" />
                         @error('part_number') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
                 </div><!--form-group-->
@@ -22,7 +22,7 @@
                     <label for="name" class="col-md-2 col-form-label">@lang('Name')</label>
 
                     <div class="col-md-10">
-                        <input type="text" wire:model.defer="name" class="form-control" placeholder="{{ __('Name') }}" maxlength="100" />
+                        <input type="text" wire:model.lazy="name" class="form-control" placeholder="{{ __('Name') }}" maxlength="100" />
                         @error('name') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
                 </div><!--form-group-->
@@ -30,7 +30,7 @@
                     <label for="price" class="col-md-2 col-form-label">@lang('Price')</label>
 
                     <div class="col-md-10">
-                        <input type="text" wire:model.defer="price" class="form-control" placeholder="{{ __('Price') }}" maxlength="100" required />
+                        <input type="text" wire:model.lazy="price" class="form-control" placeholder="{{ __('Price') }}" maxlength="100" required />
                         @error('price') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                         </div>
                 </div><!--form-group-->
@@ -66,7 +66,7 @@
                     <label for="acquisition_cost" class="col-md-2 col-form-label">@lang('Acquisition cost')</label>
 
                     <div class="col-md-10">
-                        <input type="text" wire:model.defer="acquisition_cost" class="form-control" placeholder="{{ __('Acquisition cost') }}" maxlength="100" />
+                        <input type="text" wire:model.lazy="acquisition_cost" class="form-control" placeholder="{{ __('Acquisition cost') }}" maxlength="100" />
                         @error('acquisition_cost') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
                 </div><!--form-group-->
@@ -74,7 +74,7 @@
                     <label for="stock" class="col-md-2 col-form-label">@lang('Stock')</label>
 
                     <div class="col-md-10">
-                        <input type="number" step="any" wire:model.defer="stock" class="form-control" placeholder="{{ __('stock') }}" maxlength="100" />
+                        <input type="number" step="any" wire:model.lazy="stock" class="form-control" placeholder="{{ __('stock') }}" maxlength="100" />
                         @error('stock') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
                 </div><!--form-group-->
@@ -82,7 +82,7 @@
                     <label for="description" class="col-md-2 col-form-label">@lang('Description')</label>
 
                     <div class="col-md-10">
-                        <input type="text" wire:model.defer="description" class="form-control" placeholder="{{ __('Description') }}" maxlength="100" />
+                        <input type="text" wire:model.lazy="description" class="form-control" placeholder="{{ __('Description') }}" maxlength="100" />
                         @error('description') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
                 </div><!--form-group-->
