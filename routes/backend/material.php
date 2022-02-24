@@ -1,4 +1,4 @@
-f<?php
+<?php
 
 use App\Http\Controllers\MaterialController;
 use App\Models\Material;
@@ -14,6 +14,14 @@ Route::group([
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.dashboard')
                 ->push(__('Feedstock Management'), route('admin.material.index'));
+        });
+
+    Route::get('create', [MaterialController::class, 'create'])
+        ->name('create')
+        ->middleware('permission:admin.access.material.list')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.material.index')
+                ->push(__('Create feedstock'), route('admin.material.create'));
         });
 
     Route::get('records', [MaterialController::class, 'recordsMaterial'])

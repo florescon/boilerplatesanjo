@@ -17,21 +17,21 @@
             <x-slot name="body">
                 <div>
                     <div class="form-group row">
-                        <label for="email" class="col-md-2 col-form-label">@lang('Part number')</label>
+                        <label for="part_number" class="col-md-2 col-form-label">@lang('Part number')</label>
 
                         <div class="col-md-10">
                             <input type="text" name="part_number" class="form-control" placeholder="{{ __('Part number') }}" value="{{ old('part_number') ?? $material->part_number }}" maxlength="100" />
                         </div>
                     </div><!--form-group-->
                     <div class="form-group row">
-                        <label for="email" class="col-md-2 col-form-label">@lang('Name')</label>
+                        <label for="name" class="col-md-2 col-form-label">@lang('Name')</label>
 
                         <div class="col-md-10">
                             <input type="text" name="name" class="form-control" placeholder="{{ __('Name') }}" value="{{ old('name') ?? $material->name }}" maxlength="100" required />
                         </div>
                     </div><!--form-group-->
                     <div class="form-group row">
-                        <label for="email" class="col-md-2 col-form-label">@lang('Price')</label>
+                        <label for="price" class="col-md-2 col-form-label">@lang('Price')</label>
 
                         <div class="col-md-10">
                             <input type="text" name="price" class="form-control" placeholder="{{ __('Price') }}" value="{{ old('price') ?? $material->price }}" maxlength="100" required />
@@ -39,7 +39,7 @@
                     </div><!--form-group-->
 
                     <div class="form-group row">
-                        <label for="email" class="col-md-2 col-form-label">@lang('Unit')</label>
+                        <label for="unit_id" class="col-md-2 col-form-label">@lang('Unit')</label>
 
                         <div class="col-md-5 text-center">
                             <x-utils.undefined :data="optional($material->unit)->name"/>
@@ -50,7 +50,7 @@
                         </div>
                     </div><!--form-group-->
                     <div class="form-group row">
-                        <label for="email" class="col-md-2 col-form-label">@lang('Color')</label>
+                        <label for="color_id" class="col-md-2 col-form-label">@lang('Color')</label>
 
                         <div class="col-md-5 text-center">
                             <x-utils.undefined :data="optional($material->color)->name"/>
@@ -61,7 +61,7 @@
                         </div>
                     </div><!--form-group-->
                     <div class="form-group row">
-                        <label for="email" class="col-md-2 col-form-label">@lang('Size_')</label>
+                        <label for="size_id" class="col-md-2 col-form-label">@lang('Size_')</label>
 
                         <div class="col-md-5 text-center">
                             <x-utils.undefined :data="optional($material->size)->name"/>
@@ -73,14 +73,14 @@
                     </div><!--form-group-->
 
                     <div class="form-group row">
-                        <label for="email" class="col-md-2 col-form-label">@lang('Acquisition cost')</label>
+                        <label for="acquisition_cost" class="col-md-2 col-form-label">@lang('Acquisition cost')</label>
 
                         <div class="col-md-10">
                             <input type="text" name="acquisition_cost" class="form-control" placeholder="{{ __('Acquisition cost') }}" value="{{ old('acquisition_cost') ?? $material->acquisition_cost }}" maxlength="100" />
                         </div>
                     </div><!--form-group-->
                     <div class="form-group row">
-                        <label for="email" class="col-md-2 col-form-label">@lang('Description')</label>
+                        <label for="description" class="col-md-2 col-form-label">@lang('Description')</label>
 
                         <div class="col-md-10">
                             <input type="text" name="description" class="form-control" placeholder="{{ __('Description') }}" value="{{ old('description') ?? $material->description }}" maxlength="100" />
@@ -100,7 +100,11 @@
 
 @endsection
 
+@push('middle-scripts')
 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+@endpush
 
 @push('after-scripts')
     <script>

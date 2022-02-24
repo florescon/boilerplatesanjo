@@ -27,10 +27,8 @@
                 <x-utils.link
                     icon="c-icon cil-plus"
                     class="card-header-action"
-                    data-toggle="modal" 
                     style="color: orange;"
-                    wire:click="$emitTo('backend.material.create-material', 'createmodal')" 
-                    data-target="#createMaterial"
+                    href="{{ route('admin.material.create') }}"
                     :text="__('Create feedstock')"
                 />
             @endif
