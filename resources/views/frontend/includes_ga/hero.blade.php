@@ -106,7 +106,7 @@
                                 data-paddingleft="[0,0,0,0]"
 
                                 style="z-index: 11;">
-                            <div class="rs-looped"><img src="{{ asset('/ga/img/slider/baca.jpg') }}" class="border-4 landing-shadow-4" alt="" data-ww="['500px','300px','250px','200px']" data-hh="['220px','152px','126px','101px']" width="500" height="253" data-no-retina> </div></div>
+                            <div class="rs-looped"><img src="{{ $seven ? asset('/storage/' . $seven->image) : '/ga/img/plus.png' }}" class="border-4 landing-shadow-4" alt="" data-ww="['500px','300px','250px','200px']" data-hh="['220px','152px','126px','101px']" width="500" height="253" data-no-retina> </div></div>
 
                             <!-- LAYER NR. 5 -->
                             <div class="tp-caption tp-resizeme" 
@@ -128,7 +128,7 @@
                                 data-paddingleft="[0,0,0,0]"
 
                                 style="z-index: 11;">
-                            <div class="rs-looped"><img src="{{ asset('/ga/img/slider/bibo.jpg') }}" class="border-4 landing-shadow-4" alt="" data-ww="['500px','300px','250px','200px']" data-hh="['220px','152px','126px','101px']" width="500" height="253" data-no-retina> </div></div>
+                            <div class="rs-looped"><img src="{{ $eight ? asset('/storage/' . $eight->image) : '/ga/img/plus.png' }}" class="border-4 landing-shadow-4" alt="" data-ww="['500px','300px','250px','200px']" data-hh="['220px','152px','126px','101px']" width="500" height="253" data-no-retina> </div></div>
 
                             <!-- LAYER NR. 7 -->
                             <div class="tp-caption tp-resizeme" 
@@ -150,7 +150,7 @@
                                 data-paddingleft="[0,0,0,0]"
 
                                 style="z-index: 11;">
-                            <div class="rs-looped"><img src="{{ asset('/ga/img/slider/cocina.jpg') }}" class="border-4 landing-shadow-4" alt="" data-ww="['500px','300px','250px','200px']" data-hh="['220px','152px','126px','101px']" width="500" height="253" data-no-retina> </div></div>
+                            <div class="rs-looped"><img src="{{ $six ? asset('/storage/' . $six->image) : '/ga/img/plus.png' }}" class="border-4 landing-shadow-4" alt="" data-ww="['500px','300px','250px','200px']" data-hh="['220px','152px','126px','101px']" width="500" height="253" data-no-retina> </div></div>
 
                             <!-- LAYER NR. 9 -->
                             <div class="tp-caption tp-resizeme" 
@@ -172,7 +172,7 @@
                                 data-paddingleft="[0,0,0,0]"
 
                                 style="z-index: 11;">
-                            <div class="rs-looped"><img src="{{ asset('/ga/img/slider/arti.jpg') }}" class="border-4 landing-shadow-4" alt="" data-ww="['500px','300px','250px','200px']" data-hh="['220px','152px','126px','101px']" width="500" height="253" data-no-retina> </div></div>
+                            <div class="rs-looped"><img src="{{ $five ? asset('/storage/' . $five->image) : '/ga/img/plus.png' }}" class="border-4 landing-shadow-4" alt="" data-ww="['500px','300px','250px','200px']" data-hh="['220px','152px','126px','101px']" width="500" height="253" data-no-retina> </div></div>
 
                             <!-- LAYER NR. 2 -->
                             <div class="tp-caption tp-resizeme" 
@@ -194,7 +194,7 @@
                                 data-paddingleft="[0,0,0,0]"
 
                                 style="z-index: 11;">
-                            <div class="rs-looped"><img src="{{ asset('/ga/img/slider/seg.jpg') }}" class="border-4 landing-shadow-4" alt="" data-ww="['500px','300px','250px','200px']" data-hh="['220px','152px','126px','101px']" width="500" height="253" data-no-retina> </div></div>
+                            <div class="rs-looped"><img src="{{ $four ? asset('/storage/' . $four->image) : '/ga/img/plus.png' }}" class="border-4 landing-shadow-4" alt="" data-ww="['500px','300px','250px','200px']" data-hh="['220px','152px','126px','101px']" width="500" height="253" data-no-retina> </div></div>
 
                             <!-- LAYER NR. 4 -->
                             <div class="tp-caption tp-resizeme" 
@@ -216,7 +216,7 @@
                                 data-paddingleft="[0,0,0,0]"
 
                                 style="z-index: 11;">
-                            <div class="rs-looped"><img src="{{ asset('/ga/img/slider/bibo.jpg') }}" class="border-4 landing-shadow-4" alt="" data-ww="['500px','300px','250px','200px']" data-hh="['220px','152px','126px','101px']" width="500" height="253" data-no-retina> </div></div>
+                            <div class="rs-looped"><img src="{{ $three ? asset('/storage/' . $three->image) : '/ga/img/plus.png' }}" class="border-4 landing-shadow-4" alt="" data-ww="['500px','300px','250px','200px']" data-hh="['220px','152px','126px','101px']" width="500" height="253" data-no-retina> </div></div>
 
                             <!-- LAYER NR. 6 -->
                             <div class="tp-caption tp-resizeme" 
@@ -238,7 +238,7 @@
                                 data-paddingleft="[0,0,0,0]"
 
                                 style="z-index: 11;">
-                            <div class="rs-looped"><img src="{{ asset('/ga/img/slider/baca.jpg') }}" class="border-4 landing-shadow-4" alt="" data-ww="['500px','300px','250px','200px']" data-hh="['220px','152px','126px','101px']" width="500" height="253" data-no-retina> </div></div>
+                            <div class="rs-looped"><img src="{{ $two ? asset('/storage/' . $two->image) : '/ga/img/plus.png' }}" class="border-4 landing-shadow-4" alt="" data-ww="['500px','300px','250px','200px']" data-hh="['220px','152px','126px','101px']" width="500" height="253" data-no-retina> </div></div>
 
                             <!-- LAYER NR. 8 -->
                             <div class="tp-caption tp-resizeme" 
@@ -282,7 +282,7 @@
                                 data-paddingleft="[0,0,0,0]"
 
                                 style="z-index: 11;">
-                            <div class="rs-looped"><img src="{{ asset('/ga/img/slider/arti.jpg') }}" class="border-4 landing-shadow-4" alt="" data-ww="['500px','300px','250px','200px']" data-hh="['220px','152px','126px','101px']" width="500" height="253" data-no-retina> </div></div>
+                            <div class="rs-looped"><img src="{{ $one ? asset('/storage/' . $one->image) : '/ga/img/plus.png' }}" class="border-4 landing-shadow-4" alt="" data-ww="['500px','300px','250px','200px']" data-hh="['220px','152px','126px','101px']" width="500" height="253" data-no-retina> </div></div>
 
 
                             <!-- LAYER NR. 10 -->

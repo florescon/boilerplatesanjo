@@ -19,7 +19,6 @@ class Product extends Model
 {
     use HasFactory, SoftDeletes, ProductScope;
 
-
     /**
      * Return the sluggable configuration array for this model.
      *
@@ -56,7 +55,6 @@ class Product extends Model
         'status',
     ];
 
-
     public function getDescriptionLimitedAttribute()
     {
         return Str::words($this->description, '15');
@@ -69,7 +67,6 @@ class Product extends Model
     {
         return $this->belongsTo(Line::class)->withTrashed();
     }
-
     
     public function size()
     {
@@ -80,7 +77,6 @@ class Product extends Model
     {
         return $this->belongsTo(Color::class)->withTrashed();
     }
-
 
     /**
      * @return string
@@ -114,7 +110,6 @@ class Product extends Model
         return $this->size_name.' '.$this->color_name;
     }
 
-
     /**
      * @return mixed
      */
@@ -146,9 +141,7 @@ class Product extends Model
         }
 
         return $this->code;
-
     }
-
 
     /**
      * @return bool
@@ -165,7 +158,6 @@ class Product extends Model
         }
 
         return $this->price;
-
     }
 
     /**
@@ -188,7 +180,6 @@ class Product extends Model
     {
         return $this->favorite->where('audi_id', $user)->first();
     }
-
 
     /**
      * Get the description associated with the product.
@@ -234,14 +225,12 @@ class Product extends Model
         return $this->consumption->where('color_id', $byID)->count();
     }
 
-
     public function getTotalStock()
     {
         return $this->children->sum(function($parent) {
           return $parent->stock + $parent->stock_revision + $parent->stock_store;
         });
     }
-
 
     public function getTotalStockbyID($byID)
     {
@@ -273,7 +262,6 @@ class Product extends Model
     {
         return $this->updated_at->format('M, d Y');
     }
-
 
     /**
      * Get the route key for the model.

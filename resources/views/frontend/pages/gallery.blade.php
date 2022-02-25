@@ -27,51 +27,61 @@
             <div class="section-1400">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-6 img-slice-wrap mb-5 over-hide">
-                            <div class="section over-hide border-4">
-                                <a href="{{ route('frontend.pages.gallery') }}" class="hover-target animsition-link hover-portfolio-box">
-                                    <div class="scroll-img" style="background-image: url({{ asset('/ga/img/slider/baca.jpg') }});"></div>
-                                    <p>bacaloni PRO</p>
-                                    {{-- <h5>Mobil</h5> --}}
-                                </a>
+                        @if($four)
+                            <div class="col-md-6 img-slice-wrap mb-5 over-hide">
+                                <div class="section over-hide border-4">
+                                    <a href="{{ route('frontend.pages.gallery') }}" class="hover-target animsition-link hover-portfolio-box">
+                                        <div class="scroll-img" style="background-image: url({{ asset('/storage/' . $one->image) }});"></div>
+                                        <p>bacaloni PRO</p>
+                                        {{-- <h5>Mobil</h5> --}}
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="section clearfix"></div>
-                        <div class="offset-md-3 col-md-6 img-slice-wrap mb-5 over-hide">
-                            <div class="section over-hide border-4">
-                                <a href="{{ route('frontend.pages.gallery') }}" class="hover-target animsition-link hover-portfolio-box">
-                                    <div class="scroll-img" style="background-image: url({{ asset('/ga/img/slider/bibo.jpg') }});"></div>
-                                    <p>BIBO</p>
-                                </a>
+                        @endif
+                        @if($four)
+                            <div class="section clearfix"></div>
+                            <div class="offset-md-3 col-md-6 img-slice-wrap mb-5 over-hide">
+                                <div class="section over-hide border-4">
+                                    <a href="{{ route('frontend.pages.gallery') }}" class="hover-target animsition-link hover-portfolio-box">
+                                        <div class="scroll-img" style="background-image: url({{ asset('/storage/' . $two->image) }});"></div>
+                                        <p>BIBO</p>
+                                    </a>
+                                </div>
+                            </div>  
+                        @endif
+                        @if($three)
+                            <div class="section clearfix"></div>
+                            <div class="offset-md-6 col-md-6 img-slice-wrap mb-5 over-hide">
+                                <div class="section over-hide border-4">
+                                    <a href="{{ route('frontend.pages.gallery') }}" class="hover-target animsition-link hover-portfolio-box">
+                                        <div class="scroll-img" style="background-image: url({{ asset('/storage/' . $three->image) }});"></div>
+                                        <p>bacaloni PRO</p>
+                                    </a>
+                                </div>
                             </div>
-                        </div>  
-                        <div class="section clearfix"></div>
-                        <div class="offset-md-6 col-md-6 img-slice-wrap mb-5 over-hide">
-                            <div class="section over-hide border-4">
-                                <a href="{{ route('frontend.pages.gallery') }}" class="hover-target animsition-link hover-portfolio-box">
-                                    <div class="scroll-img" style="background-image: url({{ asset('/ga/img/slider/cocina.jpg') }});"></div>
-                                    <p>bacaloni PRO</p>
-                                </a>
+                        @endif
+                        @if($four)
+                            <div class="section clearfix"></div>
+                            <div class="offset-md-3 col-md-6 img-slice-wrap mb-5 over-hide">
+                                <div class="section over-hide border-4">
+                                    <a href="{{ route('frontend.pages.gallery') }}" class="hover-target animsition-link hover-portfolio-box">
+                                        <div class="scroll-img" style="background-image: url({{ asset('/storage/' . $four->image) }});"></div>
+                                        <p>PORTWEST</p>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="section clearfix"></div>
-                        <div class="offset-md-3 col-md-6 img-slice-wrap mb-5 over-hide">
-                            <div class="section over-hide border-4">
-                                <a href="{{ route('frontend.pages.gallery') }}" class="hover-target animsition-link hover-portfolio-box">
-                                    <div class="scroll-img" style="background-image: url({{ asset('/ga/img/slider/arti.jpg') }});"></div>
-                                    <p>PORTWEST</p>
-                                </a>
+                        @endif
+                        @if($five)
+                            <div class="section clearfix"></div>
+                            <div class="col-md-6 img-slice-wrap mb-5 over-hide">
+                                <div class="section over-hide border-4">
+                                    <a href="{{ route('frontend.pages.gallery') }}" class="hover-target animsition-link hover-portfolio-box">
+                                        <div class="scroll-img" style="background-image: url({{ asset('/storage/' . $five->image) }});"></div>
+                                        <p>PORTWEST</p>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="section clearfix"></div>
-                        <div class="col-md-6 img-slice-wrap mb-5 over-hide">
-                            <div class="section over-hide border-4">
-                                <a href="{{ route('frontend.pages.gallery') }}" class="hover-target animsition-link hover-portfolio-box">
-                                    <div class="scroll-img" style="background-image: url({{ asset('/ga/img/slider/seg.jpg') }});"></div>
-                                    <p>PORTWEST</p>
-                                </a>
-                            </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
