@@ -9,8 +9,15 @@
  	</x-slot>
 
   <x-slot name="body">
+
+    @include('backend.setting.modal-gallery')
+
     <div class="alert alert-warning text-center" role="alert">
       <h4 class="alert-heading">Tamaño máximo de 1MB, límite de 5 imágenes</h4>
+
+      <h5>
+        <a href="#" class="card-header-action" style="color: green;" data-toggle="modal" data-target="#exampleModal"><i class="c-icon cil-plus"></i> @lang('Show details') </a>
+      </h5>
     </div>
     <div class="row">
         <div class="col-12 col-md-4">
