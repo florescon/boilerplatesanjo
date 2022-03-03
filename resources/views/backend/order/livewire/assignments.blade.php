@@ -18,11 +18,16 @@
                   <h4 class="card-title font-weight-bold mb-2">{{ $status_name }}</h4>
 
                     <livewire:backend.user.only-admins/>
-                    <div class="row justify-content-end">
-                      <div class="col-9">
-                        @error('user') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
-                      </div>
-                    </div>
+
+                    @if($user)
+                      <div class="form-group row">
+                          <label for="date" class="col-sm-3 col-form-label">@lang('Date') <em>(Por defecto hoy)</em></label>
+                          <div class="col-sm-9" >
+                            <input wire:model="date" type="date" class="form-control"/>
+                          </div>
+                          @error('date') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                      </div><!--form-group-->
+                    @endif
 
                       <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover text-center">
@@ -45,7 +50,7 @@
                                         wire:keydown.enter="save" 
                                         class="form-control"
                                         style="color: blue;" 
-                                        placeholder="{{ $product->available_assignments }}" 
+                                        placeholder="{{ $product->available_assignments }}"
                                     >
                                     @error('quantityy.'.$product->id.'.available') 
                                       <span class="error" style="color: red;">
@@ -95,7 +100,7 @@
                 <div class="col-md-12 col-sm-6">
                   @foreach($model2->tickets as $ticket)
 
-                  <div class="card card-assignment card-block">
+                  <div class="card card-assignment card-block border-primary">
                     <div class="card-header">
                       <div class="row">
                         <div class="col-md-6 col-sm-3">
@@ -123,10 +128,10 @@
                         <table class="table table-striped table-bordered table-hover text-center">
                           <thead>
                             <tr>
-                              <th>ID</th>
                               <th>Producto</th>
                               <th>Asignado</th>
-                              <th>Salida</th>
+                              <th>@lang('Received amount')</th>
+                              <th>@lang('To receive')</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -134,29 +139,33 @@
                             @foreach($ticket->assignments_direct as $assign)
                             <tr>
                               <td class="text-left">
-                                {{ $assign->id }}
-                              </td>
-
-                              <td class="text-left">
                                 {!! $assign->assignmentable->product->full_name !!}
                               </td>
 
                               <td> 
                                 {{ $assign->quantity }}
                               </td>
+                              <td>
+                                <p>
+                                  <strong>
+                                    @if(!$assign->isOutput())
+                                      {{ $assign->received }}
+                                    @else
+                                      {{ $assign->quantity }}
+                                    @endif
+                                  </strong>
+                                </p>
 
+                              </td>
                               <td> 
-                                @if($assign->isOutput())
-                                  <span class='badge badge-success'><i class='cil-check'></i></span>
-                                @else
-                                  <span class='badge badge-danger' wire:click="outputUpdate({{ $assign->id }})">@lang('To give out')</span>
-                                @endif
+                                <livewire:backend.order.assignment-amount-received :assignment="$assign" :key="$assign->id" />
                               </td>
                             </tr>
                             @endforeach
                             <tr>
-                              <td colspan="2" class="text-right">Total:</td>
+                              <td colspan="1" class="text-right">Total:</td>
                               <td>{{ $ticket->total_products_assignment_ticket }}</td>
+                              <td></td>
                               <td></td>
                             </tr>
                           </tbody>
@@ -166,11 +175,25 @@
                       <div class="card-footer bg-transparent ">
                         <div class="row">
                           <div class="col-6 col-md-6 text-left">
-                            {{ $ticket->date_diff_for_humans }}
+                            @lang('Updated at') {{ $ticket->date_diff_for_humans }}
+                            <br>
+                            @if($ticket->date_entered)
+                              @lang('Date'): <strong class="text-primary">{{ $ticket->date_entered->format('d-m-Y') }}</strong>
+                            @endif
+
+                              <div class="form-inline mt-3">
+                                <div class="form-group mb-2">
+                                  <label for="inputPassword2" class="sr-only">Password</label>
+                                  <input wire:model="date_entered" class="form-control" type="date">
+                                </div>
+                                @if($date_entered)
+                                  <button type="button mt-4" wire:click="saveDate({{ $ticket->id }})" class="btn btn-primary btn-sm">@lang('Save date')</button>
+                                @endif
+                              </div>
                           </div>
                           @if($ticket->assignments_direct->where('output', false)->count())
                             <div class="col-6 col-md-6 text-right">
-                              <a wire:click="outputUpdateAll({{ $ticket->id }})" class="card-link text-right">Se recibieron los productos</a>
+                              <a wire:click="outputUpdateAll({{ $ticket->id }})" class="card-link text-right"><u>Marcar que se recibieron todos los productos de este ticket</u></a>
                             </div>
                           @endif
                         </div>

@@ -10,7 +10,7 @@ class Assignment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'order_id', 'ticket_id', 'status_id', 'user_id', 'quantity', 'assignmentable_id', 'assignmentable_type', 'output',
+        'order_id', 'ticket_id', 'status_id', 'user_id', 'quantity', 'assignmentable_id', 'assignmentable_type', 'output', 'received',
     ];
 
     /**
@@ -19,6 +19,11 @@ class Assignment extends Model
     public function isOutput()
     {
         return $this->output;
+    }
+
+    public function getAvailableAttribute()
+    {
+        return $this->quantity - $this->received;
     }
 
     /**

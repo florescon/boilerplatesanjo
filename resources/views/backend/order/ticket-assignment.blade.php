@@ -43,7 +43,19 @@
 
         <table width="100%">
             <tr>
-              <td align="left"><strong>Fecha generado:</strong> {{ $ticket->created_at }}</td>
+                <td align="left">
+                    <strong>Fecha:</strong> 
+                    {{ $ticket->date_entered->format('d-m-Y') }}
+                </td>
+            </tr>
+        </table>
+
+        <table width="100%">
+            <tr>
+                <td align="left">
+                    <strong>Fecha generado:</strong> 
+                    {{ $ticket->created_at->format('d-m-Y H:i:s') }}
+                </td>
             </tr>
         </table>
 

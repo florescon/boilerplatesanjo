@@ -177,6 +177,7 @@ return [
         "sizes" => 'tallas',
         "sort" => 'orden',
         "abbreviation" => 'abreviatura',
-        'initial' => 'inicial'
+        'initial' => 'inicial',
+        'received' => 'cantidad recibida'
     ],
 ];

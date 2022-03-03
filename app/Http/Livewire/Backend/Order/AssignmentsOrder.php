@@ -14,17 +14,20 @@ use App\Exceptions\GeneralException;
 use Carbon\Carbon;
 use Exception;
 use App\Events\Order\OrderAssignmentCreated;
+use Illuminate\Support\Str;
 
 class AssignmentsOrder extends Component
 {
-
     public $order_id, $status_id, $quantityy, $user, $status_name;
 
     public $next_status, $previous_status;
 
+    public ?string $date = null;
+    public ?string $date_entered = null;
+
     public $output;
 
-    protected $listeners = ['selectedCompanyItem', 'save' => '$refresh'];
+    protected $listeners = ['selectedCompanyItem', 'save' => '$refresh', 'AmountReceived' => 'render'];
 
     public function mount(Order $order, Status $status)
     {
@@ -51,20 +54,6 @@ class AssignmentsOrder extends Component
             $this->user = null;
     }
 
-    public function outputUpdate($assignmentID)
-    {
-        $assignmentUpd = Assignment::find($assignmentID);
-        $assignmentUpd->update([
-            'output' => true,
-        ]);
-
-       $this->emit('swal:alert', [
-            'icon' => 'success',
-            'title'   => __('Saved'), 
-        ]);
-
-        // $this->editStock = !$this->editStock;
-    }
 
     public function outputUpdateAll($ticketID)
     {
@@ -72,10 +61,27 @@ class AssignmentsOrder extends Component
 
         $ticketUpd->assignments_direct()->where('output', false)->update(['output' => true]);
         
+        $this->emit('forceRenderAssignmentAmount');
+
         $this->emit('swal:alert', [
             'icon' => 'success',
             'title'   => __('Saved'), 
         ]);
+    }
+
+    public function saveDate($ticketID)
+    {
+        $this->validate([
+            'date_entered' => 'required|max:100',
+        ]);
+
+        $ticket = Ticket::findOrFail($ticketID);
+        $newDate = (string)Str::of($this->date_entered)->trim()->substr(0, 100); // trim whitespace & more than 100 characters
+
+        $ticket->date_entered = $newDate ?? null;
+        $ticket->save();
+
+        $this->date_entered = null;
     }
 
     public function save()
@@ -116,6 +122,7 @@ class AssignmentsOrder extends Component
                 $ticket = new Ticket([
                     'status_id' => $this->status_id,
                     'user_id' => $this->user ?? null,
+                    'date_entered' => $this->date ?: today(),
                     'audi_id' => Auth::id(),
                 ]);
 
