@@ -65,7 +65,7 @@ class AssignmentsOrder extends Component
 
         $this->emit('swal:alert', [
             'icon' => 'success',
-            'title'   => __('Saved'), 
+            'title'   => __('Updated at'), 
         ]);
     }
 
@@ -82,6 +82,11 @@ class AssignmentsOrder extends Component
         $ticket->save();
 
         $this->date_entered = null;
+
+        $this->emit('swal:alert', [
+            'icon' => 'success',
+            'title'   => __('Saved'), 
+        ]);
     }
 
     public function save()
