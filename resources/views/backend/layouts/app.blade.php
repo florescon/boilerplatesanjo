@@ -43,7 +43,7 @@
         }
     </style>
 
-    <link rel="stylesheet" href="{{ asset('css_custom/app/all.min.css') }}" />
+    {{-- <link rel="stylesheet" href="{{ asset('css_custom/app/all.min.css') }}" /> --}}
     <link href="{{ asset('css_custom/app/filepond.css') }}" rel="stylesheet">
     <link href="{{ asset('css_custom/app/filepond-plugin-image-preview.css') }}" rel="stylesheet">
 

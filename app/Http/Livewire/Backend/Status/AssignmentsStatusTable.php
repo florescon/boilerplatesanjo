@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Http\Livewire\Backend\Store;
+namespace App\Http\Livewire\Backend\Status;
 
-use App\Models\Finance;
+use App\Models\Assignment;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Livewire\Backend\DataTable\WithBulkActions;
 use App\Http\Livewire\Backend\DataTable\WithCachedRows;
 use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Response;
 
-class FinanceTable extends Component
+class AssignmentsStatusTable extends Component
 {
     use Withpagination, WithBulkActions, WithCachedRows;
 
@@ -20,11 +19,9 @@ class FinanceTable extends Component
     protected $queryString = [
         'searchTerm' => ['except' => ''],
         'perPage',
-        'deleted' => ['except' => FALSE],
-        'incomes' => ['except' => FALSE],
-        'expenses' => ['except' => FALSE],
         'dateInput' => ['except' => ''],
-        'dateOutput' => ['except' => '']
+        'dateOutput' => ['except' => ''],
+        'user' => ['except' => null],
     ];
 
     public $perPage = '10';
@@ -43,24 +40,16 @@ class FinanceTable extends Component
 
     public $status;
 
-    protected $listeners = ['filter' => 'filter', 'delete', 'restore', 'refreshFinanceTable' => '$refresh'];
+    public $user;
 
-    public $name, $short_name, $color, $secondary_color, $created, $updated, $selected_id, $deleted;
+    protected $listeners = ['filter' => 'filter', 'restore', 'refreshAssignmentTable' => '$refresh'];
 
-    public bool $incomes = false;
-    public bool $expenses = false;
+    public $name, $short_name, $color, $secondary_color, $created, $updated, $selected_id;
 
-    public function filter($type_finance)
+    public function filter($user)
     {
-        if($type_finance === 'incomes'){
-            $this->expenses = false;
-            $this->incomes = ! $this->incomes;
-        }
-
-        if($type_finance === 'expenses'){
-            $this->incomes = false;
-            $this->expenses = ! $this->expenses;
-        }
+        $this->resetPage();
+        $this->user = $user;
     }
 
     public function sortBy($field)
@@ -76,7 +65,7 @@ class FinanceTable extends Component
 
     public function getRowsQueryProperty()
     {
-        $query = Finance::query()->with('user', 'payment')
+        $query = Assignment::query()->with('assignmentable.product.color', 'assignmentable.product.size', 'user')
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?
                     $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', now()]) :
@@ -95,29 +84,20 @@ class FinanceTable extends Component
                 $query->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc');
             });
 
-        if ($this->status === 'deleted') {
-            return $query->onlyTrashed();
-        }
-
-        if ($this->incomes === TRUE) {
-            return $query->onlyIncomes();
-        }
-        if ($this->expenses === TRUE) {
-            return $query->onlyExpenses();
+        if ($this->user !== null) {
+            return $query->where('user_id', $this->user);
         }
 
         $this->applySearchFilter($query);
 
-        return $query;
+        return $query->where('status_id', $this->status);
     }
 
-    private function applySearchFilter($searchFinance)
+    private function applySearchFilter($searchAssigment)
     {
         if ($this->searchTerm) {
-            return $searchFinance->whereRaw("name LIKE \"%$this->searchTerm%\"")
-                        ->orWhereRaw("comment LIKE \"%$this->searchTerm%\"")
-                        ->orWhereRaw("ticket_text LIKE \"%$this->searchTerm%\"")
-                        ->orWhereRaw("amount LIKE \"%$this->searchTerm%\"");
+            return $searchAssigment->whereRaw("ticket_id LIKE \"%$this->searchTerm%\"")
+                        ->orWhereRaw("quantity LIKE \"%$this->searchTerm%\"");
         }
 
         return null;
@@ -174,10 +154,10 @@ class FinanceTable extends Component
         $this->searchTerm = '';
         $this->resetPage();
         $this->perPage = '10';
-        $this->deleted = FALSE;
         $this->selectAll = false;
         $this->selectPage = false;
         $this->selected = [];
+        $this->user = null;
     }
 
     public function clear()
@@ -192,42 +172,16 @@ class FinanceTable extends Component
         $this->resetPage();
     }
 
-    // public function hydratesortField()
-    // {
-    //     $this->resetPage();
-    // }
-
     public function updatedPerPage()
     {
         $this->resetPage();
     }
 
-    public function updatedDeleted()
-    {
-        $this->resetPage();
-        $this->selectAll = false;
-        $this->selectPage = false;
-        $this->selected = [];
-    }
-
-    public function delete(int $id)
-    {
-        if($id){
-            $finance = Finance::where('id', $id);
-            $finance->delete();
-        }
-       $this->emit('swal:alert', [
-            'icon' => 'success',
-            'title'   => __('Deleted'), 
-        ]);
-    }
-
     public function render()
     {
-        $date = Carbon::now()->startOfMonth();
-        return view('backend.store.livewire.finance-table', [
-            'finances' => $this->rows,
-            'date' => $date,
+        $date = Carbon::now()->startOfWeek();
+        return view('backend.status.livewire.assignments-status-table', [
+            'assignments' => $this->rows,
         ]);
     }
 }

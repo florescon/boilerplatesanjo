@@ -149,7 +149,10 @@
 			        <hr width="50%;" style="border:1px dashed #661181">
 
 			        <p class="card-text"><strong>@lang('Price'): </strong>${{ $model->price }}</p>
-			        <p class="card-text"><strong>@lang('Updated at'): </strong>{{ $model->updated_at }}</p>
+
+          			<x-input.input-alpine nameData="isPriceMaking" :inputText="$isPriceMaking" :originalInput="$isPriceMaking" wireSubmit="savepricemaking" :beforeName="'$'" :extraName="__('price of confeccion service')" modelName="price_making" />
+
+			        <p class="card-text mt-4"><strong>@lang('Updated at'): </strong>{{ $model->updated_at }}</p>
 			        <p class="card-text"><strong>@lang('Created at'): </strong>{{ $model->created_at }}</p>
 
 				  	<a href="{{ route('frontend.shop.show', $model->slug) }}" class="card-link" target="_blank">

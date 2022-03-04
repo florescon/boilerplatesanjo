@@ -7,6 +7,7 @@
     'inputType' => 'text',
     "maxlength" => '100',
     "className" => 'mt-4',
+    'beforeName' => '',
     'extraName' => '',
 ])
 
@@ -31,7 +32,7 @@
         <p  class="card-text" 
             x-bind:class="{ 'font-weight-bold': inputText }"
             x-on:click="nameData = true; $nextTick(() => focus())"
-        >{{ $originalInput }}
+        >{{ $beforeName }} {{ $originalInput }}
             &nbsp;<i class="cil-pencil"></i>
         <em>
             {{ $extraName }}

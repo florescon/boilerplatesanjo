@@ -17,6 +17,11 @@ class StatusController extends Controller
         return view('backend.status.index');
     }
 
+    public function assignments(Status $status)
+    {
+        return view('backend.status.assignments-status', compact('status'));
+    }
+
     public function deleted()
     {
         return view('backend.status.deleted');

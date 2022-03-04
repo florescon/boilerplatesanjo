@@ -177,7 +177,7 @@ class AssignmentsOrder extends Component
     {
         $statusId = $this->status_id;
 
-        $model2 = Order::with(['tickets.assignments_direct.assignmentable.product', 'tickets' 
+        $model2 = Order::with(['tickets.assignments_direct.assignmentable.product.color', 'tickets.assignments_direct.assignmentable.product.size', 'tickets' 
                             => function($query) use ($statusId){
                                 $query->where('status_id', $statusId);
                             },
