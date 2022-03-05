@@ -8,7 +8,6 @@ use Carbon\Carbon;
  */
 trait DateScope
 {
-
     /**
      * @param $query
      *
@@ -34,6 +33,16 @@ trait DateScope
      *
      * @return mixed
      */
+    public function scopePreviousWeek($query)
+    {
+        return $query->whereBetween('created_at', [Carbon::now()->subDays(Carbon::now()->dayOfWeek)->startOfWeek(), Carbon::now()->subDays(Carbon::now()->dayOfWeek)->endOfWeek()]);
+    }   
+
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
     public function scopeToday($query)
     {
         return $query->where('created_at', '>=', Carbon::today());
@@ -48,5 +57,4 @@ trait DateScope
     {
         return $query->whereBetween('created_at', [Carbon::yesterday(), Carbon::today()]);
     }   
-
 }

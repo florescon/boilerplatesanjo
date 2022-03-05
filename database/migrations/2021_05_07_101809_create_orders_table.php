@@ -36,7 +36,6 @@ class CreateOrdersTable extends Migration
                 ->references('id')
                 ->on('orders')
                 ->onDelete('cascade');
-
         });
     }
 

@@ -30,6 +30,8 @@
                             @lang('Current month')
                           @elseif($currentWeek)
                             @lang('Current week')
+                          @elseif($previousWeek)
+                            @lang('Previous week')
                           @elseif($today)
                             @lang('Today')
                           @else
@@ -58,7 +60,7 @@
       <div class="card">
         <div class="card-header">
           <i class="fas fa-store"></i>
-            <strong style="color: #0061f2;"> @lang('Assignments status') </strong>
+            <strong style="color: #0061f2;"> Productos asignados al personal en estados de ordenes de produccion </strong>
           <div class="card-header-actions">
             <em> @lang('Last request'): {{ now()->format('h:i:s') }} </em>
               <a href="{{ route('admin.status.index') }}" class="card-header-action"><i class="fa fa-chevron-left"></i> @lang('Back') </a>
@@ -85,6 +87,7 @@
                   <div class="btn-group" role="group" aria-label="Range date">
                     <button type="button" class="btn {{ $currentMonth ? 'btn-primary' : 'btn-secondary' }}" wire:click="isCurrentMonth">@lang('Current month')</button>
                     <button type="button" class="btn {{ $currentWeek ? 'btn-primary' : 'btn-secondary' }}" wire:click="isCurrentWeek">@lang('Current week')</button>
+                    <button type="button" class="btn {{ $previousWeek ? 'btn-primary' : 'btn-secondary' }}" wire:click="isPreviousWeek">@lang('Previous week')</button>
                     <button type="button" class="btn {{ $today ? 'btn-primary' : 'btn-secondary' }}" wire:click="isToday">@lang('Today')</button>
                   </div>
                 </div>

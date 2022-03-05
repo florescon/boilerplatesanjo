@@ -6,7 +6,6 @@
 
     <x-backend.card>
         <x-slot name="header">
-            <strong style="color: #0061f2;"> Productos asignados al personal en estados de ordenes de produccion </strong>
             <h4>{{ $status->name }}</h4>
         </x-slot>
 

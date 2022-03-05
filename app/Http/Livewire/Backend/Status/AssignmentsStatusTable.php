@@ -36,6 +36,7 @@ class AssignmentsStatusTable extends Component
 
     public bool $currentMonth = false;
     public bool $currentWeek = false;
+    public bool $previousWeek = false;
     public bool $today = false;
 
     public $status;
@@ -76,6 +77,9 @@ class AssignmentsStatusTable extends Component
             })
             ->when($this->currentWeek, function ($query) {
                     $query->currentWeek();
+            })
+            ->when($this->previousWeek, function ($query) {
+                    $query->previousWeek();
             })
             ->when($this->today, function ($query) {
                     $query->today();
@@ -120,6 +124,7 @@ class AssignmentsStatusTable extends Component
     public function clearRangeDate()
     {
         $this->currentWeek = FALSE;
+        $this->previousWeek = FALSE;
         $this->today = FALSE;
         $this->currentMonth = FALSE;
     }
@@ -128,6 +133,7 @@ class AssignmentsStatusTable extends Component
     {
         $this->clearFilterDate();
         $this->currentWeek = FALSE;
+        $this->previousWeek = FALSE;
         $this->today = FALSE;
         $this->currentMonth = TRUE;
     }
@@ -137,7 +143,17 @@ class AssignmentsStatusTable extends Component
         $this->clearFilterDate();
         $this->currentMonth = FALSE;
         $this->today = FALSE;
+        $this->previousWeek = FALSE;
         $this->currentWeek = TRUE;
+    }
+
+    public function isPreviousWeek()
+    {
+        $this->clearFilterDate();
+        $this->currentMonth = FALSE;
+        $this->today = FALSE;
+        $this->currentWeek = FALSE;
+        $this->previousWeek = TRUE;
     }
 
     public function isToday()
@@ -145,6 +161,7 @@ class AssignmentsStatusTable extends Component
         $this->clearFilterDate();
         $this->currentMonth = FALSE;
         $this->currentWeek = FALSE;
+        $this->previousWeek = FALSE;
         $this->today = TRUE;
     }
 
