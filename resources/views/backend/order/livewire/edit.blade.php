@@ -139,8 +139,8 @@
                       @endif
                     ">
                       <div class="d-flex w-100 justify-content-between">
-                        <h6 class="mb-1"><strong> #{{ $suborder->id}} </strong> {{ optional($suborder->departament)->name }}</h6>
-                        <small>{{ $suborder->date_diff_for_humans }}</small>
+                        <h6 class="mb-1 mr-1 text-left"><strong> #{{ $suborder->id}} </strong> {{ optional($suborder->departament)->name }}</h6>
+                        <small class="text-center">{{ $suborder->date_diff_for_humans }}</small>
                       </div>
                     </a>
                       <?php $colors_counter++; ?>
