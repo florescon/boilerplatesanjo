@@ -17,8 +17,10 @@
                     <div class="pull-left m-r-md">
                         <i class="fa fa-globe text-navy mid-icon"></i>
                     </div>
-                    <h2> &nbsp;Bienvenido a opciones avanzadas, Folio #</h2>
-                    <span> &nbsp;@lang("Feel free to choose option your'e interested in.")</span>
+                    <h2> &nbsp;Bienvenido a opciones avanzadas</h2> 
+
+                    <h4> &nbsp;Folio #{{ $order->id }}, @lang('Order track'): {{ $order->slug }}</h4>
+                    <span> &nbsp; {{ $order->comment }} </span>
                 </div>
             </div>
 

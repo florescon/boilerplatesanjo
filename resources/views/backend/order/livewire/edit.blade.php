@@ -115,9 +115,9 @@
                 <div wire:loading wire:target="updateStatus" class="loading"></div>
               </div>
               <div class="col-md-4 mb-3">
-                {{-- <a href="{{ route('admin.order.advanced', $order_id) }}" style="color:#1ab394;">
-                  <p> Opciones avanzadas </p>
-                </a> --}}
+                <a href="{{ route('admin.order.advanced', $order_id) }}" style="color:#1ab394;">
+                  <p> @lang('Advanced options') </p>
+                </a>
               </div>
               <div class="col-md-4 mb-3 text-left">
                 @if($model->exist_user_departament)

@@ -88,7 +88,7 @@ class OrderController extends Controller
 
     public function advanced(Order $order)
     {
-        return view('backend.order.advanced-order', compact('order', 'user'));
+        return view('backend.order.advanced-order', compact('order'));
     }
 
     public function records(Order $order)

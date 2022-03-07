@@ -62,16 +62,27 @@
         @if($model->consumption->count())
           <div class="card card-box bg-white border-white border-0">
 
-            <div class="card-custom-img" style="background-image: url(http://res.cloudinary.com/d3/image/upload/c_scale,q_auto:good,w_1110/trianglify-v1-cs85g_cc5d2i.jpg);"></div>
+            <div class="card-body {{ $filters_c || $filters_s ? 'border border-primary' : ''}}">
 
+              <div class="d-flex justify-content-between mb-4">
+                  @if($model->file_name)
+                    <div class="d-flex flex-row align-items-center">
+                        <div class="card-custom-avatar2 mr-3"> <img style="  height: 100px;" class="img-fluid" src="{{ asset('/storage/' . $model->file_name) }}" alt="{{ $model->name }}" alt="Avatar" /> </div>
+                    </div>
+                  @endif
+                  <div class="badge">
+                    <h5>
+                      @if($filters_c || $filters_s)
+                        <span class="badge badge-pill badge-primary">Puntual</span>
+                      @else
+                        <span class="badge badge-pill badge-warning text-white">General</span>
+                      @endif
+                    </h5>
+                  </div>
 
-            @if($model->file_name)
-            <div class="card-custom-avatar">
-              <img class="img-fluid" src="{{ asset('/storage/' . $model->file_name) }}" alt="{{ $model->name }}" alt="Avatar" />
-            </div>
-            @endif
-            <div class="card-body">
-              <h5 class="card-title {{ $name_color || $name_size ? 'text-danger font-italic typewriter' : 'text-primary' }} text-monospace font-weight-bold">{{ ($name_color || $name_size) ? __('Consumption').' '. $name_color.$name_size : __('General consumption') }}</h5>
+              </div>
+
+              <h5 class="card-title {{ $name_color || $name_size ? 'text-primary font-italic typewriter' : 'text-warning' }} text-monospace font-weight-bold">{{ ($name_color || $name_size) ? __('Consumption').' '. $name_color.$name_size : __('General consumption') }}</h5>
 
               <div class="float-right custom-control custom-switch custom-control-inline">
                 <input type="checkbox" wire:model="updateQuantity" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
@@ -88,7 +99,7 @@
                     <thead class="thead-dark">
                       <tr>
                         <th scope="col"> </th>
-                        <th scope="col">@lang('Feedstock') - Total de <span class="badge badge-primary">{{ $name_color }}</span></th>
+                        <th scope="col">@lang('Feedstock') - Concentrado de <span class="badge badge-primary">{{ $name_color }}</span> en base a la tabla de abajo</th>
                         <th scope="col" style="width: 180px;">@lang('Quantity')</th>
                       </tr>
                     </thead>
@@ -117,7 +128,7 @@
                     <thead class="thead-dark">
                       <tr>
                         <th scope="col"> </th>
-                        <th scope="col">@lang('Feedstock') - Total de <span class="badge badge-primary">{{ $name_size }}</span></th>
+                        <th scope="col">@lang('Feedstock') - Concentrado de <span class="badge badge-primary">{{ $name_size }}</span> en base a la tabla de abajo</th>
                         <th scope="col" style="width: 180px;">@lang('Quantity')</th>
                       </tr>
                     </thead>

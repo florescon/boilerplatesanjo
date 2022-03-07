@@ -53,7 +53,7 @@
                                                                 @endif
                                                                 {!! $order->last_status_order_label !!}
                                                             </td>
-                                                            <td> $ {{ $order->total_sale_and_order }} </td>
+                                                            <td> $ {{ number_format((float)$order->total_sale_and_order, 2) }} </td>
                                                             <td> {{ $order->date_for_humans }} </td>
                                                             <td> {!! $order->from_store_or_user_label !!} </td>
                                                         </tr>
