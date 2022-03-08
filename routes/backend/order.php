@@ -115,7 +115,7 @@ Route::group([
             ->middleware('permission:admin.access.order.modify')
             ->breadcrumbs(function (Trail $trail, Order $order) {
                 $trail->parent('admin.order.edit', $order)
-                    ->push(__('Advanced order'), route('admin.order.advanced', $order));
+                    ->push(__('Advanced options'), route('admin.order.advanced', $order));
             });
 
         Route::get('assignments/{status}', [OrderController::class, 'assignments'])
