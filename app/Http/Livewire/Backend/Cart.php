@@ -32,6 +32,17 @@ class Cart extends Component
         // 'payment_method' => 'required_with:user,departament|integer',
     ];
 
+    public function redirectLink()
+    {
+        if($this->fromStore){
+            return redirect()->route('admin.cart.from_store');
+        }
+        else{
+            return redirect()->route('admin.cart.index');
+        }
+    }
+
+
     public function selectedCompanyItem($user)
     {
         $this->init();
@@ -51,7 +62,7 @@ class Cart extends Component
             $this->user = null;
         }
 
-        return redirect()->route('admin.cart.index');
+        $this->redirectLink();
     }
 
     public function selectedDeparament($departament)
@@ -70,7 +81,7 @@ class Cart extends Component
             $this->departament = null;
         }
 
-        return redirect()->route('admin.cart.index');
+        $this->redirectLink();
     }
 
     public function selectPaymentMethod($payment_method)
@@ -102,7 +113,7 @@ class Cart extends Component
     {
         CartFacade::remove($productId, $typeCart);
 
-        return redirect()->route('admin.cart.index');
+        $this->redirectLink();
     }
 
     public function clearCartAll(): void
@@ -117,7 +128,7 @@ class Cart extends Component
         CartFacade::clearUser();
         $this->cart = CartFacade::get();
 
-        return redirect()->route('admin.cart.index');
+        $this->redirectLink();
     }
 
     public function clearDepartament()
@@ -125,7 +136,7 @@ class Cart extends Component
         CartFacade::clearDepartament();
         $this->cart = CartFacade::get();
 
-        return redirect()->route('admin.cart.index');
+        $this->redirectLink();
     }
 
     public function clearInput(): void

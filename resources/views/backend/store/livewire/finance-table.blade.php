@@ -248,11 +248,13 @@
                 </td>
         				<td>
         					<div> {{ $finance->name }} </div>
-        					<div class="small text-muted">@lang('Date entered'): 
-                    <strong>
-                      {{ $finance->date_entered->format('d-m') }}
-                    </strong>
-                  </div>
+        					@if($finance->date_entered)
+                    <div class="small text-muted">@lang('Date entered'): 
+                      <strong>
+                        {{ $finance->date_entered->format('d-m')}}
+                      </strong>
+                    </div>
+                  @endif
         				</td>
         				<td class="text-center {{ $finance->finance_text }}">
                   ${{ $finance->amount }}

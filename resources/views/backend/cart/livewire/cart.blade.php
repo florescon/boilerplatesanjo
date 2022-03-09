@@ -272,7 +272,9 @@
 	@if(count($cartVar['products']) > 0 || count($cartVar['products_sale']) > 0)
 		<x-slot name="footer">
 		  <footer class="float-right">
-		  	<button type="button" wire:click="checkout" class="btn btn-primary">@lang('Checkout')</button>
+		    <div wire:loading.remove>
+			  	<button type="button" wire:click="checkout" class="btn btn-primary">@lang('Checkout')</button>
+			  </div>
 		  </footer>
 		</x-slot>
 	@endif

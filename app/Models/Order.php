@@ -113,8 +113,11 @@ class Order extends Model
         elseif($this->departament_id){
            return $this->departament->name;
         }
+        elseif(!$this->isFromStore()){
+            return "<span class='badge badge-primary'>Stock ".appName().'</span>';
+        }
 
-        return "<span class='badge badge-primary'>Stock ".appName().'</span>';
+        return "<span class='badge badge-primary'>General".'</span>';
     }
 
     public function getTrackingNumberAttribute(): ?string
