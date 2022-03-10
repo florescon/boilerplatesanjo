@@ -10,10 +10,10 @@
 
     <x-slot name="body">
         <section class="ftco-section">
-            <div class="container">
+            <div class="">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="row container d-flex justify-content-center">
+                        <div class="row d-flex justify-content-center">
                             <div class="col-sm-6 col-lg-10 grid-margin stretch-card">
 
                               <div class="card">

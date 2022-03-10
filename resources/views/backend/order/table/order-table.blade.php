@@ -160,7 +160,7 @@
 		              {{ $orders->onEachSide(1)->links() }}
 		            </nav>
 		          </div>
-		              <div class="col-sm-3 text-muted text-right">
+		              <div class="col-sm-3 mb-2 text-muted text-right">
 		                Mostrando {{ $orders->firstItem() }} - {{ $orders->lastItem() }} de {{ $orders->total() }} resultados
 		              </div>
 		        </div>

@@ -18,7 +18,7 @@
             @if($logged_in_user->isMasterAdmin())
                 <div class="page-content page-container" id="page-content">
                     <div class="padding">
-                        <div class="row container d-flex justify-content-center">
+                        <div class="row d-flex justify-content-center">
                             <div class="col-lg-12 grid-margin stretch-card ">
                                 <div class="card ">
                                     <div class="card-body">
@@ -75,95 +75,95 @@
                 </div>
             @endif
 
-            <div class="container mt-1">
+            <div class="mt-1">
                 <div class="row">
-                <div class="col-md-12">
-                  <article >
+                    <div class="col-md-12">
+                      <article >
+                            <div class="col-xs-24 col-sm-8 col-lg-6">
+                                <a href="{{ route('admin.cart.index') }}" class="blog-card hyphy">                  
+                                  <div class="blog-card__square"></div>
+                                  <div class="blog-card__circle"></div>
+                                  <h2 class="blog-card__title text-right" itemprop="headline">
+                                    <i class="cil-plus fa-3x"></i><br>
+                                    @lang('Order')<br>
+                                    o<br>
+                                    @lang('Sale')
+                                  </h2>
+                                  <h5 class="blog-card__category">@lang('Create')</h5>
+                                </a>              
+                            </div>
+                      </article>
+                      <article >
+                          <div class="col-xs-24 col-sm-8 col-lg-6">
+                            <a href="{{ route('admin.order.index') }}" class="blog-card linear">                  
+                                <div class="blog-card__square"></div>
+                              <div class="blog-card__circle"></div>
+                              <h2 class="blog-card__title" itemprop="headline">@lang('Show Order - Sale')</h2>
+                              <h5 class="blog-card__category">@lang('Orders')<br>@lang('Sales')</h5>
+                            </a>              
+                          </div>
+                      </article>
+                      <article >
+                          <div class="col-xs-24 col-sm-8 col-lg-6">
+                            <a href="{{ route('admin.product.index') }}" class="blog-card text">                  
+                                <div class="blog-card__square"></div>
+                                <div class="blog-card__circle"></div>
+                                <h2 class="blog-card__title" itemprop="headline">@lang('Show products')</h2>
+                                <h5 class="blog-card__category">@lang('Products')</h5>
+                                </a>            
+                          </div>
+                      </article>
+                      <article >
                         <div class="col-xs-24 col-sm-8 col-lg-6">
-                            <a href="{{ route('admin.cart.index') }}" class="blog-card hyphy">                  
-                              <div class="blog-card__square"></div>
-                              <div class="blog-card__circle"></div>
-                              <h2 class="blog-card__title text-right" itemprop="headline">
-                                <i class="cil-plus fa-3x"></i><br>
-                                @lang('Order')<br>
-                                o<br>
-                                @lang('Sale')
-                              </h2>
-                              <h5 class="blog-card__category">@lang('Create')</h5>
+                            <a href="{{ route('admin.material.index') }}" class="blog-card radial">                  
+                                <div class="blog-card__square"></div>
+                                <div class="blog-card__circle"></div>
+                                <h2 class="blog-card__title" itemprop="headline">@lang('Show feedstock')</h2>
+                                <h5 class="blog-card__category">@lang('Feedstock')</h5>
                             </a>              
                         </div>
-                  </article>
-                  <article >
-                      <div class="col-xs-24 col-sm-8 col-lg-6">
-                        <a href="{{ route('admin.order.index') }}" class="blog-card linear">                  
-                            <div class="blog-card__square"></div>
-                          <div class="blog-card__circle"></div>
-                          <h2 class="blog-card__title" itemprop="headline">@lang('Show Order - Sale')</h2>
-                          <h5 class="blog-card__category">@lang('Orders')<br>@lang('Sales')</h5>
-                        </a>              
-                      </div>
-                  </article>
-                  <article >
-                      <div class="col-xs-24 col-sm-8 col-lg-6">
-                        <a href="{{ route('admin.product.index') }}" class="blog-card text">                  
-                            <div class="blog-card__square"></div>
-                            <div class="blog-card__circle"></div>
-                            <h2 class="blog-card__title" itemprop="headline">@lang('Show products')</h2>
-                            <h5 class="blog-card__category">@lang('Products')</h5>
-                            </a>            
-                      </div>
-                  </article>
-                  <article >
-                    <div class="col-xs-24 col-sm-8 col-lg-6">
-                        <a href="{{ route('admin.material.index') }}" class="blog-card radial">                  
-                            <div class="blog-card__square"></div>
-                            <div class="blog-card__circle"></div>
-                            <h2 class="blog-card__title" itemprop="headline">@lang('Show feedstock')</h2>
-                            <h5 class="blog-card__category">@lang('Feedstock')</h5>
-                        </a>              
-                    </div>
-                  </article>
-                  <article >
-                      <div class="col-xs-24 col-sm-8 col-lg-6">
-                            <a href="{{ route('admin.auth.user.index') }}" class="blog-card powerpoint">                  
-                              <div class="blog-card__square"></div>
-                              <div class="blog-card__circle"></div>
-                              <h2 class="blog-card__title" itemprop="headline">@lang('Show users')</h2>
-                              <h5 class="blog-card__category">@lang('Users')</h5>
-                            </a>              
-                        </div>
-                  </article>
-                  <article >
-                    <div class="col-xs-24 col-sm-8 col-lg-6">
-                        <a href="{{ route('admin.order.suborders') }}" class="blog-card repeating">                  
-                          <div class="blog-card__square"></div>
-                          <div class="blog-card__circle"></div>
-                          <h2 class="blog-card__title" itemprop="headline">@lang('List of suborders')</h2>
-                          <h5 class="blog-card__category">@lang('Suborders')</h5>
-                      </a>              
-                    </div>
-                  </article>
-                  <article >
+                      </article>
+                      <article >
+                          <div class="col-xs-24 col-sm-8 col-lg-6">
+                                <a href="{{ route('admin.auth.user.index') }}" class="blog-card powerpoint">                  
+                                  <div class="blog-card__square"></div>
+                                  <div class="blog-card__circle"></div>
+                                  <h2 class="blog-card__title" itemprop="headline">@lang('Show users')</h2>
+                                  <h5 class="blog-card__category">@lang('Users')</h5>
+                                </a>              
+                            </div>
+                      </article>
+                      <article >
                         <div class="col-xs-24 col-sm-8 col-lg-6">
-                            <a href="{{ route('admin.product.list') }}" class="blog-card photoshop">                  
+                            <a href="{{ route('admin.order.suborders') }}" class="blog-card repeating">                  
                               <div class="blog-card__square"></div>
                               <div class="blog-card__circle"></div>
-                              <h2 class="blog-card__title" itemprop="headline">@lang('Product variants')</h2>
-                              <h5 class="blog-card__category">@lang('List of products')</h5>
-                            </a>              
+                              <h2 class="blog-card__title" itemprop="headline">@lang('List of suborders')</h2>
+                              <h5 class="blog-card__category">@lang('Suborders')</h5>
+                          </a>              
                         </div>
-                  </article>
-                  <article >
-                      <div class="col-xs-24 col-sm-8 col-lg-6">
-                            <a href="{{ route('admin.line.index') }}" class="blog-card background">                  
-                              <div class="blog-card__square"></div>
-                              <div class="blog-card__circle"></div>
-                              <h2 class="blog-card__title" itemprop="headline">@lang('Show lines')</h2>
-                              <h5 class="blog-card__category">@lang('Lines')</h5>
-                            </a>              
-                        </div>
-                  </article>
-                </div>
+                      </article>
+                      <article >
+                            <div class="col-xs-24 col-sm-8 col-lg-6">
+                                <a href="{{ route('admin.product.list') }}" class="blog-card photoshop">                  
+                                  <div class="blog-card__square"></div>
+                                  <div class="blog-card__circle"></div>
+                                  <h2 class="blog-card__title" itemprop="headline">@lang('Product variants')</h2>
+                                  <h5 class="blog-card__category">@lang('List of products')</h5>
+                                </a>              
+                            </div>
+                      </article>
+                      <article >
+                          <div class="col-xs-24 col-sm-8 col-lg-6">
+                                <a href="{{ route('admin.line.index') }}" class="blog-card background">                  
+                                  <div class="blog-card__square"></div>
+                                  <div class="blog-card__circle"></div>
+                                  <h2 class="blog-card__title" itemprop="headline">@lang('Show lines')</h2>
+                                  <h5 class="blog-card__category">@lang('Lines')</h5>
+                                </a>              
+                            </div>
+                      </article>
+                    </div>
             </div>
         </div>
             <div class="container mt-2">

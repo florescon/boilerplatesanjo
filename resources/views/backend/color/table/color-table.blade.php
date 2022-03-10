@@ -269,7 +269,7 @@ background: linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(148,233,202,1) 1
               {{ $colors->onEachSide(1)->links() }}
             </nav>
           </div>
-              <div class="col-sm-3 text-muted text-right">
+              <div class="col-sm-3 mb-2 text-muted text-right">
                 Mostrando {{ $colors->firstItem() }} - {{ $colors->lastItem() }} de {{ $colors->total() }} resultados
               </div>
         </div>

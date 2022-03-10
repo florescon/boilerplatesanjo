@@ -19,6 +19,7 @@
 			<div class="col-9">
                 {{-- <livewire:backend.cart-add-form/> --}}
                 @if($fromStore)
+                	@if(count($cartVar['products']) > 0 || count($cartVar['products_sale']) > 0 )
 					<div class="alert alert-primary" role="alert">
 					  	<h4 class="alert-heading">¡Estás por terminar!</h4>
 						Proveniente de la tienda.  <a href="{{ route('admin.store.pos') }}" class="alert-link">@lang('Back to store')</a>
@@ -32,6 +33,7 @@
 						El que provenga de la tienda permite indexarlo al próximo corte de caja
 						</p>
 					</div>
+					@endif
 				@endif
 			</div>
 		</div>
@@ -258,8 +260,10 @@
 			<div class="card text-center border-light">
 			  <div class="card-body">
 			    <p class="card-text">@lang('Your cart order is empty!')</p>
-				<a href="{{ route('admin.order.index') }}" class="btn btn-primary mr-2">@lang('Go to orders')</a>
-			    <a href="{{ route('admin.product.index') }}" class="btn btn-outline-primary ml-2">@lang('Go to products')</a>
+				<div class="btn-group" role="group" aria-label="Basic example">
+				  <a type="button" href="{{ route('admin.order.index') }}" class="btn btn-primary">@lang('Go to orders')</a>
+				  <a type="button" href="{{ route('admin.product.index') }}" class="btn btn-outline-primary">@lang('Go to products')</a>
+				</div>
 			  </div>
 			</div>
 
