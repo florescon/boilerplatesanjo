@@ -24,6 +24,10 @@ class Order extends Model
     protected $fillable = [
         'date_entered', 
         'cash_id',
+        'user_departament_changed_at',
+        'feedstock_changed_at',
+        'user_id',
+        'departament_id',
     ];
 
     /**
@@ -47,6 +51,8 @@ class Order extends Model
         'automatic_production' => 'boolean',
         'from_store' => 'boolean',
         'approved' => 'boolean',
+        'user_departament_changed_at' => 'datetime',
+        'feedstock_changed_at' => 'datetime',
     ];
 
     /**
@@ -69,7 +75,11 @@ class Order extends Model
      *
      * @var array
      */
-    protected $dates = ['date_entered'];
+    protected $dates = [
+        'date_entered',
+        'user_departament_changed_at',
+        'feedstock_changed_at',
+    ];
 
     public function getFullSlugAttribute(): string
     {
@@ -113,11 +123,11 @@ class Order extends Model
         elseif($this->departament_id){
            return $this->departament->name;
         }
-        elseif(!$this->isFromStore()){
-            return "<span class='badge badge-primary'>Stock ".appName().'</span>';
+        elseif($this->isFromStore()){
+            return "<span class='badge badge-primary'>General".'</span>';
         }
 
-        return "<span class='badge badge-primary'>General".'</span>';
+        return "<span class='badge badge-primary'>Stock ".appName().'</span>';
     }
 
     public function getTrackingNumberAttribute(): ?string
@@ -530,6 +540,22 @@ class Order extends Model
         return $this->morphMany(Cashable::class, 'cashable');
     }
 
+    /**
+     * @return bool
+     */
+    public function isDeletedFeedstock(): bool
+    {
+        return $this->feedstock_changed_at !== null;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUserOrDepartamentReasigned(): bool
+    {
+        return $this->user_departament_changed_at !== null;
+    }
+
     public function getDateForHumansAttribute()
     {
         return $this->created_at->format('M, d Y');
@@ -537,7 +563,7 @@ class Order extends Model
 
     public function getDateDiffForHumansCreatedAttribute()
     {
-        return "<span class='badge badge-danger'>".$this->created_at->diffForHumans(null, false, false, 2).'</span>';
+        return "<span class='badge badge-dark'>".$this->created_at->diffForHumans(null, false, false, 2).'</span>';
     }
 
     public function getDateDiffForHumansAttribute()

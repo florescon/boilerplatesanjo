@@ -164,7 +164,7 @@
             @endif
           </div>
 
-          @if($model->user_id || $model->departament_id)
+          @if(($model->user_id || $model->departament_id) || $model->isFromStore())
             <div class="card-footer text-center">
               <div class="row">
                 <div class="col-6 col-lg-6">
@@ -253,7 +253,7 @@
                   @foreach($model->product_order as $product)
                   <tr>
                     <td>
-                      <a href="{{ route('admin.product.consumption_filter', $product->product_id) }}" target=”_blank”> <span class="badge badge-warning"> <i class="cil-color-fill"></i></span></a>
+                      <a href="{{ route('admin.product.consumption_filter', $product->product_id) }}" target=”_blank”> <span class="badge badge-warning"> <i class="cil-color-fill"></i> <em class="text-white">@lang('Consumption')</em> </span></a>
                       {!! $product->product->full_name !!}
                     </td>
                     <td class="text-center">${{ $product->price }}</td>

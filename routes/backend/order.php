@@ -70,6 +70,18 @@ Route::group([
                     ->push(__('Where is products?'), route('admin.order.whereIs', $order));
             });
 
+        Route::post('end-add-stock', [OrderController::class, 'end_add_stock'])
+            ->name('end-add-stock');
+            // ->middleware('permission:admin.order.end-add-stock');
+
+        Route::post('delete-consumption', [OrderController::class, 'delete_consumption'])
+            ->name('delete-consumption');
+            // ->middleware('permission:admin.order.end-add-stock');
+
+        Route::post('reasign-user-departament', [OrderController::class, 'reasign_user_departament'])
+            ->name('reasign-user-departament');
+            // ->middleware('permission:admin.order.end-add-stock');
+
         Route::get('print', [OrderController::class, 'print'])
             ->name('print')
             ->middleware('permission:admin.access.order.modify')

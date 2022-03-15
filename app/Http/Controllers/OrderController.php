@@ -88,7 +88,11 @@ class OrderController extends Controller
 
     public function advanced(Order $order)
     {
-        return view('backend.order.advanced-order', compact('order'));
+        $limit = $order->created_at->addDays(7);
+        $now = Carbon::now();
+        $result = $now->gt($limit);
+
+        return view('backend.order.advanced-order', compact('order', 'result'));
     }
 
     public function records(Order $order)
@@ -117,6 +121,43 @@ class OrderController extends Controller
     {
         return view('backend.order.where-is-products')
             ->withOrder($order);
+    }
+
+    public function end_add_stock(Order $order)
+    {
+        return redirect()->route('admin.order.advanced', $order->id)->withFlashSuccess(__('The order/sale was successfully deleted'));
+    }
+
+    public function delete_consumption(Order $order)
+    {
+        $limit = $order->created_at->addDays(7);
+        $now = Carbon::now();
+        $result = $now->gt($limit);
+
+        if(!$result){
+            $order->update([
+                'feedstock_changed_at' => now()
+            ]);
+
+            $order->materials_order()->delete();
+        }
+
+        return redirect()->route('admin.order.advanced', $order->id)->withFlashSuccess(__('The feedstock was successfully deleted'));
+    }
+
+    public function reasign_user_departament(Order $order)
+    {
+        $limit = $order->created_at->addDays(7);
+        $now = Carbon::now();
+        $result = $now->gt($limit);
+
+        if(!$result){
+            $order->update([
+                'user_departament_changed_at' => now()
+            ]);
+        }
+
+        return redirect()->route('admin.order.advanced', $order->id)->withFlashSuccess(__('The user/departament was successfully reasigned'));
     }
 
     public function suborders(Order $order)

@@ -136,7 +136,7 @@
 		                {!! $order->date_diff_for_humans_created !!}
 		              </td>
 	                <td class="text-center">
-										@if(!$order->exist_user_departament)
+										@if(!$order->exist_user_departament || $order->isFromStore())
 											{!! $order->payment_label !!}
 										@else
 											<span class="badge badge-dark">@lang('Internal control')</span>

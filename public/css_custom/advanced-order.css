@@ -100,6 +100,17 @@ a.forum-item-title {
 a.forum-item-title:hover {
   color: inherit;
 }
+
+button.forum-item-title {
+  color: inherit;
+  display: block;
+  font-size: 18px;
+  font-weight: 600;
+}
+button.forum-item-title:hover {
+  color: inherit;
+}
+
 .forum-icon .fa {
   font-size: 30px;
   margin-top: 8px;
@@ -111,6 +122,11 @@ a.forum-item-title:hover {
 .forum-item.active a.forum-item-title {
   color: #1ab394;
 }
+
+.forum-item.active button.forum-item-title {
+  color: #1ab394;
+}
+
 @media (max-width: 992px) {
   .forum-info {
     margin: 15px 0 10px 0;
