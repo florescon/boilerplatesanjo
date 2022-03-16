@@ -9,7 +9,6 @@ class Log extends Model
 {
     use HasFactory;
 
-
     /**
      * The attributes that are mass assignable.
      *
@@ -19,10 +18,8 @@ class Log extends Model
         'body',
     ];
 
-
     public function logable()
     {
         return $this->morphTo();
     }
-
 }

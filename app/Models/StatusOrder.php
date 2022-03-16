@@ -21,7 +21,7 @@ class StatusOrder extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class, 'audi_id');
+        return $this->belongsTo(User::class, 'audi_id')->withTrashed();
     }
 
     /**

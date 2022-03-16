@@ -32,7 +32,7 @@ class Cash extends Model
      */
     public function finances()
     {
-        return $this->hasMany(Finance::class)->orderBy('created_at', 'desc');
+        return $this->hasMany(Finance::class)->withTrashed()->orderBy('created_at', 'desc');
     }
 
     /**
@@ -40,7 +40,7 @@ class Cash extends Model
      */
     public function orders()
     {
-        return $this->hasMany(Order::class)->orderBy('created_at', 'desc');
+        return $this->hasMany(Order::class)->withTrashed()->orderBy('created_at', 'desc');
     }
 
     public function getIncomesAttribute()
@@ -155,5 +155,4 @@ class Cash extends Model
     }
 
     protected $dates = ['checked'];
-
 }

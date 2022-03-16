@@ -65,7 +65,7 @@ class Finance extends Model
      */
     public function audi()
     {
-        return $this->belongsTo(User::class, 'audi_id');
+        return $this->belongsTo(User::class, 'audi_id')->withTrashed();
     }
 
     /**
@@ -111,7 +111,7 @@ class Finance extends Model
 
     public function payment(): BelongsTo
     {
-        return $this->belongsTo(PaymentMethod::class, 'payment_method_id');
+        return $this->belongsTo(PaymentMethod::class, 'payment_method_id')->withTrashed();
     }
 
     public function getPaymentMethodAttribute(): ?string

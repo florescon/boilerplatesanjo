@@ -27,5 +27,4 @@ class Cashable extends Model
     {
         return $this->morphTo();
     }
-
 }

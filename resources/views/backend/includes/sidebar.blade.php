@@ -112,7 +112,6 @@
         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.departament.list')))
             <li class="c-sidebar-nav-item">
                 <x-utils.link
-                    new="true"
                     class="c-sidebar-nav-link"
                     :href="route('admin.departament.index')"
                     :active="activeClass(Route::is('admin.departament.*'), 'c-active')"
@@ -146,7 +145,6 @@
         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.service.list')))
             <li class="c-sidebar-nav-item">
                 <x-utils.link
-                    new="true"
                     class="c-sidebar-nav-link"
                     :href="route('admin.service.index')"
                     :active="activeClass(Route::is('admin.service.*'), 'c-active')"
@@ -169,7 +167,6 @@
         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.color.list') || $logged_in_user->can('admin.access.size.list') || $logged_in_user->can('admin.access.cloth.list') || $logged_in_user->can('admin.access.line.list') || $logged_in_user->can('admin.access.unit.list') || $logged_in_user->can('admin.access.brand.list') || $logged_in_user->can('admin.access.model_product.list') ))
             <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.color.*')  || Route::is('admin.size.*') || Route::is('admin.cloth.*') || Route::is('admin.line.*') || Route::is('admin.unit.index') || Route::is('admin.brand.index') || Route::is('admin.model.index'), 'c-open c-show') }}">
                 <x-utils.link
-                    new="true"
                     href="#"
                     icon="c-sidebar-nav-icon cil-library"
                     class="c-sidebar-nav-dropdown-toggle"
@@ -239,7 +236,6 @@
                     @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.model_product.list')))
                         <li class="c-sidebar-nav-item">
                             <x-utils.link
-                                new="true"
                                 class="c-sidebar-nav-link"
                                 :href="route('admin.model.index')"
                                 :active="activeClass(Route::is('admin.model.index'), 'c-active')"
@@ -255,7 +251,6 @@
         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.store.list') || $logged_in_user->can('admin.access.store.list_finance') || $logged_in_user->can('admin.access.store.create_finance')))
             <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.store.pos.*') || Route::is('admin.store.finances.*') || Route::is('admin.store.box.*'), 'c-open c-show') }}">
                 <x-utils.link
-                    new="true"
                     href="#"
                     icon="c-sidebar-nav-icon fas fa-store"
                     class="c-sidebar-nav-dropdown-toggle"
@@ -266,7 +261,6 @@
                         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.store.list')))
                             <li class="c-sidebar-nav-item">
                                 <x-utils.link
-                                    new="true"
                                     :href="route('admin.store.pos')"
                                     class="c-sidebar-nav-link"
                                     :text="__('Shop panel')"
@@ -277,7 +271,6 @@
                         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.store.list_finance')))
                             <li class="c-sidebar-nav-item">
                                 <x-utils.link
-                                    new="true"
                                     :href="route('admin.store.finances.index')"
                                     class="c-sidebar-nav-link"
                                     :text="__('Incomes and expenses')"
@@ -288,7 +281,6 @@
                         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.store.create_finance')))
                             <li class="c-sidebar-nav-item">
                                 <x-utils.link
-                                    new="true"
                                     :href="route('admin.store.box.index')"
                                     class="c-sidebar-nav-link"
                                     :text="__('Daily cash closing')"
@@ -363,7 +355,6 @@
         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.document.list')))
             <li class="c-sidebar-nav-item">
                 <x-utils.link
-                    new="true"
                     class="c-sidebar-nav-link"
                     :href="route('admin.document.index')"
                     :active="activeClass(Route::is('admin.document.*'), 'c-active')"

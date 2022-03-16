@@ -107,7 +107,7 @@ class Order extends Model
      */
     public function audi()
     {
-        return $this->belongsTo(User::class, 'audi_id');
+        return $this->belongsTo(User::class, 'audi_id')->withTrashed();
     }
 
     /**

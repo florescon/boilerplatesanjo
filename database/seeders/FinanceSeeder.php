@@ -20,7 +20,7 @@ class FinanceSeeder extends Seeder
         $this->disableForeignKeys();
 
         if (app()->environment() !== 'production') {
-            Finance::factory()->times(20)->create();
+            Finance::factory()->times(10)->create();
         }
 
         $this->enableForeignKeys();

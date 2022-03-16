@@ -115,7 +115,7 @@ class Product extends Model
      */
     public function parent()
     {
-        return $this->belongsTo(self::class);
+        return $this->belongsTo(self::class)->withTrashed();
     }
 
     /**

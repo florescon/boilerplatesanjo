@@ -39,7 +39,7 @@ class MaterialOrder extends Model
      */
     public function material()
     {
-        return $this->belongsTo(Material::class);
+        return $this->belongsTo(Material::class)->withTrashed();
     }
 
     /**
@@ -47,7 +47,7 @@ class MaterialOrder extends Model
      */
     public function order()
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(Order::class)->withTrashed();
     }
 
     /**
@@ -55,7 +55,7 @@ class MaterialOrder extends Model
      */
     public function product_order()
     {
-        return $this->belongsTo(ProductOrder::class);
+        return $this->belongsTo(ProductOrder::class)->withTrashed();
     }
 
     public function getTotalByMaterialAttribute()
@@ -68,6 +68,6 @@ class MaterialOrder extends Model
      */
     public function audi()
     {
-        return $this->belongsTo(User::class, 'audi_id');
+        return $this->belongsTo(User::class, 'audi_id')->withTrashed();
     }
 }

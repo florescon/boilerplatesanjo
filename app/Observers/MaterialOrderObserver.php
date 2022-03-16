@@ -15,7 +15,7 @@ class MaterialOrderObserver
      */
     public function created(MaterialOrder $materialOrder)
     {
-        $material = Material::find($materialOrder->material_id);
+        $material = Material::withTrashed()->find($materialOrder->material_id);
         
         if($materialOrder->quantity > 0){
             $material->decrement('stock', abs($materialOrder->quantity));
@@ -41,7 +41,7 @@ class MaterialOrderObserver
      */
     public function deleted(MaterialOrder $materialOrder)
     {
-        $material = Material::find($materialOrder->material_id);
+        $material = Material::withTrashed()->find($materialOrder->material_id);
             
         if($materialOrder->quantity > 0){
             $material->increment('stock', abs($materialOrder->quantity));

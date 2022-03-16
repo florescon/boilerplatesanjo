@@ -16,7 +16,7 @@ class ProductOrderObserver
     public function created(ProductOrder $productOrder)
     {
 
-        $product = Product::find($productOrder->product_id);
+        $product = Product::withTrashed()->find($productOrder->product_id);
         
         if($productOrder->quantity > 0 && $productOrder->type == 2){
             if($product->isProduct()){
@@ -44,7 +44,7 @@ class ProductOrderObserver
      */
     public function deleted(ProductOrder $productOrder)
     {
-        $product = Product::find($productOrder->product_id);
+        $product = Product::withTrashed()->find($productOrder->product_id);
         
         if($productOrder->quantity > 0 && $productOrder->type == 2){
             if($product->isProduct()){

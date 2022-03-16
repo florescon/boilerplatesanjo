@@ -58,5 +58,4 @@ class Cloth extends Model
         'name',
         'slug',
     ];
-
 }

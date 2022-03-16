@@ -15,5 +15,4 @@ class Image extends Model
         'type',
         'sort',
     ];
-
 }

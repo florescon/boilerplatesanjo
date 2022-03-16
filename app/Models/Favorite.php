@@ -20,7 +20,6 @@ class Favorite extends Model
         'status',
     ];
 
-
     /**
      * The attributes that should be cast.
      *
@@ -30,5 +29,4 @@ class Favorite extends Model
         'audi_id' => 'integer',
         'status' => 'boolean',
     ];
-
 }

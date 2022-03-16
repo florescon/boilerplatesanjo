@@ -81,7 +81,7 @@ class Suborders extends Component
 
                     $getProductOrder = ProductOrder::find($key)->product_id;
 
-                    $getProduct = Product::with('parent')->find($getProductOrder);
+                    $getProduct = Product::with('parent')->withTrashed()->find($getProductOrder);
 
                     $SuborderIntoPro->product_suborder()->create([
                         'product_id' => $getProductOrder,
