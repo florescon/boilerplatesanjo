@@ -313,7 +313,7 @@ class Product extends Model
 
     public function getCodeLabelAttribute()
     {
-        if(!$this->hasCodeSubproduct() && $this->isProduct){
+        if(!$this->hasCodeSubproduct() && $this->isProduct()){
             return $this->parent->code;
         }
 
