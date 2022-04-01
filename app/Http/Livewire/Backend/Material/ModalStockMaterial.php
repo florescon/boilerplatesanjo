@@ -44,22 +44,27 @@ class ModalStockMaterial extends Component
 
     public function update()
     {
-        try {
+        $this->validate();
 
-            $this->validate();
+        $material = Material::findOrFail($this->material_id);
 
-            $material = Material::findOrFail($this->material_id);
+        if(!empty($this->stock)){
 
-            if($this->price > 0){
+            if($this->price > 0 || empty($this->price)){
                 $changed_stock = $material->stock + $this->stock;
-                $material->update(['stock' => $changed_stock, 'price' => $this->price]);
+                if(empty($this->price)){
+                    $material->update(['stock' => $changed_stock]);
+                }
+                else{
+                    $material->update(['stock' => $changed_stock, 'price' => $this->price]);
+                }
                 event(new MaterialUpdated($material));
 
                 $material->history()->create([
                     'old_stock' => $this->old_stock,
                     'stock' => $this->stock,
                     'old_price' => $this->old_price,
-                    'price' => $this->price > 0 ? $this->price : $this->old_price,
+                    'price' => empty($this->price) ? $this->old_price : $this->old_price,
                     'audi_id' => Auth::id(),
                 ]);
 
@@ -71,7 +76,7 @@ class ModalStockMaterial extends Component
 
                 $this->emit('swal:alert', [
                     'icon' => 'success',
-                    'title'   => __('Created'), 
+                    'title'   => __('Updated'), 
                 ]);
             }
             else{
@@ -80,13 +85,8 @@ class ModalStockMaterial extends Component
                     'title'   => 'No puede ser el precio un número negativo :)', 
                 ]);
             }
-
-        
-        } catch (Exception $e) {
-            DB::rollBack();
-
-            throw new GeneralException(__('There was a problem creating the material.'));
         }
+        
     }
 
     public function render()

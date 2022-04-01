@@ -41,14 +41,16 @@
             @endif
         </table>
 
-        <table width="100%">
-            <tr>
-                <td align="left">
-                    <strong>Fecha:</strong> 
-                    {{ $ticket->date_entered->format('d-m-Y') }}
-                </td>
-            </tr>
-        </table>
+        @if($ticket->date_entered)
+            <table width="100%">
+                <tr>
+                    <td align="left">
+                        <strong>Fecha:</strong> 
+                        {{ $ticket->date_entered->format('d-m-Y') }}
+                    </td>
+                </tr>
+            </table>
+        @endif
 
         <table width="100%">
             <tr>
