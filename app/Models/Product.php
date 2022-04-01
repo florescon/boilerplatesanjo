@@ -251,7 +251,7 @@ class Product extends Model
      */
     public function children()
     {
-        return $this->hasMany(self::class, 'parent_id')->with('children', 'size', 'color');
+        return $this->hasMany(self::class, 'parent_id')->with('size', 'color');
     }
 
     /**

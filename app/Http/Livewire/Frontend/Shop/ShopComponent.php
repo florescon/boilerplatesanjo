@@ -6,6 +6,7 @@ use App\Models\Frontend\Product;
 use App\Models\Color;
 use App\Models\Size;
 use App\Models\Line;
+use App\Models\Brand;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Storage;
@@ -22,7 +23,7 @@ class ShopComponent extends Component
 	protected $queryString = [
         'searchTermShop' => ['except' => ''],
         'perPage',
-        'lineName' => ['except' => ''],
+        'brandName' => ['except' => ''],
     ];
 
     public $perPage = '12';
@@ -30,22 +31,23 @@ class ShopComponent extends Component
     public $status;
 
     public ?int $line = null;
+    public ?int $brand = null;
     public ?int $color = null;
     public ?int $size = null;
 
-    public string $lineName = '';
+    public string $brandName = '';
  
     public $sorting;
     public $searchTermShop = '';
 
-    protected $listeners = ['selectedLineItem', 'selectedColorItem', 'selectedSizeItem', 'restore' => '$refresh'];
+    protected $listeners = ['selectedBrandItem', 'selectedColorItem', 'selectedSizeItem', 'restore' => '$refresh'];
 
 
     public function getRowsQueryProperty()
     {
         $query = Product::query()
             ->onlyProducts()
-            ->with('children', 'line')
+            ->with('children', 'line', 'brand')
             ->whereNull('parent_id')
             ->onlyActive();
 
@@ -58,10 +60,17 @@ class ShopComponent extends Component
             });
         }
 
-        if($this->lineName){
-            $lineN = $this->lineName;
-            $query->whereHas('line', function($queryLine) use ($lineN){
-                $queryLine->where('slug', $lineN);
+        if($this->brand){
+            $brand = $this->brand;
+            $query->whereHas('brand', function($queryBrand) use ($brand){
+                $queryBrand->where('id', $brand);
+            });
+        }
+
+        if($this->brandName){
+            $brandN = $this->brandName;
+            $query->whereHas('brand', function($queryBrand) use ($brandN){
+                $queryBrand->where('slug', $brandN);
             });
         }
         if($this->size){
@@ -105,13 +114,13 @@ class ShopComponent extends Component
         return null;
     }
 
-    public function selectedLineItem(?int $item)
+    public function selectedBrandItem(?int $item)
     {
         if ($item) {
-            $this->line = $item;
+            $this->brand = $item;
         }
         else
-            $this->line = null;
+            $this->brand = null;
     }
     public function selectedSizeItem(?int $item)
     {
@@ -143,10 +152,10 @@ class ShopComponent extends Component
         $this->color = $color;
     }
 
-    public function clearFilterLine()
+    public function clearFilterBrand()
     {
-        $this->line = null;
-        $this->lineName = '';
+        $this->brand = null;
+        $this->brandName = '';
     }
     public function clearFilterColor()
     {
@@ -161,9 +170,9 @@ class ShopComponent extends Component
         return redirect()->route('frontend.shop.index');
     }
 
-    public function dehydrateLine()
+    public function dehydrateBrand()
     {
-        $this->lineName = '';
+        $this->brandName = '';
     }
 
     public function clear()
@@ -183,7 +192,7 @@ class ShopComponent extends Component
         $this->resetPage();
     }
 
-    public function hydrateLine()
+    public function hydrateBrand()
     {
         // dd($this->line);
         // $lineModel = Line::find($this->line)->first();

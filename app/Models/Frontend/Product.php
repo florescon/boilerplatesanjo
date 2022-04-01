@@ -12,6 +12,7 @@ use App\Models\Line;
 use App\Models\Picture;
 use App\Models\Description;
 use App\Models\Favorite;
+use App\Models\Brand;
 use Carbon\Carbon;
 use App\Models\Frontend\Traits\Scope\ProductScope;
 
@@ -66,6 +67,14 @@ class Product extends Model
     public function line()
     {
         return $this->belongsTo(Line::class)->withTrashed();
+    }
+
+    /**
+     * Get the brand associated with the Product.
+     */
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class)->withTrashed();
     }
     
     public function size()

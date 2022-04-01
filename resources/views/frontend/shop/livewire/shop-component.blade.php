@@ -88,11 +88,11 @@
 
 									<div class="row pt-4">
 										<div class="col-12 text-center">
-						                    <livewire:frontend.attributes.line-change/>
+						                    <livewire:frontend.attributes.brand-change/>
 										</div>
-										@if($line || $lineName)
+										@if($brand || $brandName)
 										<div class="col-12 text-center mt-4">
-											<button class="btn btn-danger" wire:click="clearFilterLine">
+											<button class="btn btn-danger" wire:click="clearFilterBrand">
 												@lang('Clear filter')
 											</button>
 										</div>
@@ -100,7 +100,7 @@
 									</div>
 
 									<div class="row pt-4">
-										@if($color || $size || $line || $lineName)
+										@if($color || $size || $brand || $brandName)
 										<div class="col-12 text-center mt-4">
 											<span class="border-bottom-primary">
 												<a wire:click="clearFilters" style="cursor: pointer;"> 

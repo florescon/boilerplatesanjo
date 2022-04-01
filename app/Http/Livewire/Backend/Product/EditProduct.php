@@ -634,7 +634,7 @@ class EditProduct extends Component
         if ($this->filters || $this->filtersz) {
             if($this->filters){
                 foreach ($this->filters as $filter) {     
-                    $model = Product::with(['children.parent.parent', 'children' => function($query) use ($filter){
+                    $model = Product::with(['children.parent', 'children' => function($query) use ($filter){
                             $query->where('color_id', $filter);
                         }]
                     );

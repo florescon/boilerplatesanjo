@@ -10,7 +10,6 @@ class Line extends Model
 {
     use HasFactory;
 
-
     /**
      * The products that belong to the line.
      */
