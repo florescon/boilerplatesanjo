@@ -132,11 +132,9 @@ class EditOrder extends Component
             $order->status_order()->save($statusOrder);
 
             event(new OrderProductionStatusUpdated($order));
+
+            $this->initstatus($order); // re-initialize the component state with fresh data after saving
         }
-
-        $this->initstatus($order); // re-initialize the component state with fresh data after saving
-
-        sleep(3);
 
         $this->emit('swal:alert', [
             'icon' => 'success',

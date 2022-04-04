@@ -14,7 +14,7 @@ class MaterialHistory extends Model
     protected $table = 'material_histories';
 
     protected $fillable = [
-        'material_id', 'old_stock', 'stock', 'old_price', 'price', 'audi_id' 
+        'material_id', 'old_stock', 'stock', 'old_price', 'price', 'audi_id', 'comment'
     ];
 
     /**

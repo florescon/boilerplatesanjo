@@ -49,6 +49,13 @@
           </td>
         </tr>
 
+        <tr>
+          <th scope="row">@lang('Comment')</th>
+          <td colspan="2">
+            <input type="text" wire:model.lazy="comment" class="form-control @error('comment') is-invalid @enderror" id="comment" placeholder="@lang('Comment')">
+          </td>
+        </tr>
+
       </tbody>
     </table>
   </x-slot>

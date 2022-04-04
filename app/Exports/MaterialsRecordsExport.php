@@ -31,6 +31,7 @@ class MaterialsRecordsExport implements FromCollection, WithMapping, WithHeading
     public function headings(): array
     {
         return [
+            __('Part number'),
             __('Feedstock'),
             __('Product'),
             __('Consumption'),
@@ -48,6 +49,7 @@ class MaterialsRecordsExport implements FromCollection, WithMapping, WithHeading
     public function map($material_order): array
     {
         return [
+            optional($material_order->material)->part_number,
             optional($material_order->material)->full_name_clear,
             optional($material_order->product_order->product)->full_name_clear,
             $material_order->unit_quantity,
@@ -72,6 +74,6 @@ class MaterialsRecordsExport implements FromCollection, WithMapping, WithHeading
     */
     public function collection()
     {
-        return MaterialOrder::with('material', 'product_order.product.color', 'product_order.product.size')->find($this->materialIDs)->sortByDesc('created_at');
+        return MaterialOrder::with('material.color', 'material.size', 'material.unit', 'product_order.product.color', 'product_order.product.size')->find($this->materialIDs)->sortByDesc('created_at');
     }
 }

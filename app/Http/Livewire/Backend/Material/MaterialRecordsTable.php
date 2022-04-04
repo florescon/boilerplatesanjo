@@ -50,7 +50,6 @@ class MaterialRecordsTable extends Component
         $this->sortField = $field;
     }
 
-
     public function export()
     {
         return response()->streamDownload(function () {
@@ -71,7 +70,7 @@ class MaterialRecordsTable extends Component
 
     public function getRowsQueryProperty()
     {
-        return MaterialOrder::query()->with('material', 'product_order.product.color', 'product_order.product.size')
+        return MaterialOrder::query()->with('material.color', 'material.size', 'material.unit', 'product_order.product.color', 'product_order.product.size')
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?
                     $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', now()]) :
@@ -93,6 +92,13 @@ class MaterialRecordsTable extends Component
             ->when($this->sortField, function ($query) {
                 $query->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc');
             });
+    }
+
+    public function clear()
+    {
+        $this->searchTerm = '';
+        $this->resetPage();
+        $this->perPage = '10';
     }
 
     public function clearFilterDate()

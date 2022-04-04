@@ -131,9 +131,8 @@
                 </th>
               @endif
               <th scope="col">
-                <a style="color:white;" wire:click.prevent="sortBy('name')" role="button" href="#">
+                <a style="color:white;">
                   @lang('Feedstock')
-                  @include('backend.includes._sort-icon', ['field' => 'name'])
                 </a>
               </th>
 
@@ -168,9 +167,9 @@
                     </label>
                 </td>
               @endif
-              <th>
-                {!! $record->material->full_name !!}
-              </th>
+              <td>
+                <em>{{ $record->material->part_number ?? null }}</em> <strong>{!! $record->material->full_name !!}</strong>
+              </td>
               <td>
                 {!! $record->product_order->product->full_name !!}
               </td>

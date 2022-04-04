@@ -93,6 +93,13 @@ class MaterialRecordsHistoryTable extends Component
             });
     }
 
+    public function clear()
+    {
+        $this->searchTerm = '';
+        $this->resetPage();
+        $this->perPage = '10';
+    }
+
     public function clearFilterDate()
     {
         $this->dateInput = '';

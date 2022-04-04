@@ -16,6 +16,8 @@ class ModalStockMaterial extends Component
 
     public $old_price, $old_stock;
 
+    public $comment;
+
     public $material_id;
 
     protected $listeners = ['modalUpdateStock'];
@@ -23,6 +25,7 @@ class ModalStockMaterial extends Component
     protected $rules = [
         'stock' => 'required|numeric',
         'price' => 'nullable|sometimes|numeric',
+        'comment' => 'nullable|sometimes',
     ];
 
     public function modalUpdateStock(Material $material)
@@ -40,6 +43,7 @@ class ModalStockMaterial extends Component
     {
         $this->price = '';
         $this->stock = '';
+        $this->comment = '';
     }
 
     public function update()
@@ -66,6 +70,7 @@ class ModalStockMaterial extends Component
                     'old_price' => $this->old_price,
                     'price' => empty($this->price) ? $this->old_price : $this->old_price,
                     'audi_id' => Auth::id(),
+                    'comment' => $this->comment ?? null,
                 ]);
 
                 $this->resetInputStockFields();
@@ -86,7 +91,6 @@ class ModalStockMaterial extends Component
                 ]);
             }
         }
-        
     }
 
     public function render()
