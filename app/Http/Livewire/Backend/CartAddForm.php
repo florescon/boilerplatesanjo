@@ -6,7 +6,6 @@ use Livewire\Component;
 
 class CartAddForm extends Component
 {
-
 	public $product_id = [];
 
     public function store()
@@ -18,5 +17,4 @@ class CartAddForm extends Component
     {
         return view('backend.cart.livewire.cart-add-form');
     }
-
 }

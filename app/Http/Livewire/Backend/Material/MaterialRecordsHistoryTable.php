@@ -70,7 +70,7 @@ class MaterialRecordsHistoryTable extends Component
 
     public function getRowsQueryProperty()
     {
-        return MaterialHistory::query()->with('material', 'audi')
+        return MaterialHistory::query()->with('material.color', 'material.size', 'material.unit', 'audi')
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?
                     $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', now()]) :
@@ -81,7 +81,8 @@ class MaterialRecordsHistoryTable extends Component
             })
              ->where(function ($query) {
                 $query->whereHas('material', function($query) {
-                    $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
+                    $query->whereRaw("name LIKE \"%$this->searchTerm%\"")
+                        ->orWhereRaw("part_number LIKE \"%$this->searchTerm%\"");
                 })->orWhere('stock', 'like', '%' . $this->searchTerm . '%')
                   ->orWhere('price', 'like', '%' . $this->searchTerm . '%');
             })

@@ -11,7 +11,6 @@ class CartList extends Component
 
     protected $listeners = ['cartUpdatedList' => 'onCartUpdateList'];
 
-
     public function mount(): void
     {
         $this->cart = CartFacade::get();
@@ -22,7 +21,6 @@ class CartList extends Component
         $this->mount();
     }
 
-
     public function removeFromCartList($productId): void
     {
         $this->removeRedirectLink();
@@ -31,7 +29,6 @@ class CartList extends Component
         $this->cart = CartFacade::get();
         $this->emit('productRemovedList');
     }
-
 
     public function removeFromCartListSale($productId): void
     {
@@ -42,7 +39,6 @@ class CartList extends Component
         $this->cart = CartFacade::get();
         $this->emit('productRemovedSaleList');
     }
-
 
     public function removeRedirectLink()
     {
@@ -64,5 +60,4 @@ class CartList extends Component
     {
         return view('frontend.cart.livewire.cart-list');
     }
-
 }

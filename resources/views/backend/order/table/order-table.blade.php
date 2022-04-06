@@ -117,7 +117,7 @@
 										<span class="badge badge-light"><strong>{{ $order->tracking_number }}</strong></span>
 		            	</td>
 	                <td class="align-middle">
-	                  {!! Str::limit($order->comment, 200) ?? '<span class="badge badge-secondary">'.__('undefined').'</span>' !!}
+	                  {!! Str::limit($order->comment, 100) ?? '<span class="badge badge-secondary">'.__('undefined').'</span>' !!}
 	                </td>
 		              <td class="align-middle">
 		              	{!! $order->user_name !!}

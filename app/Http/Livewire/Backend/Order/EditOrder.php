@@ -81,11 +81,11 @@ class EditOrder extends Component
     public function savecomment()
     {
         $this->validate([
-            'comment' => 'required|max:100',
+            'comment' => 'required|max:300',
         ]);
 
         $order = Order::findOrFail($this->order_id);
-        $newComment = (string)Str::of($this->comment)->trim()->substr(0, 100); // trim whitespace & more than 100 characters
+        $newComment = (string)Str::of($this->comment)->trim()->substr(0, 300); // trim whitespace & more than 100 characters
 
         $order->comment = $newComment ?? null;
         $order->save();

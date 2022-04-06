@@ -39,7 +39,7 @@ class MaterialOrder extends Model
      */
     public function material()
     {
-        return $this->belongsTo(Material::class)->withTrashed();
+        return $this->belongsTo(Material::class)->with('unit', 'size', 'color')->withTrashed();
     }
 
     /**

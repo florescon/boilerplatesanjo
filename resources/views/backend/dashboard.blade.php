@@ -31,6 +31,7 @@
                                                         <tr>
                                                             <th> f.º </th>
                                                             <th> @lang('User') </th>
+                                                            <th> @lang('Comment') </th>
                                                             <th> @lang('Progress') </th>
                                                             <th> @lang('Total') </th>
                                                             <th> @lang('Created') </th>
@@ -45,6 +46,7 @@
                                                                 {!! $order->approved_alert !!}
                                                             </td>
                                                             <td> {!! $order->user_name !!} </td>
+                                                            <td> {!! Str::limit($order->comment, 100) !!} </td>
                                                             <td>
                                                                 @if($order->last_status_order)
                                                                     <div class="progress">

@@ -70,5 +70,5 @@ class MaterialHistoriesRecordsExport implements FromCollection, WithMapping, Wit
     */
     public function collection()
     {
-        return MaterialHistory::with('material', 'audi')->find($this->materialIDs)->sortByDesc('created_at');
+        return MaterialHistory::with('material.color', 'material.size', 'material.unit', 'audi')->find($this->materialIDs)->sortByDesc('created_at');
     }}

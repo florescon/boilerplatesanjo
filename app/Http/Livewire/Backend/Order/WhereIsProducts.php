@@ -12,9 +12,7 @@ use App\Models\Ticket;
 
 class WhereIsProducts extends Component
 {
-
     public $order_id, $lates_statusId;
-
 
     public function mount(Order $order)
     {
@@ -62,5 +60,4 @@ class WhereIsProducts extends Component
 
         return view('backend.order.livewire.where-is-products')->with(compact('model'));
     }
-
 }

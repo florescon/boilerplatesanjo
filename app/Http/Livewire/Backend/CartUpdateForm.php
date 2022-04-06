@@ -22,7 +22,6 @@ class CartUpdateForm extends Component
 
     public function updateCart()
     {
-
     	// dd($this->quantity);
 
     	// dd($this->quantity);
