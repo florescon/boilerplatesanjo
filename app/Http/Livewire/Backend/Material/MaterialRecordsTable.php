@@ -81,7 +81,8 @@ class MaterialRecordsTable extends Component
             })
             ->where(function ($query) {
                 $query->whereHas('material', function($query) {
-                    $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
+                    $query->whereRaw("name LIKE \"%$this->searchTerm%\"")
+                        ->orWhereRaw("part_number LIKE \"%$this->searchTerm%\"");
                 })->orWhere('order_id', 'like', '%' . $this->searchTerm . '%')
                   ->orWhere('quantity', 'like', '%' . $this->searchTerm . '%')
                   ->orWhere('price', 'like', '%' . $this->searchTerm . '%');
