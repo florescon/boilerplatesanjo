@@ -126,13 +126,39 @@
             <div class="form-group row">
                 <label for="price" class="col-md-2 col-form-label">@lang('Price')<sup>*</sup></label>
 
-                <div class="col-md-10">
+                <div class="col-md-6">
                     <input type="text" name="price" wire:model="price" class="form-control" placeholder="{{ __('Price') }}" value="{{ old('price') }}" maxlength="100" required />
 
                     @error('price') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                 </div>
+
+                <div class="col-md-4">
+                    <div class="custom-control custom-switch">
+                      <input type="checkbox" class="custom-control-input" id="switchIVA" wire:click="$toggle('switchIVA')">
+                      <label class="custom-control-label" for="switchIVA">Agregar el IVA</label>
+                    </div>
+                </div>
             </div><!--form-group-->
 
+            <div class="form-group row">
+                <label for="average_wholesale_price" class="col-md-2 col-form-label">@lang('Average wholesale price')</label>
+
+                <div class="col-md-10">
+                    <input type="text" name="average_wholesale_price" wire:model="average_wholesale_price" class="form-control" placeholder="{{ __('Average wholesale price') }}" value="{{ old('average_wholesale_price') }}" maxlength="100" required />
+
+                    @error('average_wholesale_price') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                </div>
+            </div><!--form-group-->
+
+            <div class="form-group row">
+                <label for="average_wholesale_price" class="col-md-2 col-form-label">@lang('Wholesale price')</label>
+
+                <div class="col-md-10">
+                    <input type="text" name="wholesale_price" wire:model="wholesale_price" class="form-control" placeholder="{{ __('Wholesale price') }}" value="{{ old('wholesale_price') }}" maxlength="100" required />
+
+                    @error('wholesale_price') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                </div>
+            </div><!--form-group-->
 
             <div class="form-group row">
                 <label for="photo" class="col-sm-2 col-form-label">@lang('Image')</label>

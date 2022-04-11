@@ -63,9 +63,17 @@
 
         <table width="100%">
             <tr>
-                <td><strong>Folio:</strong> #{{ $ticket->id }}</td>
+                <td><u><strong>Folio:</strong> #{{ $ticket->id }}</u></td>
             </tr>
         </table>
+
+        @if($ticket->order_id)
+            <table width="100%">
+                <tr>
+                    <td><strong>@lang('Order'):</strong> #{{ $ticket->order_id }}</td>
+                </tr>
+            </table>
+        @endif
 
         <table style="margin-bottom: 10px;" width="100%">
             <tr>

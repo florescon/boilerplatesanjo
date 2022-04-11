@@ -18,10 +18,15 @@ class CreateProduct extends Component
     public ?int $line = null;
     public ?int $brand = null;
 
+    public $priceIVA;
+    public $average_wholesale_price;
+    public $wholesale_price;
+
     public $colors = [];
     public $sizes = [];
 
     public bool $autoCodes = true;
+    public bool $switchIVA = false;
 
     protected $rules = [
         'name' => 'required|min:3|max:50',
@@ -95,6 +100,66 @@ class CreateProduct extends Component
     public function removePhoto()
     {
         $this->photo = '';
+    }
+
+    public function calculateIVA()
+    {
+        if($this->price){
+            $this->priceIVA = $this->price + ($this->price * .16 );
+        }
+    }
+
+    public function calculatePrice()
+    {
+        if($this->price){
+            $this->price = $this->price + ($this->price * .16 );
+        }
+    }
+
+    public function calculateAverageWholesalePrice()
+    {
+        if($this->switchIVA){
+            $this->calculateIVA();
+            $priceAverageWholesalePrice = $this->priceIVA - ($this->priceIVA * .15);
+        }
+        else{
+            $priceAverageWholesalePrice = $this->price - ($this->price * .15);
+        }
+
+        $this->average_wholesale_price = $priceAverageWholesalePrice;
+    }
+
+
+    public function calculateWholesalePrice()
+    {
+        if($this->switchIVA){
+            $this->calculateIVA();
+            $priceWholesalePrice = $this->priceIVA - ($this->priceIVA * .20);
+        }
+        else{
+            $priceWholesalePrice = $this->price - ($this->price * .20);
+        }
+
+        $this->wholesale_price = $priceWholesalePrice;
+    }
+
+    public function updatedPrice()
+    {
+        $this->calculateAverageWholesalePrice();
+        $this->calculateWholesalePrice();
+    }
+
+    public function updatedSwitchIVA()
+    {
+        if($this->switchIVA){
+            $this->calculatePrice();
+            $this->calculateAverageWholesalePrice();
+            $this->calculateWholesalePrice();
+        }
+        else{
+            $this->price = $this->price - ($this->price * 0.16);
+            $this->average_wholesale_price = $this->average_wholesale_price - ($this->average_wholesale_price * 0.16);
+        }
     }
 
     public function updated($propertyName)
