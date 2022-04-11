@@ -100,7 +100,6 @@ class SearchProduct extends Component
 
     public function selectProduct(Product $product)
     {
-
         if ($product) {
 
             if($product->parent_id){
@@ -137,7 +136,7 @@ class SearchProduct extends Component
     {
         Cart::add(Product::
             with(array('parent' => function($query) {
-                $query->select('id', 'slug', 'name', 'code', 'price', 'file_name');
+                $query->select('id', 'slug', 'name', 'code', 'price', 'average_wholesale_price', 'wholesale_price', 'file_name');
             }))->get()
             ->find($productId), $typeCart);
 

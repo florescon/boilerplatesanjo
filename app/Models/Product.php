@@ -382,25 +382,29 @@ class Product extends Model
 
     public function getPrice(string $type_price = null)
     {
-        switch ($type_price) {
-            case User::PRICE_RETAIL:
-                if(!$this->hasPriceSubproduct())
-                    return $this->parent->price;
-                else
-                    return $this->price !== 0 ? $this->price : $this->parent->price;
-            case User::PRICE_AVERAGE_WHOLESALE:
-                if(!$this->hasAverageWholesalePriceSubproduct())
-                    return $this->parent->average_wholesale_price ? $this->parent->average_wholesale_price : $this->parent->price ;
-                else
-                    return $this->average_wholesale_price !== 0 ? $this->average_wholesale_price : $this->parent->average_wholesale_price;
-            case User::PRICE_WHOLESALE:
-                if(!$this->hasWholesalePriceSubproduct())
-                    return $this->parent->wholesale_price ? $this->parent->wholesale_price : $this->parent->price;
-                else
-                    return $this->wholesale_price !== 0 ? $this->wholesale_price : $this->parent->wholesale_price;
+        if($this->isProduct()){
+            switch ($type_price) {
+                case User::PRICE_RETAIL:
+                    if(!$this->hasPriceSubproduct())
+                        return $this->parent->price;
+                    else
+                        return $this->price !== 0 ? $this->price : $this->parent->price;
+                case User::PRICE_AVERAGE_WHOLESALE:
+                    if(!$this->hasAverageWholesalePriceSubproduct())
+                        return $this->parent->average_wholesale_price ? $this->parent->average_wholesale_price : $this->parent->price ;
+                    else
+                        return $this->average_wholesale_price !== 0 ? $this->average_wholesale_price : $this->parent->average_wholesale_price;
+                case User::PRICE_WHOLESALE:
+                    if(!$this->hasWholesalePriceSubproduct())
+                        return $this->parent->wholesale_price ? $this->parent->wholesale_price : $this->parent->price;
+                    else
+                        return $this->wholesale_price !== 0 ? $this->wholesale_price : $this->parent->wholesale_price;
+            }
+
+            return $this->price !== 0 ? $this->price : $this->parent->price;
         }
 
-        return $this->price !== 0 ? $this->price : $this->parent->price;
+        return $this->price;
     }
 
     /**
