@@ -34,7 +34,7 @@
 
 		<div class="row d-flex flex-row-reverse mb-2">
 	    @if($selected && $products->count())
-	    <div class="dropdown table-export" style="margin-right: 100px;">
+	    <div class="dropdown table-export">
 	      <button class="dropdown-toggle btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	        @lang('Export store stock')
 	      </button>

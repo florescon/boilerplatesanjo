@@ -43,6 +43,35 @@
                                     <input wire:model.defer="state.days_orders" type="text" class="form-control" id="footerText" placeholder="{{__('Enter days') }}">
                                     @error('state.days_orders') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                                 </div>
+                                <div class="form-group">
+                                    <label for="footerText">@lang('IVA') %</label>
+                                    <input wire:model.defer="state.iva" type="text" class="form-control" id="footerText" placeholder="{{__('Enter IVA') }}">
+                                    @error('state.iva') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="footerText">@lang('Retail price percentage')</label>
+                                    <input wire:model.defer="state.retail_price_percentage" type="text" class="form-control" id="footerText" placeholder="{{__('Retail price percentage') }}">
+                                    @error('state.retail_price_percentage') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="footerText">@lang('Average wholesale price percentage')</label>
+                                    <input wire:model.defer="state.average_wholesale_price_percentage" type="text" class="form-control" id="footerText" placeholder="{{__('Average wholesale price percentage') }}">
+                                    @error('state.average_wholesale_price_percentage') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="footerText">@lang('Wholesale price percentage')</label>
+                                    <input wire:model.defer="state.wholesale_price_percentage" type="text" class="form-control" id="footerText" placeholder="{{__('Wholesale price percentage') }}">
+                                    @error('state.wholesale_price_percentage') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                                </div>
+                                <div class="form-group border rounded text-center">
+                                    <label for="footerText">Redondear precios sugeridos a múltiplos de 5</label>
+                                    <br>
+                                    <label class="c-switch c-switch-primary">
+                                      <input type="checkbox" class="c-switch-input" wire:model.defer="state.round">
+                                      <span class="c-switch-slider"></span>
+                                    </label>
+                                </div>
+
                                 {{-- <div class="form-group">
                                     <div class="custom-control custom-switch">
                                         <input type="checkbox" class="custom-control-input" id="sidebarCollapse">

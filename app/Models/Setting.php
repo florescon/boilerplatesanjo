@@ -20,7 +20,11 @@ class Setting extends Model
         'site_address',
         'site_whatsapp',
         'site_facebook',
-        'days_orders'
+        'days_orders',
+        'retail_price_percentage',
+        'average_wholesale_price_percentage',
+        'wholesale_price_percentage',
+        'iva',
+        'round',
     ];
-
 }

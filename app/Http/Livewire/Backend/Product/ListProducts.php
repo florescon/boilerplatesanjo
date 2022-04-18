@@ -77,7 +77,6 @@ class ListProducts extends Component
         }        
  
         return redirect()->route('admin.product.list');
-
     }
 
     public function getRowsQueryProperty()
@@ -131,7 +130,6 @@ class ListProducts extends Component
         $this->selectPage = false;
         $this->selectAll = false;
         $this->selected = [];
-
     }
 
     public function updatedSearchTerm()

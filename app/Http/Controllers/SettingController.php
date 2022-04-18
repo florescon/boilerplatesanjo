@@ -16,5 +16,4 @@ class SettingController extends Controller
     {
         return view('backend.setting.index');
     }
-
 }

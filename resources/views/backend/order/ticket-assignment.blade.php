@@ -70,7 +70,7 @@
         @if($ticket->order_id)
             <table width="100%">
                 <tr>
-                    <td><strong>@lang('Order'):</strong> #{{ $ticket->order_id }}</td>
+                    <td><strong>@lang('Main order'):</strong> #{{ $ticket->order_id }}</td>
                 </tr>
             </table>
         @endif

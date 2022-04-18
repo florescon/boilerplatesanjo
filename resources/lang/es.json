@@ -382,6 +382,9 @@
     "Retail price": "Precio menudeo",
     "Average wholesale price": "Precio medio mayoreo",
     "Wholesale price": "Precio mayoreo",
+    "Retail price percentage": "Precio menudeo, porcentaje",
+    "Average wholesale price percentage": "Precio medio mayoreo, porcentaje",
+    "Wholesale price percentage": "Precio mayoreo, porcentaje",
     "Only save": "Sólo guardar",
     "Save and clear all retail price variants": "Guardar y borrar todas las variantes de precios al menudeo",
     "Save and clear all average wholesale price variants": "Guardar y borrar todas las variantes de precios al medio mayoreo",
@@ -670,6 +673,7 @@
     "Delivery records": "Registros de entrega",
     "Payment records": "Registros de pago",
     "Save payment": "Guardar pago",
+    "Main order": "Orden principal",
     "Go to edit order": "Ir a editar orden",
     "Go to main order": "Ir a la orden principal",
     "Order created": "Orden creada",
@@ -744,7 +748,7 @@
     "New": "Nuevo",
     
     "Updating" : "Actualizando",
-    "Wait 3 seconds": "Espere 3 segundos", 
+    "Wait 1 second": "Espere 1 segundo", 
 
     "Information": "Información",
     "Image": "Imagen",

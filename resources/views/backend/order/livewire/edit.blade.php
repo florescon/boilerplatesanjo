@@ -396,7 +396,7 @@
                 <h5 class="card-title">@lang('Order production status')
                   <span class='badge badge-primary'>{{ $model->last_status_order->status->name ?? '' }}</span>
                 </h5>
-                <div wire:loading wire:target="updateStatus" class="loading">@lang('Wait 3 seconds')</div>
+                <div wire:loading wire:target="updateStatus" class="loading">@lang('Wait 1 second')</div>
                 <div class="vertical-timeline vertical-timeline--animate vertical-timeline--one-column">
 
                   @foreach($statuses as $status)
