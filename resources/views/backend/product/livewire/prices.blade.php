@@ -54,6 +54,18 @@
                                         </p>
                                         @if($customPrices)
                                         <div class="card mt-4 border-0">
+
+                                            <div class="col-md-12 mb-3">
+                                                <input type="number" min="1" step="any" name="price" wire:model="price" class="form-control @error('price') is-invalid  @enderror" placeholder="{{ __('Price') }}" value="{{ old('price') }}" maxlength="100" required/>
+                                            </div>
+
+                                            <div class="col-md-12 text-center mb-3">
+                                                <div class="custom-control custom-switch">
+                                                  <input type="checkbox" class="custom-control-input" id="switchIVA" wire:click="$toggle('switchIVA')">
+                                                  <label class="custom-control-label" for="switchIVA">Precio de proveedor no incluye IVA, incluirlo</label>
+                                                </div>
+                                            </div>
+
                                             <div class="input-group">
                                               <div class="input-group-prepend">
                                                 <span class="input-group-text" id="basic-addon1">${{ $product_price }}</span>

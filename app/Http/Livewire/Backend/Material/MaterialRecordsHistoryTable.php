@@ -120,6 +120,21 @@ class MaterialRecordsHistoryTable extends Component
         $this->selected = [];
     }
 
+    public function updatedSearchTerm()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedPerPage()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedDateInput()
+    {
+        $this->resetPage();
+    }
+
     public function getRowsProperty()
     {
         return $this->cache(function () {

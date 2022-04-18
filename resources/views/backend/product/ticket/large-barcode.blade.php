@@ -19,7 +19,7 @@
       background-color: lightgray
   }
   h1 {
-    font-size: 95px;
+    font-size: 90px;
   }
   h2 {
     font-size: 30px;
@@ -27,7 +27,7 @@
 </style>
 
 </head>
-  <body style="margin-top: 135px;">
+  <body style="margin-top: 185px;">
       <table width="100%">
         {{-- @if($product->code) --}}
           <tr>
@@ -44,7 +44,7 @@
                 " 
                 alt="barcode"
               />
-            <i style="font-size: 13px;">{{ $product->code_label }}</i>
+            <i style="font-size: 16px;">{{ $product->code_label }}</i>
 
 
 {{--                   <img src="data:image/png;base64, {{ base64_encode(\QrCode::format('svg')->size(140)->generate(route('frontend.track.show', $product->code_label))) }} "/>

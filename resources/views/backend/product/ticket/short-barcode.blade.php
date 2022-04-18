@@ -24,10 +24,10 @@
       background-color: lightgray
   }
   h1 {
-    font-size: 45px;
+    font-size: 35px;
   }
   h2 {
-    font-size: 40px;
+    font-size: 30px;
   }
 
   .rotate {
@@ -40,7 +40,7 @@
 
 </head>
   <body>
-    <table  width="550">
+    <table width="850">
       <tr>
         <td rowspan="2" class="td-width">
             <img src="{{ public_path('img/logo22-rotate.png') }}" class="rotate" width="140" style="
@@ -50,11 +50,11 @@
           />
         </td>
         <td align="center">
-          <div style="padding-right: 5px; padding-top: 20px;">
+          <div style="padding-right: 5px; padding-left: 100px; padding-top: 20px;">
             <img src="data:image/png;base64,{{   DNS1D::getBarcodePNG($product->code_label, 'C128',1,33,array(1,1,1), false)  }}"  style="        
                   /*position: relative;*/
               margin-top: -10px;
-              height:150px;
+              height:178px;
               /*padding-bottom: 0;*/
               width: 115%;
               /*overflow: hidden;*/
@@ -66,7 +66,7 @@
             <i style="font-size: 35px;">{{ $product->code_label }}</i>
           </div>
         </td>
-        <td rowspan="2" style="padding-left: 6px;">
+        <td rowspan="2" style="padding-left: 106px;">
           <img src="data:image/png;base64, {{ base64_encode(\QrCode::format('svg')->size(170)->generate($product->code_label)) }}" style=" margin-top: 40px;" />
 
           <h2>
@@ -76,7 +76,7 @@
         </td>
       </tr>
       <tr>
-        <td align="center">
+        <td align="center" style="padding-left: 10px;">
             <h2>
               {{ $product->parent->name }}
               {{ optional($product->parent->model_product)->name }}

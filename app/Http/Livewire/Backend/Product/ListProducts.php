@@ -142,6 +142,11 @@ class ListProducts extends Component
         $this->resetPage();
     }
 
+    public function updatedDateInput()
+    {
+        $this->resetPage();
+    }
+
     public function export()
     {
         return response()->streamDownload(function () {

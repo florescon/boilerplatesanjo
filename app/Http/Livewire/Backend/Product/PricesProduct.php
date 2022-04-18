@@ -15,8 +15,17 @@ class PricesProduct extends Component
 
     public $productModel;
 
+
+    public $priceIVA;
+
+    public $originalPrice;
+
+    public $price;
+
     public bool $customCodes = false;
     public bool $customPrices = false;
+
+    public bool $switchIVA = false;
 
     protected $queryString = [
         'customCodes' => ['except' => FALSE],
@@ -26,6 +35,7 @@ class PricesProduct extends Component
     protected $listeners = ['save' => '$refresh', 'saveAfterUpdate'=> 'render'];
 
     protected $rules = [
+        'price' => 'required|numeric|min:1',
         'productModel.*.price' => 'nullable|not_in:0|regex:/^\d{1,13}(\.\d{1,4})?$/',
         'productModel.*.average_wholesale_price' => 'nullable|not_in:0|regex:/^\d{1,13}(\.\d{1,4})?$/',
         'productModel.*.wholesale_price' => 'nullable|not_in:0|regex:/^\d{1,13}(\.\d{1,4})?$/',
@@ -263,6 +273,83 @@ class PricesProduct extends Component
     public function updatedCustomPrices()
     {
         $this->customCodes = FALSE;
+    }
+
+    public function calculateIVA()
+    {
+        if($this->price){
+            $this->priceIVA = $this->originalPrice + ((setting('iva') / 100) * $this->originalPrice);
+        }
+    }
+
+    public function calculatePrice()
+    {
+        if($this->switchIVA){
+            $this->calculateIVA();
+            $priceRetaiPrice = $this->priceIVA + ((setting('retail_price_percentage') / 100) * $this->priceIVA);
+        }
+        else{
+            $priceRetaiPrice = $this->price + ((setting('retail_price_percentage') / 100) * $this->price);
+        }
+
+        $this->retail_price = setting('round') ? ceil($priceRetaiPrice / 5) * 5 : $priceRetaiPrice;
+    }
+
+    public function calculateAverageWholesalePrice()
+    {
+        if($this->switchIVA){
+            $this->calculateIVA();
+            $priceAverageWholesalePrice = $this->priceIVA + ((setting('average_wholesale_price_percentage') / 100) * $this->priceIVA);
+        }
+        else{
+            $priceAverageWholesalePrice = $this->price + ((setting('average_wholesale_price_percentage') / 100) * $this->price);
+        }
+
+        $this->average_wholesale_price = setting('round') ? ceil($priceAverageWholesalePrice / 5) * 5 : $priceAverageWholesalePrice;
+    }
+
+
+    public function calculateWholesalePrice()
+    {
+        if($this->switchIVA){
+            $this->calculateIVA();
+            $priceWholesalePrice = $this->priceIVA + ((setting('wholesale_price_percentage') / 100) * $this->priceIVA);
+        }
+        else{
+            $priceWholesalePrice = $this->price + ((setting('wholesale_price_percentage') / 100) * $this->price);
+        }
+
+        $this->wholesale_price = setting('round') ? ceil($priceWholesalePrice / 5) * 5 : $priceWholesalePrice;
+    }
+
+    public function updatedPrice()
+    {
+        $this->originalPrice = $this->price;
+
+        $this->calculatePrice();
+        $this->calculateAverageWholesalePrice();
+        $this->calculateWholesalePrice();
+    }
+
+    public function updatedSwitchIVA()
+    {
+        if($this->switchIVA){
+            $this->calculatePrice();
+            $this->calculateAverageWholesalePrice();
+            $this->calculateWholesalePrice();
+        }
+        else{
+            $this->price = $this->originalPrice;
+
+            $this->retail_price = $this->originalPrice + ((setting('retail_price_percentage') / 100) * $this->originalPrice);
+            $this->average_wholesale_price = $this->originalPrice + ((setting('average_wholesale_price_percentage') / 100) * $this->originalPrice);
+            $this->wholesale_price = $this->originalPrice + ((setting('wholesale_price_percentage') / 100) * $this->originalPrice);
+        }
+    }
+
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
     }
 
     public function render()
