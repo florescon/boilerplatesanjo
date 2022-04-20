@@ -41,10 +41,10 @@ class CreateService extends Component
             $this->validate();
 
             $service = Product::create([
-                'name' => $this->name,                
-                'code' => $this->code ?: null,                
-                'price' => $this->price,                
-                'type' => false,                
+                'name' => $this->name,
+                'code' => $this->code ?: null,
+                'price' => $this->price,
+                'type' => false,
             ]);
 
             $this->resetInputFields();

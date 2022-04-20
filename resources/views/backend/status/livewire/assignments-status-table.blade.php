@@ -179,13 +179,13 @@
                   </div>
         				</td>
                 <td>
-                  {!! $finance->assignmentable->product->full_name !!}
+                  {!! $finance->assignmentable->product->full_name ?? null !!}
                 </td>
         				<td class="text-center">
                   {{ $finance->quantity }}
         				</td>
                 <td class="text-center">
-                  @if($finance->assignmentable->product->parent->price_making)
+                  @if($finance->assignmentable->product->parent->price_making ?? null)
                     <div>
                       ${{ $finance->total_quantity }}
 
@@ -196,9 +196,11 @@
                       </div>
                     </div>
                   @else
-                    <a type="button" target="_blank" href="{{ route('admin.product.edit', $finance->assignmentable->product->parent_id) }}" class="btn btn-transparent-dark">
-                      <i class='far fa-edit'></i> Editar precio confección
-                    </a>
+                    @if(!empty($finance->assignmentable->product))
+                      <a type="button" target="_blank" href="{{ route('admin.product.edit', $finance->assignmentable->product->parent_id) }}" class="btn btn-transparent-dark">
+                        <i class='far fa-edit'></i> Editar precio confección
+                      </a>
+                    @endif
                   @endif
                 </td>
         				<td>

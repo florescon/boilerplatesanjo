@@ -40,6 +40,14 @@ class Assignment extends Model
     }
 
     /**
+     * @return mixed
+     */
+    public function product()
+    {
+        return $this->belongsTo(Product::class)->withTrashed();
+    }
+
+    /**
      * @return bool
      */
     public function isOutput()

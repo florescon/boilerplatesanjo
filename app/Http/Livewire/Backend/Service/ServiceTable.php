@@ -127,7 +127,7 @@ class ServiceTable extends Component
             $service = Product::find($this->selected_id);
             $service->update([
                 'name' => $this->name,
-                'code' => $this->code,
+                'code' => $this->code ?: null,
                 'price' => $this->price
             ]);
             $this->resetInputFields();

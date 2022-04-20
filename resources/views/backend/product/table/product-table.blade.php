@@ -30,9 +30,10 @@
 			    	<img class="card-img-top" src="{{ asset('/storage/' . $product->file_name) }}" alt="{{ $product->name }}">
 			    </a>
 		    @endif
+
 		    <div class="card-body" style="transform: rotate(0);">
 		      <h5 class="card-title"><strong>{{ $product->name }}</strong></h5>
-	          <h5 class="card-title text-muted">{{ $product->code }}</h5>
+	        <h5 class="card-title text-muted">{{ $product->code }}</h5>
 
 		      <p class="card-text">{!! $product->description_limited !!}</p>
 		      <p class="card-text"><small class="text-muted">@lang('Last Updated') {{ $product->updated_at->diffForHumans() }}</small></p>
@@ -45,15 +46,21 @@
 			      	</small>
 			      </p>
 		      @endif
-		      @if(!$product->line_id)
-			      <p class="card-text">
-			      	<small class="text-danger">
-			      		@lang('Undefined line')
-			      	</small>
-			      </p>
-		      @endif
-			<a href="{{ route('admin.product.edit',  $product->id) }}" class="stretched-link"></a>
+
+					<a href="{{ route('admin.product.edit',  $product->id) }}" class="stretched-link"></a>
 		    </div>
+
+		      @if($product->brand_id)
+						<div class="container">
+						  <div class="row justify-content-center text-center">
+						    <div class="col-4 p-1 mb-2 bg-dark text-white text-center border rounded-lg">
+									<strong>
+										{{ optional($product->brand)->name }}
+									</strong>
+						    </div>
+						  </div>
+						</div>
+		      @endif
 
 			  <ul class="list-group list-group-flush">
 			    <li class="list-group-item">
@@ -81,7 +88,7 @@
 			  </ul>
 
 		    <div class="card-footer">
-				@if (!$product->trashed())
+					@if (!$product->trashed())
 						<a href="{{ route('admin.product.consumption',  $product->id) }}" class="btn btn-warning text-white mb-1 mr-1">
 							@if($product->consumption->count())
 								@lang('Edit')
@@ -90,22 +97,22 @@
 							@endif
 							@lang('consumption')
 						</a>
-					<a href="{{ route('admin.product.edit',  $product->id) }}" class="btn btn-primary mb-1">@lang('Edit product')</a>
-				@else
-				    <div class="dropright" style="display:inline-block;">
-				      <a class="btn btn-icon-only" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				          <i class="fas fa-ellipsis-v"></i>
-				      </a>
-				      <div class="dropdown-menu ">
-				        <a class="dropdown-item" href="#" wire:click="restore({{ $product->id }})">
-				          @lang('Restore')
-				        </a>
-				      </div>
-				    </div>
+						<a href="{{ route('admin.product.edit',  $product->id) }}" class="btn btn-primary mb-1">@lang('Edit product')</a>
+					@else
+					    <div class="dropright" style="display:inline-block;">
+					      <a class="btn btn-icon-only" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					          <i class="fas fa-ellipsis-v"></i>
+					      </a>
+					      <div class="dropdown-menu ">
+					        <a class="dropdown-item" href="#" wire:click="restore({{ $product->id }})">
+					          @lang('Restore')
+					        </a>
+					      </div>
+				    	</div>
 				    <br>
 				    <br>
 			    @endif
-			</div>
+				</div>
 		  </div>
 		@endforeach
 	</div>

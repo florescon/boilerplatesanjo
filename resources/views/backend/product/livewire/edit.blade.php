@@ -92,7 +92,8 @@
 			            <x-utils.undefined :data="optional($model->line)->name"/>
 
 					    <div x-data="{ show: false }" class="d-inline">
-					        <button class="badge badge-light {{ $model->line_id ?: 'pulsingButton'  }}" @click="show = !show"> {{ $model->line_id ? __('Change line') : __('Choose line') }}</button>
+					        <button class="badge badge-light" @click="show = !show"> {{ $model->line_id ? __('Change line') : __('Choose line') }}</button>
+					        {{-- <button class="badge badge-light {{ $model->line_id ?: 'pulsingButton'  }}" @click="show = !show"> {{ $model->line_id ? __('Change line') : __('Choose line') }}</button> --}}
 					        <div x-show="show" class="mt-2" wire:ignore>
 		                        <select id="lineselect" class="custom-select" style="width: 100%;" aria-hidden="true" >
 		                        </select>
@@ -109,7 +110,11 @@
 			        <hr width="50%;" style="border:1px dashed #9A68A9">
 
 			        <p class="card-text"><strong>@lang('Brand'):</strong> 
-			            <x-utils.undefined :data="optional($model->brand)->name"/>
+			            
+			            {{-- <x-utils.undefined :data="optional($model->brand)->name"/> --}}
+
+                    	{!! $model->brand_id ? '<strong class="text-white bg-dark">'. optional($model->brand)->name  . '</strong>': '<span class="badge badge-secondary">'.__('undefined brand').'</span>' !!}
+
 
 					    <div x-data="{ show: false }" class="d-inline">
 					        <button class="badge badge-light " @click="show = !show"> {{ $model->brand_id ? __('Change brand') : __('Choose brand') }}</button>
@@ -149,6 +154,8 @@
 			        <hr width="50%;" style="border:1px dashed #661181">
 
 			        <p class="card-text"><strong>@lang('Price'): </strong>${{ $model->price }}</p>
+
+          			<x-input.input-alpine nameData="isCost" :inputText="$isCost" :originalInput="$isCost" wireSubmit="savecost" :beforeName="'$'" :extraName="__('provider price, without IVA')" modelName="cost" />
 
           			<x-input.input-alpine nameData="isPriceMaking" :inputText="$isPriceMaking" :originalInput="$isPriceMaking" wireSubmit="savepricemaking" :beforeName="'$'" :extraName="__('price of confeccion service')" modelName="price_making" />
 
