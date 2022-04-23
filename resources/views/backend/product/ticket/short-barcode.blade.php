@@ -24,10 +24,10 @@
       background-color: lightgray
   }
   h1 {
-    font-size: 35px;
+    font-size: 45px;
   }
   h2 {
-    font-size: 30px;
+    font-size: 35px;
   }
 
   .rotate {
@@ -40,21 +40,21 @@
 
 </head>
   <body>
-    <table width="850">
+    <table  width="550">
       <tr>
         <td rowspan="2" class="td-width">
-            <img src="{{ public_path('img/logo22-rotate.png') }}" class="rotate" width="140" style="
+            <img src="{{ public_path('img/logo22-rotate.png') }}" class="rotate" width="120" style="
               /*border: 1px solid;*/
               margin-top: 40px;
             " 
           />
         </td>
         <td align="center">
-          <div style="padding-right: 5px; padding-left: 100px; padding-top: 20px;">
+          <div style="padding-right: 5px; padding-top: 20px;">
             <img src="data:image/png;base64,{{   DNS1D::getBarcodePNG($product->code_label, 'C128',1,33,array(1,1,1), false)  }}"  style="        
                   /*position: relative;*/
               margin-top: -10px;
-              height:178px;
+              height:150px;
               /*padding-bottom: 0;*/
               width: 115%;
               /*overflow: hidden;*/
@@ -63,20 +63,15 @@
               " 
               alt="barcode"
             />
-            <i style="font-size: 35px;">{{ $product->code_label }}</i>
+            <i style="font-size: 33px;">{{ $product->code_label }}</i>
           </div>
         </td>
-        <td rowspan="2" style="padding-left: 106px;">
-          <img src="data:image/png;base64, {{ base64_encode(\QrCode::format('svg')->size(170)->generate($product->code_label)) }}" style=" margin-top: 40px;" />
-
-          <h2>
-            {{ '$'.$product->price_subproduct_label }}
-          </h2>
-
+        <td rowspan="2" style="padding-left: 16px;">
+          <img src="data:image/png;base64, {{ base64_encode(\QrCode::format('svg')->size(170)->generate($product->code_label)) }}" style=" margin-top: 80px;" />
         </td>
       </tr>
       <tr>
-        <td align="center" style="padding-left: 10px;">
+        <td align="center">
             <h2>
               {{ $product->parent->name }}
               {{ optional($product->parent->model_product)->name }}
