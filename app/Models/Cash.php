@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Traits\Scope\DateScope;
 use Carbon\Carbon;
 use App\Models\FinanceType;
+use App\Domains\Auth\Models\User;
 
 class Cash extends Model
 {
@@ -152,6 +153,14 @@ class Cash extends Model
     public function getLastDayLabelAttribute()
     {
         return $this->lastDay() ? '('.__('Available 24 hours').')' : '';
+    }
+
+    /**
+     * @return mixed
+     */
+    public function audi()
+    {
+        return $this->belongsTo(User::class, 'audi_id')->withTrashed();
     }
 
     protected $dates = ['checked'];

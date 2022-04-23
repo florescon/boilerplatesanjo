@@ -12,43 +12,43 @@ class BoxHistoryOrderShow extends Component
 
     public $limitPerPage = 8;
 
-    public $filterOrder = [];
+    // public $filterOrder = [];
 
     protected $listeners = [
-        'load-more' => 'loadMore',
+        'load-more-order' => 'loadMoreOrder',
         'filterByPaymentOrder' => "filterByPaymentOrder",
     ];
    
-    public function loadMore()
+    public function loadMoreOrder()
     {
         $this->limitPerPage = $this->limitPerPage + 10;
     }
 
-    public function filterByPaymentOrder($payment)
-    {
-        if (in_array($payment, $this->filterOrder)) {
-            $ix = array_search($payment, $this->filterOrder);
-            unset($this->filterOrder[$ix]);
-        } else {
-            $this->filterOrder[] = $payment;
+    // public function filterByPaymentOrder($payment)
+    // {
+    //     if (in_array($payment, $this->filterOrder)) {
+    //         $ix = array_search($payment, $this->filterOrder);
+    //         unset($this->filterOrder[$ix]);
+    //     } else {
+    //         $this->filterOrder[] = $payment;
 
-            if(count($this->filterOrder) >= 2){
-                array_shift($this->filterOrder);
-            };
-        }
-    }
+    //         if(count($this->filterOrder) >= 2){
+    //             array_shift($this->filterOrder);
+    //         };
+    //     }
+    // }
 
     public function render()
     {
-        $filterOrder = $this->filterOrder;
+        // $filterOrder = $this->filterOrder;
         return view('backend.store.box.box-history-order-show',[
             'payment_methods' => PaymentMethod::all(),
             'cash_orders' => $this->cash,
             'orders' => 
                 $this->cash->orders()->with('user', 'payment')
-                ->when($this->filterOrder, function ($query) use ($filterOrder) {
-                    $query->where('payment_method_id', $filterOrder);
-                })
+                // ->when($this->filterOrder, function ($query) use ($filterOrder) {
+                //     $query->where('payment_method_id', $filterOrder);
+                // })
                 ->orderBy('created_at', 'DESC')->paginate($this->limitPerPage),
         ]);
     }

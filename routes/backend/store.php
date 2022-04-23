@@ -80,6 +80,15 @@ Route::group([
             });
 
         Route::group(['prefix' => '{box}'], function () {
+
+            Route::get('ticket', [CashController::class, 'ticket'])
+                ->name('ticket')
+                ->middleware('permission:admin.access.store.list_box')
+                ->breadcrumbs(function (Trail $trail, Cash $box) {
+                    $trail->parent('admin.store.box.ticket', $order)
+                        ->push(__('Ticket box'), route('admin.store.box.ticket', $box));
+                });
+
             Route::get('show', [CashController::class, 'show'])
                 ->name('show')
                 ->middleware('permission:admin.access.store.list_box')
@@ -89,5 +98,4 @@ Route::group([
                 });
         });
     });
-
 });

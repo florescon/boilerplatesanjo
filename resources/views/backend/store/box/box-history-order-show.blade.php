@@ -13,14 +13,15 @@
 	    <div class="row justify-content-md-center">
 			<div class="card text-center col-md-9 shadow">
 				<div class="card-body">
-					<h5 class="card-title">@lang('Payment methods')</h5>
-					<p class="card-text">@lang('Select payment method to filter').</p>
-					@foreach($payment_methods as $payment_method) 	
-						<span class="badge text-white mt-2 mr-2 {{ in_array($payment_method->id, $filterOrder) ? 'bg-primary' : 'bg-dark' }}" 
-			                  wire:click="$emit('filterByPaymentOrder', {{ $payment_method->id }})"
-							  style="cursor:pointer"
-						>{{ $payment_method->title }}</span>
-					@endforeach
+					<h5 class="card-title">@lang('Print')</h5>
+
+			            <a href="{{ route('admin.store.box.ticket', $cash_orders->id) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
+			              <ins>
+			                Ticket
+			              </ins>
+			            </a>
+
+					{{-- <p class="card-text">@lang('Select payment method to filter').</p> --}}
 				</div>
 			</div>
 		</div>
@@ -52,7 +53,7 @@
 		@if($orders->hasMorePages())
 			<div class="card text-center" style="background-color: rgba(245, 245, 245, 1); opacity: .9;">
 				<div class="card-body">
-					<button type="button" class="btn btn-primary" wire:click="$emit('load-more')">@lang('Load more')</button>
+					<button type="button" class="btn btn-primary" wire:click="$emit('load-more-order')">@lang('Load more')</button>
 				</div>
 			</div>
 		@endif
