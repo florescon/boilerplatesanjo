@@ -40,6 +40,26 @@ class OrderController extends Controller
         return view('backend.order.all_list');
     }
 
+    public function all_list_store()
+    {
+        return view('backend.store.all_list_store');
+    }
+
+    public function orders_list_store()
+    {
+        return view('backend.store.orders_list_store');
+    }
+
+    public function sales_list_store()
+    {
+        return view('backend.store.sales_list_store');
+    }
+
+    public function mix_list_store()
+    {
+        return view('backend.store.mix_list_store');
+    }
+
     public function edit(Order $order)
     {
         $vvar =  $order->created_at->timestamp;

@@ -65,7 +65,17 @@ trait OrderScope
     public function scopeOnlyFromStore($query)
     {
         return $query->where('from_store', true);
-    }   
+    }
+
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeOutFromStore($query)
+    {
+        return $query->where('from_store', null);
+    }
 
     /**
      * @param $query

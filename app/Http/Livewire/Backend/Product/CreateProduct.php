@@ -141,7 +141,6 @@ class CreateProduct extends Component
         $this->average_wholesale_price = setting('round') ? ceil($priceAverageWholesalePrice / 5) * 5 : $priceAverageWholesalePrice;
     }
 
-
     public function calculateWholesalePrice()
     {
         if($this->switchIVA){

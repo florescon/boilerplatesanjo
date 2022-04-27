@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\CashController;
+use App\Http\Controllers\OrderController;
 use App\Models\Finance;
 use App\Models\Cash;
 use Tabuna\Breadcrumbs\Trail;
@@ -18,6 +19,43 @@ Route::group([
             $trail->parent('admin.dashboard')
                 ->push(__('Shop Panel Management'), route('admin.store.pos'));
         });
+
+    Route::group([
+        'prefix' => 'all',
+        'as' => 'all.',
+    ], function () {
+        Route::get('/', [OrderController::class, 'all_list_store'])
+            ->name('index')
+            ->middleware('permission:admin.access.store.list')
+            ->breadcrumbs(function (Trail $trail) {
+                $trail->parent('admin.dashboard')
+                    ->push(__('All store list'), route('admin.store.all.index'));
+            });
+
+        Route::get('orders', [OrderController::class, 'orders_list_store'])
+            ->name('orders')
+            ->middleware('permission:admin.access.store.list')
+            ->breadcrumbs(function (Trail $trail) {
+                $trail->parent('admin.store.all.index')
+                    ->push(__('All store orders'), route('admin.store.all.orders'));
+            });
+
+        Route::get('sales', [OrderController::class, 'sales_list_store'])
+            ->name('sales')
+            ->middleware('permission:admin.access.store.list')
+            ->breadcrumbs(function (Trail $trail) {
+                $trail->parent('admin.store.all.index')
+                    ->push(__('All store sales'), route('admin.store.all.sales'));
+            });
+
+        Route::get('mix', [OrderController::class, 'mix_list_store'])
+            ->name('mix')
+            ->middleware('permission:admin.access.store.list')
+            ->breadcrumbs(function (Trail $trail) {
+                $trail->parent('admin.store.all.index')
+                    ->push(__('All store mix orders/sales'), route('admin.store.all.mix'));
+            });
+    });
 
     Route::group([
         'prefix' => 'finances',
@@ -87,6 +125,22 @@ Route::group([
                 ->breadcrumbs(function (Trail $trail, Cash $box) {
                     $trail->parent('admin.store.box.ticket', $order)
                         ->push(__('Ticket box'), route('admin.store.box.ticket', $box));
+                });
+
+            Route::get('ticket-cash', [CashController::class, 'ticketCash'])
+                ->name('ticket-cash')
+                ->middleware('permission:admin.access.store.list_box')
+                ->breadcrumbs(function (Trail $trail, Cash $box) {
+                    $trail->parent('admin.store.box.ticket', $order)
+                        ->push(__('Ticket box'), route('admin.store.box.ticket', $box));
+                });
+
+            Route::get('ticket-cash-out', [CashController::class, 'ticketCashOut'])
+                ->name('ticket-cash-out')
+                ->middleware('permission:admin.access.store.list_box')
+                ->breadcrumbs(function (Trail $trail, Cash $box) {
+                    $trail->parent('admin.store.box.ticket', $order)
+                        ->push(__('Ticket box'), route('admin.store.box.ticket-cash-out', $box));
                 });
 
             Route::get('show', [CashController::class, 'show'])

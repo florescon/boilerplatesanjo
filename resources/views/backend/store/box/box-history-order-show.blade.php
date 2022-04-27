@@ -9,22 +9,44 @@
 		</div>
 	</div>
 
-	@if($cash_orders->orders->count())
-	    <div class="row justify-content-md-center">
-			<div class="card text-center col-md-9 shadow">
-				<div class="card-body">
-					<h5 class="card-title">@lang('Print')</h5>
+    <div class="row justify-content-md-center">
+		<div class="card text-center col-md-9 shadow">
+			<div class="card-body">
+				<h5 class="card-title">@lang('Print')</h5>
 
-			            <a href="{{ route('admin.store.box.ticket', $cash_orders->id) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
-			              <ins>
-			                Ticket
-			              </ins>
-			            </a>
 
-					{{-- <p class="card-text">@lang('Select payment method to filter').</p> --}}
-				</div>
+					<div class="container">
+					  <div class="row">
+					    <div class="col-sm">
+				            <a href="{{ route('admin.store.box.ticket', $cash_orders->id) }}" class="card-link text-dark" target="_blank">	<i class="cil-print"></i>
+				              <ins>
+				                Ticket completo
+				              </ins>
+				            </a>
+					    </div>
+					    <div class="col-sm">
+				            <a href="{{ route('admin.store.box.ticket-cash', $cash_orders->id) }}" class="card-link text-dark" target="_blank">	<i class="cil-print"></i>
+				              <ins>
+				                Sólo efectivo
+				              </ins>
+				            </a>
+					    </div>
+					    <div class="col-sm">
+				            <a href="{{ route('admin.store.box.ticket-cash-out', $cash_orders->id) }}" class="card-link text-dark" target="_blank">	<i class="cil-print"></i>
+				              <ins>
+				                Otros métodos de pago
+				              </ins>
+				            </a>
+					    </div>
+					  </div>
+					</div>				
+
+				{{-- <p class="card-text">@lang('Select payment method to filter').</p> --}}
 			</div>
 		</div>
+	</div>
+
+	@if($cash_orders->orders->count())
 
 	    <h3 class="text-center text-dark mt-3">
 	        @lang('Orders')/@lang('Sales')

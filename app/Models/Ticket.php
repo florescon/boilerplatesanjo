@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Domains\Auth\Models\User;
+use App\Models\Traits\Scope\DateScope;
+use Carbon\Carbon;
 
 class Ticket extends Model
 {
-    use HasFactory;
+    use HasFactory, DateScope;
 
     protected $fillable = [
         'order_id', 
@@ -80,8 +82,18 @@ class Ticket extends Model
         });
     }
 
+    public function getDateForHumansAttribute()
+    {
+        return $this->updated_at->format('M, d Y');
+    }
+
     public function getDateDiffForHumansAttribute()
     {
         return $this->updated_at->diffForHumans();
+    }
+
+    public function getDateDiffForHumansCreatedAttribute()
+    {
+        return $this->created_at->diffForHumans();
     }
 }

@@ -408,11 +408,11 @@
                         <p class="timeline-title  {{ $status->id == $lates_statusId ? 'text-primary' : 'text-info' }}">{{ $status->name }}</p>
                         <p>{{ $status->description }}</p> 
                         @if($status->to_add_users)
-                        <a href="{{ route('admin.order.assignments', [$order_id, $status->id]) }}">
-                          <span class="vertical-timeline-element-date badge text-primary">
-                            <i class="c-icon c-icon-4x cil-people"></i><i class="cil-plus"></i>
-                          </span>
-                        </a>
+                          <a href="{{ route('admin.order.assignments', [$order_id, $status->id]) }}">
+                            <span class="vertical-timeline-element-date badge text-primary">
+                              <i class="c-icon c-icon-4x cil-people"></i><i class="cil-plus"></i>
+                            </span>
+                          </a>
                         @endif
                       </div>
                     </div>

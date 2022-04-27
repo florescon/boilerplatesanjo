@@ -2,14 +2,13 @@
 
   <x-slot name="header">
   	<h3>
-	    <strong class="text-{{ $title['color'] }}"> @lang($title['title']) </strong>
+	    <strong class="text-{{ $title['color'] }}"> @lang($title['title']) </strong> <div class="d-inline p-3 bg-light rounded-circle"><i class="fas fa-store text-"></i></div> 
 	  </h3>
     <div class="card-header-actions mb-3">
-      <x-utils.link class="mt-2 mr-2 card-header-action btn btn-secondary text-dark {{ $status == 'all' ? 'button-large pulsate' : '' }}" :href="route('admin.order.all')" :text="__('all')" />
-      <x-utils.link class="mt-2 mr-2 card-header-action btn btn-primary text-white {{ $status == '' ? 'button-large pulsate' : '' }}" :href="route('admin.order.index')" :text="__('Orders')" />
-      <x-utils.link class="mt-2 mr-2 card-header-action btn btn-success text-white {{ $status == 'sales' ? 'button-large pulsate' : '' }}" :href="route('admin.order.sales')" :text="__('Sales')" />
-      <x-utils.link class="mt-2 mr-2 card-header-action btn btn-warning text-white {{ $status == 'mix' ? 'button-large pulsate' : '' }}" :href="route('admin.order.mix')" :text="__('Mix')" />
-      <x-utils.link style="background-color: purple;" class="mt-2 card-header-action btn text-white {{ $status == 'suborders' ? 'button-large pulsate' : '' }}" :href="route('admin.order.suborders')" :text="__('Suborders')" />
+      <x-utils.link class="mt-2 mr-2 card-header-action btn btn-secondary text-dark {{ $status == 'all_store' ? 'button-large pulsate' : '' }}" :href="route('admin.store.all.index')" :text="__('all')" />
+      <x-utils.link class="mt-2 mr-2 card-header-action btn btn-primary text-white {{ $status == 'orders_store' ? 'button-large pulsate' : '' }}" :href="route('admin.store.all.orders')" :text="__('Orders')" />
+      <x-utils.link class="mt-2 mr-2 card-header-action btn btn-success text-white {{ $status == 'sales_store' ? 'button-large pulsate' : '' }}" :href="route('admin.store.all.sales')" :text="__('Sales')" />
+      <x-utils.link class="mt-2 mr-2 card-header-action btn btn-warning text-white {{ $status == 'mix_store' ? 'button-large pulsate' : '' }}" :href="route('admin.store.all.mix')" :text="__('Mix')" />
     </div>
     
     <div class="page-header-subtitle mt-5 mb-2">

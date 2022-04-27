@@ -1,5 +1,4 @@
 
-
 .card-custom {
   overflow: hidden;
   min-height: 450px;
@@ -403,3 +402,20 @@ body {
 .table-striped-yellow>tbody>tr:nth-child(odd)>th {
    background-color: #FFFEC1; // Choose your own color here
  }
+
+
+ .dot-success {
+  height: 23px;
+  width: 23px;
+  background-color: green;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-alert {
+  height: 23px;
+  width: 23px;
+  background-color: red;
+  border-radius: 50%;
+  display: inline-block;
+}

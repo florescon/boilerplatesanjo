@@ -131,6 +131,17 @@
             </li>
         @endif
 
+        {{-- @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.order.order'))) --}}
+            <li class="c-sidebar-nav-item">
+                <x-utils.link
+                    class="c-sidebar-nav-link"
+                    :href="route('admin.ticket.index')"
+                    :active="activeClass(Route::is('admin.ticket.*'), 'c-active')"
+                    icon="c-sidebar-nav-icon cil-short-text"
+                    :text="__('Tickets')" />
+            </li>
+        {{-- @endif --}}
+
         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.product.list')))
             <li class="c-sidebar-nav-item">
                 <x-utils.link
@@ -249,7 +260,7 @@
         @endif
 
         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.store.list') || $logged_in_user->can('admin.access.store.list_finance') || $logged_in_user->can('admin.access.store.create_finance')))
-            <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.store.pos.*') || Route::is('admin.store.finances.*') || Route::is('admin.store.box.*'), 'c-open c-show') }}">
+            <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.store.pos.*') ||  Route::is('admin.store.all.*') || Route::is('admin.store.finances.*') || Route::is('admin.store.box.*'), 'c-open c-show') }}">
                 <x-utils.link
                     href="#"
                     icon="c-sidebar-nav-icon fas fa-store"
@@ -266,6 +277,15 @@
                                     :text="__('Shop panel')"
                                     :active="activeClass(Route::is('admin.store.pos.*'), 'c-active')" />
                             </li>
+
+                            <li class="c-sidebar-nav-item">
+                                <x-utils.link
+                                    :href="route('admin.store.all.index')"
+                                    class="c-sidebar-nav-link"
+                                    :text="__('Orders/Sales')"
+                                    :active="activeClass(Route::is('admin.store.all.*'), 'c-active')" />
+                            </li>
+
                         @endif
 
                         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.store.list_finance')))

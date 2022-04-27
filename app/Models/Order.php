@@ -486,7 +486,7 @@ class Order extends Model
     public function  getFromStoreorUserLabelAttribute()
     {
         if ($this->isFromStore()) {
-            return "<span class='badge badge-dark'>".'<i class="fas fa-store"></i>'.'</span>';
+            return "<span class='badge badge-dark rounded-circle'>".'<i class="fas fa-store"></i>'.'</span>';
         }
 
         if($this->isCreatedByUser()){

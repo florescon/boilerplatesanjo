@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Backend\Order;
+namespace App\Http\Livewire\Backend\Store;
 
 use App\Models\Order;
 use Livewire\Component;
@@ -10,7 +10,7 @@ use App\Http\Livewire\Backend\DataTable\WithBulkActions;
 use App\Http\Livewire\Backend\DataTable\WithCachedRows;
 use Carbon\Carbon;
 
-class OrderTable extends Component
+class OrderStoreTable extends Component
 {
     use Withpagination, WithBulkActions, WithCachedRows;
 
@@ -69,27 +69,27 @@ class OrderTable extends Component
         else{
             $this->applySearchFilter($query);
 
-            if ($this->status === 'suborders') {
-                $this->title = ['title' => 'List of suborders', 'color' => 'secondary'];
-                return $query->onlySuborders()->outFromStore();
+            if ($this->status === 'orders_store') {
+                $this->title = ['title' => 'List of orders', 'color' => 'primary'];
+                return $query->onlyOrders()->onlyFromStore();
             }
-            if ($this->status === 'sales') {
+            if ($this->status === 'sales_store') {
                 $this->title = ['title' => 'List of sales', 'color' => 'success'];
-                return $query->onlySales()->outFromStore();
+                return $query->onlySales()->onlyFromStore();
             }
-            if ($this->status === 'mix') {
+            if ($this->status === 'mix_store') {
                 $this->title = ['title' => 'List of mix', 'color' => 'warning'];
-                return $query->onlyMix()->outFromStore();
+                return $query->onlyMix()->onlyFromStore();
             }
-            if ($this->status === 'all') {
+            if ($this->status === 'all_store') {
                 $this->title = ['title' => 'List of all', 'color' => 'dark'];
-                return $query->onlyAll()->outFromStore();
+                return $query->onlyFromStore();
             }
         }
 
         $this->title = ['title' => 'List of orders', 'color' => 'primary'];
 
-        return $query->onlyOrders()->outFromStore();
+        return $query->onlyFromStore();
     }
 
     private function applySearchFilter($orders)
@@ -145,8 +145,7 @@ class OrderTable extends Component
 
     public function render()
     {
-        return view('backend.order.table.order-table', [
+        return view('backend.store.table.order-store-table', [
           'orders' => $this->rows,
         ]);
-    }
-}
+    }}

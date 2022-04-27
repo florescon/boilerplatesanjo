@@ -7,6 +7,21 @@ use Illuminate\Http\Request;
 
 class TicketController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return view('backend.ticket.index');
+    }
+
+    public function deleted()
+    {
+        return view('backend.ticket.deleted');
+    }
+
     public function destroy(Ticket $ticket)
     {
         if($ticket->id){
@@ -15,5 +30,4 @@ class TicketController extends Controller
 
         return redirect()->back()->withFlashSuccess(__('The ticket was successfully deleted.'));
     }
-
 }

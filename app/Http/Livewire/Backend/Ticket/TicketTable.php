@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Livewire\Backend\Store\Box;
+namespace App\Http\Livewire\Backend\Ticket;
 
 use Livewire\Component;
-use App\Models\Cash;
+use App\Models\Ticket;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Livewire\Backend\DataTable\WithBulkActions;
 use App\Http\Livewire\Backend\DataTable\WithCachedRows;
 use Carbon\Carbon;
 
-class BoxHistory extends Component
+class TicketTable extends Component
 {
     use Withpagination, WithBulkActions, WithCachedRows;
 
@@ -58,8 +58,7 @@ class BoxHistory extends Component
 
     public function getRowsQueryProperty()
     {
-        $query = Cash::query()
-            ->whereNotNull('checked')
+        $query = Ticket::query()
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?
                     $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', now()]) :
@@ -94,10 +93,11 @@ class BoxHistory extends Component
     private function applySearchFilter($searchFinance)
     {
         if ($this->searchTerm) {
-            return $searchFinance->whereRaw("title LIKE \"%$this->searchTerm%\"")
-                        ->orWhereRaw("id LIKE \"%$this->searchTerm%\"")
-                        ->orWhereRaw("comment LIKE \"%$this->searchTerm%\"")
-                        ->orWhereRaw("initial LIKE \"%$this->searchTerm%\"");
+            return $searchFinance->whereHas('user', function ($query) {
+               $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
+            })
+            ->orWhere('id', 'like', '%' . $this->searchTerm . '%')
+            ->orWhere('order_id', 'like', '%' . $this->searchTerm . '%');
         }
 
         return null;
@@ -107,8 +107,7 @@ class BoxHistory extends Component
     {
         if ($this->searchTerm) {
             return $searchFinance->onlyTrashed()
-                    ->whereRaw("title LIKE \"%$this->searchTerm%\"")
-                    ->orWhereRaw("comment LIKE \"%$this->searchTerm%\"");
+                    ->whereRaw("id LIKE \"%$this->searchTerm%\"");
         }
 
         return null;
@@ -200,8 +199,8 @@ class BoxHistory extends Component
     public function delete($id)
     {
         if($id)
-            $box = Cash::where('id', $id);
-            $box->delete();
+            $ticket = Ticket::where('id', $id);
+            $ticket->delete();
 
        $this->emit('swal:alert', [
             'icon' => 'success',
@@ -212,10 +211,9 @@ class BoxHistory extends Component
     public function render()
     {
         $date = Carbon::now()->startOfMonth();
-        return view('backend.store.livewire.box-history-table', [
-            'cashes' => $this->rows,
+        return view('backend.ticket.livewire.ticket-table', [
+            'tickets' => $this->rows,
             'date' => $date,
-            'latest_box_history' => Cash::query()->latest('id')->whereNotNull('checked')->first() ?? null,
         ]);
     }
 }
