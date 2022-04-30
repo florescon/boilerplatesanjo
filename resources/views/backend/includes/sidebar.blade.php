@@ -372,6 +372,17 @@
             </li>
         @endif
 
+        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.inventories.list')))
+            <li class="c-sidebar-nav-item">
+                <x-utils.link
+                    class="c-sidebar-nav-link"
+                    :href="route('admin.inventory.index')"
+                    :active="activeClass(Route::is('admin.inventory.*'), 'c-active')"
+                    icon="c-sidebar-nav-icon cil-file"
+                    :text="__('Make inventory')" />
+            </li>
+        @endif
+
         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.document.list')))
             <li class="c-sidebar-nav-item">
                 <x-utils.link

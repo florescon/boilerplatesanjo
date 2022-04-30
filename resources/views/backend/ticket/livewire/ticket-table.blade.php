@@ -148,7 +148,7 @@
                   <div class="small text-muted">@lang('Total'): {{ $ticket->total_products_assignment_ticket }} </div>
         				</td>
                 <td class="text-center">
-                  @if($ticket->assignments_direct->where('output', false)->count())
+                  @if($ticket->isPendingAssignmentTicket())
                     <span class="dot-alert"></span>
                   @else
                     <span class="dot-success"></span>

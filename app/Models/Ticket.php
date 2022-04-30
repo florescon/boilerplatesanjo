@@ -75,6 +75,11 @@ class Ticket extends Model
         return $this->assignments_direct->sum('quantity');
     }
 
+    public function isPendingAssignmentTicket(): bool
+    {
+        return $this->assignments_direct->where('output', false)->count();
+    }
+
     public function getTotalOrderAttribute()
     {
         return $this->product_order->sum(function($parent) {

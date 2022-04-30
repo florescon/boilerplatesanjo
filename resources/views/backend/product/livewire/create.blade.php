@@ -17,7 +17,13 @@
 
         <x-slot name="body">
 
-            <div style="width: 500px" id="reader"></div>
+            {{-- <div class="row">
+                <div class="col-md-12" style="text-align: center;margin-bottom: 20px;">
+                    <div id="reader" style="display: inline-block;"></div>
+                    <div class="empty"></div>
+                    <div id="scanned-result"></div>
+                </div>
+            </div> --}}
 
             <div class="form-group row">
                 <label for="name" class="col-md-2 col-form-label">@lang('Name')<sup>*</sup></label>

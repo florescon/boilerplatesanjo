@@ -214,6 +214,7 @@
     "unit": "unidad",
     "name": "nombre",
     "type": "tipo",
+    "Captured": "Capturado",
     "part_number": "número de parte",
     "description": "descripción",
     "acquisition_cost": "costo de adquisición",
@@ -492,6 +493,8 @@
     "Show models": "Ver modelos",
     "Edit model": "Editar modelo",
     "Deleted models": "Modelos eliminados",
+    "Show more": "Mostrar más",
+    "Yes, Delete": "Si, eliminar",
 
     "Refresh": "Recargar",
     "Load more": "Cargar más",
@@ -979,5 +982,7 @@
     "Remaining": "Restante",
     "Department exists, must be one or the other": "Departamento existe, debe ser uno u otro",
     "User exists, must be one or the other": "Usuario existe, debe ser uno u otro",
-    "Update product dates": "Actualizar fechas de productos"
+    "Update product dates": "Actualizar fechas de productos",
+    "Make inventory": "Hacer inventario",
+    "Inventories": "Inventarios"
 }

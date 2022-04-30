@@ -1,10 +1,17 @@
 @extends('backend.layouts.app')
 
-@section('title', __('Edit product'))
+@section('title', __('Store'))
 
 @section('content')
+    <div class="card shadow">
+        <div class="card-body text-center">
+            <a href="#!" data-toggle="modal" wire:click="searchproduct()" data-target="#searchProduct"><i class="fa fa-search mr-1 ml-1"></i> @lang('Search product')</a>
+        </div>
+    </div>
 
-    <livewire:backend.product.edit-product :product="$product"/>
+    <livewire:backend.inventory.store-session />
+
+    <livewire:backend.inventory.search-inventory-store />
 
 @endsection
 

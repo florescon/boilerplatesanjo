@@ -126,7 +126,7 @@ class Finance extends Model
     public function getOrderTrackAttribute(): ?string
     {
         if($this->order_id !== null){
-            return $this->order ? "<span class='badge badge-dark'>".$this->order->slug.'</span>' : "<span class='badge badge-secondary'>".__('undefined order/sale').'</span>';
+            return $this->order ? '<a href="'.route('admin.order.edit', $this->order_id).'"><strong>'.$this->order->slug.'</strong></a>' : "<span class='badge badge-secondary'>".__('undefined order/sale').'</span>';
         }
         return "<span class='badge badge-secondary'>".__('undefined order/sale').'</span>';
     }

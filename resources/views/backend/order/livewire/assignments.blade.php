@@ -191,7 +191,7 @@
                                 @endif
                               </div>
                           </div>
-                          @if($ticket->assignments_direct->where('output', false)->count())
+                          @if($ticket->isPendingAssignmentTicket())
                             <div class="col-6 col-md-6 text-right">
                               <a wire:click="outputUpdateAll({{ $ticket->id }})" class="card-link text-right"><u>Marcar que se recibieron todos los productos de este ticket</u></a>
                             </div>

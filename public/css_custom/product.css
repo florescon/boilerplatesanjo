@@ -382,7 +382,6 @@ body {
   color: red;
 }
 
-
 .card-pricing.popular {
     z-index: 1;
     border: 3px solid blue;
@@ -391,7 +390,6 @@ body {
     padding: .5rem 0;
     color: red;
 }
-
 
 .table-striped-orange>tbody>tr:nth-child(odd)>td, 
 .table-striped-orange>tbody>tr:nth-child(odd)>th {
@@ -403,8 +401,7 @@ body {
    background-color: #FFFEC1; // Choose your own color here
  }
 
-
- .dot-success {
+.dot-success {
   height: 23px;
   width: 23px;
   background-color: green;

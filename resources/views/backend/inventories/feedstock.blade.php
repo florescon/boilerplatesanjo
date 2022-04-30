@@ -1,10 +1,10 @@
 @extends('backend.layouts.app')
 
-@section('title', __('Edit product'))
+@section('title', __('Feedstock'))
 
 @section('content')
 
-    <livewire:backend.product.edit-product :product="$product"/>
+    <livewire:backend.inventory.feedstock-session />
 
 @endsection
 
