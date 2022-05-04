@@ -149,5 +149,4 @@ class Material extends Model
     {
         return ucwords(strtolower($value));
     }
-
 }

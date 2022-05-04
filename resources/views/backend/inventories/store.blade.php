@@ -17,6 +17,9 @@
 
 @push('after-scripts')
 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/languages/go.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
     <script src="https://unpkg.com/html5-qrcode"></script>
 
     <script>
@@ -91,7 +94,7 @@
             let html5QrcodeScanner = new Html5QrcodeScanner(
                 "reader", 
                 { 
-                    fps: 10,
+                    fps: 500,
                     qrbox: { width: 250, height: 180 },
                     // Important notice: this is experimental feature, use it at your
                     // own risk. See documentation in

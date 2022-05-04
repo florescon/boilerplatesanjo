@@ -378,7 +378,7 @@
                     class="c-sidebar-nav-link"
                     :href="route('admin.inventory.index')"
                     :active="activeClass(Route::is('admin.inventory.*'), 'c-active')"
-                    icon="c-sidebar-nav-icon cil-file"
+                    icon="c-sidebar-nav-icon cil-grid"
                     :text="__('Make inventory')" />
             </li>
         @endif

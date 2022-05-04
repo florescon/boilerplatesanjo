@@ -36,4 +36,14 @@ trait ProductScope
     {
         return $query->whereType(true);
     }
+
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeOnlySubProducts($query)
+    {
+        return $query->whereType(true)->whereNotNull('parent_id');
+    }
 }

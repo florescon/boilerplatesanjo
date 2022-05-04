@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Domains\Auth\Models\User;
 
 class Session extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +22,8 @@ class Session extends Model
         'stock',
         'audi_id',
         'type',
+        'comment',
+        'inventory_id'
     ];
 
     /**
@@ -37,5 +40,13 @@ class Session extends Model
     public function audi()
     {
         return $this->belongsTo(User::class, 'audi_id')->withTrashed();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function inventory()
+    {
+        return $this->belongsTo(Inventory::class)->withTrashed();
     }
 }

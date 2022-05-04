@@ -167,15 +167,15 @@ class ListProducts extends Component
 
     private function getSelectedStoreProducts()
     {
-        return $this->selectedRowsQuery->where('stock_store', '>', 0)->get()->pluck('id')->map(fn($id) => (string) $id)->toArray();
+        return $this->selectedRowsQuery->where('stock_store', '<>', 0)->get()->pluck('id')->map(fn($id) => (string) $id)->toArray();
     }
     private function getSelectedRevisionProducts()
     {
-        return $this->selectedRowsQuery->where('stock_revision', '>', 0)->get()->pluck('id')->map(fn($id) => (string) $id)->toArray();
+        return $this->selectedRowsQuery->where('stock_revision', '<>', 0)->get()->pluck('id')->map(fn($id) => (string) $id)->toArray();
     }
     private function getSelectedMainProducts()
     {
-        return $this->selectedRowsQuery->where('stock', '>', 0)->get()->pluck('id')->map(fn($id) => (string) $id)->toArray();
+        return $this->selectedRowsQuery->where('stock', '<>', 0)->get()->pluck('id')->map(fn($id) => (string) $id)->toArray();
     }
 
     /**

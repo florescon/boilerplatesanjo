@@ -15,7 +15,7 @@
 	                <div class="text-center">
 	                    <h4 class="card-widget__title text-dark mt-3">Producto Terminado</h4>
 	                    <p class="text-muted">Stock</p>
-	                    <a class="btn gradient-4 btn-lg border-0 btn-rounded px-5 text-white" href="{{ route('admin.inventory.stock') }}">Inventariar</a>
+	                    <a class="btn gradient-4 btn-lg border-0 btn-rounded px-5 text-white" href="{{ route('admin.inventory.stock.index') }}">Inventariar</a>
 	                </div>
 	            </div>
 	        </div>
@@ -27,7 +27,7 @@
 	                <div class="text-center">
 	                    <h4 class="card-widget__title text-dark mt-3">Materia Prima</h4>
 	                    <p class="text-muted">Almacén Materia Prima</p>
-	                    <a class="btn gradient-4 btn-lg border-0 btn-rounded px-5 text-white" href="{{ route('admin.inventory.feedstock') }}">Inventariar</a>
+	                    <a class="btn gradient-4 btn-lg border-0 btn-rounded px-5 text-white" href="{{ route('admin.inventory.feedstock.index') }}">Inventariar</a>
 	                </div>
 	            </div>
 	        </div>
@@ -39,7 +39,7 @@
 	                <div class="text-center">
 	                    <h4 class="card-widget__title text-dark mt-3">Tienda</h4>
 	                    <p class="text-muted">Stock Tienda</p>
-	                    <a class="btn gradient-4 btn-lg border-0 btn-rounded px-5 text-white" href="{{ route('admin.inventory.store') }}">Inventariar</a>
+	                    <a class="btn gradient-4 btn-lg border-0 btn-rounded px-5 text-white" href="{{ route('admin.inventory.store.index') }}">Inventariar</a>
 	                </div>
 	            </div>
 	        </div>

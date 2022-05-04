@@ -1,7 +1,7 @@
 <x-backend.card>
 	<x-slot name="header">
-        @lang('Make store inventory')
- 	</x-slot>
+        <strong><i class="fas fa-store"></i> @lang('Make store inventory')</strong>
+    </x-slot>
 
     <x-slot name="headerActions">
         <x-utils.link class="card-header-action" :href="route('admin.inventory.index')" :text="__('Back')" />
@@ -24,26 +24,40 @@
               </div>
             </div>
             @if($searchTerm !== '')
-            <div class="input-group-append">
-              <button type="button" wire:click="clear" class="close" aria-label="Close">
-                <span aria-hidden="true"> &nbsp; &times; &nbsp;</span>
-              </button>
-
-            </div>
+                <div class="input-group-append">
+                  <button type="button" wire:click="clear" class="close" aria-label="Close">
+                    <span aria-hidden="true"> &nbsp; &times; &nbsp;</span>
+                  </button>
+                </div>
             @endif
         </div>
 
         @if($session->count())
 
             <div class="table-responsive">
-                <table class="table table-sm shadow">
+                <table class="table table-sm shadow table-striped">
                   <thead>
                     <tr>
-                      <th scope="col">#</th>
+                      <th scope="col">
+                        <a wire:click.prevent="sortBy('id')" role="button" href="#">
+                          #
+                          @include('backend.includes._sort-icon', ['field' => 'id'])
+                        </a>
+                      </th>
                       <th scope="col">@lang('Product')</th>
-                      <th scope="col" class="text-center">@lang('Captured')</th>
+                      <th scope="col" class="text-center">
+                        <a wire:click.prevent="sortBy('capture')" role="button" href="#">
+                          @lang('Captured')
+                          @include('backend.includes._sort-icon', ['field' => 'capture'])
+                        </a>
+                      </th>
                       <th style="width: 200px;" class="text-center">@lang('Add')</th>
-                      <th class="text-center">@lang('Updated at')</th>
+                      <th class="text-center">
+                        <a wire:click.prevent="sortBy('updated_at')" role="button" href="#">
+                          @lang('Updated at')
+                          @include('backend.includes._sort-icon', ['field' => 'updated_at'])
+                        </a>
+                      </th>
                       <th class="text-center"></th>
                     </tr>
                   </thead>
@@ -84,6 +98,17 @@
                 {{ $session->links() }}
             </div>
 
+            <footer class="float-right">
+
+                <div x-data="{ open: false }">
+                    <span @click="open = true"><em>@lang('Show more')</em></span>
+                    <div x-show="open" @click.outside="open = false">
+                        <a href="#" wire:click="checkout" class="btn btn-primary btn-sm">@lang('Checkout')</a>
+                    </div>
+                </div>
+
+            </footer>
+
         @else
             <div class="card shadow">
               <div class="card-body text-center">
@@ -93,4 +118,19 @@
         @endif
 
 	</x-slot>
+
+    @if($inventories->count())
+        <x-slot name="footer">
+            <footer class="shadow">
+                <div class="card text-center">
+                  <div class="card-body">
+                    <h5 class="card-title">@lang('Inventories')</h5>
+                    <p class="card-text">@lang('Inventory details').</p>
+                    <a href="{{ route('admin.inventory.store.history') }}" class="btn btn-primary">@lang('View all')</a>
+                  </div>
+                </div>
+            </footer>
+        </x-slot>
+    @endif
+
 </x-backend.card>

@@ -145,7 +145,7 @@ class Product extends Model
      */
     public function getOnlyNameAttribute()
     {
-        if($this->parent_id != null){
+        if($this->parent_id !== null){
             return $this->parent->name;
         }
         else{
@@ -163,7 +163,7 @@ class Product extends Model
      */
     public function getOnlyParametersAttribute()
     {
-        if($this->parent_id != null){
+        if($this->parent_id !== null){
             return '<em>'.$this->size_name.' '.$this->color_name.'</em>';
         }
         else{
@@ -181,7 +181,7 @@ class Product extends Model
      */
     public function getFullNameAttribute()
     {
-        if($this->parent_id != null){
+        if($this->parent_id !== null){
             return '<strong>'.$this->parent->name.'</strong> <em>'.$this->size_name.' '.$this->color_name.'</em>';
         }
         else{
@@ -199,7 +199,7 @@ class Product extends Model
      */
     public function getFullNameLinkAttribute()
     {
-        if($this->parent_id != null){
+        if($this->parent_id !== null){
             return '<a href="'.route('admin.product.edit', $this->parent_id).'"><strong>'.$this->parent->name.'</strong></a> <em>'.$this->size_name.' '.$this->color_name.'</em>';
         }
         else{
@@ -217,7 +217,7 @@ class Product extends Model
      */
     public function getFullNameClearAttribute()
     {
-        if($this->parent_id != null){
+        if($this->parent_id !== null){
             return $this->parent->name.', '.$this->size_name_clear.' '.$this->color_name_clear;
         }
         else{
@@ -531,9 +531,14 @@ class Product extends Model
         return $this->morphMany(Log::class, 'logable');
     }
 
+    public function session()
+    {
+        return $this->hasOne(Session::class);
+    }
+
     public function getDateForHumansSpecialAttribute()
     {
-        return $this->parent_id != null ? $this->parent->created_at : $this->created_at;
+        return $this->parent_id !== null ? $this->parent->created_at : $this->created_at;
     }
 
     public function getNewProductAttribute()

@@ -984,5 +984,12 @@
     "User exists, must be one or the other": "Usuario existe, debe ser uno u otro",
     "Update product dates": "Actualizar fechas de productos",
     "Make inventory": "Hacer inventario",
-    "Inventories": "Inventarios"
+    "Make store inventory": "Hacer inventario de tienda",
+    "Make feedstock inventory": "Hacer inventario de materia prima",
+    "Make stock inventory": "Hacer inventario de producto terminado",
+    "Inventories": "Inventarios",
+    "Inventory list": "Lista de inventarios",
+    "Inventory details": "Detalles de inventarios",
+    "Store inventory": "Inventario de tienda",
+    "Store inventory history": "Historial de inventarios de tienda"
 }

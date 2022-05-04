@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Backend\Inventory;
 use Livewire\Component;
 use App\Models\Product;
 use App\Models\Session;
+use App\Models\Inventory;
 use Livewire\WithPagination;
 use App\Http\Livewire\Backend\DataTable\WithBulkActions;
 use App\Http\Livewire\Backend\DataTable\WithCachedRows;
@@ -25,10 +26,14 @@ class StoreSession extends Component
         'perPage',
     ];
 
-    public $perPage = '12';
+    public $perPage = '15';
 
     public $status;
     public $searchTerm = '';
+
+    public $sortField = 'updated_at';
+
+    public $sortAsc = false;
 
     protected $listeners = ['postAdded' => 'addInventory', 'updatedListener' => 'render'];
 
@@ -49,7 +54,7 @@ class StoreSession extends Component
 
                         $productExist = DB::table('sessions')->where('product_id', $product->id)->first();
 
-                        DB::table('sessions')->where('product_id', $product->id)->update(['capture' => $productExist->capture + 1, 'updated_at' => now()]);
+                        DB::table('sessions')->where('product_id', $product->id)->update(['capture' => $productExist->capture + 1, 'stock' => $product->stock_store, 'updated_at' => now()]);
 
                         $this->emit('swal:alert', [
                            'icon' => 'success',
@@ -90,13 +95,27 @@ class StoreSession extends Component
         }
     }
 
+    public function sortBy($field)
+    {
+        if ($this->sortField === $field) {
+            $this->sortAsc = ! $this->sortAsc;
+        } else {
+            $this->sortAsc = true;
+        }
+
+        $this->sortField = $field;
+    }
+
     public function getRowsQueryProperty()
     {
         $query = Session::query()
             ->with('product.parent', 'audi')
             ->where('audi_id', Auth::id())
             ->whereType('store')
-            ->orderByDesc('updated_at');
+            ->whereNull('inventory_id')
+            ->when($this->sortField, function ($query) {
+                $query->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc');
+            });
 
         $this->applySearchFilter($query);
 
@@ -128,7 +147,7 @@ class StoreSession extends Component
     {
         $this->searchTerm = '';
         $this->resetPage();
-        $this->perPage = '12';
+        $this->perPage = '15';
     }
 
     public function updatedSearchTerm()
@@ -152,10 +171,10 @@ class StoreSession extends Component
         if(!is_null($product)){
             if(!empty($product['save'])){
                 if($product['save'] > 0){
-                    optional(Session::find($productIndex))->increment('capture', abs($product['save']));
+                    optional(Session::whereNull('inventory_id')->whereType('store')->find($productIndex))->increment('capture', abs($product['save']));
                 }
                 else{
-                    optional(Session::find($productIndex))->decrement('capture', abs($product['save']));
+                    optional(Session::whereNull('inventory_id')->whereType('store')->find($productIndex))->decrement('capture', abs($product['save']));
                 }
             }
         }
@@ -169,6 +188,85 @@ class StoreSession extends Component
         ]);
     }
 
+    public function checkout()
+    {
+        $last_inventory = Inventory::whereType('store')->where('audi_id', Auth::id())->withTrashed()->latest('id')->first();
+
+        if(isset($last_inventory) ? $last_inventory->trashed() : null){
+            $forRestore = $last_inventory;
+
+            if($forRestore){
+                $last_inventory->restore();
+                $inventory = $last_inventory;
+            }
+        }
+        else{
+            $inventory = new Inventory();
+            $inventory->type = 'store';
+            $inventory->audi_id = Auth::id();
+            $inventory->save();
+        }
+
+        // $sessions = Session::query()->whereNull('inventory_id')->whereType('store')->where('audi_id', Auth::id())->get();
+
+        // $sessions = DB::table('sessions')->whereNull('inventory_id')->whereType('store')->where('audi_id', Auth::id())->get();
+
+        $sessions = DB::table('sessions')->whereNull('inventory_id')->whereType('store')->where('audi_id', Auth::id())->orderBy('created_at')->chunk(50, function ($sessions){
+
+            foreach($sessions as $session){
+                $productExist = DB::table('products')->where('id', $session->product_id)->first();
+                DB::table('sessions')->where('product_id', $session->id)->update(['stock' => $productExist->stock_store,'inventory_id' => 1, 'updated_at' => now()]);
+            }
+
+        });
+
+        $subProducts = Product::query()->with('session')->onlySubProducts()->with('parent')->where('stock_store', '<>', 0)->get();
+
+        foreach($subProducts as $sub){
+
+            if($sub->session()->doesntExist()){
+
+                DB::table('product_inventories')->insert([
+                    'product_id' => $sub->id,
+                    'capture' => 0,
+                    'stock' => $sub->stock_store,
+                    'audi_id' => Auth::id(),
+                    'type' => 'store',
+                    'inventory_id' => $inventory->id,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+        }
+
+        $sessionsUpdated = Session::query()->whereType('store')->where('audi_id', Auth::id())->get();
+
+        foreach($sessionsUpdated as $updated){
+
+            DB::table('product_inventories')->insert([
+                'product_id' => $updated->product_id,
+                'capture' => $updated->capture,
+                'stock' => $updated->stock,
+                'audi_id' => Auth::id(),
+                'type' => 'store1',
+                'inventory_id' => $inventory->id,
+                'created_at' => $updated->created_at,
+                'updated_at' => $updated->updated_at,
+            ]);
+        }
+
+        // $this->clearAllSession();
+
+        $this->emit('swal:alert', [
+            'icon' => 'success',
+            'title'   => __('Created'), 
+        ]);
+
+        $this->emit('updatedListener');
+
+        // return redirect()->route('admin.inventory.store');
+    }
+
     public function clearAll()
     {
         $this->input = [];
@@ -176,7 +274,7 @@ class StoreSession extends Component
 
     public function destroy($id)
     {
-       Session::find($id)->delete();
+       Session::find($id)->forceDelete();
 
         $this->emit('swal:alert', [
             'icon' => 'success',
@@ -184,10 +282,16 @@ class StoreSession extends Component
         ]);
     }
 
+    public function clearAllSession()
+    {
+        DB::table('sessions')->where('audi_id', Auth::id())->delete();
+    }
+
     public function render()
     {
         // $session = Session::with('product', 'audi')->where('audi_id', Auth::id())->where('type', 'store')->orderByDesc('updated_at')->paginate(15);
         return view('backend.inventories.table.store-session', [
+            'inventories' => Inventory::query(),
             'session' => $this->rows,
         ]);
     }

@@ -23,12 +23,9 @@
             wire:keydown.enter="dropdown"
            />
             <span class="border-input-search"></span>
-
-
         </div>
         <div wire:loading wire:target="query">@lang('Searching')...</div>
       </div>
-
 
       @if(!empty($query))
         <div class="input-group-append">
@@ -38,9 +35,7 @@
 
         </div>
       @endif
-
     </div>
-
 
     <div class="mt-3">
       @if(!empty($query))
