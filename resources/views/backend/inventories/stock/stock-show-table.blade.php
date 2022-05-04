@@ -5,55 +5,39 @@
     <div class="col-lg-12">
       <div class="card">
         <div class="card-header">
-
-            <div class="card p-3 border-0">
-                <div class="mt-3">
-                  <h3 class="heading">
-                    @lang('History')<br>@lang('Store inventory')
-                    @if($status == 'deleted')
-                      <span class="badge badge-danger">@lang('Deletions')</span>
-                    @endif
-                  </h3>
-                </div>
-            </div>
-
-            <div class="page-header-subtitle mt-5 mb-2">
-              <em>
-                @lang('Filter by update date range')
-              </em>
-            </div>
-
-            <div class="row input-daterange">
-                <div class="col-md-2">
-                  <x-input.date wire:model="dateInput" id="dateInput" placeholder="{{ __('From') }}"/>
-                </div>
-                &nbsp;
-
-                <div class="col-md-2">
-                  <x-input.date wire:model="dateOutput" id="dateOutput" placeholder="{{ __('To') }}"/>
-                </div>
-                &nbsp;
-
-                <div class="col-md-3">
-                  <div class="btn-group" role="group" aria-label="Range date">
-                    <button type="button" class="btn {{ $currentMonth ? 'btn-success' : 'btn-secondary' }}" wire:click="isCurrentMonth">@lang('Current month')</button>
-                    <button type="button" class="btn {{ $currentWeek ? 'btn-success' : 'btn-secondary' }}" wire:click="isCurrentWeek">@lang('Current week')</button>
-                    <button type="button" class="btn {{ $today ? 'btn-success' : 'btn-secondary' }}" wire:click="isToday">@lang('Today')</button>
-                  </div>
-                </div>
-                &nbsp;
-
-                <div class="col-md-3">
-                  <div class="btn-group mr-2" role="group" aria-label="First group">
-                    <button type="button" class="btn btn-outline-success" wire:click="clearFilterDate"  class="btn btn-default">@lang('Clear date')</button>
-                    <button type="button" class="btn btn-success" wire:click="clearAll" class="btn btn-default">@lang('Clear all')</button>
-                  </div>
-                </div>
-                &nbsp;
-                
-            </div>
+          <div class="card p-3 border-0">
+              <div class="mt-3">
+                <h3 class="heading">
+                  @lang('Store inventory')
+                  <br>
+                  f.º <em class="text-primary">#{{ $inventory_id }}</em>
+                </h3>
+                @if($status == 'deleted')
+                  <a href="{{ route('admin.store.box.history') }}">
+                    <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+                   @lang('to return')
+                 </a>
+                @endif
+              </div>
+          </div>
+          Productos capturados: {{ $inventory->captured() }}<br>
+          Productos totales: {{ $inventory->total() }}
         </div>
         <div class="card-body">
+
+          @if($selectPage)
+            <x-utils.alert type="primary">
+              @unless($selectAll)
+              <span>Tienes seleccionado <strong>{{ $cashes->count() }}</strong> productos, ¿quieres seleccionar  <strong>{{ $cashes->total() }} </strong> productos?</span>
+                <a href="#" wire:click="selectAll" class="alert-link">Seleccionar todo</a>
+              @else
+                <span>Actualmente seleccionaste <strong>{{ $cashes->total() }}</strong> productos.</span>
+              @endif
+
+              <em>-- @lang('Order by name') --</em>
+
+            </x-utils.alert>
+          @endif
 
           <div class="row mb-4">
             <div class="col form-inline">
@@ -71,12 +55,11 @@
               <div class="input-group">
                 <input wire:model.debounce.350ms="searchTerm" class="form-control input-search-green" type="text" placeholder="{{ __('Search') }}..." />
                 @if($searchTerm !== '')
-                <div class="input-group-append">
-                  <button type="button" wire:click="clear" class="close" aria-label="Close">
-                    <span aria-hidden="true"> &nbsp; &times; &nbsp;</span>
-                  </button>
-
-                </div>
+                  <div class="input-group-append">
+                    <button type="button" wire:click="clear" class="close" aria-label="Close">
+                      <span aria-hidden="true"> &nbsp; &times; &nbsp;</span>
+                    </button>
+                  </div>
                 @endif
               </div>
             </div>
@@ -103,15 +86,33 @@
         	<table class="table table-responsive-sm table-hover table-outline mb-0 shadow">
         		<thead class="thead-dark">
         			<tr>
+                <th style="width:30px; max-width: 30px;">
+                  <label class="form-checkbox">
+                    <input type="checkbox" wire:model="selectPage">
+                    <i class="form-icon"></i>
+                  </label>
+                </th>
         				<th>
                   <a style="color:white;" wire:click.prevent="sortBy('id')" role="button" href="#">
-                    f.º
+                    Identificador
                     @include('backend.includes._sort-icon', ['field' => 'id'])
                   </a>
                 </th>
-                <th class="text-center">Generado por</th>
-                <th class="text-center">Productos capturados</th>
-                <th class="text-center">Productos totales</th>
+                <th class="text-center">@lang('Product')</th>
+                <th class="text-center">
+                  <a style="color:white;" wire:click.prevent="sortBy('capture')" role="button" href="#">
+                    Capturado
+                    @include('backend.includes._sort-icon', ['field' => 'capture'])
+                  </a>
+                </th>
+                <th class="text-center">
+                  <a style="color:white;" wire:click.prevent="sortBy('stock')" role="button" href="#">
+                    Total
+                    @include('backend.includes._sort-icon', ['field' => 'stock'])
+                  </a>
+                </th>
+                <th class="text-center">Diferencia</th>
+                <th class="text-center">Detalle</th>
                 <th>@lang('Created')</th>
                 <th></th>
         			</tr>
@@ -120,30 +121,34 @@
               @foreach($cashes as $cash)
         			<tr>
                 <td>
+                  <label class="form-checkbox">
+                      <input type="checkbox" wire:model="selected" value="{{ $cash->id }}">
+                    <i class="form-icon"></i>
+                    </label>
+                </td>
+                <td>
                   {{ $cash->id }}
-                  <div class="small text-muted">@lang('Registered'): {{ $cash->date_for_humans }}</div>
                 </td>
         				<td class="text-center">
-        					<div> {{ $cash->audi->name }} </div>
+        					<div> {!! $cash->product->full_name !!} </div>
+                  <div class="small text-muted">@lang('Code'): <em class="text-primary">{!! $cash->product->code_label !!}</em></div>
         				</td>
                 <td class="text-center">
-                  {{ $cash->captured() }}
+                  {{ $cash->capture }}
                 </td>
                 <td class="text-center">
-                  {{ $cash->total() }}
+                  {{ $cash->stock }}
+                </td>
+                <td class="text-center table-secondary">
+                  {{ $cash->difference() }}
+                </td>
+                <td class="text-center table-secondary">
+                  {!! $cash->description_difference !!}
                 </td>
                 <td>
                   <div class="small text-muted"></div><strong>{{ $cash->created_at }}</strong>
                 </td>
                 <td >
-                  <div class="btn-group" role="group" aria-label="Basic example">
-                    @if(!$cash->trashed())
-                      <x-utils.view-button :href="route('admin.inventory.store.show', $cash->id)" />
-                    @endif
-                    @if($cash->id === $latest_box_history->id && $cash->last_day)
-                      <x-actions-modal.delete-icon textExtra="{{ $cash->last_day_label }}" function="delete" :id="$cash->id" />
-                    @endif
-                  </div>
                 </td>
         			</tr>
               @endforeach
@@ -169,10 +174,6 @@
 
               @if($deleted)
                 @lang('for deleted')
-              @endif
-
-              @if($dateInput) 
-                @lang('from') {{ $dateInput }} {{ $dateOutput ? __('To') .' '.$dateOutput : __('to this day') }}
               @endif
 
               @if($page > 1)

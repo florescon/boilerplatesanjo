@@ -211,11 +211,11 @@ class StoreSession extends Component
 
         // $sessions = DB::table('sessions')->whereNull('inventory_id')->whereType('store')->where('audi_id', Auth::id())->get();
 
-        $sessions = DB::table('sessions')->whereNull('inventory_id')->whereType('store')->where('audi_id', Auth::id())->orderBy('created_at')->chunk(50, function ($sessions){
+        $sessions = DB::table('sessions')->whereNull('inventory_id')->whereType('store')->where('audi_id', Auth::id())->orderBy('created_at')->chunk(50, function ($sessions) use ($inventory){
 
             foreach($sessions as $session){
                 $productExist = DB::table('products')->where('id', $session->product_id)->first();
-                DB::table('sessions')->where('product_id', $session->id)->update(['stock' => $productExist->stock_store,'inventory_id' => 1, 'updated_at' => now()]);
+                DB::table('sessions')->where('product_id', $session->product_id)->update(['stock' => $productExist->stock_store,'inventory_id' => $inventory->id, 'updated_at' => now()]);
             }
 
         });
@@ -248,14 +248,14 @@ class StoreSession extends Component
                 'capture' => $updated->capture,
                 'stock' => $updated->stock,
                 'audi_id' => Auth::id(),
-                'type' => 'store1',
+                'type' => 'store',
                 'inventory_id' => $inventory->id,
                 'created_at' => $updated->created_at,
                 'updated_at' => $updated->updated_at,
             ]);
         }
 
-        // $this->clearAllSession();
+        $this->clearAllSession();
 
         $this->emit('swal:alert', [
             'icon' => 'success',
@@ -291,7 +291,8 @@ class StoreSession extends Component
     {
         // $session = Session::with('product', 'audi')->where('audi_id', Auth::id())->where('type', 'store')->orderByDesc('updated_at')->paginate(15);
         return view('backend.inventories.table.store-session', [
-            'inventories' => Inventory::query(),
+            'countProductsStock' => Product::query()->onlySubProducts()->with('parent')->where('stock_store', '<>', 0)->count(),
+            'inventories' => Inventory::query()->whereType('store'),
             'session' => $this->rows,
         ]);
     }

@@ -1,23 +1,28 @@
 <?php
 
-namespace App\Http\Livewire\Backend\Inventory\Store;
+namespace App\Http\Livewire\Backend\Inventory\Stock;
 
 use Livewire\Component;
 use App\Models\Inventory;
-use App\Models\ProductInventory;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Livewire\Backend\DataTable\WithBulkActions;
 use App\Http\Livewire\Backend\DataTable\WithCachedRows;
 use Carbon\Carbon;
-use Symfony\Component\HttpFoundation\Response;
-use App\Exports\ProductInventoriesExport;
-use Excel;
 
-class StoreShowTable extends Component
+class StockHistory extends Component
 {
     use Withpagination, WithBulkActions, WithCachedRows;
 
     protected $paginationTheme = 'bootstrap';
+
+    protected $queryString = [
+        'searchTerm' => ['except' => ''],
+        'perPage',
+        'deleted' => ['except' => FALSE],
+        'dateInput' => ['except' => ''],
+        'dateOutput' => ['except' => '']
+    ];
 
     public $perPage = '10';
 
@@ -26,11 +31,18 @@ class StoreShowTable extends Component
     
     public $searchTerm = '';
 
-    public int $inventory_id;
+    public $dateInput = '';
+    public $dateOutput = '';
 
-    public $updated, $selected_id, $deleted;
+    public bool $currentMonth = false;
+    public bool $currentWeek = false;
+    public bool $today = false;
 
     public $status;
+
+    protected $listeners = ['filter' => 'filter', 'delete', 'restore', 'triggerRefresh' => '$refresh'];
+
+    public $updated, $selected_id, $deleted;
 
     public function sortBy($field)
     {
@@ -43,17 +55,27 @@ class StoreShowTable extends Component
         $this->sortField = $field;
     }
 
-    public function mount(Inventory $inventory)
-    {
-        $this->inventory_id = $inventory->id;
-    }
-
     public function getRowsQueryProperty()
     {
-        $query = ProductInventory::query()->where('inventory_id', $this->inventory_id)->with('product.color', 'product.size', 'product.parent', 'audi')
+        $query = Inventory::query()->whereType('stock')
+            ->when($this->dateInput, function ($query) {
+                empty($this->dateOutput) ?
+                    $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', now()]) :
+                    $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59']);
+            })
+            ->when($this->currentMonth, function ($query) {
+                    $query->currentMonth();
+            })
+            ->when($this->currentWeek, function ($query) {
+                    $query->currentWeek();
+            })
+            ->when($this->today, function ($query) {
+                    $query->today();
+            })
             ->when($this->sortField, function ($query) {
                 $query->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc');
             });
+
 
         if ($this->status === 'deleted') {
             $this->applySearchDeletedFilter($query);
@@ -67,25 +89,19 @@ class StoreShowTable extends Component
         return $query;
     }
 
-    private function applySearchFilter($searchProduct)
+    private function applySearchFilter($searchFinance)
     {
         if ($this->searchTerm) {
-               return $searchProduct->where('inventory_id', $this->inventory_id)->with('product.color', 'product.size', 'product.parent', 'audi')->whereHas('product.parent', function ($query) {
-               $query->whereRaw("name LIKE \"%$this->searchTerm%\"")
-                    ->orWhereRaw("code LIKE \"%$this->searchTerm%\"");
-            })
-            ->orWhere('id', 'like', '%' . $this->searchTerm . '%')
-            ->orWhere('stock', 'like', '%' . $this->searchTerm . '%')
-            ->orWhere('capture', 'like', '%' . $this->searchTerm . '%');
-     }
+            return $searchFinance->whereRaw("id LIKE \"%$this->searchTerm%\"");
+        }
 
         return null;
     }
 
-    private function applySearchDeletedFilter($searchProduct)
+    private function applySearchDeletedFilter($searchFinance)
     {
         if ($this->searchTerm) {
-            return $searchProduct->onlyTrashed()
+            return $searchFinance->onlyTrashed()
                     ->whereRaw("id LIKE \"%$this->searchTerm%\"");
         }
 
@@ -97,6 +113,28 @@ class StoreShowTable extends Component
         return $this->cache(function () {
             return $this->rowsQuery->paginate($this->perPage);
         });
+    }
+
+    public function clearFilterDate()
+    {
+        $this->dateInput = '';
+        $this->dateOutput = '';
+        $this->clearRangeDate();
+    }
+
+    public function clearRangeDate()
+    {
+        $this->currentWeek = FALSE;
+        $this->today = FALSE;
+        $this->currentMonth = FALSE;
+    }
+
+    public function isCurrentMonth()
+    {
+        $this->clearFilterDate();
+        $this->currentWeek = FALSE;
+        $this->today = FALSE;
+        $this->currentMonth = TRUE;
     }
 
     public function isCurrentWeek()
@@ -152,31 +190,25 @@ class StoreShowTable extends Component
         $this->selected = [];
     }
 
-    public function export()
+    public function delete($id)
     {
-        return response()->streamDownload(function () {
-            echo $this->selectedRowsQuery->toCsv();
-        }, 'store-show-table.csv');
-    }
+        if($id)
+            $box = Inventory::where('id', $id);
+            $box->delete();
 
-    private function getSelectedProducts()
-    {
-        return $this->selectedRowsQuery->get()->pluck('id')->map(fn($id) => (string) $id)->toArray();
-        // return $this->selectedRowsQuery->where('stock_store', '>', 0)->get()->pluck('id')->map(fn($id) => (string) $id)->toArray();
-    }
-    public function exportMaatwebsite($extension)
-    {   
-        abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
-        return Excel::download(new ProductInventoriesExport($this->getSelectedProducts()), 'product-store-inventory-'.Carbon::now().'.'.$extension);
+       $this->emit('swal:alert', [
+            'icon' => 'success',
+            'title'   => __('Deleted'), 
+        ]);
     }
 
     public function render()
     {
-        $inventory = Inventory::findOrFail($this->inventory_id);
-
-        return view('backend.inventories.store.store-show-table',[
+        $date = Carbon::now()->startOfMonth();
+        return view('backend.inventories.stock.stock-history', [
             'cashes' => $this->rows,
-            'inventory' => $inventory,
+            'date' => $date,
+            'latest_box_history' => Inventory::query()->latest('id')->first() ?? null,
         ]);
     }
 }

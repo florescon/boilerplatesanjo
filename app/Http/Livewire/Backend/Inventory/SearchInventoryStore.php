@@ -68,7 +68,6 @@ class SearchInventoryStore extends Component
             if(count($this->filtersz) >= 2){
                 array_shift($this->filtersz);
             };
-    
         }
     }
 

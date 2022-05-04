@@ -28,8 +28,29 @@ Route::group([
             ->middleware('permission:admin.access.inventory.stock')
             ->breadcrumbs(function (Trail $trail) {
                 $trail->parent('admin.inventory.index')
-                    ->push(__('Stock inventory'), route('admin.inventory.stock.index'));
+                    ->push(__('Store inventory'), route('admin.inventory.stock.index'));
             });
+
+        Route::get('history', function () {
+                return view('backend.inventories.history-stock');
+            })->name('history')
+            ->middleware('permission:admin.access.inventory.stock')
+            ->breadcrumbs(function (Trail $trail) {
+                $trail->parent('admin.inventory.stock.index')
+                    ->push(__('Store inventory history Management'), route('admin.inventory.stock.history'));
+            });
+
+        Route::group(['prefix' => '{inventory}'], function () {
+
+            Route::get('show', [InventoryController::class, 'showStock'])
+                ->name('show')
+                ->middleware('permission:admin.access.inventory.stock')
+                ->breadcrumbs(function (Trail $trail, Inventory $inventory) {
+                    $trail->parent('admin.inventory.stock.history')
+                        ->push(__('Show stock inventory').': #'.$inventory->id, route('admin.inventory.stock.show', $inventory));
+                });
+        });
+
     });
 
     Route::group([
@@ -58,7 +79,7 @@ Route::group([
             });
 
         Route::get('history', function () {
-                return view('backend.inventories.history-stock');
+                return view('backend.inventories.history-store');
             })->name('history')
             ->middleware('permission:admin.access.inventory.store')
             ->breadcrumbs(function (Trail $trail) {
@@ -68,7 +89,7 @@ Route::group([
 
         Route::group(['prefix' => '{inventory}'], function () {
 
-            Route::get('show', [InventoryController::class, 'show'])
+            Route::get('show', [InventoryController::class, 'showStore'])
                 ->name('show')
                 ->middleware('permission:admin.access.inventory.store')
                 ->breadcrumbs(function (Trail $trail, Inventory $inventory) {

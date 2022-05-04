@@ -98,16 +98,18 @@
                 {{ $session->links() }}
             </div>
 
-            <footer class="float-right">
+            @if($session->count() > floor($countProductsStock/2))
+                <footer class="float-right">
 
-                <div x-data="{ open: false }">
-                    <span @click="open = true"><em>@lang('Show more')</em></span>
-                    <div x-show="open" @click.outside="open = false">
-                        <a href="#" wire:click="checkout" class="btn btn-primary btn-sm">@lang('Checkout')</a>
+                    <div x-data="{ open: false }">
+                        <span @click="open = true"><em> @lang('Show more')</em></span>
+                        <div x-show="open" @click.outside="open = false">
+                            <a href="#" wire:click="checkout" class="btn btn-primary btn-sm">@lang('Checkout')</a>
+                        </div>
                     </div>
-                </div>
 
-            </footer>
+                </footer>
+            @endif
 
         @else
             <div class="card shadow">

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Backend\Inventory\Store;
+namespace App\Http\Livewire\Backend\Inventory\Stock;
 
 use Livewire\Component;
 use App\Models\Inventory;
@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Exports\ProductInventoriesExport;
 use Excel;
 
-class StoreShowTable extends Component
+class StockShowTable extends Component
 {
     use Withpagination, WithBulkActions, WithCachedRows;
 
@@ -156,25 +156,25 @@ class StoreShowTable extends Component
     {
         return response()->streamDownload(function () {
             echo $this->selectedRowsQuery->toCsv();
-        }, 'store-show-table.csv');
+        }, 'stock-show-table.csv');
     }
 
     private function getSelectedProducts()
     {
         return $this->selectedRowsQuery->get()->pluck('id')->map(fn($id) => (string) $id)->toArray();
-        // return $this->selectedRowsQuery->where('stock_store', '>', 0)->get()->pluck('id')->map(fn($id) => (string) $id)->toArray();
+        // return $this->selectedRowsQuery->where('stock_stock', '>', 0)->get()->pluck('id')->map(fn($id) => (string) $id)->toArray();
     }
     public function exportMaatwebsite($extension)
     {   
         abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
-        return Excel::download(new ProductInventoriesExport($this->getSelectedProducts()), 'product-store-inventory-'.Carbon::now().'.'.$extension);
+        return Excel::download(new ProductInventoriesExport($this->getSelectedProducts()), 'product-stock-inventory-'.Carbon::now().'.'.$extension);
     }
 
     public function render()
     {
         $inventory = Inventory::findOrFail($this->inventory_id);
 
-        return view('backend.inventories.store.store-show-table',[
+        return view('backend.inventories.stock.stock-show-table',[
             'cashes' => $this->rows,
             'inventory' => $inventory,
         ]);

@@ -9,7 +9,7 @@
             <div class="card p-3 border-0">
                 <div class="mt-3">
                   <h3 class="heading">
-                    @lang('History')<br>@lang('Store inventory')
+                  @lang('History')<br>@lang('Stock inventory')
                     @if($status == 'deleted')
                       <span class="badge badge-danger">@lang('Deletions')</span>
                     @endif
@@ -138,7 +138,7 @@
                 <td >
                   <div class="btn-group" role="group" aria-label="Basic example">
                     @if(!$cash->trashed())
-                      <x-utils.view-button :href="route('admin.inventory.store.show', $cash->id)" />
+                      <x-utils.view-button :href="route('admin.inventory.stock.show', $cash->id)" />
                     @endif
                     @if($cash->id === $latest_box_history->id && $cash->last_day)
                       <x-actions-modal.delete-icon textExtra="{{ $cash->last_day_label }}" function="delete" :id="$cash->id" />

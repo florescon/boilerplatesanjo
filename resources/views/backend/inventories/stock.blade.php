@@ -4,7 +4,15 @@
 
 @section('content')
 
+    <div class="card shadow">
+        <div class="card-body text-center">
+            <a href="#!" data-toggle="modal" wire:click="searchproduct()" data-target="#searchProduct"><i class="fa fa-search mr-1 ml-1"></i> @lang('Search product')</a>
+        </div>
+    </div>
+
     <livewire:backend.inventory.stock-session />
+
+    <livewire:backend.inventory.search-inventory-stock />
 
 @endsection
 
@@ -87,7 +95,7 @@
             let html5QrcodeScanner = new Html5QrcodeScanner(
                 "reader", 
                 { 
-                    fps: 10,
+                    fps: 500,
                     qrbox: { width: 250, height: 180 },
                     // Important notice: this is experimental feature, use it at your
                     // own risk. See documentation in

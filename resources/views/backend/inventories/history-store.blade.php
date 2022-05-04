@@ -4,6 +4,6 @@
 
 @section('content')
 
-    <livewire:backend.inventory.stock.stock-history />
+    <livewire:backend.inventory.store.store-history />
 
 @endsection
