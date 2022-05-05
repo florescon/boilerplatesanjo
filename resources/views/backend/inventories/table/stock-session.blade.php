@@ -8,6 +8,16 @@
  	</x-slot>
     <x-slot name="body">
 
+        <div class="row mb-4 justify-content-md-center">
+            <div class="col-9 text-center">
+
+                <div wire:loading wire:target="checkout">
+                    <h4>@lang('Processing') ...</h4>
+                </div>
+
+            </div>
+        </div>
+
         <div class="row" wire:ignore>
             <div class="col-md-12 mb-5" style="text-align: center;">
                 <div id="reader" class="shadow" style="display: inline-block;"></div>
@@ -98,14 +108,18 @@
                 {{ $session->links() }}
             </div>
 
-            @if($session->count() > floor($countProductsStock/2))
+            @if($countRows->count() > floor($countProductsStock/2))
                 <footer class="float-right">
 
-                    <div x-data="{ open: false }">
+                    <div x-data="{ open: false }" wire:loading.remove>
                         <span @click="open = true"><em> @lang('Show more')</em></span>
                         <div x-show="open" @click.outside="open = false">
                             <a href="#" wire:click="checkout" class="btn btn-primary btn-sm">@lang('Checkout')</a>
                         </div>
+                    </div>
+
+                    <div wire:loading wire:target="checkout">
+                        @lang('Processing') ...
                     </div>
 
                 </footer>

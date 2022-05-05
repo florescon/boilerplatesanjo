@@ -526,9 +526,9 @@
 								  @endif
 							      <td style="{{ $children->trashed() ? 'text-decoration: line-through;' : '' }}">{{ optional($children->color)->name}} {!! optional($children->color)->undefined_icon_coding !!}</td>
 							      <td style="{{ $children->trashed() ? 'text-decoration: line-through;' : '' }}">{{ optional($children->size)->name}} {!! optional($children->size)->undefined_icon_coding !!}</td>
-							      <td>{{ $children->stock }}</td>
-							      <td>{{ $children->stock_revision }}</td>
-							      <td>{{ $children->stock_store }}</td>
+							      <td class="{{ $children->color_stock($children->stock) }}">{{ $children->stock }}</td>
+							      <td class="{{ $children->color_stock($children->stock_revision) }}">{{ $children->stock_revision }}</td>
+							      <td class="{{ $children->color_stock($children->stock_store) }}">{{ $children->stock_store }}</td>
 							      @if($increaseStock == TRUE)
 								      <td style="width:100px; max-width: 100px;">
 								      	<input class="form-control form-control-sm is-valid" style="background-image: none; padding-right: inherit;" wire:model="inputincrease.{{ $children->id }}.stock" wire:keydown.enter="increase" type="number" min="1" placeholder="+" required>

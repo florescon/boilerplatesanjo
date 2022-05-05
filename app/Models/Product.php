@@ -557,6 +557,24 @@ class Product extends Model
         return $this->updated_at ? $this->updated_at->format('M, d Y') : '';
     }
 
+    /**
+     * @return string
+     */
+    public function color_stock(int $stock): string
+    {
+        if($stock > 0){
+            return 'text-primary';
+        } 
+        elseif($stock < 0){
+            return 'text-danger';
+        }
+        else{
+            return 'text-dark';
+        }
+
+        return 'text-dark';
+    }
+
     public static function boot()
     {
         parent::boot();

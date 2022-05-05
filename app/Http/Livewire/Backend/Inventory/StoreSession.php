@@ -109,7 +109,7 @@ class StoreSession extends Component
     public function getRowsQueryProperty()
     {
         $query = Session::query()
-            ->with('product.parent', 'audi')
+            ->with('product.parent', 'product.color', 'product.size', 'audi')
             ->where('audi_id', Auth::id())
             ->whereType('store')
             ->whereNull('inventory_id')
@@ -211,12 +211,12 @@ class StoreSession extends Component
 
         // $sessions = DB::table('sessions')->whereNull('inventory_id')->whereType('store')->where('audi_id', Auth::id())->get();
 
-        $sessions = DB::table('sessions')->whereNull('inventory_id')->whereType('store')->where('audi_id', Auth::id())->orderBy('created_at')->chunk(50, function ($sessions) use ($inventory){
+        $sessions = Session::where('inventory_id', null)->where('type', 'store')->where('audi_id', Auth::id())->chunk(100, function ($sessions){
 
-            foreach($sessions as $session){
-                $productExist = DB::table('products')->where('id', $session->product_id)->first();
-                DB::table('sessions')->where('product_id', $session->product_id)->update(['stock' => $productExist->stock_store,'inventory_id' => $inventory->id, 'updated_at' => now()]);
-            }
+                foreach($sessions as $session){
+                    $productExist = DB::table('products')->where('id', $session->product_id)->first();
+                    DB::table('sessions')->where('product_id', $session->product_id)->update(['stock' => $productExist->stock_store]);
+                }
 
         });
 
@@ -292,6 +292,7 @@ class StoreSession extends Component
         // $session = Session::with('product', 'audi')->where('audi_id', Auth::id())->where('type', 'store')->orderByDesc('updated_at')->paginate(15);
         return view('backend.inventories.table.store-session', [
             'countProductsStock' => Product::query()->onlySubProducts()->with('parent')->where('stock_store', '<>', 0)->count(),
+            'countRows' => Session::where('audi_id', Auth::id())->whereType('store')->whereNull('inventory_id'),
             'inventories' => Inventory::query()->whereType('store'),
             'session' => $this->rows,
         ]);

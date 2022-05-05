@@ -278,7 +278,7 @@
 		  <footer class="float-right">
 		    <div wire:loading.remove>
 			  	<button type="button" wire:click="checkout" class="btn btn-primary">@lang('Checkout')</button>
-			  </div>
+			</div>
 		  </footer>
 		</x-slot>
 	@endif

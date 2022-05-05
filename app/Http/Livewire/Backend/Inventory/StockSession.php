@@ -109,7 +109,7 @@ class StockSession extends Component
     public function getRowsQueryProperty()
     {
         $query = Session::query()
-            ->with('product.parent', 'audi')
+            ->with('product.parent', 'product.color', 'product.size', 'audi')
             ->where('audi_id', Auth::id())
             ->whereType('stock')
             ->whereNull('inventory_id')
@@ -211,13 +211,11 @@ class StockSession extends Component
 
         // $sessions = DB::table('sessions')->whereNull('inventory_id')->whereType('stock')->where('audi_id', Auth::id())->get();
 
-        $sessions = DB::table('sessions')->whereNull('inventory_id')->whereType('stock')->where('audi_id', Auth::id())->orderBy('created_at')->chunk(50, function ($sessions) use ($inventory){
-
-            foreach($sessions as $session){
-                $productExist = DB::table('products')->where('id', $session->product_id)->first();
-                DB::table('sessions')->where('product_id', $session->product_id)->update(['stock' => $productExist->stock,'inventory_id' => $inventory->id, 'updated_at' => now()]);
-            }
-
+        $sessions = Session::where('inventory_id', null)->where('type', 'stock')->where('audi_id', Auth::id())->orderBy('created_at')->chunk(100, function ($sessions) use ($inventory){
+                foreach($sessions as $session){
+                    $productExist = DB::table('products')->where('id', $session->product_id)->first();
+                    DB::table('sessions')->where('product_id', $session->product_id)->update(['stock' => $productExist->stock]);
+                }
         });
 
         $subProducts = Product::query()->with('session')->onlySubProducts()->with('parent')->where('stock', '<>', 0)->get();
@@ -292,6 +290,7 @@ class StockSession extends Component
         // $session = Session::with('product', 'audi')->where('audi_id', Auth::id())->where('type', 'stock')->orderByDesc('updated_at')->paginate(15);
         return view('backend.inventories.table.stock-session', [
             'countProductsStock' => Product::query()->onlySubProducts()->with('parent')->where('stock', '<>', 0)->count(),
+            'countRows' => Session::where('audi_id', Auth::id())->whereType('stock')->whereNull('inventory_id'),
             'inventories' => Inventory::query()->whereType('stock'),
             'session' => $this->rows,
         ]);
