@@ -165,18 +165,18 @@
                 <div class="col-md-3">
                   <div class="btn-group mr-2" role="group" aria-label="First group">
                     <button type="button" class="btn btn-outline-primary" wire:click="clearFilterDate"  class="btn btn-default">@lang('Clear date')</button>
-                    <button type="button" class="btn btn-primary" wire:click="clearAll" class="btn btn-default">@lang('Clear all')</button>
+                    <button type="button" class="btn btn-outline-primary" wire:click="clearAll" class="btn btn-default">@lang('Clear all')</button>
                   </div>
                 </div>
                 &nbsp;
 
-{{--                 <div class="col-md-1">
+                {{-- <div class="col-md-1">
                   <div class="custom-control custom-switch">
                     <input type="checkbox" wire:model="deleted" class="custom-control-input" id="deletedSwitch">
                     <label class="custom-control-label" for="deletedSwitch"> <p class="{{ $deleted ? 'text-primary' : 'text-dark' }}"> @lang('Deletions')</p></label>
                   </div>
-                </div>
- --}}
+                </div> --}}
+
             </div>
         </div>
         <div class="card-body">

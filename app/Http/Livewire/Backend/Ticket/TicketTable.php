@@ -137,26 +137,50 @@ class TicketTable extends Component
 
     public function isCurrentMonth()
     {
-        $this->clearFilterDate();
+        $this->resetPage();
+        $this->dateInput = '';
+        $this->dateOutput = '';
         $this->currentWeek = FALSE;
         $this->today = FALSE;
-        $this->currentMonth = TRUE;
+
+        if($this->currentMonth){
+            $this->currentMonth = false;
+        }
+        else{
+            $this->currentMonth = TRUE;
+        }
     }
 
     public function isCurrentWeek()
     {
-        $this->clearFilterDate();
+        $this->resetPage();
+        $this->dateInput = '';
+        $this->dateOutput = '';
         $this->currentMonth = FALSE;
         $this->today = FALSE;
-        $this->currentWeek = TRUE;
+
+        if($this->currentWeek){
+            $this->currentWeek = false;
+        }
+        else{
+            $this->currentWeek = TRUE;
+        }
     }
 
     public function isToday()
     {
-        $this->clearFilterDate();
+        $this->resetPage();
+        $this->dateInput = '';
+        $this->dateOutput = '';
         $this->currentMonth = FALSE;
         $this->currentWeek = FALSE;
-        $this->today = TRUE;
+
+        if($this->today){
+            $this->today = false;
+        }
+        else{
+            $this->today = TRUE;
+        }
     }
 
     public function clearAll()
@@ -186,6 +210,14 @@ class TicketTable extends Component
     public function updatedPerPage()
     {
         $this->resetPage();
+    }
+
+    public function updatedDateInput()
+    {
+        $this->resetPage();
+        $this->currentMonth = FALSE;
+        $this->currentWeek = FALSE;
+        $this->today = FALSE;
     }
 
     public function updatedDeleted()

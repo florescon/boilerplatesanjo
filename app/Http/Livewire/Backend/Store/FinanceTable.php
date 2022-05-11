@@ -24,7 +24,7 @@ class FinanceTable extends Component
         'incomes' => ['except' => FALSE],
         'expenses' => ['except' => FALSE],
         'dateInput' => ['except' => ''],
-        'dateOutput' => ['except' => '']
+        'dateOutput' => ['except' => ''],
     ];
 
     public $perPage = '10';
@@ -146,26 +146,50 @@ class FinanceTable extends Component
 
     public function isCurrentMonth()
     {
-        $this->clearFilterDate();
+        $this->resetPage();
+        $this->dateInput = '';
+        $this->dateOutput = '';
         $this->currentWeek = FALSE;
         $this->today = FALSE;
-        $this->currentMonth = TRUE;
+
+        if($this->currentMonth){
+            $this->currentMonth = false;
+        }
+        else{
+            $this->currentMonth = TRUE;
+        }
     }
 
     public function isCurrentWeek()
     {
-        $this->clearFilterDate();
+        $this->resetPage();
+        $this->dateInput = '';
+        $this->dateOutput = '';
         $this->currentMonth = FALSE;
         $this->today = FALSE;
-        $this->currentWeek = TRUE;
+
+        if($this->currentWeek){
+            $this->currentWeek = false;
+        }
+        else{
+            $this->currentWeek = TRUE;
+        }
     }
 
     public function isToday()
     {
-        $this->clearFilterDate();
+        $this->resetPage();
+        $this->dateInput = '';
+        $this->dateOutput = '';
         $this->currentMonth = FALSE;
         $this->currentWeek = FALSE;
-        $this->today = TRUE;
+
+        if($this->today){
+            $this->today = false;
+        }
+        else{
+            $this->today = TRUE;
+        }
     }
 
     public function clearAll()
@@ -185,6 +209,14 @@ class FinanceTable extends Component
         $this->searchTerm = '';
         $this->resetPage();
         $this->perPage = '10';
+    }
+
+    public function updatedDateInput()
+    {
+        $this->resetPage();
+        $this->currentMonth = FALSE;
+        $this->currentWeek = FALSE;
+        $this->today = FALSE;
     }
 
     public function updatedSearchTerm()

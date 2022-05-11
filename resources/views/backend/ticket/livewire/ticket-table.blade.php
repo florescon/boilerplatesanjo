@@ -53,7 +53,7 @@
                 <div class="col-md-3">
                   <div class="btn-group mr-2" role="group" aria-label="First group">
                     <button type="button" class="btn btn-outline-success" wire:click="clearFilterDate"  class="btn btn-default">@lang('Clear date')</button>
-                    <button type="button" class="btn btn-success" wire:click="clearAll" class="btn btn-default">@lang('Clear all')</button>
+                    <button type="button" class="btn btn-outline-success" wire:click="clearAll" class="btn btn-default">@lang('Clear all')</button>
                   </div>
                 </div>
                 &nbsp;
