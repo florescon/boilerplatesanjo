@@ -1,12 +1,11 @@
-<x-utils.modal id="createService" ariaLabelledby="createServiceModal" tform="store">
+<x-utils.modal id="createService" width="modal-sm" ariaLabelledby="createServiceModal" tform="store">
   <x-slot name="title">
     @lang('Create service')
   </x-slot>
 
   <x-slot name="content">
 
-    <div class="form-group row">
-      <label for="name" class="col-md-2 col-form-label">@lang('Name')<sup>*</sup></label>
+    <div class="form-group row justify-content-center">
       <div class="col-md-10">
           <input type="text" name="name" wire:model.lazy="name" class="form-control" placeholder="{{ __('Name') }}" value="{{ old('name') }}" maxlength="100" autofocus required />
                                   
@@ -14,8 +13,7 @@
       </div>
     </div><!--form-group-->
 
-    <div class="form-group row">
-      <label for="code" class="col-md-2 col-form-label">@lang('Code')</label>
+    <div class="form-group row justify-content-center">
       <div class="col-md-10">
         <input type="text" name="code" wire:model="code" class="form-control" placeholder="{{ __('Code') }}" value="{{ old('code') }}" maxlength="100" />
 
@@ -23,8 +21,7 @@
       </div>
     </div><!--form-group-->
 
-    <div class="form-group row">
-      <label for="price" class="col-md-2 col-form-label">@lang('Price')<sup>*</sup></label>
+    <div class="form-group row justify-content-center">
       <div class="col-md-10">
           <input type="text" name="price" wire:model.lazy="price" class="form-control" placeholder="{{ __('Price') }}" value="{{ old('price') }}" maxlength="100" required />
 

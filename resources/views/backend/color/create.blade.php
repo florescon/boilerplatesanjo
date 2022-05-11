@@ -28,12 +28,12 @@
             </button>
           </div>
 
-          <label class="mt-2">@lang('Color')</label>
-          <x-input.colorpicker wire:model="color" :text="__('Select primary color')"/>
+          <label class="form-label" for="color">@lang('Color')</label>
+          <input class="form-control form-control-color" wire:model="color" id="color" type="color" value="#563d7c" title="@lang('Select primary color')">
           @error('color') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
-          <label class="mt-2">@lang('Secondary color')</label>
-          <x-input.colorpicker wire:model="secondary_color" :text="__('Select secondary color (optional)')"/>
+          <label class="form-label" for="color">@lang('Secondary color')</label>
+          <input class="form-control form-control-color" wire:model="secondary_color" id="color" type="color" value="#fff" title="@lang('Select secondary color (optional)')">
           @error('secondary_color') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
         </div>

@@ -464,6 +464,26 @@ class Order extends Model
         return '';
     }
 
+    public function isOrder(): bool
+    {
+        return $this->type === 1;
+    }
+
+    public function isSale(): bool
+    {
+        return $this->type === 2;
+    }
+
+    public function isMix(): bool
+    {
+        return $this->type === 3;
+    }
+
+    public function isSuborder(): bool
+    {
+        return $this->type === 4;
+    }
+
     /**
      * @return bool
      */

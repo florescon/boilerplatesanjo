@@ -2,7 +2,7 @@
     <link rel="stylesheet" href="{{ asset('css_custom/search-product.css') }}">
 @endpush
 
-<x-utils.modal id="searchProduct">
+<x-utils.modal id="searchProduct" width="modal-lg">
   <x-slot name="title">
     @lang('Search product')
   </x-slot>

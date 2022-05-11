@@ -261,7 +261,13 @@
 			  <div class="card-body">
 			    <p class="card-text">@lang('Your cart order is empty!')</p>
 				<div class="btn-group" role="group" aria-label="Basic example">
-				  <a type="button" href="{{ route('admin.order.index') }}" class="btn btn-primary">@lang('Go to orders')</a>
+				  <a type="button" href="{{ $fromStore ? route('admin.store.all.index') : route('admin.order.index') }}" class="btn btn-primary">
+				  	@if($fromStore)
+				  		@lang('Go to store')
+				  	@else
+				  		@lang('Go to orders')
+				  	@endif
+				  </a>
 				  <a type="button" href="{{ route('admin.product.index') }}" class="btn btn-outline-primary">@lang('Go to products')</a>
 				</div>
 			  </div>

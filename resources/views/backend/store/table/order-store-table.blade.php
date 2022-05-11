@@ -47,7 +47,6 @@
 	        <option>10</option>
 	        <option>25</option>
 	        <option>50</option>
-	        <option>100</option>
 	      </select>
 	    </div><!--col-->
 
@@ -101,8 +100,17 @@
                 <th scope="col" class="text-center">
                   @lang('Status')
                 </th>
+                <th scope="col" class="text-center">
+                  <a style="color:white;" wire:click.prevent="sortBy('date_entered')" role="button" href="#">
+	                  @lang('Date')
+                    @include('backend.includes._sort-icon', ['field' => 'date_entered'])
+                  </a>
+                </th>
 	              <th scope="col" class="text-center">
+                  <a style="color:white;" wire:click.prevent="sortBy('created_at')" role="button" href="#">
 	                  @lang('Created at')
+                    @include('backend.includes._sort-icon', ['field' => 'created_at'])
+                  </a>
 	              </th>
 	              <th scope="col" class="text-center">
 	                  @lang('Details')
@@ -116,7 +124,6 @@
 		            		<strong>
 			            		#{{ $order->id }}
 			            	</strong>
-										<span class="badge badge-light"><strong>{{ $order->tracking_number }}</strong></span>
 		            	</td>
 	                <td class="align-middle">
 	                  {!! Str::limit($order->comment, 100) ?? '<span class="badge badge-secondary">'.__('undefined').'</span>' !!}
@@ -130,6 +137,9 @@
 	                </td>
 	                <td class="align-middle text-center" style="text-decoration: underline;">
 	                   {!! $order->last_status_order_label !!}
+	                </td>
+	                <td class="align-middle text-center">
+	                   {{ $order->date_entered->format('d-m-Y') ?? __('undefined') }}
 	                </td>
 		              <td class="align-middle text-center">
 		                <span class="badge badge-dot">
@@ -148,7 +158,8 @@
 		                  	@lang('Order'): <strong class="ml-1">{{ $order->parent_order }}</strong>
 		                  </span>
 	                  @endif
-										{!! $order->from_store_or_user_label !!}
+	                  {!! $order->last_order_delivery->order_delivery  ?? "<span class='badge text-dark' style='background-color: white;'>".__('Pending').'</span>' !!}
+										{{-- {!! $order->from_store_or_user_label !!} --}}
 	                </td>
 		            </tr>
 	            @endforeach

@@ -4,6 +4,19 @@
   	<h3>
 	    <strong class="text-{{ $title['color'] }}"> @lang($title['title']) </strong>
 	  </h3>
+
+	  @if($status == 'suborders')
+	    <x-slot name="headerActions">
+	      <x-utils.link
+	      	style="color: purple;"
+	        icon="c-icon cil-plus"
+	        class="card-header-action"
+	        :href="route('admin.order.createsuborder')"
+	        :text="__('Create suborder')"
+	      />
+	    </x-slot>
+    @endif
+
     <div class="card-header-actions mb-3">
       <x-utils.link class="mt-2 mr-2 card-header-action btn btn-secondary text-dark {{ $status == 'all' ? 'button-large pulsate' : '' }}" :href="route('admin.order.all')" :text="__('all')" />
       <x-utils.link class="mt-2 mr-2 card-header-action btn btn-primary text-white {{ $status == '' ? 'button-large pulsate' : '' }}" :href="route('admin.order.index')" :text="__('Orders')" />

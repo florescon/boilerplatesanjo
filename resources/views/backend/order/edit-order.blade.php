@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', __('Edit order'))
+@section('title', __('Edit'))
 
 @push('after-styles')
     <link rel="stylesheet" href="{{ asset('css_custom/timeline.css') }}">

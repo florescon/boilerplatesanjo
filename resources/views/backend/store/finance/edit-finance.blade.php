@@ -1,6 +1,6 @@
 <x-utils.modal id="editFinance" width="modal-dialog-centered" tform="update">
   <x-slot name="title"> 
-    @lang('Edit finance')
+    @lang('Edit')
   </x-slot>
 
   <x-slot name="content">

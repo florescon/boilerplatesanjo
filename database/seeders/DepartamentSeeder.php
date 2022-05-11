@@ -20,7 +20,7 @@ class DepartamentSeeder extends Seeder
         $this->disableForeignKeys();
 
         if (app()->environment() !== 'production') {
-            Departament::factory()->times(200)->create();
+            Departament::factory()->times(10)->create();
         }
 
         $this->enableForeignKeys();

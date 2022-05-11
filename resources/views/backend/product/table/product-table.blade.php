@@ -3,22 +3,45 @@
 	<div class="card-body">
 
 	@if($status != 'deleted')
-	<div class="row mb-4 justify-content-md-center">
-		<div class="col-9">
-		  <div class="input-group">
-		    <input wire:model.debounce.350ms="searchTerm" class="input-search" type="text" placeholder="{{ __('Search general product by name or code') }}..." />
-      		<span class="border-input-search"></span>
-		  </div>
-		</div>
-	    @if($searchTerm !== '')
-	    <div class="input-group-append">
-	      <button type="button" wire:click="clear" class="close" aria-label="Close">
-	        <span aria-hidden="true"> &nbsp; &times; &nbsp;</span>
-	      </button>
 
-	    </div>
-	    @endif
-	</div>
+		<form>
+		  <div class="form-row mb-5">
+		    <div class="form-group col-md-4 ml-2">
+				    <input wire:model.debounce.500ms="searchTerm" id="inputEmail4" class=" input-search" type="text" placeholder="{{ __('Search general product by name') }}..." />
+		      		<span class="border-input-search"></span>
+
+		    </div>
+
+		    <div class="form-group col-md-2 align-items-center">
+			    @if($searchTerm !== '')
+				    <div class="input-group-append">
+				      <button type="button" wire:click="clear" class="close" aria-label="Close">
+				        <span aria-hidden="true"> &nbsp; &times; &nbsp;</span>
+				      </button>
+
+				    </div>
+			    @endif
+		    </div>
+
+		    <div class=" form-group col-md-4 ml-2">
+				    <input wire:model.debounce.500ms="searchTermExactly" id="inputPassword4" class="input-search" type="text" placeholder="{{ __('Search general product by code') }}..." />
+		      		<span class="border-input-search"></span>
+
+		    </div>
+
+		    <div class="form-group col-md-2align-items-center">
+			    @if($searchTermExactly !== '')
+				    <div class="input-group-append">
+				      <button type="button" wire:click="clear" class="close" aria-label="Close">
+				        <span aria-hidden="true"> &nbsp; &times; &nbsp;</span>
+				      </button>
+
+				    </div>
+			    @endif
+		    </div>
+		  </div>
+		</form>
+
 	@endif
 
 	<div class="card-columns">
@@ -136,6 +159,10 @@
 		      @lang('No search results') 
 		      @if($searchTerm)
 		        "{{ $searchTerm }}" 
+		      @endif
+
+		      @if($searchTermExactly)
+		        del código "{{ $searchTermExactly }}" 
 		      @endif
 
 		      @if($page > 1)

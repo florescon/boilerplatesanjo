@@ -67,6 +67,11 @@ class OrderController extends Controller
         return view('backend.order.edit-order', compact('order', 'vvar'));
     }
 
+    public function createsuborder()
+    {
+        return view('backend.order.create-suborder');
+    }
+
     public function print(Order $order)
     {
         return view('backend.order.print-order', compact('order'));

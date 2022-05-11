@@ -260,7 +260,7 @@
         @endif
 
         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.store.list') || $logged_in_user->can('admin.access.store.list_finance') || $logged_in_user->can('admin.access.store.create_finance')))
-            <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.store.pos.*') ||  Route::is('admin.store.all.*') || Route::is('admin.store.finances.*') || Route::is('admin.store.box.*'), 'c-open c-show') }}">
+            <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.store.pos') ||  Route::is('admin.store.all.*') || Route::is('admin.store.finances.*') || Route::is('admin.store.box.*'), 'c-open c-show') }}">
                 <x-utils.link
                     href="#"
                     icon="c-sidebar-nav-icon fas fa-store"
@@ -275,7 +275,7 @@
                                     :href="route('admin.store.pos')"
                                     class="c-sidebar-nav-link"
                                     :text="__('Shop panel')"
-                                    :active="activeClass(Route::is('admin.store.pos.*'), 'c-active')" />
+                                    :active="activeClass(Route::is('admin.store.pos'), 'c-active')" />
                             </li>
 
                             <li class="c-sidebar-nav-item">
@@ -314,7 +314,7 @@
         <li class="c-sidebar-nav-title">@lang('Others')</li>
 
         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.settings.list') || $logged_in_user->can('admin.access.settings.list_pages')))
-            <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.setting.index.*') || Route::is('admin.auth.pages.*'), 'c-open c-show') }}">
+            <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.setting.index') || Route::is('admin.auth.pages'), 'c-open c-show') }}">
                 <x-utils.link
                     href="#"
                     icon="c-sidebar-nav-icon cil-settings"
@@ -329,17 +329,16 @@
                                     :href="route('admin.setting.index')"
                                     class="c-sidebar-nav-link"
                                     :text="__('General Settings')"
-                                    :active="activeClass(Route::is('admin.setting.index.*'), 'c-active')" />
+                                    :active="activeClass(Route::is('admin.setting.index'), 'c-active')" />
                             </li>
                         @endif
-
 
                             <li class="c-sidebar-nav-item">
                                 <x-utils.link
                                     :href="route('admin.setting.banner')"
                                     class="c-sidebar-nav-link"
                                     :text="__('Banner images')"
-                                    :active="activeClass(Route::is('admin.setting.banner.*'), 'c-active')"/>
+                                    :active="activeClass(Route::is('admin.setting.banner'), 'c-active')"/>
                             </li>
 
                             <li class="c-sidebar-nav-item">
@@ -347,7 +346,7 @@
                                     :href="route('admin.setting.logos')"
                                     class="c-sidebar-nav-link"
                                     :text="__('Brands images')"
-                                    :active="activeClass(Route::is('admin.setting.logos.*'), 'c-active')"/>
+                                    :active="activeClass(Route::is('admin.setting.logos'), 'c-active')"/>
                             </li>
 
                             <li class="c-sidebar-nav-item">
@@ -355,7 +354,7 @@
                                     :href="route('admin.setting.gallery')"
                                     class="c-sidebar-nav-link"
                                     :text="__('Gallery')"
-                                    :active="activeClass(Route::is('admin.setting.gallery.*'), 'c-active')"/>
+                                    :active="activeClass(Route::is('admin.setting.gallery'), 'c-active')"/>
                             </li>
 
                         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.settings.list_pages')))
@@ -364,7 +363,7 @@
                                     :href="route('admin.setting.pages')"
                                     class="c-sidebar-nav-link"
                                     :text="__('Pages')"
-                                    :active="activeClass(Route::is('admin.setting.pages.*'), 'c-active')"/>
+                                    :active="activeClass(Route::is('admin.setting.pages'), 'c-active')"/>
                             </li>
                         @endif
 

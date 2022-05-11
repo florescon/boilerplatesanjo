@@ -27,7 +27,7 @@
     font-size: 45px;
   }
   h2 {
-    font-size: 35px;
+    font-size: 30px;
   }
 
   .rotate {
@@ -40,43 +40,36 @@
 
 </head>
   <body>
-    <table  width="550">
+    <table width="550">
       <tr>
-        <td rowspan="2" class="td-width">
-            <img src="{{ public_path('img/logo22-rotate.png') }}" class="rotate" width="120" style="
-              /*border: 1px solid;*/
-              margin-top: 40px;
-            " 
-          />
         </td>
-        <td align="center">
-          <div style="padding-right: 5px; padding-top: 20px;">
+        <td align="center" style="">
+          <div style="padding-right: 5px; padding-left: 10px; padding-top: 20px;">
             <img src="data:image/png;base64,{{   DNS1D::getBarcodePNG($product->code_label, 'C128',1,33,array(1,1,1), false)  }}"  style="        
                   /*position: relative;*/
               margin-top: -10px;
-              height:150px;
+              height:200px;
               /*padding-bottom: 0;*/
               width: 115%;
               /*overflow: hidden;*/
               /*border: 1px solid;*/
-              
               " 
               alt="barcode"
             />
-            <i style="font-size: 33px;">{{ $product->code_label }}</i>
           </div>
         </td>
-        <td rowspan="2" style="padding-left: 16px;">
-          <img src="data:image/png;base64, {{ base64_encode(\QrCode::format('svg')->size(170)->generate($product->code_label)) }}" style=" margin-top: 80px;" />
+        <td rowspan="2" style="padding-left: 70px;">
+          <p style="font-size: 17px;">{{ $product->code_label }}</p>
+          <img src="data:image/png;base64, {{ base64_encode(\QrCode::format('svg')->size(230)->generate($product->code_label)) }}" style="margin-top: 50px;" />
         </td>
       </tr>
       <tr>
-        <td align="center">
-            <h2>
+        <td align="center" style="">
+            <h2 style="">
               {{ $product->parent->name }}
               {{ optional($product->parent->model_product)->name }}
               &nbsp;
-              <em>{{ $product->color_id ? $product->color->name : '' }} | {!! $product->size_id ? $product->size->name : '' !!}</em>
+              <strong style="border: 1px solid; border-style: dashed;">&nbsp;{{ $product->color_id ? $product->color->name : '' }} - {!! $product->size_id ? $product->size->name : '' !!}&nbsp;</strong>
             </h2>
         </td>
       </tr>

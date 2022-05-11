@@ -37,7 +37,7 @@ Route::group([
             ->middleware('permission:admin.access.inventory.stock')
             ->breadcrumbs(function (Trail $trail) {
                 $trail->parent('admin.inventory.stock.index')
-                    ->push(__('Store inventory history Management'), route('admin.inventory.stock.history'));
+                    ->push(__('Stock inventory history Management'), route('admin.inventory.stock.history'));
             });
 
         Route::group(['prefix' => '{inventory}'], function () {

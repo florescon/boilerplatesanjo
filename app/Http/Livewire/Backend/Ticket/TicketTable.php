@@ -58,7 +58,7 @@ class TicketTable extends Component
 
     public function getRowsQueryProperty()
     {
-        $query = Ticket::query()
+        $query = Ticket::query()->with('assignments_direct', 'user', 'audi', 'status')
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?
                     $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', now()]) :

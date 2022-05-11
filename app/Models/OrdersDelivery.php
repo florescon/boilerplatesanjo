@@ -24,6 +24,25 @@ class OrdersDelivery extends Model
     ];
 
     /**
+     * @return string
+     */
+    public function getOrderDeliveryAttribute()
+    {
+            switch ($this->type) {
+                case OrderStatusDelivery::PENDING:
+                    return "<span class='badge text-dark' style='background-color: white;'>".__('Pending').'</span>';
+                case OrderStatusDelivery::READY_FOR_DELIVERY:
+                    return "<span class='badge badge-warning text-white'>".__('Ready for delivery').'</span>';
+                case OrderStatusDelivery::DELIVERED:
+                    return "<span class='badge badge-primary'>".__('Delivered').'</span>';
+                default:
+                    return "<span class='badge text-dark' style='background-color: white;'>".__('Pending').'</span>';
+            }
+
+        return '';
+    }
+
+    /**
      * Return the correct order delivery formatted.
      *
      * @return mixed

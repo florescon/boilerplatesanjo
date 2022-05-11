@@ -1,4 +1,4 @@
-<x-utils.modal id="createCash" tform="store">
+<x-utils.modal id="createCash" width="modal-sm" tform="store">
   <x-slot name="title">
       @lang('Add initial daily cash closing') <i class="cil-money"></i>
   </x-slot>

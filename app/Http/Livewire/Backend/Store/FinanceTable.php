@@ -76,7 +76,7 @@ class FinanceTable extends Component
 
     public function getRowsQueryProperty()
     {
-        $query = Finance::query()->with('user', 'payment')
+        $query = Finance::query()->with('user', 'payment', 'order', 'departament', 'cash')
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?
                     $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', now()]) :

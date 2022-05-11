@@ -42,9 +42,18 @@ Route::group([
         ->name('all')
         ->middleware('permission:admin.access.order.modify')
         ->breadcrumbs(function (Trail $trail) {
-            $trail->parent('admin.order.index')
+            $trail->parent('admin.order.suborders')
                 ->push(__('All orders'), route('admin.order.all'));
         });
+
+    Route::get('createsuborder', [OrderController::class, 'createsuborder'])
+        ->name('createsuborder')
+        ->middleware('permission:admin.access.order.suborders')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.order.index')
+                ->push(__('Create suborder'), route('admin.order.createsuborder'));
+        });
+
     Route::get('deleted', [OrderController::class, 'deleted'])
         ->name('deleted')
         ->middleware('permission:admin.access.order.deleted')
@@ -58,7 +67,7 @@ Route::group([
             ->name('edit')
             ->middleware('permission:admin.access.order.modify')
             ->breadcrumbs(function (Trail $trail, Order $order) {
-                $trail->parent('admin.order.index')
+                $trail->parent($order->from_store ? 'admin.store.all.index' : 'admin.order.index')
                     ->push(__('Edit'), route('admin.order.edit', $order));
             });
 

@@ -24,7 +24,7 @@ trait OrderScope
      */
     public function scopeOnlySuborders($query)
     {
-        return $query->whereNotNull('parent_order_id');
+        return $query->whereType(4);
     }   
 
     /**

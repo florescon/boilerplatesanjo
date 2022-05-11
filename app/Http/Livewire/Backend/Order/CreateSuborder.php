@@ -14,25 +14,98 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Events\Order\OrderCreated;
 use Livewire\WithPagination;
+use App\Http\Livewire\Backend\DataTable\WithBulkActions;
+use App\Http\Livewire\Backend\DataTable\WithCachedRows;
 
-class Suborders extends Component
+class CreateSuborder extends Component
 {
-    use WithPagination;
+    use Withpagination, WithBulkActions, WithCachedRows;
 
     protected $paginationTheme = 'bootstrap';
 
     public $order_id, $quantityy, $departament, $status_name;
 
+    public $perPage = '15';
+
+    public $searchTerm = '';
+
+    public $sortField = 'updated_at';
+
+    public $sortAsc = false;
+
     protected $listeners = ['selectedDeparament', 'savesuborder' => '$refresh'];
 
-    public function mount(Order $order)
-    {
-        $this->order_id = $order->id;
-    }
+    protected $queryString = [
+        'searchTerm' => ['except' => ''],
+        'perPage',
+    ];
 
     protected $rules = [
         'departament' => 'required',
     ];
+
+
+    public function sortBy($field)
+    {
+        if ($this->sortField === $field) {
+            $this->sortAsc = ! $this->sortAsc;
+        } else {
+            $this->sortAsc = true;
+        }
+
+        $this->sortField = $field;
+    }
+
+    public function getRowsQueryProperty()
+    {
+        $query = Product::query()
+            ->with('parent', 'color', 'size')
+            ->onlySubProducts()
+            ->where('stock', '<>', 0)
+            ->when($this->sortField, function ($query) {
+                $query->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc');
+            });
+
+        $this->applySearchFilter($query);
+
+        return $query;
+    }
+
+    public function getRowsProperty()
+    {
+        return $this->cache(function () {
+            return $this->rowsQuery->paginate($this->perPage);
+        });
+    }
+
+    private function applySearchFilter($products)
+    {
+        if ($this->searchTerm) {
+            return $products->whereHas('parent', function ($query) {
+               $query->whereRaw("name LIKE \"%$this->searchTerm%\"")
+                    ->orWhereRaw("code LIKE \"%$this->searchTerm%\"");
+            });
+        }
+
+        return null;
+    }
+
+    public function clear()
+    {
+        $this->searchTerm = '';
+        $this->resetPage();
+        $this->perPage = '15';
+    }
+
+    public function updatedSearchTerm()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedPerPage()
+    {
+        $this->resetPage();
+    }
 
     public function selectedDeparament($item)
     {
@@ -46,14 +119,16 @@ class Suborders extends Component
     {
         $this->validate();
 
+        $model2 = Product::query()->onlySubProducts()->with('parent')->where('stock', '<>', 0)->paginate(10);
+
         $orderModel = Order::with('product_order')->find($this->order_id);
 
-        foreach($orderModel->product_order as $bal)
+        foreach($model2 as $bal)
         {
 
             if(is_array($this->quantityy) && array_key_exists($bal->id, $this->quantityy)){
 
-                $available = $bal->quantity - $orderModel->getTotalAvailableByProduct($bal->id);
+                $available = $bal->stock;
 
                 $this->validate([
                     'quantityy.'.$bal->id.'.available' => 'sometimes|nullable|numeric|integer|gt:0|max:'.$available,
@@ -113,10 +188,12 @@ class Suborders extends Component
 
     public function render()
     {
-        $model = Order::with('suborders.user', 'product_order.product')->findOrFail($this->order_id);
+        // $model2 = Product::query()->onlySubProducts()->with('parent')->where('stock', '<>', 0)->paginate(10);
+        $model = Order::query()->onlySuborders()->outFromStore()->get();
 
-        $model2 = $model->product_order()->paginate(3);
-
-        return view('backend.order.livewire.suborders')->with(compact('model', 'model2'));
+        return view('backend.order.livewire.create-suborder', [
+            'model2' => $this->rows,
+            'model' => $model
+        ]);
     }
 }

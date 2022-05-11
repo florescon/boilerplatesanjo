@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Route;
 
 class CartController extends Controller
 {
-
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -29,5 +28,4 @@ class CartController extends Controller
 		$fromStore = true; // string
 	    return view('backend.cart.index', compact('fromStore'));
 	}
-
 }

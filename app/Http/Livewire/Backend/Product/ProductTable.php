@@ -19,6 +19,7 @@ class ProductTable extends Component
 
 	protected $queryString = [
         'searchTerm' => ['except' => ''],
+        'searchTermExactly' => ['except' => ''],
         'perPage',
     ];
 
@@ -26,6 +27,9 @@ class ProductTable extends Component
 
     public $status;
     public $searchTerm = '';
+    public $searchTermExactly = '';
+
+    public bool $incomes = false;
 
     protected $listeners = ['restore' => '$refresh'];
 
@@ -42,7 +46,12 @@ class ProductTable extends Component
             return $query->onlyTrashed();
         }
 
-        $this->applySearchFilter($query);
+        if ($this->searchTermExactly) {
+            $this->applySearchFilterExactly($query);
+        }
+        if($this->searchTerm){
+            $this->applySearchFilter($query);
+        }
 
         return $query;
     }
@@ -57,9 +66,26 @@ class ProductTable extends Component
     private function applySearchFilter($products)
     {
         if ($this->searchTerm) {
-            return $products->whereRaw("code LIKE \"%$this->searchTerm%\"")
-                            ->orWhereRaw("name LIKE \"%$this->searchTerm%\"")
-                            ->orWhereRaw("description LIKE \"%$this->searchTerm%\"")
+
+            $terms = explode(' ',  $this->searchTerm);
+
+            return $products->where(function ($query) use ($terms) {
+                foreach ($terms as $term) {
+                    // $query->where('name', 'like', '%'.$searchTerm.'%')
+                    // ->orWhere('lastname', 'like', '%'.$searchTerm.'%')
+
+                    $query->whereRaw("name LIKE \"%$term%\"");
+                }
+            })->onlyProducts();
+        }
+
+        return null;
+    }
+
+    private function applySearchFilterExactly($products)
+    {
+        if ($this->searchTermExactly) {
+            return $products->whereRaw("code LIKE \"%$this->searchTermExactly%\"")
                             ->onlyProducts();
         }
 
@@ -69,12 +95,20 @@ class ProductTable extends Component
     public function clear()
     {
         $this->searchTerm = '';
+        $this->searchTermExactly = '';
         $this->resetPage();
         $this->perPage = '12';
     }
 
     public function updatedSearchTerm()
     {
+        $this->searchTermExactly = '';
+        $this->resetPage();
+    }
+
+    public function updatedSearchTermExactly()
+    {
+        $this->searchTerm = '';
         $this->resetPage();
     }
 

@@ -31,13 +31,13 @@
 				              </ins>
 				            </a>
 					    </div>
-					    <div class="col-sm">
+					    {{-- <div class="col-sm">
 				            <a href="{{ route('admin.store.box.ticket-cash-out', $cash_orders->id) }}" class="card-link text-dark" target="_blank">	<i class="cil-print"></i>
 				              <ins>
 				                Otros métodos de pago
 				              </ins>
 				            </a>
-					    </div>
+					    </div> --}}
 					  </div>
 					</div>				
 

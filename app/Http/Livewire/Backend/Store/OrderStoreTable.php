@@ -47,7 +47,7 @@ class OrderStoreTable extends Component
 
     public function getRowsQueryProperty()
     {
-        $query = Order::query()->with('user', 'last_status_order.status')
+        $query = Order::query()->with('user', 'orders_payments', 'orders_delivery', 'last_order_delivery', 'product_order', 'product_sale', 'product_suborder', 'last_status_order.status')
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?
                 $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', now()]) :

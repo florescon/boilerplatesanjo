@@ -10,9 +10,9 @@
     </x-slot>
 
     <x-slot name="headerActions">
-        <x-utils.link class="card-header-action btn btn-primary text-white" :href="route('admin.order.edit', $order_id)" :text="__('Go to edit order')" />
+        {{-- <x-utils.link class="card-header-action btn btn-primary text-white" :href="route('admin.order.edit', $order_id)" :text="__('Go to edit order')" /> --}}
 
-        <x-utils.link class="card-header-action" :href="route('admin.order.index')" icon="fa fa-chevron-left" :text="__('Back')" />
+        <x-utils.link class="card-header-action" :href="route('admin.order.suborders')" icon="fa fa-chevron-left" :text="__('Back')" />
     </x-slot>
     <x-slot name="body">
 
@@ -29,6 +29,36 @@
                     </span>
 
                     <livewire:backend.departament.select-departaments/>
+                    <div class="row mt-4 justify-content-md-center">
+                      <div class="col-3 form-inline">
+                        @lang('Per page'): &nbsp;
+
+                        <select wire:model="perPage" class="form-control">
+                          <option>10</option>
+                          <option>25</option>
+                          <option>50</option>
+                          <option>100</option>
+                        </select>
+                      </div><!--col-->
+                    </div>
+
+                    <div class="row mb-4 justify-content-md-center">
+
+                        <div class="col-9">
+                          <div class="input-group">
+                            <input wire:model.debounce.350ms="searchTerm" class="input-search" type="text" placeholder="Buscar producto terminado..." />
+                            <span class="border-input-search"></span>
+                          </div>
+                        </div>
+                        @if($searchTerm !== '')
+                            <div class="input-group-append">
+                              <button type="button" wire:click="clear" class="close" aria-label="Close">
+                                <span aria-hidden="true"> &nbsp; &times; &nbsp;</span>
+                              </button>
+                            </div>
+                        @endif
+                    </div>
+
                     <div class="row justify-content-end">
                       <div class="col-9">
                         @error('departament') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
@@ -39,22 +69,22 @@
                           <thead>
                             <tr>
                               <th>Producto</th>
-                              <th class="border-right-0">Cantidad orden</th>
+                              <th class="border-right-0">Producto terminado</th>
                               <th style="color:purple;">Disponible para suborden</th>
                             </tr>
                           </thead>
                           <tbody>
                             @foreach($model2 as $product)
                               <tr>
-                                <td class="text-left">{!! $product->product->full_name !!}</td>
-                                <td class="border-right-0">{{ $product->quantity }}</td>
+                                <td class="text-left">{!! $product->full_name !!}</td>
+                                <td class="border-right-0">{{ $product->stock }}</td>
                                 <td > 
                                     <input type="number" 
                                         wire:model="quantityy.{{ $product->id }}.available"
                                         wire:keydown.enter="savesuborder" 
                                         class="form-control"
                                         style="color: red;" 
-                                        placeholder="{{ $product->quantity - $model->getTotalAvailableByProduct($product->id) }}" 
+                                        {{-- placeholder="{{ $product->quantity - $model->getTotalAvailableByProduct($product->id) }}"  --}}
                                     >
                                     @error('quantityy.'.$product->id.'.available') 
                                       <span class="error" style="color: red;">
@@ -66,8 +96,8 @@
                             @endforeach
                               <tr>
                                 <td class="text-right">Total:</td>
-                                <td class="border-right-0">{{ $model->total_products }}</td>
-                                <td style="color:purple;">{{ $model->total_products - $model->total_products_all_suborders }}</td>
+                                <td class="border-right-0">{{ $model2->sum('stock') }}</td>
+                                <td style="color:purple;"></td>
                               </tr>
                               @if($quantityy)
                                 <tr>
@@ -97,7 +127,7 @@
                   $colors = array(0=>"primary", 1=>"info", 2=>"secondary", 3=>"light");
                 @endphp
 
-                @forelse($model->suborders as $suborder)
+                @forelse($model as $suborder)
                   <a href="{{ route('admin.order.edit', $suborder->id) }}" class="list-group-item list-group-item-action flex-column align-items-start 
                     @if($colors_counter <= 3)
                       list-group-item-{{ $colors[$colors_counter] }}

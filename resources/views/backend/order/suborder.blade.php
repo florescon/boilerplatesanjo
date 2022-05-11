@@ -131,12 +131,9 @@
     <div class="col-xl-3 col-md-4 col-12 invoice-actions mt-md-0 mt-2">
       <div class="card">
         <div class="card-body">
-          <a href="{{ route('admin.order.edit', $model->parent_order_id) }}" class="btn btn-primary btn-block mb-75" >
-           @lang('Go to main order')
-          </a>
-          <a href="{{ route('admin.order.sub', $model->parent_order_id) }}" style="background-color:purple;" class="btn btn-block mb-75 text-white">
+          {{-- <a href="{{ route('admin.order.sub', $model->parent_order_id) }}" style="background-color:purple;" class="btn btn-block mb-75 text-white">
            @lang('Go to suborders')
-          </a>
+          </a> --}}
           <a class="btn btn-secondary btn-block mb-75" href="{{ route('admin.order.print', $model->id) }}" target="_blank">
             <i class="cil-print"></i>
             @lang('Print')
