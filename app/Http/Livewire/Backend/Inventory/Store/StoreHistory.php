@@ -57,7 +57,7 @@ class StoreHistory extends Component
 
     public function getRowsQueryProperty()
     {
-        $query = Inventory::query()->whereType('store')
+        $query = Inventory::query()->with('audi', 'items')->whereType('store')
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?
                     $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', now()]) :

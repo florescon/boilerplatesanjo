@@ -12,7 +12,7 @@ class OrderBox extends Component
     {
         return view('backend.store.box.order-box', [
             'countOrders' => Finance::query()->onlyNullCash()->count(),
-            'orders' => Order::query()->onlyCashable()->orderBy('created_at', 'DESC')->paginate(8),
+            'orders' => Order::query()->with('user')->onlyCashable()->orderBy('created_at', 'DESC')->paginate(8),
         ]);
     }
 }

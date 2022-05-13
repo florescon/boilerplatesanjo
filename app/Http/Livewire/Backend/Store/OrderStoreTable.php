@@ -143,6 +143,11 @@ class OrderStoreTable extends Component
         $this->perPage = '10';
     }
 
+    public function updatedPerPage()
+    {
+        $this->resetPage();
+    }
+
     public function updatedDateInput()
     {
         $this->resetPage();

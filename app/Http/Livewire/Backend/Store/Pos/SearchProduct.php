@@ -48,7 +48,6 @@ class SearchProduct extends Component
             if(count($this->filters) >= 2){
                 array_shift($this->filters);
             };
-    
         }
     }
 
@@ -65,7 +64,6 @@ class SearchProduct extends Component
             if(count($this->filtersz) >= 2){
                 array_shift($this->filtersz);
             };
-    
         }
     }
 
@@ -155,7 +153,7 @@ class SearchProduct extends Component
         $this->products = Product::with('parent', 'color', 'size')
             ->whereRaw("code LIKE \"%$this->query%\"")
             ->orWhereRaw("name LIKE \"%$this->query%\"")
-            ->get()->take(10)
+            ->get()->take(30)
             ->toArray();
  
        $this->selectedProduct = null;

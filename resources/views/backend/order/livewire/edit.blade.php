@@ -1,12 +1,12 @@
 @push('after-styles')
-<style type="text/css">
-</style>
+  <style type="text/css">
+  </style>
 @endpush
 
 <x-backend.card>
 
   <x-slot name="header">
-    @lang('View') {{ $model->type_order_clear }} #{{ $order_id }}
+    {{ $model->type_order_clear }} #{{ $order_id }}
   </x-slot>
 
   <x-slot name="headerActions">

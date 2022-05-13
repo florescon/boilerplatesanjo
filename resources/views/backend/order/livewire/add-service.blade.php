@@ -11,10 +11,10 @@
 
       @if($service)
         <label class="mt-2 text-center">@lang('Price')</label>
-        <input wire:model="price" type="number" step="any" class="form-control"/>
+        <input wire:model.defer="price" type="number" step="any" class="form-control"/>
 
         <label class="mt-2">@lang('Amount')</label>
-        <input wire:model="amount" type="number" class="form-control"/>
+        <input wire:model.defer="amount" type="number" class="form-control"/>
         @error('amount') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
       @endif
 

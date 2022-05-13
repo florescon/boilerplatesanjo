@@ -74,7 +74,7 @@
                             </tr>
                           </thead>
                           <tbody>
-                            @foreach($model2 as $product)
+                            @foreach($products as $product)
                               <tr>
                                 <td class="text-left">{!! $product->full_name !!}</td>
                                 <td class="border-right-0">{{ $product->stock }}</td>
@@ -96,7 +96,7 @@
                             @endforeach
                               <tr>
                                 <td class="text-right">Total:</td>
-                                <td class="border-right-0">{{ $model2->sum('stock') }}</td>
+                                <td class="border-right-0">{{ $products->sum('stock') }}</td>
                                 <td style="color:purple;"></td>
                               </tr>
                               @if($quantityy)
@@ -110,7 +110,7 @@
                           </tbody>
                         </table>
 
-                        {{ $model2->links() }}
+                        {{ $products->links() }}
 
                       </div> 
                   </div>

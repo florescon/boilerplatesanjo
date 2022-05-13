@@ -119,28 +119,28 @@ class CreateSuborder extends Component
     {
         $this->validate();
 
-        $model2 = Product::query()->onlySubProducts()->with('parent')->where('stock', '<>', 0)->paginate(10);
+        $products = Product::query()->onlySubProducts()->with('parent')->where('stock', '<>', 0)->get();
 
-        $orderModel = Order::with('product_order')->find($this->order_id);
+        // dd($this->quantityy);
 
-        foreach($model2 as $bal)
+        foreach($products as $productGet)
         {
+            // dd($productGet->stock);
 
-            if(is_array($this->quantityy) && array_key_exists($bal->id, $this->quantityy)){
+            if(is_array($this->quantityy) && array_key_exists($productGet->id, $this->quantityy)){
 
-                $available = $bal->stock;
-
+                $available = $productGet->stock;
+                
                 $this->validate([
-                    'quantityy.'.$bal->id.'.available' => 'sometimes|nullable|numeric|integer|gt:0|max:'.$available,
+                    'quantityy.'.$productGet->id.'.available' => 'sometimes|nullable|numeric|integer|gt:0|max:'.$available,
                 ]);
             }
         }
 
         if(!empty($this->quantityy)){
 
-            // dd($this->quantityy);
+            // dd($this->quantity);
             $suborder = new Order();
-            $suborder->parent_order_id = $this->order_id;
             $suborder->departament_id = $this->departament ?? null;
             $suborder->date_entered = Carbon::now()->format('Y-m-d');
             $suborder->audi_id = Auth::id();
@@ -159,12 +159,10 @@ class CreateSuborder extends Component
 
                     $SuborderIntoPro = $suborder;
 
-                    $getProductOrder = ProductOrder::find($key)->product_id;
-
-                    $getProduct = Product::with('parent')->withTrashed()->find($getProductOrder);
+                    $getProduct = Product::with('parent')->withTrashed()->find($key);
 
                     $SuborderIntoPro->product_suborder()->create([
-                        'product_id' => $getProductOrder,
+                        'product_id' => $key,
                         'quantity' => $product['available'],
                         'price' => $this->departament ? $getProduct->getPrice($departament->type_price ?? 'retail') : null,
                         'parent_product_id' => $key,
@@ -183,16 +181,16 @@ class CreateSuborder extends Component
 
     public function resetInput()
     {
-        $this->quantityy = '';
+        $this->quantity = '';
     }
 
     public function render()
     {
-        // $model2 = Product::query()->onlySubProducts()->with('parent')->where('stock', '<>', 0)->paginate(10);
+        // $products = Product::query()->onlySubProducts()->with('parent')->where('stock', '<>', 0)->paginate(10);
         $model = Order::query()->onlySuborders()->outFromStore()->get();
 
         return view('backend.order.livewire.create-suborder', [
-            'model2' => $this->rows,
+            'products' => $this->rows,
             'model' => $model
         ]);
     }

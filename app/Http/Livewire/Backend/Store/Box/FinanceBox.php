@@ -21,7 +21,7 @@ class FinanceBox extends Component
     public function render()
     {
         return view('backend.store.box.finance-box',[
-            'finances' => Finance::query()->onlyNullCash()->orderBy('created_at', 'DESC')->paginate($this->limitPerPage),
+            'finances' => Finance::query()->with('payment')->onlyNullCash()->orderBy('created_at', 'DESC')->paginate($this->limitPerPage),
         ]);
     }
 }

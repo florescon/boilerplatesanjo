@@ -47,42 +47,44 @@
         <!-- Address and Contact ends -->
 
         <!-- Invoice Description starts -->
-        <div class="table-responsive">
-          <table class="table">
-            <thead>
-              <tr>
-                <th class="py-1">@lang('Product')</th>
-                <th class="py-1">@lang('Price')</th>
-                <th class="py-1">@lang('Quantity')</th>
-                <th class="py-1">Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              @php($total = 0)
-              @foreach($model->product_suborder as $product)
-              <tr class="{{ $loop->last ? 'border-bottom' : '' }}">
-                {{-- @json($product) --}}
-                <td class="py-1">
-                  <p class="card-text font-weight-bold mb-25">{{ $product->parent_order->product->only_name}}</p>
-                  <p class="card-text text-nowrap">
-                    {!! $product->parent_order->product->only_parameters !!}
-                  </p>
-                </td>
-                <td class="py-1">
-                  <span class="font-weight-bold">${{ $product->price ? $product->price : $product->parent_order->price }}</span>
-                </td>
-                <td class="py-1">
-                  <span class="font-weight-bold">{{ $product->quantity}}</span>
-                </td>
-                <td class="py-1">
-                  <span class="font-weight-bold">${{ number_format($totalprod = ($product->price ? $product->price : $product->parent_order->price) * $product->quantity, 2, ".", ",") }}</span>
-                </td>
-              </tr>
-              @php($total += $totalprod)
-              @endforeach
-            </tbody>
-          </table>
-        </div>
+        @php($total = 0)
+        @if($model->product_suborder->count())
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="py-1">@lang('Product')</th>
+                  <th class="py-1">@lang('Price')</th>
+                  <th class="py-1">@lang('Quantity')</th>
+                  <th class="py-1">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach($model->product_suborder as $product)
+                <tr class="{{ $loop->last ? 'border-bottom' : '' }}">
+                  {{-- @json($product) --}}
+                  <td class="py-1">
+                    <p class="card-text font-weight-bold mb-25">{{ $product->product->only_name}}</p>
+                    <p class="card-text text-nowrap">
+                      {!! $product->product->only_parameters !!}
+                    </p>
+                  </td>
+                  <td class="py-1">
+                    <span class="font-weight-bold">${{ $product->price ? $product->price : $product->price }}</span>
+                  </td>
+                  <td class="py-1">
+                    <span class="font-weight-bold">{{ $product->quantity}}</span>
+                  </td>
+                  <td class="py-1">
+                    <span class="font-weight-bold">${{ number_format($totalprod = ($product->price ? $product->price : $product->price) * $product->quantity, 2, ".", ",") }}</span>
+                  </td>
+                </tr>
+                @php($total += $totalprod)
+                @endforeach
+              </tbody>
+            </table>
+          </div>
+        @endif
 
         <div class="card-body invoice-padding pb-0">
           <div class="row invoice-sales-total-wrapper">
@@ -97,7 +99,7 @@
               <div class="invoice-total-wrapper">
                 <div class="invoice-total-item">
                   <p class="invoice-total-title">Total:</p>
-                  <p class="invoice-total-amount">${{ number_format((float)$total, 2) }}</p>
+                  <p class="invoice-total-amount">${{ $total ? number_format((float)$total, 2) : '' }}</p>
                 </div>
                 <hr class="my-50" />
               </div>

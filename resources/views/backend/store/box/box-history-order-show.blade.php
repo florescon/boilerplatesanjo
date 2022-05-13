@@ -46,7 +46,7 @@
 		</div>
 	</div>
 
-	@if($cash_orders->orders->count())
+	@if($orders->count())
 
 	    <h3 class="text-center text-dark mt-3">
 	        @lang('Orders')/@lang('Sales')

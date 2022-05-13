@@ -79,7 +79,7 @@
 	  <div class="row mt-4">
 	    <div class="col">
 	      <div class="table-responsive">
-	        <table class="table table-sm align-items-center table-flush table-bordered table-hover js-table">
+	        <table class="table table-sm align-items-center js-table">
 	          <thead  class="thead-dark">
 	            <tr>
 	              <th scope="col">

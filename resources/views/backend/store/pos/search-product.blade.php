@@ -24,11 +24,9 @@
            />
             <span class="border-input-search"></span>
 
-
         </div>
         <div wire:loading wire:target="query">@lang('Searching')...</div>
       </div>
-
 
       @if(!empty($query))
         <div class="input-group-append">
