@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Order;
 use App\Models\Logged;
 use App\Models\Customer;
+use App\Models\Departament;
 
 /**
  * Class UserRelationship.
@@ -34,5 +35,10 @@ trait UserRelationship
     public function customer()
     {
         return $this->hasOne(Customer::class);
+    }
+
+    public function departaments(): HasMany
+    {
+        return $this->hasMany(Departament::class)->orderBy('created_at', 'desc');
     }
 }

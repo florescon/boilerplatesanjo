@@ -16,7 +16,7 @@
 
 <div class="card shadow-lg p-3 mb-5 bg-white rounded ">
 
-  @include('backend.departament.create')
+  {{-- @include('backend.departament.create') --}}
   @include('backend.departament.show')
   @include('backend.departament.update')
 
@@ -29,7 +29,7 @@
     @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.departament.create'))
       <div class="card-header-actions">
          <em> @lang('Last request'): {{ now()->format('h:i:s') }} </em>
-        <a href="#" class="card-header-action" style="color: green;" data-toggle="modal" wire:click="createmodal()" data-target="#exampleModal"><i class="c-icon cil-plus"></i> @lang('Create departament') </a>
+        <a href="{{ route('admin.departament.create') }}" class="card-header-action" style="color: green;"><i class="c-icon cil-plus"></i> @lang('Create departament') </a>
       </div>
     @endif
 
@@ -133,6 +133,7 @@
                     @include('backend.includes._sort-icon', ['field' => 'name'])
                   </a>
                 </th>
+                <th scope="col">@lang('Customer')</th>
                 <th scope="col">@lang('Email')</th>
                 <th scope="col">@lang('Phone')</th>
                 <th scope="col">@lang('Comment')</th>
@@ -159,6 +160,10 @@
                       {!! $departament->is_disabled !!}
                     </div>
                 </th>
+                <td>
+                  <x-utils.undefined :data="optional($departament->user)->name"/>
+                </td>
+
                 <td>
                   {{ $departament->email }}
                 </td>

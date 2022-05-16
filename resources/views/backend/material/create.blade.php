@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', __('Edit feedstock'))
+@section('title', __('Create feedstock'))
 
 @section('content')
 

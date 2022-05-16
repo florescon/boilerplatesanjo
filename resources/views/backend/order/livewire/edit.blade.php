@@ -120,11 +120,11 @@
                 </a>
               </div>
               <div class="col-md-4 mb-3 text-left">
-                @if($model->exist_user_departament)
+                {{-- @if($model->exist_user_departament)
                   <a href="{{ route('admin.order.sub', $order_id) }}" style="color:purple;">
                     <p> @lang('I want to assign suborders') <i class="cil-library"></i></p> 
                   </a>
-                @endif
+                @endif --}}
 
                 @php
                   $colors_counter = 0;

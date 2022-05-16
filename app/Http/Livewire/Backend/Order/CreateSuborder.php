@@ -33,7 +33,7 @@ class CreateSuborder extends Component
 
     public $sortAsc = false;
 
-    protected $listeners = ['selectedDeparament', 'savesuborder' => '$refresh'];
+    protected $listeners = ['selectedDeparament', 'savesuborder' => '$refresh', 'renderview' => 'render'];
 
     protected $queryString = [
         'searchTerm' => ['except' => ''],
@@ -166,12 +166,15 @@ class CreateSuborder extends Component
                         'quantity' => $product['available'],
                         'price' => $this->departament ? $getProduct->getPrice($departament->type_price ?? 'retail') : null,
                         'parent_product_id' => $key,
+                        'type' => 4,
                     ]);
                 }
             }
         }
 
        $this->resetInput();
+       
+       $this->emit('renderview');
 
        $this->emit('swal:alert', [
             'icon' => 'success',
@@ -181,13 +184,13 @@ class CreateSuborder extends Component
 
     public function resetInput()
     {
-        $this->quantity = '';
+        unset($this->quantityy);
     }
 
     public function render()
     {
         // $products = Product::query()->onlySubProducts()->with('parent')->where('stock', '<>', 0)->paginate(10);
-        $model = Order::query()->onlySuborders()->outFromStore()->get();
+        $model = Order::query()->onlySuborders()->orderBy('created_at', 'desc')->limit('10')->get();
 
         return view('backend.order.livewire.create-suborder', [
             'products' => $this->rows,

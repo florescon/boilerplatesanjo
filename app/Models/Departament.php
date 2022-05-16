@@ -26,6 +26,7 @@ class Departament extends Model
         'address',
         'rfc',
         'type_price',
+        'user_id',
     ];
 
     /**
@@ -36,6 +37,14 @@ class Departament extends Model
     protected $casts = [
         'is_enabled' => 'boolean',
     ];
+
+    /**
+     * @return mixed
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class)->withTrashed();
+    }
 
     public function scopeEnabled(Builder $query): Builder
     {

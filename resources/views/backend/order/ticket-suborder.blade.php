@@ -79,8 +79,6 @@ ventas@sj-uniformes.com
 
   <br/>
 
-
-
   <table width="100%">
     <thead style="background-color: gray;">
       <tr align="center">
@@ -93,10 +91,10 @@ ventas@sj-uniformes.com
     <tbody>
       @foreach($order->product_suborder as $product)
       <tr>
-        <td scope="row">{!! $product->parent_order->product->full_name !!}</tf>
+        <td scope="row">{!! $product->product->full_name !!}</tf>
         <td align="center">{{ $product->quantity }}</td>
-        <td align="right">${{ $product->price ? $product->price : $product->parent_order->price }}</td>
-        <td align="right">${{ number_format((float)($product->price ? $product->price : $product->parent_order->price) * $product->quantity, 2) }}</td>
+        <td align="right">${{ $product->price ? $product->price : $product->price }}</td>
+        <td align="right">${{ number_format((float)($product->price ? $product->price : $product->price) * $product->quantity, 2) }}</td>
       </tr>
       @endforeach
     </tbody>

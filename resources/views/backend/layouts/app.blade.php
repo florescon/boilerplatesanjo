@@ -24,6 +24,8 @@
     <link rel="stylesheet" href="{{ asset('css_custom/app/select2-bootstrap4.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css_custom/app/trix.css') }}">
 
+    <link rel="icon" type="image/png" href="{{ asset('/img/ga/san2.png')}}">
+
     {{-- Strawberry --}}
     {{-- <link rel="stylesheet" href="{{ asset('css_custom/strawberry.css') }}"> --}}
 

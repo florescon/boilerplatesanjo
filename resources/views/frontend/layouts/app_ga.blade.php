@@ -64,6 +64,7 @@
                 
         <!-- Favicons
         ================================================== -->
+        <link rel="icon" type="image/png" href="{{ asset('/img/ga/san2.png')}}">
         {{-- <link rel="icon" type="image/png" href="favicon.png"> --}}
         {{-- <link rel="apple-touch-icon" href="apple-touch-icon.png"> --}}
         {{-- <link rel="apple-touch-icon" sizes="72x72" href="apple-touch-icon-72x72.png"> --}}

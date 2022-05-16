@@ -167,12 +167,12 @@
 											            @php($total = 0)
 										                @foreach($order->product_suborder as $product)
 														<tr>
-															<td>{{ $product->parent_order->product->parent->name}}
-											                    {{ $product->parent_order->product->color->name. '  '.$product->parent_order->product->size->name }}
+															<td>{{ $product->product->parent->name}}
+											                    {{ $product->product->color->name. '  '.$product->product->size->name }}
 															</td>
 															<td class="text-center">{{ $product->quantity }}</td>
-															<td class="text-center">${{ $product->parent_order->price }}</td>
-															<td class="text-center">${{ number_format($totalprod = $product->parent_order->price * $product->quantity, 2, ".", ",") }}</td>
+															<td class="text-center">${{ $product->price }}</td>
+															<td class="text-center">${{ number_format($totalprod = $product->price * $product->quantity, 2, ".", ",") }}</td>
 														</tr>
 														@endforeach
 											            @php($total += $totalprod)

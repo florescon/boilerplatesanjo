@@ -15,12 +15,17 @@ class ProductOrderObserver
      */
     public function created(ProductOrder $productOrder)
     {
-
         $product = Product::withTrashed()->find($productOrder->product_id);
         
         if($productOrder->quantity > 0 && $productOrder->type == 2){
             if($product->isProduct()){
                 $product->decrement('stock_store', abs($productOrder->quantity));
+            }
+        }
+
+        if($productOrder->quantity > 0 && $productOrder->type == 4){
+            if($product->isProduct()){
+                $product->decrement('stock', abs($productOrder->quantity));
             }
         }
     }
@@ -49,6 +54,12 @@ class ProductOrderObserver
         if($productOrder->quantity > 0 && $productOrder->type == 2){
             if($product->isProduct()){
                 $product->increment('stock_store', abs($productOrder->quantity));
+            }
+        }
+
+        if($productOrder->quantity > 0 && $productOrder->type == 4){
+            if($product->isProduct()){
+                $product->increment('stock', abs($productOrder->quantity));
             }
         }
     }

@@ -20,13 +20,11 @@ class CartListUpdateForm extends Component
         $this->quantity = $item['amount'];
     }
 
-
     public function increment()
     {
         $this->quantity++;
         $this->updateCartList();
     }
-
 
     public function decrement()
     {
@@ -38,14 +36,12 @@ class CartListUpdateForm extends Component
 
     public function updateCartList()
     {
-
         // dd($this->typeCart);
         $cart = CartFacade::get();
         $cart[$this->typeCart] = $this->productCartEdit($this->item['id'], $cart[$this->typeCart]);
 
         $this->emit('cartUpdatedList');
     }
-
 
     private function productCartEdit($productId, $cartItems)
     {

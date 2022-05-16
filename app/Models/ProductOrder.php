@@ -93,7 +93,7 @@ class ProductOrder extends Model
         }
 
         if($this->isSuborder()){
-            return $this->parent_order->product->full_name_link;            
+            return $this->product->full_name_link;            
         }
 
         return '';
@@ -110,7 +110,7 @@ class ProductOrder extends Model
         }
 
         if($this->isSuborder()){
-            return $this->price ? $this->price : $this->parent_order->price;            
+            return $this->price ? $this->price : $this->price;            
         }
 
         return '';

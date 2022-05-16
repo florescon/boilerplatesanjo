@@ -17,6 +17,11 @@ class DepartamentController extends Controller
         return view('backend.departament.index');
     }
 
+    public function create()
+    {
+        return view('backend.departament.create');
+    }
+
     public function select2LoadMore(Request $request)
     {
         $search = $request->get('search');

@@ -81,7 +81,7 @@
                                 <td > 
                                     <input type="number" 
                                         wire:model="quantityy.{{ $product->id }}.available"
-                                        wire:keydown.enter="savesuborder" 
+                                        {{-- wire:keydown.enter="savesuborder"  --}}
                                         class="form-control"
                                         style="color: red;" 
                                         {{-- placeholder="{{ $product->quantity - $model->getTotalAvailableByProduct($product->id) }}"  --}}
@@ -120,8 +120,13 @@
 
             <div class="col-12 col-md-4">
 
-              <div class="list-group">
+              <div class="card text-center" style="background-color: rgba(245, 245, 245, 1); opacity: .9;">
+                <div class="card-body">
+                  <a type="button" href="{{ route('admin.order.suborders') }}" style="background-color:purple;" class="btn text-white" >@lang('View all')</a>
+                </div>
+              </div>
 
+              <div class="list-group">
                 @php
                   $colors_counter = 0;
                   $colors = array(0=>"primary", 1=>"info", 2=>"secondary", 3=>"light");
@@ -157,6 +162,12 @@
                   </a>
 
                 @endforelse
+              </div>
+
+              <div class="card text-center mt-4" style="background-color: rgba(245, 245, 245, 1); opacity: .9;">
+                <div class="card-body">
+                  <a type="button" href="{{ route('admin.order.suborders') }}" style="background-color:purple;" class="btn text-white" >@lang('View all')</a>
+                </div>
               </div>
 
             </div>

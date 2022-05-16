@@ -59,11 +59,15 @@ class DepartamentTable extends Component
     public function getRowsQueryProperty()
     {
         
-        return Departament::query()
+        return Departament::query()->with('user')
             ->where(function ($query) {
-                $query->where('name', 'like', '%' . $this->searchTerm . '%')
+                 $query->whereHas('user', function($query) {
+                    $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
+                })->orWhere('name', 'like', '%' . $this->searchTerm . '%')
                     ->orWhere('email', 'like', '%' . $this->searchTerm . '%')
-                    ->orWhere('comment', 'like', '%' . $this->searchTerm . '%');
+                    ->orWhere('phone', 'like', '%' . $this->searchTerm . '%')
+                    ->orWhere('address', 'like', '%' . $this->searchTerm . '%')
+                    ->orWhere('rfc', 'like', '%' . $this->searchTerm . '%');
             })
             ->when($this->deleted, function ($query) {
                 $query->onlyTrashed();
