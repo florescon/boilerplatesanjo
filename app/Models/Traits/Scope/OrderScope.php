@@ -86,4 +86,16 @@ trait OrderScope
     {
         return $query->where('from_store', true)->whereNull('cash_id');
     }
+
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeOnlyAssignment($query, $assignment)
+    {
+        return $query->whereHas('last_status_order', function ($query) use ($assignment) {
+            $query->where('status_id', $assignment);
+        });
+    }
 }

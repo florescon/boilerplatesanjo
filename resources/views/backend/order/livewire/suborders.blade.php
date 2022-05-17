@@ -111,7 +111,7 @@
                       <h5 class="mb-1">{{ optional($suborder->departament)->name }}</h5>
                     </div>
                     {{-- <small class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</small> --}}
-                    <p>Total de productos: <strong class="text-danger">{{ $suborder->total_products_suborder }}</strong></p>
+                    <p>@lang('Total products'): <strong class="text-danger">{{ $suborder->total_products_suborder }}</strong></p>
                     <hr>
                     @if($suborder->slug)
                       <div class="d-flex w-100  justify-content-center">

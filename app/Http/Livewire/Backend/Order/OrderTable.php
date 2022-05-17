@@ -48,6 +48,7 @@ class OrderTable extends Component
     public function getRowsQueryProperty()
     {
         $query = Order::query()->with('user', 'last_status_order.status')
+            // ->onlyAssignment(6)
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?
                 $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', now()]) :

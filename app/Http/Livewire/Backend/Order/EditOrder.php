@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Order;
 use App\Models\Status;
 use App\Models\StatusOrder;
+use App\Models\Product;
 use App\Models\OrderStatusDelivery;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -160,6 +161,26 @@ class EditOrder extends Component
     public function approve()
     {
         Order::whereId($this->order_id)->update(['approved' => true]);
+        return $this->redirectRoute('admin.order.edit', $this->order_id);
+    }
+  
+    public function send()
+    {
+        $order = Order::findOrFail($this->order_id);
+
+        foreach($order->product_order as $product_order){
+
+            $product = Product::withTrashed()->find($product_order->product_id);
+            
+            if($product_order->quantity > 0){
+                if($product->isProduct()){
+                    $product->increment('stock', abs($product_order->quantity));
+                }
+            }
+        }
+
+        Order::whereId($this->order_id)->update(['to_stock' => true]);
+
         return $this->redirectRoute('admin.order.edit', $this->order_id);
     }
 

@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\OrderStatusPayment;
 use App\Models\OrderStatusDelivery;
 use App\Models\OrdersDelivery;
+use DB;
 
 class Order extends Model
 {
@@ -311,6 +312,11 @@ class Order extends Model
     public function last_status_order()
     {
         return $this->hasOne(StatusOrder::class)->latestOfMany();
+    }
+
+    public function last_status()
+    {
+        return DB::table('statuses')->latest('level')->first();
     }
 
     public function getLastStatusOrderLabelAttribute()

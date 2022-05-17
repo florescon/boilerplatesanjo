@@ -6,12 +6,11 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ appName() }} | @yield('title')</title>
     <meta name="description" content="@yield('meta_description', appName())">
-    <meta name="author" content="@yield('meta_author', 'Anthony Rappa')">
+    <meta name="author" content="@yield('meta_author', 'Flores')">
     @yield('meta')
 
     @stack('before-styles')
     <link href="{{ mix('css/backend.css') }}" rel="stylesheet">
-
     {{-- <link rel="stylesheet" type="text/css" href="{{ url('css/start.css') }}"> --}}
 
     <link rel="stylesheet" type="text/css" href="{{ asset('css_custom/app/pikaday.css') }}">

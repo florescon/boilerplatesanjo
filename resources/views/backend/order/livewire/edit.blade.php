@@ -421,6 +421,18 @@
                 </div>
               </div>
 
+              @if($model->last_status_order->status->level === $model->last_status()->level)
+                @if(!$model->to_stock)
+                  <div class="card-body text-center">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sendFinalProduct">Send to final product</button>
+                  </div>
+                @else
+                  <div class="card-body text-center">
+                    <a href="#" class="card-link">Enviados a producto terminado <i class="cil-check"></i> <i class="cil-check"></i></a>
+                  </div>
+                @endif
+              @endif
+
               <div class="card-body text-center">
                 <a href="{{ route('admin.order.records', $order_id) }}" class="card-link">@lang('View status records')</a>
               </div>
@@ -432,6 +444,28 @@
       @endif
 
     </div>
+
+    <!-- Modal -->
+    <div wire:ignore.self class="modal fade" id="sendFinalProduct" tabindex="-1" role="dialog" aria-labelledby="sendFinalProductLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sendFinalProductLabel">Send to final product confirm</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                         <span aria-hidden="true close-btn">×</span>
+                    </button>
+                </div>
+               <div class="modal-body">
+                    <p>Are you sure want to send?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary close-btn" data-dismiss="modal">Close</button>
+                    <button type="button" wire:click.prevent="send()" class="btn btn-primary close-modal" data-dismiss="modal">Yes, Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
   </x-slot>
 
   <x-slot name="footer">
@@ -440,7 +474,6 @@
       Mies Van der Rohe <cite title="Source Title">Less is more</cite>
     </footer>
   </x-slot>
-
 
 </x-backend.card>
 
