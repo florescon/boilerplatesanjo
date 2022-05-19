@@ -79,7 +79,7 @@
                                 <td class="text-left">{!! $product->full_name !!}</td>
                                 <td class="border-right-0">{{ $product->stock }}</td>
                                 <td > 
-                                    <input type="number" 
+                                    <input type="text" 
                                         wire:model="quantityy.{{ $product->id }}.available"
                                         {{-- wire:keydown.enter="savesuborder"  --}}
                                         class="form-control"
