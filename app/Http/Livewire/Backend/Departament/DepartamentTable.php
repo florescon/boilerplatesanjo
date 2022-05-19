@@ -48,7 +48,7 @@ class DepartamentTable extends Component
 
     protected $rules = [
         'name' => ['required', 'min:3'],
-        'email' => ['required', 'email', 'min:3', 'regex:/^\S*$/u', 'unique:departaments'],
+        'email' => ['email', 'min:3', 'regex:/^\S*$/u', 'unique:departaments'],
         'comment' => ['nullable', 'min:3', 'max:100'],
         'phone' => ['nullable', 'digits:10'],
         'address' => ['sometimes', 'max:100'],
@@ -177,7 +177,7 @@ class DepartamentTable extends Component
         $this->validate([
             'selected_id' => ['required', 'numeric'],
             'name' => ['required', 'min:3'],
-            'email' => ['required', 'email', 'min:3', 'regex:/^\S*$/u', Rule::unique('departaments')->ignore($this->selected_id)],
+            'email' => ['email', 'min:3', 'regex:/^\S*$/u', Rule::unique('departaments')->ignore($this->selected_id)],
             'comment' => ['sometimes', 'nullable'],
             'phone' => ['nullable', 'digits:10'],
             'address' => ['sometimes', 'max:100'],
