@@ -33,7 +33,7 @@
         <img class="" src="{{ asset('img/logo22.png') }}" width="100" alt="CoreUI Logo">
         <h3 class="pt-md-2 text-primary font-weight-bold ml-1 ">{{ __(appName()) }}</h3>
       </div>
-      <p class="card-text mb-0">Margarito Gonzalez Rubio #857</p>
+      <p class="card-text mb-0">Margarito Gonzalez Rubio #822</p>
       <p class="card-text mb-0">Col. El Refugio, Lagos de Moreno Jal.</p>
       <p class="card-text mb-0">ventas@sj-uniformes.com </p>
       <p class="card-text mb-0">47 47 42 30 00 </p>

@@ -20,9 +20,9 @@ class ModelProductController extends Controller
     public function associates(ModelProduct $model)
     {
         $link = route('admin.model.index');
-        $associates = $model->products()->paginate(10);
-        $model = $model;
-        return view('backend.product.associates-subproducts', compact('associates', 'model', 'link'));
+        $attribute = $model;
+        $nameModel = 'ModelProduct';
+        return view('backend.product.associates-subproducts', compact('attribute', 'link', 'nameModel'));
     }
 
     public function deleted()

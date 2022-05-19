@@ -26,7 +26,7 @@ class Color extends Model
         'slug'
     ];
 
-    public function products(): HasMany
+    public function subproducts(): HasMany
     {
         return $this->hasMany(Product::class, 'color_id')->with('parent')
             ->whereHas('parent', function ($query) {
@@ -35,7 +35,7 @@ class Color extends Model
         ;
     }
 
-    public function product(): HasMany
+    public function products(): HasMany
     {
         return $this->hasMany(Product::class, 'color_id')->with('parent')
             ->whereHas('parent', function ($query) {
@@ -50,6 +50,16 @@ class Color extends Model
      * @return int
      */
     public function getTotalVariantsAttribute() : int
+    {
+        return Product::where('parent_id', NULL)->count();
+    }
+
+    /**
+     * Count the number products.
+     *
+     * @return int
+     */
+    public function getTotalVariantsSubproductsAttribute() : int
     {
         return Product::where('parent_id', '<>', NULL)->count();
     }
@@ -71,12 +81,17 @@ class Color extends Model
      */
     public function getcountProductAttribute() : int
     {
-        return $this->product->count();
+        return $this->products->count();
     }
 
     public function getTotalPercentageAttribute() 
     {
-        return ($this->count_products * 100) / $this->total_variants;
+        return ($this->count_product * 100) / $this->total_variants;
+    }
+
+    public function getTotalPercentageSubproductsAttribute() 
+    {
+        return ($this->count_products * 100) / $this->total_variants_subproducts;
     }
 
     public static function search($query)

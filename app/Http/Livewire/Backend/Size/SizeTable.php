@@ -67,7 +67,7 @@ class SizeTable extends TableComponent
      */
     public function query(): Builder
     {
-        $query = Size::query()->with('product');
+        $query = Size::query()->with('products');
 
         if ($this->status === 'deleted') {
             return $query->onlyTrashed();
@@ -101,9 +101,9 @@ class SizeTable extends TableComponent
                     return $this->html($model->slug ?: '<span class="badge badge-secondary">'.__('undefined').'</span>');
                 })
                 ->excludeFromExport(),
-            Column::make('# '.__('Associated products'), 'count_product')
+            Column::make('# '.__('Associated products'), 'count_products')
                 ->format(function(Size $model) {
-                    return $this->link(route('admin.size.associates', $model->id), $model->count_product);
+                    return $this->link(route('admin.size.associates', $model->id), $model->count_products);
                 }),
             // Column::make('# '.__('Associated subproducts'), 'count_products')
             //     ->format(function(Size $model) {

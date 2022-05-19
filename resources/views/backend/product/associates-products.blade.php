@@ -76,7 +76,7 @@
                       @endforeach
                   </tbody>
               </table>
-              <div class="mt-4 a">
+              <div class="mt-4">
                   {{ $associates->links() }}
               </div>
             </div>

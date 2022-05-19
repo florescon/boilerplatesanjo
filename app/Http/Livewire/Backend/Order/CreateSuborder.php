@@ -44,7 +44,6 @@ class CreateSuborder extends Component
         'departament' => 'required',
     ];
 
-
     public function sortBy($field)
     {
         if ($this->sortField === $field) {

@@ -12,7 +12,6 @@ use DB;
 
 class ConsumptionProduct extends Component
 {
-
     public $product_id, $updateQuantity, $inputquantities, $inputquantities_difference, $name_color, $name_size, $product_general;
 
     public $material_id = [];
@@ -33,7 +32,6 @@ class ConsumptionProduct extends Component
 
     public function quantities(int $product_id): void
     {
-
         $this->validate([
             'inputquantities.*.consumption' => 'numeric|sometimes',
             'inputquantities_difference.*.consumption' => 'numeric|sometimes',
@@ -50,7 +48,6 @@ class ConsumptionProduct extends Component
                 }
             }
         }
-
 
         if($this->inputquantities_difference){
             foreach($this->inputquantities_difference as $key => $productos){
@@ -82,7 +79,6 @@ class ConsumptionProduct extends Component
         ]);
     }
 
-
     public function clearAll()
     {
         $this->inputquantities = [];
@@ -90,10 +86,8 @@ class ConsumptionProduct extends Component
         // $this->updateQuantity = FALSE;
     }
 
-
     public function store()
     {
-
         $product = Product::findOrFail($this->product_id);
 
         $this->validate([
@@ -135,7 +129,6 @@ class ConsumptionProduct extends Component
 
     public function filterBySize($size)
     {
-
         if (in_array($size, $this->filters_s)) {
             $is = array_search($size, $this->filters_s);
             unset($this->filters_s[$is]);
@@ -158,7 +151,6 @@ class ConsumptionProduct extends Component
 
     public function filterByColor($color)
     {
-
         if (in_array($color, $this->filters_c)) {
             $ix = array_search($color, $this->filters_c);
             unset($this->filters_c[$ix]);
@@ -222,8 +214,7 @@ class ConsumptionProduct extends Component
         return null;
     }
 
-
-   public function delete(Consumption $consumption)
+    public function delete(Consumption $consumption)
     {
         if($consumption)
             $consumption->delete();
@@ -234,7 +225,7 @@ class ConsumptionProduct extends Component
         ]);
     }
 
-   public function deleteRelationsFeedstock(Consumption $consumption)
+    public function deleteRelationsFeedstock(Consumption $consumption)
     {
         $product_general = Product::find($consumption->product_id);
         $product_general->consumption()->where('material_id', $consumption->material_id)->delete();
@@ -247,7 +238,6 @@ class ConsumptionProduct extends Component
 
     public function render()
     {
-
         $model = Product::with(['children', 'consumption'
                     => function ($query) {
                             $query->where('color_id', null)->where('size_id', null);

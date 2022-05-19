@@ -20,9 +20,9 @@ class BrandController extends Controller
     public function associates(Brand $brand)
     {
         $link = route('admin.brand.index');
-        $associates = $brand->products()->paginate(10);
-        $model = $brand;
-        return view('backend.product.associates-subproducts', compact('associates', 'model', 'link'));
+        $attribute = $brand;
+        $nameModel = 'Brand';
+        return view('backend.product.associates-subproducts', compact('attribute', 'link', 'nameModel'));
     }
 
     public function deleted()

@@ -40,7 +40,7 @@ class Line extends Model
      */
     public function getTotalVariantsAttribute() : int
     {
-        return Product::where('parent_id', '<>', NULL)->count();
+        return Product::where('parent_id', NULL)->count();
     }
 
     /**
@@ -50,7 +50,7 @@ class Line extends Model
      */
     public function getcountProductsAttribute() : int
     {
-        return $this->products->count();
+        return $this->products->where('parent_id', NULL)->count();
     }
 
     public function getTotalPercentageAttribute() 

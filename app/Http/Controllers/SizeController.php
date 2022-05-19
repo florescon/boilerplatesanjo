@@ -28,9 +28,10 @@ class SizeController extends Controller
     public function associates(Size $size)
     {
         $link = route('admin.size.index');
-        $associates = $size->product()->paginate(10);
-        $model = $size;
-        return view('backend.product.associates-products', compact('associates', 'model', 'link'));
+        $attribute = $size;
+        $nameModel = 'Size';
+        $subproduct = true;
+        return view('backend.product.associates-subproducts', compact('attribute', 'link', 'nameModel', 'subproduct'));
     }
 
 	public function deleted()

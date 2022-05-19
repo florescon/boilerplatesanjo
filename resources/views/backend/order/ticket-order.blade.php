@@ -32,7 +32,7 @@
                     <h3>San Jose Uniformes</h3>
                     <pre>
 sjuniformes.com
-Margarito Gonzalez Rubio #857
+Margarito Gonzalez Rubio #822
 Col. El Refugio, Lagos de Moreno Jal.
 ventas@sj-uniformes.com
 47 47 42 30 00

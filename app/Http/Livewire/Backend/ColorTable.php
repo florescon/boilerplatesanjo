@@ -71,7 +71,7 @@ class ColorTable extends Component
 
     public function getRowsQueryProperty()
     {
-        return Color::query()->with('product', 'products')
+        return Color::query()->with('products')
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?
                     $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', now()]) :

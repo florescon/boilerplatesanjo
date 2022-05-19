@@ -159,8 +159,6 @@
                 </th>
                 <th scope="col" class="text-center"># @lang('Associates')</th>
 
-                <th scope="col" class="text-center"># @lang('Associated subproducts')</th>
-
                 <th scope="col">
                   <a style="color:white;" wire:click.prevent="sortBy('updated_at')" role="button" href="#">
                     @lang('Updated at')
@@ -208,9 +206,6 @@
                 </td>
                 <td class="text-center align-middle">
                   <a href="{{ route('admin.color.associates', $color->id) }}"> {{ $color->count_product }}</a>
-                </td>
-                <td class="text-center align-middle">
-                  <a href="{{ route('admin.color.associates_sub', $color->id) }}"> {{ $color->count_products }}</a>
                 </td>
                 <td class="align-middle">
                   <span class="badge badge-dot mr-4">
@@ -265,16 +260,16 @@
           </table>
 
           @if($colors->count())
-          <div class="row">
-            <div class="col">
-              <nav>
-                {{ $colors->onEachSide(1)->links() }}
-              </nav>
+            <div class="row">
+              <div class="col">
+                <nav>
+                  {{ $colors->onEachSide(1)->links() }}
+                </nav>
+              </div>
+                  <div class="col-sm-3 mb-2 text-muted text-right">
+                    Mostrando {{ $colors->firstItem() }} - {{ $colors->lastItem() }} de {{ $colors->total() }} resultados
+                  </div>
             </div>
-                <div class="col-sm-3 mb-2 text-muted text-right">
-                  Mostrando {{ $colors->firstItem() }} - {{ $colors->lastItem() }} de {{ $colors->total() }} resultados
-                </div>
-          </div>
           @else
             @lang('No search results') 
             @if($searchTerm)

@@ -176,7 +176,7 @@
         @endif
 
         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.color.list') || $logged_in_user->can('admin.access.size.list') || $logged_in_user->can('admin.access.cloth.list') || $logged_in_user->can('admin.access.line.list') || $logged_in_user->can('admin.access.unit.list') || $logged_in_user->can('admin.access.brand.list') || $logged_in_user->can('admin.access.model_product.list') ))
-            <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.color.*')  || Route::is('admin.size.*') || Route::is('admin.cloth.*') || Route::is('admin.line.*') || Route::is('admin.unit.index') || Route::is('admin.brand.index') || Route::is('admin.model.index'), 'c-open c-show') }}">
+            <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.color.*')  || Route::is('admin.size.*') || Route::is('admin.cloth.*') || Route::is('admin.line.*') || Route::is('admin.unit.*') || Route::is('admin.brand.*') || Route::is('admin.model.*'), 'c-open c-show') }}">
                 <x-utils.link
                     href="#"
                     icon="c-sidebar-nav-icon cil-library"
@@ -229,7 +229,7 @@
                             <x-utils.link
                                 class="c-sidebar-nav-link"
                                 :href="route('admin.unit.index')"
-                                :active="activeClass(Route::is('admin.unit.index'), 'c-active')"
+                                :active="activeClass(Route::is('admin.unit.*'), 'c-active')"
                                 :text="__('Units')" />
                         </li>
                     @endif
@@ -239,7 +239,7 @@
                             <x-utils.link
                                 class="c-sidebar-nav-link"
                                 :href="route('admin.brand.index')"
-                                :active="activeClass(Route::is('admin.brand.index'), 'c-active')"
+                                :active="activeClass(Route::is('admin.brand.*'), 'c-active')"
                                 :text="__('Brands')" />
                         </li>
                     @endif
@@ -249,7 +249,7 @@
                             <x-utils.link
                                 class="c-sidebar-nav-link"
                                 :href="route('admin.model.index')"
-                                :active="activeClass(Route::is('admin.model.index'), 'c-active')"
+                                :active="activeClass(Route::is('admin.model.*'), 'c-active')"
                                 :text="__('Models')" />
                         </li>
                     @endif

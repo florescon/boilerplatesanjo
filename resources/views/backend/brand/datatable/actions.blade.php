@@ -3,12 +3,14 @@
   <x-actions-modal.show-icon target="showModal" emitTo="backend.brand.show-brand" function="show" :id="$brand->id" />
 
 	@if (!$brand->trashed())
+
     @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.brand.modify'))
 	    <x-actions-modal.edit-icon target="editBrand" emitTo="backend.brand.edit-brand" function="edit" :id="$brand->id" />
 	  @endif
     @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.brand.delete'))
       <x-actions-modal.delete-icon function="delete" :id="$brand->id" />
     @endif
+
 	@else
 
     <div class="dropdown">
@@ -23,4 +25,5 @@
     </div>
 
 	@endif
+
 </div>

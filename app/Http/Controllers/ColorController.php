@@ -27,10 +27,12 @@ class ColorController extends Controller
 
     public function associates(Color $color)
     {
+        // dd('si');
         $link = route('admin.color.index');
-        $associates = $color->product()->paginate(10);
-        $model = $color;
-        return view('backend.product.associates-products', compact('associates', 'model', 'link'));
+        $attribute = $color;
+        $nameModel = 'Color';
+        $subproduct = true;
+        return view('backend.product.associates-subproducts', compact('attribute', 'link', 'nameModel', 'subproduct'));
     }
 
     public function select2LoadMore(Request $request)
