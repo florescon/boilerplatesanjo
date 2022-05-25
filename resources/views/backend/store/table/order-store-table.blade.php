@@ -139,7 +139,7 @@
 	                   {!! $order->last_status_order_label !!}
 	                </td>
 	                <td class="align-middle text-center">
-	                   {{ $order->date_entered->format('d-m-Y') ?? __('undefined') }}
+	                   {{ $order->date_entered->isoFormat('D, MMM') ?? __('undefined') }}
 	                </td>
 		              <td class="align-middle text-center">
 		                <span class="badge badge-dot">

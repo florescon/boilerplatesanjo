@@ -584,7 +584,7 @@ class Order extends Model
 
     public function getDateForHumansAttribute()
     {
-        return $this->created_at->format('M, d Y');
+        return $this->created_at->isoFormat('D, MMM');
     }
 
     public function getDateDiffForHumansCreatedAttribute()

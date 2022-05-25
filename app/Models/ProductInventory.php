@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Domains\Auth\Models\User;
+use Carbon\Carbon;
 
 class ProductInventory extends Model
 {
@@ -90,4 +91,13 @@ class ProductInventory extends Model
         return '';
     }
 
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->isoFormat('D, MMM h:mm:ss a');
+    }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->isoFormat('D, MMM h:mm:ss a');
+    }
 }

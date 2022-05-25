@@ -42,7 +42,7 @@
 
     <table width="100%">
         <tr>
-          <td align="left"><strong>@lang('Date Issued'):</strong> {{ $finances->created_at }}</td>
+          <td align="left"><strong>@lang('Date Issued'):</strong> {{ $finances->created_at->isoFormat('D, MMM h:mm:ss a') }}</td>
         </tr>
     </table>
 

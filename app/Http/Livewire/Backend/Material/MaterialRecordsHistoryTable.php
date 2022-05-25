@@ -72,14 +72,22 @@ class MaterialRecordsHistoryTable extends Component
     {
         return MaterialHistory::query()->with('material.color', 'material.size', 'material.unit', 'audi')
             ->when($this->dateInput, function ($query) {
-                empty($this->dateOutput) ?
-                    $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', now()]) :
-                    $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59']);
+                if($this->dateInput < Carbon::today()->subYear()){ 
+                        $this->emit('swal:alert', [
+                           'icon' => 'warning',
+                            'title'   => 'Limitado a un año', 
+                        ]);
+                }
+                else{
+                    empty($this->dateOutput) ?
+                        $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', now()]) :
+                        $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59']);
+                }
             })
             ->when(!$this->dateInput, function ($query) {
                 $query->whereYear('created_at', now()->year);
             })
-             ->where(function ($query) {
+            ->where(function ($query) {
                 $query->whereHas('material', function($query) {
                     $query->whereRaw("name LIKE \"%$this->searchTerm%\"")
                         ->orWhereRaw("part_number LIKE \"%$this->searchTerm%\"");

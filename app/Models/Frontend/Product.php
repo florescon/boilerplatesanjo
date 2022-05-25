@@ -269,7 +269,7 @@ class Product extends Model
 
     public function getDateForHumansAttribute()
     {
-        return $this->updated_at->format('M, d Y');
+        return $this->updated_at->isoFormat('D, MMM');
     }
 
     /**
@@ -280,6 +280,16 @@ class Product extends Model
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->isoFormat('D, MMM h:mm:ss a');
+    }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->isoFormat('D, MMM h:mm:ss a');
     }
 
     /**

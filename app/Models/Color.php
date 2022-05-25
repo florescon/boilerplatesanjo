@@ -128,7 +128,7 @@ class Color extends Model
 
     public function getDateForHumansAttribute(): ?string
     {
-        return $this->updated_at ? $this->updated_at->format('M, d Y') : null;
+        return $this->updated_at ? $this->updated_at->isoFormat('D, MMM') : null;
     }
 
     /**

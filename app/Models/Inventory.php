@@ -48,4 +48,14 @@ class Inventory extends Model
     {
         return $this->items->sum('capture');
     }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->isoFormat('D, MMM h:mm:ss a');
+    }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->isoFormat('D, MMM h:mm:ss a');
+    }
 }

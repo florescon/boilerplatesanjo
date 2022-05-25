@@ -102,7 +102,7 @@ class Material extends Model
      */
     public function getFullNameAttribute()
     {
-        return $this->name.' '.$this->unit_name.' '.$this->size_name.' '.$this->color_name;
+        return '<strong>'.$this->name.'</strong> '.$this->unit_name.' '.$this->size_name.' '.$this->color_name;
     }
 
     /**
@@ -148,5 +148,15 @@ class Material extends Model
     public function getNameAttribute($value)
     {
         return ucwords(strtolower($value));
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->isoFormat('D, MMM h:mm:ss a');
+    }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->isoFormat('D, MMM h:mm:ss a');
     }
 }

@@ -153,6 +153,11 @@ class OrderStoreTable extends Component
         $this->resetPage();
     }
 
+    public function updatedSearchTerm()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
         return view('backend.store.table.order-store-table', [

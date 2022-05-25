@@ -203,7 +203,7 @@
 	              <td>
 	                <label class="form-checkbox">
 	                    <input type="checkbox" wire:model="selected" value="{{ $product->id }}">
-	                  <i class="form-icon"></i>
+	                  	<i class="form-icon"></i>
 	                  </label>
 	              </td>
 	              <td scope="row">

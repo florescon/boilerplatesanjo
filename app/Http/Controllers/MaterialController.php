@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Material;
+use App\Models\MaterialHistory;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Events\Material\MaterialUpdated;
@@ -32,6 +34,11 @@ class MaterialController extends Controller
     public function recordsHistoryMaterial()
     {
         return view('backend.material.records-history');
+    }
+
+    public function recordsHistoryMaterialGroup()
+    {
+        return view('backend.material.records-history-group');
     }
 
     public function deleted()

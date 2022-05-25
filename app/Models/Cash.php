@@ -109,7 +109,7 @@ class Cash extends Model
 
     public function getDateForHumansAttribute()
     {
-        return $this->updated_at->format('M, d Y');
+        return $this->updated_at->isoFormat('D, MMM');
     }
 
     public function getDateDiffForHumansAttribute()

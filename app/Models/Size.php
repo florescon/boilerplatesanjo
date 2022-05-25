@@ -127,6 +127,16 @@ class Size extends Model
         return '';
     }
 
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->isoFormat('D, MMM h:mm:ss a');
+    }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->isoFormat('D, MMM h:mm:ss a');
+    }
+
     /**
      * The attributes that are mass assignable.
      *

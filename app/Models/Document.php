@@ -133,11 +133,11 @@ class Document extends Model
 
     public function getDateForHumansAttribute()
     {
-        return $this->updated_at->format('M, d Y');
+        return $this->updated_at->isoFormat('D, MMM');
     }
 
     public function getDateForHumansCreatedAttribute()
     {
-        return $this->created_at->format('M, d Y');
+        return $this->created_at->isoFormat('D, MMM');
     }
 }

@@ -56,6 +56,16 @@ class Brand extends Model
         return ($this->count_products * 100) / $this->total_variants;
     }
 
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->isoFormat('D, MMM h:mm:ss a');
+    }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->isoFormat('D, MMM h:mm:ss a');
+    }
+
     /**
      * Return the sluggable configuration array for this model.
      *

@@ -48,6 +48,13 @@
                     </p>
                   </div>
                 </div>
+                <div class="col-xl-6 m-auto text-center">
+                  <div>
+                    <p> 
+                      <a href="{{ route('admin.material.records_history_group') }}">Historial de stock ingresado/sustraido de materia prima <strong><u>agrupado por fecha</u></strong></a>
+                    </p>
+                  </div>
+                </div>
               </div>
           </footer>
           <footer class="footer mt-3">

@@ -40,7 +40,7 @@
 
   <table width="100%">
     <tr>
-      <td align="left"><strong>Fecha generado:</strong> {{ $order->created_at }}</td>
+      <td align="left"><strong>Fecha generado:</strong> {{ $order->created_at->isoFormat('D, MMM h:mm:ss a') }}</td>
     </tr>
   </table>
 

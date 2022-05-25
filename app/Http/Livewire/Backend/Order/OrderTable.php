@@ -149,6 +149,11 @@ class OrderTable extends Component
         $this->resetPage();
     }
 
+    public function updatedSearchTerm()
+    {
+        $this->resetPage();
+    }
+
     public function updatedDateInput()
     {
         $this->resetPage();

@@ -56,7 +56,7 @@
             <tr>
                 <td align="left">
                     <strong>Fecha generado:</strong> 
-                    {{ $ticket->created_at->format('d-m-Y H:i:s') }}
+                    {{ $ticket->created_at->isoFormat('D, MMM h:mm:ss a') }}
                 </td>
             </tr>
         </table>

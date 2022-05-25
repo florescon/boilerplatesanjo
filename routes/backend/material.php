@@ -40,6 +40,14 @@ Route::group([
                 ->push(__('Records of history feedstock'), route('admin.material.records_history'));
         });
 
+    Route::get('records_history_group', [MaterialController::class, 'recordsHistoryMaterialGroup'])
+        ->name('records_history_group')
+        ->middleware('permission:admin.access.material.modify')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.material.index')
+                ->push(__('Records of history feedstock'), route('admin.material.records_history_group'));
+        });
+
     Route::group(['prefix' => '{material}'], function () {
         Route::get('edit', [MaterialController::class, 'edit'])
             ->name('edit')
