@@ -155,7 +155,7 @@
       $(document).ready(function() {
         $('#colorselect').select2({
           placeholder: '@lang("Choose color")',
-          // width: 'resolve',
+          width: 'resolve',
           theme: 'bootstrap4',
           // allowClear: true,
           ajax: {
@@ -173,7 +173,7 @@
                         results: data.items.map(function (item) {
                             return {
                                 id: item.id,
-                                text: item.name
+                                text:  item.name +  (item.color ? ' <div class="box-color justify-content-md-center" style="background-color:' + item.color +'; display: inline-block;"></div> ' : '') + (item.short_name ? item.short_name.sup() : '')
                             };
                         }),
                         pagination: {
@@ -184,7 +184,10 @@
                 cache: true,
                 delay: 250,
                 dropdownautowidth: true
-            }
+            },
+            
+            escapeMarkup: function(m) { return m; }
+
           });
 
           $('#colorselect').on('change', function (e) {

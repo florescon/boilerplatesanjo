@@ -265,7 +265,11 @@
 									<span class="badge text-white {{ in_array($children->color_id, $filters) ? 'bg-primary' : 'bg-dark' }}" 
 						                  wire:click="$emit('filterByColor', {{ $children->color_id }})"
 										  style="cursor:pointer"
-									>{{ optional($children->color)->name }}</span>
+									>{{ optional($children->color)->name }} 
+										@if(optional($children->color)->color)
+											<div class="box-color-discrete justify-content-md-center" style="background-color:{{ $children->color->color }}; display: inline-block;"></div>
+										@endif
+									</span>
 								@endforeach
 							</h5>
 						</div>
@@ -471,6 +475,9 @@
 					    <h5 class="card-title">
 					    	<strong>{{ optional($childrens->first()->color)->name }}</strong>
 					    	{!! optional($childrens->first()->color)->visual_color !!}
+					    	@if($childrens->first()->color->color)
+								<div class="box-color justify-content-md-center" style="background-color:{{ $childrens->first()->color->color }}; display: inline-block;"></div>
+							@endif
 					    </h5>
 
 						<div class="table-responsive">
@@ -636,7 +643,7 @@
                         results: data.items.map(function (item) {
                             return {
                                 id: item.id,
-                                text: item.name
+                                text:  item.name +  (item.color ? ' <div class="box-color justify-content-md-center" style="background-color:' + item.color +'; display: inline-block;"></div> ' : '') + (item.short_name ? item.short_name.sup() : '')
                             };
                         }),
                         pagination: {
@@ -647,7 +654,10 @@
                 cache: true,
                 delay: 250,
                 dropdownautowidth: true
-            }
+            },
+
+            escapeMarkup: function(m) { return m; }
+
           });
 
           $('#colorselect').on('change', function (e) {
@@ -725,7 +735,7 @@
                         results: data.items.map(function (item) {
                             return {
                                 id: item.id,
-                                text: item.name
+                                text:  item.name +  (item.color ? ' <div class="box-color justify-content-md-center" style="background-color:' + item.color +'; display: inline-block;"></div> ' : '') + (item.short_name ? item.short_name.sup() : '')
                             };
                         }),
                         pagination: {
@@ -736,7 +746,10 @@
                 cache: true,
                 delay: 250,
                 dropdownautowidth: true
-            }
+            },
+
+            escapeMarkup: function(m) { return m; }
+
           });
 
           $('#colorselectmultiple').on('change', function (e) {

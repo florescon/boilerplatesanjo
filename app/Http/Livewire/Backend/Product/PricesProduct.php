@@ -9,9 +9,9 @@ class PricesProduct extends Component
 {
     public $product_id, $product_name, $product_code, $update;
 
-    public $product_price, $product_average_wholesale_price, $product_wholesale_price;
+    public $product_price, $product_average_wholesale_price, $product_wholesale_price, $product_special_price;
 
-    public $retail_price, $average_wholesale_price, $wholesale_price;
+    public $retail_price, $average_wholesale_price, $wholesale_price, $special_price;
 
     public $productModel;
 
@@ -39,6 +39,7 @@ class PricesProduct extends Component
         'productModel.*.price' => 'nullable|not_in:0|regex:/^\d{1,13}(\.\d{1,4})?$/',
         'productModel.*.average_wholesale_price' => 'nullable|not_in:0|regex:/^\d{1,13}(\.\d{1,4})?$/',
         'productModel.*.wholesale_price' => 'nullable|not_in:0|regex:/^\d{1,13}(\.\d{1,4})?$/',
+        'productModel.*.special_price' => 'nullable|not_in:0|regex:/^\d{1,13}(\.\d{1,4})?$/',
     ];
 
     protected $messages = [
@@ -48,6 +49,8 @@ class PricesProduct extends Component
         'productModel.*.average_wholesale_price.regex' => 'Valor no permitido en un precio medio mayoreo',
         'productModel.*.wholesale_price.not_in' => 'No se permite cero en un precio mayoreo',
         'productModel.*.wholesale_price.regex' => 'Valor no permitido en un precio mayoreo',
+        'productModel.*.special_price.not_in' => 'No se permite cero en un precio especial',
+        'productModel.*.special_price.regex' => 'Valor no permitido en un precio especial',
     ];
     public function mount(Product $product)
     {
@@ -63,6 +66,7 @@ class PricesProduct extends Component
         $this->product_price = $product->price;
         $this->product_average_wholesale_price = $product->average_wholesale_price ?? __('undefined');
         $this->product_wholesale_price = $product->wholesale_price ?? __('undefined');
+        $this->product_special_price = $product->special_price ?? __('undefined');
     }
 
     public function save()
@@ -71,6 +75,7 @@ class PricesProduct extends Component
             'productModel.*.price' => 'nullable|not_in:0|regex:/^\d{1,13}(\.\d{1,4})?$/',
             'productModel.*.average_wholesale_price' => 'nullable|not_in:0|regex:/^\d{1,13}(\.\d{1,4})?$/',
             'productModel.*.wholesale_price' => 'nullable|not_in:0|regex:/^\d{1,13}(\.\d{1,4})?$/',
+            'productModel.*.special_price' => 'nullable|not_in:0|regex:/^\d{1,13}(\.\d{1,4})?$/',
         ]);
 
         foreach ($this->productModel as $subprod) {
@@ -98,6 +103,14 @@ class PricesProduct extends Component
                     $subprod->update(['wholesale_price' => null]);
                 }
             }
+            if($subprod->isDirty('special_price')){
+                if($subprod->special_price != null){
+                    $subprod->update();
+                }
+                else{
+                    $subprod->update(['special_price' => null]);
+                }
+            }
 
             if($subprod->price == 0){
                 $subprod->update(['price' => null]);
@@ -107,6 +120,9 @@ class PricesProduct extends Component
             }
             if($subprod->average_wholesale_price == 0){
                 $subprod->update(['average_wholesale_price' => null]);
+            }
+            if($subprod->special_price == 0){
+                $subprod->update(['special_price' => null]);
             }
         }
 
@@ -179,6 +195,10 @@ class PricesProduct extends Component
     private function initwholesaleprice(Product $product)
     {
         $this->product_wholesale_price = number_format((float)$product->wholesale_price, 2);
+    }
+    private function initspecialprice(Product $product)
+    {
+        $this->product_special_price = number_format((float)$product->special_price, 2);
     }
 
     public function saveRetail(bool $clear = false)
@@ -260,6 +280,32 @@ class PricesProduct extends Component
         $this->initwholesaleprice($save_wholesale);
     }
 
+    public function saveSpecial(bool $clear = false)
+    {
+        $this->validate([
+            'special_price' => 'regex:/^\d{1,13}(\.\d{1,2})?$/',
+        ]);
+        
+        $save_special = Product::find($this->product_id);
+
+        if($clear == true){
+            $save_special->children()->update(['special_price' => null]);            
+        }
+
+        $save_special->update([
+            'special_price' => $this->special_price ?? null,
+        ]);
+
+        $this->emit('swal:alert', [
+            'icon' => 'success',
+            'title'   => __('Saved wholesale price'), 
+        ]);
+
+        $this->emit('saveAfterUpdate');
+
+        $this->initspecialprice($save_special);
+    }
+
     public function clearPrices()
     {
         $this->customPrices = FALSE;
@@ -292,7 +338,11 @@ class PricesProduct extends Component
             $priceRetaiPrice = $this->price + ((setting('retail_price_percentage') / 100) * $this->price);
         }
 
-        $this->retail_price = setting('round') ? ceil($priceRetaiPrice / 5) * 5 : $priceRetaiPrice;
+        // $this->retail_price = setting('round') ? ceil($priceRetaiPrice / 5) * 5 : $priceRetaiPrice;
+        $this->retail_price = $priceRetaiPrice;
+
+        $this->retail_price = $this->retail_price + ((setting('iva') / 100) * $this->retail_price);
+        $this->retail_price = ceil(number_format((float) $this->retail_price, 2, '.', ''));
     }
 
     public function calculateAverageWholesalePrice()
@@ -306,8 +356,10 @@ class PricesProduct extends Component
         }
 
         $this->average_wholesale_price = setting('round') ? ceil($priceAverageWholesalePrice / 5) * 5 : $priceAverageWholesalePrice;
-    }
 
+        $this->average_wholesale_price = $this->average_wholesale_price + ((setting('iva') / 100) * $this->average_wholesale_price);
+        $this->average_wholesale_price = ceil(number_format((float) $this->average_wholesale_price, 2, '.', ''));
+    }
 
     public function calculateWholesalePrice()
     {
@@ -320,6 +372,26 @@ class PricesProduct extends Component
         }
 
         $this->wholesale_price = setting('round') ? ceil($priceWholesalePrice / 5) * 5 : $priceWholesalePrice;
+
+        $this->wholesale_price = $this->wholesale_price + ((setting('iva') / 100) * $this->wholesale_price);
+        $this->wholesale_price = ceil(number_format((float) $this->wholesale_price, 2, '.', ''));
+    }
+
+    public function calculateSpecialPrice()
+    {
+        if($this->switchIVA){
+            $this->calculateIVA();
+            $priceSpecial = $this->priceIVA + ((setting('special_price_percentage') / 100) * $this->priceIVA);
+        }
+        else{
+            $priceSpecial = $this->price + ((setting('special_price_percentage') / 100) * $this->price);
+        }
+
+        // $this->special_price = setting('round') ? ceil($priceSpecial / 5) * 5 : $priceSpecial;
+        $this->special_price = $priceSpecial;
+
+        $this->special_price = $this->special_price + ((setting('iva') / 100) * $this->special_price);
+        $this->special_price = ceil(number_format((float) $this->special_price, 2, '.', ''));
     }
 
     public function updatedPrice()
@@ -329,6 +401,7 @@ class PricesProduct extends Component
         $this->calculatePrice();
         $this->calculateAverageWholesalePrice();
         $this->calculateWholesalePrice();
+        $this->calculateSpecialPrice();
     }
 
     public function updatedSwitchIVA()
@@ -337,13 +410,29 @@ class PricesProduct extends Component
             $this->calculatePrice();
             $this->calculateAverageWholesalePrice();
             $this->calculateWholesalePrice();
+            $this->calculateSpecialPrice();
         }
         else{
+            $this->priceIVA = null;
+
             $this->price = $this->originalPrice;
 
             $this->retail_price = $this->originalPrice + ((setting('retail_price_percentage') / 100) * $this->originalPrice);
+            // $this->calculateIVATypePrice($this->retail_price, 'retail_price');
+            $this->retail_price = $this->retail_price + ((setting('iva') / 100) * $this->retail_price);
+            $this->retail_price = ceil(number_format((float) $this->retail_price, 2, '.', ''));
+
             $this->average_wholesale_price = $this->originalPrice + ((setting('average_wholesale_price_percentage') / 100) * $this->originalPrice);
+            $this->average_wholesale_price = $this->average_wholesale_price + ((setting('iva') / 100) * $this->average_wholesale_price);
+            $this->average_wholesale_price = ceil(number_format((float) $this->average_wholesale_price, 2, '.', ''));
+
             $this->wholesale_price = $this->originalPrice + ((setting('wholesale_price_percentage') / 100) * $this->originalPrice);
+            $this->wholesale_price = $this->wholesale_price + ((setting('iva') / 100) * $this->wholesale_price);
+            $this->wholesale_price = ceil(number_format((float) $this->wholesale_price, 2, '.', ''));
+
+            $this->special_price = $this->originalPrice + ((setting('special_price_percentage') / 100) * $this->originalPrice);
+            $this->special_price = $this->special_price + ((setting('iva') / 100) * $this->special_price);
+            $this->special_price = ceil(number_format((float) $this->special_price, 2, '.', ''));
         }
     }
 

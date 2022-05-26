@@ -26,5 +26,6 @@ class Setting extends Model
         'wholesale_price_percentage',
         'iva',
         'round',
+        'special_price_percentage',
     ];
 }

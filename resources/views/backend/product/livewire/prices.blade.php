@@ -53,78 +53,100 @@
                                             <label class="custom-control-label font-italic" for="customPrices">@lang('Prices')</label>
                                         </p>
                                         @if($customPrices)
-                                        <div class="card mt-4 border-0">
+                                            <div class="card mt-4 border-0">
 
-                                            <div class="col-md-12 mb-3">
-                                                <input type="number" min="1" step="any" name="price" wire:model="price" class="form-control @error('price') is-invalid  @enderror" placeholder="{{ __('Price') }}" value="{{ old('price') }}" maxlength="100" required/>
-                                            </div>
+                                                <div class="col-md-12 mb-3">
+                                                    <input type="number" min="1" step="any" name="price" wire:model="price" class="form-control @error('price') is-invalid  @enderror" placeholder="{{ __('Price') }}" value="{{ old('price') }}" maxlength="100" required/>
+                                                </div>
 
-                                            <div class="col-md-12 text-center mb-3">
-                                                <div class="custom-control custom-switch">
-                                                  <input type="checkbox" class="custom-control-input" id="switchIVA" wire:click="$toggle('switchIVA')">
-                                                  <label class="custom-control-label" for="switchIVA">Precio de proveedor no incluye IVA, incluirlo</label>
+                                                <div class="col-md-12 text-center mb-3">
+                                                    <div class="custom-control custom-switch">
+                                                      <input type="checkbox" class="custom-control-input" id="switchIVA" wire:click="$toggle('switchIVA')">
+                                                      <label class="custom-control-label" for="switchIVA">Precio de proveedor no incluye IVA, incluirlo</label>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="input-group">
-                                              <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1">${{ $product_price }}</span>
-                                              </div>
-                                              <input type="text" class="form-control" wire:model.lazy="retail_price" aria-label="Text input with segmented dropdown button" placeholder="@lang('Retail price')">
-                                              <div class="input-group-append">
-                                                <button type="button" wire:click="saveRetail" class="btn btn-outline-primary">@lang('Save')</button>
-                                                <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                  <span class="sr-only">@lang('Custom')</span>
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                  <a class="dropdown-item" href="#" wire:click="saveRetail">@lang('Only save')</a>
-                                                  <div role="separator" class="dropdown-divider"></div>
-                                                  <a class="dropdown-item" href="#" wire:click="saveRetail(true)">@lang('Save and clear all retail price variants')</a>
+                                                <div class="input-group">
+                                                  <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">${{ $product_price }}</span>
+                                                  </div>
+                                                  <input type="text" class="form-control" wire:model.lazy="retail_price" aria-label="Text input with segmented dropdown button" placeholder="@lang('Retail price')">
+                                                  <div class="input-group-append">
+                                                    <button type="button" wire:click="saveRetail" class="btn btn-outline-primary">@lang('Save')</button>
+                                                    <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                      <span class="sr-only">@lang('Custom')</span>
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                      <a class="dropdown-item" href="#" wire:click="saveRetail">@lang('Only save')</a>
+                                                      <div role="separator" class="dropdown-divider"></div>
+                                                      <a class="dropdown-item" href="#" wire:click="saveRetail(true)">@lang('Save and clear all retail price variants')</a>
+                                                    </div>
+                                                  </div>
                                                 </div>
-                                              </div>
                                             </div>
-                                        </div>
-                                       @error('retail_price') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
-                                        <div class="card mt-4 border-0">
-                                            <div class="input-group">
-                                              <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1">${{ $product_average_wholesale_price }}</span>
-                                              </div>
-                                              <input type="text" class="form-control" wire:model.lazy="average_wholesale_price" aria-label="Text input with segmented dropdown button" placeholder="@lang('Average wholesale price')">
-                                              <div class="input-group-append">
-                                                <button type="button" wire:click="saveAverageWholesale" class="btn btn-outline-primary">@lang('Save')</button>
-                                                <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                  <span class="sr-only">@lang('Custom')</span>
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                  <a class="dropdown-item" href="#" wire:click="saveAverageWholesale">@lang('Only save')</a>
-                                                  <div role="separator" class="dropdown-divider"></div>
-                                                  <a class="dropdown-item" wire:click="saveAverageWholesale(true)" href="#">@lang('Save and clear all average wholesale price variants')</a>
+                                            @error('retail_price') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                                            <div class="card mt-4 border-0">
+                                                <div class="input-group">
+                                                  <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">${{ $product_average_wholesale_price }}</span>
+                                                  </div>
+                                                  <input type="text" class="form-control" wire:model.lazy="average_wholesale_price" aria-label="Text input with segmented dropdown button" placeholder="@lang('Average wholesale price')">
+                                                  <div class="input-group-append">
+                                                    <button type="button" wire:click="saveAverageWholesale" class="btn btn-outline-primary">@lang('Save')</button>
+                                                    <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                      <span class="sr-only">@lang('Custom')</span>
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                      <a class="dropdown-item" href="#" wire:click="saveAverageWholesale">@lang('Only save')</a>
+                                                      <div role="separator" class="dropdown-divider"></div>
+                                                      <a class="dropdown-item" wire:click="saveAverageWholesale(true)" href="#">@lang('Save and clear all average wholesale price variants')</a>
+                                                    </div>
+                                                  </div>
                                                 </div>
-                                              </div>
                                             </div>
-                                        </div>
-                                       @error('average_wholesale_price') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
-                                        <div class="card mt-4 border-0">
-                                            <div class="input-group">
-                                              <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1">${{ $product_wholesale_price }}</span>
-                                              </div>
-                                              <input type="text" class="form-control" wire:model.lazy="wholesale_price" aria-label="Text input with segmented dropdown button" placeholder="@lang('Wholesale price')">
-                                              <div class="input-group-append">
-                                                <button type="button" wire:click="saveWholesale" class="btn btn-outline-primary">@lang('Save')</button>
-                                                <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                  <span class="sr-only">@lang('Custom')</span>
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                  <a class="dropdown-item" href="#" wire:click="saveWholesale">@lang('Only save')</a>
-                                                  <div role="separator" class="dropdown-divider"></div>
-                                                  <a class="dropdown-item" wire:click="saveWholesale(true)" href="#">@lang('Save and clear all wholesale price variants')</a>
+                                            @error('average_wholesale_price') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                                            <div class="card mt-4 border-0">
+                                                <div class="input-group">
+                                                  <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">${{ $product_wholesale_price }}</span>
+                                                  </div>
+                                                  <input type="text" class="form-control" wire:model.lazy="wholesale_price" aria-label="Text input with segmented dropdown button" placeholder="@lang('Wholesale price')">
+                                                  <div class="input-group-append">
+                                                    <button type="button" wire:click="saveWholesale" class="btn btn-outline-primary">@lang('Save')</button>
+                                                    <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                      <span class="sr-only">@lang('Custom')</span>
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                      <a class="dropdown-item" href="#" wire:click="saveWholesale">@lang('Only save')</a>
+                                                      <div role="separator" class="dropdown-divider"></div>
+                                                      <a class="dropdown-item" wire:click="saveWholesale(true)" href="#">@lang('Save and clear all wholesale price variants')</a>
+                                                    </div>
+                                                  </div>
                                                 </div>
-                                              </div>
                                             </div>
-                                        </div>
-                                       @error('wholesale_price') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                                            @error('wholesale_price') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+
+                                            <div class="card mt-4 border-0">
+                                                <div class="input-group">
+                                                  <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="basic-addon1">${{ $product_special_price }}</span>
+                                                  </div>
+                                                  <input type="text" class="form-control" wire:model.lazy="special_price" aria-label="Text input with segmented dropdown button" placeholder="@lang('Special price')">
+                                                  <div class="input-group-append">
+                                                    <button type="button" wire:click="saveSpecial" class="btn btn-outline-primary">@lang('Save')</button>
+                                                    <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                      <span class="sr-only">@lang('Custom')</span>
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                      <a class="dropdown-item" href="#" wire:click="saveSpecial">@lang('Only save')</a>
+                                                      <div role="separator" class="dropdown-divider"></div>
+                                                      <a class="dropdown-item" wire:click="saveSpecial(true)" href="#">@lang('Save and clear all special price variants')</a>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                            </div>
+                                            @error('special_price') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+
                                         @endif
                                     </div>
                                 </div>

@@ -59,6 +59,8 @@ class Product extends Model
         'status',
         'type',
         'model_product_id',
+        'cost',
+        'special_price',
     ];
 
     public function getDescriptionLimitedAttribute()

@@ -21,6 +21,7 @@ class UpdateSetting extends Component
         'state.retail_price_percentage' => 'required|integer|min:0|max:50',
         'state.average_wholesale_price_percentage' => 'required|integer|min:0|max:50',
         'state.wholesale_price_percentage' => 'required|integer|min:0|max:50',
+        'state.special_price_percentage' => 'required|integer|min:0|max:50',
         'state.round' => 'required|min:0|max:1',
     ];
 
@@ -35,6 +36,7 @@ class UpdateSetting extends Component
         'state.retail_price_percentage' => 'Porcentaje precio menudeo',
         'state.average_wholesale_price_percentage' => 'Porcentaje precio medio mayoreo',
         'state.wholesale_price_percentage' => 'Porcentaje precio mayoreo',
+        'state.special_price_percentage' => 'Porcentaje precio especial',
         'state.round' => 'Redondeo',
     ]; 
 

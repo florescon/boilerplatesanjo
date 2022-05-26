@@ -42,6 +42,18 @@
         .select2-search__field:placeholder-shown {
             width: 100% !important; /*makes the placeholder to be 100% of the width while there are no options selected*/
         }
+
+        .box-color {
+          height: 13px;
+          width: 13px;
+          border: 1px solid black;
+        }
+
+        .box-color-discrete {
+          height: 8px;
+          width: 8px;
+        }
+
     </style>
 
     {{-- <link rel="stylesheet" href="{{ asset('css_custom/app/all.min.css') }}" /> --}}

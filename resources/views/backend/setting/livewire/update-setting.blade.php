@@ -63,6 +63,11 @@
                                     <input wire:model.defer="state.wholesale_price_percentage" type="text" class="form-control" id="footerText" placeholder="{{__('Wholesale price percentage') }}">
                                     @error('state.wholesale_price_percentage') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                                 </div>
+                                <div class="form-group">
+                                    <label for="footerText">@lang('Special price percentage')</label>
+                                    <input wire:model.defer="state.special_price_percentage" type="text" class="form-control" id="footerText" placeholder="{{__('Special price percentage') }}">
+                                    @error('state.special_price_percentage') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                                </div>
                                 <div class="form-group border rounded text-center">
                                     <label for="footerText">Redondear precios sugeridos a múltiplos de 5</label>
                                     <br>

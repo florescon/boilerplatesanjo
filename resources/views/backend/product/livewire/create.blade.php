@@ -131,10 +131,13 @@
 
             </div>
 
-            {{-- @json($retail_price) --}}
+            {{-- @json($price) --}}
+            {{-- @json($priceIVA) --}}
+            <br>
 
             <div class="form-group row">
-                <label for="price" class="col-md-2 col-form-label">@lang('Price')<sup>*</sup></label>
+
+                <label for="price" class="col-md-2 col-form-label">{{ $switchIVA ? __('Gross purchase price') : __('Net purchase price') }}<sup>*</sup></label>
 
                 <div class="form-row align-items-center ml-2">
                     <div class="{{ $switchIVA ? 'col-md-3' : 'col-md-3' }} mb-3">
@@ -143,7 +146,14 @@
 
                     @if($switchIVA)
                         <div class="col-md-3 mb-3">
-                            <input type="text" name="priceIVA" wire:model="priceIVA" class="form-control" placeholder="{{ __('Price') }}" value="{{ old('priceIVA') }}" maxlength="100" required disabled/>
+                            {{-- <input type="text" name="priceIVA" wire:model="priceIVA" class="form-control" placeholder="{{ __('Price') }}" value="{{ old('priceIVA') }}" maxlength="100" required disabled/> --}}
+ 
+                            <div class="input-group">
+                              <input type="text" class="form-control" wire:model="priceIVA" value="{{ old('priceIVA') }}" aria-label="Recipient's username" aria-describedby="basic-addon2" required disabled>
+                              <div class="input-group-append">
+                                <span class="input-group-text" id="basic-addon2">@lang('Net purchase price')</span>
+                              </div>
+                            </div>
                         </div>
                     @endif
 
@@ -183,6 +193,16 @@
                     <input type="number" min="1" step="any" name="wholesale_price" wire:model="wholesale_price" class="form-control" placeholder="{{ __('Wholesale price') }}" value="{{ old('wholesale_price') }}" maxlength="100" required />
 
                     @error('wholesale_price') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                </div>
+            </div><!--form-group-->
+
+            <div class="form-group row">
+                <label for="average_wholesale_price" class="col-md-2 col-form-label">@lang('Special price')</label>
+
+                <div class="col-md-10">
+                    <input type="number" min="1" step="any" name="special_price" wire:model="special_price" class="form-control" placeholder="{{ __('Special price') }}" value="{{ old('special_price') }}" maxlength="100" required />
+
+                    @error('special_price') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                 </div>
             </div><!--form-group-->
 
@@ -288,7 +308,6 @@
             @this.set('line', data);
           });
 
-
       });
     </script>
 
@@ -317,7 +336,7 @@
                         results: data.items.map(function (item) {
                             return {
                                 id: item.id,
-                                text: item.name
+                                text:  item.name +  (item.color ? ' <div class="box-color justify-content-md-center" style="background-color:' + item.color +'; display: inline-block;"></div> ' : '') + (item.short_name ? item.short_name.sup() : '')
                             };
                         }),
                         pagination: {
@@ -328,7 +347,10 @@
                 cache: true,
                 delay: 250,
                 dropdownautowidth: true
-            }
+            },
+
+            escapeMarkup: function(m) { return m; }
+
           });
 
           $('#colorselect').on('change', function (e) {
@@ -380,7 +402,6 @@
             @this.set('brand', data);
           });
 
-
       });
     </script>
 
@@ -427,7 +448,6 @@
             var data = $('#sizeselect').select2("val");
             @this.set('sizes', data);
           });
-
 
       });
     </script>

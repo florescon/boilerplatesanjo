@@ -56,6 +56,7 @@ class ModalStockMaterial extends Component
 
             if($this->price > 0 || empty($this->price)){
                 $changed_stock = $material->stock + $this->stock;
+
                 if(empty($this->price)){
                     $material->update(['stock' => $changed_stock]);
                 }
@@ -68,7 +69,7 @@ class ModalStockMaterial extends Component
                     'old_stock' => $this->old_stock,
                     'stock' => $this->stock,
                     'old_price' => $this->old_price,
-                    'price' => empty($this->price) ? $this->old_price : $this->old_price,
+                    'price' => empty($this->price) ? $this->old_price : $this->price,
                     'audi_id' => Auth::id(),
                     'comment' => $this->comment ?? null,
                 ]);
