@@ -6,6 +6,7 @@ use App\Models\Material;
 use App\Models\Color;
 use Livewire\Component;
 use App\Events\Material\MaterialCreated;
+use Illuminate\Support\Facades\Auth;
 
 class CreateMaterial extends Component
 {
@@ -64,6 +65,15 @@ class CreateMaterial extends Component
             ]);
 
             event(new MaterialCreated($material));
+
+            $material->history()->create([
+                'old_stock' => 0,
+                'stock' => $this->stock,
+                'old_price' => 0,
+                'price' => $this->price,
+                'audi_id' => Auth::id(),
+                'comment' => $this->description ?? null,
+            ]);
 
             $this->resetInputFields();
 

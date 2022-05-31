@@ -100,13 +100,13 @@ class ProductController extends Controller
         return view('backend.product.move-stock-product', compact('product'));
     }
 
-    public function deleteAttributes(Product $product)
+    public function kardex(Product $product)
     {
         if($product->isChildren() || !$product->isProduct()){
             abort(401);
         }
 
-        return view('backend.product.delete-attributes-product', compact('product'));
+        return view('backend.product.kardex-product', compact('product'));
     }
 
     public function consumption(Product $product)
@@ -202,15 +202,6 @@ class ProductController extends Controller
         // return view('backend.order.ticket-order');
     }
 
-    public function destroy(Product $product)
-    {
-        if($product->id){
-            event(new ProductDeleted($product));
-            $product->delete();
-        }
-        return redirect()->route('admin.product.index')->withFlashSuccess(__('The product was successfully deleted.'));
-    }
-
 	public function deleted()
 	{
 	    return view('backend.product.deleted');
@@ -219,6 +210,24 @@ class ProductController extends Controller
     public function deletedService()
     {
         return view('backend.service.deleted');
+    }
+
+    public function deleteAttributes(Product $product)
+    {
+        if($product->isChildren() || !$product->isProduct()){
+            abort(401);
+        }
+
+        return view('backend.product.delete-attributes-product', compact('product'));
+    }
+
+    public function destroy(Product $product)
+    {
+        if($product->id){
+            event(new ProductDeleted($product));
+            $product->delete();
+        }
+        return redirect()->route('admin.product.index')->withFlashSuccess(__('The product was successfully deleted.'));
     }
 
     public function select2LoadMore(Request $request)

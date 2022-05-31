@@ -83,6 +83,14 @@ Route::group([
                     ->push(__('Move between stocks'), route('admin.product.move', $product));
             });
 
+        Route::get('kardex', [ProductController::class, 'kardex'])
+            ->name('kardex')
+            ->middleware('permission:admin.access.product.modify')
+            ->breadcrumbs(function (Trail $trail, Product $product) {
+                $trail->parent('admin.product.edit', $product)
+                    ->push(__('Product Kardex'), route('admin.product.kardex', $product));
+            });
+
         Route::get('delete-attributes', [ProductController::class, 'deleteAttributes'])
             ->name('delete-attributes')
             ->middleware('permission:admin.access.product.modify')

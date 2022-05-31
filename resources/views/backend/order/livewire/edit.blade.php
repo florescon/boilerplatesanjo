@@ -280,8 +280,6 @@
                         @foreach($product->gettAllConsumption() as $key => $consumption)
                           <tr class="table-warning text-right font-italic">
                             <td colspan="2">
-
-                              {{ $key }}
                               {{ $consumption['material'] }}
                             </td>
                             <td>

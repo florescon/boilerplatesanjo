@@ -185,6 +185,9 @@
 					    <li class="list-group-item">
 						  <a href="{{ route('admin.product.delete-attributes', $model->id) }}" class="card-link">@lang('Delete attributes')</a>
 					    </li>
+					    <li class="list-group-item">
+						  <a href="{{ route('admin.product.kardex', $model->id) }}" class="card-link">@lang('Kardex')</a>
+					    </li>
 					  </ul>
 		                {{-- <x-input.rich-text wire:model.lazy="about" id="about" :initial-value="$about" /> --}}
 			      </div>

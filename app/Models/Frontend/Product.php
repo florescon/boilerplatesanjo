@@ -152,6 +152,17 @@ class Product extends Model
         return $this->code;
     }
 
+    public function getNewProductAttribute()
+    {
+        if($this->created_at){
+            if($this->created_at->gt(Carbon::now()->subMonth())){
+                return __('New'). ' |';
+            }
+        }
+
+        return '';
+    }
+
     /**
      * @return bool
      */
@@ -282,7 +293,7 @@ class Product extends Model
         return 'slug';
     }
 
-    public function getCreatedAtAttribute($value)
+    public function getCreatedAtIsoAttribute($value)
     {
         return Carbon::parse($value)->isoFormat('D, MMM h:mm:ss a');
     }
