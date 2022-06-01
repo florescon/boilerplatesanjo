@@ -9,7 +9,7 @@
         </x-slot>
 
         <x-slot name="headerActions">
-            <x-utils.link class="card-header-action" :href="route('admin.auth.user.index')"  icon="fa fa-chevron-left" :text="__('Back')" />
+            <x-utils.link class="card-header-action" :href="route('admin.auth.user.index')" icon="fa fa-chevron-left" icon="fa fa-chevron-left" :text="__('Back')" />
         </x-slot>
 
         <x-slot name="body">

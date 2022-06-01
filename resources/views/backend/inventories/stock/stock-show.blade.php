@@ -4,6 +4,6 @@
 
 @section('content')
 
-    <livewire:backend.inventory.store.store-show-table :inventory="$inventory" />
+    <livewire:backend.inventory.stock.stock-show-table :inventory="$inventory" />
 
 @endsection

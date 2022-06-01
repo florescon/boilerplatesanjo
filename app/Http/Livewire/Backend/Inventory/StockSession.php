@@ -35,7 +35,7 @@ class StockSession extends Component
 
     public $sortAsc = false;
 
-    protected $listeners = ['postAdded' => 'addInventory', 'updatedListener' => 'render'];
+    protected $listeners = ['postAdded' => 'addInventory', 'productCaptured' => 'whenProductCaptured', 'updatedListener' => 'render'];
 
     public function addInventory($code)
     {
@@ -78,6 +78,9 @@ class StockSession extends Component
                             'title'   => __('Se insertó producto'), 
                         ]);
                     }
+
+                    $this->emit('productCaptured');
+
                 }
             }
             else{
@@ -93,6 +96,11 @@ class StockSession extends Component
                 'title'   => __('Verifica lo que estás escaneando'), 
             ]);
         }
+    }
+
+    public function whenProductCaptured()
+    {
+       $this->emit('playAudio');
     }
 
     public function sortBy($field)

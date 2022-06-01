@@ -179,7 +179,6 @@
             @this.set('sizesmultiple_id', data);
           });
 
-
       });
     </script>
 @endpush

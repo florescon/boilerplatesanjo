@@ -35,7 +35,7 @@ class StoreSession extends Component
 
     public $sortAsc = false;
 
-    protected $listeners = ['postAdded' => 'addInventory', 'updatedListener' => 'render'];
+    protected $listeners = ['postAdded' => 'addInventory', 'productCaptured' => 'whenProductCaptured', 'updatedListener' => 'render'];
 
     public function addInventory($code)
     {
@@ -58,9 +58,11 @@ class StoreSession extends Component
 
                         $this->emit('swal:alert', [
                            'icon' => 'success',
-                            'title'   => __('Se sumó'), 
+                            'title'   => __('Se sumó.'), 
                         ]);
+
                     }
+
                     else{
 
                         DB::table('sessions')->insert([
@@ -75,9 +77,13 @@ class StoreSession extends Component
 
                         $this->emit('swal:alert', [
                            'icon' => 'success',
-                            'title'   => __('Se insertó producto'), 
+                            'title'   => __('Se insertó producto.'), 
                         ]);
+
                     }
+
+                    $this->emit('productCaptured');
+
                 }
             }
             else{
@@ -93,6 +99,11 @@ class StoreSession extends Component
                 'title'   => __('Verifica lo que estás escaneando'), 
             ]);
         }
+    }
+
+    public function whenProductCaptured()
+    {
+       $this->emit('playAudio');
     }
 
     public function sortBy($field)

@@ -58,7 +58,6 @@
               </div>
             </div>
 
-
             <div class="lightbox">
               <div class="row">
                 @foreach($model->pictures->split($model->pictures->count()/1) as $picture)

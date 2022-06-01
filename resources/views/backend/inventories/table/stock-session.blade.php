@@ -148,4 +148,15 @@
             </footer>
         </x-slot>
     @endif
+
 </x-backend.card>
+
+@push('after-scripts')
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+         @this.on('playAudio', () => {
+             new Audio("{{ asset('/ga/audio/beep.mp3') }}").play();
+         })
+      });
+    </script>
+@endpush

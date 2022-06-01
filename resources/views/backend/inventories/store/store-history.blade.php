@@ -1,5 +1,5 @@
 <div class="animated fadeIn">
-
+  
   <!-- /.row-->
   <div class="row">
     <div class="col-lg-12">
@@ -98,7 +98,6 @@
             </div><!--export-dropdown-->
             @endif
           </div><!--row-->
-
 
         	<table class="table table-responsive-sm table-hover table-outline mb-0 shadow">
         		<thead class="thead-dark">

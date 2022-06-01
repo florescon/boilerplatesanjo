@@ -9,7 +9,7 @@
             <div class="card p-3 border-0">
                 <div class="mt-3">
                   <h3 class="heading">
-                  @lang('History')<br>@lang('Stock inventory')
+                    @lang('History')<br>@lang('Stock inventory')
                     @if($status == 'deleted')
                       <span class="badge badge-danger">@lang('Deletions')</span>
                     @endif

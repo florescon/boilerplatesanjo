@@ -8,7 +8,8 @@
           <div class="card p-3 border-0">
               <div class="mt-3">
                 <h3 class="heading">
-                  @lang('Stock inventory')
+                  @lang('Store inventory')
+                  {{-- <em class="text-primary">@lang('Store')</em> --}}
                   <br>
                   f.º <em class="text-primary">#{{ $inventory_id }}</em>
                 </h3>
