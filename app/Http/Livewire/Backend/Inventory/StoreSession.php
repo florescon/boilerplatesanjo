@@ -228,7 +228,6 @@ class StoreSession extends Component
                     $productExist = DB::table('products')->where('id', $session->product_id)->first();
                     DB::table('sessions')->where('product_id', $session->product_id)->update(['stock' => $productExist->stock_store]);
                 }
-
         });
 
         $subProducts = Product::query()->with('session')->onlySubProducts()->with('parent')->where('stock_store', '<>', 0)->get();

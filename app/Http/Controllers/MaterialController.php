@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Events\Material\MaterialUpdated;
+use PDF;
 
 class MaterialController extends Controller
 {
@@ -86,6 +87,19 @@ class MaterialController extends Controller
 
         return redirect()->back()
           ->withFlashSuccess('Materia prima actualizada con éxito');
+    }
+
+    public function short_ticket(Request $request, Material $material)
+    {
+        $this->validate($request, [
+            'quantity' => 'numeric',
+        ]);
+
+        $quantity = $request->quantity ?? 0;
+
+        $pdf = PDF::loadView('backend.material.ticket.short',compact('material', 'quantity'))->setPaper([0, 0, 888.98, 600.85], 'portrait');
+
+        return $pdf->stream();
     }
 
     public function select2LoadMore(Request $request)

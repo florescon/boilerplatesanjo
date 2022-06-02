@@ -57,6 +57,13 @@ Route::group([
                     ->push(__('Edit feedstock'), route('admin.material.edit', $material));
             });
 
+        Route::get('t/{quantity?}', [MaterialController::class, 'short_ticket'])
+            ->name('t')
+            ->breadcrumbs(function (Trail $trail, Material $material) {
+                $trail->parent('admin.material.index', $material)
+                    ->push(__('Short ticket'), route('admin.material.t', [$material, $quantity]));
+            });
+
         Route::patch('/', [MaterialController::class, 'update'])->name('update');
         // Route::delete('/', [UserController::class, 'destroy'])->name('destroy');
 

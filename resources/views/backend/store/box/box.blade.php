@@ -30,7 +30,6 @@
 	</div>
 </div>
 
-
 <livewire:backend.store.pos.create-cash />
 
 @endsection
