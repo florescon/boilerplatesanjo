@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-{{-- <title>{{ optional($order->user)->name }}</title> --}}
+<title>{!! $material->full_name ?? '' !!}</title>
 
 <style type="text/css">
   * {
