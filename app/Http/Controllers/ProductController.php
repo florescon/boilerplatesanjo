@@ -202,6 +202,17 @@ class ProductController extends Controller
         // return view('backend.order.ticket-order');
     }
 
+    public function short_ticket(Product $product)
+    {
+        if(!$product->isChildren() || !$product->isProduct()){
+            abort(401);
+        }
+
+        $pdf = PDF::loadView('backend.product.ticket.short', compact('product'))->setPaper([0, 0, 888.98, 600.85], 'portrait');
+
+        return $pdf->stream();
+    }
+
 	public function deleted()
 	{
 	    return view('backend.product.deleted');

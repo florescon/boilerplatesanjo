@@ -137,6 +137,13 @@ Route::group([
                     ->push(__('Short barcode'), route('admin.product.short-barcode', $product));
             });
 
+        Route::get('t', [ProductController::class, 'short_ticket'])
+            ->name('t')
+            ->breadcrumbs(function (Trail $trail, Product $product) {
+                $trail->parent('admin.product.index', $product)
+                    ->push(__('Short ticket'), route('admin.product.t', $product));
+            });
+
         Route::delete('/', [ProductController::class, 'destroy'])->name('destroy');
 
         Route::delete('clear_consumption', [ProductController::class, 'clear_consumption'])

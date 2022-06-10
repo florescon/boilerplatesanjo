@@ -24,6 +24,8 @@ class ProductStoreExport implements FromCollection, WithMapping, WithHeadings
             __('Name'),
             __('Code'),
             __('Store stock'),
+            __('Cost'),
+            __('Subtotal'),
         ];
     }
 
@@ -36,6 +38,8 @@ class ProductStoreExport implements FromCollection, WithMapping, WithHeadings
             optional($product->parent)->name.', '.optional($product->color)->name.' '.optional($product->size)->name,
             $product->code ? $product->code : optional($product->parent)->code,
             $product->stock_store ?? 0,
+            optional($product->parent)->cost ? optional($product->parent)->cost : optional($product->parent)->cost - ((setting('retail_price_percentage') / 100) * optional($product->parent)->cost),
+            optional($product->parent)->cost * $product->stock_store,
         ];
     }
 

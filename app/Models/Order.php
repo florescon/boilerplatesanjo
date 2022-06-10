@@ -54,6 +54,7 @@ class Order extends Model
         'approved' => 'boolean',
         'user_departament_changed_at' => 'datetime',
         'feedstock_changed_at' => 'datetime',
+        'to_stock' => 'boolean',
     ];
 
     /**
@@ -537,6 +538,26 @@ class Order extends Model
     {
         if(!$this->isApproved()){
             return '<i class="fas fa-exclamation-triangle" style="color:red;"></i>';
+        }
+
+        return '';
+    }
+
+    /**
+     * @return bool
+     */
+    public function isToStock(): bool
+    {
+        return $this->to_stock;
+    }
+
+    /**
+     * @return string
+     */
+    public function getToStockFinalAttribute()
+    {
+        if($this->isToStock()){
+            return '<i class="cil-chevron-double-right" style="color:red;"></i>';
         }
 
         return '';

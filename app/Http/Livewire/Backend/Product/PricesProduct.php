@@ -15,7 +15,6 @@ class PricesProduct extends Component
 
     public $productModel;
 
-
     public $priceIVA;
 
     public $originalPrice;

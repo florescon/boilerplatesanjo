@@ -143,7 +143,8 @@
 	                	{!! $order->type_order !!}
 	                </td>
 	                <td class="align-middle text-center" style="text-decoration: underline;">
-	                   {!! $order->last_status_order_label !!}
+	                  {!! $order->last_status_order_label !!}
+		                {!! $order->to_stock_final !!}
 	                </td>
 		              <td class="align-middle text-center">
 		                <span class="badge badge-dot">

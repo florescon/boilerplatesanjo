@@ -74,8 +74,6 @@ class CreateFeedstock extends Component
                 'audi_id' => Auth::id(),
                 'comment' => $this->description ?? null,
             ]);
-            
-            dd('si');
 
             session()->flash('message', 'The feedstock was successfully created.');
          

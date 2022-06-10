@@ -14,6 +14,8 @@ use App\Events\Product\ProductLineChanged;
 use App\Events\Product\ProductBrandChanged;
 use App\Events\Product\ProductModelChanged;
 use App\Events\Product\ProductColorCreated;
+use App\Models\Color;
+use App\Models\Size;
 
 class EditProduct extends Component
 {
@@ -369,6 +371,9 @@ class EditProduct extends Component
         // event(new ProductColorCreated($product));
 
         if($this->color_id_select){
+
+            $color = Color::findOrFail($this->color_id_select);
+
             if(!$product->childrenWithTrashed->contains('color_id', $this->color_id_select))
             {
                 foreach($product->childrenWithTrashed->unique('size_id') as $sizes){
@@ -376,6 +381,7 @@ class EditProduct extends Component
                         new Product([
                             'size_id' => $sizes->size->id,
                             'color_id' => $this->color_id_select,
+                            'code' => $product->automatic_code ? ((optional($color)->short_name && optional($sizes->size)->short_name) ? $product->code.optional($color)->short_name.optional($sizes->size)->short_name : null) : null,
                         ]),
                     ]);
                 }
@@ -405,6 +411,9 @@ class EditProduct extends Component
         $product = Product::with('childrenWithTrashed')->findOrFail($this->product_id);
 
         if($this->size_id_select){
+
+            $size = Size::findOrFail($this->size_id_select);
+
             if(!$product->childrenWithTrashed->contains('size_id', $this->size_id_select))
             {
                 foreach($product->childrenWithTrashed->unique('color_id') as $colors){
@@ -412,6 +421,7 @@ class EditProduct extends Component
                         new Product([
                             'size_id' => $this->size_id_select,
                             'color_id' => $colors->color->id,
+                            'code' => $product->automatic_code ? ((optional($colors->color)->short_name && optional($size)->short_name) ? $product->code.optional($colors->color)->short_name.optional($size)->short_name : null) : null,
                         ]),
                     ]);
                 }
