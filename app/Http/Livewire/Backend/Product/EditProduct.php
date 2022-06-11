@@ -16,6 +16,7 @@ use App\Events\Product\ProductModelChanged;
 use App\Events\Product\ProductColorCreated;
 use App\Models\Color;
 use App\Models\Size;
+use Illuminate\Support\Facades\Auth;
 
 class EditProduct extends Component
 {
@@ -471,6 +472,17 @@ class EditProduct extends Component
         $this->showSpecificConsumptions = FALSE;
     }
 
+    public function createHistory($product, $stock, string $typeStock)
+    {
+        $product->history()->create([
+            'old_stock' => $product->$typeStock,
+            'stock' => $stock,
+            'type_stock' => $typeStock,
+            'is_output' => false,
+            'audi_id' => Auth::id(),
+        ]);
+    }
+
     public function increase()
     {
         $this->validate([
@@ -490,6 +502,18 @@ class EditProduct extends Component
     			if(!empty($productos['stock']))
     			{
 		            $product_increment = Product::where('id', $key)->first();
+
+                    $this->createHistory($product_increment, $productos['stock'], 'stock');
+
+                    // $product_increment->history()->create([
+                    //     'product_id' => $key,
+                    //     'old_stock' => $product_increment->stock,
+                    //     'stock' => $productos['stock'],
+                    //     'type_stock' => 'stock',
+                    //     'is_output' => false,
+                    //     'audi_id' => Auth::id(),
+                    // ]);
+
 		            $product_increment->increment('stock', abs($productos['stock']));
     			}
     		}
@@ -500,6 +524,9 @@ class EditProduct extends Component
     			if(!empty($productos['stock']))
     			{
 		            $product_increment = Product::where('id', $key)->first();
+
+                    $this->createHistory($product_increment, -$productos['stock'], 'stock');
+
 		            $product_increment->decrement('stock', abs($productos['stock']));
     			}
     		}
@@ -511,6 +538,9 @@ class EditProduct extends Component
                 if(!empty($productos['stock']))
                 {
                     $product_increment = Product::where('id', $key)->first();
+
+                    $this->createHistory($product_increment, $productos['stock'], 'stock_revision');
+
                     $product_increment->increment('stock_revision', abs($productos['stock']));
                 }
             }
@@ -521,6 +551,9 @@ class EditProduct extends Component
                 if(!empty($productos['stock']))
                 {
                     $product_increment = Product::where('id', $key)->first();
+
+                    $this->createHistory($product_increment, -$productos['stock'], 'stock_revision');
+
                     $product_increment->decrement('stock_revision', abs($productos['stock']));
                 }
             }
@@ -531,6 +564,9 @@ class EditProduct extends Component
                 if(!empty($productos['stock']))
                 {
                     $product_increment = Product::where('id', $key)->first();
+
+                    $this->createHistory($product_increment, $productos['stock'], 'stock_store');
+
                     $product_increment->increment('stock_store', abs($productos['stock']));
                 }
             }
@@ -541,6 +577,9 @@ class EditProduct extends Component
                 if(!empty($productos['stock']))
                 {
                     $product_increment = Product::where('id', $key)->first();
+
+                    $this->createHistory($product_increment, -$productos['stock'], 'stock_store');
+
                     $product_increment->decrement('stock_store', abs($productos['stock']));
                 }
             }

@@ -60,10 +60,10 @@
                                                 </div>
 
                                                 <div class="col-md-12 text-center mb-3">
-                                                    <div class="custom-control custom-switch">
+                                                    {{-- <div class="custom-control custom-switch">
                                                       <input type="checkbox" class="custom-control-input" id="switchIVA" wire:click="$toggle('switchIVA')">
                                                       <label class="custom-control-label" for="switchIVA">Precio de proveedor no incluye IVA, incluirlo</label>
-                                                    </div>
+                                                    </div> --}}
                                                 </div>
 
                                                 <div class="input-group">

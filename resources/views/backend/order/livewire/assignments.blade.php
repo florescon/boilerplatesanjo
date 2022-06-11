@@ -104,12 +104,14 @@
                     <div class="card-header">
                       <div class="row">
                         <div class="col-md-6 col-sm-3">
-                          {!! optional($ticket->user)->name ?? '
+                          {!! optional($ticket->user)->name ? '<div class="badge bg-danger text-wrap text-white" style="width: 6rem;">'.optional($ticket->user)->name
+                          .'
+                            
+                          </div>' : '
                           <span class="badge badge-success">Stock'. appName().'</span>
                           ' !!}
                           #{{ $ticket->id.' - '.$ticket->status->name }}
                         </div>
-
                         <div class="col-md-4 col-sm-3">
                             <a href="{{ route('admin.order.ticket_assignment', [$order_id, $ticket->id]) }}" class="card-link" target="_blank"><i class="cil-print"></i> Ticket </a>
                         </div>

@@ -121,7 +121,7 @@ class CreateProduct extends Component
     public function calculatePrice()
     {
         if($this->switchIVA){
-            $this->calculateIVA();
+            // $this->calculateIVA();
             $priceRetaiPrice = $this->priceIVA + ((setting('retail_price_percentage') / 100) * $this->priceIVA);
         }
         else{
@@ -138,7 +138,7 @@ class CreateProduct extends Component
     public function calculateAverageWholesalePrice()
     {
         if($this->switchIVA){
-            $this->calculateIVA();
+            // $this->calculateIVA();
             $priceAverageWholesalePrice = $this->priceIVA + ((setting('average_wholesale_price_percentage') / 100) * $this->priceIVA);
         }
         else{
@@ -154,7 +154,7 @@ class CreateProduct extends Component
     public function calculateWholesalePrice()
     {
         if($this->switchIVA){
-            $this->calculateIVA();
+            // $this->calculateIVA();
             $priceWholesalePrice = $this->priceIVA + ((setting('wholesale_price_percentage') / 100) * $this->priceIVA);
         }
         else{
@@ -170,7 +170,7 @@ class CreateProduct extends Component
     public function calculateSpecialPrice()
     {
         if($this->switchIVA){
-            $this->calculateIVA();
+            // $this->calculateIVA();
             $priceSpecial = $this->priceIVA + ((setting('special_price_percentage') / 100) * $this->priceIVA);
         }
         else{

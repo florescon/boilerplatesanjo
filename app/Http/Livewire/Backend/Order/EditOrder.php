@@ -174,6 +174,17 @@ class EditOrder extends Component
             
             if($product_order->quantity > 0){
                 if($product->isProduct()){
+        
+                    $product->history()->create([
+                        'product_id' => $product_order->product_id,
+                        'stock' => $product_order->quantity,
+                        'price' => $product_order->price,
+                        'order_id' => $this->order_id,
+                        'is_output' => true,
+                        'audi_id' => Auth::id(),
+                    ]);
+
+
                     $product->increment('stock', abs($product_order->quantity));
                 }
             }

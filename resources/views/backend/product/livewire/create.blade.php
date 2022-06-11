@@ -140,7 +140,7 @@
                 <label for="price" class="col-md-2 col-form-label">{{ $switchIVA ? __('Gross purchase price') : __('Net purchase price') }}<sup>*</sup></label>
 
                 <div class="form-row align-items-center ml-2">
-                    <div class="{{ $switchIVA ? 'col-md-3' : 'col-md-3' }} mb-3">
+                    <div class="{{ $switchIVA ? 'col-md-12' : 'col-md-12' }} mb-12">
                         <input type="number" min="1" step="any" name="price" wire:model="price" class="form-control @error('price') is-invalid  @enderror" placeholder="{{ __('Price') }}" value="{{ old('price') }}" maxlength="100" required/>
                     </div>
 
@@ -157,12 +157,12 @@
                         </div>
                     @endif
 
-                    <div class="{{ $switchIVA ? 'col-md-6' : 'col-md-8' }} mb-3">
+                    {{-- <div class="{{ $switchIVA ? 'col-md-6' : 'col-md-8' }} mb-3">
                         <div class="custom-control custom-switch">
                           <input type="checkbox" class="custom-control-input" id="switchIVA" wire:click="$toggle('switchIVA')">
                           <label class="custom-control-label" for="switchIVA">Precio de proveedor no incluye IVA, incluirlo</label>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div><!--form-group-->
 
