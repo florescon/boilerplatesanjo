@@ -61,6 +61,22 @@ class KardexProduct extends Component
         $this->sortField = $field;
     }
 
+    public function getRowsQueryProperty()
+    {
+        $attribute = Product::findOrFail($this->product_id);
+
+        $query = $attribute->history()->with('subproduct.parent', 'subproduct.size', 'subproduct.color')->orderBy('created_at', 'desc')->get();
+        
+        return $query;
+    }
+
+    public function getRowsProperty()
+    {
+        return $this->cache(function () {
+            return $this->rowsQuery;
+        });
+    }
+
     public function loadMore(?string $day = null): void
     {
         array_push($this->myDate, $day);
@@ -103,15 +119,11 @@ class KardexProduct extends Component
         $this->resetPage();
     }
 
-    public function getRowsProperty()
-    {
-        return $this->cache(function () {
-            return $this->rowsQuery;
-        });
-    }
-
     public function render()
     {
-        return view('backend.product.livewire.kardex');
+        return view('backend.product.livewire.kardex', [
+            'history' => $this->rows,
+        ]);
+
     }
 }

@@ -111,10 +111,26 @@
 
     <div class="row mt-4 justify-content-center">
      <div class="col-sm-9 col-md-9 col-lg-9">
-      <div class="card shadow-lg">
-
+        <div class="card shadow-lg">
+          <div class="list-group">
+            @forelse ($history as $producte)
+              <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">{!! $producte->subproduct->full_name !!}</h5>
+                  <small>{!! $producte->is_output_label !!} {{ $producte->date_diff_for_humans }}</small>
+                </div>
+                <p class="mb-1">{!! $producte->type_stock_label.' <strong class="text-info">'.$producte->stock.'</strong>' !!}</p>
+              </a>
+            @empty
+              <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">@lang('No results!')</h5>
+                </div>
+              </a>
+            @endforelse
+          </div>
+        </div>
       </div>
-    </div>
     </div>
   </x-slot>
 

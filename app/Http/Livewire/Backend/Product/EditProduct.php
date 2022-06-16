@@ -472,13 +472,14 @@ class EditProduct extends Component
         $this->showSpecificConsumptions = FALSE;
     }
 
-    public function createHistory($product, $stock, string $typeStock)
+    public function createHistory($product, $stock, bool $isOutput = false, string $typeStock)
     {
-        $product->history()->create([
+        $product->history_subproduct()->create([
+            'product_id' => optional($product->parent)->id ?? null,
             'old_stock' => $product->$typeStock,
             'stock' => $stock,
             'type_stock' => $typeStock,
-            'is_output' => false,
+            'is_output' => $isOutput,
             'audi_id' => Auth::id(),
         ]);
     }
@@ -503,7 +504,7 @@ class EditProduct extends Component
     			{
 		            $product_increment = Product::where('id', $key)->first();
 
-                    $this->createHistory($product_increment, $productos['stock'], 'stock');
+                    $this->createHistory($product_increment, $productos['stock'], false, 'stock');
 
                     // $product_increment->history()->create([
                     //     'product_id' => $key,
@@ -525,7 +526,7 @@ class EditProduct extends Component
     			{
 		            $product_increment = Product::where('id', $key)->first();
 
-                    $this->createHistory($product_increment, -$productos['stock'], 'stock');
+                    $this->createHistory($product_increment, -$productos['stock'], true, 'stock');
 
 		            $product_increment->decrement('stock', abs($productos['stock']));
     			}
@@ -539,7 +540,7 @@ class EditProduct extends Component
                 {
                     $product_increment = Product::where('id', $key)->first();
 
-                    $this->createHistory($product_increment, $productos['stock'], 'stock_revision');
+                    $this->createHistory($product_increment, $productos['stock'], false, 'stock_revision');
 
                     $product_increment->increment('stock_revision', abs($productos['stock']));
                 }
@@ -552,7 +553,7 @@ class EditProduct extends Component
                 {
                     $product_increment = Product::where('id', $key)->first();
 
-                    $this->createHistory($product_increment, -$productos['stock'], 'stock_revision');
+                    $this->createHistory($product_increment, -$productos['stock'], true, 'stock_revision');
 
                     $product_increment->decrement('stock_revision', abs($productos['stock']));
                 }
@@ -565,7 +566,7 @@ class EditProduct extends Component
                 {
                     $product_increment = Product::where('id', $key)->first();
 
-                    $this->createHistory($product_increment, $productos['stock'], 'stock_store');
+                    $this->createHistory($product_increment, $productos['stock'], false, 'stock_store');
 
                     $product_increment->increment('stock_store', abs($productos['stock']));
                 }
@@ -578,7 +579,7 @@ class EditProduct extends Component
                 {
                     $product_increment = Product::where('id', $key)->first();
 
-                    $this->createHistory($product_increment, -$productos['stock'], 'stock_store');
+                    $this->createHistory($product_increment, -$productos['stock'], true, 'stock_store');
 
                     $product_increment->decrement('stock_store', abs($productos['stock']));
                 }

@@ -285,6 +285,14 @@ class Product extends Model
     /**
      * @return mixed
      */
+    public function history_subproduct()
+    {
+        return $this->hasMany(ProductHistory::class, 'subproduct_id');
+    }
+
+    /**
+     * @return mixed
+     */
     public function childrenWithTrashed()
     {
         return $this->hasMany(self::class, 'parent_id')->with('children', 'size', 'color')->withTrashed();

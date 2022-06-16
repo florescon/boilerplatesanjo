@@ -64,7 +64,6 @@ class EditOrder extends Component
         session()->flash('message', __('The status delivery was successfully changed.'));
 
         return redirect()->route('admin.order.edit', $this->order_id);
-
     }
 
     private function initcomment(Order $order)
@@ -175,15 +174,15 @@ class EditOrder extends Component
             if($product_order->quantity > 0){
                 if($product->isProduct()){
         
-                    $product->history()->create([
-                        'product_id' => $product_order->product_id,
+                    $product->history_subproduct()->create([
+                        'product_id' => optional($product->parent)->id ?? null,
                         'stock' => $product_order->quantity,
+                        'type_stock' => 'stock',
                         'price' => $product_order->price,
                         'order_id' => $this->order_id,
-                        'is_output' => true,
+                        'is_output' => false,
                         'audi_id' => Auth::id(),
                     ]);
-
 
                     $product->increment('stock', abs($product_order->quantity));
                 }

@@ -73,10 +73,10 @@ class MaterialRecordsHistoryTable extends Component
         return MaterialHistory::query()->with('material.color', 'material.size', 'material.unit', 'audi')
             ->when($this->dateInput, function ($query) {
                 if($this->dateInput < Carbon::today()->subYear()){ 
-                        $this->emit('swal:alert', [
-                           'icon' => 'warning',
-                            'title'   => 'Limitado a un año', 
-                        ]);
+                    $this->emit('swal:alert', [
+                       'icon' => 'warning',
+                        'title'   => 'Limitado a un año', 
+                    ]);
                 }
                 else{
                     empty($this->dateOutput) ?

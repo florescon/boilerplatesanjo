@@ -25,9 +25,66 @@ class ProductHistory extends Model
     /**
      * @return mixed
      */
+    public function subproduct()
+    {
+        return $this->belongsTo(Product::class, 'subproduct_id');
+    }
+
+    /**
+     * @return mixed
+     */
     public function audi()
     {
         return $this->belongsTo(User::class, 'audi_id')->withTrashed();
+    }
+
+    public function isOutput(): bool
+    {
+        return $this->is_output;
+    }
+
+    public function isStock(): bool
+    {
+        return $this->type_stock === 'stock';
+    }
+
+    public function isStockRevision(): bool
+    {
+        return $this->type_stock === 'stock_revision';
+    }
+
+    public function isStockStore(): bool
+    {
+        return $this->type_stock === 'stock_store';
+    }
+
+    /**
+     * Return type_stock label.
+     */
+    public function getTypeStockLabelAttribute(): string
+    {
+        switch ($this->type_stock) {
+            case $this->isStock():
+                return __('Finished product');
+            case $this->isStockRevision():
+                return __('Intermediate Review');
+            case $this->isStockStore():
+                return __('Store product');
+        }
+
+        return '';
+    }
+
+    
+
+    public function getIsOutputLabelAttribute()
+    {
+        return $this->isOutput() ? "<em class='text-danger'>".__('Output').'</em>' : "<em class='text-success'>".__('Input').'</em>';         
+    }
+
+    public function getDateDiffForHumansAttribute()
+    {
+        return $this->created_at->diffForHumans();
     }
 
     /**
@@ -36,6 +93,6 @@ class ProductHistory extends Model
      * @var array
      */
     protected $fillable = [
-        'product_id', 'old_stock', 'stock', 'price', 'old_type_stock', 'type_stock', 'order_id', 'is_output', 'audi_id',
+        'product_id', 'old_stock', 'stock', 'price', 'old_type_stock', 'type_stock', 'order_id', 'is_output', 'audi_id', 'subproduct_id',
     ];
 }
