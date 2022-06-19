@@ -142,6 +142,7 @@
                             <tr>
                               <td class="text-left">
                                 {!! $assign->assignmentable->product->full_name !!}
+                                <div class="small text-muted">@lang('Last Updated'): {{ $assign->updated_at }}</div>
                               </td>
 
                               <td> 

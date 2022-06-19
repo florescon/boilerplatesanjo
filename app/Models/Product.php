@@ -356,6 +356,11 @@ class Product extends Model
         return $this->code ?? __('undefined');
     }
 
+    public function getIdLabelAttribute()
+    {
+        return "<span class='badge badge-primary'>".$this->id.'</span>';
+    }
+
     /**
      * @return bool
      */

@@ -208,6 +208,9 @@
 	              </td>
 	              <td scope="row">
 	              	{!! $product->code_subproduct !!}
+	              	@if($product->id == $searchTerm)
+	        					<div class="small text-muted">@lang('ID'): {!! $product->id_label !!}</div>
+	        				@endif
 	              </td>
 	              <td scope="row">
 	                <div class="media align-items-center">

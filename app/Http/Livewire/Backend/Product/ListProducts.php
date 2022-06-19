@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Backend\Product;
 
 use App\Models\Product;
+use App\Models\ProductHistory;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Http\Livewire\Backend\DataTable\WithBulkActions;
@@ -47,7 +48,8 @@ class ListProducts extends Component
                     ->orWhereRaw("code LIKE \"%$this->searchTerm%\"");
     		})
             ->orWhere('code', 'like', '%' . $this->searchTerm . '%')
-            ->where('parent_id', '<>', NULL);
+            ->orWhere('id', 'like', '%' . $this->searchTerm . '%')
+            ->onlySubProducts();
         }
 
         return null;
@@ -85,7 +87,7 @@ class ListProducts extends Component
             ->whereHas('parent', function ($query) {
                 $query->whereNull('deleted_at');
             })
-            ->where('parent_id', '<>', NULL)
+            ->onlySubProducts()
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?
                     $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', now()]) :
@@ -200,6 +202,18 @@ class ListProducts extends Component
     public function render()
     {
         $NullDatesProducts = Product::with('parent')->whereNotNull('parent_id')->whereNull('created_at')->get();
+
+        $products = ProductHistory::query()->whereNull('subproduct_id')->get();
+
+        foreach($products as $product){
+
+            $prod = Product::find($product->product_id);
+
+            $product->update([
+                'product_id' => $prod->parent_id ?? null,
+                'subproduct_id' => $prod->id,
+            ]);
+        }
 
         return view('backend.product.table.product-list', [
             'products' => $this->rows,

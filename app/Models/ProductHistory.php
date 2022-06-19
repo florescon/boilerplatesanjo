@@ -75,8 +75,6 @@ class ProductHistory extends Model
         return '';
     }
 
-    
-
     public function getIsOutputLabelAttribute()
     {
         return $this->isOutput() ? "<em class='text-danger'>".__('Output').'</em>' : "<em class='text-success'>".__('Input').'</em>';         

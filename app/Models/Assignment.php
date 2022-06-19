@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Domains\Auth\Models\User;
 use App\Models\Traits\Scope\DateScope;
+use Carbon\Carbon;
 
 class Assignment extends Model
 {
@@ -98,4 +99,10 @@ class Assignment extends Model
     {
         return $this->created_at->diffForHumans();
     }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->isoFormat('D, MMM h:mm:ss a');
+    }
+
 }

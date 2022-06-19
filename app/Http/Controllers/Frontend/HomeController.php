@@ -16,7 +16,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $products_count = Product::where('parent_id', '<>', NULL)
+        $products_count = Product::whereType(true)->whereNotNull('parent_id')
             ->whereHas('parent', function ($query) {
                 $query->whereNull('deleted_at');
             })
