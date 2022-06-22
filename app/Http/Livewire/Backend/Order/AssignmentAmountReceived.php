@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Backend\Order;
 
 use Livewire\Component;
 use App\Models\Assignment;
+use Illuminate\Support\Facades\Auth;
 
 class AssignmentAmountReceived extends Component
 {
@@ -62,6 +63,9 @@ class AssignmentAmountReceived extends Component
 
         $assignmentUpd->history()->create([
             'quantity' => $quantity - $received,
+            'user_id' => $assignmentUpd->user_id ?? null,
+            'ticket_id' => $assignmentID ?? null,
+            'audi_id' => Auth::id(),
         ]);
 
         // $this->emit('forceRenderAssignmentAmount');
@@ -109,7 +113,10 @@ class AssignmentAmountReceived extends Component
             ]);
 
             $assignmentUpd->history()->create([
-                'quantity' => $this->received
+                'quantity' => $this->received,
+                'user_id' => $assignmentUpd->user_id ?? null,
+                'ticket_id' => $assignmentID ?? null,
+                'audi_id' => Auth::id(),
             ]);
 
             $assignment = Assignment::find($assignmentID);

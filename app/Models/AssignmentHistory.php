@@ -25,6 +25,6 @@ class AssignmentHistory extends Model
      * @var array
      */
     protected $fillable = [
-        'assignment_id', 'quantity',
+        'assignment_id', 'quantity', 'user_id', 'ticket_id', 'audi_id'
     ];
 }

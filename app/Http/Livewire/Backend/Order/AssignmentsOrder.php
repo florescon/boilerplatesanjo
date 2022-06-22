@@ -63,7 +63,10 @@ class AssignmentsOrder extends Component
         foreach($products as $product){
 
             $product->history()->create([
-                'quantity' => $product->quantity
+                'quantity' => $product->quantity,
+                'user_id' => $ticketUpd->user_id,
+                'ticket_id' => $ticketID,
+                'audi_id' => Auth::id(),
             ]);
 
             $product->update(['output' => true]);
