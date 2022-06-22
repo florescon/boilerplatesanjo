@@ -156,17 +156,30 @@ class CreateSuborder extends Component
                 // dd($product['available']);
                 if(!empty($product['available'])){
 
-                    $SuborderIntoPro = $suborder;
+                    $suborderIntoPro = $suborder;
 
                     $getProduct = Product::with('parent')->withTrashed()->find($key);
 
-                    $SuborderIntoPro->product_suborder()->create([
+                    $suborderIntoPro->product_suborder()->create([
                         'product_id' => $key,
                         'quantity' => $product['available'],
                         'price' => $this->departament ? $getProduct->getPrice($departament->type_price ?? 'retail') : null,
                         'parent_product_id' => $key,
                         'type' => 4,
                     ]);
+
+                    if($getProduct->isProduct()){
+                        $getProduct->history_subproduct()->create([
+                            'product_id' => optional($getProduct->parent)->id ?? null,
+                            'stock' => $product['available'],
+                            'type_stock' => 'stock',
+                            'price' => $this->departament ? $getProduct->getPrice($departament->type_price ?? 'retail') : null,
+                            'order_id' => $suborderIntoPro->id,
+                            'is_output' => true,
+                            'audi_id' => Auth::id(),
+                        ]);
+                    }
+
                 }
             }
         }

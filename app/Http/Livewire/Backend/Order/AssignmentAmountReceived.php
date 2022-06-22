@@ -54,9 +54,14 @@ class AssignmentAmountReceived extends Component
     {
         $assignmentUpd = Assignment::find($assignmentID);
         $quantity = $assignmentUpd->quantity;
+        $received = $assignmentUpd->received;
         $assignmentUpd->update([
             'output' => true,
             'received' => $quantity,
+        ]);
+
+        $assignmentUpd->history()->create([
+            'quantity' => $quantity - $received,
         ]);
 
         // $this->emit('forceRenderAssignmentAmount');
@@ -101,6 +106,10 @@ class AssignmentAmountReceived extends Component
         else{
             $assignmentUpd->update([
                 'received' => $receivedAssignment + $this->received,
+            ]);
+
+            $assignmentUpd->history()->create([
+                'quantity' => $this->received
             ]);
 
             $assignment = Assignment::find($assignmentID);

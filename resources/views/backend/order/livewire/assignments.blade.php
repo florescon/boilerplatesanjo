@@ -41,7 +41,10 @@
                           <tbody>
                             @foreach($model2->product_order as $product)
                               <tr>
-                                <td class="text-left">{!! $product->product->full_name !!}</td>
+                                <td class="text-left">
+                                  {{-- {{ $product->id }}  --}}
+                                  {!! $product->product->full_name !!}
+                                </td>
                                 <td>{{ $product->quantity }}</td>
 
                                 <td class="table-info"> 
@@ -141,6 +144,7 @@
                             @foreach($ticket->assignments_direct as $assign)
                             <tr>
                               <td class="text-left">
+                                {{-- {{ $assign->id }} --}}
                                 {!! $assign->assignmentable->product->full_name !!}
                                 <div class="small text-muted">@lang('Last Updated'): {{ $assign->updated_at }}</div>
                               </td>

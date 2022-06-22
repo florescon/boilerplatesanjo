@@ -177,7 +177,7 @@ class DepartamentTable extends Component
         $this->validate([
             'selected_id' => ['required', 'numeric'],
             'name' => ['required', 'min:3'],
-            'email' => ['email', 'min:3', 'regex:/^\S*$/u', Rule::unique('departaments')->ignore($this->selected_id)],
+            'email' => ['email', 'nullable', 'min:3', 'regex:/^\S*$/u', Rule::unique('departaments')->ignore($this->selected_id)],
             'comment' => ['sometimes', 'nullable'],
             'phone' => ['nullable', 'digits:10'],
             'address' => ['sometimes', 'max:100'],

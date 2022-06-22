@@ -49,6 +49,14 @@ class Assignment extends Model
     }
 
     /**
+     * @return mixed
+     */
+    public function history()
+    {
+        return $this->hasMany(AssignmentHistory::class);
+    }
+
+    /**
      * @return bool
      */
     public function isOutput()
@@ -104,5 +112,4 @@ class Assignment extends Model
     {
         return Carbon::parse($value)->isoFormat('D, MMM h:mm:ss a');
     }
-
 }

@@ -54,13 +54,21 @@ class AssignmentsOrder extends Component
             $this->user = null;
     }
 
-
     public function outputUpdateAll($ticketID)
     {
         $ticketUpd = Ticket::find($ticketID);
 
-        $ticketUpd->assignments_direct()->where('output', false)->update(['output' => true]);
+        $products = $ticketUpd->assignments_direct()->where('output', false)->get();
         
+        foreach($products as $product){
+
+            $product->history()->create([
+                'quantity' => $product->quantity
+            ]);
+
+            $product->update(['output' => true]);
+        }
+
         $this->emit('forceRenderAssignmentAmount');
 
         $this->emit('swal:alert', [

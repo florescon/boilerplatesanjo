@@ -203,17 +203,17 @@ class ListProducts extends Component
     {
         $NullDatesProducts = Product::with('parent')->whereNotNull('parent_id')->whereNull('created_at')->get();
 
-        $products = ProductHistory::query()->whereNull('subproduct_id')->get();
+        // $products = ProductHistory::query()->whereNull('subproduct_id')->get();
 
-        foreach($products as $product){
+        // foreach($products as $product){
 
-            $prod = Product::find($product->product_id);
+        //     $prod = Product::find($product->product_id);
 
-            $product->update([
-                'product_id' => $prod->parent_id ?? null,
-                'subproduct_id' => $prod->id,
-            ]);
-        }
+        //     $product->update([
+        //         'product_id' => $prod->parent_id ?? null,
+        //         'subproduct_id' => $prod->id,
+        //     ]);
+        // }
 
         return view('backend.product.table.product-list', [
             'products' => $this->rows,
