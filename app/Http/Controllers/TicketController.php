@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ticket;
 use Illuminate\Http\Request;
+use App\Domains\Auth\Models\User;
 
 class TicketController extends Controller
 {
@@ -15,6 +16,11 @@ class TicketController extends Controller
     public function index()
     {
         return view('backend.ticket.index');
+    }
+
+    public function history(User $user)
+    {
+        return view('backend.ticket.history', compact('user'));
     }
 
     public function deleted()

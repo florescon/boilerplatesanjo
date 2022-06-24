@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\Logged;
 use App\Models\Customer;
 use App\Models\Departament;
+use App\Models\AssignmentHistory;
 
 /**
  * Class UserRelationship.
@@ -40,5 +41,10 @@ trait UserRelationship
     public function departaments(): HasMany
     {
         return $this->hasMany(Departament::class)->orderBy('created_at', 'desc');
+    }
+
+    public function assignments(): HasMany
+    {
+        return $this->hasMany(AssignmentHistory::class)->orderBy('created_at', 'desc');
     }
 }

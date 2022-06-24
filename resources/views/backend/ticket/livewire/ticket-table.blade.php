@@ -140,7 +140,7 @@
                   <div class="small text-muted">@lang('Order')</div>
                 </td>
         				<td>
-        					<div> {{ optional($ticket->user)->name ?? __('undefined') }} </div>
+        					<div> <a href="{{ route('admin.ticket.history', $ticket->user_id ) }}" >{{ optional($ticket->user)->name ?? __('undefined') }}</a> </div>
         					<div class="small text-muted">@lang('Ticket registered'): {{ $ticket->date_for_humans }}</div>
         				</td>
         				<td class="text-center">

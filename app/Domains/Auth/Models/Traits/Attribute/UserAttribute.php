@@ -67,4 +67,29 @@ trait UserAttribute
             })
             ->implode('<br/>');
     }
+
+    public function total_quantities()
+    {
+        return $this->assignments->sum('quantity');
+    }
+
+    /**
+     * Return Total order price without shipping amount.
+     */
+    public function getTotalQuantitiesAttribute(): string
+    {
+        return $this->total_quantities();
+    }
+
+    public function price_making()
+    {
+        return $this->assignments->sum(function($parent) {
+          return $parent->assignment->assignmentable->product->parent->price_making * $parent->quantity;
+        });
+    }
+
+    public function getTotalQuantitiesWithMakingAttribute()
+    {
+        return $this->price_making();
+    }
 }
