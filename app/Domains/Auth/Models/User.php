@@ -43,6 +43,7 @@ class User extends Authenticatable implements MustVerifyEmail, TwoFactorAuthenti
     public const PRICE_RETAIL = 'retail';
     public const PRICE_AVERAGE_WHOLESALE = 'average_wholesale';
     public const PRICE_WHOLESALE = 'wholesale';
+    public const PRICE_SPECIAL = 'special';
 
     /**
      * The attributes that are mass assignable.

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ticket;
+use App\Models\Assignment;
+use App\Models\AssignmentHistory;
 use Illuminate\Http\Request;
 use App\Domains\Auth\Models\User;
 
@@ -20,6 +22,16 @@ class TicketController extends Controller
 
     public function history(User $user)
     {
+        // $userUpdate = AssignmentHistory::where('user_id', $user->id)->get();
+        // foreach($userUpdate as $assignment){
+
+        //     $assignment->timestamps = FALSE;
+
+        //     $assignment->update([
+        //         'ticket_id' => $assignment->assignment->ticket_id,
+        //     ]);
+        // }
+
         return view('backend.ticket.history', compact('user'));
     }
 

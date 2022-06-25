@@ -45,6 +45,7 @@
               <option value="{{ $model::PRICE_RETAIL }}" {{ $type_price === $model::PRICE_RETAIL ? 'selected' : '' }}>@lang('Retail price')</option>
               <option value="{{ $model::PRICE_AVERAGE_WHOLESALE }}" {{ $type_price === $model::PRICE_AVERAGE_WHOLESALE ? 'selected' : '' }}>@lang('Average wholesale price')</option>
               <option value="{{ $model::PRICE_WHOLESALE }}" {{ $type_price === $model::PRICE_WHOLESALE ? 'selected' : '' }}>@lang('Wholesale price')</option>
+              <option value="{{ $model::PRICE_SPECIAL }}" {{ $type_price === $model::PRICE_SPECIAL ? 'selected' : '' }}>@lang('Special price')</option>
           </select>
           @error('type_price') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 

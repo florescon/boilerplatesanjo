@@ -64,7 +64,7 @@ class AssignmentAmountReceived extends Component
         $assignmentUpd->history()->create([
             'quantity' => $quantity - $received,
             'user_id' => $assignmentUpd->user_id ?? null,
-            'ticket_id' => $assignmentID ?? null,
+            'ticket_id' => $assignmentID->ticket_id ?? null,
             'audi_id' => Auth::id(),
         ]);
 
@@ -115,7 +115,7 @@ class AssignmentAmountReceived extends Component
             $assignmentUpd->history()->create([
                 'quantity' => $this->received,
                 'user_id' => $assignmentUpd->user_id ?? null,
-                'ticket_id' => $assignmentID ?? null,
+                'ticket_id' => $assignmentID->ticket_id ?? null,
                 'audi_id' => Auth::id(),
             ]);
 

@@ -385,6 +385,14 @@ class Product extends Model
         return $this->wholesale_price;
     }
 
+    /**
+     * @return bool
+     */
+    public function hasSpecialPriceSubproduct()
+    {
+        return $this->wholesale_price;
+    }
+
     public function getPriceSubproductAttribute()
     {
         if(!$this->hasPriceSubproduct()){
@@ -410,6 +418,15 @@ class Product extends Model
         }
 
         return $this->wholesale_price != 0 ? $this->wholesale_price : $this->parent->wholesale_price;
+    }
+
+    public function getPriceSpecialSubproductAttribute()
+    {
+        if(!$this->hasSpecialPriceSubproduct()){
+            return $this->parent->special_price." <span class='badge badge-secondary'>".__('General').'</span>';
+        }
+
+        return $this->special_price != 0 ? $this->special_price : $this->parent->special_price;
     }
 
     public function getPriceSubproductLabelAttribute()
@@ -440,6 +457,11 @@ class Product extends Model
                         return $this->parent->wholesale_price ? $this->parent->wholesale_price : $this->parent->price;
                     else
                         return $this->wholesale_price !== 0 ? $this->wholesale_price : $this->parent->wholesale_price;
+                case User::PRICE_SPECIAL:
+                    if(!$this->hasSpecialPriceSubproduct())
+                        return $this->parent->special_price ? $this->parent->special_price : $this->parent->price;
+                    else
+                        return $this->special_price !== 0 ? $this->special_price : $this->parent->special_price;
             }
 
             return $this->price !== 0 ? $this->price : $this->parent->price;

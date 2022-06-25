@@ -71,12 +71,21 @@ class Departament extends Model
     {
         return $this->type_price === User::PRICE_AVERAGE_WHOLESALE;
     }
+
     /**
      * @return mixed
      */
     public function isWholesale(): bool
     {
         return $this->type_price === User::PRICE_WHOLESALE;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function isSpecial(): bool
+    {
+        return $this->type_price === User::PRICE_SPECIAL;
     }
 
     /**

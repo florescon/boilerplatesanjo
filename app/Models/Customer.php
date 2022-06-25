@@ -48,6 +48,14 @@ class Customer extends Model
     }
 
     /**
+     * @return mixed
+     */
+    public function isSpecial(): bool
+    {
+        return $this->type_price === User::PRICE_SPECIAL;
+    }
+
+    /**
      * @param $type_price
      *
      * @return bool

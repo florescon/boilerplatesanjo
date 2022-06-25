@@ -182,7 +182,7 @@ class DepartamentTable extends Component
             'phone' => ['nullable', 'digits:10'],
             'address' => ['sometimes', 'max:100'],
             'rfc' => ['sometimes','max:50'],
-            'type_price' => ['required', Rule::in([User::PRICE_RETAIL, User::PRICE_AVERAGE_WHOLESALE, User::PRICE_WHOLESALE])],
+            'type_price' => ['required', Rule::in([User::PRICE_RETAIL, User::PRICE_AVERAGE_WHOLESALE, User::PRICE_WHOLESALE, User::PRICE_SPECIAL])],
         ]);
 
         if ($this->selected_id) {

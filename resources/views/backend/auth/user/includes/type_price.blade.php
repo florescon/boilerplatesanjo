@@ -4,6 +4,8 @@
     @lang('Average wholesale price')
 @elseif (optional($user->customer)->isWholesale())
     @lang('Wholesale price')
+@elseif (optional($user->customer)->isSpecial())
+    @lang('Special price')
 @else
     @lang('N/A')
 @endif

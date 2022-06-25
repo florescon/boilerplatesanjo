@@ -68,6 +68,7 @@
                                 <option value="{{ $model::PRICE_RETAIL }}">@lang('Retail price')</option>
                                 <option value="{{ $model::PRICE_AVERAGE_WHOLESALE }}">@lang('Average wholesale price')</option>
                                 <option value="{{ $model::PRICE_WHOLESALE }}">@lang('Wholesale price')</option>
+                                <option value="{{ $model::PRICE_SPECIAL }}">@lang('Special price')</option>
                             </select>
                         </div>
                     </div><!--form-group-->
