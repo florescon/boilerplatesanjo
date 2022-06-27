@@ -3,9 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Domains\Auth\Models\User;
 
-class CreateDepartamentSpecialPrice extends Migration
+class CreateUserSpecialPrice extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +13,7 @@ class CreateDepartamentSpecialPrice extends Migration
      */
     public function up()
     {
-        \DB::statement("ALTER TABLE `departaments` CHANGE `type_price` `type_price` ENUM('retail', 'average_wholesale', 'wholesale', 'special') NOT NULL DEFAULT 'retail'");
+        \DB::statement("ALTER TABLE `customers` CHANGE `type_price` `type_price` ENUM('retail', 'average_wholesale', 'wholesale', 'special') NOT NULL DEFAULT 'retail'");
     }
 
     /**
@@ -24,6 +23,6 @@ class CreateDepartamentSpecialPrice extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('departament_special_price');
+        Schema::dropIfExists('user_special_price');
     }
 }

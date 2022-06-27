@@ -35,7 +35,7 @@ class StoreUserRequest extends FormRequest
             'phone' => ['nullable', 'digits:10'],
             'address' => ['sometimes'],
             'rfc' => ['sometimes'],
-            'type_price' => ['required', Rule::in([User::PRICE_RETAIL, User::PRICE_AVERAGE_WHOLESALE, User::PRICE_WHOLESALE])],
+            'type_price' => ['required', Rule::in([User::PRICE_RETAIL, User::PRICE_AVERAGE_WHOLESALE, User::PRICE_WHOLESALE, User::PRICE_SPECIAL])],
             'email' => ['required', 'max:255', 'email', Rule::unique('users')],
             'password' => ['max:100', PasswordRules::register($this->email)],
             'active' => ['sometimes', 'in:1'],

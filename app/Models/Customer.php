@@ -76,6 +76,9 @@ class Customer extends Model
         elseif($this->isWholesale()){
             return __('Wholesale price');
         }
+        elseif($this->isSpecial()){
+            return __('Special price');
+        }
 
         return __('Retail price');
     }

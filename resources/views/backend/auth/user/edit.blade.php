@@ -70,7 +70,7 @@
                                 <option value="{{ $model::PRICE_RETAIL }}" {{ optional($user->customer)->type_price === $model::PRICE_RETAIL ? 'selected' : '' }}>@lang('Retail price')</option>
                                 <option value="{{ $model::PRICE_AVERAGE_WHOLESALE }}" {{ optional($user->customer)->type_price === $model::PRICE_AVERAGE_WHOLESALE ? 'selected' : '' }}>@lang('Average wholesale price')</option>
                                 <option value="{{ $model::PRICE_WHOLESALE }}" {{ optional($user->customer)->type_price === $model::PRICE_WHOLESALE ? 'selected' : '' }}>@lang('Wholesale price')</option>
-                                <option value="{{ $model::PRICE_WHOLESALE }}" {{ optional($user->customer)->type_price === $model::PRICE_SPECIAL ? 'selected' : '' }}>@lang('Special price')</option>
+                                <option value="{{ $model::PRICE_SPECIAL }}" {{ optional($user->customer)->type_price === $model::PRICE_SPECIAL ? 'selected' : '' }}>@lang('Special price')</option>
                             </select>
                         </div>
                     </div><!--form-group-->
