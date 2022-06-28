@@ -174,6 +174,10 @@
                                         @if($customPrices == true)
                                             <th class="table-secondary col-2"></th>
                                         @endif
+                                        <th class="table-secondary">@lang('Special price')</th>
+                                        @if($customPrices == true)
+                                            <th class="table-secondary col-2"></th>
+                                        @endif
                                     </tr>
                                 </thead>
 
@@ -238,6 +242,18 @@
                                                     wire:model.lazy="productModel.{{ $key }}.wholesale_price"
                                                     wire:keydown.enter="save" 
                                                     class="form-control" placeholder="{!! number_format((float)$subproduct->price_wholesale_subproduct, 2) !!}"
+                                                    step="any" 
+                                                >
+                                              </td>
+                                          @endif
+
+                                          <td class="table-info">${!! number_format((float)$subproduct->price_special_subproduct, 2) !!}</td>
+                                          @if($customPrices == true)
+                                              <td class="table-info"> 
+                                                <input type="number" 
+                                                    wire:model.lazy="productModel.{{ $key }}.special_price"
+                                                    wire:keydown.enter="save" 
+                                                    class="form-control" placeholder="{!! number_format((float)$subproduct->price_special_subproduct, 2) !!}"
                                                     step="any" 
                                                 >
                                               </td>

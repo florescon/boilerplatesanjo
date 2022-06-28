@@ -174,7 +174,6 @@ class DepartamentTable extends Component
 
     public function update()
     {
-
         $this->validate([
             'selected_id' => ['required', 'numeric'],
             'name' => ['required', 'min:3'],

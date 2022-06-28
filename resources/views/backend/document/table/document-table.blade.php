@@ -191,6 +191,10 @@
               <td>
                 <div class="btn-group" role="group" aria-label="Basic example">
 
+                    <button type="button" data-toggle="modal" data-target="#updateModal" wire:click="edit({{ $document->id }})" class="btn btn-transparent-dark">
+                        <i class='far fa-edit'></i>
+                    </button>
+
                     <button type="button" data-toggle="modal" data-target="#showModal" wire:click="show({{ $document->id }})" class="btn btn-transparent-dark">
                         <i class='far fa-eye'></i>
                     </button>

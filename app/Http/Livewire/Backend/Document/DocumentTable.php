@@ -48,7 +48,7 @@ class DocumentTable extends Component
         'title' => 'required|min:3|max:60',
         'file_dst' => 'sometimes|mimetypes:application/octet-stream|max:2048',
         'file_emb' => 'sometimes|mimetypes:application/vnd.ms-office|max:2048',
-        'comment' => 'max:100',
+        'comment' => 'max:300',
     ];
 
     protected $messages = [
@@ -194,17 +194,17 @@ class DocumentTable extends Component
         $this->validate([
             'selected_id' => 'required|numeric',
             'title' => 'required|min:3',
-            'file_dst' => 'sometimes|nullable|mimetypes:application/octet-stream|max:2048',
-            'file_emb' => 'sometimes|nullable|mimetypes:application/vnd.ms-office|max:2048',
-            'comment' => 'sometimes',
+            // 'file_dst' => 'sometimes|nullable|mimetypes:application/octet-stream|max:2048',
+            // 'file_emb' => 'sometimes|nullable|mimetypes:application/vnd.ms-office|max:2048',
+            'comment' => 'sometimes|max:300',
         ]);
 
         if ($this->selected_id) {
             $record = Document::find($this->selected_id);
             $record->update([
                 'title' => $this->title,
-                'file_dst' => $this->file_dst ? $this->file_dst->store("documents",'public') : null,
-                'file_emb' => $this->file_emb ? $this->file_emb->store("documents",'public') : null,
+                // 'file_dst' => $this->file_dst ? $this->file_dst->store("documents",'public') : null,
+                // 'file_emb' => $this->file_emb ? $this->file_emb->store("documents",'public') : null,
                 'comment' => $this->comment
             ]);
             $this->resetInputFields();
