@@ -19,6 +19,59 @@
   <div class="col-sm-12">
     <div class="card">
       <div class="card-body">
+
+        <div class="row input-daterange justify-content-center">
+            <div class="col-md-3 mr-2 mb-2 pr-5=">
+              <x-input.date wire:model="dateInput" id="dateInput" placeholder="{{ __('From') }}"/>
+            </div>
+
+            <div class="col-md-3 mr-2 mb-2">
+              <x-input.date wire:model="dateOutput" id="dateOutput" placeholder="{{ __('To') }}"/>
+            </div>
+            &nbsp;
+
+            <div class="col-md-3 mb-2">
+              <div class="btn-group mr-2" role="group" aria-label="First group">
+                <button type="button" class="btn btn-outline-primary" wire:click="clearFilterDate"  class="btn btn-default">@lang('Clear date')</button>
+                <button type="button" class="btn btn-outline-primary" wire:click="clearAll" class="btn btn-default">@lang('Clear all')</button>
+              </div>
+            </div>
+            &nbsp;
+        </div>
+        <div class="page-header-subtitle mt-2 mb-2 text-center">
+          <em>
+            @lang('Filter by updated date range')
+          </em>
+          <div class="mt-3">
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+              <strong>Filtrado por</strong>
+                @if(!$dateInput)
+                  esta semana (no.{{ now()->isoFormat('W') }} del año)
+                @else
+                  {{ $dateInput }} {{ $dateOutput ? '- '.$dateOutput : __('to this day') }}
+                @endif
+
+                <button type="button" class="btn btn-primary btn-sm disabled">@lang('Export') (@lang('Disabled'))</button>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-4 justify-content-center">
+          <div class="col-6">
+            <div class="input-group">
+              <input wire:model.debounce.350ms="searchTerm" class="form-control text-center" type="text" placeholder="{{ __('Search') }}" />
+              @if($searchTerm !== '')
+                <div class="input-group-append">
+                  <button type="button" wire:click="clear" class="close" aria-label="Close">
+                    <span aria-hidden="true"> &nbsp; &times; &nbsp;</span>
+                  </button>
+                </div>
+              @endif
+            </div>
+          </div>
+        </div>
+
         <ul class="list-group">
           @foreach($assignments as $assignment)
             <li class="list-group-item list-group-item-action flex-column align-items-start">

@@ -94,7 +94,7 @@
   </x-slot>
 
   <x-slot name="body">
-    <div class="row mb-4 justify-content-center">
+    {{-- <div class="row mb-4 justify-content-center">
       <div class="col-6">
         <div class="input-group">
           <input wire:model.debounce.350ms="searchTerm" class="form-control" type="text" placeholder="{{ __('Search by folio, tracking number or comment') }}..." />
@@ -107,13 +107,42 @@
           @endif
         </div>
       </div>
-    </div>
+    </div> --}}
 
-    <div class="row mt-4 justify-content-center">
-     <div class="col-sm-9 col-md-9 col-lg-9">
-        <div class="card shadow-lg">
-          <div class="list-group">
+    <div class="row  justify-content-center">
+     <div class="col-sm-12">
+
+          <table class="table table-bordered table-hover">
+            <thead>
+              <tr class="text-center">
+                <th scope="col">@lang('Detail')</th>
+                <th scope="col">@lang('Input')</th>
+                <th scope="col">@lang('Output')</th>
+                <th scope="col">@lang('Old stock')</th>
+                <th scope="col" style="background-color: #f5f3f3;">Balance</th>
+                <th scope="col">@lang('Type stock')</th>
+                <th scope="col">@lang('Current stock')</th>
+              </tr>
+            </thead>
+            <tbody>
             @forelse ($history as $producte)
+              <tr class="text-center">
+                <th>{!! $producte->subproduct->only_attributes !!}</th>
+                <td>{{ !$producte->isOutput() ? $producte->stock : '' }}</td>
+                <td class="text-danger">{{ $producte->isOutput() ? $producte->stock : '' }}</td>
+                <td>{{ $producte->old_stock ?? __('No results!') }}</td>
+                <td style="background-color: #f5f3f3;">{{ $producte->balance }}</td>
+                <td >{{ $producte->type_stock_label }}</td>
+                <td class="text-primary">{{ $producte->type_stock_relationship }}</td>
+              </tr>
+            @empty
+              <tr>
+                <th scope="row">@lang('No results!')</th>
+              </tr>
+            @endforelse
+            </tbody>
+          </table>
+          {{-- <div class="list-group">
               <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
                   <h5 class="mb-1">{!! $producte->subproduct->full_name !!}</h5>
@@ -128,9 +157,8 @@
                 </div>
               </a>
             @endforelse
-          </div>
+          </div> --}}
         </div>
-      </div>
     </div>
   </x-slot>
 

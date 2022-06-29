@@ -58,6 +58,18 @@ class ProductHistory extends Model
         return $this->type_stock === 'stock_store';
     }
 
+    public function getBalanceAttribute(): int
+    {
+        switch ($this->isOutput()) {
+            case true:
+                return $this->old_stock - abs($this->stock);
+            case false:
+                return $this->old_stock + abs($this->stock);
+        }
+
+        return false;
+    }
+
     /**
      * Return type_stock label.
      */
@@ -70,6 +82,23 @@ class ProductHistory extends Model
                 return __('Intermediate Review');
             case $this->isStockStore():
                 return __('Store product');
+        }
+
+        return '';
+    }
+
+    /**
+     * Return type_stock label.
+     */
+    public function getTypeStockRelationshipAttribute(): string
+    {
+        switch ($this->type_stock) {
+            case $this->isStock():
+                return $this->subproduct->stock ?? 0;
+            case $this->isStockRevision():
+                return $this->subproduct->stock_revision ?? 0;
+            case $this->isStockStore():
+                return $this->subproduct->stock_store ?? 0;
         }
 
         return '';

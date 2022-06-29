@@ -124,6 +124,5 @@ class KardexProduct extends Component
         return view('backend.product.livewire.kardex', [
             'history' => $this->rows,
         ]);
-
     }
 }
