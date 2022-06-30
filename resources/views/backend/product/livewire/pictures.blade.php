@@ -36,21 +36,21 @@
                     <h6 class="card-subtitle mb-2 text-muted">{{ $model->code }}</h6>
                   </li>
 
-                  {{-- <li class="list-group-item">
+                  <li class="list-group-item">
                     <strong>@lang('Colors'): </strong> 
                     @foreach($model->childrenOnlyColors->unique('color_id')->sortBy('color.name') as $colors)
                       <button type="button" style="margin-top: 3px" class="btn {{ in_array($colors->color_id, $filters_c) ? 'btn-primary text-white' : 'btn-outline-primary' }} btn-sm" wire:click="$emit('filterByColor', {{ $colors->color_id }})">
                         {{ $colors->color->name }} <span class="badge bg-primary text-white">{{ ltrim($product_general->getTotalPicturesByColor($colors->color_id), '0') }}</span>
                       </button>
                     @endforeach
-                  </li> --}}
+                  </li>
                 </ul>
               </div>
             </div>
         </div>
 
         <div class="col-12 col-sm-6 col-md-8">
-          {{-- @error('files') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror --}}
+          @error('files') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
             <div class="card text-center" style="border-color: {{ $color ?? 'white' }};">
               <div class="card-body">
