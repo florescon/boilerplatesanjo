@@ -131,7 +131,7 @@
             </li>
         @endif
 
-        {{-- @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.order.order'))) --}}
+        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.order.order')))
             <li class="c-sidebar-nav-item">
                 <x-utils.link
                     class="c-sidebar-nav-link"
@@ -140,7 +140,7 @@
                     icon="c-sidebar-nav-icon cil-short-text"
                     :text="__('Tickets')" />
             </li>
-        {{-- @endif --}}
+        @endif
 
         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.product.list')))
             <li class="c-sidebar-nav-item">

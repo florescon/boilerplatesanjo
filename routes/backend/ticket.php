@@ -12,7 +12,7 @@ Route::group([
 
     Route::get('/', [TicketController::class, 'index'])
         ->name('index')
-        // ->middleware('permission:admin.access.ticket.index')
+        ->middleware('permission:admin.access.order.order')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.dashboard')
                 ->push(__('Ticket Management'), route('admin.ticket.index'));
@@ -21,7 +21,7 @@ Route::group([
     Route::group(['prefix' => '{user}'], function () {
         Route::get('history', [TicketController::class, 'history'])
             ->name('history')
-            // ->middleware('permission:admin.access.order.modify')
+        ->middleware('permission:admin.access.order.order')
             ->breadcrumbs(function (Trail $trail, User $user) {
                 $trail->parent('admin.ticket.index')
                     ->push(__('Assignment history'), route('admin.ticket.history', $user));
@@ -34,7 +34,7 @@ Route::group([
 
     Route::get('deleted', [TicketController::class, 'deleted'])
         ->name('deleted')
-        // ->middleware('permission:admin.access.ticket.deleted')
+        ->middleware('permission:admin.access.order.order')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.ticket.index')
                 ->push(__('Deleted tickets'), route('admin.ticket.deleted'));

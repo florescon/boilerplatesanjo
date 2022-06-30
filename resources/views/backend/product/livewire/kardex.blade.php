@@ -128,11 +128,18 @@
             @forelse ($history as $producte)
               <tr class="text-center">
                 <th>{!! $producte->subproduct->only_attributes !!}</th>
-                <td>{{ !$producte->isOutput() ? $producte->stock : '' }}</td>
-                <td class="text-danger">{{ $producte->isOutput() ? $producte->stock : '' }}</td>
+                <td>{!! !$producte->isOutput() ? $producte->stock .'<div class="small text-muted">'.$producte->date_diff_for_humans.'</div>' : '' !!}</td>
+                <td class="text-danger">{!! $producte->isOutput() ? $producte->stock .'<div class="small text-muted">'.$producte->date_diff_for_humans.'</div>' : '' !!}</td>
                 <td>{{ $producte->old_stock ?? __('No results!') }}</td>
                 <td style="background-color: #f5f3f3;">{{ $producte->balance }}</td>
-                <td >{{ $producte->type_stock_label }}</td>
+                <td>
+                  {{ $producte->type_stock_label }}
+                  @if($producte->order_id)
+                    <div class="small">@lang('Order'): 
+                      <a href="{{ route('admin.order.edit', $producte->order_id) }}"> #{{ $producte->order_id }}</a>
+                    </div>
+                  @endif
+                </td>
                 <td class="text-primary">{{ $producte->type_stock_relationship }}</td>
               </tr>
             @empty

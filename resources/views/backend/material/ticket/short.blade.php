@@ -43,8 +43,8 @@
           @if($material->part_number)
               <img src="data:image/png;base64, {{ base64_encode(\QrCode::format('svg')->size(100)->generate($material->part_number)) }}"style="        
                     /*position: relative;*/
-                margin-top: 49px;
-                height:390px;
+                margin-top: 69px;
+                height:490px;
                 /*padding-bottom: 0;*/
                 /*overflow: hidden;*/
                 /*border: 1px solid;*/
@@ -62,13 +62,6 @@
           <h3>
             {{ $material->color_id ? $material->color->name : '' }} {!! $material->size_id ? $material->size->name : '' !!}
           </h3>
-        </td>
-      </tr>
-      <tr align="center">
-        <td>
-          <h2>
-            {{ $quantity > 0 ? $quantity : $material->stock }} {{ $material->unit_id ? ($material->unit->abbreviation ? $material->unit->abbreviation :$material->unit->name ) : '' }}
-          </h2>
         </td>
       </tr>
       <tr>

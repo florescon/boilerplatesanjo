@@ -28,4 +28,7 @@
 	    </div>
 
 	@endif
+
+  	<a href="{{ route('admin.material.t', $material->id) }}" target="_blank"><span class='badge badge-info'><i class="cil-print"></i> @lang('Label')</span></a>
+
 </div>
