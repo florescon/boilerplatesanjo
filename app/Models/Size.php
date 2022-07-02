@@ -127,6 +127,15 @@ class Size extends Model
         return '';
     }
 
+    public function getIsExtraLabelAttribute()
+    {
+        if($this->is_extra){
+            return "<span class='badge badge-primary'>".__('Yes').'</span>';
+        }
+
+        return "<span class='badge badge-dark'>".__('No').'</span>';
+    }
+
     public function getCreatedAtAttribute($value)
     {
         return Carbon::parse($value)->isoFormat('D, MMM h:mm:ss a');
@@ -148,5 +157,15 @@ class Size extends Model
         'short_name',
         'keywords',
         'sort',
+        'is_extra',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'is_extra' => 'boolean',
     ];
 }

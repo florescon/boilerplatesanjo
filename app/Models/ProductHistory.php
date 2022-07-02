@@ -27,7 +27,7 @@ class ProductHistory extends Model
      */
     public function subproduct()
     {
-        return $this->belongsTo(Product::class, 'subproduct_id');
+        return $this->belongsTo(Product::class, 'subproduct_id')->withTrashed();
     }
 
     /**

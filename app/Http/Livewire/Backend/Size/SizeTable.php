@@ -35,7 +35,7 @@ class SizeTable extends TableComponent
         'perPage',
     ];
 
-    protected $listeners = ['delete', 'restore', 'triggerRefresh' => '$refresh'];
+    protected $listeners = ['extra', 'delete', 'restore', 'triggerRefresh' => '$refresh'];
 
     /**
      * @var string
@@ -113,6 +113,11 @@ class SizeTable extends TableComponent
                 ->searchable()
                 ->sortable()
                 ->excludeFromExport(),
+            Column::make(__('Extra size'), 'is_extra')
+                ->format(function (Size $model) {
+                    return view('backend.size.datatable.extra', ['size' => $model]);
+                })
+                ->excludeFromExport(),
             Column::make(__('Created at'), 'created_at')
                 ->searchable()
                 ->sortable(),
@@ -125,6 +130,24 @@ class SizeTable extends TableComponent
                 })
                 ->excludeFromExport(),
         ];
+    }
+
+    public function extra(?int $id = null)
+    {
+        if($id){
+            $size = Size::withTrashed()->find($id);
+            
+            $size->update([
+                'is_extra' => $size->is_extra ? false : true,
+            ]);
+
+            sleep(1);
+        }
+
+        $this->emit('swal:alert', [
+            'icon' => 'success',
+            'title'   => __('Changed'), 
+        ]);
     }
 
     public function delete(Size $size)

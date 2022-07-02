@@ -127,7 +127,7 @@
             <tbody>
             @forelse ($history as $producte)
               <tr class="text-center">
-                <th>{!! $producte->subproduct->only_attributes !!}</th>
+                <th>{!! $producte->subproduct->only_attributes ?? null !!}</th>
                 <td>{!! !$producte->isOutput() ? $producte->stock .'<div class="small text-muted">'.$producte->date_diff_for_humans.'</div>' : '' !!}</td>
                 <td class="text-danger">{!! $producte->isOutput() ? $producte->stock .'<div class="small text-muted">'.$producte->date_diff_for_humans.'</div>' : '' !!}</td>
                 <td>{{ $producte->old_stock ?? __('No results!') }}</td>
