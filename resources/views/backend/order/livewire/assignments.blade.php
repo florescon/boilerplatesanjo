@@ -86,7 +86,6 @@
 
             <div class="col-12 col-md-6">
 
-
               <p>
                 <div class="btn-group" role="group" aria-label="Basic example">
                   @if($previous_status)
