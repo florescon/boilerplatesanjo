@@ -211,7 +211,7 @@ class Order extends Model
     public function getPaymentLabelAttribute()
     {
         if($this->orders_payments()->exists()){
-            if($this->total_payments_remaining == 0){
+            if($this->total_payments_remaining <= 0){
                 return "<span class='badge badge-success'>".__(OrderStatusPayment::PAID).'</span>';
             }
             else{

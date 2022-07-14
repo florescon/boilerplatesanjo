@@ -21,8 +21,9 @@
 
             @if($incomes == TRUE)
               <ul class="list-group list-group-flush text-center">
-                <li class="list-group-item">@lang('Quantity'): {{ $finances->total() }} </li>
-                <li class="list-group-item">@lang('Total'): $ {{ rtrim(rtrim(sprintf('%.8F', $finances->sum('amount')), '0'), ".") }} </li>
+                <li class="list-group-item">@lang('Records'): {{ $finances->total() }} </li>
+                <li class="list-group-item">@lang('Total') @lang('in the page'): $ {{ rtrim(rtrim(sprintf('%.8F', $finances->sum('amount')), '0'), ".") }} </li>
+                <li class="list-group-item">@lang('Total'): $ {{ rtrim(rtrim(sprintf('%.8F', $querySum), '0'), ".") }} </li>
                 <li class="list-group-item">
                   <h4>
                     <span class="badge badge-light">
@@ -78,7 +79,8 @@
             @if($expenses == TRUE)
               <ul class="list-group list-group-flush text-center">
                 <li class="list-group-item">@lang('Quantity'): {{ $finances->total() }}</li>
-                <li class="list-group-item">@lang('Total'): $ {{ rtrim(rtrim(sprintf('%.8F', $finances->sum('amount')), '0'), ".") }} </li>
+                <li class="list-group-item">@lang('Total') @lang('in the page'): $ {{ rtrim(rtrim(sprintf('%.8F', $finances->sum('amount')), '0'), ".") }} </li>
+                <li class="list-group-item">@lang('Total'): $ {{ rtrim(rtrim(sprintf('%.8F', $querySum), '0'), ".") }} </li>
                 <li class="list-group-item">
                   <h4>
                     <span class="badge badge-light">

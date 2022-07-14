@@ -41,9 +41,11 @@ class FinanceTable extends Component
     public bool $currentWeek = false;
     public bool $today = false;
 
+    public $records_sum;
+
     public $status;
 
-    protected $listeners = ['filter' => 'filter', 'delete', 'restore', 'refreshFinanceTable' => '$refresh'];
+    protected $listeners = ['filter' => 'filter', 'delete', 'restore', 'forceRender' => 'render', 'refreshFinanceTable' => '$refresh'];
 
     public $name, $short_name, $color, $secondary_color, $created, $updated, $selected_id, $deleted;
 
@@ -83,13 +85,16 @@ class FinanceTable extends Component
                     $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59']);
             })
             ->when($this->currentMonth, function ($query) {
-                    $query->currentMonth();
+                $this->applySum($query);
+                $query->currentMonth();
             })
             ->when($this->currentWeek, function ($query) {
-                    $query->currentWeek();
+                $this->applySum($query);
+                $query->currentWeek();
             })
             ->when($this->today, function ($query) {
-                    $query->today();
+                $this->applySum($query);
+                $query->today();
             })
             ->when($this->sortField, function ($query) {
                 $query->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc');
@@ -100,15 +105,30 @@ class FinanceTable extends Component
         }
 
         if ($this->incomes === TRUE) {
+            $this->applySum($query);
+            $this->applySearchFilter($query);
             return $query->onlyIncomes();
         }
+
         if ($this->expenses === TRUE) {
+            $this->applySum($query);
+            $this->applySearchFilter($query);
             return $query->onlyExpenses();
         }
 
         $this->applySearchFilter($query);
 
         return $query;
+    }
+
+    private function applySum($querySum)
+    {   
+        if($this->incomes){
+            return $this->records_sum = $querySum->whereType('income')->sum('amount');
+        }
+        if($this->expenses){
+            return $this->records_sum = $querySum->whereType('expense')->sum('amount');
+        }
     }
 
     private function applySearchFilter($searchFinance)
@@ -257,9 +277,13 @@ class FinanceTable extends Component
     public function render()
     {
         $date = Carbon::now()->startOfMonth();
+
+        $querySum = $this->records_sum;
+
         return view('backend.store.livewire.finance-table', [
             'finances' => $this->rows,
             'date' => $date,
+            'querySum' => $this->records_sum,
         ]);
     }
 }
