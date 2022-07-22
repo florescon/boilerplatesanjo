@@ -44,7 +44,6 @@ class TicketTable extends Component
 
     public $updated, $selected_id, $deleted;
 
-
     public function sortBy($field)
     {
         if ($this->sortField === $field) {
