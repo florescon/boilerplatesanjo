@@ -113,7 +113,6 @@ class TicketTable extends Component
         return null;
     }
 
-
     public function getRowsProperty()
     {
         return $this->cache(function () {

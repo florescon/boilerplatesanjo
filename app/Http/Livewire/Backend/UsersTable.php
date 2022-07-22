@@ -73,7 +73,10 @@ class UsersTable extends TableComponent
                 }),
             Column::make(__('Name'), 'name')
                 ->searchable()
-                ->sortable(),
+                ->sortable()
+                ->format(function (User $model) {
+                    return view('backend.auth.user.includes.name-and-price', ['user' => $model]);
+                }),
             Column::make(__('E-mail'), 'email')
                 ->searchable()
                 ->sortable()
