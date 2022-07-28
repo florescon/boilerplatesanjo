@@ -340,7 +340,7 @@ class PricesProduct extends Component
         // $this->retail_price = setting('round') ? ceil($priceRetaiPrice / 5) * 5 : $priceRetaiPrice;
         $this->retail_price = $priceRetaiPrice;
 
-        $this->retail_price = $this->retail_price + ((setting('iva') / 100) * $this->retail_price);
+        // $this->retail_price = $this->retail_price + ((setting('iva') / 100) * $this->retail_price);
         $this->retail_price = ceil(number_format((float) $this->retail_price, 2, '.', ''));
     }
 
@@ -356,7 +356,7 @@ class PricesProduct extends Component
 
         $this->average_wholesale_price = setting('round') ? ceil($priceAverageWholesalePrice / 5) * 5 : $priceAverageWholesalePrice;
 
-        $this->average_wholesale_price = $this->average_wholesale_price + ((setting('iva') / 100) * $this->average_wholesale_price);
+        // $this->average_wholesale_price = $this->average_wholesale_price + ((setting('iva') / 100) * $this->average_wholesale_price);
         $this->average_wholesale_price = ceil(number_format((float) $this->average_wholesale_price, 2, '.', ''));
     }
 
@@ -372,7 +372,7 @@ class PricesProduct extends Component
 
         $this->wholesale_price = setting('round') ? ceil($priceWholesalePrice / 5) * 5 : $priceWholesalePrice;
 
-        $this->wholesale_price = $this->wholesale_price + ((setting('iva') / 100) * $this->wholesale_price);
+        // $this->wholesale_price = $this->wholesale_price + ((setting('iva') / 100) * $this->wholesale_price);
         $this->wholesale_price = ceil(number_format((float) $this->wholesale_price, 2, '.', ''));
     }
 
@@ -389,7 +389,7 @@ class PricesProduct extends Component
         // $this->special_price = setting('round') ? ceil($priceSpecial / 5) * 5 : $priceSpecial;
         $this->special_price = $priceSpecial;
 
-        $this->special_price = $this->special_price + ((setting('iva') / 100) * $this->special_price);
+        // $this->special_price = $this->special_price + ((setting('iva') / 100) * $this->special_price);
         $this->special_price = ceil(number_format((float) $this->special_price, 2, '.', ''));
     }
 
@@ -418,19 +418,19 @@ class PricesProduct extends Component
 
             $this->retail_price = $this->originalPrice + ((setting('retail_price_percentage') / 100) * $this->originalPrice);
             // $this->calculateIVATypePrice($this->retail_price, 'retail_price');
-            $this->retail_price = $this->retail_price + ((setting('iva') / 100) * $this->retail_price);
+            // $this->retail_price = $this->retail_price + ((setting('iva') / 100) * $this->retail_price);
             $this->retail_price = ceil(number_format((float) $this->retail_price, 2, '.', ''));
 
             $this->average_wholesale_price = $this->originalPrice + ((setting('average_wholesale_price_percentage') / 100) * $this->originalPrice);
-            $this->average_wholesale_price = $this->average_wholesale_price + ((setting('iva') / 100) * $this->average_wholesale_price);
+            // $this->average_wholesale_price = $this->average_wholesale_price + ((setting('iva') / 100) * $this->average_wholesale_price);
             $this->average_wholesale_price = ceil(number_format((float) $this->average_wholesale_price, 2, '.', ''));
 
             $this->wholesale_price = $this->originalPrice + ((setting('wholesale_price_percentage') / 100) * $this->originalPrice);
-            $this->wholesale_price = $this->wholesale_price + ((setting('iva') / 100) * $this->wholesale_price);
+            // $this->wholesale_price = $this->wholesale_price + ((setting('iva') / 100) * $this->wholesale_price);
             $this->wholesale_price = ceil(number_format((float) $this->wholesale_price, 2, '.', ''));
 
             $this->special_price = $this->originalPrice + ((setting('special_price_percentage') / 100) * $this->originalPrice);
-            $this->special_price = $this->special_price + ((setting('iva') / 100) * $this->special_price);
+            // $this->special_price = $this->special_price + ((setting('iva') / 100) * $this->special_price);
             $this->special_price = ceil(number_format((float) $this->special_price, 2, '.', ''));
         }
     }

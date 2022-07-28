@@ -221,6 +221,8 @@
     "description": "descripción",
     "acquisition_cost": "costo de adquisición",
     "price": "precio",
+    "net price": "precio neto",
+    "Net price": "Precio neto",
     "confeccion price": "precio confección",
     "Confeccion price": "Precio confección",
     "price of confeccion service": "precio de servicio de confección",

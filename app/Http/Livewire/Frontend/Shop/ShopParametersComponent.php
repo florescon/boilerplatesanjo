@@ -7,10 +7,8 @@ use App\Models\Product;
 use App\Models\Line;
 use App\Facades\Cart;
 
-
 class ShopParametersComponent extends Component
 {
-
     public $product_parent;
     public ?int $color_id = null;
     public ?int $size_id = null;
@@ -24,7 +22,6 @@ class ShopParametersComponent extends Component
 
     public function add_cart()
     {
-
         $this->validate([
             'color_id' => 'required',
             'size_id' => 'required',
@@ -62,15 +59,14 @@ class ShopParametersComponent extends Component
         // $this->note_opened = FALSE;
     }
 
-
-    public function clearParameters(){
+    public function clearParameters()
+    {
         $this->color_id = null;
         $this->size_id = null;
     }
 
     public function setColor($color)
     {
-
         $this->color_id = $color;
     }
 

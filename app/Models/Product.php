@@ -347,6 +347,15 @@ class Product extends Model
         return $this->code ?: __('undefined');
     }
 
+    public function getCodeSubproductClearAttribute()
+    {
+        if(!$this->hasCodeSubproduct() && $this->isProduct()){
+            return $this->parent->code;
+        }
+
+        return $this->code ?: '';
+    }
+
     public function getCodeLabelAttribute()
     {
         if(!$this->hasCodeSubproduct() && $this->isProduct()){
@@ -438,7 +447,7 @@ class Product extends Model
         return $this->price;
     }
 
-    public function getPrice(string $type_price = null)
+    public function getPrice(?string $type_price = null)
     {
         if($this->isProduct()){
             switch ($type_price) {
@@ -468,6 +477,17 @@ class Product extends Model
         }
 
         return $this->price;
+    }
+
+    public function getPriceWithIvaApply($price)
+    {
+        return number_format($price + ((setting('iva') / 100) * $price), 2);
+    }
+
+    public function getPriceWithIva(?string $type_price = null)
+    {
+        $getPrice = $this->getPrice($type_price ?? User::PRICE_RETAIL);
+        return number_format($getPrice + ((setting('iva') / 100) * $getPrice), 2);
     }
 
     /**

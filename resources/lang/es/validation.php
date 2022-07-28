@@ -178,6 +178,7 @@ return [
         "sort" => 'orden',
         "abbreviation" => 'abreviatura',
         'initial' => 'inicial',
-        'received' => 'cantidad recibida'
+        'received' => 'cantidad recibida',
+        'quantity' => 'cantidad',
     ],
 ];

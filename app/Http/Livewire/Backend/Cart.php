@@ -42,7 +42,6 @@ class Cart extends Component
         }
     }
 
-
     public function selectedCompanyItem($user)
     {
         $this->init();
@@ -208,7 +207,7 @@ class Cart extends Component
                     $order->product_order()->create([
                         'product_id' => $item->id,
                         'quantity' => $item->amount,
-                        'price' =>  ($cartuser || $cartdepartament) ? $item->getPrice($type_price) : $item->parent->price,
+                        'price' =>  ($cartuser || $cartdepartament) ? $item->getPriceWithIva($type_price) : $item->getPriceWithIva(),
                         'type' => 1,
                     ]);
                 }
@@ -221,7 +220,7 @@ class Cart extends Component
                     $order->product_order()->create([
                         'product_id' => $item->id,
                         'quantity' => $item->amount,
-                        'price' =>  ($cartuser || $cartdepartament) ? $item->getPrice($type_price) : $item->parent->price,
+                        'price' =>  ($cartuser || $cartdepartament) ? $item->getPriceWithIva($type_price) : $item->getPriceWithIva(),
                         'type' => 2,
                     ]);
                 }
@@ -242,7 +241,9 @@ class Cart extends Component
     public function render()
     {
         $cartVar = CartFacade::get();
-        // dd($cartVar);
-        return view('backend.cart.livewire.cart')->with(compact('cartVar'));
+
+        return view('backend.cart.livewire.cart')->with([
+            'cartVar' => $cartVar,
+        ]);
     }
 }

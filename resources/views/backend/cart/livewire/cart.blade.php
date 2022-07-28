@@ -53,7 +53,7 @@
 					      <th scope="col">@lang('Product')</th>
 
 					      {{-- <th scope="col">@lang('Amount')</th> --}}
-					      <th scope="col" width="180">@lang('Price')</th>
+					      <th scope="col" width="180" class="text-center">@lang('Price')</th>
 					      <th scope="col">@lang('Amount')</th>
 					      <th scope="col"></th>
 					    </tr>
@@ -72,26 +72,29 @@
 						      	@if($product->type == false)
 				                    <livewire:backend.cart-update-price-form :item="$product" :key="$product->id" :typeCart="'products'" />
 							    @else
-							      	$
-							      	@if($cartVar['user'])
-							      		{{ $product->getPrice($cartVar['user'][0]->customer->type_price ?? 'retail'); }}
-							      	@elseif($cartVar['departament'])
-							      		{{ $product->getPrice($cartVar['departament'][0]->type_price  ?? 'retail'); }}
-							      	@else
-							      		{{ $product->getPrice('retail'); }}
-							      	@endif
+				                    <livewire:backend.cart-show-price :product="$product" :typeCart="'products'" />
+
 						      		{{-- {{ $product->getPrice($cartVar['user'][0]->customer->type_price ?? 'retail'); }}  --}}
 							    @endif
 						      </td>
-						      <td style="width:120px; max-width: 120px;" >
+						      <td style="width:120px; max-width: 120px;">
 			                    <livewire:backend.cart-update-form :item="$product" :key="$product->id" :typeCart="'products'" />
 						      </td>
-
 						      <td>
 								<a wire:click="removeFromCart({{ $product->id }}, 'products')" class="badge badge-danger text-white" style="cursor:pointer;">@lang('Delete')</a>
 						  	  </td>
 						    </tr>
 					    @endforeach
+					    <tr>
+					      <th scope="row"></th>
+					      <th scope="row" class="text-right">Total</th>
+					      <td class="text-center">
+					      	<livewire:backend.cart-show-price-total :typeCart="'products'"/>
+					      </td>
+					      <td class="text-center">
+					      	<livewire:backend.cart-show-total/>
+					      </td>
+					    </tr>
 					  </tbody>
 					</table>
 				</div>
@@ -108,7 +111,7 @@
 					      <th scope="col">@lang('Code')</th>
 					      <th scope="col">@lang('Product')</th>
 					      {{-- <th scope="col">@lang('Amount')</th> --}}
-					      <th scope="col" width="180">@lang('Price')</th>
+					      <th scope="col" width="180" class="text-center">@lang('Price')</th>
 					      <th scope="col">@lang('Amount')</th>
 					      <th scope="col"></th>
 					    </tr>
@@ -126,14 +129,7 @@
 						      	@if($product_sale->type == false)
 				                    <livewire:backend.cart-update-price-form :item="$product_sale" :key="$product_sale->id" :typeCart="'products_sale'" />
 							    @else
-							      	$
-							      	@if($cartVar['user'])
-							      		{{ $product_sale->getPrice($cartVar['user'][0]->customer->type_price ?? 'retail'); }}
-							      	@elseif($cartVar['departament'])
-							      		{{ $product_sale->getPrice($cartVar['departament'][0]->type_price ?? 'retail'); }}
-							      	@else
-							      		{{ $product_sale->getPrice('retail'); }}
-							      	@endif
+				                    <livewire:backend.cart-show-price :product="$product_sale" :typeCart="'products_sale'" />
 
 							      	{{-- {{ $product_sale->getPrice($cartVar['user'][0]->customer->type_price ?? 'retail'); }} --}}
 
@@ -151,6 +147,16 @@
 						  	  </td>
 						    </tr>
 					    @endforeach
+					    <tr>
+					      <th scope="row"></th>
+					      <th scope="row" class="text-right">Total</th>
+					      <td class="text-center">
+					      	<livewire:backend.cart-show-price-total :typeCart="'products_sale'"/>
+					      </td>
+					      <td class="text-center">
+					      	<livewire:backend.cart-show-sale-total/>
+					      </td>
+					    </tr>
 					  </tbody>
 					</table>
 				</div>

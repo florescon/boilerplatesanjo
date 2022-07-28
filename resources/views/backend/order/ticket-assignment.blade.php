@@ -8,6 +8,10 @@
             * {
                 font-family: Verdana, Arial, sans-serif;
             }
+            body {
+              font-family: "Times New Roman", serif;
+              margin: 0mm -7mm 0mm -7mm;
+            }
             table{
                 font-size: medium;
             }
@@ -61,16 +65,11 @@
             </tr>
         </table>
 
-        <table width="100%">
-            <tr>
-                <td><u><strong>Folio:</strong> #{{ $ticket->id }}</u></td>
-            </tr>
-        </table>
-
         @if($ticket->order_id)
             <table width="100%">
                 <tr>
-                    <td><strong>@lang('Main order'):</strong> #{{ $ticket->order_id }}</td>
+                    <td><strong>@lang('Order'):</strong> #{{ $ticket->order_id }}</td>
+                    <td><u><strong>Folio:</strong> #{{ $ticket->id }}</u></td>
                 </tr>
             </table>
         @endif
@@ -87,7 +86,7 @@
         </table>
 
         @if(count($ticket->assignments_direct))
-            <table width="100%">
+            <table width="100%" style='font-family:"Courier New", Courier, monospace; font-size:97%'>
                 <thead style="background-color: gray;">
                   <tr align="center">
                     <th>Concepto</th>
@@ -97,7 +96,7 @@
                 <tbody>
                   @foreach($ticket->assignments_direct as $assign)
                   <tr>
-                    <td scope="row">{!! $assign->assignmentable->product->full_name !!}</tf>
+                    <td scope="row">{!! $assign->assignmentable->product->full_name !!} {!! '<em>['.$assign->assignmentable->product->code_subproduct_clear.']</em>' !!}</tf>
                     <td align="center">{{ $assign->quantity }}</td>
                   </tr>
                   @endforeach

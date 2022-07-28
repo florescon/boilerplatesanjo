@@ -38,8 +38,8 @@
 
 										<div class="d-inline-block">
 											<h6>{!! $product->full_name !!}</h6>
-											<p class="text-muted m-b-0">@lang('General price'): ${{ optional($product->parent)->price }}</p>
-											<p class="m-b-0">${!! $product->price_subproduct !!}</p>
+											<p class="text-muted m-b-0">@lang('General price'): ${{ $product->getPriceWithIvaApply(optional($product->parent)->price) }} </p>
+											<p class="m-b-0">${{ $product->getPriceWithIvaApply($product->price_subproduct_label) }}</p>
 										</div>
 									</div>
 								</td>
@@ -48,9 +48,7 @@
 								</td>
 								<td class="text-right">
 									<h6 class="f-w-700 mt-2">
-										${{!is_null($product->price) || $product->price != 0 ? 
-						      				$product->price : $product->parent->price 
-					      				}}
+										<livewire:backend.cart-show-price :product="$product" :key="now()->timestamp.$product->id" :typeCart="'products'" />
 									</h6>
 
                        				<a wire:click="removeFromOrderList({{ $product->id }})" class="link link-dark-primary link-normal"  style="cursor:pointer;"><i class="fas fa-times text-c-blue m-l-10 mt-4"></i></a> 
@@ -74,10 +72,10 @@
 									Total
 								</td>
 								<td class="text-center">
-									
+									<livewire:backend.cart-show-total/>
 								</td>
 								<td class="text-center">
-
+							      	<livewire:backend.cart-show-price-total :typeCart="'products'"/>
 								</td>
 							</tr>
 						@endif
@@ -124,15 +122,7 @@
 								</td>
 								<td class="text-right">
 									<h6 class="f-w-700 mt-2">
-										@if($product->isProduct())								
-											${{!is_null($product->price) || $product->price != 0 ? 
-							      				$product->price : $product->parent->price 
-						      				}}
-						      			@else
-											${{!is_null($product->price) || $product->price != 0 ? 
-							      				$product->price : $product->parent->price 
-						      				}}
-						      			@endif
+										<livewire:backend.cart-show-price :product="$product" :key="now()->timestamp.$product->id" :typeCart="'products_sale'" />
 									</h6>
                            				<a wire:click="removeFromSaleList({{ $product->id }})" class="link link-dark-primary link-normal"  style="cursor:pointer;" ><i class="fas fa-times text-c-green m-l-10  mt-4"></i></a> 
 
@@ -155,10 +145,10 @@
 									Total
 								</td>
 								<td class="text-center">
-									
+									<livewire:backend.cart-show-sale-total/>
 								</td>
 								<td class="text-center">
-
+							      	<livewire:backend.cart-show-price-total :typeCart="'products_sale'"/>
 								</td>
 							</tr>
 						@endif

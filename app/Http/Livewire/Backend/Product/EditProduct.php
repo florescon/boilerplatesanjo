@@ -76,7 +76,7 @@ class EditProduct extends Component
     {
         Cart::add(Product::
             with(array('parent' => function($query) {
-                $query->select('id', 'slug', 'name', 'code', 'price', 'average_wholesale_price', 'wholesale_price', 'file_name');
+                $query->select('id', 'slug', 'name', 'code', 'price', 'average_wholesale_price', 'wholesale_price', 'special_price', 'file_name');
             }))->get()
             ->find($productId), $typeCart);
 

@@ -116,4 +116,142 @@ class Cart
 
         return $cartItems;
     }
+
+    /**
+     * Returns total order of the items in the cart.
+     *
+     * @return int
+     */
+    public function totalOrder(): int
+    {
+        $content = $this->get()['products'];
+
+        $total = 0;
+
+        foreach($content as $content){
+
+            if($content['amount'] > 0) {
+                $total += $content['amount'];
+            }
+        }
+
+        return $total;
+    }
+
+    /**
+     * Returns total sale of the items in the cart.
+     *
+     * @return int
+     */
+    public function totalSale(): int
+    {
+        $content = $this->get()['products_sale'];
+
+        $total = 0;
+
+        foreach($content as $content){
+
+            if($content['amount'] > 0) {
+                $total += $content['amount'];
+            }
+        }
+
+        return $total;
+    }
+
+    /**
+     * Returns total price of the items in the order cart.
+     *
+     * @return string
+     */
+    public function totalPriceOrder(string $typeCart): string
+    {
+        $content = $this->get()[$typeCart];
+
+        $total = 0;
+
+        foreach($content as $content){
+
+            if($content['amount'] > 0) {
+                $total += $this->priceReal($content, $typeCart) * $content['amount'];
+            }
+        }
+
+        return number_format($total, 2);
+    }
+
+    /**
+     * Returns total price of the items in the order cart.
+     *
+     * @return string
+     */
+    public function totalPriceOrderWithIva(string $typeCart): string
+    {
+        $content = $this->get()[$typeCart];
+
+        $total = 0;
+
+        foreach($content as $content){
+
+            if($content['amount'] > 0) {
+                $total += $this->priceRealWithIva($content, $typeCart) * $content['amount'];
+            }
+        }
+
+        return number_format($total, 2);
+    }
+
+    /**
+     * Return price of the item in the cart.
+     *
+     * @return string
+     */
+    public function priceReal($product, string $typeCart): string
+    {
+        $cart = $this->get();
+
+        $cartProductsIds = array_column($cart[$typeCart], 'id');
+
+        if (in_array($product->id, $cartProductsIds)) {
+
+            if($cart['user']){
+                return $product->getPrice($cart['user'][0]->customer->type_price ?? 'retail');
+            }
+            elseif($cart['departament']){
+                return $product->getPrice($cart['departament'][0]->type_price  ?? 'retail');
+            }
+            else{
+                return $product->getPrice('retail');
+            }
+        }
+
+        return $product->getPrice('retail');
+    }
+
+    /**
+     * Return price of the item in the cart.
+     *
+     * @return string
+     */
+    public function priceRealWithIva($product, string $typeCart): string
+    {
+        $cart = $this->get();
+
+        $cartProductsIds = array_column($cart[$typeCart], 'id');
+
+        if (in_array($product->id, $cartProductsIds)) {
+
+            if($cart['user']){
+                return $product->getPriceWithIva($cart['user'][0]->customer->type_price ?? 'retail');
+            }
+            elseif($cart['departament']){
+                return $product->getPriceWithIva($cart['departament'][0]->type_price  ?? 'retail');
+            }
+            else{
+                return $product->getPriceWithIva('retail');
+            }
+        }
+
+        return $product->getPriceWithIva('retail');
+    }
 }

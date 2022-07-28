@@ -11,6 +11,10 @@ class CartUpdateForm extends Component
     public $quantity = 0;
     public string $typeCart;
 
+    protected $rules = [
+        'quantity' => 'integer|min:1',
+    ];
+
     public function mount($item, string $typeCart)
     {
         $this->item = $item;
@@ -33,12 +37,13 @@ class CartUpdateForm extends Component
 
         $cart[$this->typeCart] = $this->productCartEdit($this->item['id'], $cart[$this->typeCart]);
 
-
         $this->emit('cartUpdated');
     }
 
     private function productCartEdit($productId, $cartItems)
     {
+        $this->validate();
+
         $amount = 1;
         $cartItems = array_map(function ($item) use ($productId, $amount) {
             if ($productId == $item['id']) {

@@ -163,7 +163,7 @@ class CreateSuborder extends Component
                     $suborderIntoPro->product_suborder()->create([
                         'product_id' => $key,
                         'quantity' => $product['available'],
-                        'price' => $this->departament ? $getProduct->getPrice($departament->type_price ?? 'retail') : null,
+                        'price' => $this->departament ? $getProduct->getPriceWithIva($departament->type_price) : $item->getPriceWithIva(),
                         'parent_product_id' => $key,
                         'type' => 4,
                     ]);
@@ -173,7 +173,7 @@ class CreateSuborder extends Component
                             'product_id' => optional($getProduct->parent)->id ?? null,
                             'stock' => $product['available'],
                             'type_stock' => 'stock',
-                            'price' => $this->departament ? $getProduct->getPrice($departament->type_price ?? 'retail') : null,
+                            'price' => $this->departament ? $getProduct->getPriceWithIva($departament->type_price) : $item->getPriceWithIva(),
                             'order_id' => $suborderIntoPro->id,
                             'is_output' => true,
                             'audi_id' => Auth::id(),
