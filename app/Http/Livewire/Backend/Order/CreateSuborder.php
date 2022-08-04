@@ -172,6 +172,7 @@ class CreateSuborder extends Component
                         $getProduct->history_subproduct()->create([
                             'product_id' => optional($getProduct->parent)->id ?? null,
                             'stock' => $product['available'],
+                            'old_stock' => $getProduct->stock ?? null,
                             'type_stock' => 'stock',
                             'price' => $this->departament ? $getProduct->getPriceWithIva($departament->type_price) : $item->getPriceWithIva(),
                             'order_id' => $suborderIntoPro->id,

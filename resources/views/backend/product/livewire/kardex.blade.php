@@ -54,7 +54,7 @@
       </table>
     </div>
 
-      <div class="col-md-3 mr-2 mb-2 mt-3 pr-5=">
+      {{-- <div class="col-md-3 mr-2 mb-2 mt-3 pr-5=">
         <x-input.date wire:model="dateInput" id="dateInput" placeholder="{{ __('From') }}"/>
       </div>
 
@@ -69,23 +69,21 @@
           <button type="button" class="btn btn-outline-primary" wire:click="clearAll" class="btn btn-default">@lang('Clear all')</button>
         </div>
       </div>
-      &nbsp;
+      &nbsp; --}}
 
     </div>
     <div class="page-header-subtitle mt-2 mb-2 text-center">
-      <em>
+      {{-- <em>
         @lang('Filter by updated date range')
-      </em>
+      </em> --}}
       <div class="mt-3">
         <div class="alert alert-info alert-dismissible fade show" role="alert">
-          <strong>Filtrado por</strong>
+          {{-- <strong>Filtrado por</strong>
             @if(!$dateInput)
               mes de {{ now()->isoFormat('MMMM') }}
             @else
               {{ $dateInput }} {{ $dateOutput ? '- '.$dateOutput : __('to this day') }}
-            @endif
-
-            <button type="button" class="btn btn-primary btn-sm disabled">@lang('Export') (@lang('Disabled'))</button>
+            @endif --}}
 
         </div>
       </div>
@@ -115,6 +113,12 @@
           <table class="table table-bordered table-hover">
             <thead>
               <tr class="text-center">
+                <th style="width:30px; max-width: 30px;">
+                  <label class="form-checkbox">
+                    <input type="checkbox" wire:model="selectPage">
+                    <i class="form-icon"></i>
+                  </label>
+                </th>
                 <th scope="col">@lang('Detail')</th>
                 <th scope="col">@lang('Input')</th>
                 <th scope="col">@lang('Output')</th>
@@ -127,6 +131,12 @@
             <tbody>
             @forelse ($history as $producte)
               <tr class="text-center">
+                <td>
+                  <label class="form-checkbox">
+                      <input type="checkbox" wire:model="selected" value="{{ $producte->id }}">
+                      <i class="form-icon"></i>
+                    </label>
+                </td>
                 <th>{!! $producte->subproduct->only_attributes ?? null !!}</th>
                 <td>{!! !$producte->isOutput() ? $producte->stock .'<div class="small text-muted">'.$producte->date_diff_for_humans.'</div>' : '' !!}</td>
                 <td class="text-danger">{!! $producte->isOutput() ? $producte->stock .'<div class="small text-muted">'.$producte->date_diff_for_humans.'</div>' : '' !!}</td>

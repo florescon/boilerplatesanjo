@@ -177,6 +177,7 @@ class EditOrder extends Component
                     $product->history_subproduct()->create([
                         'product_id' => optional($product->parent)->id ?? null,
                         'stock' => $product_order->quantity,
+                        'old_stock' => $product->stock ?? null,
                         'type_stock' => 'stock',
                         'price' => $product_order->price,
                         'order_id' => $this->order_id,

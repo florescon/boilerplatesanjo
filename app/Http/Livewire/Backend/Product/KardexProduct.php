@@ -10,6 +10,9 @@ use App\Http\Livewire\Backend\DataTable\WithCachedRows;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Response;
+use App\Exports\ProductKardexExport;
+use Excel;
+use DB;
 
 class KardexProduct extends Component
 {
@@ -63,9 +66,9 @@ class KardexProduct extends Component
 
     public function getRowsQueryProperty()
     {
-        $attribute = Product::findOrFail($this->product_id);
+        $product = Product::findOrFail($this->product_id);
 
-        $query = $attribute->history()->with('subproduct.parent', 'subproduct.size', 'subproduct.color')->orderBy('created_at', 'desc')->get();
+        $query = $product->history()->with('subproduct.parent', 'subproduct.size', 'subproduct.color')->orderBy('created_at', 'desc')->get();
         
         return $query;
     }
@@ -80,6 +83,17 @@ class KardexProduct extends Component
     public function loadMore(?string $day = null): void
     {
         array_push($this->myDate, $day);
+    }
+
+    private function getSelectedProducts()
+    {
+        return $this->selectedRowsQuery->get()->pluck('id')->map(fn($id) => (string) $id)->toArray();
+    }
+
+    public function exportMaatwebsite($extension)
+    {   
+        abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
+        return Excel::download(new ProductKardexExport($this->getSelectedProducts()), 'product-kardex-'.Carbon::now().'.'.$extension);
     }
 
     public function clear()
