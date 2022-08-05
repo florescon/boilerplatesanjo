@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Models\Product;
+use App\Models\ProductHistory;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\WithMapping;
@@ -10,7 +10,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class ProductKardexExport implements FromCollection
+class ProductKardexExport implements FromCollection, WithMapping, WithHeadings
 {
     private $productsIDs = [];
 
@@ -22,9 +22,11 @@ class ProductKardexExport implements FromCollection
     {
         return [
             __('Name'),
+            __('Input'),
+            __('Output'),
             __('Old stock'),
-            __('Stock'),
-            __('Type Stock'),
+            __('Balance'),
+            __('Date'),
         ];
     }
 
@@ -34,10 +36,12 @@ class ProductKardexExport implements FromCollection
     public function map($product): array
     {
         return [
-            optional($product->parent)->name.', '.optional($product->color)->name.' '.optional($product->size)->name,
-            $product->old_stock ?? null,
-            $product->stock ?? null,
-            $product->type_stock ?? null,
+            optional($product->product)->name.', '.optional($product->subproduct->color)->name.' '.optional($product->subproduct->size)->name,
+            !$product->isOutput() ? $product->stock : null,
+            $product->isOutput() ? $product->stock : null,
+            $product->old_stock ?? '--',
+            $product->balance,
+            $product->created_at,
         ];
     }
 
@@ -46,6 +50,6 @@ class ProductKardexExport implements FromCollection
     */
     public function collection()
     {
-        return Product::with('parent', 'color', 'size')->find($this->productsIDs)->sortBy('parent.name');
+        return ProductHistory::with('product', 'subproduct.color', 'subproduct.size')->find($this->productsIDs)->sortByDesc('created_at');
     }
 }

@@ -24,7 +24,10 @@ class KardexProduct extends Component
         'searchTerm' => ['except' => ''],
         'dateInput' => ['except' => ''],
         'dateOutput' => ['except' => ''],
+        'perPage',
     ];
+
+    public $perPage = '10';
 
     public $sortField = 'created_at';
     public $sortAsc = false;
@@ -68,15 +71,15 @@ class KardexProduct extends Component
     {
         $product = Product::findOrFail($this->product_id);
 
-        $query = $product->history()->with('subproduct.parent', 'subproduct.size', 'subproduct.color')->orderBy('created_at', 'desc')->get();
-        
+        $query = $product->history()->with('subproduct.parent', 'subproduct.size', 'subproduct.color')->orderBy('created_at', 'desc');
+
         return $query;
     }
 
     public function getRowsProperty()
     {
         return $this->cache(function () {
-            return $this->rowsQuery;
+            return $this->rowsQuery->paginate($this->perPage);
         });
     }
 
@@ -92,6 +95,8 @@ class KardexProduct extends Component
 
     public function exportMaatwebsite($extension)
     {   
+        // dd($this->getSelectedProducts());
+
         abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
         return Excel::download(new ProductKardexExport($this->getSelectedProducts()), 'product-kardex-'.Carbon::now().'.'.$extension);
     }

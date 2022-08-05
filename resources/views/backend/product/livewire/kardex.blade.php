@@ -85,7 +85,38 @@
               {{ $dateInput }} {{ $dateOutput ? '- '.$dateOutput : __('to this day') }}
             @endif --}}
 
+            @if($selected && $history->count())
+              <div class="dropdown table-export">
+                <button class="dropdown-toggle btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  @lang('Export')        
+                </button>
+
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" wire:click="exportMaatwebsite('csv')">CSV</a>
+                  <a class="dropdown-item" wire:click="exportMaatwebsite('xlsx')">Excel</a>
+                  <a class="dropdown-item" wire:click="exportMaatwebsite('xls')">Excel ('XLS')</a>
+                  <a class="dropdown-item" wire:click="exportMaatwebsite('html')">HTML</a>
+                  <a class="dropdown-item" wire:click="exportMaatwebsite('tsv')">TSV</a>
+                  <a class="dropdown-item" wire:click="exportMaatwebsite('ods')">ODS</a>
+                </div>
+              </div><!--export-dropdown-->
+            @endif
         </div>
+
+        @if($selectPage)
+          <x-utils.alert type="primary">
+            @unless($selectAll)
+            <span>Tienes seleccionado <strong>{{ $history->count() }}</strong> registros, ¿quieres seleccionar  <strong>{{ $history->total() }} </strong> registros?</span>
+              <a href="#" wire:click="selectAll" class="alert-link">Seleccionar todo</a>
+            @else
+              <span>Actualmente seleccionaste <strong>{{ $history->total() }}</strong> productos.</span>
+            @endif
+
+            <em>-- @lang('Order by name') --</em>
+
+          </x-utils.alert>
+        @endif
+
       </div>
     </div>
 
@@ -135,7 +166,7 @@
                   <label class="form-checkbox">
                       <input type="checkbox" wire:model="selected" value="{{ $producte->id }}">
                       <i class="form-icon"></i>
-                    </label>
+                  </label>
                 </td>
                 <th>{!! $producte->subproduct->only_attributes ?? null !!}</th>
                 <td>{!! !$producte->isOutput() ? $producte->stock .'<div class="small text-muted">'.$producte->date_diff_for_humans.'</div>' : '' !!}</td>
@@ -159,6 +190,22 @@
             @endforelse
             </tbody>
           </table>
+
+
+          <div class="mt-4">
+            @if($history->count())
+              <div class="row">
+                <div class="col">
+                  <nav>
+                    {{ $history->onEachSide(1)->links() }}
+                  </nav>
+                </div>
+                    <div class="col-sm-3 mb-2 text-muted text-right">
+                      Mostrando {{ $history->firstItem() }} - {{ $history->lastItem() }} de {{ $history->total() }} resultados
+                    </div>
+              </div>
+            @endif
+          </div>
           {{-- <div class="list-group">
               <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">

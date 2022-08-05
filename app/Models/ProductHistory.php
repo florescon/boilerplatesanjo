@@ -58,13 +58,13 @@ class ProductHistory extends Model
         return $this->type_stock === 'stock_store';
     }
 
-    public function getBalanceAttribute(): int
+    public function getBalanceAttribute(): string
     {
         switch ($this->isOutput()) {
             case true:
-                return $this->old_stock - abs($this->stock);
+                return $this->old_stock ? ($this->old_stock - abs($this->stock)) : '--';
             case false:
-                return $this->old_stock + abs($this->stock);
+                return $this->old_stock ? ($this->old_stock + abs($this->stock)) : '--';
         }
 
         return false;
