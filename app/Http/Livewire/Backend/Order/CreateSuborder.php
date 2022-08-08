@@ -33,6 +33,8 @@ class CreateSuborder extends Component
 
     public $sortAsc = false;
 
+    public ?string $date = null;
+
     protected $listeners = ['selectedDeparament', 'savesuborder' => '$refresh', 'renderview' => 'render'];
 
     protected $queryString = [
@@ -120,8 +122,6 @@ class CreateSuborder extends Component
 
         $products = Product::query()->onlySubProducts()->with('parent')->where('stock', '<>', 0)->get();
 
-        // dd($this->quantityy);
-
         foreach($products as $productGet)
         {
             // dd($productGet->stock);
@@ -145,6 +145,7 @@ class CreateSuborder extends Component
             $suborder->audi_id = Auth::id();
             $suborder->approved = true;
             $suborder->type = 4;
+            $suborder->date_entered = $this->date ?? today();
             $suborder->save();
 
             event(new OrderCreated($suborder));
@@ -180,7 +181,6 @@ class CreateSuborder extends Component
                             'audi_id' => Auth::id(),
                         ]);
                     }
-
                 }
             }
         }

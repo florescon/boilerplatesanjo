@@ -21,8 +21,8 @@
 
   <div class="container">
 
-  @include('backend.service.show')
-  @include('backend.service.update')
+    @include('backend.service.show')
+    @include('backend.service.update')
 
     @if($services->count())
       <div class="row">
@@ -62,7 +62,12 @@
                 @endif
 
               </div>
-              <h6 class="mb-0">{{ $service->price ? '$'.$service->price : 'undefined price' }}</h6>
+              <div class="text-center">
+                <h2 class="text-primary">
+                  ${{ $service->getPriceWithIvaApply($service->price ?? 0) }}
+                </h2>
+                <div class="small text-muted"> {{ $service->price ? '$'.$service->price : 'undefined price' }} </div>
+              </div>
               <a href="#!" data-toggle="modal" data-target="#showModal" wire:click="show({{ $service->id }})"><small>@lang('Details')</small></a>
               <div class="d-flex justify-content-between mt-4">
                 @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.service.modify'))

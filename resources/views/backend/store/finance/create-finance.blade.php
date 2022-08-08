@@ -1,4 +1,5 @@
 <x-utils.modal id="createFinance" tform="store">
+
   <x-slot name="title">
     <i class="fas fa-store"></i>
     @if($checkboxExpense == false)
@@ -56,4 +57,5 @@
         <button type="submit" class="btn btn-danger">@lang('Save expense')</button>
       @endif
   </x-slot>
+
 </x-utils.modal>

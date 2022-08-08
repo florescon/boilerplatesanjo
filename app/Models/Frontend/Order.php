@@ -103,7 +103,4 @@ class Order extends Model
      * @var string
      */
     protected $table = 'orders';    
-
-
-
 }

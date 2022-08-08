@@ -116,10 +116,13 @@
                   @lang('Status')
                 </th>
 	              <th scope="col" class="text-center">
-	                  @lang('Created at')
+	              	@lang('Date')
 	              </th>
 	              <th scope="col" class="text-center">
-	                  @lang('Details')
+	                @lang('Created at')
+	              </th>
+	              <th scope="col" class="text-center">
+	                @lang('Details')
 	              </th>
 	            </tr>
 	          </thead>
@@ -130,7 +133,6 @@
 		            		<strong>
 			            		#{{ $order->id }}
 			            	</strong>
-										<span class="badge badge-light"><strong>{{ $order->tracking_number }}</strong></span>
 		            	</td>
 	                <td class="align-middle">
 	                  {!! Str::limit($order->comment, 100) ?? '<span class="badge badge-secondary">'.__('undefined').'</span>' !!}
@@ -146,6 +148,9 @@
 	                  {!! $order->last_status_order_label !!}
 		                {!! $order->to_stock_final !!}
 	                </td>
+		              <td class="align-middle text-center">
+		              	{{ $order->date_entered_or_created }}
+		              </td>
 		              <td class="align-middle text-center">
 		                <span class="badge badge-dot">
 		                  <i class="bg-warning"></i> {{ $order->date_for_humans }}

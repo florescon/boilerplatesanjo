@@ -15,7 +15,7 @@ trait OrderScope
     public function scopeOnlyOrders($query)
     {
         return $query->whereType(1);
-    }   
+    }
 
     /**
      * @param $query

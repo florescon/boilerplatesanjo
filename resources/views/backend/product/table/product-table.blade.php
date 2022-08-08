@@ -61,6 +61,14 @@
 		      <p class="card-text">{!! $product->description_limited !!}</p>
 		      <p class="card-text"><small class="text-muted">@lang('Last Updated') {{ $product->updated_at->diffForHumans() }}</small></p>
 		      <p class="card-text">{{ $product->price ? '$'.$product->price : 'undefined price' }}</p>
+					<div class="small text-muted"> ${{ $product->price }} </div>
+
+					<div class="text-center">
+						<h2 class="text-primary">
+							${{ $product->getPriceWithIvaApply($product->price ?? 0) }}
+						</h2>
+						<div class="small text-muted"> {{ $product->price ? '$'.$product->price : 'undefined price' }} </div>
+					</div>
 
 		      @if(!$product->status)
 			      <p class="card-text">

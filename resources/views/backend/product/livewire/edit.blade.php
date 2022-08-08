@@ -495,9 +495,9 @@
 							  @endif
 						      <th scope="col">@lang('Color')</th>
 						      <th scope="col">@lang('Size_')</th>
-						      <th scope="col">@lang('Stock')</th>
-						      <th scope="col">@lang('Revision stock')</th>
-						      <th scope="col">@lang('Store stock')</th>
+						      <th scope="col" class="text-center">@lang('Stock')</th>
+						      <th scope="col" class="text-center">@lang('Revision stock')</th>
+						      <th scope="col" class="text-center">@lang('Store stock')</th>
 						      @if($increaseStock == TRUE)
 							      <th scope="col">@lang('Increase')</th>
 						      @endif
@@ -536,9 +536,9 @@
 								  @endif
 							      <td style="{{ $children->trashed() ? 'text-decoration: line-through;' : '' }}">{{ optional($children->color)->name}} {!! optional($children->color)->undefined_icon_coding !!}</td>
 							      <td style="{{ $children->trashed() ? 'text-decoration: line-through;' : '' }}">{{ optional($children->size)->name}} {!! optional($children->size)->undefined_icon_coding !!}</td>
-							      <td class="{{ $children->color_stock($children->stock) }}">{{ $children->stock }}</td>
-							      <td class="{{ $children->color_stock($children->stock_revision) }}">{{ $children->stock_revision }}</td>
-							      <td class="{{ $children->color_stock($children->stock_store) }}">{{ $children->stock_store }}</td>
+							      <td class="text-center {{ $children->color_stock($children->stock) }}">{{ $children->stock }}</td>
+							      <td class="text-center {{ $children->color_stock($children->stock_revision) }}">{{ $children->stock_revision }}</td>
+							      <td class="text-center {{ $children->color_stock($children->stock_store) }}">{{ $children->stock_store }}</td>
 							      @if($increaseStock == TRUE)
 								      <td style="width:100px; max-width: 100px;">
 								      	<input class="form-control form-control-sm is-valid" style="background-image: none; padding-right: inherit;" wire:model="inputincrease.{{ $children->id }}.stock" wire:keydown.enter="increase" type="number" min="1" placeholder="+" required>
@@ -594,6 +594,13 @@
 
 							    </tr>
 						    @endforeach
+			                <tr>
+                            	<td colspan="2">
+			                    <td class="text-center"></td>
+			                    <td class="text-center"></td>
+			                    <td class="text-center"></td>
+			                </tr>
+
 						  </tbody>
 						</table>
 						</div>
@@ -601,6 +608,10 @@
 
 				        {{-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
 				      </div>
+
+					  {{-- <div class="card-footer text-muted">
+					    Total
+					  </div> --}}
 				    </div>
 				    @endforeach
 			    @endif

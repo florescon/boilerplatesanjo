@@ -608,6 +608,12 @@ class Order extends Model
         return $this->created_at->isoFormat('D, MMM');
     }
 
+    public function getDateEnteredOrCreatedAttribute()
+    {
+        return !$this->date_entered ? $this->created_at->isoFormat('D, MMM') : $this->date_entered->isoFormat('D, MMM');
+    }
+
+
     public function getDateDiffForHumansCreatedAttribute()
     {
         return "<span class='badge badge-dark'>".$this->created_at->diffForHumans(null, false, false, 2).'</span>';

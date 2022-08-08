@@ -24,6 +24,12 @@
                 </p>
               </h4>
               <div class="invoice-date-wrapper">
+                <p class="invoice-date-title">@lang('Date'):</p>
+
+                <x-input.input-alpine nameData="isDate" :inputText="$isDate" :originalInput="$isDate" wireSubmit="savedate" modelName="date_entered" inputType="date" className=""/>
+
+              </div>
+              <div class="invoice-date-wrapper">
                 <p class="invoice-date-title">@lang('Date Issued'):</p>
                 <p class="invoice-date">{{ $model->date_for_humans }}</p>
               </div>

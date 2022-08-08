@@ -29,6 +29,16 @@
                     </span>
 
                     <livewire:backend.departament.select-departaments/>
+
+
+                    <div class="form-group row" wire:ignore>
+                        <label for="date" class="col-sm-3 col-form-label">@lang('Date')</label>
+                        <div class="col-sm-9" >
+                          <input wire:model="date" type="date" class="form-control"/>
+                          @error('date') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                        </div>
+                    </div><!--form-group-->
+
                     <div class="row mt-4 justify-content-md-center">
                       <div class="col-3 form-inline">
                         @lang('Per page'): &nbsp;
