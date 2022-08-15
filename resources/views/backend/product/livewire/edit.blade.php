@@ -594,11 +594,11 @@
 
 							    </tr>
 						    @endforeach
-			                <tr>
+			                <tr class="font-weight-bold">
                             	<td colspan="2">
-			                    <td class="text-center"></td>
-			                    <td class="text-center"></td>
-			                    <td class="text-center"></td>
+			                    <td class="text-center">{{ $model->getTotalByTypeStock($children->color_id, 'stock') }}</td>
+			                    <td class="text-center">{{ $model->getTotalByTypeStock($children->color_id, 'stock_revision') }}</td>
+			                    <td class="text-center">{{ $model->getTotalByTypeStock($children->color_id, 'stock_store') }}</td>
 			                </tr>
 
 						  </tbody>

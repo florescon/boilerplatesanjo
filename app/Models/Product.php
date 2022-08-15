@@ -596,6 +596,14 @@ class Product extends Model
           return $parent->stock;
         });
     }
+
+    public function getTotalByTypeStock(?int $colorId = null, ?string $type_stock = null)
+    {
+        return $this->children->where('color_id', $colorId)->sum(function($parent) use($type_stock) {
+          return $parent->$type_stock;
+        });
+    }
+
     public function getTotStockRev()
     {
         return $this->children->sum(function($parent) {
