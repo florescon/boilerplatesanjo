@@ -2,7 +2,7 @@
   <x-slot name="header">
 
    <div class="card-header-actions">
-    <x-utils.link class="card-header-action" icon="fa fa-chevron-left" :href="route('admin.product.edit', $product_id)" :text="__('Back to product')" />
+    <x-utils.link class="card-header-action" icon="fa fa-chevron-left" :href="route('admin.product.edit', $product_parent)" :text="__('Back to product')" />
   </div>
 
     <h3 class="mb-5">
@@ -156,7 +156,9 @@
                 <th scope="col">@lang('Old stock')</th>
                 <th scope="col" style="background-color: #f5f3f3;">Balance</th>
                 <th scope="col">@lang('Type stock')</th>
-                <th scope="col">@lang('Current stock')</th>
+                @if(!$product->isChildren())
+                  <th scope="col">@lang('Current stock')</th>
+                @endif
               </tr>
             </thead>
             <tbody>
@@ -167,6 +169,7 @@
                       <input type="checkbox" wire:model="selected" value="{{ $producte->id }}">
                       <i class="form-icon"></i>
                   </label>
+                  {{ $producte->subproduct_id }}
                 </td>
                 <th>{!! $producte->subproduct->only_attributes ?? null !!}</th>
                 <td>{!! !$producte->isOutput() ? $producte->stock .'<div class="small text-muted">'.$producte->date_diff_for_humans.'</div>' : '' !!}</td>
@@ -181,7 +184,9 @@
                     </div>
                   @endif
                 </td>
-                <td class="text-primary">{{ $producte->type_stock_relationship }}</td>
+                @if(!$product->isChildren())
+                  <td class="text-primary">{{ $producte->type_stock_relationship }}</td>
+                @endif
               </tr>
             @empty
               <tr>

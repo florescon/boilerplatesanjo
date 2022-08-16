@@ -45,6 +45,8 @@ class KardexProduct extends Component
 
     public int $product_id;
 
+    public int $product_parent;
+
     public $name;
 
     protected $listeners = ['rend' => 'render'];
@@ -52,7 +54,8 @@ class KardexProduct extends Component
     public function mount(Product $product)
     {
         $this->product = $product;
-        $this->product_id = $product->id;
+        $this->product_id =  $product->id;
+        $this->product_parent =  $product->isChildren() ? optional($product->parent)->id : $product->id;
         $this->name = $product->full_name_clear ?? '';
     }
 
@@ -71,7 +74,12 @@ class KardexProduct extends Component
     {
         $product = Product::findOrFail($this->product_id);
 
-        $query = $product->history()->with('subproduct.parent', 'subproduct.size', 'subproduct.color')->orderBy('created_at', 'desc');
+        if($product->isChildren()){
+            $query = $product->history_subproduct()->with('subproduct.parent', 'subproduct.size', 'subproduct.color')->orderBy('created_at', 'desc');
+        }
+        else{
+            $query = $product->history()->with('subproduct.parent', 'subproduct.size', 'subproduct.color')->orderBy('created_at', 'desc');
+        }
 
         return $query;
     }

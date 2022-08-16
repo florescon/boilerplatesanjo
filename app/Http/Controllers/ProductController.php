@@ -102,9 +102,9 @@ class ProductController extends Controller
 
     public function kardex(Product $product)
     {
-        if($product->isChildren() || !$product->isProduct()){
-            abort(401);
-        }
+        // if($product->isChildren() || !$product->isProduct()){
+            // abort(401);
+        // }
 
         return view('backend.product.kardex-product', compact('product'));
     }

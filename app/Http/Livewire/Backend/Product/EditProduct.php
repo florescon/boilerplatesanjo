@@ -37,6 +37,7 @@ class EditProduct extends Component
 
     public bool $showCodes = false;
     public bool $showLabels = false;
+    public bool $showKardex = false;
     public bool $showSpecificConsumptions = false;
 
     public $colorsmultiple_id = [];
@@ -53,6 +54,7 @@ class EditProduct extends Component
         'subtractStockStore' => ['except' => FALSE],
         'showCodes' => ['except' => FALSE],
         'showLabels' => ['except' => FALSE],
+        'showKardex' => ['except' => FALSE],
         'showSpecificConsumptions' => ['except' => FALSE],
     ];
 
@@ -469,6 +471,7 @@ class EditProduct extends Component
     {
         $this->showCodes = FALSE;
         $this->showLabels = FALSE;
+        $this->showKardex = FALSE;
         $this->showSpecificConsumptions = FALSE;
     }
 
@@ -607,10 +610,17 @@ class EditProduct extends Component
         $this->clearAll();
     }
 
+    public function updatedShowKardex()
+    {
+        $this->showSpecificConsumptions = FALSE;
+        $this->clearAll();
+    }
+
     public function updatedShowSpecificConsumptions()
     {
         $this->showCodes = FALSE;
         $this->showLabels = FALSE;
+        $this->showKardex = FALSE;
         $this->clearAll();
     }
 

@@ -415,11 +415,11 @@
 							    <tr class="text-center">
 							      <th scope="col">
 								    <div class="row justify-content-md-center custom-control custom-switch custom-control-inline">
-								      <em class=" mt-2"> @lang('Show codes')</em>
+								      <em class=" mt-2"> @lang('Show labels')</em>
 								        <div class="col-md-2 mt-2">
 								          <div class="form-check">
 								            <label class="c-switch c-switch-label c-switch-primary">
-								              <input type="checkbox" wire:model="showCodes" class="c-switch-input">
+								              <input type="checkbox" wire:model="showLabels" class="c-switch-input">
 								              <span class="c-switch-slider" data-checked="OK" data-unchecked="NO"></span>
 								            </label>
 								          </div>
@@ -428,11 +428,11 @@
 							      </th>
 							      <th scope="col">
 								    <div class="row justify-content-md-center custom-control custom-switch custom-control-inline">
-								      <em class=" mt-2"> @lang('Show labels')</em>
+								      <em class=" mt-2"> @lang('Show codes')</em>
 								        <div class="col-md-2 mt-2">
 								          <div class="form-check">
 								            <label class="c-switch c-switch-label c-switch-primary">
-								              <input type="checkbox" wire:model="showLabels" class="c-switch-input">
+								              <input type="checkbox" wire:model="showCodes" class="c-switch-input">
 								              <span class="c-switch-slider" data-checked="OK" data-unchecked="NO"></span>
 								            </label>
 								          </div>
@@ -448,6 +448,19 @@
 							<table class="table">
 							  <thead>
 							    <tr class="text-center">
+							      <th scope="col">
+								    <div class="row justify-content-md-center custom-control custom-switch custom-control-inline">
+								      <em class=" mt-2"> @lang('Show kardex')</em>
+								        <div class="col-md-2 mt-2">
+								          <div class="form-check">
+								            <label class="c-switch c-switch-label c-switch-primary">
+								              <input type="checkbox" wire:model="showKardex" class="c-switch-input">
+								              <span class="c-switch-slider" data-checked="OK" data-unchecked="NO"></span>
+								            </label>
+								          </div>
+								        </div>
+								    </div>
+							      </th>
 							      <th scope="col">
 								    <div class="row justify-content-md-center custom-control custom-switch custom-control-inline">
 								      <em class=" mt-2">@lang('I want to see the specific consumptions')</em>
@@ -493,6 +506,9 @@
 						      @if($showLabels)
 							      <th scope="col">@lang('Labels')</th>
 							  @endif
+						      @if($showKardex)
+							      <th scope="col">@lang('Kardex')</th>
+							  @endif
 						      <th scope="col">@lang('Color')</th>
 						      <th scope="col">@lang('Size_')</th>
 						      <th scope="col" class="text-center">@lang('Stock')</th>
@@ -532,6 +548,13 @@
 								      <td>
 								          <a href="{{ route('admin.product.large-barcode', $children->id) }}" target="_blank"><span class='badge badge-dark'><i class="cil-print"></i> @lang('Large')</span></a>
 								          <a href="{{ route('admin.product.short-barcode', $children->id) }}" target="_blank"><span class='badge badge-info'><i class="cil-print"></i> @lang('Short')</span></a>
+								      </td>
+								  @endif
+							      @if($showKardex)
+								      <td>
+								      	<h4>
+								          <a href="{{ route('admin.product.kardex', $children->id) }}" target="_blank"><span class='badge badge-light'><i class="cil-notes"></i> @lang('Kardex')</span></a>
+								      	</h4>
 								      </td>
 								  @endif
 							      <td style="{{ $children->trashed() ? 'text-decoration: line-through;' : '' }}">{{ optional($children->color)->name}} {!! optional($children->color)->undefined_icon_coding !!}</td>
@@ -595,7 +618,20 @@
 							    </tr>
 						    @endforeach
 			                <tr class="font-weight-bold">
-                            	<td colspan="2">
+                            	<td colspan="2"></td>
+						      	@if($showCodes)
+	                            	<td>
+	                        		</td>
+                        		@endif
+						      	@if($showLabels)
+	                            	<td>
+	                        		</td>
+                        		@endif
+						      	@if($showKardex)
+	                            	<td>
+	                        		</td>
+                        		@endif
+
 			                    <td class="text-center">{{ $model->getTotalByTypeStock($children->color_id, 'stock') }}</td>
 			                    <td class="text-center">{{ $model->getTotalByTypeStock($children->color_id, 'stock_revision') }}</td>
 			                    <td class="text-center">{{ $model->getTotalByTypeStock($children->color_id, 'stock_store') }}</td>

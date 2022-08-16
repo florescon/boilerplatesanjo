@@ -578,6 +578,10 @@ class Product extends Model
 
     public function getTotalStockAttribute()
     {
+        if($this->isChildren()){
+            return $this->stock + $this->stock_store + $this->stock_revision;  
+        }
+
         return $this->children->sum(function($parent) {
           return $parent->stock + $parent->stock_revision + $parent->stock_store;
         });
@@ -592,6 +596,10 @@ class Product extends Model
 
     public function getTotStock()
     {
+        if($this->isChildren()){
+            return $this->stock;  
+        }
+
         return $this->children->sum(function($parent) {
           return $parent->stock;
         });
@@ -606,12 +614,20 @@ class Product extends Model
 
     public function getTotStockRev()
     {
+        if($this->isChildren()){
+            return $this->stock_revision;  
+        }
+
         return $this->children->sum(function($parent) {
           return $parent->stock_revision;
         });
     }
     public function getTotStockStore()
     {
+        if($this->isChildren()){
+            return $this->stock_store;  
+        }
+
         return $this->children->sum(function($parent) {
           return $parent->stock_store;
         });
