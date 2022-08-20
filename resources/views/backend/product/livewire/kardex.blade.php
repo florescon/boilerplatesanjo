@@ -169,11 +169,11 @@
                       <input type="checkbox" wire:model="selected" value="{{ $producte->id }}">
                       <i class="form-icon"></i>
                   </label>
-                  {{ $producte->subproduct_id }}
+                  {{-- {{ $producte->subproduct_id }} --}}
                 </td>
                 <th>{!! $producte->subproduct->only_attributes ?? null !!}</th>
-                <td>{!! !$producte->isOutput() ? $producte->stock .'<div class="small text-muted">'.$producte->date_diff_for_humans.'</div>' : '' !!}</td>
-                <td class="text-danger">{!! $producte->isOutput() ? $producte->stock .'<div class="small text-muted">'.$producte->date_diff_for_humans.'</div>' : '' !!}</td>
+                <td>{!! !$producte->isOutput() ? $producte->stock .'<div class="small text-muted">'.$producte->date_diff_for_humans.' - '.$producte->created_at.'</div>' : '' !!}</td>
+                <td class="text-danger">{!! $producte->isOutput() ? $producte->stock .'<div class="small text-muted">'.$producte->date_diff_for_humans.' - '.$producte->created_at.'</div>' : '' !!}</td>
                 <td>{{ $producte->old_stock ?? __('No results!') }}</td>
                 <td style="background-color: #f5f3f3;">{{ $producte->balance }}</td>
                 <td>
