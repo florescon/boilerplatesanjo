@@ -399,7 +399,7 @@ class Product extends Model
      */
     public function hasSpecialPriceSubproduct()
     {
-        return $this->wholesale_price;
+        return $this->special_price;
     }
 
     public function getPriceSubproductAttribute()

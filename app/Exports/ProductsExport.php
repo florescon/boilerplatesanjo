@@ -21,11 +21,16 @@ class ProductsExport implements FromCollection, WithMapping, WithHeadings
     public function headings(): array
     {
         return [
-            __('Name'),
             __('Code'),
+            __('Name'),
             __('Stock'),
             __('Revision stock'),
             __('Store stock'),
+            __('Cost'),
+            __('Retail price'),
+            __('Average wholesale price'),
+            __('Wholesale price'),
+            __('Special price'),
         ];
     }
 
@@ -35,11 +40,16 @@ class ProductsExport implements FromCollection, WithMapping, WithHeadings
     public function map($product): array
     {
         return [
-            optional($product->parent)->name.', '.optional($product->color)->name.' '.optional($product->size)->name,
             $product->code ? $product->code : optional($product->parent)->code,
-            $product->stock,
-            $product->stock_revision,
-            $product->stock_store,
+            optional($product->parent)->name.', '.optional($product->color)->name.' '.optional($product->size)->name,
+            optional($product->parent)->stock ?: '--',
+            optional($product->parent)->stock_revision ?: '--',
+            optional($product->parent)->stock_store ?: '--',
+            optional($product->parent)->cost,
+            $product->hasPriceSubproduct() ?: optional($product->parent)->price,
+            $product->hasAverageWholesalePriceSubproduct() ?: optional($product->parent)->average_wholesale_price,
+            $product->hasWholesalePriceSubproduct() ?: optional($product->parent)->wholesale_price,
+            $product->hasSpecialPriceSubproduct() ?: optional($product->parent)->special_price,
         ];
     }
 

@@ -10,6 +10,10 @@ use App\Http\Livewire\Backend\DataTable\WithBulkActions;
 use App\Http\Livewire\Backend\DataTable\WithCachedRows;
 use Carbon\Carbon;
 use App\Events\Product\ProductRestored;
+use Symfony\Component\HttpFoundation\Response;
+use App\Exports\ParentProductsExport;
+use Excel;
+use DB;
 
 class ProductTable extends Component
 {
@@ -115,6 +119,18 @@ class ProductTable extends Component
     public function updatedPerPage()
     {
         $this->resetPage();
+    }
+
+    private function getSelectedProducts()
+    {
+        return Product::query()
+            ->onlyProducts()->whereNull('parent_id')->get()->pluck('id')->map(fn($id) => (string) $id)->toArray();
+    }
+
+    public function exportMaatwebsite($extension)
+    {   
+        abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
+        return Excel::download(new ParentProductsExport($this->getSelectedProducts()), 'product-list-'.Carbon::now().'.'.$extension);
     }
 
     public function restore($id)

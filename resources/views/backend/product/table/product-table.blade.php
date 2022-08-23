@@ -4,6 +4,29 @@
 
 	@if($status != 'deleted')
 
+		<div class="row mb-4 justify-content-md-center">
+	    <div class="col form-inline">
+	    </div><!--col-->
+
+			<div class="col">
+			</div>
+
+	    <div class="dropdown table-export">
+	      <button class="dropdown-toggle btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	        @lang('Export')        
+	      </button>
+
+	      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+	        <a class="dropdown-item" wire:click="exportMaatwebsite('csv')">CSV</a>
+	        <a class="dropdown-item" wire:click="exportMaatwebsite('xlsx')">Excel</a>
+	        <a class="dropdown-item" wire:click="exportMaatwebsite('xls')">Excel ('XLS')</a>
+	        <a class="dropdown-item" wire:click="exportMaatwebsite('html')">HTML</a>
+	        <a class="dropdown-item" wire:click="exportMaatwebsite('tsv')">TSV</a>
+	        <a class="dropdown-item" wire:click="exportMaatwebsite('ods')">ODS</a>
+	      </div>
+	    </div><!--export-dropdown-->
+		</div>
+
 		<form>
 		  <div class="form-row mb-5">
 		    <div class="form-group col-md-4 ml-2">

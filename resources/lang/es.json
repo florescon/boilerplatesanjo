@@ -383,6 +383,7 @@
     "Properties": "Propiedades",
     "Acquisition cost": "Costo de adquisición",
     "Price": "Precio",
+    "Cost": "Costo",
     "Gross purchase price": "Precio bruto de compra",
     "Net purchase price": "Precio neto de compra",
     "Old price": "Precio anterior",
@@ -1032,5 +1033,6 @@
     "Send to finished product": "Enviar a producto terminado",
     "Are you sure want to send?": "¿Estás seguro de enviar los productos?",
     "Sent to finished product": "Enviado a producto terminado",
-    "Ticket registered": "Ticket registrado"
+    "Ticket registered": "Ticket registrado",
+    "Report Date:": "Fecha de Reporte:"
 }
