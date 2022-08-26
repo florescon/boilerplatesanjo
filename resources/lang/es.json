@@ -815,6 +815,8 @@
     "Where is products?": "¿Dónde están los productos?",
     "Input": "Entrada",
     "Output": "Salida",
+    "Inputs": "Entradas",
+    "Outputs": "Salidas",
     "Assignments": "Asignaciones",
     "Assignment history": "Historial de asignaciones",
     "Show assignament" : "Mostrar asignación",

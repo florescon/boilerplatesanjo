@@ -43,18 +43,28 @@
       <table class="table table-sm table-bordered">
         <thead>
           <tr class="text-center">
-            <th scope="col" class="p-3">@lang('Total')</th>
+            <th scope="col" colspan="2" class="p-3">@lang('Total')</th>
           </tr>
         </thead>
         <tbody class="text-center">
           <tr>
-            <th scope="row" class="p-4 text-primary">{{ $product->total_stock }}</th>
+            <th scope="row" colspan="2" class="p-2 text-primary">{{ $product->total_stock }}</th>
+          </tr>
+          <tr>
+            <th scope="row" class="w-50">
+              @lang('Inputs'):
+              <small class="font-weight-bold text-dark"><i class="cil-plus" style="color:green;"></i> {{ $product->getTotalHistory($dateInput, $dateOutput, false) }}</small>
+            </th>
+            <th scope="row" class="w-50">
+              @lang('Outputs'):
+              <small class="font-weight-bold text-dark"><i class="cil-minus" style="color:red;"></i> {{ $product->getTotalHistory($dateInput, $dateOutput, true) }}</small>
+            </th>
           </tr>
         </tbody>
       </table>
     </div>
 
-      {{-- <div class="col-md-3 mr-2 mb-2 mt-3 pr-5=">
+      <div class="col-md-3 mr-2 mb-2 mt-3 pr-5=">
         <x-input.date wire:model="dateInput" id="dateInput" placeholder="{{ __('From') }}"/>
       </div>
 
@@ -69,7 +79,7 @@
           <button type="button" class="btn btn-outline-primary" wire:click="clearAll" class="btn btn-default">@lang('Clear all')</button>
         </div>
       </div>
-      &nbsp; --}}
+      &nbsp;
 
     </div>
     <div class="page-header-subtitle mt-2 mb-2 text-center">
@@ -78,12 +88,24 @@
       </em> --}}
       <div class="mt-3">
         <div class="alert alert-info alert-dismissible fade show" role="alert">
-          {{-- <strong>Filtrado por</strong>
+          <strong>Filtrado por</strong>
             @if(!$dateInput)
               mes de {{ now()->isoFormat('MMMM') }}
             @else
               {{ $dateInput }} {{ $dateOutput ? '- '.$dateOutput : __('to this day') }}
-            @endif --}}
+            @endif
+        </div>
+
+        @if($selectPage)
+          <x-utils.alert type="primary">
+            @unless($selectAll)
+            <span>Tienes seleccionado <strong>{{ $history->count() }}</strong> registros, ¿quieres seleccionar  <strong>{{ $history->total() }} </strong> registros?</span>
+              <a href="#" wire:click="selectAll" class="alert-link">Seleccionar todo</a>
+            @else
+              <span>Actualmente seleccionaste <strong>{{ $history->total() }}</strong> productos.</span>
+            @endif
+
+            <em>-- @lang('Order by name') --</em>
 
             @if($selected && $history->count())
               <div class="dropdown table-export">
@@ -101,20 +123,12 @@
                 </div>
               </div><!--export-dropdown-->
             @endif
-        </div>
-
-        @if($selectPage)
-          <x-utils.alert type="primary">
-            @unless($selectAll)
-            <span>Tienes seleccionado <strong>{{ $history->count() }}</strong> registros, ¿quieres seleccionar  <strong>{{ $history->total() }} </strong> registros?</span>
-              <a href="#" wire:click="selectAll" class="alert-link">Seleccionar todo</a>
-            @else
-              <span>Actualmente seleccionaste <strong>{{ $history->total() }}</strong> productos.</span>
-            @endif
-
-            <em>-- @lang('Order by name') --</em>
 
           </x-utils.alert>
+        @else
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            Seleccione para exportar
+          </div>
         @endif
 
       </div>
@@ -140,61 +154,61 @@
 
     <div class="row  justify-content-center">
      <div class="col-sm-12">
-
-          <table class="table table-bordered table-hover">
-            <thead>
-              <tr class="text-center">
-                <th style="width:30px; max-width: 30px;">
-                  <label class="form-checkbox">
-                    <input type="checkbox" wire:model="selectPage">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr class="text-center">
+              <th style="width:30px; max-width: 30px;">
+                <label class="form-checkbox">
+                  <input type="checkbox" wire:model="selectPage">
+                  <i class="form-icon"></i>
+                </label>
+              </th>
+              <th scope="col">@lang('Detail')</th>
+              <th scope="col">@lang('Input')</th>
+              <th scope="col">@lang('Output')</th>
+              <th scope="col">@lang('Old stock')</th>
+              <th scope="col" style="background-color: #f5f3f3;">Balance</th>
+              <th scope="col">@lang('Type stock')</th>
+              @if(!$product->isChildren())
+                <th scope="col">@lang('Current stock')</th>
+              @endif
+            </tr>
+          </thead>
+          <tbody>
+          @forelse ($history as $producte)
+            <tr class="text-center">
+              <td>
+                <label class="form-checkbox">
+                    <input type="checkbox" wire:model="selected" value="{{ $producte->id }}">
                     <i class="form-icon"></i>
-                  </label>
-                </th>
-                <th scope="col">@lang('Detail')</th>
-                <th scope="col">@lang('Input')</th>
-                <th scope="col">@lang('Output')</th>
-                <th scope="col">@lang('Old stock')</th>
-                <th scope="col" style="background-color: #f5f3f3;">Balance</th>
-                <th scope="col">@lang('Type stock')</th>
-                @if(!$product->isChildren())
-                  <th scope="col">@lang('Current stock')</th>
+                </label>
+                {{-- {{ $producte->subproduct_id }} --}}
+              </td>
+              <th>{!! $producte->subproduct->only_attributes ?? null !!}</th>
+              <td>{!! !$producte->isOutput() ? $producte->stock .'<div class="small text-muted">'.$producte->date_diff_for_humans.' - '.$producte->created_at.'</div>' : '' !!}</td>
+              <td class="text-danger">{!! $producte->isOutput() ? $producte->stock .'<div class="small text-muted">'.$producte->date_diff_for_humans.' - '.$producte->created_at.'</div>' : '' !!}</td>
+              <td>{{ $producte->old_stock ?? __('No results!') }}</td>
+              <td style="background-color: #f5f3f3;">{{ $producte->balance }}</td>
+              <td>
+                {{ $producte->type_stock_label }}
+                @if($producte->order_id)
+                  <div class="small">@lang('Order'): 
+                    <a href="{{ route('admin.order.edit', $producte->order_id) }}"> #{{ $producte->order_id }}</a>
+                  </div>
                 @endif
-              </tr>
-            </thead>
-            <tbody>
-            @forelse ($history as $producte)
-              <tr class="text-center">
-                <td>
-                  <label class="form-checkbox">
-                      <input type="checkbox" wire:model="selected" value="{{ $producte->id }}">
-                      <i class="form-icon"></i>
-                  </label>
-                  {{-- {{ $producte->subproduct_id }} --}}
-                </td>
-                <th>{!! $producte->subproduct->only_attributes ?? null !!}</th>
-                <td>{!! !$producte->isOutput() ? $producte->stock .'<div class="small text-muted">'.$producte->date_diff_for_humans.' - '.$producte->created_at.'</div>' : '' !!}</td>
-                <td class="text-danger">{!! $producte->isOutput() ? $producte->stock .'<div class="small text-muted">'.$producte->date_diff_for_humans.' - '.$producte->created_at.'</div>' : '' !!}</td>
-                <td>{{ $producte->old_stock ?? __('No results!') }}</td>
-                <td style="background-color: #f5f3f3;">{{ $producte->balance }}</td>
-                <td>
-                  {{ $producte->type_stock_label }}
-                  @if($producte->order_id)
-                    <div class="small">@lang('Order'): 
-                      <a href="{{ route('admin.order.edit', $producte->order_id) }}"> #{{ $producte->order_id }}</a>
-                    </div>
-                  @endif
-                </td>
-                @if(!$product->isChildren())
-                  <td class="text-primary">{{ $producte->type_stock_relationship }}</td>
-                @endif
-              </tr>
-            @empty
-              <tr>
-                <th scope="row">@lang('No results!')</th>
-              </tr>
-            @endforelse
-            </tbody>
-          </table>
+              </td>
+              @if(!$product->isChildren())
+                <td class="text-primary">{{ $producte->type_stock_relationship }}</td>
+              @endif
+            </tr>
+          @empty
+            <tr>
+              <th scope="row" colspan="8" class="text-center">@lang('No results!')</th>
+            </tr>
+          @endforelse
+          </tbody>
+        </table>
 
 
           <div class="mt-4">
@@ -228,6 +242,7 @@
             @endforelse
           </div> --}}
         </div>
+      </div>
     </div>
   </x-slot>
 

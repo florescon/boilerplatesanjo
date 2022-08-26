@@ -290,6 +290,32 @@ class Product extends Model
         return $this->hasMany(ProductHistory::class, 'subproduct_id');
     }
 
+    public function getTotalHistory(?string $dateInput = null, ?string $dateOutput = null, bool $isOutput = false): int
+    {
+        if($this->isChildren()){
+            if($dateInput){
+                return empty($dateOutput) ? 
+                    $this->history_subproduct()->where('is_output', $isOutput)->whereBetween('updated_at', [$dateInput.' 00:00:00', now()])->sum('stock') 
+                        : 
+                    $this->history_subproduct()->where('is_output', $isOutput)->whereBetween('updated_at', [$dateInput.' 00:00:00', $dateOutput.' 00:00:00'])->sum('stock');
+            }
+
+            return $this->history_subproduct()->where('is_output', $isOutput)->whereMonth('created_at', now()->month)->sum('stock');
+        }
+        else{
+            if($dateInput){
+                return empty($dateOutput) ? 
+                $this->history()->where('is_output', $isOutput)->whereBetween('updated_at', [$dateInput.' 00:00:00', now()])->sum('stock')
+                    :
+                $this->history()->where('is_output', $isOutput)->whereBetween('updated_at', [$dateInput.' 00:00:00', $dateOutput.' 00:00:00'])->sum('stock');
+            }
+    
+            return $this->history()->where('is_output', $isOutput)->whereMonth('created_at', now()->month)->sum('stock');
+        }
+
+        return false;
+    }
+
     /**
      * @return mixed
      */

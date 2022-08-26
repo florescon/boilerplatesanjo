@@ -39,8 +39,6 @@ class KardexProduct extends Component
 
     public $created, $updated, $selected_id, $deleted;
 
-    public $myDate = [];
-
     public Product $product;
 
     public int $product_id;
@@ -81,7 +79,33 @@ class KardexProduct extends Component
             $query = $product->history()->with('subproduct.parent', 'subproduct.size', 'subproduct.color')->orderBy('created_at', 'desc');
         }
 
-        return $query;
+        if($this->dateInput){
+            $query->when($this->dateInput, function ($query) {
+                if($this->dateInput < Carbon::today()->subYear()){ 
+                    $this->emit('swal:alert', [
+                       'icon' => 'warning',
+                        'title'   => 'Limitado a un año', 
+                    ]);
+
+                    $this->clearFilterDate();
+                }
+                elseif($this->dateInput >= Carbon::today()->tomorrow()->format('Y-m-d')){
+                    $this->emit('swal:alert', [
+                       'icon' => 'warning',
+                        'title'   => 'No puedes consultar datos del futuro', 
+                    ]);
+
+                    $this->clearFilterDate();
+                }
+                else{
+                    empty($this->dateOutput) ?
+                        $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', now()]) :
+                        $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59']);
+                }
+            });
+        }
+
+        return $query->whereMonth('created_at', now()->month);
     }
 
     public function getRowsProperty()
@@ -89,11 +113,6 @@ class KardexProduct extends Component
         return $this->cache(function () {
             return $this->rowsQuery->paginate($this->perPage);
         });
-    }
-
-    public function loadMore(?string $day = null): void
-    {
-        array_push($this->myDate, $day);
     }
 
     private function getSelectedProducts()
@@ -131,18 +150,15 @@ class KardexProduct extends Component
         $this->selectAll = false;
         $this->selectPage = false;
         $this->selected = [];
-        $this->myDate = [];
     }
 
     public function updatedSearchTerm()
     {
-        $this->myDate = [];
         $this->resetPage();
     }
 
     public function updatedDateInput()
     {
-        $this->myDate = [];
         $this->resetPage();
     }
 
