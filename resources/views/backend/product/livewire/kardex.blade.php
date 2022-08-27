@@ -15,54 +15,54 @@
 
     <div class="row input-daterange justify-content-center">
 
-    <div class="col-6">
-      <table class="table table-sm table-bordered">
-        <thead>
-          <tr class="text-center">
-            <th scope="col">Stock</th>
-            <th scope="col" class="text-center">@lang('Quantity')</th>
-          </tr>
-        </thead>
-        <tbody class="text-center">
-          <tr>
-            <th scope="row">@lang('Finished product')</th>
-            <td>{{ $product->getTotStock() }}</td>
-          </tr>
-          <tr>
-            <th scope="row">@lang('Intermediate Review')</th>
-            <td>{{ $product->getTotStockRev() }}</td>
-          </tr>
-          <tr>
-            <th scope="row">@lang('Store product')</th>
-            <td>{{ $product->getTotStockStore() }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="col-6  align-self-center">
-      <table class="table table-sm table-bordered">
-        <thead>
-          <tr class="text-center">
-            <th scope="col" colspan="2" class="p-3">@lang('Total')</th>
-          </tr>
-        </thead>
-        <tbody class="text-center">
-          <tr>
-            <th scope="row" colspan="2" class="p-2 text-primary">{{ $product->total_stock }}</th>
-          </tr>
-          <tr>
-            <th scope="row" class="w-50">
-              @lang('Inputs'):
-              <small class="font-weight-bold text-dark"><i class="cil-plus" style="color:green;"></i> {{ $product->getTotalHistory($dateInput, $dateOutput, false) }}</small>
-            </th>
-            <th scope="row" class="w-50">
-              @lang('Outputs'):
-              <small class="font-weight-bold text-dark"><i class="cil-minus" style="color:red;"></i> {{ $product->getTotalHistory($dateInput, $dateOutput, true) }}</small>
-            </th>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+      <div class="col-6">
+        <table class="table table-sm table-bordered">
+          <thead>
+            <tr class="text-center">
+              <th scope="col">Stock</th>
+              <th scope="col" class="text-center">@lang('Quantity')</th>
+            </tr>
+          </thead>
+          <tbody class="text-center">
+            <tr>
+              <th scope="row">@lang('Finished product')</th>
+              <td>{{ $product->getTotStock() }}</td>
+            </tr>
+            <tr>
+              <th scope="row">@lang('Intermediate Review')</th>
+              <td>{{ $product->getTotStockRev() }}</td>
+            </tr>
+            <tr>
+              <th scope="row">@lang('Store product')</th>
+              <td>{{ $product->getTotStockStore() }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-6  align-self-center">
+        <table class="table table-sm table-bordered">
+          <thead>
+            <tr class="text-center">
+              <th scope="col" colspan="2" class="p-3">@lang('Total')</th>
+            </tr>
+          </thead>
+          <tbody class="text-center">
+            <tr>
+              <th scope="row" colspan="2" class="p-2 text-primary">{{ $product->total_stock }}</th>
+            </tr>
+            <tr>
+              <th scope="row" class="w-50">
+                @lang('Inputs'):
+                <small class="font-weight-bold text-dark"><i class="cil-plus" style="color:green;"></i> {{ $product->getTotalHistory($dateInput, $dateOutput, false) }}</small>
+              </th>
+              <th scope="row" class="w-50">
+                @lang('Outputs'):
+                <small class="font-weight-bold text-dark"><i class="cil-minus" style="color:red;"></i> {{ $product->getTotalHistory($dateInput, $dateOutput, true) }}</small>
+              </th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <div class="col-md-3 mr-2 mb-2 mt-3 pr-5=">
         <x-input.date wire:model="dateInput" id="dateInput" placeholder="{{ __('From') }}"/>
