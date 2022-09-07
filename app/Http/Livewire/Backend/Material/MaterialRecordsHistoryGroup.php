@@ -62,7 +62,7 @@ class MaterialRecordsHistoryGroup extends Component
                         ->orWhereRaw("part_number LIKE \"%$this->searchTerm%\"");
                 })->orWhere('stock', 'like', '%' . $this->searchTerm . '%')
                   ->orWhere('price', 'like', '%' . $this->searchTerm . '%');
-            });
+            })->groupBy('material_id')->selectRaw('*, sum(stock) as sum, count(*) AS records');
         
         if($this->dateInput){
             $query->when($this->dateInput, function ($query) {

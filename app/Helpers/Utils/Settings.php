@@ -14,3 +14,13 @@ function setting($key)
         return $setting->{$key};
     }
 }
+
+function getPriceValue($price, $typePrice)
+{
+    $desiredPercentage = 100 - setting($typePrice);
+    $result = $desiredPercentage / 100;
+    $cost = $price / $result;
+
+    return $cost;
+}
+

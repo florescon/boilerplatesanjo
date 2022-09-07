@@ -73,7 +73,7 @@ class KardexProduct extends Component
         $product = Product::findOrFail($this->product_id);
 
         if($product->isChildren()){
-            $query = $product->history_subproduct()->with('subproduct.parent', 'subproduct.size', 'subproduct.color')->orderBy('created_at', 'desc');
+            $query = $product->history_subproduct()->with('subproduct.parent', 'subproduct.size', 'subproduct.color')->orderBy('created_at', 'desc')->orderBy('created_at', 'desc');
         }
         else{
             $query = $product->history()->with('subproduct.parent', 'subproduct.size', 'subproduct.color')->orderBy('created_at', 'desc');
@@ -104,8 +104,11 @@ class KardexProduct extends Component
                 }
             });
         }
+        else{
+            $query->whereMonth('created_at', now()->month);
+        }
 
-        return $query->whereMonth('created_at', now()->month);
+        return $query;
     }
 
     public function getRowsProperty()

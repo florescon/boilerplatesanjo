@@ -329,13 +329,7 @@ class PricesProduct extends Component
 
     public function calculatePrice()
     {
-        if($this->switchIVA){
-            // $this->calculateIVA();
-            $priceRetaiPrice = $this->priceIVA + ((setting('retail_price_percentage') / 100) * $this->priceIVA);
-        }
-        else{
-            $priceRetaiPrice = $this->price + ((setting('retail_price_percentage') / 100) * $this->price);
-        }
+        $priceRetaiPrice = getPriceValue($this->price, 'retail_price_percentage');
 
         // $this->retail_price = setting('round') ? ceil($priceRetaiPrice / 5) * 5 : $priceRetaiPrice;
         $this->retail_price = $priceRetaiPrice;
@@ -346,13 +340,7 @@ class PricesProduct extends Component
 
     public function calculateAverageWholesalePrice()
     {
-        if($this->switchIVA){
-            // $this->calculateIVA();
-            $priceAverageWholesalePrice = $this->priceIVA + ((setting('average_wholesale_price_percentage') / 100) * $this->priceIVA);
-        }
-        else{
-            $priceAverageWholesalePrice = $this->price + ((setting('average_wholesale_price_percentage') / 100) * $this->price);
-        }
+        $priceAverageWholesalePrice = getPriceValue($this->price, 'average_wholesale_price_percentage');
 
         $this->average_wholesale_price = setting('round') ? ceil($priceAverageWholesalePrice / 5) * 5 : $priceAverageWholesalePrice;
 
@@ -362,13 +350,7 @@ class PricesProduct extends Component
 
     public function calculateWholesalePrice()
     {
-        if($this->switchIVA){
-            // $this->calculateIVA();
-            $priceWholesalePrice = $this->priceIVA + ((setting('wholesale_price_percentage') / 100) * $this->priceIVA);
-        }
-        else{
-            $priceWholesalePrice = $this->price + ((setting('wholesale_price_percentage') / 100) * $this->price);
-        }
+        $priceWholesalePrice = $priceWholesalePrice = getPriceValue($this->price, 'wholesale_price_percentage');;
 
         $this->wholesale_price = setting('round') ? ceil($priceWholesalePrice / 5) * 5 : $priceWholesalePrice;
 
@@ -378,13 +360,7 @@ class PricesProduct extends Component
 
     public function calculateSpecialPrice()
     {
-        if($this->switchIVA){
-            // $this->calculateIVA();
-            $priceSpecial = $this->priceIVA + ((setting('special_price_percentage') / 100) * $this->priceIVA);
-        }
-        else{
-            $priceSpecial = $this->price + ((setting('special_price_percentage') / 100) * $this->price);
-        }
+        $priceSpecial = getPriceValue($this->price, 'special_price_percentage');
 
         // $this->special_price = setting('round') ? ceil($priceSpecial / 5) * 5 : $priceSpecial;
         $this->special_price = $priceSpecial;
@@ -448,3 +424,4 @@ class PricesProduct extends Component
         return view('backend.product.livewire.prices');
     }
 }
+

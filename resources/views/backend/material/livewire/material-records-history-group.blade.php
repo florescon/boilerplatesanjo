@@ -79,6 +79,7 @@
                     <div class="fw-bold">{!! $appointment->material->full_name !!}</div>
                     {{ $appointment->created_at_iso }}
                     {{ $appointment->comment ? ', '.$appointment->comment : '' }}
+                    {!! ($appointment->records > 1) ? '<p class="text-primary"> Registros:'.$appointment->records.'</p>' : '' !!}
                   </div>
                   <div class="col-6">
                     @if($appointment->price != $appointment->old_price)
@@ -103,7 +104,7 @@
                     </div>
                     <div class="form-check-inline text-center">
                       <label>
-                        {{ $appointment->stock }}<br>
+                        {{ $appointment->sum }}<br>
                         @lang('Stock')
                       </label>
                     </div>

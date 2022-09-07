@@ -1036,5 +1036,7 @@
     "Are you sure want to send?": "¿Estás seguro de enviar los productos?",
     "Sent to finished product": "Enviado a producto terminado",
     "Ticket registered": "Ticket registrado",
-    "Report Date:": "Fecha de Reporte:"
+    "Report Date:": "Fecha de Reporte:",
+    "List of grouped history feedstock records": "Lista de registros de materia prima agrupados",
+    "This is the first record": "Este es el primer registro"
 }
