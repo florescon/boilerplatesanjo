@@ -6,7 +6,7 @@
 
 <x-backend.card>
     <x-slot name="header">
-        @lang('Suborders') - @lang('Order') #{{ $order_id }}
+        @lang('Suborder outputs') - @lang('Order') #{{ $order_id }}
     </x-slot>
 
     <x-slot name="headerActions">
@@ -80,7 +80,7 @@
                             <tr>
                               <th>Producto</th>
                               <th class="border-right-0">Producto terminado</th>
-                              <th style="color:purple;">Disponible para suborden</th>
+                              <th style="color:purple;">Disponible para salida</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -113,7 +113,7 @@
                                 <tr>
                                   <td colspan="2"></td>
                                   <td>
-                                    <button type="button" wire:click="savesuborder" style="background: purple; color: white;" class="btn btn-sm">@lang('Save suborder')</button>
+                                    <button type="button" wire:click="savesuborder" style="background: purple; color: white;" class="btn btn-sm">@lang('Save suborder output')</button>
                                   </td>
                                 </tr>
                               @endif

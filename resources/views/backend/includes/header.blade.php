@@ -29,7 +29,7 @@
                       <x-utils.link class="dropdown-item pt-1 pb-1 text-primary" :href="route('admin.order.index')" :text="__('Orders')" />
                       <x-utils.link class="dropdown-item pt-1 pb-1 text-success" :href="route('admin.order.sales')" :text="__('Sales')" />
                       <x-utils.link class="dropdown-item pt-1 pb-1 text-warning" :href="route('admin.order.mix')" :text="__('Mix')" />
-                      <x-utils.link class="dropdown-item pt-1 pb-1" style="color: purple;" :href="route('admin.order.suborders')" :text="__('Suborders')" />
+                      <x-utils.link class="dropdown-item pt-1 pb-1" style="color: purple;" :href="route('admin.order.suborders')" :text="__('Suborder outputs')" />
                 </div><!--dropdown-menu-->
         </li>
 

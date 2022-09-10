@@ -140,8 +140,8 @@
                             <a href="{{ route('admin.order.suborders') }}" class="blog-card repeating">                  
                               <div class="blog-card__square"></div>
                               <div class="blog-card__circle"></div>
-                              <h2 class="blog-card__title" itemprop="headline">@lang('List of suborders')</h2>
-                              <h5 class="blog-card__category">@lang('Suborders')</h5>
+                              <h2 class="blog-card__title" itemprop="headline">@lang('List of suborder outputs')</h2>
+                              <h5 class="blog-card__category">@lang('Suborder outputs')</h5>
                           </a>              
                         </div>
                       </article>

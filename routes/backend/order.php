@@ -51,7 +51,7 @@ Route::group([
         ->middleware('permission:admin.access.order.suborders')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.order.index')
-                ->push(__('Create suborder'), route('admin.order.createsuborder'));
+                ->push(__('Create suborder output'), route('admin.order.createsuborder'));
         });
 
     Route::get('deleted', [OrderController::class, 'deleted'])

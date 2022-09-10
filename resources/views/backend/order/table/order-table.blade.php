@@ -12,7 +12,7 @@
 	        icon="c-icon cil-plus"
 	        class="card-header-action"
 	        :href="route('admin.order.createsuborder')"
-	        :text="__('Create suborder')"
+	        :text="__('Create suborder output')"
 	      />
 	    </x-slot>
     @endif
@@ -22,7 +22,7 @@
       <x-utils.link class="mt-2 mr-2 card-header-action btn btn-primary text-white {{ $status == '' ? 'button-large pulsate' : '' }}" :href="route('admin.order.index')" :text="__('Orders')" />
       <x-utils.link class="mt-2 mr-2 card-header-action btn btn-success text-white {{ $status == 'sales' ? 'button-large pulsate' : '' }}" :href="route('admin.order.sales')" :text="__('Sales')" />
       <x-utils.link class="mt-2 mr-2 card-header-action btn btn-warning text-white {{ $status == 'mix' ? 'button-large pulsate' : '' }}" :href="route('admin.order.mix')" :text="__('Mix')" />
-      <x-utils.link style="background-color: purple;" class="mt-2 card-header-action btn text-white {{ $status == 'suborders' ? 'button-large pulsate' : '' }}" :href="route('admin.order.suborders')" :text="__('Suborders')" />
+      <x-utils.link style="background-color: purple;" class="mt-2 card-header-action btn text-white {{ $status == 'suborders' ? 'button-large pulsate' : '' }}" :href="route('admin.order.suborders')" :text="__('Suborder outputs')" />
     </div>
     
     <div class="page-header-subtitle mt-5 mb-2">

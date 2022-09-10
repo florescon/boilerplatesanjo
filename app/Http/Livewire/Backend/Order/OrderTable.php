@@ -71,7 +71,7 @@ class OrderTable extends Component
             $this->applySearchFilter($query);
 
             if ($this->status === 'suborders') {
-                $this->title = ['title' => 'List of suborders', 'color' => 'secondary'];
+                $this->title = ['title' => 'List of suborder outputs', 'color' => 'secondary'];
                 return $query->onlySuborders()->outFromStore();
             }
             if ($this->status === 'sales') {
