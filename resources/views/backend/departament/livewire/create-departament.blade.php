@@ -16,10 +16,17 @@
                 <label for="userselect" class="col-md-2 col-form-label">@lang('User')</label>
 
                 <div class="col-md-10">
-                  <select id="userselect" class="custom-select" style="width: 100%;" aria-hidden="true" required>
+                  <select id="userselect" class="custom-select" style="width: 100%;" aria-hidden="true">
                   </select>
                 </div>
             </div><!--form-group-->
+
+            <div class="row">
+              <label for="erroruserselect" class="col-md-2 col-form-label"></label>
+              <div class="col-10">
+                @error('user_id') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+              </div>
+            </div>
 
             <div class="form-group row">
                 <label for="name" class="col-md-2 col-form-label">@lang('Name')</label>

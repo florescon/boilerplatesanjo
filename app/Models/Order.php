@@ -425,7 +425,7 @@ class Order extends Model
                 case 3:
                     return "<span class='badge badge-warning text-white'>".__('Mix').'</span>';
                 case 4:
-                    return "<span class='badge text-white' style='background-color: purple;'>".__('Suborder').'</span>';
+                    return "<span class='badge text-white' style='background-color: purple;'>".__('Output').'</span>';
                 default:
                     return "<span class='badge badge-primary'>".__('Order').'</span>';
             }

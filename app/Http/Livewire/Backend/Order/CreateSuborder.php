@@ -120,9 +120,9 @@ class CreateSuborder extends Component
     {
         $this->validate();
 
-        $products = Product::query()->onlySubProducts()->with('parent')->where('stock', '<>', 0)->get();
+        $suborder = Product::query()->onlySubProducts()->with('parent')->where('stock', '<>', 0)->get();
 
-        foreach($products as $productGet)
+        foreach($suborder as $productGet)
         {
             // dd($productGet->stock);
 

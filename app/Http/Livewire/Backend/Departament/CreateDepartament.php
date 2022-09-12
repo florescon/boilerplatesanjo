@@ -19,12 +19,16 @@ class CreateDepartament extends Component
     protected $rules = [
         'user_id' => ['required'],
         'name' => ['required', 'min:3'],
-        'email' => ['required', 'email', 'min:3', 'regex:/^\S*$/u', 'unique:departaments'],
+        'email' => ['nullable', 'email', 'min:3', 'regex:/^\S*$/u', 'unique:departaments'],
         'comment' => ['nullable', 'min:3', 'max:100'],
         'phone' => ['nullable', 'digits:10'],
         'address' => ['sometimes', 'max:100'],
         'rfc' => ['sometimes', 'max:50'],
         'type_price' => ['nullable'],
+    ];
+
+    protected $validationAttributes = [
+        'user_id' => 'usuario'
     ];
 
     public function store()
