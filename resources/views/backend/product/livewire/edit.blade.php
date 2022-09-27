@@ -1,6 +1,6 @@
 <x-backend.card>
 	<x-slot name="header">
-        @lang('Update product')
+        @lang('Update product') {{ $nameStock }}
  	</x-slot>
 
     <x-slot name="headerActions">
@@ -336,65 +336,83 @@
 						  <thead class="border-bottom border-start">
 						    <tr>
 						      <th scope="col">@lang('Action')</th>
-						      <th scope="col">@lang('Stock')</th>
-						      <th scope="col">@lang('S.R.I')</th>
-						      <th scope="col">@lang('Store stock')</th>
+						      @if(($nameStock === 'stock') or is_null($nameStock))
+							      <th scope="col">@lang('Stock')</th>
+							  @endif
+						      @if(($nameStock === 'revision_stock') or is_null($nameStock))
+							      <th scope="col">@lang('S.R.I')</th>
+							  @endif
+						      @if(($nameStock === 'store_stock') or is_null($nameStock))
+							      <th scope="col">@lang('Store stock')</th>
+							  @endif
 						    </tr>
 						  </thead>
 						  <tbody>
 						    <tr class="">
 						      <th scope="row"><span class="text-monospace text-success"><u>@lang('Increase')</u></span></th>
-						      <td>
-								<div class="custom-control custom-switch custom-control-inline">
-			                        <label class="c-switch c-switch-success">
-			                          <input type="checkbox" class="c-switch-input" wire:model="increaseStock">
-			                          <span class="c-switch-slider"></span>
-			                        </label>
-								</div>
-						      </td>
-						      <td>
-						      	<div class="custom-control custom-switch custom-control-inline">
-			                        <label class="c-switch c-switch-success">
-			                          <input type="checkbox" class="c-switch-input" wire:model="increaseStockRevision">
-			                          <span class="c-switch-slider"></span>
-			                        </label>
-								</div>
-						      </td>
-						      <td>
-						      	<div class="custom-control custom-switch custom-control-inline">
-			                        <label class="c-switch c-switch-success">
-			                          <input type="checkbox" class="c-switch-input" wire:model="increaseStockStore">
-			                          <span class="c-switch-slider"></span>
-			                        </label>
-								</div>
-						      </td>
+						      @if(($nameStock === 'stock') or is_null($nameStock))
+							      <td>
+									<div class="custom-control custom-switch custom-control-inline">
+				                        <label class="c-switch c-switch-success">
+				                          <input type="checkbox" class="c-switch-input" wire:model="increaseStock">
+				                          <span class="c-switch-slider"></span>
+				                        </label>
+									</div>
+							      </td>
+						      @endif
+						      @if(($nameStock === 'revision_stock') or is_null($nameStock))
+							      <td>
+							      	<div class="custom-control custom-switch custom-control-inline">
+				                        <label class="c-switch c-switch-success">
+				                          <input type="checkbox" class="c-switch-input" wire:model="increaseStockRevision">
+				                          <span class="c-switch-slider"></span>
+				                        </label>
+									</div>
+							      </td>
+						      @endif
+						      @if(($nameStock === 'store_stock') or is_null($nameStock))
+							      <td>
+							      	<div class="custom-control custom-switch custom-control-inline">
+				                        <label class="c-switch c-switch-success">
+				                          <input type="checkbox" class="c-switch-input" wire:model="increaseStockStore">
+				                          <span class="c-switch-slider"></span>
+				                        </label>
+									</div>
+							      </td>
+						      @endif
 						    </tr>
 						    <tr class="">
 						      <th scope="row"><span class="text-monospace text-danger"><u>@lang('Subtract')</u></span></th>
-						      <td>
-						      	<div class="custom-control custom-switch custom-control-inline">
-			                        <label class="c-switch c-switch-danger">
-			                          <input type="checkbox" class="c-switch-input" wire:model="subtractStock">
-			                          <span class="c-switch-slider"></span>
-			                        </label>
-								</div>
-						      </td>
-						      <td>
-						      	<div class="custom-control custom-switch custom-control-inline">
-			                        <label class="c-switch c-switch-danger">
-			                          <input type="checkbox" class="c-switch-input" wire:model="subtractStockRevision">
-			                          <span class="c-switch-slider"></span>
-			                        </label>
-								</div>
-						      </td>
-						      <td>
-						      	<div class="custom-control custom-switch custom-control-inline">
-			                        <label class="c-switch c-switch-danger">
-			                          <input type="checkbox" class="c-switch-input" wire:model="subtractStockStore">
-			                          <span class="c-switch-slider"></span>
-			                        </label>
-								</div>
-						      </td>
+						      @if(($nameStock === 'stock') or is_null($nameStock))
+							      <td>
+							      	<div class="custom-control custom-switch custom-control-inline">
+				                        <label class="c-switch c-switch-danger">
+				                          <input type="checkbox" class="c-switch-input" wire:model="subtractStock">
+				                          <span class="c-switch-slider"></span>
+				                        </label>
+									</div>
+							      </td>
+						      @endif
+						      @if(($nameStock === 'revision_stock') or is_null($nameStock))
+							      <td>
+							      	<div class="custom-control custom-switch custom-control-inline">
+				                        <label class="c-switch c-switch-danger">
+				                          <input type="checkbox" class="c-switch-input" wire:model="subtractStockRevision">
+				                          <span class="c-switch-slider"></span>
+				                        </label>
+									</div>
+							      </td>
+						      @endif
+						      @if(($nameStock === 'store_stock') or is_null($nameStock))
+							      <td>
+							      	<div class="custom-control custom-switch custom-control-inline">
+				                        <label class="c-switch c-switch-danger">
+				                          <input type="checkbox" class="c-switch-input" wire:model="subtractStockStore">
+				                          <span class="c-switch-slider"></span>
+				                        </label>
+									</div>
+							      </td>
+						      @endif
 						    </tr>
 						  </tbody>
 						</table>
@@ -511,9 +529,15 @@
 							  @endif
 						      <th scope="col">@lang('Color')</th>
 						      <th scope="col">@lang('Size_')</th>
-						      <th scope="col" class="text-center">@lang('Stock')</th>
-						      <th scope="col" class="text-center">@lang('Revision stock')</th>
-						      <th scope="col" class="text-center">@lang('Store stock')</th>
+						      @if(($nameStock === 'stock') or is_null($nameStock))
+							      <th scope="col" class="text-center">@lang('Stock')</th>
+						      @endif
+						      @if(($nameStock === 'revision_stock') or is_null($nameStock))
+							      <th scope="col" class="text-center">@lang('Revision stock')</th>
+						      @endif
+						      @if(($nameStock === 'store_stock') or is_null($nameStock))
+							      <th scope="col" class="text-center">@lang('Store stock')</th>
+						      @endif
 						      @if($increaseStock == TRUE)
 							      <th scope="col">@lang('Increase')</th>
 						      @endif
@@ -559,9 +583,15 @@
 								  @endif
 							      <td style="{{ $children->trashed() ? 'text-decoration: line-through;' : '' }}">{{ optional($children->color)->name}} {!! optional($children->color)->undefined_icon_coding !!}</td>
 							      <td style="{{ $children->trashed() ? 'text-decoration: line-through;' : '' }}">{{ optional($children->size)->name}} {!! optional($children->size)->undefined_icon_coding !!}</td>
-							      <td class="text-center {{ $children->color_stock($children->stock) }}">{{ $children->stock }}</td>
-							      <td class="text-center {{ $children->color_stock($children->stock_revision) }}">{{ $children->stock_revision }}</td>
-							      <td class="text-center {{ $children->color_stock($children->stock_store) }}">{{ $children->stock_store }}</td>
+							      @if(($nameStock === 'stock') or is_null($nameStock))
+								      <td class="text-center {{ $children->color_stock($children->stock) }}">{{ $children->stock }}</td>
+								  @endif
+							      @if(($nameStock === 'revision_stock') or is_null($nameStock))
+							      	<td class="text-center {{ $children->color_stock($children->stock_revision) }}">{{ $children->stock_revision }}</td>
+								  @endif
+							      @if(($nameStock === 'store_stock') or is_null($nameStock))
+								      <td class="text-center {{ $children->color_stock($children->stock_store) }}">{{ $children->stock_store }}</td>
+								  @endif
 							      @if($increaseStock == TRUE)
 								      <td style="width:100px; max-width: 100px;">
 								      	<input class="form-control form-control-sm is-valid" style="background-image: none; padding-right: inherit;" wire:model="inputincrease.{{ $children->id }}.stock" wire:keydown.enter="increase" type="number" min="1" placeholder="+" required>
@@ -632,9 +662,15 @@
 	                        		</td>
                         		@endif
 
-			                    <td class="text-center">{{ $model->getTotalByTypeStock($children->color_id, 'stock') }}</td>
-			                    <td class="text-center">{{ $model->getTotalByTypeStock($children->color_id, 'stock_revision') }}</td>
-			                    <td class="text-center">{{ $model->getTotalByTypeStock($children->color_id, 'stock_store') }}</td>
+						        @if(($nameStock === 'stock') or is_null($nameStock))
+				                    <td class="text-center">{{ $model->getTotalByTypeStock($children->color_id, 'stock') }}</td>
+				                @endif
+						        @if(($nameStock === 'revision_stock') or is_null($nameStock))
+				                    <td class="text-center">{{ $model->getTotalByTypeStock($children->color_id, 'stock_revision') }}</td>
+				                @endif
+						        @if(($nameStock === 'store_stock') or is_null($nameStock))
+				                    <td class="text-center">{{ $model->getTotalByTypeStock($children->color_id, 'stock_store') }}</td>
+				                @endif
 			                </tr>
 
 						  </tbody>

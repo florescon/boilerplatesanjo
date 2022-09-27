@@ -13,7 +13,7 @@
 
 	    <div class="dropdown table-export">
 	      <button class="dropdown-toggle btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	        @lang('Export')        
+	        @lang('Export') {{ __(trim($nameStock, '"')) }}
 	      </button>
 
 	      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -58,7 +58,6 @@
 				      <button type="button" wire:click="clear" class="close" aria-label="Close">
 				        <span aria-hidden="true"> &nbsp; &times; &nbsp;</span>
 				      </button>
-
 				    </div>
 			    @endif
 		    </div>
@@ -72,7 +71,7 @@
 		  <div class="card card-flyer card-product">
 		  	@if($product->file_name)
 		  	{{-- @if(Storage::exists($product->file_name)) --}}
-		    	<a href="{{ route('admin.product.edit',  $product->id) }}">
+		    	<a href="{{ $linkEdit ? route($linkEdit,  $product->id) : route('admin.product.edit',  $product->id) }}">
 			    	<img class="card-img-top" src="{{ asset('/storage/' . $product->file_name) }}" alt="{{ $product->name }}">
 			    </a>
 		    @endif
@@ -83,8 +82,6 @@
 
 		      <p class="card-text">{!! $product->description_limited !!}</p>
 		      <p class="card-text"><small class="text-muted">@lang('Last Updated') {{ $product->updated_at->diffForHumans() }}</small></p>
-		      <p class="card-text">{{ $product->price ? '$'.$product->price : 'undefined price' }}</p>
-					<div class="small text-muted"> ${{ $product->price }} </div>
 
 					<div class="text-center">
 						<h2 class="text-primary">
@@ -101,7 +98,7 @@
 			      </p>
 		      @endif
 
-					<a href="{{ route('admin.product.edit',  $product->id) }}" class="stretched-link"></a>
+					<a href="{{ $linkEdit ? route($linkEdit,  $product->id) : route('admin.product.edit',  $product->id) }}" class="stretched-link"></a>
 		    </div>
 
 		      @if($product->brand_id)
@@ -131,7 +128,7 @@
 			    </li>
 
 			    <li class="list-group-item">
-			    	<strong>@lang('Quantity of all inventories'): </strong> {{ $product->total_stock }}
+			    	<strong>{{ $nameStock ? __('Quantity') . ' '.__(trim($nameStock, '"')) : __('Quantity of all inventories') }} </strong> {{ $nameStock ? $product->$nameStock : $product->total_stock }}
 			    </li>
 			    @if($product->children_count > 0)
 				    <li class="list-group-item">
@@ -151,7 +148,7 @@
 							@endif
 							@lang('consumption')
 						</a>
-						<a href="{{ route('admin.product.edit',  $product->id) }}" class="btn btn-primary mb-1">@lang('Edit product')</a>
+						<a href="{{ $linkEdit ? route($linkEdit,  $product->id) : route('admin.product.edit',  $product->id) }}" class="btn btn-primary mb-1">@lang('Edit product')</a>
 					@else
 					    <div class="dropright" style="display:inline-block;">
 					      <a class="btn btn-icon-only" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

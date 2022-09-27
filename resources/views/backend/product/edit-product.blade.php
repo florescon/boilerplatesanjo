@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <livewire:backend.product.edit-product :product="$product"/>
+    <livewire:backend.product.edit-product :product="$product" :nameStock="$nameStock ?? null"/>
 
 @endsection
 

@@ -270,6 +270,15 @@
                 <ul class="c-sidebar-nav-dropdown-items">
 
                         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.store.list')))
+
+                            <li class="c-sidebar-nav-item">
+                                <x-utils.link
+                                    :href="route('admin.store.product.index')"
+                                    class="c-sidebar-nav-link"
+                                    :text="__('Products')"
+                                    :active="activeClass(Route::is('admin.store.*'), 'c-active')" />
+                            </li>
+
                             <li class="c-sidebar-nav-item">
                                 <x-utils.link
                                     :href="route('admin.store.pos')"

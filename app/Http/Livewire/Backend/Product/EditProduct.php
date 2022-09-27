@@ -45,6 +45,8 @@ class EditProduct extends Component
     public $filters = [];
     public $filtersz = [];
 
+    public $nameStock;
+
 	protected $queryString = [
         'increaseStock' => ['except' => FALSE],
         'subtractStock' => ['except' => FALSE],
@@ -60,7 +62,7 @@ class EditProduct extends Component
 
     protected $listeners = ['filterByColor' => 'filterByColor', 'filterBySize' => 'filterBySize', 'increase', 'savecolor', 'storemultiple', 'clearAll' => '$refresh'];
 
-    public function mount(Product $product)
+    public function mount(Product $product, string $nameStock = null)
     {
         $this->product_id = $product->id;
         $this->slug = $product->slug;
@@ -72,6 +74,7 @@ class EditProduct extends Component
         $this->initname($product);
         $this->initpricemaking($product);
         $this->initcost($product);
+        $this->nameStock = $nameStock;
     }
 
     public function addToCart(int $productId, string $typeCart): void

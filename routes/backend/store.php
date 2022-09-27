@@ -3,6 +3,8 @@
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\CashController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductController;
+use App\Models\Product;
 use App\Models\Finance;
 use App\Models\Cash;
 use Tabuna\Breadcrumbs\Trail;
@@ -19,6 +21,32 @@ Route::group([
             $trail->parent('admin.dashboard')
                 ->push(__('Shop Panel Management'), route('admin.store.pos'));
         });
+
+    Route::group([
+        'prefix' => 'product',
+        'as' => 'product.',
+    ], function () {
+
+        Route::get('/', [ProductController::class, 'index_store'])
+            ->name('index')
+            ->middleware('permission:admin.access.store.list')
+            ->breadcrumbs(function (Trail $trail) {
+                $trail->parent('admin.dashboard')
+                    ->push(__('Shop Panel Product Store'), route('admin.store.product.index'));
+            });
+
+        Route::group(['prefix' => '{product}', 
+            'middleware' => 'permission:admin.access.product.modify|admin.access.product.modify-prices-codes'
+        ], function () {
+            Route::get('edit', [ProductController::class, 'edit_store'])
+                ->name('edit')
+                ->middleware('permission:admin.access.product.modify')
+                ->breadcrumbs(function (Trail $trail, Product $product) {
+                    $trail->parent('admin.store.product.index', $product)
+                        ->push(__('Edit').' '.$product->name, route('admin.store.product.edit', $product));
+                });
+        });
+    });
 
     Route::group([
         'prefix' => 'all',

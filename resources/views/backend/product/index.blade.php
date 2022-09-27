@@ -35,7 +35,7 @@
         </x-slot>
 
         <x-slot name="body">
-    		<livewire:backend.product.product-table />
+    		<livewire:backend.product.product-table :nameStock="$nameStock ?? null" :linkEdit="$linkEdit ?? null" />
 		</x-slot>
 	</x-backend.card>
 

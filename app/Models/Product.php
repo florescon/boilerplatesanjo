@@ -473,6 +473,20 @@ class Product extends Model
         return $this->price;
     }
 
+    public function getNameStock(?string $nameStock = null)
+    {
+        if($this->isProduct()){
+            switch ($type_price) {
+                case 'stock':
+                    return 1;
+                case 'revision':
+                    return 2;
+                case 'store':
+                    return 3;
+            }
+        }
+    }
+
     public function getPrice(?string $type_price = null)
     {
         if($this->isProduct()){
@@ -648,7 +662,19 @@ class Product extends Model
           return $parent->stock_revision;
         });
     }
+
     public function getTotStockStore()
+    {
+        if($this->isChildren()){
+            return $this->stock_store;  
+        }
+
+        return $this->children->sum(function($parent) {
+          return $parent->stock_store;
+        });
+    }
+
+    public function getStoreStockAttribute()
     {
         if($this->isChildren()){
             return $this->stock_store;  

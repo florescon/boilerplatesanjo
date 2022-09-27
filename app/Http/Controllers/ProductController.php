@@ -27,6 +27,19 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function index_store()
+    {
+        $nameStock = 'store_stock';
+        $linkEdit = 'admin.store.product.edit';
+
+        return view('backend.product.index', compact('nameStock', 'linkEdit'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function indexService()
     {
         return view('backend.service.index');
@@ -62,6 +75,20 @@ class ProductController extends Controller
         $product->children()->update(['created_at' => $product->created_at]);
         
         return view('backend.product.edit-product', compact('product'));
+    }
+
+    public function edit_store(Product $product)
+    {
+        if($product->isChildren() || !$product->isProduct()){
+            abort(401);
+        }
+
+        $product->children()->update(['updated_at' => $product->updated_at]);
+        $product->children()->update(['created_at' => $product->created_at]);
+
+        $nameStock = 'store_stock';
+        
+        return view('backend.product.edit-product', compact('product', 'nameStock'));
     }
 
     public function advanced(Product $product)

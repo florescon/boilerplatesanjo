@@ -35,7 +35,16 @@ class ProductTable extends Component
 
     public bool $incomes = false;
 
+    public $nameStock = null;
+    public $linkEdit = null;
+    
     protected $listeners = ['restore' => '$refresh'];
+
+    public function mount(string $nameStock = null, string $linkEdit = null)
+    {
+        $this->nameStock = $nameStock;
+        $this->linkEdit = $linkEdit;
+    }
 
     public function getRowsQueryProperty()
     {
