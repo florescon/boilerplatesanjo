@@ -48,7 +48,8 @@ class CartUpdateForm extends Component
         $cartItems = array_map(function ($item) use ($productId, $amount) {
             if ($productId == $item['id']) {
                 $item['amount'] = $this->quantity;
-            }
+                $item['updated_at_'] = now();
+           }
 
             return $item;
         }, $cartItems);

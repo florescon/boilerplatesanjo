@@ -260,7 +260,7 @@
         @endif
 
         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.store.list') || $logged_in_user->can('admin.access.store.list_finance') || $logged_in_user->can('admin.access.store.create_finance')))
-            <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.store.pos') ||  Route::is('admin.store.all.*') || Route::is('admin.store.finances.*') || Route::is('admin.store.box.*'), 'c-open c-show') }}">
+            <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.store.product.*') || Route::is('admin.store.pos') || Route::is('admin.store.order') || Route::is('admin.store.sales') ||  Route::is('admin.store.all.*') || Route::is('admin.store.finances.*') || Route::is('admin.store.box.*'), 'c-open c-show') }}">
                 <x-utils.link
                     href="#"
                     icon="c-sidebar-nav-icon fas fa-store"
@@ -276,7 +276,23 @@
                                     :href="route('admin.store.product.index')"
                                     class="c-sidebar-nav-link"
                                     :text="__('Products')"
-                                    :active="activeClass(Route::is('admin.store.*'), 'c-active')" />
+                                    :active="activeClass(Route::is('admin.store.product.*'), 'c-active')" />
+                            </li>
+
+                            <li class="c-sidebar-nav-item">
+                                <x-utils.link
+                                    :href="route('admin.store.order')"
+                                    class="c-sidebar-nav-link"
+                                    :text="__('Requests')"
+                                    :active="activeClass(Route::is('admin.store.order.*'), 'c-active')" />
+                            </li>
+
+                            <li class="c-sidebar-nav-item">
+                                <x-utils.link
+                                    :href="route('admin.store.sales')"
+                                    class="c-sidebar-nav-link"
+                                    :text="__('Sales')"
+                                    :active="activeClass(Route::is('admin.store.sales.*'), 'c-active')" />
                             </li>
 
                             <li class="c-sidebar-nav-item">

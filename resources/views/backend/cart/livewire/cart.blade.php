@@ -78,7 +78,7 @@
 							    @endif
 						      </td>
 						      <td style="width:120px; max-width: 120px;">
-			                    <livewire:backend.cart-update-form :item="$product" :key="$product->id" :typeCart="'products'" />
+  								<livewire:backend.cart-update-form :item="$product" :key="$product->id" :typeCart="'products'" />
 						      </td>
 						      <td>
 								<a wire:click="removeFromCart({{ $product->id }}, 'products')" class="badge badge-danger text-white" style="cursor:pointer;">@lang('Delete')</a>

@@ -39,6 +39,7 @@
 
     </div>
 
+    @if(!$onlyType)
       <div class="row">
         <div class="col-12 text-center">
 
@@ -66,7 +67,7 @@
 
         </div>
       </div>
-
+    @endif
 
     <div class="mt-3">
       @if(!empty($query))

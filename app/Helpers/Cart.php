@@ -23,6 +23,7 @@ class Cart
         $cart = $this->get();
         $cartProductsIds = array_column($cart[$typeCart], 'id');
         $product->amount = !empty($product->amount) ? $product->amount : 1;
+        $product->updated_at_ = now();
 
         if (in_array($product->id, $cartProductsIds)) {
             $cart[$typeCart] = $this->productCartIncrement($product->id, $cart[$typeCart]);
@@ -68,6 +69,11 @@ class Cart
         $this->set($this->empty());
     }
 
+    public function clearOrder(): void
+    {
+        $this->set($this->emptyOrder());
+    }
+
     public function clearUser(): void
     {
         $cart = $this->get();
@@ -79,6 +85,26 @@ class Cart
     {
         $cart = $this->get();
         array_splice($cart['departament'], 0, 1);
+        $this->set($cart);
+    }
+
+    public function emptyOrder()
+    {
+        $cart = $this->get();
+        unset($cart['products']);
+
+        $cart['products'] = [];
+
+        $this->set($cart);
+    }
+
+    public function emptySale()
+    {
+        $cart = $this->get();
+        unset($cart['products_sale']);
+
+        $cart['products_sale'] = [];
+
         $this->set($cart);
     }
 
@@ -109,6 +135,7 @@ class Cart
             if ($productId == $item['id']) {
                 $item['amount'] += $amount;
                 $item['price'] = $item['price'];
+                $item['updated_at_'] = now();
             }
 
             return $item;

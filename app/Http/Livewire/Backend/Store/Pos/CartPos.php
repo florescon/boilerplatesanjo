@@ -9,7 +9,14 @@ class CartPos extends Component
 {
     public $cart;
 
+    public $onlyType = null;
+
     protected $listeners = ['onProductCartAdded' => 'render'];
+
+    public function mount(string $onlyType = null)
+    {
+        $this->onlyType = $onlyType;
+    }
 
     public function removeFromOrderList($productId): void
     {
@@ -45,6 +52,20 @@ class CartPos extends Component
     {
         CartFacade::clear();
         $this->emit('clearCartAll');
+        $this->cart = CartFacade::get();
+    }
+
+    public function clearCartOrder()
+    {
+        CartFacade::emptyOrder();
+        // $this->emit('clearCartOrder');
+        $this->cart = CartFacade::get();
+    }
+
+    public function clearCartSale()
+    {
+        CartFacade::emptySale();
+        // $this->emit('clearCartOrder');
         $this->cart = CartFacade::get();
     }
 

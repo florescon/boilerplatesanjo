@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Backend\Store\Pos;
 use Livewire\Component;
 use App\Models\Product;
 use App\Facades\Cart;
+use Illuminate\Support\Facades\DB;
 
 class SearchProduct extends Component
 {
@@ -17,8 +18,12 @@ class SearchProduct extends Component
     public $filtersz = [];
     public $match = 'products_sale';
 
-    public function mount()
-    {
+    public $onlyType = null;
+
+    public function mount(string $onlyType = null)
+    {   
+        $this->match = $onlyType ?? 'products_sale';
+        $this->onlyType = $onlyType ?? null;
         $this->reset_search();
     }
 
@@ -96,34 +101,50 @@ class SearchProduct extends Component
         }
     }
 
-    public function selectProduct(Product $product)
+    public function selectProduct($idProduct)
     {
+        $product = Product::with('children', 'color', 'size')->findOrFail($idProduct);
+
         if ($product) {
 
-            if($product->parent_id){
-                $this->addToCart($product->id, $this->match);
-                $this->emit('swal:alert', [
-                    'icon' => 'success',
-                    'title'   => $product->full_name, 
-                ]);
-            }
-            else{
-                if(!$product->isProduct()){
+            $last_record = count(Cart::get()[$this->match]) ? (last(Cart::get()[$this->match]) ? last(Cart::get()[$this->match])->id : 0 ) : null;
+
+            $last_record_product = isset($last_record) ? $last_record : null;
+
+            if($last_record_product !== $product->id){
+
+                if($product->parent_id){
                     $this->addToCart($product->id, $this->match);
                     $this->emit('swal:alert', [
-                        'icon' => 'info',
-                        'title'   => __('Service').' '.$product->name, 
+                        'icon' => 'success',
+                        'title'   => $product->full_name, 
                     ]);
-
                 }
                 else{
-                    $this->MainProduct($product->id);
+                    if(!$product->isProduct()){
+                        $this->addToCart($product->id, $this->match);
+                        $this->emit('swal:alert', [
+                            'icon' => 'info',
+                            'title'   => __('Service').' '.$product->name, 
+                        ]);
+
+                    }
+                    else{
+                        $this->MainProduct($product->id);
+                    }
                 }
             }
         }
 
         $this->emit('cartUpdated');
     }
+
+    // public function autoAdd(Product $product)
+    // {
+    //     if ($product) {
+    //         $this->selectProduct($product);
+    //     }        
+    // }
 
     private function MainProduct($idProduct)
     {
@@ -157,7 +178,14 @@ class SearchProduct extends Component
             ->orWhereRaw("name LIKE \"%$this->query%\"")
             ->get()->take(30)
             ->toArray();
- 
+
+        if(count($this->products) == 1){
+            if($this->products[0]['parent']){
+                // dd($this->products[0]['id']);
+                $this->selectProduct($this->products[0]['id']);
+            }
+        }
+
        $this->selectedProduct = null;
     }
 

@@ -8,7 +8,6 @@ use Illuminate\Support\Arr;
 
 class HeaderCart extends Component
 {
-
     public $cartTotal = 0;
     public $cartTotalSale = 0;
 

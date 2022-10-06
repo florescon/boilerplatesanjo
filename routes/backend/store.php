@@ -22,6 +22,24 @@ Route::group([
                 ->push(__('Shop Panel Management'), route('admin.store.pos'));
         });
 
+    Route::get('order', function () {
+            return view('backend.store.order');
+        })->name('order')
+        ->middleware('permission:admin.access.store.list')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.dashboard')
+                ->push(__('Order Panel Management'), route('admin.store.order'));
+        });
+
+    Route::get('sales', function () {
+            return view('backend.store.sales');
+        })->name('sales')
+        ->middleware('permission:admin.access.store.list')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.dashboard')
+                ->push(__('Sales Panel Management'), route('admin.store.sales'));
+        });
+
     Route::group([
         'prefix' => 'product',
         'as' => 'product.',

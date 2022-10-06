@@ -659,6 +659,8 @@
     "Enter to save, Esc to cancel": "Enter para guardar, Esc para cancelar",
     "Difference": "Diferencia",
     "Order": "Orden",
+    "Request": "Pedido",
+    "Requests": "Pedidos",
     "Associated order": "Orden asociada",
     "Order track": "Seguimiento de orden",
     "Sorted by date created descending": "Ordenado por fecha creada descendente",
@@ -728,7 +730,7 @@
     "Shopping cart": "Carrito de compras",
     "Go to cart": "Ir al carrito",
     "Cart Management": "Administración del  carrito de compra",
-    "Cart order": "Carrito de orden",
+    "Cart order": "Carrito de pedido",
     "Cart sale": "Carrito de venta",
     "View cart": "Ver carrito",
     "Add to cart": "Agregar al carrito",
@@ -1047,5 +1049,9 @@
     "Ticket registered": "Ticket registrado",
     "Report Date:": "Fecha de Reporte:",
     "List of grouped history feedstock records": "Lista de registros de materia prima agrupados",
-    "This is the first record": "Este es el primer registro"
+    "This is the first record": "Este es el primer registro",
+    "Good morning": "Buenos días",
+    "Good afternoon": "Buenas tardes",
+    "Good evening": "Buenas tardes/noches",
+    "Good night": "Buenas noches"
 }
