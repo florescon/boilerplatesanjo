@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductController;
 use App\Models\Product;
 use App\Models\Finance;
 use App\Models\Cash;
+use App\Models\Order;
 use Tabuna\Breadcrumbs\Trail;
 
 Route::group([
@@ -78,6 +79,17 @@ Route::group([
                     ->push(__('All store list'), route('admin.store.all.index'));
             });
 
+
+        Route::group(['prefix' => '{order}'], function () {
+            Route::get('edit', [OrderController::class, 'edit'])
+                ->name('edit')
+                ->middleware('permission:admin.access.order.modify')
+                ->breadcrumbs(function (Trail $trail, Order $order) {
+                    $trail->parent($order->from_store ? 'admin.store.all.index' : 'admin.order.index')
+                        ->push(__('Edit'), route('admin.store.all.edit', $order));
+                });
+            });
+
         Route::get('orders', [OrderController::class, 'orders_list_store'])
             ->name('orders')
             ->middleware('permission:admin.access.store.list')
@@ -92,6 +104,14 @@ Route::group([
             ->breadcrumbs(function (Trail $trail) {
                 $trail->parent('admin.store.all.index')
                     ->push(__('All store sales'), route('admin.store.all.sales'));
+            });
+
+        Route::get('requests', [OrderController::class, 'requests_list_store'])
+            ->name('requests')
+            ->middleware('permission:admin.access.store.list')
+            ->breadcrumbs(function (Trail $trail) {
+                $trail->parent('admin.store.all.index')
+                    ->push(__('All store requests'), route('admin.store.all.requests'));
             });
 
         Route::get('mix', [OrderController::class, 'mix_list_store'])

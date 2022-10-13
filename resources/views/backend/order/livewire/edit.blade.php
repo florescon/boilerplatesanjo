@@ -354,6 +354,48 @@
             </div>
             @endif
 
+            @if($requestExists)
+            <div class="table-responsive">
+              <table class="table table-striped table-bordered table-hover">
+                <caption>
+                  <a href="#!" class="mt-2 ml-2" data-toggle="modal" wire:click="$emitTo('backend.order.add-service', 'createmodal', {{ $order_id }}, '5')" data-target="#addService" style="color: #ee2e31;">@lang('Add service')</a>
+                </caption>
+                <thead style="background-color: coral; border-color: #218543; color: white;">
+                  <tr class="text-center">
+                    <th colspan="4" >@lang('Request')</th>
+                  </tr>
+                  <tr class="thead-dark">
+                    <th>@lang('Product')</th>
+                    <th>@lang('Price')</th>
+                    <th class="text-center">@lang('Quantity')</th>
+                    <th class="text-center">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  @foreach($model->product_request as $product)
+                  <tr >
+                    <td>
+                      {!! $product->product->full_name !!}
+                    </td>
+                    <td class="text-center">${{ $product->price }}</td>
+                    <td class="text-center">{{ $product->quantity }}</td>
+                    <td class="text-center">${{ number_format((float)$product->total_by_product, 2) }}</td>
+                  </tr>
+                  @endforeach
+                  <tr>
+                    <td></td>
+                    <td class="text-right">Total:</td>
+                    <td class="text-center">{{ $model->total_products_request }}</td>
+                    <td class="text-center">${{ number_format((float)$model->total_request, 2) }}</td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+            @endif
+
+
             @if($maerialAll)
             <div class="table-responsive">
               <table class="table table-striped table-bordered table-hover">

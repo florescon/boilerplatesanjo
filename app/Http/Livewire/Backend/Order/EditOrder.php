@@ -197,7 +197,7 @@ class EditOrder extends Component
 
     public function render()
     {
-        $model = Order::with(['product_order', 'product_sale', 'suborders.user', 'last_status_order', 
+        $model = Order::with(['product_order', 'product_sale', 'product_request', 'suborders.user', 'last_status_order', 
                     'materials_order' => function($query){
                         $query->groupBy('material_id')->selectRaw('*, sum(quantity) as sum, sum(quantity) * price as sumtotal');
                     }
@@ -207,14 +207,15 @@ class EditOrder extends Component
 
         $orderExists = $model->product_order()->exists();
         $saleExists = $model->product_sale()->exists();
+        $requestExists = $model->product_request()->exists();
 
         $OrderStatusDelivery = OrderStatusDelivery::values();    
 
         if(!$model->isSuborder()){
-            return view('backend.order.livewire.edit')->with(compact('model', 'orderExists', 'saleExists', 'statuses', 'OrderStatusDelivery'));
+            return view('backend.order.livewire.edit')->with(compact('model', 'orderExists', 'saleExists', 'requestExists',  'statuses', 'OrderStatusDelivery'));
         }
         else{ 
-            return view('backend.order.suborder')->with(compact('model', 'orderExists', 'saleExists', 'statuses', 'OrderStatusDelivery'));           
+            return view('backend.order.suborder')->with(compact('model', 'orderExists', 'saleExists', 'requestExists', 'statuses', 'OrderStatusDelivery'));           
         }
     }
 }

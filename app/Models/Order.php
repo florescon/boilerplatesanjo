@@ -242,6 +242,14 @@ class Order extends Model
     /**
      * @return mixed
      */
+    public function product_request()
+    {
+        return $this->hasMany(ProductOrder::class)->with('product.parent', 'product.color', 'product.size')->where('type', 5);
+    }
+
+    /**
+     * @return mixed
+     */
     public function product_suborder()
     {
         return $this->hasMany(ProductOrder::class, 'suborder_id')->with('parent_order.product.parent', 'parent_order.product.color', 'parent_order.product.size');
@@ -360,6 +368,11 @@ class Order extends Model
         return $this->product_sale->sum('quantity');
     }
 
+    public function getTotalProductsRequestAttribute(): int
+    {
+        return $this->product_request->sum('quantity');
+    }
+
     public function getTotalProductsAssignmentsAttribute()
     {
         return $this->product_order->sum(function($parent) {
@@ -381,9 +394,16 @@ class Order extends Model
         });
     }
 
+    public function getTotalRequestAttribute()
+    {
+        return $this->product_request->sum(function($parent) {
+          return $parent->quantity * $parent->price;
+        });
+    }
+
     public function getTotalSaleAndOrderAttribute(): string
     {
-        return $this->total_sale + $this->total_order + $this->total_suborder;
+        return $this->total_sale + $this->total_order + $this->total_suborder + $this->total_request;
     }
 
     public function getTotalProductsSuborderAttribute(): int
@@ -426,6 +446,8 @@ class Order extends Model
                     return "<span class='badge badge-warning text-white'>".__('Mix').'</span>';
                 case 4:
                     return "<span class='badge text-white' style='background-color: purple;'>".__('Output').'</span>';
+                case 5:
+                    return "<span class='badge text-white' style='background-color: #2eb85c;'>".__('Request').'</span>';
                 default:
                     return "<span class='badge badge-primary'>".__('Order').'</span>';
             }
@@ -445,6 +467,8 @@ class Order extends Model
                     return __('Mix: Order/Sale');
                 case 4:
                     return __('Suborder');
+                case 5:
+                    return __('Request');
                 case 1:
                     return __('Order');
             }

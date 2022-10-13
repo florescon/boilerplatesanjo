@@ -11,7 +11,7 @@
 	<div class="pcoded-content">
 
 		<div class="page-header">
-			<div class="page-block" style="background: rgba(75,133,75,.5);">
+			<div class="page-block" style="background: rgba(255, 159, 117, 0.5);">
 				<div class="row align-items-center">
 					<div class="col-md-6">
 						<div class="page-header-title">
@@ -20,6 +20,9 @@
 						</div>
 					</div>
 					<div class="col-md-6">
+						<li class="breadcrumb-item mr-4">
+							<a href="{{ route('admin.store.all.requests') }}" class="text-white"><h3> @lang('List of requests')</h3></a>
+						</li>
 						<ul class="breadcrumb">
 							<li class="breadcrumb-item">
 								<a href="#!" data-toggle="modal" wire:click="searchproduct()" data-target="#searchProduct"><i class="fa fa-search mr-1 ml-1"></i> @lang('Search product')</a>
@@ -40,6 +43,7 @@
 
 							<livewire:backend.store.pos.cart-pos :onlyType="'orders' ?? null" />
 
+							<livewire:backend.store.pos.summary />
 
 						</div>
 					</div>

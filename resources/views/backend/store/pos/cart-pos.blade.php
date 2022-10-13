@@ -5,13 +5,10 @@
 			<div class="card text-center" style="background-color: rgba(245, 245, 245, 1); opacity: .9;">
 				<div class="card-body">
 					<a href="#" wire:click="clearCartSale" class="btn btn-danger mr-3">@lang('Clear cart')</a>
-					<a href="#" wire:click="checkout" class="btn btn-primary ml-3">@lang('Checkout')</a>
 				</div>
 			</div>
 	    @endif
 	@endif
-
-	@json($cartVar)
 
     @if($onlyType === 'orders' || $onlyType === null)
 		<div class="card table-card">
@@ -70,7 +67,7 @@
 									<td>
 										<div class="d-inline-block align-middle">
 											<div class="d-inline-block">
-												<h6>@lang('Your cart order is empty!')</h6>
+												<h6>@lang('Your cart request is empty!')</h6>
 											</div>
 										</div>
 									</td>
@@ -180,7 +177,6 @@
 			<div class="card text-center" style="background-color: rgba(245, 245, 245, 1); opacity: .9;">
 				<div class="card-body">
 					<a href="#" wire:click="clearCartOrder" class="btn btn-danger mr-3">@lang('Clear cart')</a>
-					<a href="#" wire:click="checkout" class="btn btn-primary ml-3">@lang('Checkout')</a>
 				</div>
 			</div>
 	    @endif

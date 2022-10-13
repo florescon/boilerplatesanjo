@@ -260,7 +260,7 @@
         @endif
 
         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.store.list') || $logged_in_user->can('admin.access.store.list_finance') || $logged_in_user->can('admin.access.store.create_finance')))
-            <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.store.product.*') || Route::is('admin.store.pos') || Route::is('admin.store.order') || Route::is('admin.store.sales') ||  Route::is('admin.store.all.*') || Route::is('admin.store.finances.*') || Route::is('admin.store.box.*'), 'c-open c-show') }}">
+            <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.store.product.*') || Route::is('admin.store.order') || Route::is('admin.store.sales') ||  Route::is('admin.store.all.*') || Route::is('admin.store.finances.*') || Route::is('admin.store.box.*'), 'c-open c-show') }}">
                 <x-utils.link
                     href="#"
                     icon="c-sidebar-nav-icon fas fa-store"
@@ -297,17 +297,9 @@
 
                             <li class="c-sidebar-nav-item">
                                 <x-utils.link
-                                    :href="route('admin.store.pos')"
-                                    class="c-sidebar-nav-link"
-                                    :text="__('Shop panel')"
-                                    :active="activeClass(Route::is('admin.store.pos'), 'c-active')" />
-                            </li>
-
-                            <li class="c-sidebar-nav-item">
-                                <x-utils.link
                                     :href="route('admin.store.all.index')"
                                     class="c-sidebar-nav-link"
-                                    :text="__('Orders/Sales')"
+                                    :text="__('List Requests/Sales')"
                                     :active="activeClass(Route::is('admin.store.all.*'), 'c-active')" />
                             </li>
 

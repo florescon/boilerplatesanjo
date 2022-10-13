@@ -32,6 +32,16 @@ trait OrderScope
      *
      * @return mixed
      */
+    public function scopeOnlyRequests($query)
+    {
+        return $query->whereType(5);
+    }   
+
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
     public function scopeOnlySales($query)
     {
         return $query->whereType(2);

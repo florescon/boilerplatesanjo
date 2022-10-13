@@ -7,6 +7,7 @@
     <div class="card-header-actions mb-3">
       <x-utils.link class="mt-2 mr-2 card-header-action btn btn-secondary text-dark {{ $status == 'all_store' ? 'button-large pulsate' : '' }}" :href="route('admin.store.all.index')" :text="__('all')" />
       <x-utils.link class="mt-2 mr-2 card-header-action btn btn-primary text-white {{ $status == 'orders_store' ? 'button-large pulsate' : '' }}" :href="route('admin.store.all.orders')" :text="__('Orders')" />
+      <x-utils.link class="mt-2 mr-2 card-header-action btn btn-coral text-white {{ $status == 'requests_store' ? 'button-large pulsate' : '' }}" :href="route('admin.store.all.requests')" :text="__('Requests')" />
       <x-utils.link class="mt-2 mr-2 card-header-action btn btn-success text-white {{ $status == 'sales_store' ? 'button-large pulsate' : '' }}" :href="route('admin.store.all.sales')" :text="__('Sales')" />
       <x-utils.link class="mt-2 mr-2 card-header-action btn btn-warning text-white {{ $status == 'mix_store' ? 'button-large pulsate' : '' }}" :href="route('admin.store.all.mix')" :text="__('Mix')" />
     </div>
@@ -119,7 +120,7 @@
 	          </thead>
 	          <tbody>
 	            @foreach($orders as $order)
-		            <tr class="table-tr" data-url="{{ route('admin.order.edit', $order->id) }}" style="{{ $order->type_order_classes }}">
+		            <tr class="table-tr" data-url="{{ route('admin.store.all.edit', $order->id) }}" style="{{ $order->type_order_classes }}">
 		            	<td class="align-middle">
 		            		<strong>
 			            		#{{ $order->id }}
