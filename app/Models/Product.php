@@ -129,6 +129,22 @@ class Product extends Model
     /**
      * @return string
      */
+    public function getSizeSortAttribute()
+    {
+        return $this->size_id ? $this->size->sort : 0;
+    }
+
+    /**
+     * @return string
+     */
+    public function getColorSortAttribute()
+    {
+        return $this->color_id ? $this->color->sort : 0;
+    }
+
+    /**
+     * @return string
+     */
     public function getColorNameClearAttribute()
     {
         return $this->color_id ? $this->color->name : '';
@@ -239,6 +255,24 @@ class Product extends Model
     {
         if($this->parent_id !== null){
             return $this->parent->name.', '.$this->size_name_clear.' '.$this->color_name_clear;
+        }
+        else{
+            if(!$this->isProduct()){
+                return $this->name;
+            }
+            else{
+                return $this->name;
+            }
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullNameClearSortAttribute()
+    {
+        if($this->parent_id !== null){
+            return $this->parent->name.' '.$this->color_name_clear.' '.$this->size_sort;
         }
         else{
             if(!$this->isProduct()){
@@ -777,6 +811,8 @@ class Product extends Model
     {
         return ucwords(strtolower($value));
     }
+
+    protected $appends = ['full_name_clear_sort'];
 
     /**
      * The attributes that should be cast.

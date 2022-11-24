@@ -38,7 +38,7 @@ class ParentProductsExport implements FromCollection, WithMapping, WithHeadings,
                 $event->sheet->setCellValue('A2', __('Report Date:'));
                 $event->sheet->setCellValue('B2', now());
 
-                $cellRange = 'A1:G1'; // All headers
+                $cellRange = 'A1:H1'; // All headers
                 $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(14);
                 $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->getColor()
                             ->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_WHITE);
@@ -47,13 +47,13 @@ class ParentProductsExport implements FromCollection, WithMapping, WithHeadings,
                             ->getStartColor()->setARGB('FF17a2b8');
                 $event->sheet->setAutoFilter($cellRange);
 
-                $cellRange = 'A3:G3'; // All headers
+                $cellRange = 'A3:H3'; // All headers
                 $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(14);
 
             },
 
             AfterSheet::class    => function(AfterSheet $event) {
-                $cellRangeHead = 'A4:G4'; // All headers
+                $cellRangeHead = 'A4:H4'; // All headers
                 $event->sheet->getDelegate()->getStyle($cellRangeHead)->getFont()->setSize(14);
                 $event->sheet->setAutoFilter($cellRangeHead);
             },
@@ -71,6 +71,7 @@ class ParentProductsExport implements FromCollection, WithMapping, WithHeadings,
             __('Average wholesale price'),
             __('Wholesale price'),
             __('Special price'),
+            __('Brand'),
         ];
     }
 
@@ -87,6 +88,7 @@ class ParentProductsExport implements FromCollection, WithMapping, WithHeadings,
             $product->average_wholesale_price,
             $product->wholesale_price,
             $product->special_price,
+            optional($product->brand)->name,
         ];
     }
 

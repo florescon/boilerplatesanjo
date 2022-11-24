@@ -25,7 +25,7 @@ class CreateSuborder extends Component
 
     public $order_id, $quantityy, $departament, $status_name;
 
-    public $perPage = '15';
+    public $perPage = '60';
 
     public $searchTerm = '';
 
@@ -75,7 +75,7 @@ class CreateSuborder extends Component
     public function getRowsProperty()
     {
         return $this->cache(function () {
-            return $this->rowsQuery->paginate($this->perPage);
+            return $this->rowsQuery->get()->take($this->perPage)->sortBy('full_name_clear_sort');
         });
     }
 
@@ -95,7 +95,7 @@ class CreateSuborder extends Component
     {
         $this->searchTerm = '';
         $this->resetPage();
-        $this->perPage = '15';
+        $this->perPage = '60';
     }
 
     public function updatedSearchTerm()
