@@ -8,10 +8,11 @@ use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use App\Events\Product\ProductCreated;
+use App\Traits\withProducts;
 
 class CreateProduct extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, withProducts;
 
     public $name, $code, $description, $photo, $price, $imageName, $photoStatus;
 
@@ -71,6 +72,7 @@ class CreateProduct extends Component
             'special_price' => $this->special_price ?? null,
             'cost' => $this->priceIVA ? $this->priceIVA : $this->price,
             'automatic_code' => $this->autoCodes,
+            'type' => true,
         ]);
 
         $combinations = 0;
@@ -96,6 +98,8 @@ class CreateProduct extends Component
                 // ]);
             }
         }
+
+        $this->updateCodes($product);
 
         event(new ProductCreated($product));
 

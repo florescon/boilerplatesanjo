@@ -155,6 +155,13 @@
                 General
               </ins>
             </a>
+
+            <a href="{{ route('admin.order.print', $order_id) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
+              <ins>
+                @lang('Print')
+              </ins>
+            </a>
+
             @if($model->materials_order()->exists())
               <a href="{{ route('admin.order.ticket_materia', $order_id) }}" class="card-link text-warning" target="_blank"><i class="cil-print"></i>
                 <ins>

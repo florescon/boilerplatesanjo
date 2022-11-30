@@ -64,6 +64,14 @@ class Order extends Model
     /**
      * @return mixed
      */
+    public function product_request()
+    {
+        return $this->hasMany(ProductOrder::class)->with('product.parent', 'product.color', 'product.size')->where('type', 5);
+    }
+
+    /**
+     * @return mixed
+     */
     public function product_sale()
     {
         return $this->hasMany(ProductOrder::class)->with('product.parent', 'product.color', 'product.size')->where('type', 2);

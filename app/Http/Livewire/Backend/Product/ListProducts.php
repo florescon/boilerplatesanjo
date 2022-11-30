@@ -215,6 +215,24 @@ class ListProducts extends Component
         //     ]);
         // }
 
+        // $products = Product::query()->whereNull('parent_id')->whereNotNull('cost')->get();
+
+        // foreach($products as $product){
+
+        //     $retail = number_format((float) getPriceValue($product->cost, 'retail_price_percentage'),  2, '.', '');
+        //     $average_wholesale = number_format((float) getPriceValue($product->cost, 'average_wholesale_price_percentage'),  2, '.', '');
+        //     $wholesale = number_format((float) getPriceValue($product->cost, 'wholesale_price_percentage'),  2, '.', '');
+        //     $special = number_format((float) getPriceValue($product->cost, 'special_price_percentage'),  2, '.', '');
+
+        //     $product->update([
+        //         'price' => $retail,
+        //         'average_wholesale_price' => $average_wholesale,
+        //         'wholesale_price' => $wholesale,
+        //         'special_price' => $special,
+        //     ]);
+
+        // }
+
         return view('backend.product.table.product-list', [
             'products' => $this->rows,
             'NullDatesProducts' => $NullDatesProducts,

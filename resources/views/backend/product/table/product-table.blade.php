@@ -168,7 +168,6 @@
 		@endforeach
 	</div>
 
-
 	<div class="row mt-4">
 		<div class="col">
 		    @if($products->count())
@@ -207,7 +206,7 @@
           <div class="row align-items-center justify-content-xl-between">
             <div class="col-xl-6 m-auto text-center">
               <div>
-                <p> 
+                <p>
                   <a href="{{ route('admin.product.records') }}">Ir a registros de productos asociados a órdenes/ventas</a>
                 </p>
               </div>

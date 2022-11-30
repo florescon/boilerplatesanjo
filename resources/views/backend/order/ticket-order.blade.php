@@ -136,6 +136,44 @@ ventas@sj-uniformes.com
             <br>
         @endif
 
+        @if(count($order->product_request))
+            <table width="100%">
+                <thead style="background-color: coral;">
+                  <tr align="center">
+                    <th colspan="4">@lang('Request')</th>
+                  </tr>
+                </thead>
+                <thead style="background-color: gray;">
+                  <tr align="center">
+                    <th>Concepto</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach($order->product_request as $product)
+                  <tr>
+                    <td scope="row">{!! $product->product->full_name !!}</tf>
+                    <td align="center">{{ $product->quantity }}</td>
+                    <td align="right">${{ $product->price }}</td>
+                    <td align="right">${{ number_format((float)$product->total_by_product, 2) }}</td>
+                  </tr>
+                  @endforeach
+                </tbody>
+
+                <tfoot>
+                    <tr>
+                        <td align="right"></td>
+                        <td align="center" class="gray"><strong>{{ $order->total_products_request }}</strong></td>
+                        <td align="right">Total </td>
+                        <td align="right" class="gray">${{ number_format((float)$order->total_request, 2) }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+            <br>
+        @endif
+
         <table width="100%">
             <tr>
                 <td align="center">

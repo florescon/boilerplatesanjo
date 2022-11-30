@@ -60,42 +60,176 @@
     </div>
   </div>
 
-  <div class="table-responsive mt-2">
-    <table class="table m-0">
-      <thead>
-        <tr>
-          <th class="py-1">@lang('Product')</th>
-          <th class="py-1">@lang('Price')</th>
-          <th class="py-1">@lang('Quantity')</th>
-          <th class="py-1">Total</th>
-        </tr>
-      </thead>
-        <tbody>
-          @php($total = 0)
-          @foreach($order->product_suborder as $product)
-          <tr class="{{ $loop->last ? 'border-bottom' : '' }}">
-            {{-- @json($product) --}}
-            <td class="py-1">
-              <p class="card-text font-weight-bold mb-25">{{ $product->product->only_name }}</p>
-              <p class="card-text text-nowrap">
-                {!! $product->product->only_parameters !!}
-              </p>
-            </td>
-            <td class="py-1">
-              <span class="font-weight-bold">${{ $product->price ? $product->price : $product->price }}</span>
-            </td>
-            <td class="py-1">
-              <span class="font-weight-bold">{{ $product->quantity }}</span>
-            </td>
-            <td class="py-1">
-              <span class="font-weight-bold">${{ number_format($totalprod = ($product->price ? $product->price : $product->price) * $product->quantity, 2, ".", ",") }}</span>
-            </td>
+  @if(count($order->product_suborder))
+    <div class="table-responsive mt-2">
+      <table class="table m-0">
+        <thead>
+          <tr>
+            <th class="py-1">@lang('Product')</th>
+            <th class="py-1">@lang('Price')</th>
+            <th class="py-1">@lang('Quantity')</th>
+            <th class="py-1">Total</th>
           </tr>
-          @php($total += $totalprod)
-          @endforeach
-        </tbody>
-    </table>
-  </div>
+        </thead>
+          <tbody>
+            @php($total = 0)
+            @foreach($order->product_suborder as $product)
+            <tr class="{{ $loop->last ? 'border-bottom' : '' }}">
+              {{-- @json($product) --}}
+              <td class="py-1">
+                <p class="card-text font-weight-bold mb-25">{{ $product->product->only_name }}</p>
+                <p class="card-text text-nowrap">
+                  {!! $product->product->only_parameters !!}
+                </p>
+              </td>
+              <td class="py-1">
+                <span class="font-weight-bold">${{ $product->price ? $product->price : $product->price }}</span>
+              </td>
+              <td class="py-1">
+                <span class="font-weight-bold">{{ $product->quantity }}</span>
+              </td>
+              <td class="py-1">
+                <span class="font-weight-bold">${{ number_format($totalprod = ($product->price ? $product->price : $product->price) * $product->quantity, 2, ".", ",") }}</span>
+              </td>
+            </tr>
+            @php($total += $totalprod)
+            @endforeach
+          </tbody>
+      </table>
+    </div>
+  @endif
+
+  @if(count($order->product_request))
+    <div class="table-responsive mt-2">
+      <table class="table m-0">
+        <thead>
+          <tr>
+            <th class="py-1 text-center" colspan="4">@lang('Request')</th>
+          </tr>
+        </thead>
+        <thead>
+          <tr>
+            <th class="py-1">@lang('Product')</th>
+            <th class="py-1">@lang('Price')</th>
+            <th class="py-1">@lang('Quantity')</th>
+            <th class="py-1">Total</th>
+          </tr>
+        </thead>
+          <tbody>
+            @php($total = 0)
+            @foreach($order->product_request as $product)
+            <tr class="{{ $loop->last ? 'border-bottom' : '' }}">
+              {{-- @json($product) --}}
+              <td class="py-1">
+                <p class="card-text font-weight-bold mb-25">{{ $product->product->only_name }}</p>
+                <p class="card-text text-nowrap">
+                  {!! $product->product->only_parameters !!}
+                </p>
+              </td>
+              <td class="py-1">
+                <span class="font-weight-bold">${{ $product->price ? $product->price : $product->price }}</span>
+              </td>
+              <td class="py-1">
+                <span class="font-weight-bold">{{ $product->quantity }}</span>
+              </td>
+              <td class="py-1">
+                <span class="font-weight-bold">${{ number_format($totalprod = ($product->price ? $product->price : $product->price) * $product->quantity, 2, ".", ",") }}</span>
+              </td>
+            </tr>
+            @php($total += $totalprod)
+            @endforeach
+          </tbody>
+      </table>
+    </div>
+  @endif
+
+  @if(count($order->product_order))
+    <div class="table-responsive mt-2">
+      <table class="table m-0">
+        <thead>
+          <tr>
+            <th class="py-1 text-center" colspan="4">@lang('Sale')</th>
+          </tr>
+        </thead>
+        <thead>
+          <tr>
+            <th class="py-1">@lang('Product')</th>
+            <th class="py-1">@lang('Price')</th>
+            <th class="py-1">@lang('Quantity')</th>
+            <th class="py-1">Total</th>
+          </tr>
+        </thead>
+          <tbody>
+            @php($total = 0)
+            @foreach($order->product_order as $product)
+            <tr class="{{ $loop->last ? 'border-bottom' : '' }}">
+              {{-- @json($product) --}}
+              <td class="py-1">
+                <p class="card-text font-weight-bold mb-25">{{ $product->product->only_name }}</p>
+                <p class="card-text text-nowrap">
+                  {!! $product->product->only_parameters !!}
+                </p>
+              </td>
+              <td class="py-1">
+                <span class="font-weight-bold">${{ $product->price ? $product->price : $product->price }}</span>
+              </td>
+              <td class="py-1">
+                <span class="font-weight-bold">{{ $product->quantity }}</span>
+              </td>
+              <td class="py-1">
+                <span class="font-weight-bold">${{ number_format($totalprod = ($product->price ? $product->price : $product->price) * $product->quantity, 2, ".", ",") }}</span>
+              </td>
+            </tr>
+            @php($total += $totalprod)
+            @endforeach
+          </tbody>
+      </table>
+    </div>
+  @endif
+
+  @if(count($order->product_sale))
+    <div class="table-responsive mt-2">
+      <table class="table m-0">
+        <thead>
+          <tr>
+            <th class="py-1 text-center" colspan="4">@lang('Sale')</th>
+          </tr>
+        </thead>
+        <thead>
+          <tr>
+            <th class="py-1">@lang('Product')</th>
+            <th class="py-1">@lang('Price')</th>
+            <th class="py-1">@lang('Quantity')</th>
+            <th class="py-1">Total</th>
+          </tr>
+        </thead>
+          <tbody>
+            @php($total = 0)
+            @foreach($order->product_sale as $product)
+            <tr class="{{ $loop->last ? 'border-bottom' : '' }}">
+              {{-- @json($product) --}}
+              <td class="py-1">
+                <p class="card-text font-weight-bold mb-25">{{ $product->product->only_name }}</p>
+                <p class="card-text text-nowrap">
+                  {!! $product->product->only_parameters !!}
+                </p>
+              </td>
+              <td class="py-1">
+                <span class="font-weight-bold">${{ $product->price ? $product->price : $product->price }}</span>
+              </td>
+              <td class="py-1">
+                <span class="font-weight-bold">{{ $product->quantity }}</span>
+              </td>
+              <td class="py-1">
+                <span class="font-weight-bold">${{ number_format($totalprod = ($product->price ? $product->price : $product->price) * $product->quantity, 2, ".", ",") }}</span>
+              </td>
+            </tr>
+            @php($total += $totalprod)
+            @endforeach
+          </tbody>
+      </table>
+    </div>
+  @endif
 
   <div class="row invoice-sales-total-wrapper mt-3">
     <div class="col-md-6 order-md-1 order-2 mt-md-0 mt-3">

@@ -183,6 +183,48 @@
 									</div>
 								</div>
 							@endif
+
+							@if($order->product_request->count())	
+								<div class="container padding-top" id="order">
+									<div class="row">
+										<div class="col-lg-8">
+											<h4 class="mb-2">@lang('Order')</h4>
+											<p class="mb-3 pb-3">@lang('Order details').</p>
+										</div>
+										<div class="section"></div>
+										<div class="col-12">
+											<div class="table-responsive">
+												<table class="table table-hover">
+													<thead>
+														<tr>
+										                    <th scope="col">@lang('Product')</th>
+										                    <th scope="col" class="text-center">@lang('Quantity')</th>
+										                    <th scope="col" class="text-center">@lang('Price')</th>
+										                    <th scope="col" class="text-center">Total</th>
+
+														</tr>
+													</thead>
+													<tbody>
+											            @php($total = 0)
+										                @foreach($order->product_request as $product)
+														<tr>
+															<td>{{ $product->product->parent->name}}
+											                    {{ $product->product->color->name. '  '.$product->product->size->name }}
+															</td>
+															<td class="text-center">{{ $product->quantity }}</td>
+															<td class="text-center">${{ $product->price }}</td>
+															<td class="text-center">${{ number_format($totalprod = $product->price * $product->quantity, 2, ".", ",") }}</td>
+														</tr>
+														@endforeach
+											            @php($total += $totalprod)
+													</tbody>
+												</table>	
+											</div>
+										</div>
+									</div>
+								</div>
+							@endif
+
 							@if($order->product_sale->count())
 								<div class="container padding-top" id="sale">
 									<div class="row">

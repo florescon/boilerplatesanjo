@@ -488,6 +488,8 @@ class Order extends Model
                     return 'background-color: #FFFFDE';
                 case 4:
                     return 'background-color: #F7DEFF';
+                case 5:
+                    return 'background-color: #FFDBD3';
                 default:
                     return 'background-color: #DEE4FF';
             }

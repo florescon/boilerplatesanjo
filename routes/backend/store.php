@@ -79,7 +79,6 @@ Route::group([
                     ->push(__('All store list'), route('admin.store.all.index'));
             });
 
-
         Route::group(['prefix' => '{order}'], function () {
             Route::get('edit', [OrderController::class, 'edit'])
                 ->name('edit')

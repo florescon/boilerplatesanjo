@@ -9,9 +9,12 @@ use App\Exceptions\GeneralException;
 use Exception;
 use PDF;
 use App\Events\Product\ProductDeleted;
+use App\Traits\withProducts;
 
 class ProductController extends Controller
 {
+    use withProducts;
+
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -170,22 +173,7 @@ class ProductController extends Controller
     {
         $product->load('children');
 
-        DB::beginTransaction();
-
-        try {
-            foreach ($product->children as $prod) {
-                if($prod->size->short_name && $prod->color->short_name){
-                    $prod->update(['code' => $product->code.optional($prod->color)->short_name.optional($prod->size)->short_name]);
-                }
-            }
-
-        } catch (Exception $e) {
-            DB::rollBack();
-
-            throw new GeneralException(__('There was a problem creating codes.'));
-        }
-
-        DB::commit();
+        $this->updateCodes($product);
 
         return redirect()->back()->withFlashSuccess(__('Updated codes'));
     }
