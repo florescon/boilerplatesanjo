@@ -64,6 +64,43 @@
 		  </div>
 		</form>
 
+		<div class="col d-flex justify-content-center">
+			<div class="card shadow-lg" style="width: 33%;">
+			  <div class="card-body">
+					<div class="row pt-4">
+						<div class="col-12 text-center">
+		          <livewire:frontend.attributes.brand-change/>
+						</div>
+						@if($brand || $brandName)
+						<div class="col-12 text-center mt-4">
+							<button class="btn btn-danger" wire:click="clearFilterBrand">
+								@lang('Clear filter')
+							</button>
+						</div>
+						@endif
+					</div>
+				</div>
+			</div>
+
+			<div class="card shadow-lg ml-5" style="width: 33%;">
+			  <div class="card-body">
+					<div class="row pt-4">
+						<div class="col-12 text-center">
+              <livewire:frontend.attributes.color-change/>
+						</div>
+						@if($color)
+						<div class="col-12 text-center mt-4">
+							<button class="btn btn-danger" wire:click="clearFilterColor">
+								@lang('Clear filter')
+							</button>
+						</div>
+						@endif
+					</div>
+				</div>
+			</div>
+
+		</div>
+
 	@endif
 
 	<div class="card-columns">

@@ -24,6 +24,7 @@ class ProductTable extends Component
 	protected $queryString = [
         'searchTerm' => ['except' => ''],
         'searchTermExactly' => ['except' => ''],
+        'brandName' => ['except' => ''],
         'perPage',
     ];
 
@@ -35,10 +36,15 @@ class ProductTable extends Component
 
     public bool $incomes = false;
 
+    public ?int $brand = null;
+    public ?int $color = null;
+
+    public string $brandName = '';
+
     public $nameStock = null;
     public $linkEdit = null;
     
-    protected $listeners = ['restore' => '$refresh'];
+    protected $listeners = ['selectedBrandItem', 'selectedColorItem', 'restore' => '$refresh'];
 
     public function mount(string $nameStock = null, string $linkEdit = null)
     {
@@ -54,6 +60,27 @@ class ProductTable extends Component
             ->withCount('children')
             ->whereNull('parent_id')
             ->orderBy('updated_at', 'desc');
+
+        if($this->brand){
+            $brand = $this->brand;
+            $query->whereHas('brand', function($queryBrand) use ($brand){
+                $queryBrand->where('id', $brand);
+            });
+        }
+        if($this->color){
+            $color = $this->color;
+            $query->whereHas('children', function($queryColor) use ($color){
+                $queryColor->where('color_id', $color);
+            });
+        }
+
+        if($this->brandName){
+            $brandN = $this->brandName;
+            $query->whereHas('brand', function($queryBrand) use ($brandN){
+                $queryBrand->where('slug', $brandN);
+            });
+        }
+
 
         if ($this->status === 'deleted') {
             return $query->onlyTrashed();
@@ -74,6 +101,51 @@ class ProductTable extends Component
         return $this->cache(function () {
             return $this->rowsQuery->paginate($this->perPage);
         });
+    }
+
+    public function selectedBrandItem(?int $item)
+    {
+        if ($item) {
+            $this->brand = $item;
+        }
+        else
+            $this->brand = null;
+    }
+
+    public function selectedColorItem(?int $item)
+    {
+        if ($item) {
+            $this->color = $item;
+        }
+        else
+            $this->color = null;
+    }
+
+    public function colorID(int $color)
+    {
+        $this->color = $color;
+    }
+
+
+    public function hydrateColor()
+    {
+        $this->resetPage();
+    }
+
+    public function clearFilterColor()
+    {
+        $this->color = null;
+    }
+
+    public function hydrateBrand()
+    {
+        $this->resetPage();
+    }
+
+    public function clearFilterBrand()
+    {
+        $this->brand = null;
+        $this->brandName = '';
     }
 
     private function applySearchFilter($products)

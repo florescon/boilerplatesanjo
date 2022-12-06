@@ -30,7 +30,7 @@
 		<div class="section-1400">
 			<div class="container-fluid">
 	
-					<livewire:frontend.shop.shop-component />
+				<livewire:frontend.shop.shop-component />
 
 			</div>
 		</div>

@@ -43,7 +43,7 @@
 
 							<livewire:backend.store.pos.cart-pos :onlyType="'sales' ?? null" />
 
-							<livewire:backend.store.pos.summary />
+							<livewire:backend.store.pos.summary :onlyType="'sales' ?? null"/>
 
 						</div>
 					</div>

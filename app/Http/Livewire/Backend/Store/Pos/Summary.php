@@ -14,7 +14,14 @@ class Summary extends Component
 {
     public $cart, $payment, $payment_method, $comment;
 
+    public $onlyType = null;
+
     protected $listeners = ['selectPaymentMethod', 'selectedCompanyItem', 'cartUpdated' => '$refresh', 'cartCheckout' => 'cart', 'selected' => 'render'];
+
+    public function mount(string $onlyType = null)
+    {
+        $this->onlyType = $onlyType;
+    }
 
     public function selectedCompanyItem($user)
     {
@@ -45,6 +52,10 @@ class Summary extends Component
 
     public function redirectLink()
     {
+        if($this->onlyType === 'sales'){
+            return redirect()->route('admin.store.sales');
+        }
+
         return redirect()->route('admin.store.order');
     }
 
