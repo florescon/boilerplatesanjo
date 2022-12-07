@@ -10,7 +10,7 @@
 
     <x-backend.card>
         <x-slot name="header">
-            <strong style="color: #0061f2;"> @lang('Lines') </strong>
+            <strong style="color: #0061f2;"> <kbd>@lang('Lines')</kbd> </strong>
         </x-slot>
 
         @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.line.create'))

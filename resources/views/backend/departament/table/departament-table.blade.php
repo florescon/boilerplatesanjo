@@ -24,7 +24,7 @@
     @if($deleted)
       <strong style="color: red;"> @lang('List of deleted departaments') </strong>
     @else
-      <strong style="color: #0061f2;"> @lang('List of departaments') </strong>
+      <strong style="color: #0061f2;"> <kbd>@lang('List of departaments')</kbd> </strong>
     @endif
     @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.departament.create'))
       <div class="card-header-actions">

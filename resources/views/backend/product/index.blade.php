@@ -14,7 +14,7 @@
 
     <x-backend.card>
         <x-slot name="header">
-            <strong style="color: #0061f2;"> @lang('Products') </strong>
+            <strong style="color: #0061f2;"> <kbd>@lang('Products')</kbd> </strong>
         </x-slot>
 
         <x-slot name="headerActions">

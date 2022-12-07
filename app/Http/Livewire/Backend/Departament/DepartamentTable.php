@@ -67,6 +67,7 @@ class DepartamentTable extends Component
                     ->orWhere('email', 'like', '%' . $this->searchTerm . '%')
                     ->orWhere('phone', 'like', '%' . $this->searchTerm . '%')
                     ->orWhere('address', 'like', '%' . $this->searchTerm . '%')
+                    ->orWhere('comment', 'like', '%' . $this->searchTerm . '%')
                     ->orWhere('rfc', 'like', '%' . $this->searchTerm . '%');
             })
             ->when($this->deleted, function ($query) {

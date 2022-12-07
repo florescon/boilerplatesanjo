@@ -10,7 +10,7 @@
 
     <x-backend.card>
         <x-slot name="header">
-            <strong style="color: #0061f2;"> @lang('Units') </strong>
+            <strong style="color: #0061f2;"> <kbd>@lang('Units')</kbd> </strong>
         </x-slot>
 
         @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.unit.create'))

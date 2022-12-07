@@ -20,7 +20,7 @@
 	<div class="row">
 	    <div class="col-sm-4">
 	        <div class="card shadow">
-	            <img class="img-fluid" src="{{ asset('/img/ga/stock.jpg')}}" alt="">
+	            {{-- <img class="img-fluid" src="{{ asset('/img/ga/stock.jpg')}}" alt=""> --}}
 	            <div class="card-body">
 	                <div class="text-center">
 	                    <h4 class="card-widget__title text-dark mt-3">@lang('Finished product')</h4>
@@ -32,7 +32,7 @@
 	    </div>
 	    <div class="col-sm-4">
 	        <div class="card shadow">
-	            <img class="img-fluid" src="{{ asset('/img/ga/revision.jpg')}}" alt="">
+	            {{-- <img class="img-fluid" src="{{ asset('/img/ga/revision.jpg')}}" alt=""> --}}
 	            <div class="card-body">
 	                <div class="text-center">
 	                    <h4 class="card-widget__title text-dark mt-3">@lang('Feedstock')</h4>
@@ -44,7 +44,7 @@
 	    </div>
 	    <div class="col-sm-4">
 	        <div class="card shadow">
-	            <img class="img-fluid" src="{{ asset('/img/ga/store.jpg')}}" alt="">
+	            {{-- <img class="img-fluid" src="{{ asset('/img/ga/store.jpg')}}" alt=""> --}}
 	            <div class="card-body">
 	                <div class="text-center">
 	                    <h4 class="card-widget__title text-dark mt-3">@lang('Store')</h4>

@@ -29,7 +29,7 @@
 
     <x-backend.card>
         <x-slot name="header">
-            <strong class="shadow-effects" style="color: white;"> @lang('Order statuses') </strong>
+            <strong> <kbd>@lang('Order statuses')</kbd> </strong>
             <div class="card-header-actions mb-5">
               <a href="#" class="card-header-action" style="color: green;"  data-toggle="modal" wire:click="createmodal()" data-target="#exampleModal"><i class="c-icon cil-plus"></i> @lang('Create status') </a>
             </div>

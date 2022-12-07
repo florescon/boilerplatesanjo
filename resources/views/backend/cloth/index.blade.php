@@ -11,7 +11,7 @@
 
     <x-backend.card>
         <x-slot name="header">
-            <strong style="color: #0061f2;"> @lang('Cloths') </strong>
+            <strong style="color: #0061f2;"> <kbd>@lang('Cloths')</kbd> </strong>
         </x-slot>
 
         @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.cloth.create'))

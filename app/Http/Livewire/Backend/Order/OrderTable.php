@@ -96,9 +96,15 @@ class OrderTable extends Component
     private function applySearchFilter($orders)
     {
         if ($this->searchTerm) {
-            return $orders->whereRaw("id LIKE \"%$this->searchTerm%\"")
-                        ->orWhereRaw("comment LIKE \"%$this->searchTerm%\"")
-                        ->orWhereRaw("slug LIKE \"%$this->searchTerm%\"");
+
+            return $orders->whereHas('user', function ($query) {
+               $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
+            })
+            ->orWhereHas('departament', function ($query) {
+               $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
+            })
+            ->orWhere('id', 'like', '%' . $this->searchTerm . '%')
+            ->orWhere('comment', 'like', '%' . $this->searchTerm . '%');
         }
 
         return null;

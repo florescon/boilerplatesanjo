@@ -8,13 +8,15 @@
 
             <div class="card p-3 border-0">
               <div class="mt-3">
-                <h3 class="heading">
-                  <i class="cil-short-text"></i> 
-                  @lang('Tickets')
-                  @if($status == 'deleted')
-                    <span class="badge badge-danger">@lang('Deletions')</span>
-                  @endif
-                </h3>
+                <h5 class="heading">
+                  <kbd>
+                    <i class="cil-short-text"></i> 
+                    @lang('Tickets')
+                    @if($status == 'deleted')
+                      <span class="badge badge-danger">@lang('Deletions')</span>
+                    @endif
+                  </kbd>
+                </h5>
                 @if($status == 'deleted')
                   <a href="{{ route('admin.store.box.history') }}">
                     <i class="fa fa-hand-o-left" aria-hidden="true"></i>

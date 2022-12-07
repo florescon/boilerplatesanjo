@@ -24,7 +24,7 @@
     @if($deleted)
       <strong style="color: red;"> @lang('List of deleted documents') </strong>
     @else
-      <strong style="color: black;"> @lang('List of documents') </strong>
+      <strong style="color: black;"> <kbd>@lang('List of documents')</kbd> </strong>
     @endif
     <div class="card-header-actions">
        <em> @lang('Last request'): {{ now()->format('h:i:s') }} </em>

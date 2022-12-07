@@ -1,9 +1,9 @@
 <x-backend.card borderClass="{{ $title['color'] }}">
 
   <x-slot name="header">
-  	<h3>
-	    <strong class="text-{{ $title['color'] }}"> @lang($title['title']) </strong>
-	  </h3>
+  	<h5>
+	    <strong class="text-{{ $title['color'] }}"> <kbd>@lang($title['title'])</kbd> </strong>
+	  </h5>
 
 	  @if($status == 'suborders')
 	    <x-slot name="headerActions">

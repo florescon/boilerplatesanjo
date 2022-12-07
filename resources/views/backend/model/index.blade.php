@@ -10,7 +10,7 @@
 
     <x-backend.card>
         <x-slot name="header">
-            <strong style="color: #0061f2;"> @lang('Models') </strong>
+            <strong style="color: #0061f2;"> <kbd>@lang('Models')</kbd> </strong>
         </x-slot>
 
         @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.model_product.create'))

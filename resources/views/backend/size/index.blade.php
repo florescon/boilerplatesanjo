@@ -10,7 +10,7 @@
 
     <x-backend.card>
         <x-slot name="header">
-            <strong style="color: #0061f2;"> @lang('Sizes') </strong>
+            <strong style="color: #0061f2;"> <kbd>@lang('Sizes')</kbd> </strong>
         </x-slot>
 
 
