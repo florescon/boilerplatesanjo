@@ -26,6 +26,15 @@ Route::group([
                 ->push(__('Pages Management'), route('admin.setting.pages'));
         });
 
+    Route::get('images_ai', function () {
+            return view('backend.setting.images_ai');
+        })->name('images_ai')
+        ->middleware('permission:admin.access.settings.list_pages')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.dashboard')
+                ->push(__('Banner Images Management'), route('admin.setting.images_ai'));
+        });
+
     Route::get('banner', function () {
             return view('backend.setting.banner');
         })->name('banner')

@@ -17,7 +17,7 @@ class CreateImagesTable extends Migration
             $table->id();
             $table->longText('title')->nullable();
             $table->string('image')->nullable();
-            $table->tinyInteger('type')->nullable()->comment('banner: 1, logos: 2, gallery: 3');
+            $table->tinyInteger('type')->nullable()->comment('banner: 1, logos: 2, gallery: 3, images: 4');
             $table->integer('sort')->default(0);
             $table->softDeletes();
             $table->timestamps();

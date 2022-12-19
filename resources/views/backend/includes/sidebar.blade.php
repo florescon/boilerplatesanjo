@@ -368,6 +368,14 @@
 
                             <li class="c-sidebar-nav-item">
                                 <x-utils.link
+                                    :href="route('admin.setting.images_ai')"
+                                    class="c-sidebar-nav-link"
+                                    :text="__('Product images')"
+                                    :active="activeClass(Route::is('admin.setting.images_ai'), 'c-active')"/>
+                            </li>
+
+                            <li class="c-sidebar-nav-item">
+                                <x-utils.link
                                     :href="route('admin.setting.gallery')"
                                     class="c-sidebar-nav-link"
                                     :text="__('Gallery')"

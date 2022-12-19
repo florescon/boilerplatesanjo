@@ -41,7 +41,7 @@
                                     @lang('Color'): {{ $product->color_name }}
                                 </p> 
                                 <p class="mb-0 size-14">
-                                    @lang('Size'): {{ $product->size_name }}
+                                    @lang('Size'): {!! $product->size_name !!}
                                 </p> 
                             </div>
                             <div class="w-100 d-block d-lg-none"></div>
@@ -105,7 +105,7 @@
                                     @lang('Color'): {{ $product->color_name }}
                                 </p> 
                                 <p class="mb-0 size-14">
-                                    @lang('Size'): {{ $product->size_name }}
+                                    @lang('Size'): {!! $product->size_name !!}
                                 </p> 
                             </div>
                             <div class="w-100 d-block d-lg-none"></div>

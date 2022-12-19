@@ -41,7 +41,7 @@ class ShopParametersComponent extends Component
             ->first();
 
         $sub = Product::with(array('parent' => function($query) {
-            $query->select('id', 'slug', 'name', 'code', 'price', 'file_name');
+            $query->select('id', 'type', 'slug', 'name', 'code', 'price', 'file_name');
         }))->get()
         ->find($subproduct->id);
 
