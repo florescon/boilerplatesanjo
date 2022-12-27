@@ -4,4 +4,4 @@
 
 </x-forms.patch> --}}
 
-<x-actions-modal.edit-icon target="updateStockModal" emitTo="backend.material.modal-stock-material" function="modalUpdateStock" :id="$material->id" />
+<x-actions-modal.other-icon icon="cil-input fa-2x" target="updateStockModal" emitTo="backend.material.modal-stock-material" function="modalUpdateStock" :id="$material->id" />

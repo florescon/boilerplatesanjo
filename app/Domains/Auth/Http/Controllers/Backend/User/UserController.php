@@ -14,6 +14,10 @@ use App\Domains\Auth\Services\CustomerService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Customer;
+use Symfony\Component\HttpFoundation\Response;
+use App\Exports\ClientsExport;
+use Excel;
+use Carbon\Carbon;
 
 /**
  * Class UserController.
@@ -87,6 +91,25 @@ class UserController extends Controller
         $user = $this->userService->store($request->validated());
 
         return redirect()->route('admin.auth.user.show', $user)->withFlashSuccess(__('The user was successfully created.'));
+    }
+
+    private function getSelectedProducts()
+    {
+    return User::query()
+            ->users()->get()->pluck('id')->map(fn($id) => (string) $id)->toArray();
+    }
+
+    /**
+     * @param  StoreUserRequest  $request
+     *
+     * @return mixed
+     * @throws \App\Exceptions\GeneralException
+     * @throws \Throwable
+     */
+    public function exportCustomers()
+    {
+        abort_if(!in_array('xlsx', ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
+        return Excel::download(new ClientsExport($this->getSelectedProducts()), 'customers-list-'.Carbon::now().'.'.'xlsx');
     }
 
     /**

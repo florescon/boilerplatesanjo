@@ -42,9 +42,9 @@ class ProductsExport implements FromCollection, WithMapping, WithHeadings
         return [
             $product->code ? $product->code : optional($product->parent)->code,
             optional($product->parent)->name.', '.optional($product->color)->name.' '.optional($product->size)->name,
-            optional($product->parent)->stock ?: '--',
-            optional($product->parent)->stock_revision ?: '--',
-            optional($product->parent)->stock_store ?: '--',
+            $product->stock,
+            $product->stock_revision,
+            $product->stock_store,
             optional($product->parent)->cost,
             $product->hasPriceSubproduct() ?: optional($product->parent)->price,
             $product->hasAverageWholesalePriceSubproduct() ?: optional($product->parent)->average_wholesale_price,

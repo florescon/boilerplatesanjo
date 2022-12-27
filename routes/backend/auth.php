@@ -39,6 +39,8 @@ Route::group([
 
             Route::post('/', [UserController::class, 'store'])->name('store');
 
+            Route::get('exportcustomer/', [UserController::class, 'exportCustomers'])->name('exportcustomer');
+
             Route::group(['prefix' => '{user}'], function () {
                 Route::get('edit', [UserController::class, 'edit'])
                     ->name('edit')

@@ -15,6 +15,12 @@
         @if ($logged_in_user->hasAllAccess())
             <x-slot name="headerActions">
                 <x-utils.link
+                    icon="c-icon cil-applications-settings"
+                    class="card-header-action"
+                    :href="route('admin.auth.user.exportcustomer')"
+                    :text="__('Export Customers')"
+                />
+                <x-utils.link
                     icon="c-icon cil-plus"
                     class="card-header-action"
                     :href="route('admin.auth.user.create')"

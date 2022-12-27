@@ -791,6 +791,7 @@
     "Update quantities": "Actualizar cantidades",
     "Current quantity": "Cantidad actual",
     "Add / Subtract": "Agregar / Sustraer",
+    "Input / Output": "Entrada / Salida",
     "New": "Nuevo",
     
     "Updating" : "Actualizando",
@@ -1058,5 +1059,6 @@
     "Good morning": "Buenos días",
     "Good afternoon": "Buenas tardes",
     "Good evening": "Buenas tardes/noches",
-    "Good night": "Buenas noches"
+    "Good night": "Buenas noches",
+    "Export Customers": "Exportar clientes"
 }

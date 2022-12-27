@@ -3,18 +3,18 @@
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">{{ $name }}</h5>
-        <p class="card-text">Entrega total de productos: {{ $user->total_quantities }}</p>
+        {{-- <p class="card-text">Entrega total de productos: {{ $user->total_quantities }}</p> --}}
       </div>
     </div>
   </div>
-  <div class="col-sm-3">
+  {{-- <div class="col-sm-3">
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">Total <i class="cil-mood-very-good"></i></h5>
         <p class="card-text">${{ $user->total_quantities_with_making }}</p>
       </div>
     </div>
-  </div>
+  </div> --}}
 
   <div class="col-sm-12">
     <div class="card">
