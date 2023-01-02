@@ -128,6 +128,14 @@
                       </div>
                     </div>
                     <div class="card-body ">
+
+                      <div class="row mt-3 mb-5">
+                        <div class="col-12 col-lg-12">
+
+                        <livewire:backend.components.edit-field :model="'\App\Models\Ticket'" :entity="$ticket" :field="'comment'" :key="'tickets'.$ticket->id"/>
+                        </div>
+                      </div>
+
                       <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover text-center">
                           <thead>

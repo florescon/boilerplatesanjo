@@ -23,6 +23,8 @@ class ClientsExport implements FromCollection, WithMapping, WithHeadings
         return [
             __('Name'),
             __('Email'),
+            __('Phone'),
+            __('RFC'),
             __('Type price'),
         ];
     }
@@ -35,7 +37,9 @@ class ClientsExport implements FromCollection, WithMapping, WithHeadings
         return [
             $customer->name ?? '',
             $customer->email ?? '',
-            optional($customer->customer)->type_price ?? __('Retail price'),
+            optional($customer->customer)->phone ?? '',
+            optional($customer->customer)->rfc ?? '',
+            optional($customer->customer)->type_price_label ?? __('Retail price'),
         ];
     }
 

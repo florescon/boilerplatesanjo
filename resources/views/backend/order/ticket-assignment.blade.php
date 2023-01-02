@@ -115,6 +115,12 @@
         <table width="100%" style="margin-top:30px;">
             <thead style="background-color: white;">
                 <tr align="center">
+                    <th>{{ $ticket->comment ?? '' }}
+                        <br><br><br>
+                    </th>
+                </tr>
+
+                <tr align="center">
                     <th>__________________________________</th>
                 </tr>
             </thead>
