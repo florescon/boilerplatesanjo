@@ -423,7 +423,7 @@
     "Store stock": "Stock de tienda",
     "store_stock": "stock de tienda",
     "From store": "Desde tienda",
-    "Edit stock": "Editar stock",
+    "Edit stock": "Editar existencias",
     "Quantity of all inventories": "Cantidad todos los inventarios",
     "Show in store": "Mostrar en tienda",
     "Back to store": "Regresar a la tienda",
@@ -633,6 +633,10 @@
     "Subtract revision stock": "Sustraer S.R.I",
     "Increase store stock": "Incrementar stock tienda",
     "Subtract store stock": "Sustraer stock tienda",
+    "Input revision stock": "Entrada S.R.I",
+    "Output revision stock": "Salida S.R.I",
+    "Input store stock": "Entrada stock tienda",
+    "Output store stock": "Salida stock tienda",
     "Store stock": "Stock de tienda",
     "Increased": "Incrementado",
     "Increased": "Incrementado",
@@ -1060,5 +1064,7 @@
     "Good afternoon": "Buenas tardes",
     "Good evening": "Buenas tardes/noches",
     "Good night": "Buenas noches",
-    "Export Customers": "Exportar clientes"
+    "Export Customers": "Exportar clientes",
+    "Delivered to customer": "Entregado a cliente",
+    "To customer": "A cliente"
 }

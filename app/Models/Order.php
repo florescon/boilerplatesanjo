@@ -129,7 +129,7 @@ class Order extends Model
             return "<span class='badge badge-primary'>General".'</span>';
         }
 
-        return "<span class='badge badge-primary'>Stock ".appName().'</span>';
+        return "<span class='badge badge-primary'>".__('Internal control').'</span>';
     }
 
     public function getTrackingNumberAttribute(): ?string

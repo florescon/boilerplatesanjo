@@ -350,7 +350,7 @@
 						  </thead>
 						  <tbody>
 						    <tr class="">
-						      <th scope="row"><span class="text-monospace text-success"><u>@lang('Increase')</u></span></th>
+						      <th scope="row"><span class="text-monospace text-success"><u>@lang('Input')</u></span></th>
 						      @if(($nameStock === 'stock') or is_null($nameStock))
 							      <td>
 									<div class="custom-control custom-switch custom-control-inline">
@@ -383,7 +383,7 @@
 						      @endif
 						    </tr>
 						    <tr class="">
-						      <th scope="row"><span class="text-monospace text-danger"><u>@lang('Subtract')</u></span></th>
+						      <th scope="row"><span class="text-monospace text-danger"><u>@lang('Output')</u></span></th>
 						      @if(($nameStock === 'stock') or is_null($nameStock))
 							      <td>
 							      	<div class="custom-control custom-switch custom-control-inline">
@@ -540,22 +540,22 @@
 							      <th scope="col" class="text-center">@lang('Store stock')</th>
 						      @endif
 						      @if($increaseStock == TRUE)
-							      <th scope="col">@lang('Increase')</th>
+							      <th scope="col">@lang('Input')</th>
 						      @endif
 						      @if($increaseStockRevision == TRUE)
-							      <th scope="col">@lang('Increase revision stock')</th>
+							      <th scope="col">@lang('Input revision stock')</th>
 						      @endif
 						      @if($increaseStockStore == TRUE)
-							      <th scope="col">@lang('Increase store stock')</th>
+							      <th scope="col">@lang('Input store stock')</th>
 						      @endif
 						      @if($subtractStock == TRUE)
-							      <th scope="col">@lang('Subtract')</th>
+							      <th scope="col">@lang('Output')</th>
 						      @endif
 						      @if($subtractStockRevision == TRUE)
-							      <th scope="col">@lang('Subtract revision stock')</th>
+							      <th scope="col">@lang('Output revision stock')</th>
 						      @endif
 						      @if($subtractStockStore == TRUE)
-							      <th scope="col">@lang('Subtract store stock')</th>
+							      <th scope="col">@lang('Output store stock')</th>
 						      @endif
 						      <th>
 						      </th>

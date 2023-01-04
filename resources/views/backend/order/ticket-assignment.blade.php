@@ -25,6 +25,7 @@
         </style>
     </head>
     <body>
+
       <table width="100%">
           <tr>
             <td style="text-align: center;">
@@ -68,8 +69,8 @@
         @if($ticket->order_id)
             <table width="100%">
                 <tr>
-                    <td><strong>@lang('Order'):</strong> #{{ $ticket->order_id }}</td>
-                    <td><u><strong>Folio:</strong> #{{ $ticket->id }}</u></td>
+                    <td><strong>@lang('Order'):</strong><u style="font-size: 140%;"> #{{ $ticket->order_id }}</u></td>
+                    <td><strong>Folio:</strong><u style="font-size: 140%;"> #{{ $ticket->id }}</u></td>
                 </tr>
             </table>
         @endif
@@ -84,6 +85,16 @@
                 @endif
             </tr>
         </table>
+
+        @if($order->comment)
+            <table style="margin-bottom: 10px;" width="100%">
+                <tr align="center">
+                    <th>{{ $order->comment ?? '' }}
+                        <br><br>
+                    </th>
+                </tr>
+            </table>
+        @endif
 
         @if(count($ticket->assignments_direct))
             <table width="100%" style='font-family:"Courier New", Courier, monospace; font-size:97%'>
@@ -114,11 +125,14 @@
 
         <table width="100%" style="margin-top:30px;">
             <thead style="background-color: white;">
+
+                @if($ticket->comment)
                 <tr align="center">
                     <th>{{ $ticket->comment ?? '' }}
                         <br><br><br>
                     </th>
                 </tr>
+                @endif
 
                 <tr align="center">
                     <th>__________________________________</th>

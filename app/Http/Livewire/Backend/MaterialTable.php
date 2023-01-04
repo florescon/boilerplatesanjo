@@ -143,7 +143,7 @@ class MaterialTable extends TableComponent
                 })
                 ->excludeFromExport()
                 ->hideIf($this->editStock == true),
-            Column::make(__('Add / Subtract'))
+            Column::make(__('Input / Output'))
                 ->format(function (Material $model) {
                     return view('backend.material.datatable.input', ['material' => $model]);
                 })

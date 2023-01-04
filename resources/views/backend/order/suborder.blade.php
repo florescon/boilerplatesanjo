@@ -67,26 +67,34 @@
               </thead>
               <tbody>
                 @foreach($model->product_suborder as $product)
-                <tr class="{{ $loop->last ? 'border-bottom' : '' }}">
-                  {{-- @json($product) --}}
-                  <td class="py-1">
-                    <p class="card-text font-weight-bold mb-25">{{ $product->product->only_name}}</p>
-                    <p class="card-text text-nowrap">
-                      {!! $product->product->only_parameters !!}
-                    </p>
-                  </td>
-                  <td class="py-1">
-                    <span class="font-weight-bold">${{ $product->price ? $product->price : $product->price }}</span>
-                  </td>
-                  <td class="py-1">
-                    <span class="font-weight-bold">{{ $product->quantity}}</span>
-                  </td>
-                  <td class="py-1">
-                    <span class="font-weight-bold">${{ number_format($totalprod = ($product->price ? $product->price : $product->price) * $product->quantity, 2, ".", ",") }}</span>
-                  </td>
-                </tr>
-                @php($total += $totalprod)
+                  <tr class="{{ $loop->last ? 'border-bottom' : '' }}">
+                    {{-- @json($product) --}}
+                    <td class="py-1">
+                      <p class="card-text font-weight-bold mb-25">{{ $product->product->only_name}}</p>
+                      <p class="card-text text-nowrap">
+                        {!! $product->product->only_parameters !!}
+                      </p>
+                    </td>
+                    <td class="py-1">
+                      <span class="font-weight-bold">${{ $product->price ? $product->price : $product->price }}</span>
+                    </td>
+                    <td class="py-1">
+                      <span class="font-weight-bold">{{ $product->quantity}}</span>
+                    </td>
+                    <td class="py-1">
+                      <span class="font-weight-bold">${{ number_format($totalprod = ($product->price ? $product->price : $product->price) * $product->quantity, 2, ".", ",") }}</span>
+                    </td>
+                  </tr>
+                  @php($total += $totalprod)
                 @endforeach
+              </tbody>
+              <tbody>
+                <tr>
+                  <td></td>
+                  <th class="table-warning">Total</th>
+                  <td class="table-warning">{{ $model->total_products_suborder }}</td>
+                  <td class="table-warning">${{ $total ? number_format((float)$total, 2) : '' }}</td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -101,7 +109,7 @@
               </p>
               @endif
             </div>
-            <div class="col-md-6 d-flex justify-content-end order-md-2 order-1">
+            {{-- <div class="col-md-6 d-flex justify-content-end order-md-2 order-1">
               <div class="invoice-total-wrapper">
                 <div class="invoice-total-item">
                   <p class="invoice-total-title">Total:</p>
@@ -109,7 +117,7 @@
                 </div>
                 <hr class="my-50" />
               </div>
-            </div>
+            </div> --}}
           </div>
         </div>
         <!-- Invoice Description ends -->

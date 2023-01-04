@@ -45,7 +45,7 @@
             <x-utils.undefined :data="$old_stock"/>
           </td>
           <td>
-            <input type="number" step="any" wire:model.lazy="stock" class="form-control @error('stock') is-invalid @enderror" id="stock" placeholder="@lang('Add / Subtract') (@lang('Required'))">
+            <input type="number" step="any" wire:model.lazy="stock" class="form-control @error('stock') is-invalid @enderror" id="stock" placeholder="@lang('Input / Output') (@lang('Required'))">
           </td>
         </tr>
 

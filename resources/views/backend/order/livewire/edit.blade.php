@@ -487,7 +487,13 @@
               <div class="card-body text-center">
                 <a href="{{ route('admin.order.records', $order_id) }}" class="card-link">@lang('View status records')</a>
               </div>
-
+              <div class="card-body text-center">
+                <livewire:backend.order.to-customer 
+                  :model="$model"
+                  field="to_customer"
+                  key="{{ $model->id }}" 
+                />
+              </div>
             </div>
           </div>
         </div>

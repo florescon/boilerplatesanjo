@@ -119,6 +119,9 @@
 	              	@lang('Date')
 	              </th>
 	              <th scope="col" class="text-center">
+	              	@lang('To customer')
+	              </th>
+	              <th scope="col" class="text-center">
 	                @lang('Created at')
 	              </th>
 	              <th scope="col" class="text-center">
@@ -150,6 +153,9 @@
 	                </td>
 		              <td class="align-middle text-center">
 		              	{{ $order->date_entered_or_created }}
+		              </td>
+		              <td class="align-middle text-center">
+		              	{!! $order->to_customer ? '<i class="cil-check" style="color: blue;"></i>' : '<i class="cil-minus" style="color:red;"></i>' !!}
 		              </td>
 		              <td class="align-middle text-center">
 		                <span class="badge badge-dot">
