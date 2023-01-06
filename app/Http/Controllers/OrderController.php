@@ -98,6 +98,13 @@ class OrderController extends Controller
         return $pdf->stream();
     }
 
+    public function ticket_monitoring(Order $order)
+    {
+        $pdf = PDF::loadView('backend.order.ticket-monitoring',compact('order'))->setPaper([0, 0, 1385.98, 296.85], 'landscape');
+
+        return $pdf->stream();
+    }
+
     public function ticket_assignment(Order $order, Ticket $ticket)
     {
         $pdf = PDF::loadView('backend.order.ticket-assignment',compact('order', 'ticket'))->setPaper([0, -16, 1385.98, 296.85], 'landscape');

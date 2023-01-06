@@ -13,14 +13,14 @@ class ToCustomer extends Component
 
     public function mount()
     {
-      $this->hasStock = (bool) $this->model->getAttribute($this->field);
+        $this->hasStock = (bool) $this->model->getAttribute($this->field);
     }
     
     public function updating($field, $value)
     {
-      $this->model->setAttribute($this->field, $value)->save();
+        $this->model->setAttribute($this->field, $value)->save();
 
-       $this->emit('swal:alert', [
+        $this->emit('swal:alert', [
             'icon' => 'success',
             'title'   => __('Updated'), 
         ]);

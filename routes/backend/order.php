@@ -115,6 +115,14 @@ Route::group([
                     ->push(__('Ticket order'), route('admin.order.ticket_order', $order));
             });
 
+        Route::get('ticket_monitoring', [OrderController::class, 'ticket_monitoring'])
+            ->name('ticket_monitoring')
+            ->middleware('permission:admin.access.order.modify')
+            ->breadcrumbs(function (Trail $trail, Order $order) {
+                $trail->parent('admin.order.edit', $order)
+                    ->push(__('Monitoring dashboard ticket'), route('admin.order.ticket_monitoring', $order));
+            });
+
         Route::get('ticket_materia', [OrderController::class, 'ticket_materia'])
             ->name('ticket_materia')
             ->middleware('permission:admin.access.order.modify')

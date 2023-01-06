@@ -169,6 +169,13 @@
                 </ins>
               </a>
             @endif
+
+            <a href="{{ route('admin.order.ticket_monitoring', $order_id) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
+              <ins>
+                @lang('Monitoring dashboard ticket')
+              </ins>
+            </a>
+
           </div>
 
           @if(($model->user_id || $model->departament_id) || $model->isFromStore())
@@ -517,15 +524,15 @@
 <livewire:backend.order.add-service />
 
 @push('after-scripts')
-    <script type="text/javascript">
-      Livewire.on("paymentStore", () => {
-          $("#createPayment").modal("hide");
-      });
-    </script>
+  <script type="text/javascript">
+    Livewire.on("paymentStore", () => {
+        $("#createPayment").modal("hide");
+    });
+  </script>
 
-    <script type="text/javascript">
-      Livewire.on("serviceStore", () => {
-          $("#addService").modal("hide");
-      });
-    </script>
+  <script type="text/javascript">
+    Livewire.on("serviceStore", () => {
+        $("#addService").modal("hide");
+    });
+  </script>
 @endpush

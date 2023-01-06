@@ -71,8 +71,6 @@
 
   <br/>
 
-
-
   <table width="100%">
     <thead style="background-color: gray;">
       <tr align="center">

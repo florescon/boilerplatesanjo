@@ -583,7 +583,7 @@ class Order extends Model
     public function getToStockFinalAttribute()
     {
         if($this->isToStock()){
-            return '<i class="cil-chevron-double-right" style="color:red;"></i>';
+            return '<i class="cil-chevron-double-right" style="color:brown;"></i>';
         }
 
         return '';
