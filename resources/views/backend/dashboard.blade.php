@@ -46,7 +46,11 @@
                                                                 {!! $order->approved_alert !!}
                                                             </td>
                                                             <td> {!! $order->user_name !!} </td>
-                                                            <td> {!! Str::limit($order->comment, 100) !!} </td>
+                                                            <td>
+                                                                {!! $order->request ? __('Request number').': <strong>'.$order->request .'</strong>' : '' !!} 
+                                                                {!! $order->purchase ? __('Purchase order').': <strong>'.$order->purchase .'</strong>' : '' !!} 
+                                                                {!! Str::limit($order->comment, 100) !!} 
+                                                            </td>
                                                             <td>
                                                                 @if($order->last_status_order)
                                                                     <div class="progress">

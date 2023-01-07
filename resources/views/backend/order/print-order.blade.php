@@ -58,6 +58,18 @@
       <h6 class="mb-1">@lang('Order To'):</h6>
       <p class="mb-25">{{ optional($order->departament)->name }}</p>
     </div>
+    @if($order->request)
+      <div class="col-sm-3">
+        <h6 class="mb-1">@lang('Request number'):</h6>
+        <p class="mb-25">{{ $order->request ?? '' }}</p>
+      </div>
+    @endif
+    @if($order->purchase)
+      <div class="col-sm-3">
+        <h6 class="mb-1">@lang('Purchase order'):</h6>
+        <p class="mb-25">{{ $order->purchase ?? '' }}</p>
+      </div>
+    @endif
   </div>
 
   @if(count($order->product_suborder))

@@ -233,6 +233,7 @@
     "departament": "departamento",
     "Save departament": "Guardar departamento",
     "date_entered": "fecha ingresada",
+    "Internal comment": "Comentario interno",
     "internal control": "control interno",
     "Status": "Estado",
     "Create status": "Crear estado",
@@ -1067,5 +1068,7 @@
     "Export Customers": "Exportar clientes",
     "Delivered to customer": "Entregado a cliente",
     "To customer": "A cliente",
-    "Monitoring dashboard ticket": "Ticket de seguimiento"
+    "Monitoring dashboard ticket": "Ticket de seguimiento",
+    "Purchase order": "Orden de compra",
+    "Request number": "Número de solicitud"
 }

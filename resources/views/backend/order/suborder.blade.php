@@ -175,6 +175,21 @@
         </div>
       @endif
 
+
+      <div class="card">
+        <div class="card-body text-center">
+          <h5> @lang('Request number'): </h5>
+          <livewire:backend.components.edit-field :model="'\App\Models\Order'" :entity="$model" :field="'request'" :key="'requests'.$model->id"/>
+          <br>
+          <h5> @lang('Purchase order'): </h5>
+          <livewire:backend.components.edit-field :model="'\App\Models\Order'" :entity="$model" :field="'purchase'" :key="'purchases'.$model->id"/>
+          <br>
+          <br>
+          <h5> @lang('Internal comment'): </h5>
+          <livewire:backend.components.edit-field :model="'\App\Models\Order'" :entity="$model" :field="'comment'" :key="'comments'.$model->id"/>
+        </div>
+      </div>
+
       <div class="card">
           @if($model->user_id || $model->departament_id)
             <div class="card-footer text-center">
