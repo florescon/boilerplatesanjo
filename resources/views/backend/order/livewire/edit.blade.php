@@ -170,6 +170,14 @@
               </a>
             @endif
 
+            @if($model->materials_order()->exists())
+              <a href="{{ route('admin.order.short_ticket_materia', $order_id) }}" class="card-link text-warning" target="_blank"><i class="cil-print"></i>
+                <ins>
+                  @lang('Tackle and more')
+                </ins>
+              </a>
+            @endif
+
             <a href="{{ route('admin.order.ticket_monitoring', $order_id) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
               <ins>
                 @lang('Monitoring dashboard ticket')
@@ -305,13 +313,13 @@
                           </tr>
                         @endforeach
                       @else
-                        <tr class="table-danger text-center font-italic">
-                            <td colspan="4">
-                              <p>Sin materia prima definida, aun</p>
-                            </td>
-                          </tr>
+                          <tr class="table-danger text-center font-italic">
+                              <td colspan="4">
+                                <p>Sin materia prima definida, aun</p>
+                              </td>
+                            </tr>
                       @endif
-                      @endif
+                    @endif
 
                   @endforeach
                   <tr>

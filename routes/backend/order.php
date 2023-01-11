@@ -131,6 +131,14 @@ Route::group([
                     ->push(__('Ticket order'), route('admin.order.ticket_materia', $order));
             });
 
+        Route::get('short_ticket_materia', [OrderController::class, 'short_ticket_materia'])
+            ->name('short_ticket_materia')
+            ->middleware('permission:admin.access.order.modify')
+            ->breadcrumbs(function (Trail $trail, Order $order) {
+                $trail->parent('admin.order.edit', $order)
+                    ->push(__('Ticket order'), route('admin.order.short_ticket_materia', $order));
+            });
+
         Route::get('sub', [OrderController::class, 'suborders'])
             ->name('sub')
             ->middleware('permission:admin.access.order.modify')

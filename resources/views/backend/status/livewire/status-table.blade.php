@@ -65,9 +65,6 @@
                 <th scope="col">
                   @lang('Description')
                 </th>
-                <th scope="col">
-                 	Asociados al personal
-                </th>
 	              <th scope="col">
 	                <a wire:click.prevent="sortBy('level')" role="button" href="#">
 	                  @lang('Level')
@@ -93,13 +90,6 @@
                 </td>
 	              <td>
 	              	{{ $status->description }}
-	              </td>
-	              <td>
-	              	@if($status->toAddUsers() && $status->id === 6)
-										<a type="button" href="{{ route('admin.status.assignments', $status->id) }}" class="btn btn-transparent-dark">
-										  <i class='far fa-edit'></i> Mostrar
-										</a>
-									@endif
 	              </td>
 	              <td>
 	              	{{ $status->level }}

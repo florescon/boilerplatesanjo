@@ -309,6 +309,7 @@
     "Feedstock Management": "Administración de materia prima",
     "Feedstock records": "Registros de materia prima",
     "Delete feedstocks": "Eliminar materias prima",
+    "Edit feedstock": "Editar materia prima",
     "Update stock feedstock": "Actualizar stock materia prima",
     "Search" : "Buscar",
     "Product code": "Código del producto",
@@ -757,6 +758,7 @@
     "Define comment": "Definir comentario",
     "Approved": "Aprobada",
     "Pending": "Pendiente",
+    "Pendings": "Pendientes",
     "Ready for delivery": "Listo para entrega",
     "Delivery": "Entrega",
     "Delivered": "Entregado",
@@ -1069,6 +1071,8 @@
     "Delivered to customer": "Entregado a cliente",
     "To customer": "A cliente",
     "Monitoring dashboard ticket": "Ticket de seguimiento",
+    "Monitoring ticket": "Ticket de seguimiento",
     "Purchase order": "Orden de compra",
-    "Request number": "Número de solicitud"
+    "Request number": "Número de solicitud",
+    "Tackle and more": "Avíos"
 }

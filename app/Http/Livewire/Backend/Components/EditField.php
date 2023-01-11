@@ -36,9 +36,8 @@ class EditField extends Component
 
         $this->emit('swal:alert', [
            'icon' => 'success',
-            'title'   => __('Comment updated'), 
+            'title'   => __('Updated'), 
         ]);
-
     }
 
     private function init($model, $entity)

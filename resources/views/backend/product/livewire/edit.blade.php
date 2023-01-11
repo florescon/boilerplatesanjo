@@ -1035,7 +1035,6 @@
 	        })
 	    });
 	</script> 
-	I
     {{-- <script>
     	document.querySelector(".button").addEventListener("click", function (e) {
    			party.sparkles(this, {

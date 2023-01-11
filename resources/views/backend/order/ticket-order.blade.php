@@ -52,7 +52,7 @@ ventas@sj-uniformes.com
                 @if($order->payment)
                 <td><strong>Método pago:</strong> </td>
                 @endif
-                <td><strong>Folio:</strong> #{{ $order->id }}</td>
+                <td><strong>@lang('Order'):</strong> #{{ $order->id }}</td>
             </tr>
         </table>
 

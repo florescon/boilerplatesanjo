@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Domains\Auth\Models\User;
 use App\Models\Traits\Scope\DateScope;
+use App\Models\Traits\Scope\TicketScope;
 use Carbon\Carbon;
 
 class Ticket extends Model
 {
-    use HasFactory, DateScope;
+    use HasFactory, DateScope, TicketScope;
 
     protected $fillable = [
         'order_id', 
@@ -49,6 +50,14 @@ class Ticket extends Model
     public function audi()
     {
         return $this->belongsTo(User::class, 'audi_id')->withTrashed();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function order()
+    {
+        return $this->belongsTo(Order::class, 'order_id')->withTrashed();
     }
 
     public function status()

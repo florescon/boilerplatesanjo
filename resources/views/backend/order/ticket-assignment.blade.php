@@ -34,7 +34,7 @@
           </tr>
             <tr>
                 <td align="center">
-                    <h3>San Jose Uniformes</h3>
+                    <h3>{{ appName() }}</h3>
                 </td>
             </tr>
             @if($ticket->status)
@@ -70,7 +70,7 @@
             <table width="100%">
                 <tr>
                     <td><strong>@lang('Order'):</strong><u style="font-size: 140%;"> #{{ $ticket->order_id }}</u></td>
-                    <td><strong>Folio:</strong><u style="font-size: 140%;"> #{{ $ticket->id }}</u></td>
+                    <td><strong>Ticket:</strong><u style="font-size: 140%;"> #{{ $ticket->id }}</u></td>
                 </tr>
             </table>
         @endif

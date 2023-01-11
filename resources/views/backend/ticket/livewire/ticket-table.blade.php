@@ -125,6 +125,7 @@
                   </a>
                 </th>
                 <th class="text-center">@lang('Type')</th>
+                <th class="text-center">@lang('Comment')</th>
                 <th class="text-center">@lang('User')</th>
                 <th class="text-center">@lang('Details')</th>
         				<th class="text-center">@lang('Status')</th>
@@ -144,6 +145,10 @@
                 </td>
                 <td class="text-center">
                   {{ optional($ticket->status)->name }}
+                </td>
+                <td>
+                  <strong>{{ optional($ticket->order)->comment ?? '--' }}</strong>
+                  <div class="small text-muted">{{ $ticket->comment }}</div>
                 </td>
         				<td class="text-center">
         					<div> <a href="{{ route('admin.ticket.history', $ticket->user_id ) }}" >{{ optional($ticket->user)->name ?? __('undefined') }}</a> </div>

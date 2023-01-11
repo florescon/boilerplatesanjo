@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Status;
 use App\Models\StatusOrder;
+use App\Models\MaterialOrder;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -100,7 +101,7 @@ class OrderController extends Controller
 
     public function ticket_monitoring(Order $order)
     {
-        $pdf = PDF::loadView('backend.order.ticket-monitoring',compact('order'))->setPaper([0, 0, 1385.98, 296.85], 'landscape');
+        $pdf = PDF::loadView('backend.order.ticket-monitoring',compact('order'))->setPaper([0, 0, 500.98, 296.85], 'landscape');
 
         return $pdf->stream();
     }
@@ -118,7 +119,25 @@ class OrderController extends Controller
                     $query->groupBy('material_id')->selectRaw('*, sum(quantity) as sum');
                 }]
         );
-        $pdf = PDF::loadView('backend.order.ticket-materia',compact('order'))->setPaper([0, 0, 1385.98, 296.85], 'landscape');
+
+        $visibleOrder = true;
+
+        $pdf = PDF::loadView('backend.order.ticket-materia',compact('order', 'visibleOrder'))->setPaper([0, 0, 1385.98, 296.85], 'landscape');
+
+        return $pdf->stream();
+    }
+
+
+    public function short_ticket_materia(Order $order)
+    {
+        $order->load(['materials_order' => function($query){
+                    $query->groupBy('material_id')->selectRaw('*, sum(quantity) as sum');
+                }]
+        );
+
+        $visibleOrder = false;
+
+        $pdf = PDF::loadView('backend.order.ticket-materia',compact('order', 'visibleOrder'))->setPaper([0, 0, 1385.98, 296.85], 'landscape');
 
         return $pdf->stream();
     }
@@ -176,7 +195,9 @@ class OrderController extends Controller
                 'feedstock_changed_at' => now()
             ]);
 
-            $order->materials_order()->delete();
+            MaterialOrder::where('order_id', $order->id)->get()->each->delete();
+
+            // $order->materials_order()->delete();
         }
 
         return redirect()->route('admin.order.advanced', $order->id)->withFlashSuccess(__('The feedstock was successfully deleted'));

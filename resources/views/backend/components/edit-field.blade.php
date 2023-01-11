@@ -29,7 +29,6 @@
 
     <div x-show=nameData >
         <form class="flex" wire:submit.prevent="save">
-
             <div class="input-group">
                 <input type="text" class="form-control" 
                 wire:model.lazy="newName"
@@ -38,11 +37,14 @@
                 x-on:keydown.escape="nameData = false"
                 >
               <div class="input-group-append">
+                
                 <span class="input-group-text" x-on:click="nameData = false">
                     <i class="cil-x"></i>
                 </span>
 
-                <button class="btn btn-primary"  x-on:click="nameData = false" type="submit"><i class="cil-check-alt"></i></button>
+                <button class="btn btn-primary"  x-on:click="nameData = false" type="submit">
+                    <i class="cil-check-alt"></i>
+                </button>
 
               </div>
             </div>

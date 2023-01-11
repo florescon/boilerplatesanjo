@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>{{ optional($order->user)->name }}</title>
+        <title>{{ __('Monitoring ticket') .': #'. $order->id }}</title>
 
         <style type="text/css">
             * {

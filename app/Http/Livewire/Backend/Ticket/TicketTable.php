@@ -20,6 +20,7 @@ class TicketTable extends Component
         'searchTerm' => ['except' => ''],
         'perPage',
         'deleted' => ['except' => FALSE],
+        'pending' => ['except' => FALSE],
         'dateInput' => ['except' => ''],
         'dateOutput' => ['except' => '']
     ];
@@ -37,6 +38,8 @@ class TicketTable extends Component
     public bool $currentMonth = false;
     public bool $currentWeek = false;
     public bool $today = false;
+
+    public bool $pending = false;
 
     public $status;
 

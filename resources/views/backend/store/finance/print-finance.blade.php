@@ -28,7 +28,7 @@
       </tr>
       <tr>
           <td align="center">
-              <h3>San Jose Uniformes</h3>
+              <h3>{{ appName() }}</h3>
               <pre>
   sjuniformes.com
   Margarito Gonzalez Rubio #822

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>{{ optional($order->user)->name }}</title>
+<title>{{ !$visibleOrder ? __('Tackle and more') : __('Feedstock') .' '. optional($order->user)->name }}</title>
 
 <style type="text/css">
     * {
@@ -31,8 +31,8 @@
   </tr>
     <tr>
         <td align="center">
-            <h3>San Jose Uniformes</h3>
-            <h4>Materia prima</h4>
+            <h3>{{ appName() }}</h3>
+            <h4>@lang('Feedstock')</h4>
         </td>
     </tr>
 
@@ -47,13 +47,13 @@
   <table width="100%">
     <tr>
         @if($order->payment)
-        <td><strong>Método pago:</strong> </td>
+        <td><strong>@lang('Payment method'):</strong> </td>
         @endif
-        <td><strong>Folio:</strong> #{{ $order->id }}</td>
+        <td><strong>@lang('Order'):</strong> <u style="font-size: 140%;">#{{ $order->id }}</u></td>
     </tr>
   </table>
 
-  <table width="100%">
+  <table style="margin-bottom: 10px;" width="100%">
     <tr>
         @if($order->user)
         <td><strong>A:</strong> {{ optional($order->user)->name }}</td>
@@ -63,45 +63,50 @@
   </table>
 
 
-  <table width="100%">
-    <tr>
-        <td>{{ $order->comment }}</td>
-    </tr>
-  </table>
+  @if($order->comment)
+      <table style="margin-bottom: 10px;" width="100%">
+          <tr align="center">
+              <th>{{ $order->comment ?? '' }}
+                  <br><br>
+              </th>
+          </tr>
+      </table>
+  @endif
 
-  <br/>
 
-  <table width="100%">
-    <thead style="background-color: gray;">
-      <tr align="center">
-        <th>Concepto</th>
-        <th>Cantidad</th>
-      </tr>
-    </thead>
-    <tbody>
-      @foreach($order->product_order as $product)
-      <tr>
-        <td scope="row">{!! $product->product->full_name !!}</tf>
-        <td align="center">{{ $product->quantity }}</td>
-      </tr>
-      @endforeach
-    </tbody>
-
-    <tfoot>
-        <tr>
-            <td align="right"></td>
-            <td align="center" class="gray"><strong>{{ $order->total_products }}</strong></td>
+  @if($visibleOrder)
+    <table width="100%">
+      <thead style="background-color: gray;">
+        <tr align="center">
+          <th>@lang('Concept')</th>
+          <th>@lang('Quantity')</th>
         </tr>
-    </tfoot>
-  </table>
+      </thead>
+      <tbody>
+        @foreach($order->product_order as $product)
+        <tr>
+          <td scope="row">{!! $product->product->full_name !!}</tf>
+          <td align="center">{{ $product->quantity }}</td>
+        </tr>
+        @endforeach
+      </tbody>
+
+      <tfoot>
+          <tr>
+              <td align="right"></td>
+              <td align="center" class="gray"><strong>{{ $order->total_products }}</strong></td>
+          </tr>
+      </tfoot>
+    </table>
+  @endif
 
   <br>
 
   <table width="100%">
     <thead style="background-color: gray; color:white;" >
       <tr align="center">
-        <th>Materia Prima</th>
-        <th>Cantidad</th>
+        <th>@lang('Feedstock')</th>
+        <th>@lang('Quantity')</th>
       </tr>
     </thead>
     <tbody>
