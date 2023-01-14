@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-{{-- <title>{{ optional($order->user)->name }}</title> --}}
+<title>{!! $product->full_name ?? '' !!}</title>
 
 <style type="text/css">
   * {
@@ -44,7 +44,7 @@
                 " 
                 alt="barcode"
               />
-            <i style="font-size: 16px;">{{ $product->code_label }}</i>
+            <i style="font-size: 19px;">{{ $product->code_label }}</i>
 
 
 {{--                   <img src="data:image/png;base64, {{ base64_encode(\QrCode::format('svg')->size(140)->generate(route('frontend.track.show', $product->code_label))) }} "/>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-{{-- <title>{{ optional($order->user)->name }}</title> --}}
+<title>{!! $product->full_name ?? '' !!}</title>
 
 <style type="text/css">
 
@@ -40,7 +40,7 @@
 
 </head>
   <body>
-    <table width="550">
+    <table width="650" style="margin-left: 50px;">
       <tr>
         </td>
         <td align="center" style="">
@@ -48,7 +48,7 @@
             <img src="data:image/png;base64,{{   DNS1D::getBarcodePNG($product->code_label, 'C128',1,33,array(1,1,1), false)  }}"  style="        
                   /*position: relative;*/
               margin-top: -10px;
-              height:200px;
+              height:220px;
               /*padding-bottom: 0;*/
               width: 115%;
               /*overflow: hidden;*/
@@ -56,18 +56,14 @@
               " 
               alt="barcode"
             />
+            <i style="font-size: 30px;">{{ $product->code_label }}</i>
           </div>
-        </td>
-        <td rowspan="2" style="padding-left: 70px;">
-          <p style="font-size: 17px;">{{ $product->code_label }}</p>
-          <img src="data:image/png;base64, {{ base64_encode(\QrCode::format('svg')->size(230)->generate($product->code_label)) }}" style="margin-top: 50px;" />
         </td>
       </tr>
       <tr>
         <td align="center" style="">
             <h2 style="">
               {{ $product->parent->name }}
-              {{ optional($product->parent->model_product)->name }}
               &nbsp;
               <strong style="border: 1px solid; border-style: dashed;">&nbsp;{{ $product->color_id ? $product->color->name : '' }} - {!! $product->size_id ? $product->size->name : '' !!}&nbsp;</strong>
             </h2>

@@ -26,6 +26,7 @@ class Material extends Model
         'unit_id',
         'color_id',
         'size_id',
+        'vendor_id',
     ];
 
     protected $casts = [
@@ -71,6 +72,14 @@ class Material extends Model
     public function unit()
     {
         return $this->belongsTo(Unit::class)->withTrashed();
+    }
+
+    /**
+     * Get the vendor associated with the Material.
+     */
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class)->withTrashed();
     }
 
     /**

@@ -352,6 +352,7 @@
     "Color Management": "Administración de colores",
     "Color hex code": "Código de color hex",
     "undefined color" : "color no definido",
+    "undefined vendor" : "proveedor no definido",
     "undefined brand" : "marca no definida",
     "undefined color coding" : "codificación del color no definido",
     "undefined size coding" : "codificación de la talla no definido",
@@ -1074,5 +1075,16 @@
     "Monitoring ticket": "Ticket de seguimiento",
     "Purchase order": "Orden de compra",
     "Request number": "Número de solicitud",
-    "Tackle and more": "Avíos"
+    "Tackle and more": "Avíos",
+    "Vendor": "Proveedor",
+    "Vendors": "Proveedores",
+    "Vendor Management": "Administración de proveedores",
+    "Deleted vendors": "Proveedores eliminados",
+    "Choose city": "Elegir ciudad",
+    "Create vendor": "Crear proveedor",
+    "Choose vendor": "Cambiar proveedor",
+    "Save vendor": "Guardar proveedor",
+    "Update vendor": "Actualizar proveedor",
+    "Change vendor": "Cambiar vendedor",
+    "Change city": "Cambiar ciudad"
 }

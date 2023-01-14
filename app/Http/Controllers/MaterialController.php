@@ -63,6 +63,7 @@ class MaterialController extends Controller
             'color_id' => ['numeric', Rule::requiredIf(!$material->color_id)],
             'size_id' => ['nullable', 'sometimes', 'numeric'],
             'description' => ['min:5', 'max:100', 'nullable'],
+            'vendor_id' => ['numeric', Rule::requiredIf(!$material->vendor_id)],
         ]);
 
         $materialUpdated = $material->update($validated);

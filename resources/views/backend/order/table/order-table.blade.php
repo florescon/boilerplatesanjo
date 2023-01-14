@@ -58,7 +58,7 @@
 	      @lang('Per page'): &nbsp;
 
 	      <select wire:model="perPage" class="form-control">
-	        <option>12</option>
+	        <option>10</option>
 	        <option>25</option>
 	        <option>50</option>
 	        <option>100</option>
@@ -138,7 +138,7 @@
 			            	</strong>
 		            	</td>
 	                <td class="align-middle">
-	                  {!! Str::limit($order->comment, 100) ?? '<span class="badge badge-secondary">'.__('undefined').'</span>' !!}
+	                  {!! Str::limit($order->comment, 50) ?? '<span class="badge badge-secondary">'.__('undefined').'</span>' !!}
 	                </td>
 		              <td class="align-middle">
 		              	{!! $order->user_name !!}

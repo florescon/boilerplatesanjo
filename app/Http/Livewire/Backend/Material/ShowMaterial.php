@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class ShowMaterial extends Component
 {
-    public $part_number, $name, $description, $acquisition_cost, $price, $stock, $unit, $color, $size, $created, $deleted, $updated;
+    public $part_number, $name, $description, $acquisition_cost, $price, $stock, $unit, $color, $size, $vendor, $created, $deleted, $updated;
 
     protected $listeners = ['show'];
 
@@ -25,6 +25,8 @@ class ShowMaterial extends Component
         $this->unit = optional($record->unit)->name;
         $this->color = optional($record->color)->name;
         $this->size = optional($record->size)->name;
+
+        $this->vendor = optional($record->vendor)->name;
 
         $this->deleted = $record->deleted_at;
 

@@ -4,10 +4,50 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Vendor extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+
+    /**
+     * Get the city associated with the Vendor.
+     */
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class, 'vendor_id');
+    }
+
+    public function materials(): HasMany
+    {
+        return $this->hasMany(Material::class, 'vendor_id');
+    }
+
+    /**
+     * Count the number products.
+     *
+     * @return int
+     */
+    public function getcountProductsAttribute() : int
+    {
+        return $this->products->where('parent_id', NULL)->count();
+    }
+
+    /**
+     * Count the number materials.
+     *
+     * @return int
+     */
+    public function getcountMaterialsAttribute() : int
+    {
+        return $this->materials->count();
+    }
 
     /**
      * The attributes that are mass assignable.

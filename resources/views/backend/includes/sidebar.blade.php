@@ -254,6 +254,16 @@
                         </li>
                     @endif
 
+                    @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.vendor.list')))
+                        <li class="c-sidebar-nav-item">
+                            <x-utils.link
+                                class="c-sidebar-nav-link"
+                                :href="route('admin.vendor.index')"
+                                :active="activeClass(Route::is('admin.vendor.*'), 'c-active')"
+                                :text="__('Vendors')" />
+                        </li>
+                    @endif
+
                 </ul>
 
             </li>

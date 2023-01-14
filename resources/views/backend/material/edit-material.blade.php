@@ -87,6 +87,18 @@
                         </div>
                     </div><!--form-group-->
 
+                    <div class="form-group row">
+                        <label for="vendor_id" class="col-md-2 col-form-label">@lang('Vendor')</label>
+
+                        <div class="col-md-5 text-center">
+                            <x-utils.undefined :data="optional($material->vendor)->name"/>
+                        </div>
+                        <div class="col-md-5">
+                            <select id="vendorselect" name="vendor_id" id="vendor_id" class="custom-select" style="width: 100%;" aria-hidden="true" {{ !$material->vendor_id ? 'required' : '' }}>
+                            </select>
+                        </div>
+                    </div><!--form-group-->
+
                 </div>
                 {{-- <livewire:backend.material-table /> --}}
             </x-slot>
@@ -197,6 +209,45 @@
           // allowClear: true,
           ajax: {
                 url: '{{ route('admin.size.select') }}',
+                data: function (params) {
+                    return {
+                        search: params.term,
+                        page: params.page || 1
+                    };
+                },
+                dataType: 'json',
+                processResults: function (data) {
+                    data.page = data.page || 1;
+                    return {
+                        results: data.items.map(function (item) {
+                            return {
+                                id: item.id,
+                                text: item.name
+                            };
+                        }),
+                        pagination: {
+                            more: data.pagination
+                        }
+                    }
+                },
+                cache: true,
+                delay: 250,
+                dropdownautowidth: true
+            }
+          });
+
+      });
+    </script>
+
+    <script>
+      $(document).ready(function() {
+        $('#vendorselect').select2({
+          placeholder: '@lang("Change vendor")',
+          // width: 'resolve',
+          theme: 'bootstrap4',
+          // allowClear: true,
+          ajax: {
+                url: '{{ route('admin.vendor.select') }}',
                 data: function (params) {
                     return {
                         search: params.term,

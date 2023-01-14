@@ -16,14 +16,6 @@ Route::group([
                 ->push(__('Brand Management'), route('admin.brand.index'));
         });
 
-    Route::get('deleted', [BrandController::class, 'deleted'])
-        ->name('deleted')
-        ->middleware('permission:admin.access.brand.deleted')
-        ->breadcrumbs(function (Trail $trail) {
-            $trail->parent('admin.brand.index')
-                ->push(__('Deleted brands'), route('admin.brand.deleted'));
-        });
-
     Route::group(['prefix' => '{brand}'], function () {
         Route::get('associates', [BrandController::class, 'associates'])
             ->name('associates')
@@ -33,6 +25,15 @@ Route::group([
                     ->push(__('Associates of').' '.$brand->name, route('admin.brand.associates', $brand));
             });
     });
+
+    Route::get('deleted', [BrandController::class, 'deleted'])
+        ->name('deleted')
+        ->middleware('permission:admin.access.brand.deleted')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.brand.index')
+                ->push(__('Deleted brands'), route('admin.brand.deleted'));
+        });
+
 });
 
 Route::get('select2-load-brand', [BrandController::class, 'select2LoadMore'])->name('brand.select');

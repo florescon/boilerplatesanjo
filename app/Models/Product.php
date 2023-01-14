@@ -59,6 +59,7 @@ class Product extends Model
         'status',
         'type',
         'model_product_id',
+        'vendor_id',
         'cost',
         'special_price',
     ];
@@ -84,6 +85,14 @@ class Product extends Model
         return $this->belongsTo(Brand::class)->withTrashed();
     }
     
+    /**
+     * Get the vendor associated with the Product.
+     */
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class)->withTrashed();
+    }
+
     /**
      * Get the model product associated with the Product.
      */

@@ -53,5 +53,4 @@ class PaymentMethod extends Model
     {
         return $query->where('is_enabled', true);
     }
-
 }

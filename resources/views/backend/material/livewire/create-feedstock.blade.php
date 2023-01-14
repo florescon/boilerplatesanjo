@@ -1,7 +1,7 @@
 <form wire:submit.prevent="store">
     <x-backend.card>
         <x-slot name="header">
-            @lang('Create material')
+            @lang('Create feedstock')
         </x-slot>
 
         <x-slot name="headerActions">

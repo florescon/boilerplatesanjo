@@ -137,6 +137,9 @@ class MaterialTable extends TableComponent
                 ->searchable()
                 ->sortable()
                 ->hideIf($this->editStock == true),
+            Column::make(__('Description'), 'description')
+                ->searchable()
+                ->hide(),
             Column::make(__('Actions'))
                 ->format(function (Material $model) {
                     return view('backend.material.datatable.actions', ['material' => $model]);

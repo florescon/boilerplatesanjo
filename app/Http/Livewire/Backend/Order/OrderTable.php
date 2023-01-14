@@ -23,7 +23,7 @@ class OrderTable extends Component
 
     public $title = [];
 
-    public $perPage = '12';
+    public $perPage = '10';
 
     public $sortField = 'id';
     public $sortAsc = false;

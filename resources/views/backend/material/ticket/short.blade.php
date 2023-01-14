@@ -29,7 +29,7 @@
   }
 
   table, th, td {
-    border: 1px solid black;
+    border: 1px solid white;
     border-radius: 10px;
   }
 </style>
@@ -61,6 +61,10 @@
           </h2>
           <h3>
             {{ $material->color_id ? $material->color->name : '' }} {!! $material->size_id ? $material->size->name : '' !!}
+          </h3>
+          <h3 style="margin-top:100px;">
+            {{ $quantity ?: '' }}
+            {{ $quantity > 0 ? $material->unit->name : '' }}
           </h3>
         </td>
       </tr>

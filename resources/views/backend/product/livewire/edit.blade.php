@@ -131,6 +131,30 @@
 					    </div>
 			        </p>
 
+			        <hr width="50%;" style="border:1px dashed #9A68A9">
+
+			        <p class="card-text"><strong>@lang('Vendor'):</strong> 
+			            
+			            {{-- <x-utils.undefined :data="optional($model->vendor)->name"/> --}}
+
+                    	{!! $model->vendor_id ? '<strong class="text-white bg-dark">'. optional($model->vendor)->name  . '</strong>': '<span class="badge badge-secondary">'.__('undefined vendor').'</span>' !!}
+
+
+					    <div x-data="{ show: false }" class="d-inline">
+					        <button class="badge badge-light " @click="show = !show"> {{ $model->vendor_id ? __('Change vendor') : __('Choose vendor') }}</button>
+					        <div x-show="show" class="mt-2" wire:ignore>
+		                        <select id="vendorselect" class="custom-select" style="width: 100%;" aria-hidden="true" >
+		                        </select>
+					        </div>
+
+			                @if($vendor_id)
+						        <div x-show="show">
+				                	<a role="button" wire:click="saveVendor" class="btn btn-sm btn-primary float-right mt-2 text-white" type="submit">@lang('Save vendor')</a>
+				                </div>
+			                @endif
+					    </div>
+			        </p>
+
 			        <hr width="50%;" style="border:1px dashed #7C2E95">
 
 			        <p class="card-text"><strong>@lang('Model'):</strong> 
@@ -979,6 +1003,48 @@
       });
     </script>
 
+    <script>
+      $(document).ready(function() {
+        $('#vendorselect').select2({
+          placeholder: '@lang("Choose vendor")',
+          width: 'resolve',
+          theme: 'bootstrap4',
+          allowClear: true,
+          ajax: {
+                url: '{{ route('admin.vendor.select') }}',
+                data: function (params) {
+                    return {
+                        search: params.term,
+                        page: params.page || 1
+                    };
+                },
+                dataType: 'json',
+                processResults: function (data) {
+                    data.page = data.page || 1;
+                    return {
+                        results: data.items.map(function (item) {
+                            return {
+                                id: item.id,
+                                text: item.name
+                            };
+                        }),
+                        pagination: {
+                            more: data.pagination
+                        }
+                    }
+                },
+                cache: true,
+                delay: 250,
+                dropdownautowidth: true
+            }
+          });
+
+          $('#vendorselect').on('change', function (e) {
+            var data = $('#vendorselect').select2("val");
+            @this.set('vendor_id', data);
+          });
+      });
+    </script>
     <script>
       $(document).ready(function() {
         $('#modelselect').select2({

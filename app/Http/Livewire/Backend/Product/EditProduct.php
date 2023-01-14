@@ -26,6 +26,7 @@ class EditProduct extends Component
 
     public ?int $line_id = null;
     public ?int $brand_id = null;
+    public ?int $vendor_id = null;
     public ?int $model_product = null;
 
     public bool $increaseStock = false;
@@ -118,6 +119,18 @@ class EditProduct extends Component
         ]);
 
         event(new ProductBrandChanged($productUpdated));
+
+        return $this->redirectRoute('admin.product.edit', $this->product_id);
+    }
+
+    public function saveVendor()
+    {
+        $productUpdated = Product::find($this->product_id);
+        $productUpdated->update([
+            'vendor_id' => $this->vendor_id,
+        ]);
+
+        // event(new ProductBrandChanged($productUpdated));
 
         return $this->redirectRoute('admin.product.edit', $this->product_id);
     }
