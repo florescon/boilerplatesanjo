@@ -60,7 +60,7 @@ class VendorController extends Controller
         $link = route('admin.vendor.index');
         $attribute = $vendor;
         $nameModel = 'Vendor';
-        return view('backend.product.associates-subproducts', compact('attribute', 'link', 'nameModel'));
+        return view('backend.material.associates-material', compact('attribute', 'link', 'nameModel'));
     }
 
     public function deleted()

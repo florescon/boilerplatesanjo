@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 class Material extends Model
@@ -144,6 +145,22 @@ class Material extends Model
     public function getUnitNameClearAttribute()
     {
         return $this->unit_id ? ', '.$this->unit->name : '';
+    }
+
+    public function getNewMaterialAttribute()
+    {
+        if($this->created_at){
+            if($this->created_at->gt(Carbon::now()->subMonth())){
+                return __('New'). ' |';
+            }
+        }
+
+        return '';
+    }
+
+    public function getDateForHumansAttribute()
+    {
+        return $this->updated_at ? $this->updated_at->isoFormat('D, MMM') : '';
     }
 
     /**

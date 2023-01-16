@@ -35,6 +35,14 @@ class ColorController extends Controller
         return view('backend.product.associates-subproducts', compact('attribute', 'link', 'nameModel', 'subproduct'));
     }
 
+    public function associates_materia(Vendor $vendor)
+    {
+        $link = route('admin.vendor.index');
+        $attribute = $vendor;
+        $nameModel = 'Vendor';
+        return view('backend.product.associates-material', compact('attribute', 'link', 'nameModel'));
+    }
+
     public function select2LoadMore(Request $request)
     {
         $search = $request->get('search');

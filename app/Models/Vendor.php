@@ -50,6 +50,22 @@ class Vendor extends Model
     }
 
     /**
+     * Count the number materials.
+     *
+     * @return int
+     */
+    public function getTotalVariantsMateriaAttribute() : int
+    {
+        return Material::count();
+    }
+
+
+    public function getTotalPercentageMateriaAttribute() 
+    {
+        return ($this->count_materials * 100) / $this->total_variants_materia;
+    }
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array

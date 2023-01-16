@@ -121,6 +121,10 @@ class VendorTable extends TableComponent
                 ->format(function(Vendor $model) {
                     return $this->link(route('admin.vendor.associates', $model->id), $model->count_products);
                 }),
+            Column::make('# '.__('Associated materials'), 'count_materials')
+                ->format(function(Vendor $model) {
+                    return $this->link(route('admin.vendor.associates_materia', $model->id), $model->count_materials);
+                }),
             Column::make(__('Updated at'), 'updated_at')
                 ->searchable()
                 ->sortable(),

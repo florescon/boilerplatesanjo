@@ -335,7 +335,7 @@ class Order extends Model
                 return "<span class='badge badge-secondary'>".__('undefined').'</span>';
             }
 
-            return $this->last_status_order->name_status;
+            return $this->last_status_order->name_status.' - '.$this->last_status_order->date_entered_or_created;
         }
 
         return "--<em> ".__('not applicable')." </em>--";
