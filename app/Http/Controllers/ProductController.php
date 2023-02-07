@@ -266,7 +266,7 @@ class ProductController extends Controller
     public function select2ServiceLoadMore(Request $request)
     {
         $search = $request->get('search');
-        $data = Product::select(['id', 'name'])->where('name', 'like', '%' . $search . '%')->whereType('false')->orderBy('name')->paginate(5);
+        $data = Product::select(['id', 'name', 'type'])->where('name', 'like', '%' . $search . '%')->whereType('false')->orderBy('name')->paginate(5);
         return response()->json(['items' => $data->toArray()['data'], 'pagination' => $data->nextPageUrl() ? true : false]);
     }
 

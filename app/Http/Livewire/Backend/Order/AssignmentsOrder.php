@@ -161,6 +161,12 @@ class AssignmentsOrder extends Component
                         ]); 
                     }
                 }
+
+                $this->emit('swal:alert', [
+                    'icon' => 'success',
+                    'title'   => __('Saved'), 
+                ]);
+
             }
 
         } catch (Exception $e) {
@@ -172,11 +178,6 @@ class AssignmentsOrder extends Component
         DB::commit();
 
        $this->resetInput();
-
-       $this->emit('swal:alert', [
-            'icon' => 'success',
-            'title'   => __('Saved'), 
-        ]);
     }
 
     public function resetInput()

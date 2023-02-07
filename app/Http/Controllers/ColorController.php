@@ -46,14 +46,14 @@ class ColorController extends Controller
     public function select2LoadMore(Request $request)
     {
         $search = $request->get('search');
-        $data = Color::select(['id', 'name', 'short_name', 'color'])->where('name', 'like', '%' . $search . '%')->orWhere('short_name', 'like', '%' . $search . '%')->orderBy('name')->paginate(12);
+        $data = Color::select(['id', 'name', 'short_name', 'color', 'secondary_color'])->where('name', 'like', '%' . $search . '%')->orWhere('short_name', 'like', '%' . $search . '%')->orderBy('name')->paginate(12);
         return response()->json(['items' => $data->toArray()['data'], 'pagination' => $data->nextPageUrl() ? true : false]);
     }
 
     public function select2LoadMoreFrontend(Request $request)
     {
         $search = $request->get('search');
-        $data = Color::select(['id', 'name'])->where('name', 'like', '%' . $search . '%')->orderBy('name')->paginate(12);
+        $data = Color::select(['id', 'name', 'short_name', 'color', 'secondary_color'])->where('name', 'like', '%' . $search . '%')->orderBy('name')->paginate(12);
         return response()->json(['items' => $data->toArray()['data'], 'pagination' => $data->nextPageUrl() ? true : false]);
     }
 }

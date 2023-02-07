@@ -54,7 +54,7 @@ class AddService extends Component
             'amount' => 'required|numeric|min:1',
         ]);
 
-        $order->product_order()->create([
+        $order->products()->create([
             'product_id' => $this->service,
             'quantity' => $this->amount,
             'price' =>  $this->price,

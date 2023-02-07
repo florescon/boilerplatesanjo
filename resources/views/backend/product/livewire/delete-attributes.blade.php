@@ -19,7 +19,6 @@
               <div class="card card-pricing popular shadow">
                 <span class="h6 w-60 mx-auto px-4 py-1 rounded-bottom bg-danger text-white shadow-sm"><h4>@lang('Colors')</h4></span>
                 <div class="card-body">
-
                   @if($attributes->children->unique('color_id')->count() > 1)
                     <div class="list-group list-group-accent">
                       @foreach($attributes->children->unique('color_id')->sortBy('color.name') as $children)
@@ -55,18 +54,18 @@
         @if($filters || $filtersz)
           <div class="col-12 col-md-12">
             <div class="jumbotron text-center">
-            <div class="row">
-              <div class="col-sm">
-                <img src="{{ asset('/img/flame.gif')}}" alt="Porto Logo">
+              <div class="row">
+                <div class="col-sm">
+                  <img src="{{ asset('/img/flame.gif')}}" alt="Porto Logo">
+                </div>
+                <div class="col-sm">
+                  <h1 class="display-4">{{ $attributeColor->name ?? $attributeSize->name }}</h1>
+                  <p class="lead">{{ optional($attributeColor)->short_name ?? optional($attributeSize)->short_name }}</p>
+                </div>
+                <div class="col-sm">
+                  <img src="{{ asset('/img/flame.gif')}}" alt="Porto Logo">
+                </div>
               </div>
-              <div class="col-sm">
-                <h1 class="display-4">{{ $attributeColor->name ?? $attributeSize->name }}</h1>
-                <p class="lead">{{ optional($attributeColor)->short_name ?? optional($attributeSize)->short_name }}</p>
-              </div>
-              <div class="col-sm">
-                <img src="{{ asset('/img/flame.gif')}}" alt="Porto Logo">
-              </div>
-            </div>
               <hr class="my-4">
               <p>@lang('Irreversible action, all combinations created in this product will be eliminated')</p>
               @if($filters)

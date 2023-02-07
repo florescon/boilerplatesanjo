@@ -135,7 +135,7 @@
 			            	</strong>
 		            	</td>
 	                <td class="align-middle">
-	                  {!! Str::limit($order->comment, 50) ?? '<span class="badge badge-secondary">'.__('undefined').'</span>' !!}
+	                  {!! Str::limit($order->comment, 100) ?? '<span class="badge badge-secondary">'.__('undefined').'</span>' !!}
 	                </td>
 		              <td class="align-middle">
 		              	{!! $order->user_name !!}

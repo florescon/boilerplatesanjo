@@ -27,7 +27,7 @@
     font-size: 45px;
   }
   h2 {
-    font-size: 30px;
+    font-size: 40px;
   }
 
   .rotate {
@@ -44,13 +44,13 @@
       <tr>
         </td>
         <td align="center" style="">
-          <div style="padding-right: 5px; padding-left: 10px; padding-top: 20px;">
+          <div style="padding-right: 5px; padding-left: 0px; padding-top: 15px;">
             <img src="data:image/png;base64,{{   DNS1D::getBarcodePNG($product->code_label, 'C128',1,33,array(1,1,1), false)  }}"  style="        
                   /*position: relative;*/
-              margin-top: -10px;
-              height:220px;
+              margin-top: -15px;
+              height:170px;
               /*padding-bottom: 0;*/
-              width: 115%;
+              width: 125%;
               /*overflow: hidden;*/
               /*border: 1px solid;*/
               " 
@@ -64,8 +64,9 @@
         <td align="center" style="">
             <h2 style="">
               {{ $product->parent->name }}
-              &nbsp;
-              <strong style="border: 1px solid; border-style: dashed;">&nbsp;{{ $product->color_id ? $product->color->name : '' }} - {!! $product->size_id ? $product->size->name : '' !!}&nbsp;</strong>
+              &nbsp;<br>
+              <strong>
+               {{ $product->color_id ? $product->color->name : '' }} - {!! $product->size_id ? $product->size->name : '' !!}&nbsp;</strong>
             </h2>
         </td>
       </tr>

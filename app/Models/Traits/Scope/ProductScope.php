@@ -42,6 +42,16 @@ trait ProductScope
      *
      * @return mixed
      */
+    public function scopeOnlyProductsAndServices($query)
+    {
+        return $query->whereNull('parent_id');
+    }
+
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
     public function scopeOnlySubProducts($query)
     {
         return $query->whereType(true)->whereNotNull('parent_id');

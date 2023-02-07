@@ -28,7 +28,7 @@ class EditOrder extends Component
         'maerialAll' => ['except' => FALSE],
     ];
 
-    protected $listeners = ['updateStatus' => '$refresh', 'paymentStore' => 'render', 'serviceStore' => 'render'];
+    protected $listeners = ['updateStatus' => '$refresh', 'cartUpdated' => '$refresh', 'paymentStore' => 'render', 'serviceStore' => 'render'];
 
     public function mount(Order $order)
     {
@@ -157,6 +157,16 @@ class EditOrder extends Component
         $this->previousMaterialByProduct = FALSE;
     }
 
+    public function processQuotation()
+    {
+        $order = Order::whereId($this->order_id)->first();
+
+        $orderUpdate  = $order->update(['type' => 5]);
+        $order->product_quotation()->update(['type' => 5]);   
+
+        return $this->redirectRoute('admin.order.edit', $this->order_id);
+    }
+
     public function approve()
     {
         Order::whereId($this->order_id)->update(['approved' => true]);
@@ -208,14 +218,15 @@ class EditOrder extends Component
         $orderExists = $model->product_order()->exists();
         $saleExists = $model->product_sale()->exists();
         $requestExists = $model->product_request()->exists();
+        $quotationExists = $model->product_quotation()->exists();
 
         $OrderStatusDelivery = OrderStatusDelivery::values();    
 
         if(!$model->isSuborder()){
-            return view('backend.order.livewire.edit')->with(compact('model', 'orderExists', 'saleExists', 'requestExists',  'statuses', 'OrderStatusDelivery'));
+            return view('backend.order.livewire.edit')->with(compact('model', 'orderExists', 'saleExists', 'requestExists', 'quotationExists', 'statuses', 'OrderStatusDelivery'));
         }
         else{ 
-            return view('backend.order.suborder')->with(compact('model', 'orderExists', 'saleExists', 'requestExists', 'statuses', 'OrderStatusDelivery'));           
+            return view('backend.order.suborder')->with(compact('model', 'orderExists', 'saleExists', 'requestExists', 'quotationExists', 'statuses', 'OrderStatusDelivery'));           
         }
     }
 }

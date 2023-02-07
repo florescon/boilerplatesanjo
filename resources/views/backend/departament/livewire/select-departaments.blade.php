@@ -31,7 +31,7 @@
                         results: data.items.map(function (item) {
                             return {
                                 id: item.id,
-                                text: item.name
+                                text: item.name + ' ' + (item.type_price ? item.type_price.bold() : '')
                             };
                         }),
                         pagination: {
@@ -42,7 +42,8 @@
                 cache: true,
                 delay: 250,
                 dropdownautowidth: true
-            }
+            },
+            escapeMarkup: function(m) { return m; }
           });
 
           $('#departamentselect').on('change', function (e) {

@@ -10,12 +10,12 @@
             }
             body {
               font-family: "Times New Roman", serif;
-              margin: 0mm -7mm 0mm -7mm;
+              margin: -4mm -7mm 0mm -7mm;
             }
-            table{
+            table {
                 font-size: medium;
             }
-            tfoot tr td{
+            tfoot tr td {
                 font-weight: bold;
                 font-size: medium;
             }
@@ -31,19 +31,11 @@
             <td style="text-align: center;">
               <img src="{{ public_path('img/logo22.png') }}" alt="" width="100"/>
             </td>
+            <td align="center">
+                <h3>{{ optional($ticket->status)->name }}</h3>
+            </td>
+
           </tr>
-            <tr>
-                <td align="center">
-                    <h3>{{ appName() }}</h3>
-                </td>
-            </tr>
-            @if($ticket->status)
-                <tr>
-                    <td align="center">
-                        <h3>{{ optional($ticket->status)->name }}</h3>
-                    </td>
-                </tr>
-            @endif
         </table>
 
         @if($ticket->date_entered)
@@ -116,7 +108,7 @@
                 <tfoot>
                     <tr>
                         <td align="right">Total</td>
-                        <td align="center" class="gray"><strong>{{ $ticket->total_products_assignment_ticket }}</strong></td>
+                        <td align="center" style="background-color: dark; color: white;"><strong>{{ $ticket->total_products_assignment_ticket }}</strong></td>
                     </tr>
                 </tfoot>            
             </table>
@@ -136,6 +128,17 @@
 
                 <tr align="center">
                     <th>__________________________________</th>
+                </tr>
+
+            </thead>
+        </table>
+
+
+        <table width="100%" style="margin-top:30px;">
+            <thead style="background-color: white;">
+
+                <tr align="right">
+                    <td> <em style="font-size: 80%;">{{ printed() }}</em></td>
                 </tr>
             </thead>
         </table>

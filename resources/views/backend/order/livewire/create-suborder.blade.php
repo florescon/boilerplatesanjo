@@ -37,6 +37,22 @@
                 </div>
             </div><!--form-group-->
 
+            <div class="form-group row" wire:ignore>
+                <label for="request" class="col-sm-3 col-form-label">@lang('Request number')</label>
+                <div class="col-sm-9" >
+                  <input wire:model="request" type="text" class="form-control"/>
+                  @error('request') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                </div>
+            </div><!--form-group-->
+
+            <div class="form-group row" wire:ignore>
+                <label for="purchase" class="col-sm-3 col-form-label">@lang('Purchase order')</label>
+                <div class="col-sm-9" >
+                  <input wire:model="purchase" type="text" class="form-control"/>
+                  @error('purchase') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                </div>
+            </div><!--form-group-->
+
             <div class="row mt-4 justify-content-md-center">
               <div class="col-3 form-inline">
                 @lang('Per page'): &nbsp;
@@ -84,9 +100,9 @@
                   <tbody>
                     @foreach($products as $product)
                       <tr>
-                        <td class="text-left">{!! $product->full_name !!}</td>
+                        <td class="text-left">{!! $product->code_subproduct !!} {!! $product->full_name !!}</td>
                         <td class="border-right-0">{{ $product->stock }}</td>
-                        <td > 
+                        <td class="col-md-2"> 
                             <input type="text" 
                                 wire:model="quantityy.{{ $product->id }}.available"
                                 {{-- wire:keydown.enter="savesuborder"  --}}
@@ -111,7 +127,7 @@
                         <tr>
                           <td colspan="2"></td>
                           <td>
-                            <button type="button" wire:click="savesuborder" style="background: purple; color: white;" class="btn btn-sm">@lang('Save suborder output')</button>
+                            <button type="button" wire:click="savesuborder" style="background: purple; color: white;" class="btn btn-sm">@lang('Save suborder output') {{ $nameDepa ?? '' }} <span class="badge badge-light">{{ $namePrice ?? '' }}</span></button>
                           </td>
                         </tr>
                       @endif

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\PaymentMethodController;
+use App\Http\Controllers\ImageController;
 use App\Models\Setting;
 use Tabuna\Breadcrumbs\Trail;
 
@@ -64,3 +65,5 @@ Route::group([
 });
 
 Route::get('select2-load-payment-method', [PaymentMethodController::class, 'select2LoadMore'])->name('payments.select');
+
+Route::get('select2-load-image', [ImageController::class, 'select2LoadMore'])->name('image.select');

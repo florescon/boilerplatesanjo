@@ -17,12 +17,15 @@ use App\Events\Product\ProductColorCreated;
 use App\Models\Color;
 use App\Models\Size;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Arr;
+use DB;
+use App\Domains\Auth\Models\User;
 
 class EditProduct extends Component
 {
     use WithFileUploads;
 
-    public $slug, $isCode, $code, $isName, $name, $isPriceMaking, $price_making, $isCost, $cost, $isDescription, $origDescription, $newDescription, $inputincrease, $inputsubtract, $inputincreaserevision, $inputsubtractrevision, $inputincreasestore, $inputsubtractstore, $product_id, $color_id_select, $size_id_select, $photo, $imageName, $origPhoto;
+    public $slug, $isCode, $code, $isName, $name, $isPriceMaking, $price_making, $isCost, $cost, $isDescription, $origDescription, $newDescription, $inputformat, $inputincrease, $inputsubtract, $inputincreaserevision, $inputsubtractrevision, $inputincreasestore, $inputsubtractstore, $product_id, $color_id_select, $size_id_select, $photo, $imageName, $origPhoto;
 
     public ?int $line_id = null;
     public ?int $brand_id = null;
@@ -61,6 +64,14 @@ class EditProduct extends Component
         'showSpecificConsumptions' => ['except' => FALSE],
     ];
 
+    protected $messages = [
+        'inputformat.*.*.not_in' => 'No se permiten ceros',
+        'inputformat.*.*.regex' => 'Valor no permitido',
+        'inputformat.*.*.numeric' => 'Debe ser un número',
+        'inputformat.*.*.min' => 'Debe ser un número mayor a 1',
+        'inputformat.*.*.max' => 'Debe ser un número menor a 10,000',
+    ];
+
     protected $listeners = ['filterByColor' => 'filterByColor', 'filterBySize' => 'filterBySize', 'increase', 'savecolor', 'storemultiple', 'clearAll' => '$refresh'];
 
     public function mount(Product $product, string $nameStock = null)
@@ -78,13 +89,12 @@ class EditProduct extends Component
         $this->nameStock = $nameStock;
     }
 
-    public function addToCart(int $productId, string $typeCart): void
+    public function addToCart(int $productId, string $typeCart, ?int $amount = 1): void
     {
-        Cart::add(Product::
+        Cart::add(Product::whereId($productId)->with('size', 'color')->
             with(array('parent' => function($query) {
                 $query->select('id', 'slug', 'name', 'code', 'type', 'price', 'average_wholesale_price', 'wholesale_price', 'special_price', 'file_name');
-            }))->get()
-            ->find($productId), $typeCart);
+            }))->first(), $typeCart, $amount);
 
         if($typeCart == 'products'){
             $this->emit('productAdded');
@@ -92,6 +102,70 @@ class EditProduct extends Component
         elseif($typeCart == 'products_sale'){
             $this->emit('productAddedSale');
         }
+    }
+
+    public function format()
+    {
+        $this->validate([
+            'inputformat.*.*' => 'numeric|not_in:0|min:1|max:100000|sometimes',
+        ]);
+
+        // dd($this->inputformat);
+
+
+        if($this->inputformat){
+
+            foreach($this->inputformat as $color => $productos){
+
+
+                while($array = current($productos)){
+
+                    $size = key($productos);
+
+                    // dd($color);
+
+                    $quantity = $productos[$size];
+
+                    $product = Product::where('parent_id', $this->product_id)->where('size_id', $size)->where('color_id', $color)->first()->withoutRelations();
+
+                    // $this->addToCart($product->id, 'products', $quantity);
+
+                    $productDB = DB::table('products')->where('name', 'John')->first();
+
+                    DB::table('carts')->insert([
+                        'product_id' => $product->id,
+                        'price' => $product->getPriceWithIva(User::PRICE_RETAIL),
+                        'quantity' => $quantity,
+                        'type'=> 'quotation',
+                        'branch_id' => 1,
+                        'user_id' => Auth::id(),
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+
+                    next($productos);
+                }
+
+                // foreach($productos as $size => $quantity){
+
+                //     if($quantity != null)
+                //     {
+                //         $product = Product::where('parent_id', $this->product_id)->where('size_id', $size)->where('color_id', $color)->first()->withoutRelations();
+
+
+                //         // $this->addToCart($product->id, 'products', $quantity);
+                //     }
+                // }
+            }
+        }
+
+        $this->emit('clearAll');
+        $this->clearAll();
+
+        $this->emit('swal:alert', [
+            'icon' => 'success',
+            'title'   => __('Saved'), 
+        ]);
     }
 
     public function removePhoto()
@@ -481,6 +555,8 @@ class EditProduct extends Component
         $this->subtractStockRevision = FALSE;
         $this->increaseStockStore = FALSE;
         $this->subtractStockStore = FALSE;
+
+        $this->inputformat = [];
     }
 
     public function clearCodeAndLabels()
@@ -765,5 +841,7 @@ class EditProduct extends Component
         $attributes = Product::with('children')->findOrFail($this->product_id);
 
         return view('backend.product.livewire.edit')->with(compact('model', 'attributes'));
+
+
     }
 }

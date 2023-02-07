@@ -41,7 +41,7 @@
     <div class="mt-md-0 mt-2">
       <h4 class="font-weight-bold text-right mb-1">
         <p class="text-uppercase">
-          @lang('Order') #{{ $order->id }}
+          {{ $order->type_order_clear }} #{{ $order->id }}
         </p>
       </h4>
       <div class="invoice-date-wrapper mb-50">
@@ -55,8 +55,8 @@
 
   <div class="row pb-2">
     <div class="col-sm-6">
-      <h6 class="mb-1">@lang('Order To'):</h6>
-      <p class="mb-25">{{ optional($order->departament)->name }}</p>
+      <h6 class="mb-1">{{ $order->type_order_clear. ' '.__('to') }}:</h6>
+      <p class="mb-25">{{ optional($order->user)->name . optional($order->departament)->name }}</p>
     </div>
     @if($order->request)
       <div class="col-sm-3">
@@ -78,8 +78,8 @@
         <thead>
           <tr>
             <th class="py-1">@lang('Product')</th>
-            <th class="py-1">@lang('Price')</th>
             <th class="py-1">@lang('Quantity')</th>
+            <th class="py-1">@lang('Price')</th>
             <th class="py-1">Total</th>
           </tr>
         </thead>
@@ -95,10 +95,10 @@
                 </p>
               </td>
               <td class="py-1">
-                <span class="font-weight-bold">${{ $product->price ? $product->price : $product->price }}</span>
+                <span class="font-weight-bold">{{ $product->quantity }}</span>
               </td>
               <td class="py-1">
-                <span class="font-weight-bold">{{ $product->quantity }}</span>
+                <span class="font-weight-bold">${{ $product->price ? $product->price : $product->price }}</span>
               </td>
               <td class="py-1">
                 <span class="font-weight-bold">${{ number_format($totalprod = ($product->price ? $product->price : $product->price) * $product->quantity, 2, ".", ",") }}</span>
@@ -158,11 +158,6 @@
   @if(count($order->product_order))
     <div class="table-responsive mt-2">
       <table class="table m-0">
-        <thead>
-          <tr>
-            <th class="py-1 text-center" colspan="4">@lang('Sale')</th>
-          </tr>
-        </thead>
         <thead>
           <tr>
             <th class="py-1">@lang('Product')</th>
@@ -243,6 +238,44 @@
     </div>
   @endif
 
+  @if(count($order->product_quotation))
+    <div class="table-responsive mt-2">
+      <table class="table m-0">
+        <thead>
+          <tr>
+            <th class="py-1">@lang('Product')</th>
+            <th class="py-1">@lang('Price')</th>
+            <th class="py-1">@lang('Quantity')</th>
+            <th class="py-1">Total</th>
+          </tr>
+        </thead>
+          <tbody>
+            @php($total = 0)
+            @foreach($order->product_quotation as $product)
+            <tr class="{{ $loop->last ? 'border-bottom' : '' }}">
+              {{-- @json($product) --}}
+              <td class="py-1">
+                <p class="card-text font-weight-bold mb-25">{{ $product->product->only_name }}</p>
+                <p class="card-text text-nowrap">
+                  {!! $product->product->only_parameters !!}
+                </p>
+              </td>
+              <td class="py-1">
+                <span class="font-weight-bold">${{ $product->price ? $product->price : $product->price }}</span>
+              </td>
+              <td class="py-1">
+                <span class="font-weight-bold">{{ $product->quantity }}</span>
+              </td>
+              <td class="py-1">
+                <span class="font-weight-bold">${{ number_format($totalprod = ($product->price ? $product->price : $product->price) * $product->quantity, 2, ".", ",") }}</span>
+              </td>
+            </tr>
+            @php($total += $totalprod)
+            @endforeach
+          </tbody>
+      </table>
+    </div>
+  @endif
   <div class="row invoice-sales-total-wrapper mt-3">
     <div class="col-md-6 order-md-1 order-2 mt-md-0 mt-3">
       @if($order->audi_id)
@@ -270,10 +303,24 @@
     <div class="col-md-6 d-flex justify-content-end order-md-2 order-1">
       <div class="invoice-total-wrapper">
         <div class="invoice-total-item">
-          <p class="invoice-total-title">Total:</p>
-          <p class="invoice-total-amount">${{ number_format((float)$total, 2) }}</p>
+          <p class="invoice-total-title">Artículos:</p>
+          <p class="invoice-total-amount">{{ $order->total_articles }}</p>
         </div>
+        @if(!$breakdown)
+          <div class="invoice-total-item">
+            <p class="invoice-total-title">Subtotal:</p>
+            <p class="invoice-total-amount">${{ priceWithoutIvaIncluded($total)  }}</p>
+          </div>
+          <div class="invoice-total-item">
+            <p class="invoice-total-title">IVA:</p>
+            <p class="invoice-total-amount">${{ ivaPrice($total) }}</p>
+          </div>
+        @endif
         <hr class="my-50" />
+        <div class="invoice-total-item">
+          <p class="invoice-total-title">Total:</p>
+          <p class="invoice-total-amount">${{ $total }}</p>
+        </div>
       </div>
     </div>
   </div>

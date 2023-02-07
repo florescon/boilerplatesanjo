@@ -53,7 +53,7 @@ if (! function_exists('homeRoute')) {
 
 if (! function_exists('partDay')) {
     /**
-     * Return the route to the "home" page depending on authentication/authorization status.
+     * 
      *
      * @return string
      */
@@ -75,5 +75,81 @@ if (! function_exists('partDay')) {
             }
 
         return '';
+    }
+}
+
+if (! function_exists('priceIncludeIva')) {
+    /**
+     * 
+     *
+     * @return string
+     */
+    function priceIncludeIva($price)
+    {
+        return number_format($price + ((setting('iva') / 100) * $price), 2);
+    }
+}
+
+if (! function_exists('priceWithoutIvaIncluded')) {
+    /**
+     * 
+     *
+     * @return string
+     */
+    function priceWithoutIvaIncluded($price)
+    {
+        $iva = (setting('iva') / 100) + 1;
+
+        return number_format(($price / $iva), 2);
+    }
+}
+
+if (! function_exists('ivaPrice')) {
+    /**
+     * 
+     *
+     * @return string
+     */
+    function ivaPrice($price)
+    {
+        $iva = (setting('iva') / 100) + 1;
+
+        return number_format($price - ($price / $iva), 2);
+    }
+}
+
+
+if (! function_exists('typeInOrder')) {
+    /**
+     * 
+     *
+     * @return string
+     */
+    function typeInOrder($type)
+    {
+        switch ($type) {
+            case 'quotation':
+                return 6;
+            case 'request':
+                return 5;
+            case 'sale':
+                return 2;
+        }
+
+        return 1;
+    }
+}
+
+if (! function_exists('printed')) {
+    /**
+     * Return the printed date.
+     *
+     * @return string
+     */
+    function printed()
+    {
+        $printed = now()->isoFormat('D, MMM h:mm:ss a');
+
+        return __('Printed').': '.$printed;        
     }
 }

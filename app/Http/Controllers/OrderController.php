@@ -6,12 +6,14 @@ use App\Models\Order;
 use App\Models\Status;
 use App\Models\StatusOrder;
 use App\Models\MaterialOrder;
+use App\Models\ServiceOrder;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use PDF;
 use Carbon\Carbon;
 use App\Events\Order\OrderDeleted;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -61,6 +63,11 @@ class OrderController extends Controller
         return view('backend.store.requests_list_store');
     }
 
+    public function quotations_list_store()
+    {
+        return view('backend.store.quotations_list_store');
+    }
+
     public function mix_list_store()
     {
         return view('backend.store.mix_list_store');
@@ -78,9 +85,9 @@ class OrderController extends Controller
         return view('backend.order.create-suborder');
     }
 
-    public function print(Order $order)
+    public function print(Order $order, bool $breakdown = false)
     {
-        return view('backend.order.print-order', compact('order'));
+        return view('backend.order.print-order', compact('order', 'breakdown'));
     }
 
     public function ticket(Order $order)
@@ -113,6 +120,22 @@ class OrderController extends Controller
         return $pdf->stream();
     }
 
+
+    public function print_service_order(Order $order, ServiceOrder $service)
+    {
+        $pdf = PDF::loadView('backend.serviceorder.print-service-order',compact('order', 'service'))->setPaper([0, -16, 800, 630], 'landscape');
+
+        return $pdf->stream();
+
+        // return view('backend.serviceorder.print-service-order', compact('order', 'service'));
+    }
+
+
+    public function print_service_order_html(Order $order, ServiceOrder $service)
+    {
+        return view('backend.serviceorder.print-service-order-html', compact('order', 'service'));
+    }
+
     public function ticket_materia(Order $order)
     {
         $order->load(['materials_order' => function($query){
@@ -137,7 +160,7 @@ class OrderController extends Controller
 
         $visibleOrder = false;
 
-        $pdf = PDF::loadView('backend.order.ticket-materia',compact('order', 'visibleOrder'))->setPaper([0, 0, 1385.98, 296.85], 'landscape');
+        $pdf = PDF::loadView('backend.order.ticket-materia',compact('order', 'visibleOrder'))->setPaper([0, 0, 1385.98, 890.85], 'landscape');
 
         return $pdf->stream();
     }
@@ -165,6 +188,19 @@ class OrderController extends Controller
     {
         $records_delivery = $order->orders_delivery()->orderBy('created_at', 'desc')->paginate('10')->fragment('delivery');
         return view('backend.order.records-delivery-order', compact('order', 'records_delivery'));
+    }
+
+    public function service_orders(Order $order)
+    {
+        $products = $order->products()->orderBy('created_at', 'desc')->paginate('10');
+
+        $service_orders = $order->service_orders()->orderBy('created_at', 'desc')->paginate('10');
+        
+        return view('backend.order.service_orders', [
+            'products' => $products,
+            'service_orders' => $service_orders,
+            'order' => $order,
+        ]);
     }
 
     public function records_payment(Order $order)

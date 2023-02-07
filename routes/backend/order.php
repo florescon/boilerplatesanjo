@@ -91,12 +91,12 @@ Route::group([
             ->name('reasign-user-departament');
             // ->middleware('permission:admin.order.end-add-stock');
 
-        Route::get('print', [OrderController::class, 'print'])
+        Route::get('print/{breackdown?}', [OrderController::class, 'print'])
             ->name('print')
             ->middleware('permission:admin.access.order.modify')
             ->breadcrumbs(function (Trail $trail, Order $order) {
                 $trail->parent('admin.order.edit', $order)
-                    ->push(__('Print order'), route('admin.order.print', $order));
+                    ->push(__('Print order'), route('admin.order.print', [$order, $breackdown]));
             });
 
         Route::get('ticket', [OrderController::class, 'ticket'])
@@ -155,6 +155,22 @@ Route::group([
                     ->push(__('Advanced options'), route('admin.order.advanced', $order));
             });
 
+        Route::get('print_service_order/{service}', [OrderController::class, 'print_service_order'])
+            ->name('print_service_order')
+            ->middleware('permission:admin.access.order.modify')
+            ->breadcrumbs(function (Trail $trail, Order $order, ServiceOrder $service) {
+                $trail->parent('admin.order.edit', $order)
+                    ->push(__('Service Order').' - '.$service->name, route('admin.order.print_service_order', [$order, $service]));
+            });
+
+        Route::get('print_service_order_html/{service}', [OrderController::class, 'print_service_order_html'])
+            ->name('print_service_order_html')
+            ->middleware('permission:admin.access.order.modify')
+            ->breadcrumbs(function (Trail $trail, Order $order, ServiceOrder $service) {
+                $trail->parent('admin.order.edit', $order)
+                    ->push(__('Service Order').' - '.$service->name, route('admin.order.print_service_order_html', [$order, $service]));
+            });
+
         Route::get('assignments/{status}', [OrderController::class, 'assignments'])
             ->name('assignments')
             ->middleware('permission:admin.access.order.modify')
@@ -193,6 +209,16 @@ Route::group([
             ->breadcrumbs(function (Trail $trail, Order $order) {
                 $trail->parent('admin.order.edit', $order)
                     ->push(__('Status records payment'), route('admin.order.records_payment', $order));
+            });
+
+        Route::post('/', [OrderController::class, 'create_service_order'])->name('create_service_order');
+
+        Route::get('service_orders', [OrderController::class, 'service_orders'])
+            ->name('service_orders')
+            ->middleware('permission:admin.access.order.modify')
+            ->breadcrumbs(function (Trail $trail, Order $order) {
+                $trail->parent('admin.order.edit', $order)
+                    ->push(__('Service Orders'), route('admin.order.service_orders', $order));
             });
 
         Route::delete('/', [OrderController::class, 'destroy'])->name('destroy');

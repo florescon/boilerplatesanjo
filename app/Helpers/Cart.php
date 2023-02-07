@@ -18,18 +18,18 @@ class Cart
      * typeCart: products or products_sale
      *
      */
-    public function add(Product $product, string $typeCart): void
+    public function add(Product $product, string $typeCart, ?int $amount = 1): void
     {
         $cart = $this->get();
         $cartProductsIds = array_column($cart[$typeCart], 'id');
-        $product->amount = !empty($product->amount) ? $product->amount : 1;
+        $product->amount = !empty($amount) ? $amount : 1;
         $product->updated_at_ = now();
 
-        if (in_array($product->id, $cartProductsIds)) {
-            $cart[$typeCart] = $this->productCartIncrement($product->id, $cart[$typeCart]);
-            $this->set($cart);
-            return;
-        }
+        // if (in_array($product->id, $cartProductsIds)) {
+        //     $cart[$typeCart] = $this->productCartIncrement($product->id, $cart[$typeCart]);
+        //     $this->set($cart);
+        //     return;
+        // }
 
         array_push($cart[$typeCart], $product);
         $this->set($cart);

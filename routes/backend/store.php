@@ -32,6 +32,32 @@ Route::group([
                 ->push(__('Order Panel Management'), route('admin.store.order'));
         });
 
+    Route::get('request', function () {
+            return view('backend.store.request');
+        })->name('request')
+        ->middleware('permission:admin.access.store.list')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.dashboard')
+                ->push(__('Request Panel Management'), route('admin.store.request'));
+        });
+
+    Route::get('quotation', function () {
+            return view('backend.store.quotation');
+        })->name('quotation')
+        ->middleware('permission:admin.access.quotation.list')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.dashboard')
+                ->push(__('Request Panel Management'), route('admin.store.quotation'));
+        });
+
+    Route::get('sale', function () {
+            return view('backend.store.sale');
+        })->name('sale')
+        ->middleware('permission:admin.access.sale.list')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.dashboard')
+                ->push(__('Request Panel Management'), route('admin.store.sale'));
+        });
     Route::get('sales', function () {
             return view('backend.store.sales');
         })->name('sales')
@@ -111,6 +137,14 @@ Route::group([
             ->breadcrumbs(function (Trail $trail) {
                 $trail->parent('admin.store.all.index')
                     ->push(__('All store requests'), route('admin.store.all.requests'));
+            });
+
+        Route::get('quotations', [OrderController::class, 'quotations_list_store'])
+            ->name('quotations')
+            ->middleware('permission:admin.access.store.list')
+            ->breadcrumbs(function (Trail $trail) {
+                $trail->parent('admin.store.all.index')
+                    ->push(__('All store quotations'), route('admin.store.all.quotations'));
             });
 
         Route::get('mix', [OrderController::class, 'mix_list_store'])

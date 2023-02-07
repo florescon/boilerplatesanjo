@@ -70,13 +70,6 @@ ventas@sj-uniformes.com
     </tr>
   </table>
 
-
-  <table width="100%">
-    <tr>
-        <td>Ticket text</td>
-    </tr>
-  </table>
-
   <br/>
 
   <table width="100%">
@@ -103,8 +96,16 @@ ventas@sj-uniformes.com
         <tr>
             <td align="right"></td>
             <td align="center" class="gray"><strong>{{ $order->total_products_suborder }}</strong></td>
-            <td align="right">Total </td>
+            <td align="right">Subtotal</td>
             <td align="right" class="gray">${{ number_format((float)$order->total_suborder, 2) }}</td>
+        </tr>
+        <tr>
+            <td colspan="3" align="right">IVA</td>
+            <td align="right" class="gray">${{ number_format((float)((setting('iva') / 100) * $order->total_suborder), 2) }}</td>
+        </tr>
+        <tr>
+            <td colspan="3" align="right">Total</td>
+            <td align="right" class="gray">${{ number_format((float)($order->total_suborder + (setting('iva') / 100) * $order->total_suborder), 2) }}</td>
         </tr>
     </tfoot>
   </table>

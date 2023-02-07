@@ -66,5 +66,32 @@
   }
   .border-input-search {
         border: 1px solid blue!important;
-    }
+  }
 /**/
+
+@media (min-width: 992px) {
+  .c-sidebar-minimized .c-sidebar-nav {
+    overflow: visible !important;
+  }
+}
+
+.bg-primary-second {
+  background-color: #8069f2 !important;
+  color: white !important;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  display: none;
+}
+
+.watermark {
+    position: absolute;
+    color: lightgray;
+    opacity: 0.25;
+    font-size: 3em;
+    width: 100%;
+    top: 8%;    
+    text-align: center;
+    z-index: 0;
+}

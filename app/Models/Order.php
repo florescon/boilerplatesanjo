@@ -20,7 +20,7 @@ class Order extends Model
 {
     use HasFactory, SoftDeletes, CascadeSoftDeletes, OrderScope, Sluggable;
 
-    protected $cascadeDeletes = ['product_order', 'product_sale', 'suborders', 'product_suborder', 'materials_order'];
+    protected $cascadeDeletes = ['product_order', 'product_sale', 'product_quotation', 'suborders', 'product_suborder', 'materials_order', 'service_orders'];
 
     protected $fillable = [
         'date_entered', 
@@ -29,6 +29,10 @@ class Order extends Model
         'feedstock_changed_at',
         'user_id',
         'departament_id',
+        'comment',
+        'request',
+        'purchase',
+        'branch_id',
     ];
 
     /**
@@ -226,6 +230,14 @@ class Order extends Model
     /**
      * @return mixed
      */
+    public function products()
+    {
+        return $this->hasMany(ProductOrder::class)->with('product.parent', 'product.color', 'product.size');
+    }
+
+    /**
+     * @return mixed
+     */
     public function product_order()
     {
         return $this->hasMany(ProductOrder::class)->with('product.parent', 'product.color', 'product.size')->where('type', 1);
@@ -245,6 +257,14 @@ class Order extends Model
     public function product_request()
     {
         return $this->hasMany(ProductOrder::class)->with('product.parent', 'product.color', 'product.size')->where('type', 5);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function product_quotation()
+    {
+        return $this->hasMany(ProductOrder::class)->with('product.parent', 'product.color', 'product.size')->where('type', 6);
     }
 
     /**
@@ -358,6 +378,14 @@ class Order extends Model
         return $this->hasMany(MaterialOrder::class)->with('material');
     }
 
+    /**
+     * @return mixed
+     */
+    public function service_orders()
+    {
+        return $this->hasMany(ServiceOrder::class);
+    }
+
     public function getTotalProductsAttribute(): int
     {
         return $this->product_order->sum('quantity');
@@ -371,6 +399,11 @@ class Order extends Model
     public function getTotalProductsRequestAttribute(): int
     {
         return $this->product_request->sum('quantity');
+    }
+
+    public function getTotalProductsQuotationAttribute(): int
+    {
+        return $this->product_quotation->sum('quantity');
     }
 
     public function getTotalProductsAssignmentsAttribute()
@@ -401,9 +434,21 @@ class Order extends Model
         });
     }
 
+    public function getTotalQuotationAttribute()
+    {
+        return $this->product_quotation->sum(function($parent) {
+          return $parent->quantity * $parent->price;
+        });
+    }
+
     public function getTotalSaleAndOrderAttribute(): string
     {
-        return $this->total_sale + $this->total_order + $this->total_suborder + $this->total_request;
+        return $this->total_sale + $this->total_order + $this->total_suborder + $this->total_request + $this->total_quotation;
+    }
+
+    public function getTotalArticlesAttribute(): string
+    {
+        return $this->total_products + $this->total_products_sale + $this->total_products_request + $this->total_products_suborder + $this->total_products_quotation;
     }
 
     public function getTotalProductsSuborderAttribute(): int
@@ -448,6 +493,8 @@ class Order extends Model
                     return "<span class='badge text-white' style='background-color: purple;'>".__('Output').'</span>';
                 case 5:
                     return "<span class='badge text-white' style='background-color: #2eb85c;'>".__('Request').'</span>';
+                case 6:
+                    return "<span class='badge text-white' style='background-color: #2eb85c;'>".__('Quotation').'</span>';
                 default:
                     return "<span class='badge badge-primary'>".__('Order').'</span>';
             }
@@ -469,6 +516,8 @@ class Order extends Model
                     return __('Suborder');
                 case 5:
                     return __('Request');
+                case 6:
+                    return __('Quotation');
                 case 1:
                     return __('Order');
             }
@@ -490,6 +539,8 @@ class Order extends Model
                     return 'background-color: #F7DEFF';
                 case 5:
                     return 'background-color: #FFDBD3';
+                case 6:
+                    return 'background-color: #86FFCF';
                 default:
                     return 'background-color: #DEE4FF';
             }
@@ -515,6 +566,16 @@ class Order extends Model
     public function isSuborder(): bool
     {
         return $this->type === 4;
+    }
+
+    public function isRequest(): bool
+    {
+        return $this->type === 5;
+    }
+
+    public function isQuotation(): bool
+    {
+        return $this->type === 6;
     }
 
     /**

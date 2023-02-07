@@ -227,7 +227,7 @@ class Product extends Model
     public function getFullNameLinkAttribute()
     {
         if($this->parent_id !== null){
-            return '<a href="'.route('admin.product.edit', $this->parent_id).'"><strong>'.$this->parent->name.'</strong></a> <em>'.$this->size_name.' '.$this->color_name.'</em>';
+            return '<a target="_blank" href="'.route('admin.product.edit', $this->parent_id).'"><strong>'.$this->parent->name.'</strong></a> <em>'.$this->size_name.' '.$this->color_name.'</em>';
         }
         else{
             if(!$this->isProduct()){
@@ -314,7 +314,7 @@ class Product extends Model
      */
     public function children()
     {
-        return $this->hasMany(self::class, 'parent_id')->with('size', 'color');
+        return $this->hasMany(self::class, 'parent_id')->with('parent', 'size', 'color');
     }
 
     /**
@@ -571,6 +571,12 @@ class Product extends Model
     {
         $getPrice = $this->getPrice($type_price ?? User::PRICE_RETAIL);
         return number_format($getPrice + ((setting('iva') / 100) * $getPrice), 2);
+    }
+
+    public function getPriceWithoutIva(?string $type_price = null)
+    {
+        $getPrice = $this->getPrice($type_price ?? User::PRICE_RETAIL);
+        return number_format($getPrice, 2);
     }
 
     /**

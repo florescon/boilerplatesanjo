@@ -60,8 +60,8 @@
               <thead>
                 <tr>
                   <th class="py-1">@lang('Product')</th>
-                  <th class="py-1">@lang('Price')</th>
                   <th class="py-1">@lang('Quantity')</th>
+                  <th class="py-1">@lang('Price')</th>
                   <th class="py-1">Total</th>
                 </tr>
               </thead>
@@ -76,10 +76,10 @@
                       </p>
                     </td>
                     <td class="py-1">
-                      <span class="font-weight-bold">${{ $product->price ? $product->price : $product->price }}</span>
+                      <span class="font-weight-bold">{{ $product->quantity}}</span>
                     </td>
                     <td class="py-1">
-                      <span class="font-weight-bold">{{ $product->quantity}}</span>
+                      <span class="font-weight-bold">${{ $product->price ? $product->price : $product->price }}</span>
                     </td>
                     <td class="py-1">
                       <span class="font-weight-bold">${{ number_format($totalprod = ($product->price ? $product->price : $product->price) * $product->quantity, 2, ".", ",") }}</span>
@@ -91,10 +91,24 @@
               <tbody>
                 <tr>
                   <td></td>
-                  <th class="table-warning">Total</th>
-                  <td class="table-warning">{{ $model->total_products_suborder }}</td>
+                  <th class="table-warning">{{ $model->total_products_suborder }}</th>
+                  <th class="table-warning">Subtotal</th>
                   <td class="table-warning">${{ $total ? number_format((float)$total, 2) : '' }}</td>
                 </tr>
+                @if($model->id >= 530)
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <th class="table-warning">IVA</th>
+                    <td class="table-warning">${{ number_format(((setting('iva') / 100) * $total), 2) }}</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <th class="table-warning">Total</th>
+                    <td class="table-warning">${{ number_format($total  + ((setting('iva') / 100) * $total), 2) }}</td>
+                  </tr>
+                @endif
               </tbody>
             </table>
           </div>

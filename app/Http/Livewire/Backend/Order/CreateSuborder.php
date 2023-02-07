@@ -35,6 +35,12 @@ class CreateSuborder extends Component
 
     public ?string $date = null;
 
+    public ?string $request = null;
+    public ?string $purchase = null;
+
+    public $nameDepa = null;
+    public $namePrice = null;
+
     protected $listeners = ['selectedDeparament', 'savesuborder' => '$refresh', 'renderview' => 'render'];
 
     protected $queryString = [
@@ -112,6 +118,13 @@ class CreateSuborder extends Component
     {
         if ($item)
             $this->departament = $item;
+
+            if($this->departament != null){
+                $depa = Departament::find($this->departament);
+                $this->nameDepa = $depa->name ?? '';
+                $this->namePrice = $depa->type_price_label ?? '';
+            }
+
         else
             $this->departament = null;
     }
@@ -146,6 +159,8 @@ class CreateSuborder extends Component
             $suborder->approved = true;
             $suborder->type = 4;
             $suborder->date_entered = $this->date ?? today();
+            $suborder->request = $this->request ?? null;
+            $suborder->purchase = $this->purchase ?? null;
             $suborder->save();
 
             event(new OrderCreated($suborder));
@@ -164,7 +179,7 @@ class CreateSuborder extends Component
                     $suborderIntoPro->product_suborder()->create([
                         'product_id' => $key,
                         'quantity' => $product['available'],
-                        'price' => $this->departament ? $getProduct->getPriceWithIva($departament->type_price) : $item->getPriceWithIva(),
+                        'price' => $this->departament ? $getProduct->getPriceWithoutIva($departament->type_price) : $item->getPriceWithoutIva(),
                         'parent_product_id' => $key,
                         'type' => 4,
                     ]);
@@ -175,7 +190,7 @@ class CreateSuborder extends Component
                             'stock' => $product['available'],
                             'old_stock' => $getProduct->stock ?? null,
                             'type_stock' => 'stock',
-                            'price' => $this->departament ? $getProduct->getPriceWithIva($departament->type_price) : $item->getPriceWithIva(),
+                            'price' => $this->departament ? $getProduct->getPriceWithoutIva($departament->type_price) : $item->getPriceWithoutIva(),
                             'order_id' => $suborderIntoPro->id,
                             'is_output' => true,
                             'audi_id' => Auth::id(),

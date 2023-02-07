@@ -19,11 +19,9 @@
         <p  class="card-text" 
             x-bind:class="{ 'font-weight-bold': inputText }"
             x-on:click="nameData = true; $nextTick(() => focus())"
-        >{{ $origName }}
+        >
+            {{ $origName ?? '_______' }}
             &nbsp;<i class="cil-pencil"></i>
-        {{-- <em> --}}
-            {{-- {{ $extraName }} --}}
-        {{-- </em> --}}
         </p>
     </div>
 

@@ -66,7 +66,7 @@
 						      	{!! $product->code_subproduct !!}
 					    	  </td>
 						      <td>
-								<a href="{{ route('admin.product.consumption_filter', $product->id) }}" target=”_blank”> <span class="badge badge-warning"> <i class="cil-color-fill"></i></span></a>
+								{{-- <a href="{{ route('admin.product.consumption_filter', $product->id) }}" target=”_blank”> <span class="badge badge-warning"> <i class="cil-color-fill"></i></span></a> --}}
 						      	{!! $product->full_name !!} </td>
 						      <td>
 						      	@if($product->type == false)

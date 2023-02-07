@@ -18,6 +18,17 @@
                   <h4 class="card-title font-weight-bold mb-2">{{ $status_name }}</h4>
 
                     <livewire:backend.user.only-admins/>
+                    
+                    @error('user') 
+
+                      <div class="form-group row" wire:ignore>
+                          <label for="userselect" class="col-sm-3 col-form-label"></label>
+                          <div class="col-sm-9" >
+                            <span class="error" style="color: red;">{{ $message }}</span>
+                          </div>
+                      </div><!--form-group-->
+
+                    @enderror
 
                     @if($user)
                       <div class="form-group row">
@@ -49,7 +60,7 @@
 
                                 <td class="table-info"> 
                                     <input type="number" 
-                                        wire:model.lazy="quantityy.{{ $product->id }}.available"
+                                        wire:model.defer="quantityy.{{ $product->id }}.available"
                                         wire:keydown.enter="save" 
                                         class="form-control"
                                         style="color: blue;" 
@@ -68,14 +79,12 @@
                                 <td>{{ $model2->total_products }}</td>
                                 <td>{{ $model2->total_products_assignments }}</td>
                               </tr>
-                              @if($quantityy)
-                                <tr>
-                                  <td colspan="2"></td>
-                                  <td>
-                                    <button type="button" wire:click="save" class="btn btn-primary btn-sm">@lang('Create ticket')</button>
-                                  </td>
-                                </tr>
-                              @endif
+                              <tr>
+                                <td colspan="2"></td>
+                                <td>
+                                  <button type="button" wire:click="save" class="btn btn-primary btn-sm">@lang('Create ticket')</button>
+                                </td>
+                              </tr>
                           </tbody>
                         </table>
                       </div>
@@ -131,8 +140,7 @@
 
                       <div class="row mt-3 mb-5">
                         <div class="col-12 col-lg-12">
-
-                        <livewire:backend.components.edit-field :model="'\App\Models\Ticket'" :entity="$ticket" :field="'comment'" :key="'tickets'.$ticket->id"/>
+                          <livewire:backend.components.edit-field :model="'\App\Models\Ticket'" :entity="$ticket" :field="'comment'" :key="'tickets'.$ticket->id"/>
                         </div>
                       </div>
 

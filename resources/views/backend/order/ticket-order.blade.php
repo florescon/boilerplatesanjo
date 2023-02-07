@@ -80,8 +80,8 @@ ventas@sj-uniformes.com
                   <tr>
                     <td scope="row">{!! $product->product->full_name !!}</tf>
                     <td align="center">{{ $product->quantity }}</td>
-                    <td align="right">${{ $product->price }}</td>
-                    <td align="right">${{ number_format((float)$product->total_by_product, 2) }}</td>
+                    <td align="right">${{ $product->price_with_iva }}</td>
+                    <td align="right">${{ number_format((float)$product->total_by_product_with_iva, 2) }}</td>
                   </tr>
                   @endforeach
                 </tbody>
@@ -91,7 +91,7 @@ ventas@sj-uniformes.com
                         <td align="right"></td>
                         <td align="center" class="gray"><strong>{{ $order->total_products }}</strong></td>
                         <td align="right">Total </td>
-                        <td align="right" class="gray">${{ number_format((float)$order->total_order, 2) }}</td>
+                        <td align="right" class="gray">${{ number_format((float) $order->total_order + ((setting('iva') / 100) * $order->total_order), 2) }}</td>
                     </tr>
                 </tfoot>
             </table>
@@ -118,8 +118,8 @@ ventas@sj-uniformes.com
                   <tr>
                     <td scope="row">{!! $product->product->full_name !!}</tf>
                     <td align="center">{{ $product->quantity }}</td>
-                    <td align="right">${{ $product->price }}</td>
-                    <td align="right">${{ number_format((float)$product->total_by_product, 2) }}</td>
+                    <td align="right">${{ $product->price_with_iva }}</td>
+                    <td align="right">${{ number_format((float)$product->total_by_product_with_iva, 2) }}</td>
                   </tr>
                   @endforeach
                 </tbody>
@@ -129,7 +129,7 @@ ventas@sj-uniformes.com
                         <td align="right"></td>
                         <td align="center" class="gray"><strong>{{ $order->total_products_sale }}</strong></td>
                         <td align="right">Total </td>
-                        <td align="right" class="gray">${{ number_format((float)$order->total_sale, 2) }}</td>
+                        <td align="right" class="gray">${{ number_format((float) $order->total_sale + ((setting('iva') / 100) * $order->total_sale), 2) }}</td>
                     </tr>
                 </tfoot>
             </table>
@@ -156,8 +156,8 @@ ventas@sj-uniformes.com
                   <tr>
                     <td scope="row">{!! $product->product->full_name !!}</tf>
                     <td align="center">{{ $product->quantity }}</td>
-                    <td align="right">${{ $product->price }}</td>
-                    <td align="right">${{ number_format((float)$product->total_by_product, 2) }}</td>
+                    <td align="right">${{ $product->price_with_iva }}</td>
+                    <td align="right">${{ number_format((float)$product->total_by_product_with_iva, 2) }}</td>
                   </tr>
                   @endforeach
                 </tbody>
@@ -167,7 +167,7 @@ ventas@sj-uniformes.com
                         <td align="right"></td>
                         <td align="center" class="gray"><strong>{{ $order->total_products_request }}</strong></td>
                         <td align="right">Total </td>
-                        <td align="right" class="gray">${{ number_format((float)$order->total_request, 2) }}</td>
+                        <td align="right" class="gray">${{ number_format((float) $order->total_request + ((setting('iva') / 100) * $order->total_request), 2) }}</td>
                     </tr>
                 </tfoot>
             </table>

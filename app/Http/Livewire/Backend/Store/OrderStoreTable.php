@@ -69,22 +69,26 @@ class OrderStoreTable extends Component
         else{
             $this->applySearchFilter($query);
 
-            if ($this->status === 'orders_store') {
-                $this->title = ['title' => 'List of orders', 'color' => 'primary'];
-                return $query->onlyOrders()->onlyFromStore();
-            }
+            // if ($this->status === 'orders_store') {
+            //     $this->title = ['title' => 'List of orders', 'color' => 'primary'];
+            //     return $query->onlyOrders()->onlyFromStore();
+            // }
             if ($this->status === 'requests_store') {
                 $this->title = ['title' => 'List of requests', 'color' => 'coral'];
                 return $query->onlyRequests()->onlyFromStore();
+            }
+            if ($this->status === 'quotations_store') {
+                $this->title = ['title' => 'List of quotations', 'color' => '#FAFA33'];
+                return $query->onlyQuotations()->onlyFromStore();
             }
             if ($this->status === 'sales_store') {
                 $this->title = ['title' => 'List of sales', 'color' => 'success'];
                 return $query->onlySales()->onlyFromStore();
             }
-            if ($this->status === 'mix_store') {
-                $this->title = ['title' => 'List of mix', 'color' => 'warning'];
-                return $query->onlyMix()->onlyFromStore();
-            }
+            // if ($this->status === 'mix_store') {
+            //     $this->title = ['title' => 'List of mix', 'color' => 'warning'];
+            //     return $query->onlyMix()->onlyFromStore();
+            // }
             if ($this->status === 'all_store') {
                 $this->title = ['title' => 'List of all', 'color' => 'dark'];
                 return $query->onlyFromStore();

@@ -297,6 +297,9 @@
 										@if(optional($children->color)->color)
 											<div class="box-color-discrete justify-content-md-center" style="background-color:{{ $children->color->color }}; display: inline-block;"></div>
 										@endif
+										@if(optional($children->color)->secondary_color)
+											<div class="box-color-discrete justify-content-md-center" style="background-color:{{ $children->color->secondary_color }}; display: inline-block;"></div>
+										@endif
 									</span>
 								@endforeach
 							</h5>
@@ -537,6 +540,9 @@
 					    	@if($childrens->first()->color->color)
 								<div class="box-color justify-content-md-center" style="background-color:{{ $childrens->first()->color->color }}; display: inline-block;"></div>
 							@endif
+					    	@if($childrens->first()->color->secondary_color)
+								<div class="box-color justify-content-md-center" style="background-color:{{ $childrens->first()->color->secondary_color }}; display: inline-block;"></div>
+							@endif
 					    </h5>
 
 						<div class="table-responsive">
@@ -754,7 +760,7 @@
                         results: data.items.map(function (item) {
                             return {
                                 id: item.id,
-                                text:  item.name +  (item.color ? ' <div class="box-color justify-content-md-center" style="background-color:' + item.color +'; display: inline-block;"></div> ' : '') + (item.short_name ? item.short_name.sup() : '')
+                                text:  item.name + (item.color ? ' <div class="box-color justify-content-md-center" style="background-color:' + item.color +'; display: inline-block;"></div> ' : '') + (item.secondary_color ? ' <div class="box-color justify-content-md-center" style="background-color:' + item.secondary_color +'; display: inline-block;"></div> ' : '') + (item.short_name ? item.short_name.sup() : '')
                             };
                         }),
                         pagination: {
@@ -846,7 +852,7 @@
                         results: data.items.map(function (item) {
                             return {
                                 id: item.id,
-                                text:  item.name +  (item.color ? ' <div class="box-color justify-content-md-center" style="background-color:' + item.color +'; display: inline-block;"></div> ' : '') + (item.short_name ? item.short_name.sup() : '')
+                                text:  item.name + (item.color ? ' <div class="box-color justify-content-md-center" style="background-color:' + item.color +'; display: inline-block;"></div> ' : '') + (item.short_name ? item.short_name.sup() : '')
                             };
                         }),
                         pagination: {

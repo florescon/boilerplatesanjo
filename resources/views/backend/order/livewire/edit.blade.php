@@ -150,15 +150,23 @@
             </div>
             @endif
 
-            <a href="{{ route('admin.order.ticket_order', $order_id) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
-              <ins>
-                General
-              </ins>
-            </a>
+            @if(!$model->isQuotation())
+              <a href="{{ route('admin.order.ticket_order', $order_id) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
+                <ins>
+                  General
+                </ins>
+              </a>
+            @endif
 
             <a href="{{ route('admin.order.print', $order_id) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
               <ins>
                 @lang('Print')
+              </ins>
+            </a>
+
+            <a href="{{ route('admin.order.print', [$order_id, true]) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
+              <ins>
+                Imprimir sin desglose
               </ins>
             </a>
 
@@ -178,15 +186,22 @@
               </a>
             @endif
 
-            <a href="{{ route('admin.order.ticket_monitoring', $order_id) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
-              <ins>
-                @lang('Monitoring dashboard ticket')
-              </ins>
-            </a>
+            @if($model->isOrder() or $model->isRequest())
+              <a href="{{ route('admin.order.ticket_monitoring', $order_id) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
+                <ins>
+                  @lang('Monitoring dashboard ticket')
+                </ins>
+              </a>
+            @endif
+
+
+            @if(!$model->isQuotation())
+              <a href="{{ route('admin.order.service_orders', $order_id) }}" class="card-link">@lang('Create service order')</a>
+            @endif
 
           </div>
 
-          @if(($model->user_id || $model->departament_id) || $model->isFromStore())
+          @if( ( ($model->user_id || $model->departament_id) || $model->isFromStore() ) && !$model->isQuotation())
             <div class="card-footer text-center">
               <div class="row">
                 <div class="col-6 col-lg-6">
@@ -276,7 +291,7 @@
                   <tr>
                     <td>
                       <a href="{{ route('admin.product.consumption_filter', $product->product_id) }}" target=”_blank”> <span class="badge badge-warning"> <i class="cil-color-fill"></i> <em class="text-white">@lang('Consumption')</em> </span></a>
-                      {!! $product->product->full_name !!}
+                      {!! $product->product->full_name_link !!}
                     </td>
                     <td class="text-center">${{ $product->price }}</td>
                     <td class="text-center">{{ $product->quantity }}</td>
@@ -417,6 +432,64 @@
             </div>
             @endif
 
+            @if($quotationExists)
+            <div class="table-responsive">
+              <table class="table table-striped table-bordered table-hover">
+                <caption>
+                  <a href="#!" class="mt-2 ml-2" data-toggle="modal" wire:click="$emitTo('backend.order.add-service', 'createmodal', {{ $order_id }}, '6')" data-target="#addService" style="color: #ee2e31;">@lang('Add service')</a>
+                </caption>
+                <thead style="background-color: #86FFCF; border-color: #FAFA33; color: dark;">
+                  <tr class="text-center">
+                    <th colspan="4" >@lang('Quotation')</th>
+                  </tr>
+                  <tr class="thead-dark">
+                    <th>@lang('Product')</th>
+                    <th>@lang('Price')</th>
+                    <th class="text-center">@lang('Quantity')</th>
+                    <th class="text-center">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  @foreach($model->product_quotation as $product)
+                  <tr>
+                    <td>
+                      {!! $product->product->full_name !!}
+                    </td>
+                    <td class="text-center">
+                      <livewire:backend.cartdb.price-update :item="$product" :key="now()->timestamp.$product->id" :typeCart="$product->type" :setModel="'product_order'"/>
+                      <div class="small text-muted"> ${{ priceWithoutIvaIncluded($product->price) }} </div>
+                    </td>
+                    <td class="text-center">
+                      <livewire:backend.cartdb.quantity-update :item="$product" :key="now()->timestamp.$product->id" :typeCart="$product->type" :setModel="'product_order'"/>
+                    </td>
+                    <td class="text-center">
+                      ${{ number_format((float)$product->total_by_product, 2) }}
+                      <div class="small text-muted"> ${{ priceWithoutIvaIncluded($product->total_by_product) }} </div>
+                    </td>
+                  </tr>
+                  @endforeach
+                  <tr>
+                    <td></td>
+                    <td class="text-right">Total:</td>
+                    <td class="text-center">
+                      {{ $model->total_products_quotation }}
+                    </td>
+                    <td class="text-center">
+                      ${{ number_format((float)$model->total_quotation, 2) }}
+                      <div class="small text-muted"> ${{ priceWithoutIvaIncluded($model->total_quotation) }} </div>
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+            <div class="card border-0">
+              <div class="card-body text-center">
+                <a href="#" class="btn btn-primary" wire:click="processQuotation">Procesar a Pedido</a>
+              </div>
+            </div>
+            @endif
 
             @if($maerialAll)
             <div class="table-responsive">

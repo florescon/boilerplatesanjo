@@ -14,7 +14,7 @@ class ProductOrder extends Model
     protected $table = 'product_order';
 
 	protected $fillable = [
-        'order_id', 'suborder_id', 'product_id', 'quantity', 'price', 'type', 'parent_product_id'
+        'order_id', 'suborder_id', 'product_id', 'quantity', 'price', 'type', 'parent_product_id', 'comment',
     ];
 
     /**
@@ -99,6 +99,10 @@ class ProductOrder extends Model
         return '';
     }
 
+    public function getPriceWithIvaAttribute()
+    {
+        return number_format($this->price + ((setting('iva') / 100) * $this->price), 2);
+    }
 
     /**
      * @return string
@@ -140,6 +144,11 @@ class ProductOrder extends Model
     public function getTotalByProductAttribute()
     {
         return $this->quantity * $this->price;
+    }
+
+    public function getTotalByProductWithIvaAttribute()
+    {
+        return $this->quantity * $this->price_with_iva;
     }
 
     public function getAvailableAssignmentsAttribute()
@@ -216,15 +225,15 @@ class ProductOrder extends Model
     {
         if($this->gettAllConsumptionUngrouped() != 'empty'){
             return $this->gettAllConsumptionUngrouped()
-                            ->groupBy('material_id')
-                            ->map(function ($item) {
-                                return [
-                                    'material' => $item[0]['material_name'],
-                                    'price' => $item[0]['price'],
-                                    'unit' => $item->sum('unit'),
-                                    'quantity' => $item->sum('quantity'),
-                                ];
-                            }); 
+                    ->groupBy('material_id')
+                    ->map(function ($item) {
+                        return [
+                            'material' => $item[0]['material_name'],
+                            'price' => $item[0]['price'],
+                            'unit' => $item->sum('unit'),
+                            'quantity' => $item->sum('quantity'),
+                        ];
+                    }); 
         }
 
         return 'empty';                                                   
