@@ -1,6 +1,6 @@
 <x-backend.card>
 	<x-slot name="header">
-        @lang('Update product') {{ $nameStock }}
+        @lang('Update product') {{ $nameStock }}<i class="cil-fire"></i>
  	</x-slot>
 
     <x-slot name="headerActions">
@@ -603,6 +603,7 @@
 								      <td>
 								          <a href="{{ route('admin.product.large-barcode', $children->id) }}" target="_blank"><span class='badge badge-dark'><i class="cil-print"></i> @lang('Large')</span></a>
 								          <a href="{{ route('admin.product.short-barcode', $children->id) }}" target="_blank"><span class='badge badge-info'><i class="cil-print"></i> @lang('Short')</span></a>
+								          <a href="{{ route('admin.product.packing-barcode', $children->id) }}" target="_blank"><span class='badge badge-info'><i class="cil-print"></i> @lang('Packing')</span></a>
 								      </td>
 								  @endif
 							      @if($showKardex)

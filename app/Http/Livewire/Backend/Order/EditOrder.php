@@ -15,7 +15,7 @@ use App\Events\Order\OrderStatusUpdated;
 
 class EditOrder extends Component
 {
-    public $order_id, $lates_statusId, $slug, $isComment, $comment, $isDate, $date_entered;
+    public $order_id, $lates_statusId, $slug, $isComment, $comment, $isInfo_customer, $info_customer, $isDate, $date_entered;
 
     public $previousMaterialByProduct, $maerialAll;
 
@@ -36,6 +36,7 @@ class EditOrder extends Component
         $this->slug = $order->slug;
         $this->lates_statusId = $order->last_status_order->status_id ?? null;
         $this->initcomment($order);
+        $this->initinfo_customer($order);
         $this->initdate($order);
 
         $this->last_order_delivery = $order->last_order_delivery->type ?? null;
@@ -72,10 +73,36 @@ class EditOrder extends Component
         $this->isComment = $order->comment || empty($order) ? $order->comment : __('Define comment');
     }
 
+    private function initinfo_customer(Order $order)
+    {
+        $this->info_customer = $order->info_customer;
+        $this->isInfo_customer = $order->info_customer || empty($order) ? $order->info_customer : __('Define info customer');
+    }
+
     private function initdate(Order $order)
     {
         $this->date_entered = $order->date_entered;
         $this->isDate = $order->date_entered || empty($order) ? $order->date_entered->format('d-m-Y') : __('Define date');
+    }
+
+    public function saveinfocustomer()
+    {
+        $this->validate([
+            'info_customer' => 'required|max:300',
+        ]);
+
+        $order = Order::findOrFail($this->order_id);
+        $newInfocustomer = (string)Str::of($this->info_customer)->trim()->substr(0, 300); // trim whitespace & more than 100 characters
+
+        $order->info_customer = $newInfocustomer ?? null;
+        $order->save();
+
+        $this->initinfo_customer($order); // re-initialize the component state with fresh data after saving
+
+        $this->emit('swal:alert', [
+           'icon' => 'success',
+            'title'   => __('Updated at'), 
+        ]);
     }
 
     public function savecomment()

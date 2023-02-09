@@ -41,7 +41,7 @@
                                             wire:model.defer="comment.{{ $record->product->id }}"
                                             wire:keydown.enter="save"
                                             class="form-control" 
-                                            placeholder="{{ __('Comment') }}" maxlength="100"/>
+                                            placeholder="{{ __('Comment') }}" maxlength="150"/>
                                         </td>
                                         <td>
                                             <input type="number" 
@@ -64,7 +64,7 @@
                         </table>                                
                     </div>
 
-                    <button class="btn btn-sm float-right text-white" style="background-color: blue;" wire:click="save">@lang('Create Service Order')</button>
+                    <button class="btn btn-sm float-right text-white" style="background-color: blue;" wire:click="save">@lang('Create Service Order') 🔥</button>
 
                 {{ $products->links() }}
 
@@ -121,6 +121,14 @@
           });
 
       });
+    </script>
+
+    <script>
+        Livewire.on('clear-image', clear => {
+            jQuery(document).ready(function () {
+                $("#imageselect").val('').trigger('change')
+            });
+        })
     </script>
 
 @endpush

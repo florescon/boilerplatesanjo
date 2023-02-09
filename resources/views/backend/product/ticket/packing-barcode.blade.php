@@ -10,9 +10,6 @@
     margin:10;padding:0.9; // you can set margin and padding 0 
   }
 
-  * {
-      font-family: Verdana, Arial, sans-serif;
-  }
   table{
       font-size: medium;
   }
@@ -29,53 +26,62 @@
   h2 {
     font-size: 40px;
   }
-
+  h3 {
+    font-size: 50px;
+  }
   .rotate {
-    background-color: transparent;
-    /*transform: rotate(-90deg);*/
-    /*padding-right: 100px;*/
-    margin-top:110px;
+/*    background-color: transparent;*/
+    transform: rotate(-90deg);
+/*    padding-right: 100px;*/
+/*    margin-top:110px;*/
   }
 </style>
 
 </head>
   <body>
-    <table width="850" style="margin-left: 10px; ">
+    <table width="780">
+
       <tr>
+        <td  style=" width: 10px; ">
+          <h3 class="rotate" style="display: inline-block;  margin-right: -50px; margin-left: -50px;">
+              <img src="{{ public_path('img/bacaloni.png') }}" alt="" width="230px"/>
+          </h3>
+
+        </td>
         <td align="center" colspan="2" style="">
           <div style="padding-right: 5px; padding-left: 0px; padding-top: 15px;">
-            <img src="data:image/png;base64,{{   DNS1D::getBarcodePNG($product->code_label, 'C128',1,33,array(1,1,1), false)  }}"  style="        
+            <img src="data:image/png;base64,{{   DNS1D::getBarcodePNG($product->code_label, 'C39',1,33,array(1,1,1), false)  }}"  style="        
                   /*position: relative;*/
-              margin-top: -15px;
+              margin-top: 20px;
               height:170px;
               /*padding-bottom: 0;*/
-              width: 100%;
+              width: 65%;
               /*overflow: hidden;*/
               /*border: 1px solid;*/
               " 
               alt="barcode"
             />
+            <br>
             <i style="font-size: 30px;">{{ $product->code_label }}</i>
           </div>
         </td>
-      </tr>
+      </tr>    
+
       <tr>
-        <td align="center" style="width: 90%;">
+        <td align="center" colspan="2" width="85%" style="">
             <h2 style="">
               {{ $product->parent->name }}
-              &nbsp;<br>
-              <strong>
-               {{ $product->color_id ? $product->color->name : '' }} </strong>
+              <br>
+               {{ $product->color_id ? $product->color->name : '' }}
             </h2>
         </td>
-        <td align="center" style="">
-            <h1 style="">
-              <strong>
+        <td align="center" width="15%" style="">
+              <strong style="padding-left: 0; font-size: 65px">
                {!! $product->size_id ? $product->size->name : '' !!}&nbsp;
              </strong>
-            </h1>
         </td>
       </tr>
+
     </table> 
   </body>
 </html

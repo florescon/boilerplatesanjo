@@ -52,4 +52,13 @@
 
       });
     </script>
+
+    <script>
+        Livewire.on('clear-color', clear => {
+            jQuery(document).ready(function () {
+                $("#colorchange").val('').trigger('change')
+            });
+        })
+    </script>
+
 @endpush

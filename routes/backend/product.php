@@ -137,6 +137,13 @@ Route::group([
                     ->push(__('Short barcode'), route('admin.product.short-barcode', $product));
             });
 
+        Route::get('packing-barcode', [ProductController::class, 'packing_barcode'])
+            ->name('packing-barcode')
+            ->breadcrumbs(function (Trail $trail, Product $product) {
+                $trail->parent('admin.product.index', $product)
+                    ->push(__('Short barcode'), route('admin.product.packing-barcode', $product));
+            });
+
         Route::get('t', [ProductController::class, 'short_ticket'])
             ->name('t')
             ->breadcrumbs(function (Trail $trail, Product $product) {

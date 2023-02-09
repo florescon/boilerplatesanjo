@@ -67,17 +67,39 @@
                 <div class="col-md-9 mb-3">
                   <div class="row">
                     <div class="col-6 col-lg-6">
-                      {!! $model->user_name !!}
+                      <strong class="text-info">{!! $model->user_name !!}</strong>
                     </div>
+                    @if(optional($model->user)->customer)
+                      @if(optional($model->user)->customer['phone'])
+                      <div class="col-6 col-lg-6">
+                        <strong>@lang('Phone'): </strong>{!! optional($model->user)->customer['phone'] ?? '' !!}
+                      </div>
+                      @endif
+                    @endif
+                    <br>
+                    @if(optional($model->user)->customer)
+                      @if(optional($model->user)->customer['address'])
+                      <div class="col-6 col-lg-6">
+                        <strong>@lang('Address'): </strong>{!! optional($model->user)->customer['address'] ?? '' !!}
+                      </div>
+                      @endif
+                    @endif
+                    @if(optional($model->user)->customer)
+                      @if(optional($model->user)->customer['rfc'])
+                      <div class="col-6 col-lg-6">
+                        <strong>RFC: </strong>{!! optional($model->user)->customer['rfc'] ?? '' !!}
+                      </div>
+                      @endif
+                    @endif
                     @if($orderExists)
-                    <div class="col-6 col-lg-6">
-                      <a href="{{ route('admin.order.whereIs',$order_id) }}" style="color:#a20909ff;">
-                        <em>
-                          @lang('Where is products?')
-                        </em> 
-                      </a>                                   
-                      <i class="fa fa-question" aria-hidden="true"></i>
-                    </div>
+                      <div class="col-6 col-lg-6">
+                        <a href="{{ route('admin.order.whereIs',$order_id) }}" style="color:#a20909ff;">
+                          <em>
+                            @lang('Where is products?')
+                          </em> 
+                        </a>                                   
+                        <i class="fa fa-question" aria-hidden="true"></i>
+                      </div>
                     @endif
                   </div>
 
@@ -95,6 +117,13 @@
                       {{-- {{ $model->comment }} --}}
                       <x-input.input-alpine nameData="isComment" :inputText="$isComment" :originalInput="$isComment" wireSubmit="savecomment" modelName="comment" maxlength="300" className="" />
                       @error('comment') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                    </div>
+                  </div>
+                  <div class="row mt-3">
+                    <div class="col-12 col-lg-12">
+                      {{-- {{ $model->info_customer }} --}}
+                      <x-input.input-alpine nameData="isInfo_customer" :inputText="$isInfo_customer" :originalInput="$isInfo_customer" wireSubmit="saveinfocustomer" modelName="info_customer" maxlength="300" className="" />
+                      @error('info_customer') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
                   </div>
                 </div>

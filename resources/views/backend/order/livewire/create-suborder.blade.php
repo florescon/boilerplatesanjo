@@ -6,7 +6,7 @@
 
 <x-backend.card>
   <x-slot name="header">
-      @lang('Suborder outputs') - @lang('Order') #{{ $order_id }}
+    @lang('Suborder outputs') - @lang('Order') #{{ $order_id }}
   </x-slot>
 
   <x-slot name="headerActions">

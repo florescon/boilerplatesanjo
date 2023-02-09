@@ -53,4 +53,13 @@
 
       });
     </script>
+
+    <script>
+        Livewire.on('clear-brand', clear => {
+            jQuery(document).ready(function () {
+                $("#brandchange").val('').trigger('change')
+            });
+        })
+    </script>
+
 @endpush

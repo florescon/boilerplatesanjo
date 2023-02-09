@@ -204,6 +204,9 @@ class CreateSuborder extends Component
        
        $this->emit('renderview');
 
+       $this->emit('clear-departament');
+       $this->departament = null;
+
        $this->emit('swal:alert', [
             'icon' => 'success',
             'title'   => __('Saved'), 

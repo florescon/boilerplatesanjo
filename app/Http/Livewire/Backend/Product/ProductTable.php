@@ -134,7 +134,9 @@ class ProductTable extends Component
 
     public function clearFilterColor()
     {
-        $this->color = null;
+        // $this->color = null;
+        $this->emit('clear-color');
+
     }
 
     public function hydrateBrand()
@@ -144,8 +146,10 @@ class ProductTable extends Component
 
     public function clearFilterBrand()
     {
-        $this->brand = null;
-        $this->brandName = '';
+        // $this->brand = null;
+        // $this->brandName = '';
+
+        $this->emit('clear-brand');
     }
 
     private function applySearchFilter($products)

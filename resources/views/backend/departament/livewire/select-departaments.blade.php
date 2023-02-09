@@ -54,4 +54,12 @@
 
       });
     </script>
+
+    <script>
+        Livewire.on('clear-departament', cleardepa => {
+            jQuery(document).ready(function () {
+                $("#departamentselect").val('').trigger('change')
+            });
+        })
+    </script>
 @endpush

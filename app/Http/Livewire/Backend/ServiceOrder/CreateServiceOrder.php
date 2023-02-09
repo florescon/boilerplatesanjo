@@ -26,6 +26,10 @@ class CreateServiceOrder extends Component
         'image_id' => 'required',
     ];
 
+    protected $validationAttributes = [
+        'image_id' => 'image'
+    ];
+
     public function save()
     {
         $this->validate();
@@ -58,11 +62,13 @@ class CreateServiceOrder extends Component
                     if($quantity > 0){
                         $serviceOrder->product_service_orders()->create([
                             'quantity' => $quantity['available'],
-                            'comment' => $this->comment[$key],
+                            'comment' => $this->comment[$key] ?? '',
                             'product_id' => $key,
                         ]);        
                     }
                 }
+
+                $this->emit('clear-image');
 
                 $this->emit('swal:alert', [
                     'icon' => 'success',
@@ -72,6 +78,11 @@ class CreateServiceOrder extends Component
 
         } catch (Exception $e) {
             DB::rollBack();
+
+                $this->emit('swal:alert', [
+                    'icon' => 'error',
+                    'title'   => __('Error'), 
+                ]);
 
             throw new GeneralException(__('There was a problem.'));
         }

@@ -217,6 +217,19 @@ class ProductController extends Controller
         // return view('backend.order.ticket-order');
     }
 
+    public function packing_barcode(Product $product)
+    {
+        if(!$product->isChildren() || !$product->isProduct()){
+            abort(401);
+        }
+
+        $pdf = PDF::loadView('backend.product.ticket.packing-barcode',compact('product'))->setPaper([0, 0, 400, 800], 'landscape');
+        // ->setPaper('A8', 'portrait')
+
+        return $pdf->stream();
+        // return view('backend.order.ticket-order');
+    }
+
     public function short_ticket(Product $product)
     {
         if(!$product->isChildren() || !$product->isProduct()){

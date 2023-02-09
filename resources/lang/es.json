@@ -815,7 +815,7 @@
     "Wait 1 second": "Espere 1 segundo", 
 
     "Information": "Información",
-    "Image": "Imagen",
+    "image": "imagen",
     "Images": "Imágenes",
     "Product images": "Imágenes del producto",
     "Product information": "Información del producto",
@@ -852,6 +852,7 @@
     "Output": "Salida",
     "Inputs": "Entradas",
     "Outputs": "Salidas",
+    "Assignment": "Asignación",
     "Assignments": "Asignaciones",
     "Assignment history": "Historial de asignaciones",
     "Show assignament" : "Mostrar asignación",
@@ -1100,5 +1101,10 @@
     "Change city": "Cambiar ciudad",
     "Quotation": "Cotización",
     "Quotations": "Cotizaciones",
+    "Packing": "Empaque",
+    "Service Order": "Orden de servicio",
+    "Create service order": "Crear orden de servicio",
+    "Create Service Order": "Crear orden de servicio",
+    "Choose image": "Elegir imagen",
     "to": "a"
 }
