@@ -14,7 +14,7 @@ class CreateServiceOrder extends Component
 {
     public $order;
 
-    public $image_id, $quantity, $comment;
+    public $image_id, $service_type_id, $quantity, $comment;
 
     public function mount(Order $order)
     {
@@ -24,10 +24,12 @@ class CreateServiceOrder extends Component
 
     protected $rules = [
         'image_id' => 'required',
+        'service_type_id' => 'required',
     ];
 
     protected $validationAttributes = [
-        'image_id' => 'image'
+        'image_id' => 'image',
+        'service_type_id' => 'service',
     ];
 
     public function save()
@@ -53,7 +55,8 @@ class CreateServiceOrder extends Component
 
                 $serviceOrder = ServiceOrder::create([
                     'order_id' => $this->order_id,
-                    'image_id' => $this->image_id,
+                    'service_type_id' => $this->service_type_id ?? null,
+                    'image_id' => $this->image_id ?? null,
                     'created_id' => Auth::id(),
                     'branch_id' => $this->order->branch_id ?? 0,
                 ]);
@@ -69,6 +72,7 @@ class CreateServiceOrder extends Component
                 }
 
                 $this->emit('clear-image');
+                $this->emit('clear-service-type');
 
                 $this->emit('swal:alert', [
                     'icon' => 'success',

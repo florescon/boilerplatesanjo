@@ -17,7 +17,7 @@ class ServiceOrder extends Model
     protected $cascadeDeletes = ['product_service_orders'];
 
     protected $fillable = [
-        'order_id', 'user_id', 'authorized_id', 'created_id', 'image_id', 'branch_id',
+        'order_id', 'user_id', 'authorized_id', 'created_id', 'image_id', 'branch_id', 'service_type_id',
     ];
 
     /**
@@ -31,6 +31,14 @@ class ServiceOrder extends Model
    public function getTotalProductsAttribute(): int
     {
         return $this->product_service_orders->sum('quantity');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function service_type()
+    {
+        return $this->belongsTo(ServiceType::class)->withTrashed();
     }
 
     /**

@@ -13,6 +13,15 @@
             @if($products->count())
 
                 <div class="mb-4" wire:ignore>
+                    <select id="servicetypeselect" class="custom-select" style="width: 100%;" aria-hidden="true" >
+                    </select>
+                </div>
+                <div>
+                    @error('service_type_id') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                </div>
+
+
+                <div class="mb-4" wire:ignore>
                     <select id="imageselect" class="custom-select" style="width: 100%;" aria-hidden="true" >
                     </select>
                 </div>
@@ -131,4 +140,56 @@
         })
     </script>
 
+
+    <script>
+      $(document).ready(function() {
+        $('#servicetypeselect').select2({
+          placeholder: '@lang("Choose service type")',
+          width: 'resolve',
+          theme: 'bootstrap4',
+          allowClear: true,
+          ajax: {
+                url: '{{ route('admin.servicetype.select') }}',
+                data: function (params) {
+                    return {
+                        search: params.term,
+                        page: params.page || 1
+                    };
+                },
+                dataType: 'json',
+                processResults: function (data) {
+                    data.page = data.page || 1;
+                    return {
+                        results: data.items.map(function (item) {
+                            return {
+                                id: item.id,
+                                text: item.name
+                            };
+                        }),
+                        pagination: {
+                            more: data.pagination
+                        }
+                    }
+                },
+                cache: true,
+                delay: 250,
+                dropdownautowidth: true
+            }
+          });
+
+          $('#servicetypeselect').on('change', function (e) {
+            var data = $('#servicetypeselect').select2("val");
+            @this.set('service_type_id', data);
+          });
+
+      });
+    </script>
+
+    <script>
+        Livewire.on('clear-service-type', clear => {
+            jQuery(document).ready(function () {
+                $("#servicetypeselect").val('').trigger('change')
+            });
+        })
+    </script>
 @endpush

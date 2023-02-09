@@ -188,7 +188,7 @@ class EditOrder extends Component
     {
         $order = Order::whereId($this->order_id)->first();
 
-        $orderUpdate  = $order->update(['type' => 5]);
+        $orderUpdate = $order->update(['type' => 5]);
         $order->product_quotation()->update(['type' => 5]);   
 
         return $this->redirectRoute('admin.order.edit', $this->order_id);

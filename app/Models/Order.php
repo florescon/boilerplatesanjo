@@ -33,6 +33,7 @@ class Order extends Model
         'request',
         'purchase',
         'branch_id',
+        'type',
     ];
 
     /**

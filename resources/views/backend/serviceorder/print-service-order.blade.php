@@ -63,7 +63,7 @@
                 <pre>
                     <strong>@lang('Order'):</strong> #{{ $order->id }}
                     <strong>@lang('Folio'):</strong> #{{ $service->id }}
-                    <strong>Servicio: </strong> Bordado 🔥
+                    <strong>Servicio: </strong> {{ optional($service->service_type)->name }}
                 </pre>
             </td>
         </tr>

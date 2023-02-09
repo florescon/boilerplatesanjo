@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ServiceTypeController;
 use App\Models\Order;
 use App\Models\Status;
 use App\Models\Ticket;
@@ -225,3 +226,5 @@ Route::group([
     });
 
 });
+
+Route::get('select2-service-type', [ServiceTypeController::class, 'select2LoadMore'])->name('servicetype.select');
