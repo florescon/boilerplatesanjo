@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Invoice</title>
+    <title>@lang('Service Order') #{{ $order->id }}</title>
 
 
     <style type="text/css">
@@ -15,6 +15,10 @@
         tfoot tr td{
             font-weight: bold;
             font-size: x-small;
+        }
+
+        .striped tr:nth-child(even) {
+          background-color: #fff7f3;
         }
 
         .gray {
@@ -88,8 +92,9 @@
 
       <br/>
 
-      <table width="100%" 
+      <table width="100%"
       {{-- style="page-break-after: always;" --}}
+      class="striped" 
       >
         <thead style="background-color: lightgray;">
           <tr>
@@ -109,7 +114,6 @@
               </tr>
             @endforeach
         </tbody>
-
         <tfoot>
             <tr>
                 <td colspan="2"></td>
@@ -120,30 +124,33 @@
       </table>
 
     </div>
+
     <br>
 
-    <div style=" ">
+    <div 
+      {{-- style="page-break-after: always;" --}}
+    >
         <table width="100%">
-        <tr>
-            <td align="top" style="">
-                <img style="max-height: 250px !important; max-width: 500px; " src="{{ public_path('/storage/' . $service->image->image) }}" alt="Card image cap">
-            </td>
-            <td align="right" style=" max-width: 260px; max-height: 200px; ">
-                <div><img height="50" src="{{ public_path('img/logo22.png') }}"/></div>
+            <tr>
+                <td align="top" style="">
+                    <img style="max-height: 250px !important; max-width: 500px; " src="{{ public_path('/storage/' . $service->image->image) }}" alt="Card image cap">
+                </td>
+                <td align="right" style=" max-width: 260px; max-height: 200px; ">
+                    <div><img height="50" src="{{ public_path('img/logo22.png') }}"/></div>
 
-                <h3>@lang('Service Order')</h3>
-                <pre>
-                    <strong>@lang('Date'):</strong> {{ $service->created_at }}
-                </pre>
-                <pre>
-                    <strong>@lang('Order'):</strong> #{{ $order->id }}
-                    <strong>@lang('Folio'):</strong> #{{ $service->id }}
-                    <strong>Servicio: </strong> Bordado
-                </pre>
-            </td>
-        </tr>
+                    <h3>@lang('Service Order')</h3>
+                    <pre>
+                        <strong>@lang('Date'):</strong> {{ $service->created_at }}
+                    </pre>
+                    <pre>
+                        <strong>@lang('Order'):</strong> #{{ $order->id }}
+                        <strong>@lang('Folio'):</strong> #{{ $service->id }}
+                        <strong>Servicio: </strong> Bordado
+                    </pre>
+                </td>
+            </tr>
 
-      </table>
+        </table>
 
       <table width="100%">
         <tr>
@@ -165,6 +172,7 @@
 
       <table width="100%" 
       {{-- style="page-break-after: always;" --}}
+      class="striped" 
       >
         <thead style="background-color: lightgray;">
           <tr>

@@ -58,7 +58,6 @@ class DocumentTable extends Component
 
     public function getRowsQueryProperty()
     {
-        
         return Document::query()
             ->where(function ($query) {
                 $query->where('title', 'like', '%' . $this->searchTerm . '%')

@@ -171,4 +171,5 @@ class OrderStoreTable extends Component
         return view('backend.store.table.order-store-table', [
           'orders' => $this->rows,
         ]);
-    }}
+    }
+}

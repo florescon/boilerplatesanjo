@@ -45,7 +45,7 @@ class FinanceTable extends Component
 
     public $status;
 
-    protected $listeners = ['filter' => 'filter', 'delete', 'restore', 'forceRender' => 'render', 'refreshFinanceTable' => '$refresh'];
+    protected $listeners = ['filter' => 'filter', 'bill', 'delete', 'restore', 'forceRender' => 'render', 'refreshFinanceTable' => '$refresh'];
 
     public $name, $short_name, $color, $secondary_color, $created, $updated, $selected_id, $deleted;
 
@@ -271,6 +271,24 @@ class FinanceTable extends Component
        $this->emit('swal:alert', [
             'icon' => 'success',
             'title'   => __('Deleted'), 
+        ]);
+    }
+
+    public function bill(?int $id = null)
+    {
+        if($id){
+            $finance = Finance::withTrashed()->find($id);
+            
+            $finance->update([
+                'is_bill' => $finance->is_bill ? false : true,
+            ]);
+
+            sleep(1);
+        }
+
+        $this->emit('swal:alert', [
+            'icon' => 'success',
+            'title'   => __('Changed'), 
         ]);
     }
 

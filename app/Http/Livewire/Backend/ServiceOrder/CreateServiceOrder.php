@@ -106,7 +106,7 @@ class CreateServiceOrder extends Component
 
     public function render()
     {
-        $products = $this->order->products()->orderBy('created_at', 'desc')->paginate('10');
+        $products = $this->order->products()->orderBy('created_at', 'desc')->get();
 
         return view('backend.serviceorder.create-service-order', [
             'products' => $products,

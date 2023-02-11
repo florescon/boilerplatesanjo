@@ -23,8 +23,8 @@
                                           </ins>
                                         </a>
                                     </td>
-                                    <td>{{ $record->image->title }}</td>
-                                    <td>{{ $record->createdby->name }}</td>
+                                    <td>{{ optional($record->image)->title }}</td>
+                                    <td>{{ optional($record->createdby)->name }}</td>
                                     <td>{{ $record->created_at }}</td>
                                 </tr>
                             @endforeach

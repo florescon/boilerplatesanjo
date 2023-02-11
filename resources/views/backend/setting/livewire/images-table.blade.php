@@ -13,7 +13,8 @@
     @include('backend.setting.modal-banner')
 
     <div class="alert alert-warning text-center" role="alert">
-      <h4 class="alert-heading">Tamaño máximo de 1MB, límite de 8 imágenes</h4>
+      <h4 class="alert-heading">Tamaño máximo de 2MB, límite de {{ $countImages }} imágenes</h4>
+      @error('files.*') <span class="error" style="color: red;">{{ $message }}</span> @enderror
     </div>
     <div class="row">
         <div class="col-12 col-md-4">
@@ -34,6 +35,21 @@
               </div>
             @endif
             <div class="lightbox">
+
+              <div class="col mb-4">
+                <div class="input-group">
+                  <input wire:model.debounce.350ms="searchTerm" class="form-control input-search-color" type="text" placeholder="{{ __('Search') }}..." />
+                  @if($searchTerm !== '')
+                  <div class="input-group-append">
+                    <button type="button" wire:click="clear" class="close" aria-label="Close">
+                      <span aria-hidden="true"> &nbsp; &times; &nbsp;</span>
+                    </button>
+
+                  </div>
+                  @endif
+                </div>
+              </div>
+
               <div class="row">
                 @foreach($logos->split($logos->count()/1) as $picture)
                   <div class="col-lg-4">
@@ -61,6 +77,35 @@
                 @endforeach
               </div>
             </div>
+
+            @if($logos->count())
+              <div class="row">
+                <div class="col">
+                  <nav>
+                    {{ $logos->onEachSide(1)->links() }}
+                  </nav>
+                </div>
+                    <div class="col-sm-3 mb-2 text-muted text-right">
+                      Mostrando {{ $logos->firstItem() }} - {{ $logos->lastItem() }} de {{ $logos->total() }} resultados
+                    </div>
+              </div>
+            @else
+
+              @lang('No search results') 
+
+              @if($searchTerm)
+                "{{ $searchTerm }}" 
+              @endif
+
+              @if($deleted)
+                @lang('for deleted')
+              @endif
+
+              @if($page > 1)
+                {{ __('in the page').' '.$page }}
+              @endif
+            @endif
+
         </div>
     </div>
 	</x-slot>

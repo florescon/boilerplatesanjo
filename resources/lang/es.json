@@ -674,6 +674,7 @@
     "Request": "Pedido",
     "Requests": "Pedidos",
     "Associated order": "Orden asociada",
+    "Associated request": "Pedido asociado",
     "Order track": "Seguimiento de orden",
     "Sorted by date created descending": "Ordenado por fecha creada descendente",
     "Order by name": "Ordenado por nombre",
@@ -766,6 +767,7 @@
     "Title": "Título",
     "Comment": "Comentario",
     "Define comment": "Definir comentario",
+    "Define info customer": "Definir información del cliente",
     "Approved": "Aprobada",
     "Pending": "Pendiente",
     "Pendings": "Pendientes",
@@ -1103,8 +1105,10 @@
     "Quotations": "Cotizaciones",
     "Packing": "Empaque",
     "Service Order": "Orden de servicio",
+    "Choose service type": "Elegir tipo de servicio",
     "Create service order": "Crear orden de servicio",
     "Create Service Order": "Crear orden de servicio",
     "Choose image": "Elegir imagen",
-    "to": "a"
+    "to": "a",
+    "Bill": "Factura"
 }

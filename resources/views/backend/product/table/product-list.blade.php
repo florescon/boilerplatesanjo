@@ -240,6 +240,8 @@
 
 				          <a href="{{ route('admin.product.short-barcode', $product->id) }}" target="_blank"><span class='badge badge-info'><i class="cil-print"></i> @lang('Short')</span></a>
 
+				          <a href="{{ route('admin.product.packing-barcode', $product->id) }}" target="_blank"><span class='badge badge-info'><i class="cil-print"></i> @lang('Packing')</span></a>
+
 	              </td>
 	              <td>
 						      <x-utils.link class="mt-2 mr-2 card-header-action btn btn-warning text-white" :href="route('admin.product.consumption_filter', $product->id)" :text="__('Punctual consumption')" />
@@ -262,9 +264,9 @@
 			          {{ $products->links() }}
 			        </nav>
 			      </div>
-			          <div class="col-sm-3 text-muted text-right">
-			            Mostrando {{ $products->firstItem() }} - {{ $products->lastItem() }} de {{ $products->total() }} resultados
-			          </div>
+	          <div class="col-sm-3 text-muted text-right">
+	            Mostrando {{ $products->firstItem() }} - {{ $products->lastItem() }} de {{ $products->total() }} resultados
+	          </div>
 			    </div>
 
 			    @else

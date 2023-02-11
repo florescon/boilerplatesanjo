@@ -12,5 +12,6 @@ class ServiceTypeController extends Controller
         $search = $request->get('search');
         $data = ServiceType::select(['id', 'name'])->where('name', 'like', '%' . $search . '%')->orderBy('name')->paginate(10);
         return response()->json(['items' => $data->toArray()['data'], 'pagination' => $data->nextPageUrl() ? true : false]);
+
     }
 }

@@ -7,8 +7,8 @@
         FilePond.registerPlugin(FilePondPluginFileValidateSize);
         FilePond.setOptions({
             allowMultiple: {{ isset($attributes['multiple']) ? 'true' : 'false' }},
-            acceptedFileTypes: ['image/png', 'image/jpeg'],
-            maxFileSize: '1MB',
+            acceptedFileTypes: ['image/png', 'image/jpeg', 'image/gif'],
+            maxFileSize: '2MB',
             labelIdle: '@lang('Drag & drop images or select here')',
             server: {
                 process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {

@@ -22,21 +22,35 @@ class ImagesTable extends Component
         'perPage',
     ];
 
-    public $perPage = '20';
+    public $perPage = '9';
 
-    public $status;
+    public $status, $deleted;
     public $searchTerm = '';
 
     public $files = [];
 
+    public ?int $countImages = 50;
+
     protected $listeners = [
         'forceRender' => 'render'
+    ];
+
+    protected $rules = [
+        'files.*' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
+    ];
+
+    protected $messages = [
+        'files.*.mimes' => 'Tipo de archivo no permitido.',
+        'files.*.image' => 'Debe ser imagen.',
     ];
 
     public function getRowsQueryProperty()
     {
         $query = Image::query()
             ->whereType('4')
+            ->when($this->searchTerm, function ($query) {
+                $query->where('title', 'like', '%' . $this->searchTerm . '%');
+            })
             ->orderBy('sort');
 
         if ($this->status === 'deleted') {
@@ -90,13 +104,15 @@ class ImagesTable extends Component
 
     public function savePictures()
     {
+        $this->validate();
+
         $date = date("Y-m-d");
 
         $allImages = Image::whereType('4')->count();
 
         if($this->files){
             foreach($this->files as $phot){
-                if($allImages >= 8){
+                if($allImages >= $this->countImages){
                     break;
                 }
                 else{
@@ -110,10 +126,20 @@ class ImagesTable extends Component
                 }
             }
         }
-        
-        // $this->init();
 
         $this->redirectHere();
+    }
+
+    public function updatedSearchTerm()
+    {
+        $this->resetPage();
+    }
+
+    public function clear()
+    {
+        $this->searchTerm = '';
+        $this->resetPage();
+        $this->perPage = '9';
     }
 
     public function redirectHere()

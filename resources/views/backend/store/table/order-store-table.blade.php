@@ -90,33 +90,33 @@
                     @include('backend.includes._sort-icon', ['field' => 'id'])
                   </a>
 	              </th>
-                <th scope="col">
-                  @lang('Comment')
-                </th>
 	              <th scope="col">
-	              	@lang('User')
+	              	@lang('Customer')
 	              </th>
-                <th scope="col" class="text-center">
-                  @lang('Information')
-                </th>
-                <th scope="col" class="text-center">
-                  @lang('Status')
-                </th>
                 <th scope="col" class="text-center">
                   <a style="color:white;" wire:click.prevent="sortBy('date_entered')" role="button" href="#">
 	                  @lang('Date')
                     @include('backend.includes._sort-icon', ['field' => 'date_entered'])
                   </a>
                 </th>
+                <th scope="col" class="text-center">
+                  @lang('Total')
+                </th>
+                <th scope="col" class="text-center">
+                	Anticipo
+                </th>
+                <th scope="col" class="text-center">
+                  @lang('Remaining')
+                </th>
+                <th scope="col" class="text-center">
+                  @lang('Status')
+                </th>
 	              <th scope="col" class="text-center">
-                  <a style="color:white;" wire:click.prevent="sortBy('created_at')" role="button" href="#">
-	                  @lang('Created at')
-                    @include('backend.includes._sort-icon', ['field' => 'created_at'])
-                  </a>
+	                @lang('Details')
 	              </th>
-	              <th scope="col" class="text-center">
-	                  @lang('Details')
-	              </th>
+                <th scope="col">
+                  @lang('Comment')
+                </th>
 	            </tr>
 	          </thead>
 	          <tbody>
@@ -127,28 +127,24 @@
 			            		#{{ $order->id }}
 			            	</strong>
 		            	</td>
-	                <td class="align-middle">
-	                  {!! Str::limit($order->comment, 100) ?? '<span class="badge badge-secondary">'.__('undefined').'</span>' !!}
-	                </td>
 		              <td class="align-middle">
 		              	{!! $order->user_name !!}
 		              </td>
 	                <td class="align-middle text-center">
-	                	{!! $order->approved_label !!}
-	                	{!! $order->type_order !!}
+	                   {{ $order->date_entered->isoFormat('D, MMM') ?? __('undefined') }}
 	                </td>
+	                <td class="align-middle text-center">
+		                ${{ number_format((float)$order->total_sale_and_order, 2) }}
+		              </td>
+									<td class="align-middle text-center">
+			            	${{ number_format((float)$order->total_payments, 2) }}
+	                </td>
+	                <td class="align-middle text-center">
+			              ${{ number_format((float)$order->total_payments_remaining, 2)  }}
+		              </td>
 	                <td class="align-middle text-center" style="text-decoration: underline;">
 	                   {!! $order->last_status_order_label !!}
 	                </td>
-	                <td class="align-middle text-center">
-	                   {{ $order->date_entered->isoFormat('D, MMM') ?? __('undefined') }}
-	                </td>
-		              <td class="align-middle text-center">
-		                <span class="badge badge-dot">
-		                  <i class="bg-warning"></i> {{ $order->date_for_humans }}
-		                </span>
-		                {!! $order->date_diff_for_humans_created !!}
-		              </td>
 	                <td class="text-center">
 										@if(!$order->exist_user_departament || $order->isFromStore())
 											{!! $order->payment_label !!}
@@ -162,6 +158,9 @@
 	                  @endif
 	                  {!! $order->last_order_delivery->order_delivery  ?? "<span class='badge text-dark' style='background-color: white;'>".__('Pending').'</span>' !!}
 										{{-- {!! $order->from_store_or_user_label !!} --}}
+	                </td>
+	                <td class="align-middle">
+	                  {!! Str::limit($order->comment, 100) ?? '<span class="badge badge-secondary">'.__('undefined').'</span>' !!}
 	                </td>
 		            </tr>
 	            @endforeach

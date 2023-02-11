@@ -33,6 +33,7 @@ class Finance extends Model
         'payment_method_id',
         'audi_id',
         'cash_id',
+        'is_bill',
     ];
 
     /**
@@ -43,6 +44,7 @@ class Finance extends Model
     protected $casts = [
         'amount' => 'decimal:2',
         'from_store' => 'boolean',
+        'is_bill' => 'boolean',
     ];
 
     /**
@@ -127,6 +129,14 @@ class Finance extends Model
     {
         if($this->order_id !== null){
             return $this->order ? '<a href="'.route('admin.order.edit', $this->order_id).'"><strong>'.$this->order->slug.'</strong></a>' : "<span class='badge badge-secondary'>".__('undefined order/sale').'</span>';
+        }
+        return "<span class='badge badge-secondary'>".__('undefined order/sale').'</span>';
+    }
+
+    public function getOrderFolioAttribute(): ?string
+    {
+        if($this->order_id !== null){
+            return $this->order ? '<a href="'.route('admin.order.edit', $this->order_id).'"><strong> #'.$this->order->id.'</strong></a>' : "<span class='badge badge-secondary'>".__('undefined order/sale').'</span>';
         }
         return "<span class='badge badge-secondary'>".__('undefined order/sale').'</span>';
     }
@@ -245,5 +255,14 @@ class Finance extends Model
     public function getDateDiffForHumansCreatedAttribute()
     {
         return $this->created_at->diffForHumans();
+    }
+
+    public function getIsBillLabelAttribute()
+    {
+        if($this->is_bill){
+            return "<span class='badge badge-primary'>".__('Yes').'</span>';
+        }
+
+        return "<span class='badge badge-dark'>".__('No').'</span>';
     }
 }

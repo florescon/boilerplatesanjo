@@ -234,11 +234,12 @@
         				<th>f.º</th>
                 <th>@lang('Name')</th>
         				<th class="text-center">@lang('Amount')</th>
-                <th class="text-center">@lang('User')/@lang('Associated order')/@lang('Daily cash closing')</th>
+                <th class="text-center">@lang('User')/@lang('Associated request')/@lang('Daily cash closing')</th>
         				<th class="text-center">@lang('Comment')</th>
                 <th class="text-center">@lang('Type')</th>
         				<th>@lang('Activity')</th>
                 <th>@lang('Created')</th>
+                <th>@lang('Bill')</th>
                 <th>@lang('Actions')</th>
         			</tr>
         		</thead>
@@ -267,7 +268,7 @@
         				<td>
         					<div class="clearfix">
                     {!! $finance->user_name !!}
-                    {!! $finance->order_track !!}
+                    {!! $finance->order_folio !!}
                     {!! $finance->cash_title !!}
         					</div>
         				</td>
@@ -286,6 +287,13 @@
         				</td>
                 <td>
                   <div class="small text-muted"></div><strong>{{ $finance->date_diff_for_humans_created }}</strong>
+                </td>
+                <td>
+                  @if($finance->is_bill)
+                    <button wire:loading.attr="disabled" href="#!" wire:click="bill({{ $finance->id }})" class="badge badge-primary">@lang('Yes')</button>
+                  @else
+                    <button wire:loading.attr="disabled" href="#!" wire:click="bill({{ $finance->id }})" class="badge badge-danger">@lang('No')</button>
+                  @endif
                 </td>
                 <td>
                   @if(!$status == 'deleted')

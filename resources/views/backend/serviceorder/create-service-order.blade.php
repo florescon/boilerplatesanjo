@@ -75,7 +75,7 @@
 
                     <button class="btn btn-sm float-right text-white" style="background-color: blue;" wire:click="save">@lang('Create Service Order') 🔥</button>
 
-                {{ $products->links() }}
+                {{-- {{ $products->links() }} --}}
 
             @else
                 <em>Sin registros de productos y/o servicios</em>
