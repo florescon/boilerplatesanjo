@@ -7,6 +7,18 @@
 	    {{-- <h5 class="card-title">Special title treatment</h5> --}}
 	    {{-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> --}}
 
+	    @if($type == 'quotation' && !$customer)
+			<div class="alert alert-primary" role="alert">
+			  Se recomienda elegir primero el cliente, ya que al actualizar o eliminarlo se ajustarán los precios por defecto
+			</div>
+		@endif
+
+	    @if($type == 'quotation' && $customer)
+			<div class="alert alert-primary" role="alert">
+			  Si modificó los precios y elimina el cliente, se actualizarán los precios por defecto.
+			</div>
+		@endif
+
 	    @if($customer)
 			<h5 class="justify-content-center text-center">
 				<p> {{ $summary->customer->name }} </p>	

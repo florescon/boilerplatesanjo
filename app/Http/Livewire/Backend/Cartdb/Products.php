@@ -13,6 +13,7 @@ class Products extends Component
     public ?string $type = '';
 
     public ?int $branchId = 0;
+    public bool $showPriceWithoutTax = false;
 
     protected $listeners = ['selectedCompanyItem' => 'updatePrices', 'clearAllProducts', 'cartUpdated' => '$refresh'];
 

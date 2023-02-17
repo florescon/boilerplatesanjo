@@ -10,6 +10,7 @@ use Rappasoft\LaravelLivewireTables\Traits\HtmlComponents;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Events\Material\MaterialDeleted;
 use App\Events\Material\MaterialRestored;
+use DB;
 
 class MaterialTable extends TableComponent
 {
@@ -25,6 +26,8 @@ class MaterialTable extends TableComponent
 
     public $editStock = false;
 
+    public $massAssginment = false;
+
     public $searchDebounce = 1024;
 
     public $tableFooterEnabled = true;
@@ -34,6 +37,8 @@ class MaterialTable extends TableComponent
     public $exports = ['csv', 'xls', 'xlsx'];
     public $exportFileName = 'feedstocks';
 
+    public $selected = [];
+
     public $clearSearchButton = true;
     
     protected $queryString = [
@@ -42,7 +47,7 @@ class MaterialTable extends TableComponent
         'perPage',
     ];
 
-    protected $listeners = ['postAdded' => 'updateEditStock', 'delete', 'restore', 'triggerRefresh' => '$refresh'];
+    protected $listeners = ['postAdded' => 'updateEditStock', 'postMass' => 'updateMassAssignment', 'saveMassVendor', 'delete', 'restore', 'triggerRefresh' => '$refresh'];
 
     /**
      * @var string
@@ -72,12 +77,26 @@ class MaterialTable extends TableComponent
         $this->editStock = !$this->editStock;
     }
 
+    public function updateMassAssignment()
+    {
+        $this->massAssginment = !$this->massAssginment;
+    }
+
+    public function saveMassVendor(int $vendor)
+    {
+        foreach($this->selected as $key => $select){
+            DB::table('materials')->where('id', $select)->update(['vendor_id' => $vendor, 'updated_at' => now()]);
+        }
+
+        $this->selected = [];
+    }
+
     /**
      * @return Builder
      */
     public function query(): Builder
     {
-        $query = Material::query()->with('color', 'size', 'unit');
+        $query = Material::query()->with('color', 'size', 'unit', 'vendor');
 
         if ($this->status === 'deleted') {
             return $query->onlyTrashed();
@@ -111,14 +130,6 @@ class MaterialTable extends TableComponent
                 ->exportFormat(function(Material $model) {
                     return (!empty($model->color_id) && isset($model->color->id)) ? optional($model->color)->name : '';
                 }),
-            Column::make(__('Size_'), 'size.name')
-                ->searchable()
-                ->format(function(Material $model) {
-                    return $this->html(!empty($model->size_id) && isset($model->size->id) ? $model->size->name : '<span class="badge badge-pill badge-secondary"> <em>No asignada</em></span>');
-                })
-                ->exportFormat(function(Material $model) {
-                    return (!empty($model->size_id) && isset($model->size->id)) ? optional($model->size)->name : '';
-                }),
             Column::make(__('Price'), 'price')
                 ->searchable()
                 ->sortable()
@@ -139,13 +150,29 @@ class MaterialTable extends TableComponent
                 ->hideIf($this->editStock == true),
             Column::make(__('Description'), 'description')
                 ->searchable()
-                ->hide(),
+                ->format(function(Material $model) {
+                    return $this->html($model->description ?? '--');
+                }),
+            Column::make(__('Vendor'), 'vendor.name')
+                ->searchable()
+                ->format(function(Material $model) {
+                    return $this->html(!empty($model->vendor_id) && isset($model->vendor->id) ? $model->vendor->name : '<span class="badge badge-pill badge-secondary"> <em>Proveedor no definido</em></span>');
+                })
+                ->exportFormat(function(Material $model) {
+                    return (!empty($model->vendor_id) && isset($model->vendor->id)) ? optional($model->vendor)->name : '';
+                }),
             Column::make(__('Actions'))
                 ->format(function (Material $model) {
                     return view('backend.material.datatable.actions', ['material' => $model]);
                 })
                 ->excludeFromExport()
-                ->hideIf($this->editStock == true),
+                ->hideIf($this->editStock == true or $this->massAssginment == true),
+            Column::make(__('Mass assignment'))
+                ->format(function (Material $model) {
+                    return view('backend.material.datatable.mass', ['material' => $model]);
+                })
+                ->excludeFromExport()
+                ->hideIf($this->massAssginment == false),
             Column::make(__('Input / Output'))
                 ->format(function (Material $model) {
                     return view('backend.material.datatable.input', ['material' => $model]);

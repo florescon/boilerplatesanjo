@@ -38,6 +38,10 @@ class OrderController extends Controller
     {
         return view('backend.order.mix_list');
     }
+    public function quotations_list()
+    {
+        return view('backend.order.quotations_list');
+    }
     public function all_list()
     {
         return view('backend.order.all_list');

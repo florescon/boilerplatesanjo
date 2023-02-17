@@ -77,6 +77,14 @@
       </div>
     </div>
 
+    <div class="form-group row" wire:ignore id="data-importador">
+      <label for="vendorselect" class="col-sm-2 col-form-label">@lang('Vendor')</label>
+      <div class="col-sm-10" >
+        <select id="vendorselect" class="custom-select" style="width: 100%;" aria-hidden="true">
+        </select>
+      </div>
+    </div>
+
   </x-slot>
 
   <x-slot name="footer">
@@ -219,11 +227,56 @@
       });
     </script>
 
+    <script>
+      $(document).ready(function() {
+        $('#vendorselect').select2({
+          dropdownParent: $("#createMaterial"),
+          placeholder: '@lang("Choose vendor")',
+          // width: 'resolve',
+          theme: 'bootstrap4',
+          // allowClear: true,
+          ajax: {
+                url: '{{ route('admin.vendor.select') }}',
+                data: function (params) {
+                    return {
+                        search: params.term,
+                        page: params.page || 1
+                    };
+                },
+                dataType: 'json',
+                processResults: function (data) {
+                    data.page = data.page || 1;
+                    return {
+                        results: data.items.map(function (item) {
+                            return {
+                                id: item.id,
+                                text: item.name
+                            };
+                        }),
+                        pagination: {
+                            more: data.pagination
+                        }
+                    }
+                },
+                cache: true,
+                delay: 250,
+                dropdownautowidth: true
+            }
+          });
+
+          $('#vendorselect').on('change', function (e) {
+              @this.set('vendor_id', e.target.value);
+          });
+
+      });
+    </script>
+
   <script type="text/javascript">
     Livewire.on("materialResetSelect", () => {
       $('#unitselect').val([]).trigger("change");
       $('#colorselect').val([]).trigger("change");
       $('#sizeselect').val([]).trigger("change");
+      $('#vendorselect').val([]).trigger("change");
     });
   </script>
 @endpush

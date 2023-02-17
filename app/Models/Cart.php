@@ -18,6 +18,7 @@ class Cart extends Model
         'type',
         'user_id',
         'branch_id',
+        'price_without_tax',
     ];
 
     /**

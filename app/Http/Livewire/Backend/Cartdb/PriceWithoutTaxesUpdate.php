@@ -5,16 +5,16 @@ namespace App\Http\Livewire\Backend\Cartdb;
 use Livewire\Component;
 use DB;
 
-class PriceUpdate extends Component
+class PriceWithoutTaxesUpdate extends Component
 {
     public $item = [];
-    public $price = 1;
+    public $price_without_tax = 1;
     public $itemID;
     public string $typeCart;
     public $setModel;
 
     protected $rules = [
-        'price' => 'min:1|digits_between:1,12|not_in:0|regex:/^\d{1,13}(\.\d{1,4})?$/',
+        'price_without_tax' => 'min:1',
     ];
 
     public function mount($item, string $typeCart, ?string $setModel = 'carts')
@@ -22,7 +22,7 @@ class PriceUpdate extends Component
         $this->item = $item;
         $this->itemID = $item->id;
         $this->type = $typeCart;
-        $this->price = $item->price ?: 1;
+        $this->price_without_tax = $item->price_without_tax ?: 1;
         $this->setModel = $setModel;
     }
 
@@ -33,8 +33,8 @@ class PriceUpdate extends Component
         $product = DB::table($this->setModel)
               ->where('id', $this->itemID)
               ->update([
-                'price' => $this->price ?: 1, 
-                'price_without_tax' => priceWithoutIvaIncluded($this->price), 
+                'price' => priceIncludeIva($this->price_without_tax) ?: 1, 
+                'price_without_tax' => $this->price_without_tax ?: 1, 
                 'updated_at' => now()
             ]);
 
@@ -43,6 +43,6 @@ class PriceUpdate extends Component
 
     public function render()
     {
-        return view('backend.cartdb.price-update');
+        return view('backend.cartdb.price-without-taxes-update');
     }
 }

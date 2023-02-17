@@ -7,7 +7,7 @@
 
         <x-utils.link class="card-header-action btn btn-warning text-white" :href="route('admin.product.consumption', $model->id)" :text="__('Go to consumption')" />
 
-        <x-utils.link class="card-header-action" :href="route('admin.product.index')" :text="__('Cancel')" />
+        <x-utils.link class="card-header-action" :href="route('admin.product.index')" :text="__('Back')" />
  	</x-slot>
     <x-slot name="body">
 

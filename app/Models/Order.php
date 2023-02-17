@@ -362,6 +362,25 @@ class Order extends Model
         return "--<em> ".__('not applicable')." </em>--";
     }
 
+
+    public function getAdvancedOrderLabelAttribute()
+    {
+        if (!$this->parent_order_id && $this->type != 6) {
+            return '$'. number_format((float)$this->total_payments, 2);
+        }
+
+        return "--<em> ".__('not applicable')." </em>--";
+    }
+
+    public function getRemainingOrderLabelAttribute()
+    {
+        if (!$this->parent_order_id && $this->type != 6) {
+            return '$'. number_format((float)$this->total_payments_remaining, 2);
+        }
+
+        return "--<em> ".__('not applicable')." </em>--";
+    }
+
     public function getLastStatusOrderPercentageAttribute(): int
     {
             if(!$this->last_status_order){

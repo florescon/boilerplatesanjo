@@ -4,7 +4,7 @@
  	</x-slot>
 
     <x-slot name="headerActions">
-        <x-utils.link class="card-header-action" :href="route('admin.inventory.index')" :text="__('Cancel')" />
+        <x-utils.link class="card-header-action" :href="route('admin.inventory.index')" :text="__('Back')" />
  	</x-slot>
     <x-slot name="body">
 

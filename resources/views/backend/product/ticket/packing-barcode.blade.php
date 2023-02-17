@@ -62,7 +62,7 @@
               alt="barcode"
             />
             <br>
-            <i style="font-size: 30px;">{{ $product->code_label }}</i>
+            <i style="font-size: 40px;"><strong>{{ $product->code_label }}</strong></i>
           </div>
         </td>
       </tr>    

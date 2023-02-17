@@ -23,6 +23,10 @@ class EditOrder extends Component
     public $last_order_delivery;
     public $last_order_delivery_formatted;
 
+    public $from_store = null;
+
+    public bool $showPriceWithoutTax = false;
+
     protected $queryString = [
         'previousMaterialByProduct' => ['except' => FALSE],
         'maerialAll' => ['except' => FALSE],
@@ -34,6 +38,7 @@ class EditOrder extends Component
     {
         $this->order_id = $order->id;
         $this->slug = $order->slug;
+        $this->from_store = $order->from_store;
         $this->lates_statusId = $order->last_status_order->status_id ?? null;
         $this->initcomment($order);
         $this->initinfo_customer($order);
@@ -188,8 +193,8 @@ class EditOrder extends Component
     {
         $order = Order::whereId($this->order_id)->first();
 
-        $orderUpdate = $order->update(['type' => 5]);
-        $order->product_quotation()->update(['type' => 5]);   
+        $orderUpdate = $order->update(['type' => !$this->from_store ? 1 : 5]);
+        $order->product_quotation()->update(['type' => !$this->from_store ? 1 : 5]);   
 
         return $this->redirectRoute('admin.order.edit', $this->order_id);
     }

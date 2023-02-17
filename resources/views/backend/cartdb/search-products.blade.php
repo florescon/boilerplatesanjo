@@ -11,7 +11,7 @@
     <div class=" row mb-4 justify-content-md-center">
       <div class="col-8">
         <div class="input-group">
-          <input 
+          <input
             wire:model="query" 
             type="text" 
             class="input-search"

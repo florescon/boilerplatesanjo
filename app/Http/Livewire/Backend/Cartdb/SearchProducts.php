@@ -115,9 +115,10 @@ class SearchProducts extends Component
                     DB::table('carts')->insert([
                         'product_id' => $product->id,
                         'price' => $product->getPriceWithIva($getSummary->type_price ?? User::PRICE_RETAIL),
+                        'price_without_tax' => $product->getPriceWithoutIva($getSummary->type_price ?? User::PRICE_RETAIL),
                         'quantity' => $quantity,
                         'type'=> $this->type,
-                        'branch_id' => 1,
+                        'branch_id' => $this->branchId,
                         'user_id' => Auth::id(),
                         'created_at' => now(),
                         'updated_at' => now(),
@@ -187,6 +188,7 @@ class SearchProducts extends Component
         DB::table('carts')->insert([
             'product_id' => $idProduct,
             'price' => $product->getPriceWithIva(User::PRICE_RETAIL),
+            'price_without_tax' => $product->getPriceWithoutIva(User::PRICE_RETAIL),
             'type'=> $this->type,
             'branch_id' => $this->branchId,
             'user_id' => Auth::id(),

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CreateMaterial extends Component
 {
-    public $part_number, $name, $description, $acquisition_cost, $price, $stock, $unit_id, $color_id, $size_id, $colors;
+    public $part_number, $name, $description, $acquisition_cost, $price, $stock, $unit_id, $color_id, $size_id, $vendor_id, $colors;
 
     protected $listeners = ['createmodal'];
 
@@ -22,6 +22,7 @@ class CreateMaterial extends Component
         'unit_id' => 'required|numeric',
         'color_id' => 'required|numeric',
         'size_id' => 'nullable|sometimes|numeric',
+        'vendor_id' => 'nullable|sometimes|numeric',
         'stock' => 'required|numeric',
         'description' => 'min:5|max:100|nullable',
     ];
@@ -60,6 +61,7 @@ class CreateMaterial extends Component
                 'unit_id' => $this->unit_id,                
                 'color_id' => $this->color_id,                
                 'size_id' => $this->size_id,                
+                'vendor_id' => $this->vendor_id,                
                 'description' => $this->description ? $this->description : null,                
 
             ]);

@@ -39,12 +39,28 @@ Route::group([
             $trail->parent('admin.order.index')
                 ->push(__('Mix'), route('admin.order.mix'));
         });
+    Route::get('quotations', [OrderController::class, 'quotations_list'])
+        ->name('quotations')
+        ->middleware('permission:admin.access.order.order-sales')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.order.index')
+                ->push(__('Quotations'), route('admin.order.quotations'));
+        });
     Route::get('all', [OrderController::class, 'all_list'])
         ->name('all')
         ->middleware('permission:admin.access.order.modify')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.order.suborders')
                 ->push(__('All orders'), route('admin.order.all'));
+        });
+
+    Route::get('quotation', function () {
+            return view('backend.order.quotation');
+        })->name('quotation')
+        ->middleware('permission:admin.access.quotation.list')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.dashboard')
+                ->push(__('Quotation Panel Management'), route('admin.order.quotation'));
         });
 
     Route::get('createsuborder', [OrderController::class, 'createsuborder'])

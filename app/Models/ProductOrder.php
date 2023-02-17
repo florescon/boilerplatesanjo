@@ -14,7 +14,7 @@ class ProductOrder extends Model
     protected $table = 'product_order';
 
 	protected $fillable = [
-        'order_id', 'suborder_id', 'product_id', 'quantity', 'price', 'type', 'parent_product_id', 'comment',
+        'order_id', 'suborder_id', 'product_id', 'quantity', 'price', 'type', 'parent_product_id', 'comment', 'price_without_tax',
     ];
 
     /**

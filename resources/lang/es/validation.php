@@ -180,5 +180,6 @@ return [
         'initial' => 'inicial',
         'received' => 'cantidad recibida',
         'quantity' => 'cantidad',
+        'info_customer' => 'información del cliente'
     ],
 ];

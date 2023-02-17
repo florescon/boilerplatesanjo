@@ -462,6 +462,21 @@
             @endif
 
             @if($quotationExists)
+
+            @if($model->product_quotation->count() >= 1)
+              <div class="row justify-content-md-center custom-control custom-switch custom-control-inline">
+                <em class=" mt-2"> @lang('Change prices without taxes')</em>
+                  <div class="col-md-2 mt-2">
+                    <div class="form-check">
+                      <label class="c-switch c-switch-label c-switch-primary">
+                        <input type="checkbox" wire:model="showPriceWithoutTax" class="c-switch-input">
+                        <span class="c-switch-slider" data-checked="OK" data-unchecked="NO"></span>
+                      </label>
+                    </div>
+                  </div>
+              </div>
+            @endif
+
             <div class="table-responsive">
               <table class="table table-striped table-bordered table-hover">
                 <caption>
@@ -486,8 +501,15 @@
                       {!! $product->product->full_name !!}
                     </td>
                     <td class="text-center">
-                      <livewire:backend.cartdb.price-update :item="$product" :key="now()->timestamp.$product->id" :typeCart="$product->type" :setModel="'product_order'"/>
-                      <div class="small text-muted"> ${{ priceWithoutIvaIncluded($product->price) }} </div>
+                      
+                      @if($showPriceWithoutTax == false)
+                        <livewire:backend.cartdb.price-update :item="$product" :key="now()->timestamp.$product->id" :typeCart="$product->type" :setModel="'product_order'"/>
+                        <div class="small text-muted"> ${{ priceWithoutIvaIncluded($product->price) }} </div>
+                      @else
+                        <div class="small text-muted"> ${{ $product->price }} </div>
+                        <livewire:backend.cartdb.price-without-taxes-update :item="$product" :key="now()->timestamp.$product->id" :typeCart="$product->type" :setModel="'product_order'"/>
+                      @endif
+
                     </td>
                     <td class="text-center">
                       <livewire:backend.cartdb.quantity-update :item="$product" :key="now()->timestamp.$product->id" :typeCart="$product->type" :setModel="'product_order'"/>
@@ -515,7 +537,7 @@
             </div>
             <div class="card border-0">
               <div class="card-body text-center">
-                <a href="#" class="btn btn-primary" wire:click="processQuotation">Procesar a Pedido</a>
+                <a href="#" class="btn btn-primary" wire:click="processQuotation(true)">Procesar a {{ $from_store ? __('Request') : __('Order') }}</a>
               </div>
             </div>
             @endif

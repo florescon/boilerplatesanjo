@@ -17,6 +17,8 @@ class Summarydb extends Component
 
     public ?int $branchIdSummary = 0;
 
+    public bool $isMain = false;
+
     public $description = '';
     public $info_customer = '';
 
@@ -26,8 +28,9 @@ class Summarydb extends Component
 
     protected $listeners = ['selectedCompanyItem', 'cartUpdated' => '$refresh'];
 
-    public function mount(string $typeSummary, ?int $branchIdSummary = 0)
+    public function mount(string $typeSummary, ?int $branchIdSummary = 0, ?bool $isMain = false)
     {
+        $this->isMain = $isMain;
         $this->type = $typeSummary;
         $this->branchId = $branchIdSummary;
         $this->summary = Summary::where('type', $typeSummary)->where('branch_id', $branchIdSummary)->where('user_id', Auth::id())->first() ?? null;
@@ -64,6 +67,10 @@ class Summarydb extends Component
 
     public function redirectLink()
     {
+        if($this->isMain){
+            return redirect()->route('admin.order.quotation');
+        }
+
         $link = 'admin.store.'.$this->type;
 
         return redirect()->route($link);
@@ -85,7 +92,7 @@ class Summarydb extends Component
 
         foreach($this->getProducts() as $product){
             $price = $product->product->getPriceWithIva(User::PRICE_RETAIL);
-            $product->update(['price' => $price]);
+            $product->update(['price' => $price, 'price_without_tax' => priceWithoutIvaIncluded($price)]);
         }
 
         $this->redirectLink();
@@ -121,7 +128,7 @@ class Summarydb extends Component
             $order->date_entered = Carbon::now()->format('Y-m-d');
             $order->type = typeInOrder($this->type);
             $order->audi_id = Auth::id();
-            $order->from_store = true;
+            $order->from_store = $this->isMain ? null : true;
             $order->approved = 1;
             $order->branch_id = $this->branchId;
             $order->save();
@@ -134,6 +141,7 @@ class Summarydb extends Component
                     'product_id' => $product->product_id,
                     'quantity' => $product->quantity,
                     'price' =>  $product->price,
+                    'price_without_tax' =>  $product->price_without_tax,
                     'comment' => $product->comment,
                     'type' => typeInOrder($this->type),
                 ]);

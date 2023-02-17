@@ -222,6 +222,7 @@
     "acquisition_cost": "costo de adquisición",
     "Update prices": "Actualizar precios",
     "price": "precio",
+    "Change prices without taxes": "Cambiar precios sin IVA",
     "net price": "precio neto",
     "Net price": "Precio neto",
     "confeccion price": "precio confección",
@@ -690,6 +691,7 @@
     "Orders/Sales": "Órdenes/Ventas",
     "Requests/Sales": "Pedidos/Ventas",
     "List Requests/Sales": "Listado Pedidos/Ventas",
+    "List Service Order": "Listado de Órdenes de servicio",
     "Orders": "Órdenes",
     "All orders": "Todas las órdenes",
     "Delete order": "Eliminar orden",
@@ -1096,7 +1098,7 @@
     "Deleted vendors": "Proveedores eliminados",
     "Choose city": "Elegir ciudad",
     "Create vendor": "Crear proveedor",
-    "Choose vendor": "Cambiar proveedor",
+    "Choose vendor": "Elegir proveedor",
     "Save vendor": "Guardar proveedor",
     "Update vendor": "Actualizar proveedor",
     "Change vendor": "Cambiar vendedor",
@@ -1110,5 +1112,6 @@
     "Create Service Order": "Crear orden de servicio",
     "Choose image": "Elegir imagen",
     "to": "a",
-    "Bill": "Factura"
+    "Bill": "Factura",
+    "Mass assignment": "Asignación masiva"
 }

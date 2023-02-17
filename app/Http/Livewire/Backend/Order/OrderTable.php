@@ -74,6 +74,10 @@ class OrderTable extends Component
                 $this->title = ['title' => 'List of suborder outputs', 'color' => 'secondary'];
                 return $query->onlySuborders()->outFromStore();
             }
+            if ($this->status === 'quotations') {
+                $this->title = ['title' => 'List of quotations', 'color' => '#FAFA33'];
+                return $query->onlyQuotations()->outFromStore();
+            }
             if ($this->status === 'sales') {
                 $this->title = ['title' => 'List of sales', 'color' => 'success'];
                 return $query->onlySales()->outFromStore();

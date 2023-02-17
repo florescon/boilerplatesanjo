@@ -23,6 +23,10 @@
                 <livewire:backend.material.modify-feedstock />
             @endif
 
+            @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.material.modify-quantities'))
+                <livewire:backend.material.mass-assignment />
+            @endif
+
             @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.material.create'))
                 <x-utils.link
                     icon="c-icon cil-plus"
@@ -32,6 +36,7 @@
                     :text="__('Create feedstock')"
                 />
             @endif
+
         </x-slot>
 
         <x-slot name="body">
@@ -78,8 +83,51 @@
 
 @endsection
 
-
 @push('after-scripts')
+
+    <script>
+      $(document).ready(function() {
+        $('#vendorselect').select2({
+          placeholder: '@lang("Choose vendor")',
+          // width: 'resolve',
+          theme: 'bootstrap4',
+          // allowClear: true,
+          ajax: {
+                url: '{{ route('admin.vendor.select') }}',
+                data: function (params) {
+                    return {
+                        search: params.term,
+                        page: params.page || 1
+                    };
+                },
+                dataType: 'json',
+                processResults: function (data) {
+                    data.page = data.page || 1;
+                    return {
+                        results: data.items.map(function (item) {
+                            return {
+                                id: item.id,
+                                text: item.name
+                            };
+                        }),
+                        pagination: {
+                            more: data.pagination
+                        }
+                    }
+                },
+                cache: true,
+                delay: 250,
+                dropdownautowidth: true
+            }
+          });
+
+          $('#vendorselect').on('change', function (e) {
+            var data = $('#vendorselect').select2("val");
+            Livewire.emit('postVendor', data)
+          });
+
+      });
+    </script>
 
     <script type="text/javascript">
       Livewire.on("materialStore", () => {

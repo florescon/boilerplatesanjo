@@ -137,26 +137,32 @@
 		                ${{ number_format((float)$order->total_sale_and_order, 2) }}
 		              </td>
 									<td class="align-middle text-center">
-			            	${{ number_format((float)$order->total_payments, 2) }}
+			            	{!! $order->advanced_order_label !!}
 	                </td>
 	                <td class="align-middle text-center">
-			              ${{ number_format((float)$order->total_payments_remaining, 2)  }}
+			              {!! $order->remaining_order_label  !!}
 		              </td>
 	                <td class="align-middle text-center" style="text-decoration: underline;">
 	                   {!! $order->last_status_order_label !!}
 	                </td>
 	                <td class="text-center">
-										@if(!$order->exist_user_departament || $order->isFromStore())
+
+										@if((!$order->exist_user_departament || $order->isFromStore()) && $order->type != 6)
 											{!! $order->payment_label !!}
 										@else
 											<span class="badge badge-dark">@lang('Internal control')</span>
 	                	@endif
+
 	                	@if($order->parent_order_id)
 		                  <span class="badge badge-primary">
 		                  	@lang('Order'): <strong class="ml-1">{{ $order->parent_order }}</strong>
 		                  </span>
 	                  @endif
-	                  {!! $order->last_order_delivery->order_delivery  ?? "<span class='badge text-dark' style='background-color: white;'>".__('Pending').'</span>' !!}
+
+	                  @if($order->type != 6)
+	                  	{!! $order->last_order_delivery->order_delivery  ?? "<span class='badge text-dark' style='background-color: white;'>".__('Pending').'</span>' !!}
+	                  @endif
+
 										{{-- {!! $order->from_store_or_user_label !!} --}}
 	                </td>
 	                <td class="align-middle">
