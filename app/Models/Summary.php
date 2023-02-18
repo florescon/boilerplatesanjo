@@ -16,6 +16,7 @@ class Summary extends Model
         'user_id', 
         'info_customer',
         'description',
+        'request',
         'payment',
         'payment_method_id',
         'customer_id',

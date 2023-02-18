@@ -21,6 +21,7 @@ class Summarydb extends Component
 
     public $description = '';
     public $info_customer = '';
+    public $request = '';
 
     public $summary;
 
@@ -36,6 +37,7 @@ class Summarydb extends Component
         $this->summary = Summary::where('type', $typeSummary)->where('branch_id', $branchIdSummary)->where('user_id', Auth::id())->first() ?? null;
         $this->description = $this->summary->description ?? '';
         $this->info_customer = $this->summary->info_customer ?? '';
+        $this->request = $this->summary->request ?? '';
         $this->customer = $this->summary->customer_id ?? null;
         $this->type_price = $this->summary->customer->customer->type_price ?? 'retail';
         $this->phone = $this->summary->customer->customer->phone ?? null;
@@ -116,6 +118,14 @@ class Summarydb extends Component
         );
     }
 
+    public function updatedRequest()
+    {
+        $summary = Summary::updateOrCreate(
+            ['branch_id' => $this->branchId, 'type' => $this->type, 'user_id' => Auth::id()],
+            ['request' => $this->request]
+        );
+    }
+
     public function checkout()
     {
         $getProducts = $this->getProducts();
@@ -125,6 +135,8 @@ class Summarydb extends Component
             $order = new Order();
             $order->user_id = $this->customer ?? null;
             $order->comment = $this->description;
+            $order->info_customer = $this->info_customer;
+            $order->request = $this->request;
             $order->date_entered = Carbon::now()->format('Y-m-d');
             $order->type = typeInOrder($this->type);
             $order->audi_id = Auth::id();

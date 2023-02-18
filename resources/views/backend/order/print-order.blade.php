@@ -58,16 +58,19 @@
       <h6 class="mb-1">{{ $order->type_order_clear. ' '.__('to') }}:</h6>
       <p class="mb-25">{{ optional($order->user)->name . optional($order->departament)->name }}</p>
     </div>
+    @if($order->info_customer)
+      <div class="col-sm-6">
+        <p class="mb-25">{{ $order->info_customer }}</p>
+      </div>
+    @endif
     @if($order->request)
-      <div class="col-sm-3">
-        <h6 class="mb-1">@lang('Request number'):</h6>
-        <p class="mb-25">{{ $order->request ?? '' }}</p>
+      <div class="col-sm-3 mt-2">
+        <h6 class="mb-1">@lang('Request number'): {{ $order->request ?? '' }}</h6>
       </div>
     @endif
     @if($order->purchase)
-      <div class="col-sm-3">
-        <h6 class="mb-1">@lang('Purchase order'):</h6>
-        <p class="mb-25">{{ $order->purchase ?? '' }}</p>
+      <div class="col-sm-3 mt-2">
+        <h6 class="mb-1">@lang('Purchase order'): {{ $order->purchase ?? '' }}</h6>
       </div>
     @endif
   </div>
@@ -320,7 +323,7 @@
         <hr class="my-50" />
         <div class="invoice-total-item">
           <p class="invoice-total-title">Total:</p>
-          <p class="invoice-total-amount">${{ $total }}</p>
+          <p class="invoice-total-amount">${{ number_format($total, 2) }}</p>
         </div>
       </div>
     </div>
