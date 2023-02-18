@@ -182,9 +182,16 @@
             @if(!$model->isQuotation())
               <a href="{{ route('admin.order.ticket_order', $order_id) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
                 <ins>
-                  General
+                  Ticket
                 </ins>
               </a>
+
+              <a href="{{ route('admin.order.ticket_order', [$order_id, true]) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
+                <ins>
+                  Ticket sin desglose
+                </ins>
+              </a>
+
             @endif
 
             <a href="{{ route('admin.order.print', $order_id) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
@@ -215,13 +222,13 @@
               </a>
             @endif
 
-            @if($model->isOrder() or $model->isRequest())
+            {{-- @if($model->isOrder() or $model->isRequest())
               <a href="{{ route('admin.order.ticket_monitoring', $order_id) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
                 <ins>
                   @lang('Monitoring dashboard ticket')
                 </ins>
               </a>
-            @endif
+            @endif --}}
 
 
             @if(!$model->isQuotation())
@@ -322,9 +329,15 @@
                       <a href="{{ route('admin.product.consumption_filter', $product->product_id) }}" target=”_blank”> <span class="badge badge-warning"> <i class="cil-color-fill"></i> <em class="text-white">@lang('Consumption')</em> </span></a>
                       {!! $product->product->full_name_link !!}
                     </td>
-                    <td class="text-center">${{ $product->price }}</td>
+                    <td class="text-center">
+                      ${{ $product->price }}
+                      <div class="small text-muted"> ${{ priceWithoutIvaIncluded($product->price) }} </div>
+                    </td>
                     <td class="text-center">{{ $product->quantity }}</td>
-                    <td class="text-center">${{ number_format((float)$product->total_by_product, 2) }}</td>
+                    <td class="text-center">
+                      ${{ number_format((float)$product->total_by_product, 2) }}
+                      <div class="small text-muted"> ${{ priceWithoutIvaIncluded($product->total_by_product) }} </div>
+                    </td>
                   </tr>
 
                     {{-- @json($product->gettAllConsumption()) --}}
@@ -370,7 +383,10 @@
                     <td></td>
                     <td class="text-right">Total:</td>
                     <td class="text-center">{{ $model->total_products }}</td>
-                    <td class="text-center">${{ number_format((float)$model->total_order, 2) }}</td>
+                    <td class="text-center">
+                      ${{ number_format((float)$model->total_order, 2) }}
+                      <div class="small text-muted"> ${{ priceWithoutIvaIncluded($model->total_order) }} </div>
+                    </td>
                   </tr>
 
                 </tbody>
@@ -403,16 +419,25 @@
                     <td>
                       {!! $product->product->full_name !!}
                     </td>
-                    <td class="text-center">${{ $product->price }}</td>
+                    <td class="text-center">
+                      ${{ $product->price }}
+                      <div class="small text-muted"> ${{ priceWithoutIvaIncluded($product->price) }} </div>
+                    </td>
                     <td class="text-center">{{ $product->quantity }}</td>
-                    <td class="text-center">${{ number_format((float)$product->total_by_product, 2) }}</td>
+                    <td class="text-center">
+                      ${{ number_format((float)$product->total_by_product, 2) }}
+                      <div class="small text-muted"> ${{ priceWithoutIvaIncluded($product->total_by_product) }} </div>
+                    </td>
                   </tr>
                   @endforeach
                   <tr>
                     <td></td>
                     <td class="text-right">Total:</td>
                     <td class="text-center">{{ $model->total_products_sale }}</td>
-                    <td class="text-center">${{ number_format((float)$model->total_sale, 2) }}</td>
+                    <td class="text-center">
+                      ${{ number_format((float)$model->total_sale, 2) }}
+                      <div class="small text-muted"> ${{ priceWithoutIvaIncluded($model->total_sale) }} </div>
+                    </td>
                   </tr>
 
                 </tbody>
@@ -444,16 +469,25 @@
                     <td>
                       {!! $product->product->full_name !!}
                     </td>
-                    <td class="text-center">${{ $product->price }}</td>
+                    <td class="text-center">
+                      ${{ $product->price }}
+                      <div class="small text-muted"> ${{ priceWithoutIvaIncluded($product->price) }} </div>
+                    </td>
                     <td class="text-center">{{ $product->quantity }}</td>
-                    <td class="text-center">${{ number_format((float)$product->total_by_product, 2) }}</td>
-                  </tr>
+                    <td class="text-center">
+                      ${{ number_format((float)$product->total_by_product, 2) }}
+                      <div class="small text-muted"> ${{ priceWithoutIvaIncluded($product->total_by_product) }} </div>
+                    </td>
+                 </tr>
                   @endforeach
                   <tr>
                     <td></td>
                     <td class="text-right">Total:</td>
                     <td class="text-center">{{ $model->total_products_request }}</td>
-                    <td class="text-center">${{ number_format((float)$model->total_request, 2) }}</td>
+                    <td class="text-center">
+                      ${{ number_format((float)$model->total_request, 2) }}
+                      <div class="small text-muted"> ${{ priceWithoutIvaIncluded($model->total_request) }} </div>
+                    </td>
                   </tr>
 
                 </tbody>

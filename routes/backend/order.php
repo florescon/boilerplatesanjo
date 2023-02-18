@@ -124,12 +124,12 @@ Route::group([
                     ->push(__('Ticket order'), route('admin.order.ticket', $order));
             });
 
-        Route::get('ticket_order', [OrderController::class, 'ticket_order'])
+        Route::get('ticket_order/{breackdown?}', [OrderController::class, 'ticket_order'])
             ->name('ticket_order')
             ->middleware('permission:admin.access.order.modify')
             ->breadcrumbs(function (Trail $trail, Order $order) {
                 $trail->parent('admin.order.edit', $order)
-                    ->push(__('Ticket order'), route('admin.order.ticket_order', $order));
+                    ->push(__('Ticket order'), route('admin.order.ticket_order', [$order, $breackdown]));
             });
 
         Route::get('ticket_monitoring', [OrderController::class, 'ticket_monitoring'])

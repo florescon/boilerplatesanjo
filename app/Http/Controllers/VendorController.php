@@ -32,6 +32,7 @@ class VendorController extends Controller
     {
         $validated = $request->validate([
             'name' => ['required', 'min:3', 'max:100'],
+            'short_name' => ['required', 'min:3', 'max:15'],
             'email' => ['required', 'min:3', 'max:50', Rule::unique('vendors')->ignore($vendor->id)],
             'phone' => ['nullable', 'numeric', 'sometimes', 'regex:/^\d+(\.\d{1,2})?$/'],
             'city_id' => ['numeric', Rule::requiredIf(!$vendor->city_id)],

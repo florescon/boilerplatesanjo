@@ -61,7 +61,7 @@ class Products extends Component
 
                 $price = $product->product->getPriceWithIva($customerPrice);
 
-                $product->update(['price' => $price]);
+                $product->update(['price' => $price, 'price_without_tax' => priceWithoutIvaIncluded($price)]);
             }
         }
     }

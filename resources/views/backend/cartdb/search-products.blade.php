@@ -80,9 +80,13 @@
     @endif
 
       @if($selectedProduct)
-        <div class="row">
-            <div class="col-12 text-center mt-4">
-              {!!  $full_name ?? '' !!}
+        <div class="row justify-content-center">
+            <div class="card" style="width: 18rem;">
+              <img class="card-img-top" src="{{ asset('/storage/' . $selectedProduct->file_name) }}" >
+              <div class="card-body">
+                <h5 class="card-title">{!!  $full_name ?? '' !!}</h5>
+                <p class="card-text">{{ $selectedProduct->description }}</p>
+              </div>
             </div>
         </div>
 

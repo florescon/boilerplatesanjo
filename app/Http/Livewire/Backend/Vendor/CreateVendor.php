@@ -7,10 +7,11 @@ use Livewire\Component;
 
 class CreateVendor extends Component
 {
-    public $name, $email, $phone, $city_id, $address, $rfc, $comment;
+    public $name, $short_name, $email, $phone, $city_id, $address, $rfc, $comment;
 
     protected $rules = [
         'name' => 'min:3|max:50|required',
+        'short_name' => 'min:3|max:15|required',
         'email' => 'required|unique:vendors',
         'phone' => 'nullable|sometimes|numeric|regex:/^\d+(\.\d{1,2})?$/',
         'city_id' => 'required|numeric',
@@ -31,6 +32,7 @@ class CreateVendor extends Component
     private function resetInputFields()
     {
         $this->name = '';
+        $this->short_name = '';
         $this->email = '';
         $this->phone = '';
         $this->address = '';
@@ -50,8 +52,9 @@ class CreateVendor extends Component
 
             $vendor = Vendor::create([
                 'name' => $this->name,
-                'email' => $this->email,                
-                'phone' => $this->phone,                
+                'short_name' => $this->short_name,
+                'email' => $this->email,
+                'phone' => $this->phone,
                 'address' => $this->address,                
                 'city_id' => $this->city_id,                
                 'rfc' => $this->rfc,                

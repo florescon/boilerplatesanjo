@@ -24,6 +24,13 @@
                         </div>
                     </div><!--form-group-->
                     <div class="form-group row">
+                        <label for="name" class="col-md-2 col-form-label">@lang('Short name')</label>
+
+                        <div class="col-md-10">
+                            <input type="text" name="short_name" class="form-control" placeholder="{{ __('Short name') }}" value="{{ old('short_name') ?? $vendor->short_name }}" maxlength="100" />
+                        </div>
+                    </div><!--form-group-->
+                    <div class="form-group row">
                         <label for="email" class="col-md-2 col-form-label">@lang('Email')</label>
 
                         <div class="col-md-10">

@@ -19,6 +19,14 @@
                     </div>
                 </div><!--form-group-->
                 <div class="form-group row">
+                    <label for="name" class="col-md-2 col-form-label">@lang('Short name')</label>
+
+                    <div class="col-md-10">
+                        <input type="text" wire:model.lazy="short_name" class="form-control" placeholder="{{ __('Short name') }}" maxlength="15" required/>
+                        @error('short_name') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                    </div>
+                </div><!--form-group-->
+                <div class="form-group row">
                     <label for="email" class="col-md-2 col-form-label">@lang('Email')</label>
 
                     <div class="col-md-10">

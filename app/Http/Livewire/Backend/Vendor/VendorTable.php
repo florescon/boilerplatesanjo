@@ -85,6 +85,15 @@ class VendorTable extends TableComponent
             Column::make(__('Name'), 'name')
                 ->searchable()
                 ->sortable(),
+            Column::make(__('Short name'), 'short_name')
+                ->searchable()
+                ->sortable()
+                ->format(function(Vendor $model) {
+                    return $this->html($model->short_name_label);
+                })
+                ->exportFormat(function(Vendor $model) {
+                    return $model->short_name;
+                }),
             Column::make(__('Email'), 'email')
                 ->searchable()
                 ->sortable()

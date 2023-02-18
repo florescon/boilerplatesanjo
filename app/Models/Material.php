@@ -28,6 +28,7 @@ class Material extends Model
         'color_id',
         'size_id',
         'vendor_id',
+        'short_name',
     ];
 
     protected $casts = [

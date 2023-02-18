@@ -95,13 +95,13 @@
                 </p>
               </td>
               <td class="py-1">
+                <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</span>
+              </td>
+              <td class="py-1">
                 <span class="font-weight-bold">{{ $product->quantity }}</span>
               </td>
               <td class="py-1">
-                <span class="font-weight-bold">${{ $product->price ? $product->price : $product->price }}</span>
-              </td>
-              <td class="py-1">
-                <span class="font-weight-bold">${{ number_format($totalprod = ($product->price ? $product->price : $product->price) * $product->quantity, 2, ".", ",") }}</span>
+                <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</span>
               </td>
             </tr>
             @php($total += $totalprod)
@@ -139,13 +139,13 @@
                 </p>
               </td>
               <td class="py-1">
-                <span class="font-weight-bold">${{ $product->price ? $product->price : $product->price }}</span>
+                <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</span>
               </td>
               <td class="py-1">
                 <span class="font-weight-bold">{{ $product->quantity }}</span>
               </td>
               <td class="py-1">
-                <span class="font-weight-bold">${{ number_format($totalprod = ($product->price ? $product->price : $product->price) * $product->quantity, 2, ".", ",") }}</span>
+                <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</span>
               </td>
             </tr>
             @php($total += $totalprod)
@@ -178,13 +178,13 @@
                 </p>
               </td>
               <td class="py-1">
-                <span class="font-weight-bold">${{ $product->price ? $product->price : $product->price }}</span>
+                <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</span>
               </td>
               <td class="py-1">
                 <span class="font-weight-bold">{{ $product->quantity }}</span>
               </td>
               <td class="py-1">
-                <span class="font-weight-bold">${{ number_format($totalprod = ($product->price ? $product->price : $product->price) * $product->quantity, 2, ".", ",") }}</span>
+                <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</span>
               </td>
             </tr>
             @php($total += $totalprod)
@@ -222,13 +222,13 @@
                 </p>
               </td>
               <td class="py-1">
-                <span class="font-weight-bold">${{ $product->price ? $product->price : $product->price }}</span>
+                <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</span>
               </td>
               <td class="py-1">
                 <span class="font-weight-bold">{{ $product->quantity }}</span>
               </td>
               <td class="py-1">
-                <span class="font-weight-bold">${{ number_format($totalprod = ($product->price ? $product->price : $product->price) * $product->quantity, 2, ".", ",") }}</span>
+                <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</span>
               </td>
             </tr>
             @php($total += $totalprod)
@@ -261,13 +261,13 @@
                 </p>
               </td>
               <td class="py-1">
-                <span class="font-weight-bold">${{ $product->price ? $product->price : $product->price }}</span>
+                <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</span>
               </td>
               <td class="py-1">
                 <span class="font-weight-bold">{{ $product->quantity }}</span>
               </td>
               <td class="py-1">
-                <span class="font-weight-bold">${{ number_format($totalprod = ($product->price ? $product->price : $product->price) * $product->quantity, 2, ".", ",") }}</span>
+                <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</span>
               </td>
             </tr>
             @php($total += $totalprod)
@@ -276,6 +276,7 @@
       </table>
     </div>
   @endif
+
   <div class="row invoice-sales-total-wrapper mt-3">
     <div class="col-md-6 order-md-1 order-2 mt-md-0 mt-3">
       @if($order->audi_id)

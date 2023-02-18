@@ -79,10 +79,10 @@
                       <span class="font-weight-bold">{{ $product->quantity}}</span>
                     </td>
                     <td class="py-1">
-                      <span class="font-weight-bold">${{ $product->price ? $product->price : $product->price }}</span>
+                      <span class="font-weight-bold">${{ priceWithoutIvaIncluded($product->price) }}</span>
                     </td>
                     <td class="py-1">
-                      <span class="font-weight-bold">${{ number_format($totalprod = ($product->price ? $product->price : $product->price) * $product->quantity, 2, ".", ",") }}</span>
+                      <span class="font-weight-bold">${{ priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) }}</span>
                     </td>
                   </tr>
                   @php($total += $totalprod)
@@ -93,20 +93,20 @@
                   <td></td>
                   <th class="table-warning">{{ $model->total_products_suborder }}</th>
                   <th class="table-warning">Subtotal</th>
-                  <td class="table-warning">${{ $total ? number_format((float)$total, 2) : '' }}</td>
+                  <td class="table-warning">${{ $total ? priceWithoutIvaIncluded($total) : '' }}</td>
                 </tr>
                 @if($model->id >= 530)
                   <tr>
                     <td></td>
                     <td></td>
                     <th class="table-warning">IVA</th>
-                    <td class="table-warning">${{ number_format(((setting('iva') / 100) * $total), 2) }}</td>
+                    <td class="table-warning">${{ ivaPrice($total) }}</td>
                   </tr>
                   <tr>
                     <td></td>
                     <td></td>
                     <th class="table-warning">Total</th>
-                    <td class="table-warning">${{ number_format($total  + ((setting('iva') / 100) * $total), 2) }}</td>
+                    <td class="table-warning">${{ number_format($total, 2) }}</td>
                   </tr>
                 @endif
               </tbody>

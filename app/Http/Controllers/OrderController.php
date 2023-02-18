@@ -103,9 +103,9 @@ class OrderController extends Controller
         // return view('backend.order.ticket-order');
     }
 
-    public function ticket_order(Order $order)
+    public function ticket_order(Order $order, bool $breakdown = false)
     {
-        $pdf = PDF::loadView('backend.order.ticket-order',compact('order'))->setPaper([0, 0, 1385.98, 296.85], 'landscape');
+        $pdf = PDF::loadView('backend.order.ticket-order',compact('order', 'breakdown'))->setPaper([0, 0, 1385.98, 296.85], 'landscape');
 
         return $pdf->stream();
     }

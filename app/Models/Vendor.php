@@ -29,6 +29,15 @@ class Vendor extends Model
         return $this->hasMany(Material::class, 'vendor_id');
     }
 
+    public function getShortNameLabelAttribute()
+    {
+        if($this->short_name){
+            return $this->short_name;
+        }
+
+        return " <span class='badge badge-secondary'>".__('undefined').'</span>';
+    }
+
     /**
      * Count the number products.
      *
@@ -78,5 +87,6 @@ class Vendor extends Model
         'address',
         'rfc',
         'comment',
+        'short_name',
     ];
 }
