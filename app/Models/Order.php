@@ -406,6 +406,11 @@ class Order extends Model
         return $this->hasMany(ServiceOrder::class);
     }
 
+    public function getTotalProductsByAllAttribute(): int
+    {
+        return $this->products->sum('quantity');
+    }
+
     public function getTotalProductsAttribute(): int
     {
         return $this->product_order->sum('quantity');
@@ -430,6 +435,13 @@ class Order extends Model
     {
         return $this->product_order->sum(function($parent) {
           return $parent->quantity - $parent->assignments->where('output', 0)->sum('quantity');
+        });
+    }
+
+    public function getTotalByAllAttribute()
+    {
+        return $this->products->sum(function($parent) {
+          return $parent->quantity * $parent->price;
         });
     }
 

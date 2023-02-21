@@ -53,14 +53,14 @@
                                             placeholder="{{ __('Comment') }}" maxlength="150"/>
                                         </td>
                                         <td>
-                                            <input type="number" 
+                                            <input type="number"
                                                 wire:model.defer="quantity.{{ $record->product->id }}.available"
                                                 wire:keydown.enter="save"
                                                 class="form-control"
                                                 style="color: blue;" 
                                                 {{-- placeholder="{{ $record->available_assignments }}" --}}
                                             >
-                                            @error('quantity.'.$record->id.'.available') 
+                                            @error('quantity.'.$record->product_id.'.available') 
                                               <span class="error" style="color: red;">
                                                 <p>@lang('Check the quantity')</p>
                                               </span> 

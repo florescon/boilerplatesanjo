@@ -204,6 +204,6 @@
   </x-slot>
 
   <x-slot name="footer">
-      <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('Close')</button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('Close')</button>
   </x-slot>
 </x-utils.modal>

@@ -11,6 +11,7 @@ use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use PDF;
+use DB;
 use Carbon\Carbon;
 use App\Events\Order\OrderDeleted;
 use Illuminate\Support\Facades\Auth;
@@ -91,7 +92,18 @@ class OrderController extends Controller
 
     public function print(Order $order, bool $breakdown = false)
     {
-        return view('backend.order.print-order', compact('order', 'breakdown'));
+        // $selectSub = DB::table('products')->join('products', 'products.id', '=', 'products.parent_id')->whereRaw('product_order.product_id = product.id');
+
+        $orderGroup = DB::table('product_order as a')
+            ->selectRaw('c.name as product_name, d.name as color_name, max(a.price) as max_price, sum(a.quantity) as sum, count(*) as total_by_product')
+            ->join('products as b', 'a.product_id', '=', 'b.id')
+            ->join('products as c', 'c.id', '=', 'b.parent_id')
+            ->join('colors as d', 'd.id', '=', 'b.color_id')
+            ->groupBy('b.parent_id', 'b.color_id')
+            ->where('order_id', $order->id)
+            ->get();
+
+        return view('backend.order.print-order', compact('order', 'breakdown', 'orderGroup'));
     }
 
     public function ticket(Order $order)

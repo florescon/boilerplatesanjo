@@ -80,6 +80,14 @@ class Order extends Model
     /**
      * @return mixed
      */
+    public function product_quotation()
+    {
+        return $this->hasMany(ProductOrder::class)->with('product.parent', 'product.color', 'product.size')->where('type', 6);
+    }
+
+    /**
+     * @return mixed
+     */
     public function product_suborder()
     {
         return $this->hasMany(ProductOrder::class, 'suborder_id')->with('parent_order.product.parent', 'parent_order.product.color', 'parent_order.product.size');

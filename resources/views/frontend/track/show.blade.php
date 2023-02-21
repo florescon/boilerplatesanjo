@@ -71,6 +71,9 @@
 													@if($order->product_sale->count())
 														<a href="#sale" class="link size-16 w-100 mt-1" data-hover="{{ __('Sale') }}">@lang('Sale')</a>
 													@endif 
+													@if($order->product_quotation->count())
+														<a href="#sale" class="link size-16 w-100 mt-1" data-hover="{{ __('Quotation') }}">@lang('Quotation')</a>
+													@endif 
 													@if($order->product_suborder->count())	
 														<a href="#order" class="link size-16 w-100 mt-1" data-hover="{{ __('Suborder') }}">@lang('Suborder')</a> 
 													@endif
@@ -213,6 +216,43 @@
 														</tr>
 														@endforeach
 											            @php($total += $totalprod)
+													</tbody>
+												</table>	
+											</div>
+										</div>
+									</div>
+								</div>
+							@endif
+
+							@if($order->product_quotation->count())
+								<div class="container padding-top" id="sale">
+									<div class="row">
+										<div class="col-lg-8">
+											<h4 class="mb-2">@lang('Quotation')</h4>
+											<p class="mb-3 pb-3">@lang('Quotation details').</p>
+										</div>
+										<div class="section"></div>
+										<div class="col-12">
+											<div class="table-responsive">
+												<table class="table table-hover">
+													<thead>
+														<tr>
+										                    <th scope="col">@lang('Product')</th>
+										                    <th scope="col" class="text-center">@lang('Quantity')</th>
+										                    <th scope="col" class="text-center">@lang('Price')</th>
+										                    <th scope="col" class="text-center">Total</th>
+
+														</tr>
+													</thead>
+													<tbody>
+										                @foreach($order->product_quotation as $product)
+														<tr>
+															<td>{!! clean($product->product->full_name) !!}</td>
+															<td class="text-center">{{ $product->quantity }}</td>
+															<td class="text-center">${{ $product->price }}</td>
+															<td class="text-center">${{ $product->total_by_product }}</td>
+														</tr>
+														@endforeach
 													</tbody>
 												</table>	
 											</div>

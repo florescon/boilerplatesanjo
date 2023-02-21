@@ -254,26 +254,25 @@
         </thead>
           <tbody>
             @php($total = 0)
-            @foreach($order->product_quotation as $product)
+            @foreach($orderGroup as $product)
             <tr class="{{ $loop->last ? 'border-bottom' : '' }}">
               {{-- @json($product) --}}
               <td class="py-1">
-                <p class="card-text font-weight-bold mb-25">{{ $product->product->only_name }}</p>
-                <p class="card-text text-nowrap">
-                  {!! $product->product->only_parameters !!}
-                </p>
+                {{-- <p class="card-text font-weight-bold mb-25">{{ $product->product->only_name }}  --}}
+                  <p>{{ $product->product_name }} - {{ $product->color_name }}</p>
+
               </td>
               <td class="py-1">
-                <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</span>
+                {{ number_format($product->max_price, 2) }}
               </td>
               <td class="py-1">
-                <span class="font-weight-bold">{{ $product->quantity }}</span>
+                <span class="font-weight-bold">{{ $product->sum }}</span>
               </td>
               <td class="py-1">
-                <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</span>
+                {{ number_format($product->sum * $product->max_price, 2) }}
               </td>
             </tr>
-            @php($total += $totalprod)
+            {{-- @php($total += $totalprod) --}}
             @endforeach
           </tbody>
       </table>
@@ -313,17 +312,17 @@
         @if(!$breakdown)
           <div class="invoice-total-item">
             <p class="invoice-total-title">Subtotal:</p>
-            <p class="invoice-total-amount">${{ priceWithoutIvaIncluded($total)  }}</p>
+            <p class="invoice-total-amount">${{ priceWithoutIvaIncluded(count($order->product_suborder) ? $total : $order->total_by_all)  }}</p>
           </div>
           <div class="invoice-total-item">
             <p class="invoice-total-title">IVA:</p>
-            <p class="invoice-total-amount">${{ ivaPrice($total) }}</p>
+            <p class="invoice-total-amount">${{ ivaPrice(count($order->product_suborder) ? $total : $order->total_by_all) }}</p>
           </div>
         @endif
         <hr class="my-50" />
         <div class="invoice-total-item">
           <p class="invoice-total-title">Total:</p>
-          <p class="invoice-total-amount">${{ number_format($total, 2) }}</p>
+          <p class="invoice-total-amount">${{ number_format(count($order->product_suborder) ? $total : $order->total_by_all, 2) }}</p>
         </div>
       </div>
     </div>

@@ -38,11 +38,11 @@ class CreateServiceOrder extends Component
 
         foreach($this->order->products as $bal)
         {
-            if(is_array($this->quantity) && array_key_exists($bal->id, $this->quantity)){
+            if(is_array($this->quantity) && array_key_exists($bal->product_id, $this->quantity)){
 
                 $this->validate([
-                    'quantity.'.$bal->id.'.available' => 'sometimes|nullable|numeric|integer|gt:0|max:'.$bal->quantity,
-                    'comment.'.$bal->id.'.available' => 'sometimes|nullable',
+                    'quantity.'.$bal->product_id.'.available' => 'sometimes|nullable|numeric|integer|gt:0|max:'.$bal->quantity,
+                    'comment.'.$bal->product_id.'.available' => 'sometimes|nullable',
                 ]);
             }
         }

@@ -91,6 +91,14 @@ class SearchProducts extends Component
         }
     }
 
+    public function array_multisum(array $arr): float {
+        $sum = array_sum($arr);
+        foreach($arr as $child) {
+            $sum += is_array($child) ? $this->array_multisum($child) : 0;
+        }
+        return $sum;
+    }
+
     public function format()
     {
         $this->validate([
@@ -129,15 +137,15 @@ class SearchProducts extends Component
             }
         }
 
+        $this->emit('swal:alert', [
+            'icon' => 'success',
+            'title'   => __('Captured').' '.$this->array_multisum($this->inputformat).' '.__('products'), 
+        ]);
+
         $this->emit('clearAll');
         $this->clearAll();
 
         $this->emit('cartUpdated');
-
-        $this->emit('swal:alert', [
-            'icon' => 'success',
-            'title'   => __('Saved'), 
-        ]);
     }
 
     public function clearAll()
