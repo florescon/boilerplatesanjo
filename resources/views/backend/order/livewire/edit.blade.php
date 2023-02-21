@@ -206,6 +206,12 @@
               </ins>
             </a>
 
+            <a href="{{ route('admin.order.print', [$order_id, 0, true]) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
+              <ins>
+                Imprimir productos agrupados
+              </ins>
+            </a>
+
             @if($model->materials_order()->exists())
               <a href="{{ route('admin.order.ticket_materia', $order_id) }}" class="card-link text-warning" target="_blank"><i class="cil-print"></i>
                 <ins>

@@ -90,7 +90,7 @@ class OrderController extends Controller
         return view('backend.order.create-suborder');
     }
 
-    public function print(Order $order, bool $breakdown = false)
+    public function print(Order $order, bool $breakdown = false, bool $grouped = false)
     {
         // $selectSub = DB::table('products')->join('products', 'products.id', '=', 'products.parent_id')->whereRaw('product_order.product_id = product.id');
 
@@ -103,7 +103,7 @@ class OrderController extends Controller
             ->where('order_id', $order->id)
             ->get();
 
-        return view('backend.order.print-order', compact('order', 'breakdown', 'orderGroup'));
+        return view('backend.order.print-order', compact('order', 'breakdown', 'orderGroup', 'grouped'));
     }
 
     public function ticket(Order $order)

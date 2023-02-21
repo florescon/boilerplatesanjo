@@ -75,173 +75,212 @@
     @endif
   </div>
 
-  @if(count($order->product_suborder))
-    <div class="table-responsive mt-2">
-      <table class="table m-0">
-        <thead>
-          <tr>
-            <th class="py-1">@lang('Product')</th>
-            <th class="py-1">@lang('Quantity')</th>
-            <th class="py-1">@lang('Price')</th>
-            <th class="py-1">Total</th>
-          </tr>
-        </thead>
-          <tbody>
-            @php($total = 0)
-            @foreach($order->product_suborder as $product)
-            <tr class="{{ $loop->last ? 'border-bottom' : '' }}">
-              {{-- @json($product) --}}
-              <td class="py-1">
-                <p class="card-text font-weight-bold mb-25">{{ $product->product->only_name }}</p>
-                <p class="card-text text-nowrap">
-                  {!! $product->product->only_parameters !!}
-                </p>
-              </td>
-              <td class="py-1">
-                <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</span>
-              </td>
-              <td class="py-1">
-                <span class="font-weight-bold">{{ $product->quantity }}</span>
-              </td>
-              <td class="py-1">
-                <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</span>
-              </td>
+  @if(!$grouped)
+    @if(count($order->product_suborder))
+      <div class="table-responsive mt-2">
+        <table class="table m-0">
+          <thead>
+            <tr>
+              <th class="py-1">@lang('Product')</th>
+              <th class="py-1">@lang('Quantity')</th>
+              <th class="py-1">@lang('Price')</th>
+              <th class="py-1">Total</th>
             </tr>
-            @php($total += $totalprod)
-            @endforeach
-          </tbody>
-      </table>
-    </div>
-  @endif
+          </thead>
+            <tbody>
+              @php($total = 0)
+              @foreach($order->product_suborder as $product)
+              <tr class="{{ $loop->last ? 'border-bottom' : '' }}">
+                {{-- @json($product) --}}
+                <td class="py-1">
+                  <p class="card-text font-weight-bold mb-25">{{ $product->product->only_name }}</p>
+                  <p class="card-text text-nowrap">
+                    {!! $product->product->only_parameters !!}
+                  </p>
+                </td>
+                <td class="py-1">
+                  <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</span>
+                </td>
+                <td class="py-1">
+                  <span class="font-weight-bold">{{ $product->quantity }}</span>
+                </td>
+                <td class="py-1">
+                  <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</span>
+                </td>
+              </tr>
+              @php($total += $totalprod)
+              @endforeach
+            </tbody>
+        </table>
+      </div>
+    @endif
 
-  @if(count($order->product_request))
-    <div class="table-responsive mt-2">
-      <table class="table m-0">
-        <thead>
-          <tr>
-            <th class="py-1 text-center" colspan="4">@lang('Request')</th>
-          </tr>
-        </thead>
-        <thead>
-          <tr>
-            <th class="py-1">@lang('Product')</th>
-            <th class="py-1">@lang('Price')</th>
-            <th class="py-1">@lang('Quantity')</th>
-            <th class="py-1">Total</th>
-          </tr>
-        </thead>
-          <tbody>
-            @php($total = 0)
-            @foreach($order->product_request as $product)
-            <tr class="{{ $loop->last ? 'border-bottom' : '' }}">
-              {{-- @json($product) --}}
-              <td class="py-1">
-                <p class="card-text font-weight-bold mb-25">{{ $product->product->only_name }}</p>
-                <p class="card-text text-nowrap">
-                  {!! $product->product->only_parameters !!}
-                </p>
-              </td>
-              <td class="py-1">
-                <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</span>
-              </td>
-              <td class="py-1">
-                <span class="font-weight-bold">{{ $product->quantity }}</span>
-              </td>
-              <td class="py-1">
-                <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</span>
-              </td>
+    @if(count($order->product_request))
+      <div class="table-responsive mt-2">
+        <table class="table m-0">
+          <thead>
+            <tr>
+              <th class="py-1 text-center" colspan="4">@lang('Request')</th>
             </tr>
-            @php($total += $totalprod)
-            @endforeach
-          </tbody>
-      </table>
-    </div>
-  @endif
-
-  @if(count($order->product_order))
-    <div class="table-responsive mt-2">
-      <table class="table m-0">
-        <thead>
-          <tr>
-            <th class="py-1">@lang('Product')</th>
-            <th class="py-1">@lang('Price')</th>
-            <th class="py-1">@lang('Quantity')</th>
-            <th class="py-1">Total</th>
-          </tr>
-        </thead>
-          <tbody>
-            @php($total = 0)
-            @foreach($order->product_order as $product)
-            <tr class="{{ $loop->last ? 'border-bottom' : '' }}">
-              {{-- @json($product) --}}
-              <td class="py-1">
-                <p class="card-text font-weight-bold mb-25">{{ $product->product->only_name }}</p>
-                <p class="card-text text-nowrap">
-                  {!! $product->product->only_parameters !!}
-                </p>
-              </td>
-              <td class="py-1">
-                <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</span>
-              </td>
-              <td class="py-1">
-                <span class="font-weight-bold">{{ $product->quantity }}</span>
-              </td>
-              <td class="py-1">
-                <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</span>
-              </td>
+          </thead>
+          <thead>
+            <tr>
+              <th class="py-1">@lang('Product')</th>
+              <th class="py-1">@lang('Price')</th>
+              <th class="py-1">@lang('Quantity')</th>
+              <th class="py-1">Total</th>
             </tr>
-            @php($total += $totalprod)
-            @endforeach
-          </tbody>
-      </table>
-    </div>
-  @endif
+          </thead>
+            <tbody>
+              @php($total = 0)
+              @foreach($order->product_request as $product)
+              <tr class="{{ $loop->last ? 'border-bottom' : '' }}">
+                {{-- @json($product) --}}
+                <td class="py-1">
+                  <p class="card-text font-weight-bold mb-25">{{ $product->product->only_name }}</p>
+                  <p class="card-text text-nowrap">
+                    {!! $product->product->only_parameters !!}
+                  </p>
+                </td>
+                <td class="py-1">
+                  <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</span>
+                </td>
+                <td class="py-1">
+                  <span class="font-weight-bold">{{ $product->quantity }}</span>
+                </td>
+                <td class="py-1">
+                  <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</span>
+                </td>
+              </tr>
+              @php($total += $totalprod)
+              @endforeach
+            </tbody>
+        </table>
+      </div>
+    @endif
 
-  @if(count($order->product_sale))
-    <div class="table-responsive mt-2">
-      <table class="table m-0">
-        <thead>
-          <tr>
-            <th class="py-1 text-center" colspan="4">@lang('Sale')</th>
-          </tr>
-        </thead>
-        <thead>
-          <tr>
-            <th class="py-1">@lang('Product')</th>
-            <th class="py-1">@lang('Price')</th>
-            <th class="py-1">@lang('Quantity')</th>
-            <th class="py-1">Total</th>
-          </tr>
-        </thead>
-          <tbody>
-            @php($total = 0)
-            @foreach($order->product_sale as $product)
-            <tr class="{{ $loop->last ? 'border-bottom' : '' }}">
-              {{-- @json($product) --}}
-              <td class="py-1">
-                <p class="card-text font-weight-bold mb-25">{{ $product->product->only_name }}</p>
-                <p class="card-text text-nowrap">
-                  {!! $product->product->only_parameters !!}
-                </p>
-              </td>
-              <td class="py-1">
-                <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</span>
-              </td>
-              <td class="py-1">
-                <span class="font-weight-bold">{{ $product->quantity }}</span>
-              </td>
-              <td class="py-1">
-                <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</span>
-              </td>
+    @if(count($order->product_order))
+      <div class="table-responsive mt-2">
+        <table class="table m-0">
+          <thead>
+            <tr>
+              <th class="py-1">@lang('Product')</th>
+              <th class="py-1">@lang('Price')</th>
+              <th class="py-1">@lang('Quantity')</th>
+              <th class="py-1">Total</th>
             </tr>
-            @php($total += $totalprod)
-            @endforeach
-          </tbody>
-      </table>
-    </div>
-  @endif
+          </thead>
+            <tbody>
+              @php($total = 0)
+              @foreach($order->product_order as $product)
+              <tr class="{{ $loop->last ? 'border-bottom' : '' }}">
+                {{-- @json($product) --}}
+                <td class="py-1">
+                  <p class="card-text font-weight-bold mb-25">{{ $product->product->only_name }}</p>
+                  <p class="card-text text-nowrap">
+                    {!! $product->product->only_parameters !!}
+                  </p>
+                </td>
+                <td class="py-1">
+                  <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</span>
+                </td>
+                <td class="py-1">
+                  <span class="font-weight-bold">{{ $product->quantity }}</span>
+                </td>
+                <td class="py-1">
+                  <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</span>
+                </td>
+              </tr>
+              @php($total += $totalprod)
+              @endforeach
+            </tbody>
+        </table>
+      </div>
+    @endif
 
-  @if(count($order->product_quotation))
+    @if(count($order->product_sale))
+      <div class="table-responsive mt-2">
+        <table class="table m-0">
+          <thead>
+            <tr>
+              <th class="py-1 text-center" colspan="4">@lang('Sale')</th>
+            </tr>
+          </thead>
+          <thead>
+            <tr>
+              <th class="py-1">@lang('Product')</th>
+              <th class="py-1">@lang('Price')</th>
+              <th class="py-1">@lang('Quantity')</th>
+              <th class="py-1">Total</th>
+            </tr>
+          </thead>
+            <tbody>
+              @php($total = 0)
+              @foreach($order->product_sale as $product)
+              <tr class="{{ $loop->last ? 'border-bottom' : '' }}">
+                {{-- @json($product) --}}
+                <td class="py-1">
+                  <p class="card-text font-weight-bold mb-25">{{ $product->product->only_name }}</p>
+                  <p class="card-text text-nowrap">
+                    {!! $product->product->only_parameters !!}
+                  </p>
+                </td>
+                <td class="py-1">
+                  <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</span>
+                </td>
+                <td class="py-1">
+                  <span class="font-weight-bold">{{ $product->quantity }}</span>
+                </td>
+                <td class="py-1">
+                  <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</span>
+                </td>
+              </tr>
+              @php($total += $totalprod)
+              @endforeach
+            </tbody>
+        </table>
+      </div>
+    @endif
+
+    @if(count($order->product_quotation))
+      <div class="table-responsive mt-2">
+        <table class="table m-0">
+          <thead>
+            <tr>
+              <th class="py-1">@lang('Product')</th>
+              <th class="py-1">@lang('Price')</th>
+              <th class="py-1">@lang('Quantity')</th>
+              <th class="py-1">Total</th>
+            </tr>
+          </thead>
+            <tbody>
+              @php($total = 0)
+              @foreach($order->product_quotation as $product)
+              <tr class="{{ $loop->last ? 'border-bottom' : '' }}">
+                {{-- @json($product) --}}
+                <td class="py-1">
+                  <p class="card-text font-weight-bold mb-25">{{ $product->product->only_name }}</p>
+                  <p class="card-text text-nowrap">
+                    {!! $product->product->only_parameters !!}
+                  </p>
+                </td>
+                <td class="py-1">
+                  <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</span>
+                </td>
+                <td class="py-1">
+                  <span class="font-weight-bold">{{ $product->quantity }}</span>
+                </td>
+                <td class="py-1">
+                  <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</span>
+                </td>
+              </tr>
+              @php($total += $totalprod)
+              @endforeach
+            </tbody>
+        </table>
+      </div>
+      @endif
+  @else
     <div class="table-responsive mt-2">
       <table class="table m-0">
         <thead>
@@ -263,13 +302,13 @@
 
               </td>
               <td class="py-1">
-                {{ number_format($product->max_price, 2) }}
+                {{ priceWithoutIvaIncluded($product->max_price) }}
               </td>
               <td class="py-1">
                 <span class="font-weight-bold">{{ $product->sum }}</span>
               </td>
               <td class="py-1">
-                {{ number_format($product->sum * $product->max_price, 2) }}
+                {{ priceWithoutIvaIncluded($product->sum * $product->max_price) }}
               </td>
             </tr>
             {{-- @php($total += $totalprod) --}}
@@ -278,6 +317,7 @@
       </table>
     </div>
   @endif
+
 
   <div class="row invoice-sales-total-wrapper mt-3">
     <div class="col-md-6 order-md-1 order-2 mt-md-0 mt-3">
