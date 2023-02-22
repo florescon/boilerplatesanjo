@@ -537,6 +537,29 @@ class Order extends Model
     /**
      * @return string
      */
+    public function getCharactersTypeOrderAttribute()
+    {
+            switch ($this->type) {
+                case 2:
+                    return 'SJU-VEN';
+                case 3:
+                    return 'SJU-MIX';
+                case 4:
+                    return 'SJU-OUT';
+                case 5:
+                    return 'SJU-PED';
+                case 6:
+                    return 'SJU-COT';
+                default:
+                    return 'SJU-ORD';
+            }
+
+        return '';
+    }
+
+    /**
+     * @return string
+     */
     public function getTypeOrderClearAttribute()
     {
             switch ($this->type) {
@@ -545,7 +568,7 @@ class Order extends Model
                 case 3:
                     return __('Mix: Order/Sale');
                 case 4:
-                    return __('Suborder');
+                    return '';
                 case 5:
                     return __('Request');
                 case 6:

@@ -1,391 +1,252 @@
 <!DOCTYPE html>
-<html lang="en" data-textdirection="ltr" class="">
+<html class="no-js" lang="en">
+
 <head>
+  <!-- Meta Tags -->
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <meta name="csrf-token" content="Xa6sgFEHGsvbkPoMtWp3EmjNN2FLvDS7GqyF27Bo">
-
-  <title> @lang('Order') #{{ $order->id }}</title>
-
-  {{-- <link rel="shortcut icon" type="image/x-icon" href="https://pixinvent.com/demo/vuexy-bootstrap-laravel-admin-template/demo-1/images/logo/favicon.ico"> --}}
-
-  <link rel="stylesheet" href="{{ asset('/css_custom/core.css') }}" />
-  <link rel="stylesheet" href="{{ asset('/css_custom/vertical-menu.css') }}" />
-  <link rel="stylesheet" href="{{ asset('/css_custom/app-invoice-print.css') }}">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="ThemeMarch">
+  <!-- Site Title -->
+  <title>{{ __(appName()) }}</title>
+  <link rel="stylesheet" href="{{ asset('/css_custom/ivonne.css') }}" />
 </head>
 
-<body class="vertical-layout vertical-menu-modern light"
-    data-menu=" vertical-menu-modern" data-layout="" style="" data-framework="laravel" 
-    {{-- data-asset-path="https://pixinvent.com/demo/vuexy-bootstrap-laravel-admin-template/demo-1/" --}}
-    >
-
-  <!-- BEGIN: Content-->
-  <div class="app-content content ">
-    <div class="content-wrapper ">
-      <div class="content-body">
-
-        
-<div class="invoice-print p-3">
-  <div class="d-flex justify-content-between flex-md-row flex-column pb-2">
-    <div>
-      <div class="d-flex mb-1">
-        <img class="" src="{{ asset('img/logo22.png') }}" width="100" alt="CoreUI Logo">
-        <h3 class="pt-md-2 text-primary font-weight-bold ml-1 ">{{ __(appName()) }}</h3>
-      </div>
-      <p class="card-text mb-0">Margarito Gonzalez Rubio #822</p>
-      <p class="card-text mb-0">Col. El Refugio, Lagos de Moreno Jal.</p>
-      <p class="card-text mb-0">ventas@sj-uniformes.com </p>
-      <p class="card-text mb-0">47 47 42 30 00 </p>
-    </div>
-    <div class="mt-md-0 mt-2">
-      <h4 class="font-weight-bold text-right mb-1">
-        <p class="text-uppercase">
-          {{ $order->type_order_clear }} #{{ $order->id }}
-        </p>
-      </h4>
-      <div class="invoice-date-wrapper mb-50">
-        <span class="invoice-date-title">@lang('Date Issued'):</span>
-        <span class="font-weight-bold"> {{ $order->date_for_humans }}</span>
-      </div>
-    </div>
-  </div>
-
-  <hr class="my-2" />
-
-  <div class="row pb-2">
-    <div class="col-sm-6">
-      <h6 class="mb-1">{{ $order->type_order_clear. ' '.__('to') }}:</h6>
-      <p class="mb-25">{{ optional($order->user)->name . optional($order->departament)->name }}</p>
-    </div>
-    @if($order->info_customer)
-      <div class="col-sm-6">
-        <p class="mb-25">{{ $order->info_customer }}</p>
-      </div>
-    @endif
-    @if($order->request)
-      <div class="col-sm-3 mt-2">
-        <h6 class="mb-1">@lang('Request number'): {{ $order->request ?? '' }}</h6>
-      </div>
-    @endif
-    @if($order->purchase)
-      <div class="col-sm-3 mt-2">
-        <h6 class="mb-1">@lang('Purchase order'): {{ $order->purchase ?? '' }}</h6>
-      </div>
-    @endif
-  </div>
-
-  @if(!$grouped)
-    @if(count($order->product_suborder))
-      <div class="table-responsive mt-2">
-        <table class="table m-0">
-          <thead>
-            <tr>
-              <th class="py-1">@lang('Product')</th>
-              <th class="py-1">@lang('Quantity')</th>
-              <th class="py-1">@lang('Price')</th>
-              <th class="py-1">Total</th>
-            </tr>
-          </thead>
-            <tbody>
-              @php($total = 0)
-              @foreach($order->product_suborder as $product)
-              <tr class="{{ $loop->last ? 'border-bottom' : '' }}">
-                {{-- @json($product) --}}
-                <td class="py-1">
-                  <p class="card-text font-weight-bold mb-25">{{ $product->product->only_name }}</p>
-                  <p class="card-text text-nowrap">
-                    {!! $product->product->only_parameters !!}
-                  </p>
-                </td>
-                <td class="py-1">
-                  <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</span>
-                </td>
-                <td class="py-1">
-                  <span class="font-weight-bold">{{ $product->quantity }}</span>
-                </td>
-                <td class="py-1">
-                  <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</span>
-                </td>
-              </tr>
-              @php($total += $totalprod)
-              @endforeach
-            </tbody>
-        </table>
-      </div>
-    @endif
-
-    @if(count($order->product_request))
-      <div class="table-responsive mt-2">
-        <table class="table m-0">
-          <thead>
-            <tr>
-              <th class="py-1 text-center" colspan="4">@lang('Request')</th>
-            </tr>
-          </thead>
-          <thead>
-            <tr>
-              <th class="py-1">@lang('Product')</th>
-              <th class="py-1">@lang('Price')</th>
-              <th class="py-1">@lang('Quantity')</th>
-              <th class="py-1">Total</th>
-            </tr>
-          </thead>
-            <tbody>
-              @php($total = 0)
-              @foreach($order->product_request as $product)
-              <tr class="{{ $loop->last ? 'border-bottom' : '' }}">
-                {{-- @json($product) --}}
-                <td class="py-1">
-                  <p class="card-text font-weight-bold mb-25">{{ $product->product->only_name }}</p>
-                  <p class="card-text text-nowrap">
-                    {!! $product->product->only_parameters !!}
-                  </p>
-                </td>
-                <td class="py-1">
-                  <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</span>
-                </td>
-                <td class="py-1">
-                  <span class="font-weight-bold">{{ $product->quantity }}</span>
-                </td>
-                <td class="py-1">
-                  <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</span>
-                </td>
-              </tr>
-              @php($total += $totalprod)
-              @endforeach
-            </tbody>
-        </table>
-      </div>
-    @endif
-
-    @if(count($order->product_order))
-      <div class="table-responsive mt-2">
-        <table class="table m-0">
-          <thead>
-            <tr>
-              <th class="py-1">@lang('Product')</th>
-              <th class="py-1">@lang('Price')</th>
-              <th class="py-1">@lang('Quantity')</th>
-              <th class="py-1">Total</th>
-            </tr>
-          </thead>
-            <tbody>
-              @php($total = 0)
-              @foreach($order->product_order as $product)
-              <tr class="{{ $loop->last ? 'border-bottom' : '' }}">
-                {{-- @json($product) --}}
-                <td class="py-1">
-                  <p class="card-text font-weight-bold mb-25">{{ $product->product->only_name }}</p>
-                  <p class="card-text text-nowrap">
-                    {!! $product->product->only_parameters !!}
-                  </p>
-                </td>
-                <td class="py-1">
-                  <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</span>
-                </td>
-                <td class="py-1">
-                  <span class="font-weight-bold">{{ $product->quantity }}</span>
-                </td>
-                <td class="py-1">
-                  <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</span>
-                </td>
-              </tr>
-              @php($total += $totalprod)
-              @endforeach
-            </tbody>
-        </table>
-      </div>
-    @endif
-
-    @if(count($order->product_sale))
-      <div class="table-responsive mt-2">
-        <table class="table m-0">
-          <thead>
-            <tr>
-              <th class="py-1 text-center" colspan="4">@lang('Sale')</th>
-            </tr>
-          </thead>
-          <thead>
-            <tr>
-              <th class="py-1">@lang('Product')</th>
-              <th class="py-1">@lang('Price')</th>
-              <th class="py-1">@lang('Quantity')</th>
-              <th class="py-1">Total</th>
-            </tr>
-          </thead>
-            <tbody>
-              @php($total = 0)
-              @foreach($order->product_sale as $product)
-              <tr class="{{ $loop->last ? 'border-bottom' : '' }}">
-                {{-- @json($product) --}}
-                <td class="py-1">
-                  <p class="card-text font-weight-bold mb-25">{{ $product->product->only_name }}</p>
-                  <p class="card-text text-nowrap">
-                    {!! $product->product->only_parameters !!}
-                  </p>
-                </td>
-                <td class="py-1">
-                  <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</span>
-                </td>
-                <td class="py-1">
-                  <span class="font-weight-bold">{{ $product->quantity }}</span>
-                </td>
-                <td class="py-1">
-                  <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</span>
-                </td>
-              </tr>
-              @php($total += $totalprod)
-              @endforeach
-            </tbody>
-        </table>
-      </div>
-    @endif
-
-    @if(count($order->product_quotation))
-      <div class="table-responsive mt-2">
-        <table class="table m-0">
-          <thead>
-            <tr>
-              <th class="py-1">@lang('Product')</th>
-              <th class="py-1">@lang('Price')</th>
-              <th class="py-1">@lang('Quantity')</th>
-              <th class="py-1">Total</th>
-            </tr>
-          </thead>
-            <tbody>
-              @php($total = 0)
-              @foreach($order->product_quotation as $product)
-              <tr class="{{ $loop->last ? 'border-bottom' : '' }}">
-                {{-- @json($product) --}}
-                <td class="py-1">
-                  <p class="card-text font-weight-bold mb-25">{{ $product->product->only_name }}</p>
-                  <p class="card-text text-nowrap">
-                    {!! $product->product->only_parameters !!}
-                  </p>
-                </td>
-                <td class="py-1">
-                  <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</span>
-                </td>
-                <td class="py-1">
-                  <span class="font-weight-bold">{{ $product->quantity }}</span>
-                </td>
-                <td class="py-1">
-                  <span class="font-weight-bold">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</span>
-                </td>
-              </tr>
-              @php($total += $totalprod)
-              @endforeach
-            </tbody>
-        </table>
-      </div>
-      @endif
-  @else
-    <div class="table-responsive mt-2">
-      <table class="table m-0">
-        <thead>
-          <tr>
-            <th class="py-1">@lang('Product')</th>
-            <th class="py-1">@lang('Price')</th>
-            <th class="py-1">@lang('Quantity')</th>
-            <th class="py-1">Total</th>
-          </tr>
-        </thead>
-          <tbody>
-            @php($total = 0)
-            @foreach($orderGroup as $product)
-            <tr class="{{ $loop->last ? 'border-bottom' : '' }}">
-              {{-- @json($product) --}}
-              <td class="py-1">
-                {{-- <p class="card-text font-weight-bold mb-25">{{ $product->product->only_name }}  --}}
-                  <p>{{ $product->product_name }} - {{ $product->color_name }}</p>
-
-              </td>
-              <td class="py-1">
-                {{ priceWithoutIvaIncluded($product->max_price) }}
-              </td>
-              <td class="py-1">
-                <span class="font-weight-bold">{{ $product->sum }}</span>
-              </td>
-              <td class="py-1">
-                {{ priceWithoutIvaIncluded($product->sum * $product->max_price) }}
-              </td>
-            </tr>
-            {{-- @php($total += $totalprod) --}}
-            @endforeach
-          </tbody>
-      </table>
-    </div>
-  @endif
-
-
-  <div class="row invoice-sales-total-wrapper mt-3">
-    <div class="col-md-6 order-md-1 order-2 mt-md-0 mt-3">
-      @if($order->audi_id)
-      <p class="card-text mb-0">
-        <span class="font-weight-bold">Expedido por:</span> <span class="ml-75">{{ optional($order->audi)->name }}</span>
-      </p>
-      @endif
-      <br>
-      <br>
-      <p class="card-text mb-0">
-        &nbsp;
-        {!! QrCode::size(100)->gradient(55, 115, 250, 105, 5, 70, 'radial')->generate(route('frontend.track.show', $order->slug)); !!}
-      </p>
-      <p>
-        &nbsp;
-        <em>
-            Escanea para dar seguimiento.
-            <br>
-        &nbsp;
-            (Disponible 1 mes)
-        </em>
-      </p>
-
-    </div>
-    <div class="col-md-6 d-flex justify-content-end order-md-2 order-1">
-      <div class="invoice-total-wrapper">
-        <div class="invoice-total-item">
-          <p class="invoice-total-title">Artículos:</p>
-          <p class="invoice-total-amount">{{ $order->total_articles }}</p>
-        </div>
-        @if(!$breakdown)
-          <div class="invoice-total-item">
-            <p class="invoice-total-title">Subtotal:</p>
-            <p class="invoice-total-amount">${{ priceWithoutIvaIncluded(count($order->product_suborder) ? $total : $order->total_by_all)  }}</p>
+<body>
+  <div class="cs-container">
+    <div class="cs-invoice cs-style1">
+      <div class="cs-invoice_in" id="download_section">
+        <div class="cs-invoice_head cs-type1 cs-mb25">
+          <div class="cs-invoice_left">
+            <div class="cs-logo cs-mb5"><img src="{{ asset('img/logo22.png') }}" width="100" alt="Logo"></div>
+            <p class="cs-invoice_number cs-primary_color cs-mb0 cs-f16"><b class="cs-primary_color">{{ $order->type_order_clear }} No:</b> #{{ $order->characters_type_order }}{{ $order->id }}</p>
           </div>
-          <div class="invoice-total-item">
-            <p class="invoice-total-title">IVA:</p>
-            <p class="invoice-total-amount">${{ ivaPrice(count($order->product_suborder) ? $total : $order->total_by_all) }}</p>
+          <div class="cs-invoice_right cs-text_right">
+            <div class="cs-logo cs-mb5"><img src="{{ asset('img/bacapro.png') }}" width="130" alt="Logo"></div>
+          </div>
+        </div>
+        <div class="cs-invoice_head cs-mb10">
+          <div class="cs-invoice_left">
+            <b class="cs-primary_color">@lang('Extra information'):</b>
+            <p class="cs-mb8">{{ $order->comment ?? '--'}}</p>
+
+            <p><b class="cs-primary_color cs-semi_bold">@lang('Date Issued'):</b> <br>{{ $order->date_for_humans }}</p>
+            @if($order->request)
+              <p><b class="cs-primary_color cs-semi_bold">@lang('Request number'):</b> <br>{{ $order->request ?? '' }}</p>
+            @endif
+            @if($order->purchase)
+              <p><b class="cs-primary_color cs-semi_bold">@lang('Purchase order'):</b> <br>{{ $order->purchase ?? '' }}</p>
+            @endif
+          </div>
+          <div class="cs-invoice_right cs-text_right">
+            <b class="cs-primary_color">{{ __(appName()) }}</b>
+            <p>
+              Margarito Gonzalez Rubio #822, <br/>
+              Col. El Refugio, Lagos de Moreno, Jal. MX. <br/>
+              ventas@sj-uniformes.com <br/>
+              +52 47 47 42 30 00
+            </p>
+          </div>
+        </div>
+        <div class="cs-heading cs-style1 cs-f18 cs-primary_color cs-mb25 cs-semi_bold">@lang('Customer Information')</div>
+        <ul class="cs-grid_row cs-col_3 cs-mb5">
+          <li>
+            <p class="cs-mb20"><b class="cs-primary_color">@lang('Customer'):</b> <br><span class="cs-primary_color">{{ optional($order->user)->name . optional($order->departament)->name }}</span></p>
+          </li>
+          <li>
+            @if(optional($order->user)->customer)
+              @if(optional($order->user)->customer['phone'])
+                <p class="cs-mb20"><b class="cs-primary_color">@lang('Phone'):</b> <br><span class="cs-primary_color">{!! optional($order->user)->customer['phone'] ?? '' !!}</span></p>
+              @endif
+            @endif
+
+            @if(optional($order->user)->customer)
+              @if(optional($order->user)->customer['address'])
+                <p class="cs-mb20"><b class="cs-primary_color">@lang('Address'):</b> <br><span class="cs-primary_color">{!! optional($order->user)->customer['address'] ?? '' !!}</span></p>
+              @endif
+            @endif
+          </li>
+          @if(optional($order->user)->customer)
+            @if(optional($order->user)->customer['rfc'])
+            <li>
+              <p class="cs-mb20"><b class="cs-primary_color">@lang('RFC'):</b> <br><span class="cs-primary_color">{!! optional($order->user)->customer['rfc'] ?? '' !!}</span></p>
+            </li>
+            @endif
+          @endif
+
+          @if($order->info_customer)
+            <li>
+            <p class="cs-mb20"><b class="cs-primary_color">@lang('Information'):</b> <br><span class="cs-primary_color">{{ $order->info_customer }}</span></p>
+            </li>
+          @endif
+
+        </ul>
+        @if($grouped)
+          <div class="cs-table cs-style2">
+            <div class="cs-round_border">
+              <div class="cs-table_responsive">
+                <table>
+                  <thead>
+                    <tr class="cs-focus_bg">
+                      <th class="cs-width_1 cs-semi_bold cs-primary_color cs-text_center">@lang('Quantity')</th>
+                      <th class="cs-width_2 cs-semi_bold cs-primary_color">@lang('Code')</th>
+                      <th class="cs-width_6 cs-semi_bold cs-primary_color">@lang('Description')</th>
+                      <th class="cs-width_1 cs-semi_bold cs-primary_color">@lang('Price')</th>
+                      <th class="cs-width_2 cs-semi_bold cs-primary_color cs-text_right">@lang('Total')</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach($orderGroup as $product)
+                      <tr>
+                        <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->sum }}</td>
+                        <td class="cs-width_2">{{ $product->product_code }}</td>
+                        <td class="cs-width_6">{{ $product->product_name }} - {{ $product->color_name }}</td>
+                        <td class="cs-width_1 cs-text_center cs-primary_color">
+                          @if($product->omg)
+                            ${{ priceWithoutIvaIncluded($product->min_price) }}
+                            -
+                          @endif
+                            ${{ priceWithoutIvaIncluded($product->max_price) }}
+                        </td>
+                        <td class="cs-width_2 cs-text_right cs-primary_color">${{ priceWithoutIvaIncluded($product->sum_total) }}</td>
+                      </tr>
+                    @endforeach
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        @else
+          <div class="cs-table cs-style2">
+            <div class="cs-round_border">
+              <div class="cs-table_responsive">
+                <table>
+                  <thead>
+                    <tr class="cs-focus_bg">
+                      <th class="cs-width_1 cs-semi_bold cs-primary_color cs-text_center">@lang('Quantity')</th>
+                      <th class="cs-width_2 cs-semi_bold cs-primary_color">@lang('Code')</th>
+                      <th class="cs-width_6 cs-semi_bold cs-primary_color">@lang('Description')</th>
+                      <th class="cs-width_1 cs-semi_bold cs-primary_color">@lang('Price')</th>
+                      <th class="cs-width_2 cs-semi_bold cs-primary_color">@lang('Total')</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @php($total = 0)
+                    @foreach($order->product_suborder as $product)
+                      <tr>
+                        <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->quantity }}</td>
+                        <td class="cs-width_2">{{ $product->product->code_subproduct_clear }}</td>
+                        <td class="cs-width_6">
+                          {{ $product->product->only_name }}
+                          <div class="small text-muted"> {!! $product->product->only_parameters !!} </div>
+                        </td>
+                        <td class="cs-width_1 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</td>
+                        <td class="cs-width_2 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</td>
+                      </tr>
+                    @php($total += $totalprod)
+                    @endforeach
+                    @foreach($order->product_request as $product)
+                      <tr>
+                        <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->quantity }}</td>
+                        <td class="cs-width_2">{{ $product->product->code_subproduct_clear }}</td>
+                        <td class="cs-width_6">
+                          {{ $product->product->only_name }}
+                          <div class="small text-muted"> {!! $product->product->only_parameters !!} </div>
+                        </td>
+                        <td class="cs-width_1 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</td>
+                        <td class="cs-width_2 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</td>
+                      </tr>
+                    @endforeach
+                    @foreach($order->product_order as $product)
+                      <tr>
+                        <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->quantity }}</td>
+                        <td class="cs-width_2">{{ $product->product->code_subproduct_clear }}</td>
+                        <td class="cs-width_6">
+                          {{ $product->product->only_name }}
+                          <div class="small text-muted"> {!! $product->product->only_parameters !!} </div>
+                        </td>
+                        <td class="cs-width_1 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</td>
+                        <td class="cs-width_2 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</td>
+                      </tr>
+                    @endforeach
+                    @foreach($order->product_sale as $product)
+                      <tr>
+                        <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->quantity }}</td>
+                        <td class="cs-width_2">{{ $product->product->code_subproduct_clear }}</td>
+                        <td class="cs-width_6">
+                          {{ $product->product->only_name }}
+                          <div class="small text-muted"> {!! $product->product->only_parameters !!} </div>
+                        </td>
+                        <td class="cs-width_1 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</td>
+                        <td class="cs-width_2 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</td>
+                      </tr>
+                    @endforeach
+                    @foreach($order->product_quotation as $product)
+                      <tr>
+                        <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->quantity }}</td>
+                        <td class="cs-width_2">{{ $product->product->code_subproduct_clear }}</td>
+                        <td class="cs-width_6">
+                          {{ $product->product->only_name }}
+                          <div class="small text-muted"> {!! $product->product->only_parameters !!} </div>
+                        </td>
+                        <td class="cs-width_1 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</td>
+                        <td class="cs-width_2 cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</td>
+                      </tr>
+                    @endforeach
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         @endif
-        <hr class="my-50" />
-        <div class="invoice-total-item">
-          <p class="invoice-total-title">Total:</p>
-          <p class="invoice-total-amount">${{ number_format(count($order->product_suborder) ? $total : $order->total_by_all, 2) }}</p>
+
+        <div style="page-break-inside:avoid;">
+          <div class="cs-table cs-style2">
+            <div class="cs-table_responsive">
+              <table>
+                <tbody>
+                  <tr class="cs-table_baseline">
+                    <td class="cs-width_5">
+                      <b class="cs-primary_color">Artículos</b><br/>
+                      {{ $order->total_articles }}
+                    </td>
+                    <td class="cs-width_5 cs-text_right">
+                      @if(!$breakdown)
+                        <p class="cs-primary_color cs-bold cs-f16 cs-m0">@lang('Subtotal'):</p>
+                        <p class="cs-mb5 cs-mb5 cs-f15 cs-primary_color cs-semi_bold">IVA:</p>
+                      @endif
+                      <p class="cs-primary_color cs-bold cs-f16 cs-m0">@lang('Total'):</p>
+                    </td>
+                    <td class="cs-width_2 cs-text_rightcs-f16">
+                      @if(!$breakdown)
+                        <p class="cs-primary_color cs-bold cs-f16 cs-m0 cs-text_right">${{ priceWithoutIvaIncluded(count($order->product_suborder) ? $total : $order->total_by_all)  }}</p>
+                        <p class="cs-mb5 cs-mb5 cs-text_right cs-f15 cs-primary_color cs-semi_bold">${{ ivaPrice(count($order->product_suborder) ? $total : $order->total_by_all) }}</p>
+                      @endif
+                      <p class="cs-primary_color cs-bold cs-f16 cs-m0 cs-text_right">${{ number_format(count($order->product_suborder) ? $total : $order->total_by_all, 2) }}</p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="cs-note">
+            {!! QrCode::size(100)->eye('circle')->generate(route('frontend.track.show', $order->slug)); !!}
+            <div class="cs-note_right" style="margin-left: 20px;">
+              <p class="cs-mb0"><b class="cs-primary_color cs-bold">@lang('Note'):</b></p>
+              <p class="cs-m0">--</p>
+            </div>
+          </div><!-- .cs-note -->
         </div>
       </div>
-    </div>
-  </div>
-
-  <hr class="my-2" />
-
-  <div class="row">
-    <div class="col-12">
-      <span class="font-weight-bold">Nota:</span>
-      <span
-        >Fue un placer atenderte</span
-      >
-    </div>
-  </div>
-</div>
-
+      <div class="cs-invoice_btns cs-hide_print">
+        <a href="javascript:window.print()" class="cs-invoice_btn cs-color1">
+          <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M384 368h24a40.12 40.12 0 0040-40V168a40.12 40.12 0 00-40-40H104a40.12 40.12 0 00-40 40v160a40.12 40.12 0 0040 40h24" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32"/><rect x="128" y="240" width="256" height="208" rx="24.32" ry="24.32" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32"/><path d="M384 128v-24a40.12 40.12 0 00-40-40H168a40.12 40.12 0 00-40 40v24" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32"/><circle cx="392" cy="184" r="24"/></svg>
+          <span>@lang('Print')</span>
+        </a>
       </div>
     </div>
   </div>
-  <!-- End: Content-->
 
-  
   <script src="{{ asset('/js_custom/vendor.min.js') }}"></script>
   <script src="{{ asset('/js_custom/app-invoice-print.js') }}"></script>
 
@@ -399,6 +260,6 @@
       }
     })
   </script>
-</body>
 
+</body>
 </html>

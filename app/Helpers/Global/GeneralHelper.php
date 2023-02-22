@@ -160,3 +160,17 @@ if (! function_exists('printed')) {
         return __('Printed').': '.$printed;        
     }
 }
+
+if (! function_exists('generated')) {
+    /**
+     * Return the generated date.
+     *
+     * @return string
+     */
+    function generated()
+    {
+        $generated = now()->isoFormat('D, MMM h:mm:ss a');
+
+        return __('Generated').': '.$generated;        
+    }
+}

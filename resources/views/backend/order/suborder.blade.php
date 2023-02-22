@@ -20,7 +20,7 @@
               <h4 class="invoice-title">
                 <p class="text-uppercase">
                   @lang('Order')
-                  <span class="invoice-number">#{{ 'SJU-'. Str::of($model->id)->padLeft(5, 0) }}</span>
+                  <span class="invoice-number">#{{ $model->characters_type_order }}{{ $model->id }}</span>
                 </p>
               </h4>
               <div class="invoice-date-wrapper">

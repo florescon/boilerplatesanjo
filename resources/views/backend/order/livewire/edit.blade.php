@@ -14,7 +14,6 @@
   </x-slot>
   <x-slot name="body">
 
-
     @if($orderExists && $model->materials_order()->doesntExist())
       <div class="alert alert-warning" role="alert">
         <h4 class="alert-heading">Materia prima aún no consumida</h4>

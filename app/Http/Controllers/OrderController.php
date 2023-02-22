@@ -95,12 +95,26 @@ class OrderController extends Controller
         // $selectSub = DB::table('products')->join('products', 'products.id', '=', 'products.parent_id')->whereRaw('product_order.product_id = product.id');
 
         $orderGroup = DB::table('product_order as a')
-            ->selectRaw('c.name as product_name, d.name as color_name, max(a.price) as max_price, sum(a.quantity) as sum, count(*) as total_by_product')
+            ->selectRaw('
+                c.name as product_name,
+                c.code as product_code,
+                d.name as color_name,
+                e.name as size_name,
+                min(a.price) as min_price,
+                max(a.price) as max_price,
+                min(a.price) <> max(a.price) as omg,
+                sum(a.quantity) as sum,
+                sum(a.quantity * a.price) as sum_total,
+                count(*) as total_by_product
+            ')
             ->join('products as b', 'a.product_id', '=', 'b.id')
             ->join('products as c', 'c.id', '=', 'b.parent_id')
             ->join('colors as d', 'd.id', '=', 'b.color_id')
-            ->groupBy('b.parent_id', 'b.color_id')
+            ->join('sizes as e', 'e.id', '=', 'b.size_id')
+            ->groupBy('b.parent_id', 'b.color_id', 'a.price')
             ->where('order_id', $order->id)
+            ->orderBy('product_name')
+            ->orderBy('color_name')
             ->get();
 
         return view('backend.order.print-order', compact('order', 'breakdown', 'orderGroup', 'grouped'));
@@ -108,7 +122,7 @@ class OrderController extends Controller
 
     public function ticket(Order $order)
     {
-        $pdf = PDF::loadView('backend.order.ticket-suborder',compact('order'))->setPaper([0, 0, 1385.98, 296.85], 'landscape');
+        $pdf = PDF::loadView('backend.order.ticket-suborder',compact('order'))->setPaper([0, 0, 2000.98, 296.85], 'landscape');
         // ->setPaper('A8', 'portrait')
 
         return $pdf->stream();
@@ -117,7 +131,7 @@ class OrderController extends Controller
 
     public function ticket_order(Order $order, bool $breakdown = false)
     {
-        $pdf = PDF::loadView('backend.order.ticket-order',compact('order', 'breakdown'))->setPaper([0, 0, 1385.98, 296.85], 'landscape');
+        $pdf = PDF::loadView('backend.order.ticket-order',compact('order', 'breakdown'))->setPaper([0, 0, 2385.98, 296.85], 'landscape');
 
         return $pdf->stream();
     }
@@ -131,7 +145,7 @@ class OrderController extends Controller
 
     public function ticket_assignment(Order $order, Ticket $ticket)
     {
-        $pdf = PDF::loadView('backend.order.ticket-assignment',compact('order', 'ticket'))->setPaper([0, -16, 1385.98, 296.85], 'landscape');
+        $pdf = PDF::loadView('backend.order.ticket-assignment',compact('order', 'ticket'))->setPaper([0, -16, 2085.98, 296.85], 'landscape');
 
         return $pdf->stream();
     }
@@ -161,7 +175,7 @@ class OrderController extends Controller
 
         $visibleOrder = true;
 
-        $pdf = PDF::loadView('backend.order.ticket-materia',compact('order', 'visibleOrder'))->setPaper([0, 0, 1385.98, 296.85], 'landscape');
+        $pdf = PDF::loadView('backend.order.ticket-materia',compact('order', 'visibleOrder'))->setPaper([0, 0, 4385.98, 296.85], 'landscape');
 
         return $pdf->stream();
     }
