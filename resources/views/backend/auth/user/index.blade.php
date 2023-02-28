@@ -12,22 +12,24 @@
             @lang('User Management')
         </x-slot>
 
-        @if ($logged_in_user->hasAllAccess())
             <x-slot name="headerActions">
-                <x-utils.link
-                    icon="c-icon cil-applications-settings"
-                    class="card-header-action"
-                    :href="route('admin.auth.user.exportcustomer')"
-                    :text="__('Export Customers')"
-                />
-                <x-utils.link
-                    icon="c-icon cil-plus"
-                    class="card-header-action"
-                    :href="route('admin.auth.user.create')"
-                    :text="__('Create User')"
-                />
+                @if ($logged_in_user->can('admin.access.user.exportcustomer') || ($logged_in_user->hasAllAccess()))
+                    <x-utils.link
+                        icon="c-icon cil-applications-settings"
+                        class="card-header-action"
+                        :href="route('admin.auth.user.exportcustomer')"
+                        :text="__('Export Customers')"
+                    />
+                @endif
+                @if ($logged_in_user->hasAllAccess())
+                    <x-utils.link
+                        icon="c-icon cil-plus"
+                        class="card-header-action"
+                        :href="route('admin.auth.user.create')"
+                        :text="__('Create User')"
+                    />
+                @endif
             </x-slot>
-        @endif
 
         <x-slot name="body">
             <livewire:backend.users-table />

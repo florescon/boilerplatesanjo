@@ -15,8 +15,9 @@ use App\Exports\ProductMainExport;
 use App\Exports\ProductRevisionExport;
 use App\Exports\ProductStoreExport;
 use Excel;
-use DB;
-
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+ 
 class ListProducts extends Component
 {
 	use Withpagination, WithBulkActions, WithCachedRows;
@@ -232,6 +233,28 @@ class ListProducts extends Component
         //     ]);
 
         // }
+
+
+        // $products = DB::table('products as a')
+        // ->selectRaw('
+        //     c.name as color_name,
+        //     d.name as size_name,
+        //     b.code as principal_code,
+        //     a.id as id,
+        //     CONCAT(principal_code, c.short_name, d.short_name) as full_name
+        // ')
+        // ->join('products as b', 'a.parent_id', '=', 'b.id')
+        // ->join('colors as c', 'a.color_id', '=', 'c.id')
+        // ->join('sizes as d', 'a.size_id', '=', 'd.id')
+        // ->where([
+        //     ['a.parent_id', '<>', NULL],
+        //     ['a.color_id', '<>', NULL],
+        //     ['a.size_id', '<>', NULL],
+        //     ['a.deleted_at', '=', NULL], 
+        // ])
+        // ->update(['a.code' => DB::raw("CONCAT(b.code, c.short_name, d.short_name)") ]);
+
+        // dd($products[13]);
 
         return view('backend.product.table.product-list', [
             'products' => $this->rows,

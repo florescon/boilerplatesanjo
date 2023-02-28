@@ -182,7 +182,7 @@ class EditProduct extends Component
 
         event(new ProductLineChanged($productUpdated));
 
-        return $this->redirectRoute('admin.product.edit', $this->product_id);
+        return $this->redirectHere();
     }
 
     public function saveBrand()
@@ -194,7 +194,7 @@ class EditProduct extends Component
 
         event(new ProductBrandChanged($productUpdated));
 
-        return $this->redirectRoute('admin.product.edit', $this->product_id);
+        return $this->redirectHere();
     }
 
     public function saveVendor()
@@ -206,7 +206,7 @@ class EditProduct extends Component
 
         // event(new ProductBrandChanged($productUpdated));
 
-        return $this->redirectRoute('admin.product.edit', $this->product_id);
+        return $this->redirectHere();
     }
 
     public function saveModel()
@@ -218,31 +218,31 @@ class EditProduct extends Component
 
         event(new ProductModelChanged($productUpdated));
 
-        return $this->redirectRoute('admin.product.edit', $this->product_id);
+        return $this->redirectHere();
     }
 
     public function activateProduct()
     {
         Product::whereId($this->product_id)->update(['status' => true]);
-        return $this->redirectRoute('admin.product.edit', $this->product_id);
+        return $this->redirectHere();
     }
 
     public function desactivateProduct()
     {
         Product::whereId($this->product_id)->update(['status' => false]);
-        return $this->redirectRoute('admin.product.edit', $this->product_id);
+        return $this->redirectHere();
     }
 
     public function activateCodesProduct()
     {
         Product::whereId($this->product_id)->update(['automatic_code' => true]);
-        return $this->redirectRoute('admin.product.edit', $this->product_id);
+        return $this->redirectHere();
     }
 
     public function desactivateCodesProduct()
     {
         Product::whereId($this->product_id)->update(['automatic_code' => false]);
-        return $this->redirectRoute('admin.product.edit', $this->product_id);
+        return $this->redirectHere();
     }
 
     public function filterByColor($color)
@@ -454,7 +454,7 @@ class EditProduct extends Component
             }
         }
 
-        return $this->redirectRoute('admin.product.edit', $product->id);
+        return $this->redirectHere();
     }
 
     public function savecolor()
@@ -806,6 +806,11 @@ class EditProduct extends Component
         // $attributes = Product::with('children')->findOrFail($this->product_id);
         $model = Product::with('children')
                         ->findOrFail($product->id);
+    }
+
+    public function redirectHere()
+    {
+        return $this->redirectRoute(!$this->nameStock ? 'admin.product.edit' : 'admin.store.product.edit', $this->product_id);
     }
 
     public function render()

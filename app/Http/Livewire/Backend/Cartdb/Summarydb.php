@@ -162,7 +162,7 @@ class Summarydb extends Component
             $this->clearSummary();
             $this->emit('clearAllProducts');
 
-            return redirect()->route('admin.order.edit', $order->id);
+            return redirect()->route($this->branchIdSummary ? 'admin.store.all.edit' : 'admin.order.edit', $order->id);
 
         });
     }    

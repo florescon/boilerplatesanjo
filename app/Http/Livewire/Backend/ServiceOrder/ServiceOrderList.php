@@ -95,7 +95,7 @@ class ServiceOrderList extends Component
     private function applySearchFilter($searchFinance)
     {
         if ($this->searchTerm) {
-            return $searchFinance->whereHas('user', function ($query) {
+            return $searchFinance->whereHas('personal', function ($query) {
                $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
             })
             ->orWhere('id', 'like', '%' . $this->searchTerm . '%')

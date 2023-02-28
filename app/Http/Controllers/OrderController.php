@@ -85,6 +85,19 @@ class OrderController extends Controller
         return view('backend.order.edit-order', compact('order', 'vvar'));
     }
 
+    public function edit_store(Order $order)
+    {
+        if($order->from_store){
+
+            $vvar =  $order->created_at->timestamp;
+
+            return view('backend.order.edit-order', compact('order', 'vvar'));
+        }
+        else{
+            abort(401);
+        }
+    }
+
     public function createsuborder()
     {
         return view('backend.order.create-suborder');
@@ -108,9 +121,9 @@ class OrderController extends Controller
                 count(*) as total_by_product
             ')
             ->join('products as b', 'a.product_id', '=', 'b.id')
-            ->join('products as c', 'c.id', '=', 'b.parent_id')
-            ->join('colors as d', 'd.id', '=', 'b.color_id')
-            ->join('sizes as e', 'e.id', '=', 'b.size_id')
+            ->join('products as c', 'b.parent_id', '=', 'c.id')
+            ->join('colors as d', 'b.color_id', '=', 'd.id')
+            ->join('sizes as e', 'b.size_id', '=', 'e.id')
             ->groupBy('b.parent_id', 'b.color_id', 'a.price')
             ->where('order_id', $order->id)
             ->orderBy('product_name')
@@ -141,6 +154,68 @@ class OrderController extends Controller
         $pdf = PDF::loadView('backend.order.ticket-monitoring',compact('order'))->setPaper([0, 0, 500.98, 296.85], 'landscape');
 
         return $pdf->stream();
+    }
+
+
+    public function ticket_store(Order $order)
+    {
+        if($order->from_store){
+            $pdf = PDF::loadView('backend.order.ticket-suborder',compact('order'))->setPaper([0, 0, 2000.98, 296.85], 'landscape');
+
+            return $pdf->stream();
+        }
+        else{
+            abort(401);
+        }
+    }
+
+    public function ticket_order_store(Order $order, bool $breakdown = false)
+    {
+        if($order->from_store){
+            $pdf = PDF::loadView('backend.order.ticket-order',compact('order', 'breakdown'))->setPaper([0, 0, 2385.98, 296.85], 'landscape');
+
+            return $pdf->stream();
+        }
+        else{
+            abort(401);
+        }
+    }
+
+    public function print_store(Order $order, bool $breakdown = false, bool $grouped = false)
+    {
+        if($order->from_store){
+
+            // $selectSub = DB::table('products')->join('products', 'products.id', '=', 'products.parent_id')->whereRaw('product_order.product_id = product.id');
+
+            $orderGroup = DB::table('product_order as a')
+                ->selectRaw('
+                    c.name as product_name,
+                    c.code as product_code,
+                    d.name as color_name,
+                    e.name as size_name,
+                    min(a.price) as min_price,
+                    max(a.price) as max_price,
+                    min(a.price) <> max(a.price) as omg,
+                    sum(a.quantity) as sum,
+                    sum(a.quantity * a.price) as sum_total,
+                    count(*) as total_by_product
+                ')
+                ->join('products as b', 'a.product_id', '=', 'b.id')
+                ->join('products as c', 'b.parent_id', '=', 'c.id')
+                ->join('colors as d', 'b.color_id', '=', 'd.id')
+                ->join('sizes as e', 'b.size_id', '=', 'e.id')
+                ->groupBy('b.parent_id', 'b.color_id', 'a.price')
+                ->where('order_id', $order->id)
+                ->orderBy('product_name')
+                ->orderBy('color_name')
+                ->get();
+
+            return view('backend.order.print-order', compact('order', 'breakdown', 'orderGroup', 'grouped'));
+
+        }
+        else{
+            abort(401);
+        }
     }
 
     public function ticket_assignment(Order $order, Ticket $ticket)
@@ -239,6 +314,17 @@ class OrderController extends Controller
         return view('backend.order.records-payment-order', compact('order', 'records_payment'));
     }
 
+    public function records_payment_store(Order $order)
+    {
+        if($order->from_store){
+            $records_payment = $order->orders_payments()->orderBy('created_at', 'desc')->paginate('10')->fragment('payment');
+            return view('backend.order.records-payment-order', compact('order', 'records_payment'));
+        }
+        else{
+            abort(401);
+        }
+    }
+
     public function where_is_products(Order $order)
     {
         return view('backend.order.where-is-products')
@@ -317,6 +403,6 @@ class OrderController extends Controller
 
         event(new OrderDeleted($order));
 
-        return redirect()->route('admin.order.index')->withFlashSuccess(__('The order/sale was successfully deleted'));
+        return redirect()->route($order->from_store ? 'admin.store.all.index' : 'admin.order.index')->withFlashSuccess(__('The order/sale was successfully deleted'));
     }
 }

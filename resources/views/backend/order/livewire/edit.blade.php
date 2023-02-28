@@ -113,16 +113,16 @@
                   </div>
                   <div class="row mt-3">
                     <div class="col-12 col-lg-12">
-                      {{-- {{ $model->comment }} --}}
-                      <x-input.input-alpine nameData="isComment" :inputText="$isComment" :originalInput="$isComment" wireSubmit="savecomment" modelName="comment" maxlength="300" className="" />
-                      @error('comment') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                      {{-- {{ $model->info_customer }} --}}
+                      <x-input.input-alpine nameData="isInfo_customer" :inputText="$isInfo_customer" :originalInput="$isInfo_customer" wireSubmit="saveinfocustomer" modelName="info_customer" maxlength="300" className="" />
+                      @error('info_customer') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
                   </div>
                   <div class="row mt-3">
                     <div class="col-12 col-lg-12">
-                      {{-- {{ $model->info_customer }} --}}
-                      <x-input.input-alpine nameData="isInfo_customer" :inputText="$isInfo_customer" :originalInput="$isInfo_customer" wireSubmit="saveinfocustomer" modelName="info_customer" maxlength="300" className="" />
-                      @error('info_customer') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                      {{-- {{ $model->comment }} --}}
+                      <x-input.input-alpine nameData="isComment" :inputText="$isComment" :originalInput="$isComment" wireSubmit="savecomment" modelName="comment" maxlength="300" className="" />
+                      @error('comment') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
                   </div>
                 </div>
@@ -161,7 +161,7 @@
 
                 <div class="list-group">
                   @foreach($model->suborders as $suborder)
-                    <a href="{{ route('admin.order.edit', $suborder->id) }}" class="list-group-item list-group-item-action flex-column align-items-start 
+                    <a href="{{ route($from_store ? 'admin.order.edit' : 'admin.store.product.index', $suborder->id) }}" class="list-group-item list-group-item-action flex-column align-items-start 
                       @if($colors_counter <= 3)
                         list-group-item-{{ $colors[$colors_counter] }}
                       @endif
@@ -179,13 +179,13 @@
             @endif
 
             @if(!$model->isQuotation())
-              <a href="{{ route('admin.order.ticket_order', $order_id) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
+              <a href="{{ !$from_store ? route('admin.order.ticket_order', $order_id) : route('admin.store.all.ticket_order', $order_id) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
                 <ins>
                   Ticket
                 </ins>
               </a>
 
-              <a href="{{ route('admin.order.ticket_order', [$order_id, true]) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
+              <a href="{{ !$from_store ? route('admin.order.ticket_order', [$order_id, true]) : route('admin.store.all.ticket_order', [$order_id, true]) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
                 <ins>
                   Ticket sin desglose
                 </ins>
@@ -193,25 +193,25 @@
 
             @endif
 
-            <a href="{{ route('admin.order.print', $order_id) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
+            <a href="{{ !$from_store ? route('admin.order.print', $order_id) : route('admin.store.all.print', $order_id) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
               <ins>
                 @lang('Print')
               </ins>
             </a>
 
-            <a href="{{ route('admin.order.print', [$order_id, true]) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
+            <a href="{{ !$from_store ? route('admin.order.print', [$order_id, true]) : route('admin.store.all.print', [$order_id, true]) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
               <ins>
                 Imprimir sin desglose
               </ins>
             </a>
 
-            <a href="{{ route('admin.order.print', [$order_id, 0, true]) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
+            <a href="{{ !$from_store ? route('admin.order.print', [$order_id, 0, true]) : route('admin.store.all.print', [$order_id, 0, true]) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
               <ins>
                 Imprimir productos agrupados
               </ins>
             </a>
 
-            @if($model->materials_order()->exists())
+            @if(!$from_store && $model->materials_order()->exists())
               <a href="{{ route('admin.order.ticket_materia', $order_id) }}" class="card-link text-warning" target="_blank"><i class="cil-print"></i>
                 <ins>
                   @lang('Feedstock')
@@ -253,7 +253,7 @@
                     <h5 class="mt-2"><a href="#!" data-toggle="modal" wire:click="$emitTo('backend.order.create-payment', 'createmodal', {{ $order_id }})" data-target="#createPayment" style="color: #ee2e31;">@lang('Create payment')</a></h5>
                   @endif
                   <br>
-                  <a href="{{ route('admin.order.records_payment', $order_id) }}" class="card-link">@lang('View payment records')</a>
+                  <a href="{{ !$from_store ? route('admin.order.records_payment', $order_id) : route('admin.store.all.records_payment', $order_id) }}" class="card-link">@lang('View payment records')</a>
                 </div>
                 <div class="col-6 col-lg-6">
                   <strong>@lang('Delivery'):</strong> {{ $last_order_delivery_formatted ?? __('Pending') }}
@@ -264,7 +264,9 @@
                     @endforeach
                   </select>
                   <br>
-                  <a href="{{ route('admin.order.records_delivery', $order_id) }}" class="card-link">@lang('View delivery records')</a>
+                  @if(!$from_store)
+                    <a href="{{ route('admin.order.records_delivery', $order_id) }}" class="card-link">@lang('View delivery records')</a>
+                  @endif
                 </div>
               </div>
             </div>
@@ -313,7 +315,7 @@
             <div class="table-responsive">
               <table class="table table-striped table-bordered table-hover">
                 <caption>
-                  <a href="#!" class="mt-2 ml-2" data-toggle="modal" wire:click="$emitTo('backend.order.add-service', 'createmodal', {{ $order_id }})" data-target="#addService" style="color: #ee2e31;">@lang('Add service')</a>
+                  <a href="#!" class="mt-2 ml-2" data-toggle="modal" wire:click="$emitTo('backend.order.add-service', 'createmodal', {{ $order_id }}, 1, {{ $from_store }})" data-target="#addService" style="color: #ee2e31;">@lang('Add service')</a>
                 </caption>
                 <thead style="background-color: #321fdb; border-color: #321fdb; color: white;">
                   <tr class="text-center">
@@ -343,6 +345,15 @@
                       ${{ number_format((float)$product->total_by_product, 2) }}
                       <div class="small text-muted"> ${{ priceWithoutIvaIncluded($product->total_by_product) }} </div>
                     </td>
+                  </tr>
+
+                  <tr>
+                    <th class="text-right">
+                      <img src="{{ asset('img/icons/down-right.svg') }}" width="20" alt="Logo"> 
+                    </th>
+                    <th class="text-left" colspan="3">
+                      <livewire:backend.components.edit-field :model="'\App\Models\ProductOrder'" :entity="$product" :field="'comment'" :key="'comments'.$product->id"/>
+                    </th>
                   </tr>
 
                     {{-- @json($product->gettAllConsumption()) --}}
@@ -404,7 +415,7 @@
             <div class="table-responsive">
               <table class="table table-striped table-bordered table-hover">
                 <caption>
-                  <a href="#!" class="mt-2 ml-2" data-toggle="modal" wire:click="$emitTo('backend.order.add-service', 'createmodal', {{ $order_id }}, '2')" data-target="#addService" style="color: #ee2e31;">@lang('Add service')</a>
+                  <a href="#!" class="mt-2 ml-2" data-toggle="modal" wire:click="$emitTo('backend.order.add-service', 'createmodal', {{ $order_id }}, '2', {{ $from_store }})" data-target="#addService" style="color: #ee2e31;">@lang('Add service')</a>
                 </caption>
                 <thead style="background-color: #248f48; border-color: #218543; color: white;">
                   <tr class="text-center">
@@ -434,6 +445,14 @@
                       <div class="small text-muted"> ${{ priceWithoutIvaIncluded($product->total_by_product) }} </div>
                     </td>
                   </tr>
+                  <tr>
+                    <th class="text-right">
+                      <img src="{{ asset('img/icons/down-right.svg') }}" width="20" alt="Logo"> 
+                    </th>
+                    <th class="text-left" colspan="3">
+                      <livewire:backend.components.edit-field :model="'\App\Models\ProductOrder'" :entity="$product" :field="'comment'" :key="'comments'.$product->id"/>
+                    </th>
+                  </tr>
                   @endforeach
                   <tr>
                     <td></td>
@@ -454,7 +473,7 @@
             <div class="table-responsive">
               <table class="table table-striped table-bordered table-hover">
                 <caption>
-                  <a href="#!" class="mt-2 ml-2" data-toggle="modal" wire:click="$emitTo('backend.order.add-service', 'createmodal', {{ $order_id }}, '5')" data-target="#addService" style="color: #ee2e31;">@lang('Add service')</a>
+                  <a href="#!" class="mt-2 ml-2" data-toggle="modal" wire:click="$emitTo('backend.order.add-service', 'createmodal', {{ $order_id }}, '5', {{ $from_store }})" data-target="#addService" style="color: #ee2e31;">@lang('Add service')</a>
                 </caption>
                 <thead style="background-color: coral; border-color: #218543; color: white;">
                   <tr class="text-center">
@@ -484,6 +503,14 @@
                       <div class="small text-muted"> ${{ priceWithoutIvaIncluded($product->total_by_product) }} </div>
                     </td>
                  </tr>
+                  <tr>
+                    <th class="text-right">
+                      <img src="{{ asset('img/icons/down-right.svg') }}" width="20" alt="Logo"> 
+                    </th>
+                    <th class="text-left" colspan="3">
+                      <livewire:backend.components.edit-field :model="'\App\Models\ProductOrder'" :entity="$product" :field="'comment'" :key="'comments'.$product->id"/>
+                    </th>
+                  </tr>
                   @endforeach
                   <tr>
                     <td></td>
@@ -519,7 +546,7 @@
             <div class="table-responsive">
               <table class="table table-striped table-bordered table-hover">
                 <caption>
-                  <a href="#!" class="mt-2 ml-2" data-toggle="modal" wire:click="$emitTo('backend.order.add-service', 'createmodal', {{ $order_id }}, '6')" data-target="#addService" style="color: #ee2e31;">@lang('Add service')</a>
+                  <a href="#!" class="mt-2 ml-2" data-toggle="modal" wire:click="$emitTo('backend.order.add-service', 'createmodal', {{ $order_id }}, '6', {{ $from_store }})" data-target="#addService" style="color: #ee2e31;">@lang('Add service')</a>
                 </caption>
                 <thead style="background-color: #86FFCF; border-color: #FAFA33; color: dark;">
                   <tr class="text-center">
@@ -557,6 +584,14 @@
                       ${{ number_format((float)$product->total_by_product, 2) }}
                       <div class="small text-muted"> ${{ priceWithoutIvaIncluded($product->total_by_product) }} </div>
                     </td>
+                  </tr>
+                  <tr>
+                    <th class="text-right">
+                      <img src="{{ asset('img/icons/down-right.svg') }}" width="20" alt="Logo"> 
+                    </th>
+                    <th class="text-left" colspan="3">
+                      <livewire:backend.components.edit-field :model="'\App\Models\ProductOrder'" :entity="$product" :field="'comment'" :key="'comments'.$product->id"/>
+                    </th>
                   </tr>
                   @endforeach
                   <tr>

@@ -13,6 +13,6 @@
 
 @section('content')
 
-    <livewire:backend.product.prices-product :product="$product"/>
+    <livewire:backend.product.prices-product :product="$product" :nameStock="$nameStock ?? null"/>
 
 @endsection

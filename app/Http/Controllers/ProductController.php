@@ -112,6 +112,17 @@ class ProductController extends Controller
         return view('backend.product.prices-product', compact('product'));
     }
 
+    public function prices_store(Product $product)
+    {
+        if($product->isChildren() || !$product->isProduct()){
+            abort(401);
+        }
+
+        $nameStock = 'store_stock';
+
+        return view('backend.product.prices-product', compact('product', 'nameStock'));
+    }
+
     public function pictures(Product $product)
     {
         if($product->isChildren() || !$product->isProduct()){

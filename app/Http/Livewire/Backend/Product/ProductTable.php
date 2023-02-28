@@ -43,11 +43,13 @@ class ProductTable extends Component
 
     public $nameStock = null;
     public $linkEdit = null;
-    
+    public $from_store;
+
     protected $listeners = ['selectedBrandItem', 'selectedColorItem', 'restore' => '$refresh'];
 
-    public function mount(string $nameStock = null, string $linkEdit = null)
+    public function mount(string $nameStock = null, string $linkEdit = null, ?bool $fromStore = null)
     {
+        $this->from_store = $fromStore;
         $this->nameStock = $nameStock;
         $this->linkEdit = $linkEdit;
     }
@@ -126,7 +128,6 @@ class ProductTable extends Component
         $this->color = $color;
     }
 
-
     public function hydrateColor()
     {
         $this->resetPage();
@@ -134,9 +135,7 @@ class ProductTable extends Component
 
     public function clearFilterColor()
     {
-        // $this->color = null;
         $this->emit('clear-color');
-
     }
 
     public function hydrateBrand()

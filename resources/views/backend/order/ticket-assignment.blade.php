@@ -81,8 +81,12 @@
         @if($order->comment)
             <table style="margin-bottom: 10px;" width="100%">
                 <tr align="center">
-                    <th>{{ $order->comment ?? '' }}
-                        <br><br>
+                    <th>
+                        @if($order->comment)
+                            {{ $order->info_customer ?? '' }}
+                            <br>
+                        @endif
+                        {{ $order->comment ?? '' }}
                     </th>
                 </tr>
             </table>

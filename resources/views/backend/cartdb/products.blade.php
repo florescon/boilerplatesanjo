@@ -100,10 +100,7 @@
 						<i class="cil-arrow-thick-left"></i>
 					  </th>
 				      <th class="text-left" colspan="5">
-
-		                {{-- @livewire('edit-name', compact('product'), key($product->id)) --}}
                     	<livewire:backend.edit-inline :cart="$product" :key="$product->id"/>
-
 				      </th>
 				    </tr>
 

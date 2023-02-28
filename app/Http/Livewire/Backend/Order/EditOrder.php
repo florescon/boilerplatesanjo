@@ -69,7 +69,7 @@ class EditOrder extends Component
 
         session()->flash('message', __('The status delivery was successfully changed.'));
 
-        return redirect()->route('admin.order.edit', $this->order_id);
+        return redirect()->route($this->from_store ? 'admin.store.all.edit' : 'admin.order.edit', $this->order_id);
     }
 
     private function initcomment(Order $order)
@@ -196,13 +196,13 @@ class EditOrder extends Component
         $orderUpdate = $order->update(['type' => !$this->from_store ? 1 : 5]);
         $order->product_quotation()->update(['type' => !$this->from_store ? 1 : 5]);   
 
-        return $this->redirectRoute('admin.order.edit', $this->order_id);
+        return $this->redirectRoute($this->from_store ? 'admin.store.all.edit' : 'admin.order.edit', $this->order_id);
     }
 
     public function approve()
     {
         Order::whereId($this->order_id)->update(['approved' => true]);
-        return $this->redirectRoute('admin.order.edit', $this->order_id);
+        return $this->redirectRoute($this->from_store ? 'admin.store.all.edit' : 'admin.order.edit', $this->order_id);
     }
   
     public function send()
@@ -234,7 +234,7 @@ class EditOrder extends Component
 
         Order::whereId($this->order_id)->update(['to_stock' => true]);
 
-        return $this->redirectRoute('admin.order.edit', $this->order_id);
+        return $this->redirectRoute($this->from_store ? 'admin.store.all.edit' : 'admin.order.edit', $this->order_id);
     }
 
     public function render()

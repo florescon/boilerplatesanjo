@@ -16,11 +16,13 @@ class AddService extends Component
     public $orderId;
 
     public ?int $parameter = 1;
+    public $fromStore;
 
     protected $listeners = ['selectedService', 'createmodal'];
 
-    public function createmodal(int $id, ?int $parameterr = 1)
+    public function createmodal(int $id, ?int $parameterr = 1, ?bool $from_store = false)
     {
+        $this->fromStore = $from_store;
         $this->parameter = $parameterr;
         $this->orderId = $id;
         $this->resetInputFields();
@@ -71,7 +73,7 @@ class AddService extends Component
             'title'   => __('Created'), 
         ]);
  
-         return $this->redirectRoute('admin.order.edit', $this->orderId);
+        return $this->redirectRoute($this->fromStore ? 'admin.store.all.edit' : 'admin.order.edit', $this->orderId);
    }
 
     public function render()

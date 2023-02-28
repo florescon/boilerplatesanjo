@@ -1,6 +1,4 @@
-{{-- <div class="card"> --}}
-
-	<div class="card-body">
+<div class="card-body">
 
 	@if($status != 'deleted')
 
@@ -177,14 +175,16 @@
 
 		    <div class="card-footer">
 					@if (!$product->trashed())
-						<a href="{{ route('admin.product.consumption',  $product->id) }}" class="btn btn-warning text-white mb-1 mr-1">
-							@if($product->consumption->count())
-								@lang('Edit')
-							@else
-								@lang('Add')
-							@endif
-							@lang('consumption')
-						</a>
+						@if(!$nameStock)
+							<a href="{{ route('admin.product.consumption',  $product->id) }}" class="btn btn-warning text-white mb-1 mr-1">
+								@if($product->consumption->count())
+									@lang('Edit')
+								@else
+									@lang('Add')
+								@endif
+								@lang('consumption')
+							</a>
+						@endif
 						<a href="{{ $linkEdit ? route($linkEdit,  $product->id) : route('admin.product.edit',  $product->id) }}" class="btn btn-primary mb-1">@lang('Edit product')</a>
 					@else
 					    <div class="dropright" style="display:inline-block;">
@@ -238,20 +238,18 @@
 
 	</div>
 
-    @if($products->count() && $status != 'deleted')
-      <footer class="footer mt-3">
-          <div class="row align-items-center justify-content-xl-between">
-            <div class="col-xl-6 m-auto text-center">
-              <div>
-                <p>
-                  <a href="{{ route('admin.product.records') }}">Ir a registros de productos asociados a órdenes/ventas</a>
-                </p>
-              </div>
+  @if($products->count() && $status != 'deleted')
+    <footer class="footer mt-3">
+        <div class="row align-items-center justify-content-xl-between">
+          <div class="col-xl-6 m-auto text-center">
+            <div>
+              <p>
+                <a href="{{ route('admin.product.records') }}">Ir a registros de productos asociados a órdenes/ventas</a>
+              </p>
             </div>
           </div>
-      </footer>
-    @endif
+        </div>
+    </footer>
+  @endif
 
-	</div>
-
- {{-- </div> --}}
+</div>

@@ -20,6 +20,7 @@ class PricesProduct extends Component
     public $originalPrice;
 
     public $price;
+    public $nameStock;
 
     public bool $customCodes = false;
     public bool $customPrices = false;
@@ -51,7 +52,7 @@ class PricesProduct extends Component
         'productModel.*.special_price.not_in' => 'No se permite cero en un precio especial',
         'productModel.*.special_price.regex' => 'Valor no permitido en un precio especial',
     ];
-    public function mount(Product $product)
+    public function mount(Product $product, string $nameStock = null)
     {
         $this->product_id = $product->id;
         $this->product_slug = $product->slug;
@@ -66,6 +67,9 @@ class PricesProduct extends Component
         $this->product_average_wholesale_price = $product->average_wholesale_price ?? __('undefined');
         $this->product_wholesale_price = $product->wholesale_price ?? __('undefined');
         $this->product_special_price = $product->special_price ?? __('undefined');
+
+        $this->nameStock = $nameStock;
+
     }
 
     public function save()

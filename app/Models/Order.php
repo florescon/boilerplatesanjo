@@ -349,6 +349,19 @@ class Order extends Model
         return DB::table('statuses')->latest('level')->first();
     }
 
+    public function getLastStatusOrderIdAttribute()
+    {
+        if (!$this->parent_order_id && $this->type != 2) {
+            if(!$this->last_status_order){
+                return null;
+            }
+
+            return $this->last_status_order ? $this->last_status_order->status->id : '';
+        }
+
+        return null;
+    }
+
     public function getLastStatusOrderLabelAttribute()
     {
         if (!$this->parent_order_id && $this->type != 2) {

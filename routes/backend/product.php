@@ -77,7 +77,7 @@ Route::group([
 
         Route::get('move', [ProductController::class, 'moveStock'])
             ->name('move')
-            ->middleware('permission:admin.access.product.modify')
+            ->middleware('permission:admin.access.product.move-stocks')
             ->breadcrumbs(function (Trail $trail, Product $product) {
                 $trail->parent('admin.product.edit', $product)
                     ->push(__('Move between stocks'), route('admin.product.move', $product));
@@ -85,7 +85,7 @@ Route::group([
 
         Route::get('kardex', [ProductController::class, 'kardex'])
             ->name('kardex')
-            ->middleware('permission:admin.access.product.modify')
+            ->middleware('permission:admin.access.product.kardex')
             ->breadcrumbs(function (Trail $trail, Product $product) {
                 $trail->parent('admin.product.edit', $product)
                     ->push(__('Product Kardex'), route('admin.product.kardex', $product));
@@ -93,7 +93,7 @@ Route::group([
 
         Route::get('delete-attributes', [ProductController::class, 'deleteAttributes'])
             ->name('delete-attributes')
-            ->middleware('permission:admin.access.product.modify')
+            ->middleware('permission:admin.access.product.delete-attributes')
             ->breadcrumbs(function (Trail $trail, Product $product) {
                 $trail->parent('admin.product.edit', $product)
                     ->push(__('Delete attributes'), route('admin.product.delete-attributes', $product));
@@ -160,7 +160,7 @@ Route::group([
 
     Route::group(['prefix' => '{product}'], function () {
         Route::post('create-codes', [ProductController::class, 'createCodes'])
-            ->middleware('permission:admin.access.product.modify')
+            ->middleware('permission:admin.access.product.modify-prices-codes')
             ->name('create-codes');
     });
 

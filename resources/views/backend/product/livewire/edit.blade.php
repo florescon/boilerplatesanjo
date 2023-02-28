@@ -5,9 +5,15 @@
 
     <x-slot name="headerActions">
 
-        <x-utils.link class="card-header-action btn btn-warning text-white" :href="route('admin.product.consumption', $model->id)" :text="__('Go to consumption')" />
+    	@if( $logged_in_user->can('admin.access.product.consumption') || $logged_in_user->hasAllAccess())
+        	<x-utils.link class="card-header-action btn btn-warning text-white" :href="route('admin.product.consumption', $model->id)" :text="__('Go to consumption')" />
+       	@endif
 
-        <x-utils.link class="card-header-action" :href="route('admin.product.index')" :text="__('Back')" />
+       	@if(!$nameStock)
+	        <x-utils.link class="card-header-action" :href="route('admin.product.index')" :text="__('Back')" />
+	    @else
+	        <x-utils.link class="card-header-action" :href="route('admin.store.product.index')" :text="__('Back')" />
+	    @endif
  	</x-slot>
     <x-slot name="body">
 
@@ -199,7 +205,7 @@
 						  <a href="{{ route('admin.product.advanced', $model->id) }}" class="card-link">@lang('Advanced information') {!! $model->status_advanced !!}</a>
 					    </li>
 					    <li class="list-group-item">
-						  <a href="{{ route('admin.product.prices', $model->id) }}" class="card-link">@lang('Prices and codes')</a>
+						  <a href="{{ route($nameStock ? 'admin.store.product.prices' : 'admin.product.prices', $model->id) }}" class="card-link">@lang('Prices and codes')</a>
 					    </li>
 					    <li class="list-group-item">
 						  <a href="{{ route('admin.product.pictures', $model->id) }}" class="card-link">@lang('Images') <span class="badge bg-danger text-white">{{ ltrim($model->total_pictures, '0') }}</span> </a>
@@ -490,6 +496,7 @@
 							</table>
 		  				</div>
 
+		  				@if(!$nameStock)
 		  				<div class="col-12">
 							<table class="table">
 							  <thead>
@@ -524,6 +531,7 @@
 							  </thead>
 							</table>
 		  				</div>
+		  				@endif
 
 			        </div>
 				@endif
@@ -660,7 +668,7 @@
 								      </td>
 								  @endif
 
-								  @if($showSpecificConsumptions == FALSE)
+								  @if(($showSpecificConsumptions == FALSE) && is_null($nameStock))
 								  <td>
 								  	<div x-data="{ highlightedButton: '' }" style="display:inline;">
 									    <a @click="highlightedButton='order'"  :class="{'badge-danger': highlightedButton === 'order'}" onmousedown="party.sparkles(this)" class="badge badge-primary text-white" wire:click="addToCart({{ $children->id }}, 'products')" ><i class="cil-cart"> </i> @lang('Order')</a>

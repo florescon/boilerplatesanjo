@@ -44,19 +44,19 @@ Route::group([
     Route::get('quotation', function () {
             return view('backend.store.quotation');
         })->name('quotation')
-        ->middleware('permission:admin.access.quotation.list')
+        ->middleware('permission:admin.access.store.list')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.dashboard')
-                ->push(__('Request Panel Management'), route('admin.store.quotation'));
+                ->push(__('Quotation Panel Management'), route('admin.store.quotation'));
         });
 
     Route::get('sale', function () {
             return view('backend.store.sale');
         })->name('sale')
-        ->middleware('permission:admin.access.sale.list')
+        ->middleware('permission:admin.access.store.list')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.dashboard')
-                ->push(__('Request Panel Management'), route('admin.store.sale'));
+                ->push(__('Sale Panel Management'), route('admin.store.sale'));
         });
     Route::get('sales', function () {
             return view('backend.store.sales');
@@ -81,15 +81,24 @@ Route::group([
             });
 
         Route::group(['prefix' => '{product}', 
-            'middleware' => 'permission:admin.access.product.modify|admin.access.product.modify-prices-codes'
+            'middleware' => 'permission:admin.access.store.list'
         ], function () {
             Route::get('edit', [ProductController::class, 'edit_store'])
                 ->name('edit')
-                ->middleware('permission:admin.access.product.modify')
+                ->middleware('permission:admin.access.store.list')
                 ->breadcrumbs(function (Trail $trail, Product $product) {
                     $trail->parent('admin.store.product.index', $product)
                         ->push(__('Edit').' '.$product->name, route('admin.store.product.edit', $product));
                 });
+
+        Route::get('prices', [ProductController::class, 'prices_store'])
+            ->name('prices')
+            ->middleware('permission:admin.access.store.list')
+            ->breadcrumbs(function (Trail $trail, Product $product) {
+                $trail->parent('admin.store.product.edit', $product)
+                    ->push(__('Prices and codes'), route('admin.store.product.prices', $product));
+            });
+
         });
     });
 
@@ -106,14 +115,47 @@ Route::group([
             });
 
         Route::group(['prefix' => '{order}'], function () {
-            Route::get('edit', [OrderController::class, 'edit'])
+            Route::get('edit', [OrderController::class, 'edit_store'])
                 ->name('edit')
-                ->middleware('permission:admin.access.order.modify')
+                ->middleware('permission:admin.access.store.order.modify_store')
                 ->breadcrumbs(function (Trail $trail, Order $order) {
                     $trail->parent($order->from_store ? 'admin.store.all.index' : 'admin.order.index')
                         ->push(__('Edit'), route('admin.store.all.edit', $order));
                 });
-            });
+
+            Route::get('print/{breackdown?}/{grouped?}', [OrderController::class, 'print_store'])
+                ->name('print')
+                ->middleware('permission:admin.access.store.print')
+                ->breadcrumbs(function (Trail $trail, Order $order) {
+                    $trail->parent('admin.order.edit', $order)
+                        ->push(__('Print order'), route('admin.store.all.print', [$order, $breackdown, $grouped]));
+                });
+
+            Route::get('ticket', [OrderController::class, 'ticket_store'])
+                ->name('ticket')
+                ->middleware('permission:admin.access.store.print')
+                ->breadcrumbs(function (Trail $trail, Order $order) {
+                    $trail->parent('admin.order.edit', $order)
+                        ->push(__('Ticket order'), route('admin.store.all.ticket', $order));
+                });
+
+            Route::get('ticket_order/{breackdown?}', [OrderController::class, 'ticket_order_store'])
+                ->name('ticket_order')
+                ->middleware('permission:admin.access.store.print')
+                ->breadcrumbs(function (Trail $trail, Order $order) {
+                    $trail->parent('admin.order.edit', $order)
+                        ->push(__('Ticket order'), route('admin.store.all.ticket_order', [$order, $breackdown]));
+                });
+
+            Route::get('records_payment', [OrderController::class, 'records_payment_store'])
+                ->name('records_payment')
+                ->middleware('permission:admin.access.store.records_payment')
+                ->breadcrumbs(function (Trail $trail, Order $order) {
+                    $trail->parent('admin.order.edit', $order)
+                        ->push(__('Status records payment'), route('admin.store.all.records_payment', $order));
+                });
+
+        });
 
         Route::get('orders', [OrderController::class, 'orders_list_store'])
             ->name('orders')

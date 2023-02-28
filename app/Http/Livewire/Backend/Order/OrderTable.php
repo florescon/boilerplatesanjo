@@ -34,6 +34,10 @@ class OrderTable extends Component
     public $dateInput = '';
     public $dateOutput = '';
 
+    public ?int $statusOrder = null;
+
+    protected $listeners = ['selectedStatusOrderItem'];
+
     public function sortBy($field)
     {
         if ($this->sortField === $field) {
@@ -53,6 +57,12 @@ class OrderTable extends Component
                 empty($this->dateOutput) ?
                 $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', now()]) :
                 $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59']);
+            })
+            ->when($this->statusOrder, function ($query) {
+                $statusOrder = $this->statusOrder;
+                $query->whereHas('last_status_order.status', function($queryStatusOrder) use ($statusOrder){
+                    $queryStatusOrder->where('id', $statusOrder);
+                });
             })
             // ->when(!$this->dateInput, function ($query) {
             //     $query->whereYear('created_at', now()->year);
@@ -108,10 +118,24 @@ class OrderTable extends Component
                $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
             })
             ->orWhere('id', 'like', '%' . $this->searchTerm . '%')
+            ->orWhere('info_customer', 'like', '%' . $this->searchTerm . '%')
             ->orWhere('comment', 'like', '%' . $this->searchTerm . '%');
         }
 
         return null;
+    }
+
+    public function selectedStatusOrderItem(?int $item)
+    {
+        if ($item)
+            $this->statusOrder = $item;
+        else
+            $this->statusOrder = null;
+    }
+
+    public function clearFilterStatusOrder()
+    {
+        $this->emit('clear-status-order');
     }
 
     private function applySearchDeletedFilter($orders)
@@ -152,6 +176,7 @@ class OrderTable extends Component
         $this->searchTerm = '';
         $this->resetPage();
         $this->perPage = '10';
+        $this->emit('clear-status-order');
     }
 
     public function updatedPerPage()

@@ -20,7 +20,7 @@
             x-bind:class="{ 'font-weight-bold': inputText }"
             x-on:click="nameData = true; $nextTick(() => focus())"
         >
-            {{ $origName ?? '_______' }}
+            {{ $origName ?? '' }}
             &nbsp;<i class="cil-pencil"></i>
         </p>
     </div>
@@ -36,12 +36,12 @@
                 >
               <div class="input-group-append">
                 
-                <span class="input-group-text" x-on:click="nameData = false">
+                {{-- <button class="btn btn-danger btn-sm" x-on:click="nameData = false">
                     <i class="cil-x"></i>
-                </span>
+                </button> --}}
 
-                <button class="btn btn-primary"  x-on:click="nameData = false" type="submit">
-                    <i class="cil-check-alt"></i>
+                <button class="btn btn-primary btn-sm"  x-on:click="nameData = false" type="submit">
+                    ✓
                 </button>
 
               </div>

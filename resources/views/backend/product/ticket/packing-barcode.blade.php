@@ -44,7 +44,7 @@
       <tr>
         <td  style=" width: 10px; ">
           <h3 class="rotate" style="display: inline-block;  margin-right: -50px; margin-left: -50px;">
-              <img src="{{ public_path('img/bacaloni.png') }}" alt="" width="230px"/>
+              <img src="{{ public_path('img/bacapro2.png') }}" alt="" width="230px"/>
           </h3>
 
         </td>

@@ -85,6 +85,15 @@
                       <span class="font-weight-bold">${{ priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) }}</span>
                     </td>
                   </tr>
+                  <tr>
+                    <th class="text-right">
+                      <img src="{{ asset('img/icons/down-right.svg') }}" width="20" alt="Logo"> 
+                    </th>
+                    <th class="text-left" colspan="3">
+                      <livewire:backend.components.edit-field :model="'\App\Models\ProductOrder'" :entity="$product" :field="'comment'" :key="'comments'.$product->id"/>
+                    </th>
+                  </tr>
+
                   @php($total += $totalprod)
                 @endforeach
               </tbody>

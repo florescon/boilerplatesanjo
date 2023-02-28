@@ -4,8 +4,13 @@
  	</x-slot>
 
     <x-slot name="headerActions">
-	    <x-utils.link class="card-header-action btn btn-primary text-white" :href="route('admin.product.edit', $product_id)" :text="__('Go to edit product')" />
-        <x-utils.link class="card-header-action" :href="route('admin.product.index')" :text="__('Cancel')" />
+        @if(!$nameStock)
+    	    <x-utils.link class="card-header-action btn btn-primary text-white" :href="route('admin.product.edit', $product_id)" :text="__('Go to edit product')" />
+            <x-utils.link class="card-header-action" :href="route('admin.product.index')" :text="__('Cancel')" />
+        @else
+            <x-utils.link class="card-header-action btn btn-primary text-white" :href="route('admin.store.product.edit', $product_id)" :text="__('Go to edit product')" />
+            <x-utils.link class="card-header-action" :href="route('admin.store.product.index')" :text="__('Cancel')" />
+        @endif
  	</x-slot>
 
     <x-slot name="body">
@@ -125,27 +130,29 @@
                                                 </div>
                                             </div>
                                             @error('wholesale_price') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
-
-                                            <div class="card mt-4 border-0">
-                                                <div class="input-group">
-                                                  <div class="input-group-prepend">
-                                                    <span class="input-group-text" id="basic-addon1">${{ $product_special_price }}</span>
-                                                  </div>
-                                                  <input type="text" class="form-control" wire:model.lazy="special_price" aria-label="Text input with segmented dropdown button" placeholder="@lang('Special price')">
-                                                  <div class="input-group-append">
-                                                    <button type="button" wire:click="saveSpecial" class="btn btn-outline-primary">@lang('Save')</button>
-                                                    <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                      <span class="sr-only">@lang('Custom')</span>
-                                                    </button>
-                                                    <div class="dropdown-menu">
-                                                      <a class="dropdown-item" href="#" wire:click="saveSpecial">@lang('Only save')</a>
-                                                      <div role="separator" class="dropdown-divider"></div>
-                                                      <a class="dropdown-item" wire:click="saveSpecial(true)" href="#">@lang('Save and clear all special price variants')</a>
+                
+                                            @if( $logged_in_user->can('admin.access.product.special-price') || $logged_in_user->hasAllAccess())
+                                                <div class="card mt-4 border-0">
+                                                    <div class="input-group">
+                                                      <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="basic-addon1">${{ $product_special_price }}</span>
+                                                      </div>
+                                                      <input type="text" class="form-control" wire:model.lazy="special_price" aria-label="Text input with segmented dropdown button" placeholder="@lang('Special price')">
+                                                      <div class="input-group-append">
+                                                        <button type="button" wire:click="saveSpecial" class="btn btn-outline-primary">@lang('Save')</button>
+                                                        <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                          <span class="sr-only">@lang('Custom')</span>
+                                                        </button>
+                                                        <div class="dropdown-menu">
+                                                          <a class="dropdown-item" href="#" wire:click="saveSpecial">@lang('Only save')</a>
+                                                          <div role="separator" class="dropdown-divider"></div>
+                                                          <a class="dropdown-item" wire:click="saveSpecial(true)" href="#">@lang('Save and clear all special price variants')</a>
+                                                        </div>
+                                                      </div>
                                                     </div>
-                                                  </div>
                                                 </div>
-                                            </div>
-                                            @error('special_price') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                                                @error('special_price') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                                            @endif
 
                                         @endif
                                     </div>
@@ -174,9 +181,11 @@
                                         @if($customPrices == true)
                                             <th class="table-secondary col-2"></th>
                                         @endif
-                                        <th class="table-secondary">@lang('Special price')</th>
-                                        @if($customPrices == true)
-                                            <th class="table-secondary col-2"></th>
+                                        @if( $logged_in_user->can('admin.access.product.special-price') || $logged_in_user->hasAllAccess())
+                                            <th class="table-secondary">@lang('Special price')</th>
+                                            @if($customPrices == true)
+                                                <th class="table-secondary col-2"></th>
+                                            @endif
                                         @endif
                                     </tr>
                                 </thead>
@@ -246,17 +255,18 @@
                                                 >
                                               </td>
                                           @endif
-
-                                          <td class="table-info">${!! number_format((float)$subproduct->price_special_subproduct, 2) !!}</td>
-                                          @if($customPrices == true)
-                                              <td class="table-info"> 
-                                                <input type="number" 
-                                                    wire:model.lazy="productModel.{{ $key }}.special_price"
-                                                    wire:keydown.enter="save" 
-                                                    class="form-control" placeholder="{!! number_format((float)$subproduct->price_special_subproduct, 2) !!}"
-                                                    step="any" 
-                                                >
-                                              </td>
+                                          @if( $logged_in_user->can('admin.access.product.special-price') || $logged_in_user->hasAllAccess())
+                                              <td class="table-info">${!! number_format((float)$subproduct->price_special_subproduct, 2) !!}</td>
+                                              @if($customPrices == true)
+                                                  <td class="table-info"> 
+                                                    <input type="number" 
+                                                        wire:model.lazy="productModel.{{ $key }}.special_price"
+                                                        wire:keydown.enter="save" 
+                                                        class="form-control" placeholder="{!! number_format((float)$subproduct->price_special_subproduct, 2) !!}"
+                                                        step="any" 
+                                                    >
+                                                  </td>
+                                              @endif
                                           @endif
 
                                         </tr>

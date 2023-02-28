@@ -57,7 +57,7 @@ Route::group([
     Route::get('quotation', function () {
             return view('backend.order.quotation');
         })->name('quotation')
-        ->middleware('permission:admin.access.quotation.list')
+        ->middleware('permission:admin.access.order.quotation')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.dashboard')
                 ->push(__('Quotation Panel Management'), route('admin.order.quotation'));
@@ -174,7 +174,7 @@ Route::group([
 
         Route::get('print_service_order/{service}', [OrderController::class, 'print_service_order'])
             ->name('print_service_order')
-            ->middleware('permission:admin.access.order.modify')
+            ->middleware('permission:admin.access.order.print_service_order')
             ->breadcrumbs(function (Trail $trail, Order $order, ServiceOrder $service) {
                 $trail->parent('admin.order.edit', $order)
                     ->push(__('Service Order').' - '.$service->name, route('admin.order.print_service_order', [$order, $service]));
@@ -182,7 +182,7 @@ Route::group([
 
         Route::get('print_service_order_html/{service}', [OrderController::class, 'print_service_order_html'])
             ->name('print_service_order_html')
-            ->middleware('permission:admin.access.order.modify')
+            ->middleware('permission:admin.access.order.print_service_order')
             ->breadcrumbs(function (Trail $trail, Order $order, ServiceOrder $service) {
                 $trail->parent('admin.order.edit', $order)
                     ->push(__('Service Order').' - '.$service->name, route('admin.order.print_service_order_html', [$order, $service]));
@@ -232,7 +232,7 @@ Route::group([
 
         Route::get('service_orders', [OrderController::class, 'service_orders'])
             ->name('service_orders')
-            ->middleware('permission:admin.access.order.modify')
+            ->middleware('permission:admin.access.order.create_service_order')
             ->breadcrumbs(function (Trail $trail, Order $order) {
                 $trail->parent('admin.order.edit', $order)
                     ->push(__('Service Orders'), route('admin.order.service_orders', $order));

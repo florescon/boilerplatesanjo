@@ -39,8 +39,6 @@ Route::group([
 
             Route::post('/', [UserController::class, 'store'])->name('store');
 
-            Route::get('exportcustomer/', [UserController::class, 'exportCustomers'])->name('exportcustomer');
-
             Route::group(['prefix' => '{user}'], function () {
                 Route::get('edit', [UserController::class, 'edit'])
                     ->name('edit')
@@ -60,7 +58,7 @@ Route::group([
         });
 
         Route::group([
-            'middleware' => 'permission:admin.access.user.list|admin.access.user.deactivate|admin.access.user.reactivate|admin.access.user.clear-session|admin.access.user.impersonate|admin.access.user.change-password',
+            'middleware' => 'permission:admin.access.user.list|admin.access.user.deactivate|admin.access.user.reactivate|admin.access.user.clear-session|admin.access.user.impersonate|admin.access.user.change-password|admin.access.user.exportcustomer',
         ], function () {
             Route::get('deactivated', [DeactivatedUserController::class, 'index'])
                 ->name('deactivated')
@@ -77,6 +75,10 @@ Route::group([
                     $trail->parent('admin.dashboard')
                         ->push(__('User Management'), route('admin.auth.user.index'));
                 });
+
+            Route::get('exportcustomer/', [UserController::class, 'exportCustomers'])
+                ->name('exportcustomer')
+                ->middleware('permission:admin.access.user.exportcustomer');
 
             Route::group(['prefix' => '{user}'], function () {
                 Route::get('/', [UserController::class, 'show'])

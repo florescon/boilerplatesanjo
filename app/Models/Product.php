@@ -422,7 +422,7 @@ class Product extends Model
             return $this->parent->code;
         }
 
-        return $this->code ?: '';
+        return $this->code ?: '--';
     }
 
     public function getCodeLabelAttribute()

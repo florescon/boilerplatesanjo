@@ -2,7 +2,7 @@
     <div class="card">
         <div class="card-body">
             <div class="text-right">
-              <a href="{{ route('admin.order.edit', $order->id) }}" class="btn btn-primary" >
+              <a href="{{ !$order->from_store ? route('admin.order.edit', $order->id) : route('admin.store.all.edit', $order->id) }}" class="btn btn-primary" >
                @lang('Go to edit order')
               </a>
           </div>

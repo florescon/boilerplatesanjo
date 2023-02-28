@@ -54,6 +54,25 @@
 
   <x-slot name="body">
 
+		<div class="col d-flex justify-content-center">
+			<div class="card shadow-lg" style="width: 33%;">
+			  <div class="card-body">
+					<div class="row pt-4">
+						<div class="col-12 text-center">
+		          <livewire:backend.attributes.status-change/>
+						</div>
+						@if($statusOrder)
+						<div class="col-12 text-center mt-4">
+							<button class="btn btn-danger" wire:click="clearFilterStatusOrder">
+								@lang('Clear status order')
+							</button>
+						</div>
+						@endif
+					</div>
+				</div>
+			</div>
+		</div>
+
 	  <div class="row mb-4">
 	    <div class="col form-inline">
 	      @lang('Per page'): &nbsp;
@@ -136,6 +155,10 @@
 			            	</strong>
 		            	</td>
 	                <td class="align-middle">
+	                  @if($order->info_customer)
+		                  {!! Str::limit($order->info_customer, 100) ?? '' !!}
+		                  <br>
+		                @endif
 	                  {!! Str::limit($order->comment, 100) ?? '<span class="badge badge-secondary">'.__('undefined').'</span>' !!}
 	                </td>
 		              <td class="align-middle">

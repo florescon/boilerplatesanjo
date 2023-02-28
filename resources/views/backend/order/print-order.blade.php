@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="ThemeMarch">
   <!-- Site Title -->
-  <title>{{ __(appName()) }}</title>
+  <title>{{ $order->request ?? '' }} {{ $order->comment ?? '' }}</title>
   <link rel="stylesheet" href="{{ asset('/css_custom/ivonne.css') }}" />
 </head>
 
@@ -132,6 +132,7 @@
                   </thead>
                   <tbody>
                     @php($total = 0)
+
                     @foreach($order->product_suborder as $product)
                       <tr>
                         <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->quantity }}</td>
@@ -143,8 +144,19 @@
                         <td class="cs-width_1 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</td>
                         <td class="cs-width_2 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</td>
                       </tr>
+                      @if($product->comment)
+                        <tr>
+                          <td>
+                          </td>
+                          <td style="text-align: left;" colspan="4">
+                            <img src="{{ asset('img/icons/down-right.svg') }}" width="20" alt="Logo"> 
+                            {{ $product->comment }}
+                          </td>
+                        </tr>
+                      @endif
                     @php($total += $totalprod)
                     @endforeach
+
                     @foreach($order->product_request as $product)
                       <tr>
                         <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->quantity }}</td>
@@ -156,7 +168,18 @@
                         <td class="cs-width_1 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</td>
                         <td class="cs-width_2 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</td>
                       </tr>
+                      @if($product->comment)
+                        <tr>
+                          <td>
+                          </td>
+                          <td style="text-align: left;" colspan="4">
+                            <img src="{{ asset('img/icons/down-right.svg') }}" width="20" alt="Logo"> 
+                            {{ $product->comment }}
+                          </td>
+                        </tr>
+                      @endif
                     @endforeach
+
                     @foreach($order->product_order as $product)
                       <tr>
                         <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->quantity }}</td>
@@ -168,7 +191,18 @@
                         <td class="cs-width_1 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</td>
                         <td class="cs-width_2 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</td>
                       </tr>
+                      @if($product->comment)
+                        <tr>
+                          <td>
+                          </td>
+                          <td style="text-align: left;" colspan="4">
+                            <img src="{{ asset('img/icons/down-right.svg') }}" width="20" alt="Logo"> 
+                            {{ $product->comment }}
+                          </td>
+                        </tr>
+                      @endif
                     @endforeach
+
                     @foreach($order->product_sale as $product)
                       <tr>
                         <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->quantity }}</td>
@@ -180,7 +214,18 @@
                         <td class="cs-width_1 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</td>
                         <td class="cs-width_2 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</td>
                       </tr>
+                      @if($product->comment)
+                        <tr>
+                          <td>
+                          </td>
+                          <td style="text-align: left;" colspan="4">
+                            <img src="{{ asset('img/icons/down-right.svg') }}" width="20" alt="Logo"> 
+                            {{ $product->comment }}
+                          </td>
+                        </tr>
+                      @endif
                     @endforeach
+
                     @foreach($order->product_quotation as $product)
                       <tr>
                         <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->quantity }}</td>
@@ -192,7 +237,18 @@
                         <td class="cs-width_1 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</td>
                         <td class="cs-width_2 cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</td>
                       </tr>
+                      @if($product->comment)
+                        <tr>
+                          <td>
+                          </td>
+                          <td style="text-align: left;" colspan="4">
+                            <img src="{{ asset('img/icons/down-right.svg') }}" width="20" alt="Logo"> 
+                            {{ $product->comment }}
+                          </td>
+                        </tr>
+                      @endif
                     @endforeach
+
                   </tbody>
                 </table>
               </div>
@@ -207,7 +263,7 @@
                 <tbody>
                   <tr class="cs-table_baseline">
                     <td class="cs-width_5">
-                      <b class="cs-primary_color">Artículos</b><br/>
+                      <b class="cs-primary_color">@lang('Articles')</b><br/>
                       {{ $order->total_articles }}
                     </td>
                     <td class="cs-width_5 cs-text_right">

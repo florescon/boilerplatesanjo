@@ -119,7 +119,7 @@
             <thead style="
             " class="thead-dark">
               <tr>
-                @if(!$deleted)
+                @if(!$deleted && ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.departament.exportdepartament')))
                   <th style="width:30px; max-width: 30px;">
                     <label class="form-checkbox">
                       <input type="checkbox" wire:model="selectPage">
@@ -145,7 +145,7 @@
             <tbody>
               @foreach($departaments as $departament)
               <tr>
-                @if(!$deleted)
+                @if(!$deleted && ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.departament.exportdepartament')))
                   <td>
                     <label class="form-checkbox">
                         <input type="checkbox" wire:model="selected" value="{{ $departament->id }}">
