@@ -4,145 +4,60 @@
 
 @push('after-styles')
     <link rel="stylesheet" href="{{ asset('/css_custom/gradient.css')}}">
+    <link rel="stylesheet" href="{{ asset('/css_custom/pipeline.css') }}">
+
 @endpush
 
 @section('content')
+    @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.order.order')))
     <x-backend.card>
-        <x-slot name="header">
-            @lang('Welcome :Name', ['name' => $logged_in_user->name])
-        </x-slot>
-
         <x-slot name="body">
+
             {{-- @lang('Welcome to the Dashboard') --}}
-
-            @if($logged_in_user->isMasterAdmin())
-                <div class="page-content page-container" id="page-content">
-                    <div class="padding">
-                        <div class="row d-flex justify-content-center">
-                            <div class="col-lg-12 grid-margin stretch-card ">
-                                <div class="card ">
-                                    <div class="card-body">
-                                        <h4 class="card-title"> @lang('Orders')/@lang('Sales') </h4>
-                                        <p class="card-description"> @lang('Complete recent listing') </p>
-                                        @if($orders->count())
-                                            <div class="table-responsive">
-                                                <table class="table js-table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th> f.º </th>
-                                                            <th> @lang('User') </th>
-                                                            <th> @lang('Comment') </th>
-                                                            <th> @lang('Progress') </th>
-                                                            <th> @lang('Total') </th>
-                                                            <th> @lang('Created') </th>
-                                                            <th> </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach($orders as $order)
-                                                        <tr class="table-tr" style="{{ $order->type_order_classes }}" data-url="{{ route('admin.order.edit', $order->id) }}">
-                                                            <td class="py-1"> 
-                                                                #{{ $order->id }}  
-                                                                {!! $order->approved_alert !!}
-                                                            </td>
-                                                            <td> {!! $order->user_name !!} </td>
-                                                            <td>
-                                                                {!! $order->request ? __('Request number').': <strong>'.$order->request .'</strong>' : '' !!} 
-                                                                {!! $order->purchase ? __('Purchase order').': <strong>'.$order->purchase .'</strong>' : '' !!} 
-                                                                {!! Str::limit($order->comment, 100) !!} 
-                                                            </td>
-                                                            <td>
-                                                                @if($order->last_status_order)
-                                                                    <div class="progress">
-                                                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ $order->last_status_order_percentage }}%" aria-valuenow="{{ $order->last_status_order_percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
-                                                                    </div>
-                                                                @endif
-                                                                {!! $order->last_status_order_label !!}
-                                                            </td>
-                                                            <td> $ {{ number_format((float)$order->total_sale_and_order, 2) }} </td>
-                                                            <td> {{ $order->date_for_humans }} </td>
-                                                            <td> {!! $order->from_store_or_user_label !!} </td>
-                                                        </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                            {{ $orders->links() }}
-                                        @else
-                                            <div class="text-center">
-                                                <em>@lang('No results!')</em>
-                                            </div>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endif
-
-            <div class="container mt-2">
-            <div class="row">
-                <div class="col-md-12 ">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <canvas id="canvas" height="280" width="600"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </div>
+        
+            <livewire:backend.dashboard.kanban />
 
         </x-slot>
+
+        <x-slot name="footer">
+
+          <div class="content-list" data-filter-list="content-list-body">
+            <!--end of content list head-->
+            <div class="content-list-body">
+
+              <div class="card card-note">
+                <div class="card-header">
+                  <div class="media align-items-center">
+                    <div class="media-body">
+                      <h6 class="mb-0" data-filter-by="text">Nota:</h6>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <span data-filter-by="text">A considerar</span>
+                    <div class="ml-1 dropdown card-options">
+                      <button class="btn-options" type="button" id="note-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="cil-hand-point-left"></i>
+                      </button>
+                      <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="#">Edit</a>
+                        <a class="dropdown-item text-danger" href="#">Delete</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body ml-4" data-filter-by="text">
+                  <ul>
+                    <li>Los listado muestran un límite de diez registros por defecto, para ello considere los totales en los encabezados de cantidades y en totales de artículos</li>
+                  </ul>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </x-slot>
+    
     </x-backend.card>
+    @endif
 @endsection
-
-
-@push('after-scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.0/chart.min.js"></script>
-
-<script>
-    var months2 = <?php echo $months2; ?>;
-    var user = <?php echo $user; ?>;
-    var users_label = @json(__('Users'));
-    var barChartData = {
-        labels: months2,
-        datasets: [{
-            label: users_label,
-            backgroundColor: "pink",
-            data: user
-        }]
-    };
-
-    window.onload = function() {
-        var ctx = document.getElementById("canvas").getContext("2d");
-        window.myBar = new Chart(ctx, {
-            type: 'bar',
-            data: barChartData,
-            options: {
-                elements: {
-                    rectangle: {
-                        borderWidth: 2,
-                        borderColor: '#c1c1c1',
-                        borderSkipped: 'bottom'
-                    }
-                },
-                responsive: true,
-                title: {
-                    display: true,
-                    text: 'Monthly User Joined'
-                }
-            }
-        });
-    };
-</script>
-
-<script type="text/javascript">
-    $(function () {
-        $(".js-table").on("click", "tr[data-url]", function () {
-            window.location = $(this).data("url");
-        });
-    });
-</script>
-
-@endpush

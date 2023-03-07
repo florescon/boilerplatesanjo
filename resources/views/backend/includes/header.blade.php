@@ -3,35 +3,16 @@
         <i class="c-icon c-icon-lg cil-menu"></i>
     </button>
 
-    <a class="c-header-brand d-lg-none" href="{{ route('admin.dashboard') }}">
-        <img width="60" src="{{ asset('/img/ga/logo22.png')}}" alt="Porto Logo">
-    </a>
+    {{-- <a class="c-header-brand d-lg-none" href="{{ route('admin.dashboard') }}">
+        <img width="30" src="{{ asset('/img/logo.png')}}" alt="">
+    </a> --}}
 
     <button class="c-header-toggler c-class-toggler mfs-3 d-md-down-none" type="button" data-target="#sidebar" data-class="c-sidebar-lg-show" responsive="true">
         <i class="c-icon c-icon-lg cil-menu"></i>
     </button>
 
     <ul class="c-header-nav d-md-down-none">
-        <li class="c-header-nav-item px-3"><a class="c-header-nav-link" href="{{ route('frontend.index') }}">@lang('Starter store')</a></li>
-
-
-        <li class="c-header-nav-item dropdown">
-            <x-utils.link
-                :text="__('Orders/Sales')"
-                class="c-header-nav-link dropdown-toggle"
-                id="navbarDropdownLanguageLink2"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false" />
-
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownLanguageLink2">
-                      <x-utils.link class="dropdown-item pt-1 pb-1 text-dark" :href="route('admin.order.all')" :text="__('all')" />
-                      <x-utils.link class="dropdown-item pt-1 pb-1 text-primary" :href="route('admin.order.index')" :text="__('Orders')" />
-                      <x-utils.link class="dropdown-item pt-1 pb-1 text-success" :href="route('admin.order.sales')" :text="__('Sales')" />
-                      <x-utils.link class="dropdown-item pt-1 pb-1 text-warning" :href="route('admin.order.mix')" :text="__('Mix')" />
-                      <x-utils.link class="dropdown-item pt-1 pb-1" style="color: purple;" :href="route('admin.order.suborders')" :text="__('Suborder outputs')" />
-                </div><!--dropdown-menu-->
-        </li>
+        <li class="c-header-nav-item px-3"><a class="c-header-nav-link" href="{{ route('admin.dashboard') }}">@lang('Dashboard')</a></li>
 
         @if(config('boilerplate.locale.status') && count(config('boilerplate.locale.languages')) > 1)
             <li class="c-header-nav-item dropdown">
@@ -50,6 +31,9 @@
 
     <ul class="c-header-nav ml-auto mr-4">
 
+        <a href="{{ route('frontend.index') }}">
+           <img src="{{ asset('img/bacapro.png') }}" width="80" alt="Logo">
+        </a>
         @livewire('backend.header.header-cart')
 
         <li class="c-header-nav-item dropdown">

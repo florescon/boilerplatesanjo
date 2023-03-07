@@ -18,28 +18,27 @@ class StatusOrderObserver
         if($statusOrder->status->level >= 0){
             $statusOrder->order()->update(['approved'=> true]);
 
-            $order = $statusOrder->order;
+            // $order = $statusOrder->order;
 
-            if($order->materials_order()->doesntExist()){
+            // if($order->materials_order()->doesntExist()){
 
-                foreach($order->product_order as $product_order){
+            //     foreach($order->product_order as $product_order){
 
-
-                    if($product_order->gettAllConsumption() != 'empty'){
-                        foreach($product_order->gettAllConsumption() as $key => $consumption){
-                            // dd($consumption['material']);
-                            // dd($product_order->id);
-                            $order->materials_order()->create([
-                                'product_order_id' => $product_order->id,
-                                'material_id' => $key,
-                                'price' => $consumption['price'],
-                                'unit_quantity' => $consumption['unit'],
-                                'quantity' => $consumption['quantity'],
-                            ]);                
-                        }
-                    }
-                }
-            }
+            //         if($product_order->gettAllConsumption() != 'empty'){
+            //             foreach($product_order->gettAllConsumption() as $key => $consumption){
+            //                 // dd($consumption['material']);
+            //                 // dd($product_order->id);
+            //                 $order->materials_order()->create([
+            //                     'product_order_id' => $product_order->id,
+            //                     'material_id' => $key,
+            //                     'price' => $consumption['price'],
+            //                     'unit_quantity' => $consumption['unit'],
+            //                     'quantity' => $consumption['quantity'],
+            //                 ]);                
+            //             }
+            //         }
+            //     }
+            // }
         }
     }
 

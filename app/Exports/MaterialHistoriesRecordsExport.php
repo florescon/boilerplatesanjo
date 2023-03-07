@@ -31,6 +31,7 @@ class MaterialHistoriesRecordsExport implements FromCollection, WithMapping, Wit
     public function headings(): array
     {
         return [
+            __('Part number'),
             __('Feedstock'),
             __('Old stock'),
             __('Added stock'),
@@ -47,6 +48,7 @@ class MaterialHistoriesRecordsExport implements FromCollection, WithMapping, Wit
     public function map($material_history): array
     {
         return [
+            optional($material_history->material)->part_number,
             optional($material_history->material)->full_name_clear,
             $material_history->old_stock,
             $material_history->stock,

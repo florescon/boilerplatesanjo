@@ -79,7 +79,7 @@
 
     <div class="animsition">
     
-        <a href="https://wa.me/{{ setting('site_whatsapp') }}" class="float" target="_blank">
+        <a href="https://wa.me/+52{{ setting('site_whatsapp') }}" class="float" target="_blank">
             <i class="fa fa-whatsapp my-float"></i>
         </a>        
 

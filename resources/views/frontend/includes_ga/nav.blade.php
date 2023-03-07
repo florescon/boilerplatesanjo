@@ -44,7 +44,7 @@
                     <a href="{{ setting('site_facebook') }}" class="link link-primary size-14" data-hover="F" target="_blank">
                         <i class="fa fa-facebook" aria-hidden="true" style="font-size:19px"></i>
                     </a> 
-                    <a href="https://wa.me/{{ setting('site_whatsapp') }}" class="link link-success size-14 ml-2" data-hover="W" target="_blank">
+                    <a href="https://wa.me/+52{{ setting('site_whatsapp') }}" class="link link-success size-14 ml-2" data-hover="W" target="_blank">
                         <i class="fa fa-whatsapp" aria-hidden="true"  style="font-size:19px"></i>
                     </a>
                 </div>

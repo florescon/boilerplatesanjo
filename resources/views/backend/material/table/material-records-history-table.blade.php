@@ -131,10 +131,7 @@
                 </th>
               @endif
               <th scope="col">
-                <a style="color:white;" wire:click.prevent="sortBy('name')" role="button" href="#">
                   @lang('Feedstock')
-                  @include('backend.includes._sort-icon', ['field' => 'name'])
-                </a>
               </th>
 
               <th scope="col" class="text-center">@lang('Comment')</th>
@@ -193,6 +190,7 @@
                 <span class="badge badge-dot mr-4">
                   <i class="bg-warning"></i> {{ $record->created_at }}
                 </span>
+                <div class="small text-muted"> {{ optional($record->audi)->name }} </div>
               </td>
             </tr>
             @endforeach

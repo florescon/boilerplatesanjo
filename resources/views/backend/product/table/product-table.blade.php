@@ -62,8 +62,8 @@
 		  </div>
 		</form>
 
-		<div class="col d-flex justify-content-center">
-			<div class="card shadow-lg" style="width: 33%;">
+		<div class="card-deck mb-4">
+			<div class="card border-0">
 			  <div class="card-body">
 					<div class="row pt-4">
 						<div class="col-12 text-center">
@@ -80,7 +80,7 @@
 				</div>
 			</div>
 
-			<div class="card shadow-lg ml-5" style="width: 33%;">
+			<div class="card border-0">
 			  <div class="card-body">
 					<div class="row pt-4">
 						<div class="col-12 text-center">
@@ -96,7 +96,6 @@
 					</div>
 				</div>
 			</div>
-
 		</div>
 
 	@endif

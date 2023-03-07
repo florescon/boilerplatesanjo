@@ -55,7 +55,7 @@
   <x-slot name="body">
 
 		<div class="col d-flex justify-content-center">
-			<div class="card shadow-lg" style="width: 33%;">
+			<div class="card col-6 border-0">
 			  <div class="card-body">
 					<div class="row pt-4">
 						<div class="col-12 text-center">
