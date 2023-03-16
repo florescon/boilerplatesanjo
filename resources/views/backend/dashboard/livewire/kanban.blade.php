@@ -1,7 +1,7 @@
 <div class="container-kanban">
   <div class="container-fluid page-header d-flex justify-content-between align-items-start">
       <div>
-        <h1>@lang('Kanban Board')</h1>
+        <h1>@lang('Production')</h1>
         <p class="lead d-none d-md-block">@lang('Research, ideate and present brand concepts for client consideration')</p>
       </div>
       <div class="d-flex align-items-center">
@@ -37,29 +37,27 @@
 
               <div class="card-body">
                 <div class="dropdown card-options">
-                  <button class="btn-options" type="button" id="kanban-dropdown-button-13" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <a class="btn-options" type="button" href="{{ route('admin.order.edit', $quotation->id) }}">
                     {{ $quotation->id }}
-                  </button>
+                  </a>
                   <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="#">Edit</a>
-                    <a class="dropdown-item text-danger" href="#">Archive Card</a>
+                    <a class="dropdown-item" href="{{ route('admin.order.edit', $quotation->id) }}">@lang('Edit')</a>
+                    <a class="dropdown-item text-danger" href="#">@lang('Archive Card')</a>
                   </div>
                 </div>
                 <div class="card-title">
-                  <a href="#" data-toggle="modal" data-target="#task-modal"><h6>{{ Str::limit($quotation->customer, 25) }}</h6></a>
-                  <p><h6>{{ Str::limit($quotation->comment, 23) }}</h6></p>
+                  <a href="{{ route('admin.order.edit', $quotation->id) }}"><h6>{{ Str::limit($quotation->customer, 25) }}</h6></a>
+                  <p><a class="btn-options" href="{{ route('admin.order.edit', $quotation->id) }}"><h6>{{ Str::limit($quotation->comment, 23) }}</h6></a></p>
                 </div>
 
                 <div class="card-meta d-flex justify-content-between">
                   <div class="d-flex align-items-center">
                     <span>@lang('Articles'): {{ $quotation->sum }}</span>
                   </div>
-
                   <span class="text-small">{{ $quotation->date }}</span>
-
                 </div>
-
               </div>
+
             </div>
           @endforeach
 
@@ -95,32 +93,27 @@
 
               <div class="card-body">
                 <div class="dropdown card-options">
-                  <button class="btn-options" type="button" id="kanban-dropdown-button-9" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ $order_captured->order_id }}
-                  </button>
+                  <a class="btn-options" type="button" href="{{ route('admin.order.edit', $order_captured->id) }}">
+                    {{ $order_captured->id }}
+                  </a>
                   <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="#">Edit</a>
-                    <a class="dropdown-item text-danger" href="#">Archive Card</a>
+                    <a class="dropdown-item" href="{{ route('admin.order.edit', $order_captured->id) }}">@lang('Edit')</a>
+                    <a class="dropdown-item text-danger" href="#">@lang('Archive Card')</a>
                   </div>
                 </div>
                 <div class="card-title">
-                  <a href="#" data-toggle="modal" data-target="#task-modal"><h6>{!! Str::limit($order_captured->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
-                  <p><h6>{{ Str::limit($order_captured->comment, 23) }}</h6></p>
+                  <a href="{{ route('admin.order.edit', $order_captured->id) }}"><h6>{!! Str::limit($order_captured->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
+                  <p><a class="btn-options" href="{{ route('admin.order.edit', $order_captured->id) }}"><h6>{{ Str::limit($order_captured->comment, 23) }}</h6></a></p>
                 </div>
 
                 <div class="card-meta d-flex justify-content-between">
                   <div class="d-flex align-items-center">
-                    <span>
-                      @lang('Articles'): {{ $order_captured->sum }}
-                      <br>
-                    </span>
+                    <span>@lang('Articles'): {{ $order_captured->sum }}</span>
                   </div>
-
                   <span class="text-small">{{ $order_captured->date }}</span>
-
                 </div>
-
               </div>
+
             </div>
           @endforeach
 
@@ -158,33 +151,25 @@
 
               <div class="card-body">
                 <div class="dropdown card-options">
-                  <button class="btn-options" type="button" id="kanban-dropdown-button-9" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ $order_captured->order_id }}
-                  </button>
+                  <a class="btn-options" type="button" href="{{ route('admin.order.edit', $order_captured->id) }}">
+                    {{ $order_captured->id }}
+                  </a>
                   <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="#">Edit</a>
-                    <a class="dropdown-item text-danger" href="#">Archive Card</a>
+                    <a class="dropdown-item" href="{{ route('admin.order.edit', $order_captured->id) }}">@lang('Edit')</a>
+                    <a class="dropdown-item text-danger" href="#">@lang('Archive Card')</a>
                   </div>
                 </div>
                 <div class="card-title">
-                  <a href="#" data-toggle="modal" data-target="#task-modal"><h6>{!! Str::limit($order_captured->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
-                  <p><h6>{{ Str::limit($order_captured->comment, 23) }}</h6></p>
+                  <a href="{{ route('admin.order.edit', $order_captured->id) }}"><h6>{!! Str::limit($order_captured->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
+                  <p><a class="btn-options" href="{{ route('admin.order.edit', $order_captured->id) }}"><h6>{{ Str::limit($order_captured->comment, 23) }}</h6></a></p>
                 </div>
 
                 <div class="card-meta d-flex justify-content-between">
                   <div class="d-flex align-items-center">
-                    <span>
-                      @lang('Articles'): {{ $order_captured->sum }}
-                      <br>
-                      {{ $order_captured->name_status }} 
-                      {{-- {{ $order_captured->last_status_order_id }} --}}
-                    </span>
+                    <span>@lang('Articles'): {{ $order_captured->sum }}</span>
                   </div>
-
                   <span class="text-small">{{ $order_captured->date }}</span>
-
                 </div>
-
               </div>
             </div>
           @endforeach
@@ -231,61 +216,25 @@
 
               <div class="card-body">
                 <div class="dropdown card-options">
-                  <button class="btn-options" type="button" id="kanban-dropdown-button-6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ $order->order_id }}
-                  </button>
+                  <a class="btn-options" type="button" href="{{ route('admin.order.edit', $order->id) }}">
+                    {{ $order->id }}
+                  </a>
                   <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="#">Edit</a>
-                    <a class="dropdown-item text-danger" href="#">Archive Card</a>
+                    <a class="dropdown-item" href="{{ route('admin.order.edit', $order->id) }}">@lang('Edit')</a>
+                    <a class="dropdown-item text-danger" href="#">@lang('Archive Card')</a>
                   </div>
                 </div>
                 <div class="card-title">
-                  <a href="#" data-toggle="modal" data-target="#task-modal"><h6>{!! Str::limit($order->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
-                  <p><h6>{{ Str::limit($order->comment, 23) }}</h6></p>
+                  <a href="{{ route('admin.order.edit', $order->id) }}"><h6>{!! Str::limit($order->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
+                  <p><a class="btn-options" href="{{ route('admin.order.edit', $order->id) }}"><h6>{{ Str::limit($order->comment, 23) }}</h6></a></p>
                 </div>
-
-                {{-- <ul class="avatars">
-
-                  <li>
-                    <a href="#" data-toggle="tooltip" title="Peggy">
-                      <img alt="Peggy Brown" class="avatar" src="{{ asset('/img/avatar/avatar-female-2.jpg')}}" />
-                    </a>
-                  </li>
-
-                  <li>
-                    <a href="#" data-toggle="tooltip" title="Ravi">
-                      <img alt="Ravi Singh" class="avatar" src="{{ asset('/img/avatar/avatar-male-3.jpg')}}" />
-                    </a>
-                  </li>
-
-                  <li>
-                    <a href="#" data-toggle="tooltip" title="Marcus">
-                      <img alt="Marcus Simmons" class="avatar" src="{{ asset('/img/avatar/avatar-male-1.jpg')}}" />
-                    </a>
-                  </li>
-
-                  <li>
-                    <a href="#" data-toggle="tooltip" title="Harry">
-                      <img alt="Harry Xai" class="avatar" src="{{ asset('/img/avatar/avatar-male-2.jpg')}}" />
-                    </a>
-                  </li>
-
-                </ul> --}}
 
                 <div class="card-meta d-flex justify-content-between">
                   <div class="d-flex align-items-center">
-                    <span>
-                      @lang('Articles'): {{ $order->sum }}
-                      <br>
-                      {{ $order->name_status }} 
-                      {{-- {{ $order_captured->last_status_order_id }} --}}
-                    </span>
+                    <span>@lang('Articles'): {{ $order->sum }}</span>
                   </div>
-
                   <span class="text-small">{{ $order->date }}</span>
-
                 </div>
-
               </div>
             </div>
           @endforeach
@@ -324,34 +273,27 @@
 
               <div class="card-body">
                 <div class="dropdown card-options">
-                  <button class="btn-options" type="button" id="kanban-dropdown-button-6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ $order->order_id }}
-                  </button>
+                  <a class="btn-options" type="button" href="{{ route('admin.order.edit', $order->id) }}">
+                    {{ $order->id }}
+                  </a>
                   <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="#">Edit</a>
-                    <a class="dropdown-item text-danger" href="#">Archive Card</a>
+                    <a class="dropdown-item" href="{{ route('admin.order.edit', $order->id) }}">@lang('Edit')</a>
+                    <a class="dropdown-item text-danger" href="#">@lang('Archive Card')</a>
                   </div>
                 </div>
                 <div class="card-title">
-                  <a href="#" data-toggle="modal" data-target="#task-modal"><h6>{!! Str::limit($order->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
-                  <p><h6>{{ Str::limit($order->comment, 23) }}</h6></p>
+                  <a href="{{ route('admin.order.edit', $order->id) }}"><h6>{!! Str::limit($order->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
+                  <p><a class="btn-options" href="{{ route('admin.order.edit', $order->id) }}"><h6>{{ Str::limit($order->comment, 23) }}</h6></a></p>
                 </div>
 
                 <div class="card-meta d-flex justify-content-between">
                   <div class="d-flex align-items-center">
-                    <span>
-                      @lang('Articles'): {{ $order->sum }}
-                      <br>
-                      {{ $order->name_status }} 
-                      {{-- {{ $order_captured->last_status_order_id }} --}}
-                    </span>
+                    <span>@lang('Articles'): {{ $order->sum }}</span>
                   </div>
-
                   <span class="text-small">{{ $order->date }}</span>
-
                 </div>
-
               </div>
+
             </div>
           @endforeach
 
@@ -389,34 +331,27 @@
 
               <div class="card-body">
                 <div class="dropdown card-options">
-                  <button class="btn-options" type="button" id="kanban-dropdown-button-6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ $order->order_id }}
-                  </button>
+                  <a class="btn-options" type="button" href="{{ route('admin.order.edit', $order->id) }}">
+                    {{ $order->id }}
+                  </a>
                   <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="#">Edit</a>
-                    <a class="dropdown-item text-danger" href="#">Archive Card</a>
+                    <a class="dropdown-item" href="{{ route('admin.order.edit', $order->id) }}">@lang('Edit')</a>
+                    <a class="dropdown-item text-danger" href="#">@lang('Archive Card')</a>
                   </div>
                 </div>
                 <div class="card-title">
-                  <a href="#" data-toggle="modal" data-target="#task-modal"><h6>{!! Str::limit($order->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
-                  <p><h6>{{ Str::limit($order->comment, 23) }}</h6></p>
+                  <a href="{{ route('admin.order.edit', $order->id) }}"><h6>{!! Str::limit($order->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
+                  <p><a class="btn-options" href="{{ route('admin.order.edit', $order->id) }}"><h6>{{ Str::limit($order->comment, 23) }}</h6></a></p>
                 </div>
 
                 <div class="card-meta d-flex justify-content-between">
                   <div class="d-flex align-items-center">
-                    <span>
-                      @lang('Articles'): {{ $order->sum }}
-                      <br>
-                      {{ $order->name_status }} 
-                      {{-- {{ $order_captured->last_status_order_id }} --}}
-                    </span>
+                    <span>@lang('Articles'): {{ $order->sum }}</span>
                   </div>
-
                   <span class="text-small">{{ $order->date }}</span>
-
                 </div>
-
               </div>
+
             </div>
           @endforeach
 
@@ -454,34 +389,27 @@
 
               <div class="card-body">
                 <div class="dropdown card-options">
-                  <button class="btn-options" type="button" id="kanban-dropdown-button-6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ $order->order_id }}
-                  </button>
+                  <a class="btn-options" type="button" href="{{ route('admin.order.edit', $order->id) }}">
+                    {{ $order->id }}
+                  </a>
                   <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="#">Edit</a>
-                    <a class="dropdown-item text-danger" href="#">Archive Card</a>
+                    <a class="dropdown-item" href="{{ route('admin.order.edit', $order->id) }}">@lang('Edit')</a>
+                    <a class="dropdown-item text-danger" href="#">@lang('Archive Card')</a>
                   </div>
                 </div>
                 <div class="card-title">
-                  <a href="#" data-toggle="modal" data-target="#task-modal"><h6>{!! Str::limit($order->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
-                  <p><h6>{{ Str::limit($order->comment, 23) }}</h6></p>
+                  <a href="{{ route('admin.order.edit', $order->id) }}"><h6>{!! Str::limit($order->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
+                  <p><a class="btn-options" href="{{ route('admin.order.edit', $order->id) }}"><h6>{{ Str::limit($order->comment, 23) }}</h6></a></p>
                 </div>
 
                 <div class="card-meta d-flex justify-content-between">
                   <div class="d-flex align-items-center">
-                    <span>
-                      @lang('Articles'): {{ $order->sum }}
-                      <br>
-                      {{ $order->name_status }} 
-                      {{-- {{ $order_captured->last_status_order_id }} --}}
-                    </span>
+                    <span>@lang('Articles'): {{ $order->sum }}</span>
                   </div>
-
                   <span class="text-small">{{ $order->date }}</span>
-
                 </div>
-
               </div>
+
             </div>
           @endforeach
 
@@ -519,34 +447,27 @@
 
               <div class="card-body">
                 <div class="dropdown card-options">
-                  <button class="btn-options" type="button" id="kanban-dropdown-button-6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ $order->order_id }}
-                  </button>
+                  <a class="btn-options" type="button" href="{{ route('admin.order.edit', $order->id) }}">
+                    {{ $order->id }}
+                  </a>
                   <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="#">Edit</a>
-                    <a class="dropdown-item text-danger" href="#">Archive Card</a>
+                    <a class="dropdown-item" href="{{ route('admin.order.edit', $order->id) }}">@lang('Edit')</a>
+                    <a class="dropdown-item text-danger" href="#">@lang('Archive Card')</a>
                   </div>
                 </div>
                 <div class="card-title">
-                  <a href="#" data-toggle="modal" data-target="#task-modal"><h6>{!! Str::limit($order->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
-                  <p><h6>{{ Str::limit($order->comment, 23) }}</h6></p>
+                  <a href="{{ route('admin.order.edit', $order->id) }}"><h6>{!! Str::limit($order->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
+                  <p><a class="btn-options" href="{{ route('admin.order.edit', $order->id) }}"><h6>{{ Str::limit($order->comment, 23) }}</h6></a></p>
                 </div>
 
                 <div class="card-meta d-flex justify-content-between">
                   <div class="d-flex align-items-center">
-                    <span>
-                      @lang('Articles'): {{ $order->sum }}
-                      <br>
-                      {{ $order->name_status }} 
-                      {{-- {{ $order_captured->last_status_order_id }} --}}
-                    </span>
+                    <span>@lang('Articles'): {{ $order->sum }}</span>
                   </div>
-
                   <span class="text-small">{{ $order->date }}</span>
-
                 </div>
-
               </div>
+
             </div>
           @endforeach
 
@@ -584,34 +505,27 @@
 
               <div class="card-body">
                 <div class="dropdown card-options">
-                  <button class="btn-options" type="button" id="kanban-dropdown-button-6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ $order->order_id }}
-                  </button>
+                  <a class="btn-options" type="button" href="{{ route('admin.order.edit', $order->id) }}">
+                    {{ $order->id }}
+                  </a>
                   <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="#">Edit</a>
-                    <a class="dropdown-item text-danger" href="#">Archive Card</a>
+                    <a class="dropdown-item" href="{{ route('admin.order.edit', $order->id) }}">@lang('Edit')</a>
+                    <a class="dropdown-item text-danger" href="#">@lang('Archive Card')</a>
                   </div>
                 </div>
                 <div class="card-title">
-                  <a href="#" data-toggle="modal" data-target="#task-modal"><h6>{!! Str::limit($order->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
-                  <p><h6>{{ Str::limit($order->comment, 23) }}</h6></p>
+                  <a href="{{ route('admin.order.edit', $order->id) }}"><h6>{!! Str::limit($order->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
+                  <p><a class="btn-options" href="{{ route('admin.order.edit', $order->id) }}"><h6>{{ Str::limit($order->comment, 23) }}</h6></a></p>
                 </div>
 
                 <div class="card-meta d-flex justify-content-between">
                   <div class="d-flex align-items-center">
-                    <span>
-                      @lang('Articles'): {{ $order->sum }}
-                      <br>
-                      {{ $order->name_status }} 
-                      {{-- {{ $order_captured->last_status_order_id }} --}}
-                    </span>
+                    <span>@lang('Articles'): {{ $order->sum }}</span>
                   </div>
-
                   <span class="text-small">{{ $order->date }}</span>
-
                 </div>
-
               </div>
+
             </div>
           @endforeach
 
@@ -649,34 +563,27 @@
 
               <div class="card-body">
                 <div class="dropdown card-options">
-                  <button class="btn-options" type="button" id="kanban-dropdown-button-6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ $order->order_id }}
-                  </button>
+                  <a class="btn-options" type="button" href="{{ route('admin.order.edit', $order->id) }}">
+                    {{ $order->id }}
+                  </a>
                   <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="#">Edit</a>
-                    <a class="dropdown-item text-danger" href="#">Archive Card</a>
+                    <a class="dropdown-item" href="{{ route('admin.order.edit', $order->id) }}">@lang('Edit')</a>
+                    <a class="dropdown-item text-danger" href="#">@lang('Archive Card')</a>
                   </div>
                 </div>
                 <div class="card-title">
-                  <a href="#" data-toggle="modal" data-target="#task-modal"><h6>{!! Str::limit($order->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
-                  <p><h6>{{ Str::limit($order->comment, 23) }}</h6></p>
+                  <a href="{{ route('admin.order.edit', $order->id) }}"><h6>{!! Str::limit($order->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
+                  <p><a class="btn-options" href="{{ route('admin.order.edit', $order->id) }}"><h6>{{ Str::limit($order->comment, 23) }}</h6></a></p>
                 </div>
 
                 <div class="card-meta d-flex justify-content-between">
                   <div class="d-flex align-items-center">
-                    <span>
-                      @lang('Articles'): {{ $order->sum }}
-                      <br>
-                      {{ $order->name_status }} 
-                      {{-- {{ $order_captured->last_status_order_id }} --}}
-                    </span>
+                    <span>@lang('Articles'): {{ $order->sum }}</span>
                   </div>
-
                   <span class="text-small">{{ $order->date }}</span>
-
                 </div>
-
               </div>
+
             </div>
           @endforeach
 
@@ -714,34 +621,27 @@
 
               <div class="card-body">
                 <div class="dropdown card-options">
-                  <button class="btn-options" type="button" id="kanban-dropdown-button-9" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ $order->order_id }}
-                  </button>
+                  <a class="btn-options" type="button" href="{{ route('admin.order.edit', $order->id) }}">
+                    {{ $order->id }}
+                  </a>
                   <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="#">Edit</a>
-                    <a class="dropdown-item text-danger" href="#">Archive Card</a>
+                    <a class="dropdown-item" href="{{ route('admin.order.edit', $order->id) }}">@lang('Edit')</a>
+                    <a class="dropdown-item text-danger" href="#">@lang('Archive Card')</a>
                   </div>
                 </div>
                 <div class="card-title">
-                  <a href="#" data-toggle="modal" data-target="#task-modal"><h6>{!! Str::limit($order->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
-                  <p><h6>{{ Str::limit($order->comment, 23) }}</h6></p>
+                  <a href="{{ route('admin.order.edit', $order->id) }}"><h6>{!! Str::limit($order->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
+                  <p><a class="btn-options" href="{{ route('admin.order.edit', $order->id) }}"><h6>{{ Str::limit($order->comment, 23) }}</h6></a></p>
                 </div>
 
                 <div class="card-meta d-flex justify-content-between">
                   <div class="d-flex align-items-center">
-                    <span>
-                      @lang('Articles'): {{ $order->sum }}
-                      <br>
-                      {{ $order->name_status }} 
-                      {{-- {{ $order->last_status_order_id }} --}}
-                    </span>
+                    <span>@lang('Articles'): {{ $order->sum }}</span>
                   </div>
-
                   <span class="text-small">{{ $order->date }}</span>
-
                 </div>
-
               </div>
+
             </div>
           @endforeach
 

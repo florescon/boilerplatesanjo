@@ -1,234 +1,190 @@
-<x-backend.card borderClass="{{ $title['color'] }}">
-
-  <x-slot name="header">
-  	<h5>
-	    <strong class="text-{{ $title['color'] }}"> <kbd>@lang($title['title'])</kbd> </strong>
-	  </h5>
-
-	  @if($status == 'suborders')
-	    <x-slot name="headerActions">
-	      <x-utils.link
-	      	style="color: purple;"
-	        icon="c-icon cil-plus"
-	        class="card-header-action"
-	        :href="route('admin.order.createsuborder')"
-	        :text="__('Create suborder output')"
-	      />
-	    </x-slot>
-    @endif
-
-    <div class="card-header-actions mb-3">
-      <x-utils.link class="mt-2 mr-2 card-header-action btn btn-secondary text-dark {{ $status == 'all' ? 'button-large pulsate' : '' }}" :href="route('admin.order.all')" :text="__('all')" />
-      <x-utils.link class="mt-2 mr-2 card-header-action btn btn-info text-white {{ $status == 'quotations' ? 'button-large pulsate' : '' }}" :href="route('admin.order.quotations')" :text="__('Quotations')" />
-      <x-utils.link class="mt-2 mr-2 card-header-action btn btn-primary text-white {{ $status == '' ? 'button-large pulsate' : '' }}" :href="route('admin.order.index')" :text="__('Orders')" />
-      <x-utils.link class="mt-2 mr-2 card-header-action btn btn-success text-white {{ $status == 'sales' ? 'button-large pulsate' : '' }}" :href="route('admin.order.sales')" :text="__('Sales')" />
-      <x-utils.link class="mt-2 mr-2 card-header-action btn btn-warning text-white {{ $status == 'mix' ? 'button-large pulsate' : '' }}" :href="route('admin.order.mix')" :text="__('Mix')" />
-      <x-utils.link style="background-color: purple;" class="mt-2 card-header-action btn text-white {{ $status == 'suborders' ? 'button-large pulsate' : '' }}" :href="route('admin.order.suborders')" :text="__('Suborder outputs')" />
-    </div>
-    
-    <div class="page-header-subtitle mt-5 mb-2">
-    	<em>
-    		@lang('Filter by updated date range')
-    	</em>
-    </div>
-
-    <div class="row input-daterange">
-        <div class="col-md-3 mr-2 mb-2 pr-5=">
-          <x-input.date wire:model="dateInput" id="dateInput" borderClass="{{ $title['color'] }}" placeholder="{{ __('From') }}"/>
-        </div>
-
-        <div class="col-md-3 mr-2 mb-2">
-          <x-input.date wire:model="dateOutput" id="dateOutput" borderClass="{{ $title['color'] }}" placeholder="{{ __('To') }}"/>
-        </div>
-        &nbsp;
-
-        <div class="col-md-3 mb-2">
-          <div class="btn-group mr-2" role="group" aria-label="First group">
-            <button type="button" class="btn btn-outline-{{ $title['color'] }}" wire:click="clearFilterDate"  class="btn btn-default">@lang('Clear date')</button>
-            <button type="button" class="btn btn-outline-{{ $title['color'] }}" wire:click="clearAll" class="btn btn-default">@lang('Clear all')</button>
-          </div>
-        </div>
-        &nbsp;
-    </div>
-  </x-slot>
+<x-backend.card >
 
   <x-slot name="body">
 
-		<div class="col d-flex justify-content-center">
-			<div class="card col-6 border-0">
-			  <div class="card-body">
-					<div class="row pt-4">
-						<div class="col-12 text-center">
-		          <livewire:backend.attributes.status-change/>
-						</div>
-						@if($statusOrder)
-						<div class="col-12 text-center mt-4">
-							<button class="btn btn-danger" wire:click="clearFilterStatusOrder">
-								@lang('Clear status order')
-							</button>
-						</div>
-						@endif
-					</div>
-				</div>
-			</div>
-		</div>
+      <div class="row justify-content-center">
+        <div class="col-lg-11 col-xl-12">
+          <ul class="nav nav-tabs nav-fill mt-1" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link {{ $status == 'all' ? 'active' : '' }}" href="{{ route('admin.order.all') }}" role="tab">@lang('all')</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {{ $status == 'quotations' ? 'active' : '' }}" href="{{ route('admin.order.quotations') }}" role="tab">@lang('Quotations')</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {{ $status == '' ? 'active' : '' }}" href="{{ route('admin.order.index') }}" role="tab">@lang('Orders')</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {{ $status == 'sales' ? 'active' : '' }}" href="{{ route('admin.order.sales') }}" role="tab">@lang('Sales')</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {{ $status == 'mix' ? 'active' : '' }}" href="{{ route('admin.order.mix') }}" role="tab">@lang('Mix')</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {{ $status == 'suborders' ? 'active' : '' }}" href="{{ route('admin.order.suborders') }}" role="tab">@lang('Outputs')</a>
+            </li>
+          </ul>
 
-	  <div class="row mb-4">
-	    <div class="col form-inline">
-	      @lang('Per page'): &nbsp;
+				  @if($status == 'suborders')
+					  <div class="page-header-subtitle text-right mt-4 mb-2">
+				      <x-utils.link
+				      	style="color: purple;"
+				        icon="c-icon cil-plus"
+				        class="card-header-action"
+				        :href="route('admin.order.createsuborder')"
+				        :text="__('Create output')"
+				      />
+				    </div>
+			    @endif
 
-	      <select wire:model="perPage" class="form-control">
-	        <option>10</option>
-	        <option>25</option>
-	        <option>50</option>
-	        <option>100</option>
-	      </select>
-	    </div><!--col-->
+				  <div class="page-header-subtitle mt-4 mb-2">
+				  	<em>
+				  		@lang('Filter by updated date range')
+				  	</em>
+				  </div>
 
-	    <div class="col">
-	      <div class="input-group">
-	        <input wire:model.debounce.350ms="searchTerm" class="form-control" type="text" placeholder="{{ __('Search by folio, tracking number or comment') }}..." />
-	        @if($searchTerm !== '')
-		        <div class="input-group-append">
-		          <button type="button" wire:click="clear" class="close" aria-label="Close">
-		            <span aria-hidden="true"> &nbsp; &times; &nbsp;</span>
-		          </button>
-		        </div>
-	        @endif
-	      </div>
-	    </div>
+				  <div class="row input-daterange mb-3">
+			      <div class="col-md-3 mb-2">
+			        <x-input.date wire:model="dateInput" id="dateInput" borderClass="{{ $title['color'] }}" placeholder="{{ __('From') }}"/>
+			      </div>
 
-	    @if($selected && $colors->count())
-		    <div class="dropdown table-export">
-		      <button class="dropdown-toggle btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		        @lang('Export')        
-		      </button>
+			      <div class="col-md-3 mb-2">
+			        <x-input.date wire:model="dateOutput" id="dateOutput" borderClass="{{ $title['color'] }}" placeholder="{{ __('To') }}"/>
+			      </div>
+			      &nbsp;
 
-		      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-		        <a class="dropdown-item" wire:click="export">CSV</a>
-		      </div>
-		    </div><!--export-dropdown-->
-	    @endif
-	  </div><!--row-->
+			      <div class="col-md-5 mb-2 text-right">
+			        <div class="btn-group" role="group" aria-label="First group">
+			          <button type="button" class="btn btn-outline-{{ $title['color'] }}" wire:click="clearFilterDate"  class="btn btn-default">@lang('Clear date')</button>
+			          <button type="button" class="btn btn-outline-{{ $title['color'] }}" wire:click="clearAll" class="btn btn-default">@lang('Clear all')</button>
+			        </div>
+			      </div>
+			      &nbsp;
+				  </div>
 
-	  <div class="row mt-4">
-	    <div class="col">
-	      <div class="table-responsive">
-	        <table class="table table-sm align-items-center table-flush table-bordered table-hover js-table">
-	          <thead  class="thead-dark">
-	            <tr>
-	              <th scope="col">
-                  <a style="color:white;" wire:click.prevent="sortBy('id')" role="button" href="#">
-                    f.º
-                    @include('backend.includes._sort-icon', ['field' => 'id'])
-                  </a>
-	              </th>
-                <th scope="col">
-                  @lang('Comment')
-                </th>
-	              <th scope="col">
-	              	@lang('User')
-	              </th>
-                <th scope="col" class="text-center">
-                  @lang('Information')
-                </th>
-                <th scope="col" class="text-center">
-                  @lang('Status')
-                </th>
-	              <th scope="col" class="text-center">
-	              	@lang('To customer')
-	              </th>
-	              <th scope="col" class="text-center">
-	                @lang('Captured')
-	              </th>
-	              <th scope="col" class="text-center">
-	                @lang('Details')
-	              </th>
-	            </tr>
-	          </thead>
-	          <tbody>
-	            @foreach($orders as $order)
-		            <tr class="table-tr" data-url="{{ route('admin.order.edit', $order->id) }}" style="{{ $order->type_order_classes }}">
-		            	<td class="align-middle">
-		            		<strong>
-			            		#{{ $order->id }}
-			            	</strong>
-		            	</td>
-	                <td class="align-middle">
-	                  @if($order->info_customer)
-		                  {!! Str::limit($order->info_customer, 100) ?? '' !!}
-		                  <br>
-		                @endif
-	                  {!! Str::limit($order->comment, 100) ?? '<span class="badge badge-secondary">'.__('undefined').'</span>' !!}
-	                </td>
-		              <td class="align-middle">
-		              	{!! $order->user_name !!}
-		              </td>
-	                <td class="align-middle text-center">
-	                	{!! $order->approved_label !!}
-	                	{!! $order->type_order !!}
-	                </td>
-	                <td class="align-middle text-center" style="text-decoration: underline;">
-	                  {!! $order->last_status_order_label !!}
-		                {!! $order->to_stock_final !!}
-	                </td>
-		              <td class="align-middle text-center">
-		              	{!! $order->to_customer ? '<i class="cil-check" style="color: blue;"></i>' : '<i class="cil-minus" style="color:red;"></i>' !!}
-		              </td>
-		              <td class="align-middle text-center">
-		                <span class="badge badge-dot">
-		                  <i class="bg-warning"></i> {{ $order->date_for_humans }}
-		                </span>
-		                {!! $order->date_diff_for_humans_created !!}
-		              </td>
-	                <td class="text-center">
-										@if(!$order->exist_user_departament || $order->isFromStore())
-											{!! $order->payment_label !!}
-										@else
-											<span class="badge badge-dark">@lang('Internal control')</span>
-	                	@endif
-	                	@if($order->parent_order_id)
-		                  <span class="badge badge-primary">
-		                  	@lang('Order'): <strong class="ml-1">{{ $order->parent_order }}</strong>
-		                  </span>
-	                  @endif
-										{!! $order->from_store_or_user_label !!}
-	                </td>
-		            </tr>
-	            @endforeach
-	          </tbody>
-	        </table>
+          <div class="tab-content">
+            <div class="tab-pane fade show active" id="teams" role="tabpanel" data-filter-list="content-list-body">
+              <div class="row content-list-head">
+                <div class="col-auto">
+							    <div class="col form-inline">
+							      @lang('Per page'): &nbsp;
 
-	        @if($orders->count())
-		        <div class="row">
-		          <div class="col">
-		            <nav>
-		              {{ $orders->onEachSide(1)->links() }}
-		            </nav>
-		          </div>
-		              <div class="col-sm-3 mb-2 text-muted text-right">
-		                Mostrando {{ $orders->firstItem() }} - {{ $orders->lastItem() }} de {{ $orders->total() }} resultados
-		              </div>
-		        </div>
-	        @else
-	          @lang('No search results') 
-	          @if($searchTerm)
-	            "{{ $searchTerm }}" 
-	          @endif
+							      <select wire:model="perPage" class="form-control">
+							        <option>5</option>
+							        <option>10</option>
+							        <option>25</option>
+							        <option>50</option>
+							        <option>100</option>
+							      </select>
 
-	          @if($dateInput) 
-	            @lang('from') {{ $dateInput }} {{ $dateOutput ? __('To') .' '.$dateOutput : __('to this day') }}
-	          @endif
+				  					@if($status == '' || $status == 'all')
+											<div class="ml-4">
+							          <livewire:backend.attributes.status-change/>
+							        </div>
+											@if($statusOrder)
+												<button class="btn btn-danger ml-4" wire:click="clearFilterStatusOrder">
+													@lang('Clear status order')
+												</button>
+											@endif
+							    	@endif
+							    </div><!--col-->
 
-	          @if($page > 1)
-	            {{ __('in the page').' '.$page }}
-	          @endif
-	        @endif
+                </div>
+                <form class="col-lg-auto">
+                  <div class="input-group input-group-round">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="cil-search"></i>
+                      </span>
+                    </div>
+                    <input type="search" wire:model.debounce.350ms="searchTerm" class="form-control filter-list-input" placeholder="{{ __('Search by folio, tracking number or comment') }}" aria-label="{{ __('Search by folio, tracking number or comment') }}">
+                  </div>
+                </form>
+              </div>
+              <!--end of content list head-->
+              <div class="content-list-body row">
+						    <div class="col">
+                    <div class="card-list">
+                      <div class="card-list-head">
+                        <h6>@lang($title['title'])</h6>
+                        <div class="dropdown">
+                          <button class="btn-options" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="cil-blur"></i>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#">@lang('Export') (@lang('Inactive'))</a>
+                          </div>
+                        </div>
+                      </div>
+						            @foreach($orders as $order)
+		                      <div class="card card-task">
+		                        <div class="progress">
+		                          <div class="progress-bar" role="progressbar" style="width: {{ $order->last_status_order_percentage }}%; background-color: {{ $order->last_status_order_color }};" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+		                        </div>
+		                        <div class="card-body">
+		                          <div class="card-title">
+		                            <a href="{{ route('admin.order.edit', $order->id) }}" style="text-decoration: none !important"><h6 data-filter-by="text"><strong>#{{ $order->id }}</strong> {!! $order->user_name !!} {!! Str::limit($order->info_customer, 100) ?? '' !!} </h6></a>
+		                            <span class="text-small">{!! Str::limit($order->comment, 100) ?? '<span class="badge badge-secondary">'.__('undefined').'</span>' !!}</span>
+		                            <span class="badge badge-dot">
+								                  {!! $order->date_diff_for_humans_created !!}
+								                </span>
+		                          </div>
+		                          <div class="card-meta">
+		                            <div class="d-flex align-items-center">
+		                              <span>{!! $order->last_status_order_label !!} {!! $order->to_stock_final !!} {!! $order->to_customer ? '<i class="cil-check" style="color: blue;"></i>' : '<i class="cil-minus" style="color:red;"></i>' !!}</span>
+		                            </div>
+		                            <div class="dropdown card-options">
+		                              <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		                              	<i class="cil-options"></i>
+		                              </button>
+		                              <div class="dropdown-menu dropdown-menu-right">
+		                                <a class="dropdown-item" href="{{ route('admin.order.edit', $order->id) }}">@lang('Show')</a>
+		                                <div class="dropdown-divider"></div>
+		                              </div>
+		                            </div>
+		                          </div>
+		                        </div>
+		                      </div>
 
-	      </div>
 
-	    </div>
-	  </div>
+						            @endforeach
+
+						        @if($orders->count())
+							        <div class="row">
+							          <div class="col">
+							            <nav>
+							              {{ $orders->onEachSide(1)->links() }}
+							            </nav>
+							          </div>
+							              <div class="col-sm-3 mb-2 text-muted text-right">
+							                Mostrando {{ $orders->firstItem() }} - {{ $orders->lastItem() }} de {{ $orders->total() }} resultados
+							              </div>
+							        </div>
+						        @else
+						          @lang('No search results') 
+						          @if($searchTerm)
+						            "{{ $searchTerm }}" 
+						          @endif
+
+						          @if($dateInput) 
+						            @lang('from') {{ $dateInput }} {{ $dateOutput ? __('To') .' '.$dateOutput : __('to this day') }}
+						          @endif
+
+						          @if($page > 1)
+						            {{ __('in the page').' '.$page }}
+						          @endif
+						        @endif
+
+
+						    </div>
+
+              </div>
+              <!--end of content-list-body-->
+            </div>
+          </div>
+        </div>
+      </div>
+
 	</x-slot>
 
 </x-backend.card>

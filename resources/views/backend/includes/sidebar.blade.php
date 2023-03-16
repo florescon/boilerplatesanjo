@@ -137,7 +137,7 @@
                     class="c-sidebar-nav-link"
                     :href="route('admin.order.quotation')"
                     :active="activeClass(Route::is('admin.order.quotation'), 'c-active')"
-                    icon="c-sidebar-nav-icon cil-cash"
+                    icon="c-sidebar-nav-icon cil-center-focus"
                     :text="__('Quotation')" />
             </li>
         @endif
@@ -153,7 +153,7 @@
             </li>
         @endif
 
-        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.product.list')))
+        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.product.modify')))
             <li class="c-sidebar-nav-item">
                 <x-utils.link
                     class="c-sidebar-nav-link"
@@ -183,6 +183,17 @@
                     :active="activeClass(Route::is('admin.material.*'), 'c-active')"
                     icon="c-sidebar-nav-icon cil-color-fill"
                     :text="__('Feedstocks')" />
+            </li>
+        @endif
+
+        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.bom.list')))
+            <li class="c-sidebar-nav-item">
+                <x-utils.link
+                    class="c-sidebar-nav-link"
+                    :href="route('admin.bom.index')"
+                    :active="activeClass(Route::is('admin.bom.*'), 'c-active')"
+                    icon="c-sidebar-nav-icon cil-crop-rotate"
+                    :text="__('Bill of Materials')" />
             </li>
         @endif
 

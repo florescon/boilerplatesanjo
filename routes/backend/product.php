@@ -10,7 +10,7 @@ Route::group([
 ], function () {
     Route::get('/', [ProductController::class, 'index'])
         ->name('index')
-        ->middleware('permission:admin.access.product.list')
+        ->middleware('permission:admin.access.product.modify')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.dashboard')
                 ->push(__('Product Management'), route('admin.product.index'));
@@ -26,7 +26,7 @@ Route::group([
 
     Route::get('records', [ProductController::class, 'recordsProduct'])
         ->name('records')
-        ->middleware('permission:admin.access.product.list')
+        ->middleware('permission:admin.access.product.modify')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.product.index')
                 ->push(__('Records of products'), route('admin.product.records'));

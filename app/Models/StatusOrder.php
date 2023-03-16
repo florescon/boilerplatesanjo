@@ -50,6 +50,11 @@ class StatusOrder extends Model
         return $this->status->percentage;
     }
 
+    public function getColorStatusAttribute()
+    {
+        return $this->status->color;
+    }
+
     public function getDateEnteredOrCreatedAttribute()
     {
         return !$this->date_entered ? $this->created_at->isoFormat('D, MMM') : $this->date_entered->isoFormat('D, MMM');

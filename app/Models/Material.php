@@ -42,6 +42,7 @@ class Material extends Model
      */
     protected $appends = [
         'stock_formatted',
+        'full_name_clear',
     ];
 
     /**
@@ -169,7 +170,7 @@ class Material extends Model
      */
     public function getFullNameClearAttribute()
     {
-        return $this->name.$this->size_name_clear.$this->color_name_clear.$this->unit_name_clear;
+        return $this->name.$this->size_name_clear.$this->color_name_clear;
     }
 
     public function getNameAttribute($value)

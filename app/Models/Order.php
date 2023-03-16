@@ -372,7 +372,7 @@ class Order extends Model
             return $this->last_status_order->name_status.' - '.$this->last_status_order->date_entered_or_created;
         }
 
-        return "--<em> ".__('not applicable')." </em>--";
+        return "";
     }
 
 
@@ -382,7 +382,7 @@ class Order extends Model
             return '$'. number_format((float)$this->total_payments, 2);
         }
 
-        return "--<em> ".__('not applicable')." </em>--";
+        return "";
     }
 
     public function getRemainingOrderLabelAttribute()
@@ -391,7 +391,7 @@ class Order extends Model
             return '$'. number_format((float)$this->total_payments_remaining, 2);
         }
 
-        return "--<em> ".__('not applicable')." </em>--";
+        return "";
     }
 
     public function getLastStatusOrderPercentageAttribute(): int
@@ -401,6 +401,15 @@ class Order extends Model
             }
 
             return $this->last_status_order->percentage_status;
+    }
+
+    public function getLastStatusOrderColorAttribute()
+    {
+            if(!$this->last_status_order){
+                return null;
+            }
+
+            return $this->last_status_order->color_status;
     }
 
     /**
@@ -731,7 +740,7 @@ class Order extends Model
             return "<span class='badge badge-danger'>".__('Pending').'</span>';
         }
 
-        return "--<em> ".__('not applicable')." </em>--";
+        return "";
     }
 
     /**
@@ -760,7 +769,7 @@ class Order extends Model
 
     public function getDateForHumansAttribute()
     {
-        return $this->created_at->isoFormat('D, MMM');
+        return $this->created_at->isoFormat('D, MMM, YYYY');
     }
 
     public function getDateEnteredOrCreatedAttribute()
@@ -768,10 +777,9 @@ class Order extends Model
         return !$this->date_entered ? $this->created_at->isoFormat('D, MMM') : $this->date_entered->isoFormat('D, MMM');
     }
 
-
     public function getDateDiffForHumansCreatedAttribute()
     {
-        return "<span class='badge badge-dark'>".$this->created_at->diffForHumans(null, false, false, 2).'</span>';
+        return $this->created_at->diffForHumans(null, false, false, 2);
     }
 
     public function getDateDiffForHumansAttribute()

@@ -187,7 +187,7 @@ class ProductOrder extends Model
             foreach ($this->consumption_filter->where('color_id', $this->parent->color_id) as $consumption) {
                 $groups0->push([
                     'material_id' => $consumption->material_id,
-                    'material_name' => $consumption->material->name,
+                    'material_name' => $consumption->material->full_name_clear,
                     'quantity' => $consumption->quantity * $this->quantity,
                     'unit' => $consumption->quantity,
                     'price' => $consumption->material->price,
@@ -197,7 +197,7 @@ class ProductOrder extends Model
             foreach ($this->consumption_filter->where('size_id', $this->parent->size_id) as $consumption) {
                 $groups2->push([
                     'material_id' => $consumption->material_id,
-                    'material_name' => $consumption->material->name,
+                    'material_name' => $consumption->material->full_name_clear,
                     'quantity' => $consumption->quantity * $this->quantity,
                     'unit' => $consumption->quantity,
                     'price' => $consumption->material->price,
@@ -207,7 +207,7 @@ class ProductOrder extends Model
             foreach ($this->consumption_filter->whereNull('color_id')->whereNull('size_id') as $consumption) {
                 $groups3->push([
                     'material_id' => $consumption->material_id,
-                    'material_name' => $consumption->material->name,
+                    'material_name' => $consumption->material->full_name_clear,
                     'quantity' => $consumption->quantity * $this->quantity,
                     'unit' => $consumption->quantity,
                     'price' => $consumption->material->price,

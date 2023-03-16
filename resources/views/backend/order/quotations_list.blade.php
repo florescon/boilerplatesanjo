@@ -1,5 +1,9 @@
 @extends('backend.layouts.app')
 
+@push('after-styles')
+    <link rel="stylesheet" href="{{ asset('/css_custom/pipeline.css') }}">
+@endpush
+
 @section('title', __('Order'))
 
 @section('breadcrumb-links')

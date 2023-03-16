@@ -12,7 +12,6 @@
           placeholder: '@lang("Choose status")',
           width: 'resolve',
           theme: 'bootstrap4',
-          allowClear: true,
           maximumInputLength: 5,
           ajax: {
                 url: '{{ route('admin.status.select') }}',

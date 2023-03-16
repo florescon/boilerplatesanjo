@@ -33,7 +33,7 @@
 		@endif
 
 		<div class="row d-flex flex-row-reverse mb-2">
-	    @if($selected && $products->count())
+	    @if($selected && $products->count() && ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.store.list'))))
 	    <div class="dropdown table-export">
 	      <button class="dropdown-toggle btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	        @lang('Export store stock')
@@ -49,7 +49,7 @@
 	      </div>
 	    </div><!--export-dropdown-->
 	    @endif
-	    @if($selected && $products->count())
+	    @if($selected && $products->count() && ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.product.modify'))))
 	    <div class="dropdown table-export">
 	      <button class="dropdown-toggle btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	        @lang('Export revision stock')
@@ -65,7 +65,7 @@
 	      </div>
 	    </div><!--export-dropdown-->
 	    @endif
-	    @if($selected && $products->count())
+	    @if($selected && $products->count() && ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.product.modify'))))
 	    <div class="dropdown table-export">
 	      <button class="dropdown-toggle btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	        @lang('Export main stock')        
@@ -110,7 +110,7 @@
 			  </div>
 			</div>
 
-	    @if($selected && $products->count())
+	    @if($selected && $products->count() && $logged_in_user->hasAllAccess())
 		    <div class="dropdown table-export">
 		      <button class="dropdown-toggle btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		        @lang('Export')        
@@ -166,6 +166,7 @@
 	              <th scope="col">
 	                  @lang('Name')
 	              </th>
+	              @if($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.product.modify')))
 					      <th scope="col">
 	                <a wire:click.prevent="sortBy('stock')" role="button" href="#">
 	                  @lang('Stock')
@@ -178,6 +179,7 @@
 	                  @include('backend.includes._sort-icon', ['field' => 'stock_revision'])
 	                </a>
 					      </th>
+					      @endif
 					      <th scope="col">
 	                <a wire:click.prevent="sortBy('stock_store')" role="button" href="#">
 	                  @lang('Store stock')
@@ -219,16 +221,19 @@
 	                  </div>
 	                </div>
 	              </td>
-
+	              @if($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.product.modify')))
 	              <td>
 	              	{{ $product->stock }}
 	              </td>
 	              <td>
 	              	{{ $product->stock_revision }}
 	              </td>
+	              @endif
+	              @if($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.store.list')))
 	              <td>
 	              	{{ $product->stock_store }}
 	              </td>
+	             	@endif
 	              <td>
 	                <span class="badge badge-dot mr-4">
 	                  <i class="bg-warning"></i> {{ $product->date_for_humans }}

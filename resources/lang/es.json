@@ -702,6 +702,7 @@
     "Delete order": "Eliminar orden",
     "Create suborder": "Crear suborden",
     "Create suborder output": "Crear salida de suborden",
+    "Create output": "Crear salida",
     "Delete suborder": "Eliminar suborden",
     "Delete suborder output": "Eliminar salida de suborden",
     "Suborder": "Suborden",
@@ -743,6 +744,7 @@
     "Go to main order": "Ir a la orden principal",
     "Order created": "Orden creada",
     "Order status": "Estado de orden",
+    "Production": "Producción",
     "Production status": "Estado de producción",
     "Order production status": "Estado de producción de orden",
     "Order states": "Estados de orden",
@@ -1134,5 +1136,7 @@
     "To be defined": "Por definir",
     "Archive List": "Listado",
     "Kanban Board": "Tablero Kanban",
-    "Research, ideate and present brand concepts for client consideration": "Investigar, idear y presentar conceptos de marca para la consideración del cliente"
+    "Research, ideate and present brand concepts for client consideration": "Investigar, idear y presentar conceptos de marca para la consideración del cliente",
+    "Bill of Materials": "Lista de Materiales",
+    "Bill of Materials Management": "Administración de Lista de Materiales"
 }

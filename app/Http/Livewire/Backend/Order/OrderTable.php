@@ -23,7 +23,7 @@ class OrderTable extends Component
 
     public $title = [];
 
-    public $perPage = '10';
+    public $perPage = '5';
 
     public $sortField = 'id';
     public $sortAsc = false;
@@ -166,7 +166,7 @@ class OrderTable extends Component
     {
         $this->searchTerm = '';
         $this->resetPage();
-        $this->perPage = '10';
+        $this->perPage = '5';
     }
 
     public function clearAll()
@@ -175,7 +175,7 @@ class OrderTable extends Component
         $this->dateOutput = '';
         $this->searchTerm = '';
         $this->resetPage();
-        $this->perPage = '10';
+        $this->perPage = '5';
         $this->emit('clear-status-order');
     }
 
