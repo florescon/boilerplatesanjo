@@ -96,7 +96,7 @@
             <div class="col-md-12 text-center border-left">
               @foreach($selectedProduct->children->unique('color_id')->sortBy('color.name') as $children)  
                 <span class="badge text-white {{ in_array($children->color_id, $filterColor) ? 'bg-danger' : 'bg-dark' }}" 
-                            wire:click="$emit('filterByColor', {{ $children->color_id }})"
+                    wire:click="$emit('filterByColor', {{ $children->color_id }})"
                     style="cursor:pointer"
                 >{{ optional($children->color)->name }}</span>
               @endforeach
