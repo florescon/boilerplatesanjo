@@ -44,6 +44,6 @@ class Consumption extends Model
 
     public function material()
     {
-        return $this->belongsTo(Material::class, 'material_id')->with('color', 'size', 'unit')->withTrashed();
+        return $this->belongsTo(Material::class, 'material_id')->with('color', 'size', 'unit', 'vendor')->withTrashed();
     }
 }

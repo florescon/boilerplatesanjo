@@ -12,10 +12,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Events\Order\OrderProductionStatusUpdated;
 use App\Events\Order\OrderStatusUpdated;
+use DB;
 
 class EditOrder extends Component
 {
-    public $order_id, $lates_statusId, $slug, $isComment, $comment, $isInfo_customer, $info_customer, $isDate, $date_entered;
+    public $order_id, $lates_statusId, $slug, $isComment, $comment, $isRequest, $request, $isInfo_customer, $info_customer, $isDate, $date_entered;
 
     public $previousMaterialByProduct, $maerialAll;
 
@@ -41,6 +42,7 @@ class EditOrder extends Component
         $this->from_store = $order->from_store;
         $this->lates_statusId = $order->last_status_order->status_id ?? null;
         $this->initcomment($order);
+        $this->initrequest($order);
         $this->initinfo_customer($order);
         $this->initdate($order);
 
@@ -76,6 +78,12 @@ class EditOrder extends Component
     {
         $this->comment = $order->comment;
         $this->isComment = $order->comment || empty($order) ? $order->comment : __('Define comment');
+    }
+
+    private function initrequest(Order $order)
+    {
+        $this->request = $order->request;
+        $this->isRequest = $order->request || empty($order) ? $order->request : __('Define request');
     }
 
     private function initinfo_customer(Order $order)
@@ -123,6 +131,26 @@ class EditOrder extends Component
         $order->save();
 
         $this->initcomment($order); // re-initialize the component state with fresh data after saving
+
+        $this->emit('swal:alert', [
+           'icon' => 'success',
+            'title'   => __('Updated at'), 
+        ]);
+    }
+
+    public function saverequest()
+    {
+        $this->validate([
+            'request' => 'required|max:300',
+        ]);
+
+        $order = Order::findOrFail($this->order_id);
+        $newRequest = (string)Str::of($this->request)->trim()->substr(0, 300); // trim whitespace & more than 100 characters
+
+        $order->request = $newRequest ?? null;
+        $order->save();
+
+        $this->initrequest($order); // re-initialize the component state with fresh data after saving
 
         $this->emit('swal:alert', [
            'icon' => 'success',
@@ -235,6 +263,16 @@ class EditOrder extends Component
         Order::whereId($this->order_id)->update(['to_stock' => true]);
 
         return $this->redirectRoute($this->from_store ? 'admin.store.all.edit' : 'admin.order.edit', $this->order_id);
+    }
+
+    public function removeProduct($productId): void
+    {
+        $delete = DB::table('product_order')->where('id', $productId)->delete();
+
+        $this->emit('swal:alert', [
+            'icon' => 'success',
+            'title'   => __('Deleted'), 
+        ]);
     }
 
     public function render()

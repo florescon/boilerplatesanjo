@@ -125,6 +125,16 @@
                       @error('comment') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
                   </div>
+                  <div class="row mt-3">
+                    <div class="col-12 col-lg-12">
+                      @if($model->isQuotation())
+                        <x-input.input-alpine nameData="isRequest" :inputText="$isRequest" :originalInput="$isRequest" wireSubmit="saverequest" modelName="request" maxlength="300" className="" />
+                        @error('request') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                      @else
+                        <strong>@lang('Request number'):</strong> {{ $model->request }}
+                      @endif
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -554,13 +564,14 @@
                 </caption>
                 <thead style="background-color: #86FFCF; border-color: #FAFA33; color: dark;">
                   <tr class="text-center">
-                    <th colspan="4" >@lang('Quotation')</th>
+                    <th colspan="5" >@lang('Quotation')</th>
                   </tr>
                   <tr class="thead-dark">
                     <th>@lang('Product')</th>
                     <th>@lang('Price')</th>
                     <th class="text-center">@lang('Quantity')</th>
                     <th class="text-center">Total</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -587,6 +598,9 @@
                     <td class="text-center">
                       ${{ number_format((float)$product->total_by_product, 2) }}
                       <div class="small text-muted"> ${{ priceWithoutIvaIncluded($product->total_by_product) }} </div>
+                    </td>
+                    <td>
+                      <a wire:click="removeProduct({{ $product->id }})" class="link link-dark-primary link-normal" style="cursor:pointer;"><i class="fas fa-times text-c-blue m-l-10"></i></a> 
                     </td>
                   </tr>
                   <tr>

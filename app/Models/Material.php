@@ -149,6 +149,14 @@ class Material extends Model
         return $this->unit_id ? ', '.$this->unit->name : '';
     }
 
+    /**
+     * @return string
+     */
+    public function getUnitMeasurementAttribute()
+    {
+        return $this->unit_id ? ($this->unit->abbreviation ?? $this->unit->name) : '';
+    }
+
     public function getNewMaterialAttribute()
     {
         if($this->created_at){

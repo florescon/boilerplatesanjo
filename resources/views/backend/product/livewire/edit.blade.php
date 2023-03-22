@@ -673,7 +673,7 @@
 								  	<div x-data="{ highlightedButton: '' }" style="display:inline;">
 									    <a @click="highlightedButton='order'"  :class="{'badge-danger': highlightedButton === 'order'}" onmousedown="party.sparkles(this)" class="badge badge-primary text-white" wire:click="addToCart({{ $children->id }}, 'products')" ><i class="cil-cart"> </i> @lang('Order')</a>
 									</div>
-									<div  x-data="{ highlightedButton2: '' }"  style="display:inline;">
+									<div x-data="{ highlightedButton2: '' }"  style="display:inline;">
 									    <a @click="highlightedButton2='sale'"  :class="{'badge-danger': highlightedButton2 === 'sale'}" onmousedown="party.confetti(this)" class="badge badge-success text-white" wire:click="addToCart({{ $children->id }}, 'products_sale')" ><i class="cil-cart"> </i> @lang('Sale')</a>
 									</div>
 								  </td>

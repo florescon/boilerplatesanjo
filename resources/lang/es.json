@@ -215,6 +215,7 @@
     "Extra size": "Talla extra",
     "size": "talla",
     "unit": "unidad",
+    "Unit of measurement": "Unidad de medida",
     "name": "nombre",
     "type": "tipo",
     "Captured": "Capturado",
@@ -432,6 +433,7 @@
     "store_stock": "stock de tienda",
     "From store": "Desde tienda",
     "Edit stock": "Editar existencias",
+    "Stock": "Existencia",
     "Quantity of all inventories": "Cantidad todos los inventarios",
     "Show in store": "Mostrar en tienda",
     "Back to store": "Regresar a la tienda",
@@ -1138,5 +1140,10 @@
     "Kanban Board": "Tablero Kanban",
     "Research, ideate and present brand concepts for client consideration": "Investigar, idear y presentar conceptos de marca para la consideración del cliente",
     "Bill of Materials": "Lista de Materiales",
-    "Bill of Materials Management": "Administración de Lista de Materiales"
+    "Bill of Materials Management": "Administración de Lista de Materiales",
+    "Explode": "Explosionar",
+    "Exploded": "Explosionado",
+    "Require": "Requerir",
+    "A collection of materials for explode orders": "Una colección de materiales para órdenes explosionadas",
+    "Selected": "Seleccionado"
 }

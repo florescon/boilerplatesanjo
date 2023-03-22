@@ -123,7 +123,7 @@
 		                        </div>
 		                        <div class="card-body">
 		                          <div class="card-title">
-		                            <a href="{{ route('admin.order.edit', $order->id) }}" style="text-decoration: none !important"><h6 data-filter-by="text"><strong>#{{ $order->id }}</strong> {!! $order->user_name !!} {!! Str::limit($order->info_customer, 100) ?? '' !!} </h6></a>
+		                            <a target="_blank" href="{{ route('admin.order.edit', $order->id) }}" style="text-decoration: none !important"><h6 data-filter-by="text"><strong>#{{ $order->id }}</strong> {!! $order->user_name !!} {!! Str::limit($order->info_customer, 100) ?? '' !!} </h6></a>
 		                            <span class="text-small">{!! Str::limit($order->comment, 100) ?? '<span class="badge badge-secondary">'.__('undefined').'</span>' !!}</span>
 		                            <span class="badge badge-dot">
 								                  {!! $order->date_diff_for_humans_created !!}
@@ -138,7 +138,7 @@
 		                              	<i class="cil-options"></i>
 		                              </button>
 		                              <div class="dropdown-menu dropdown-menu-right">
-		                                <a class="dropdown-item" href="{{ route('admin.order.edit', $order->id) }}">@lang('Show')</a>
+		                                <a class="dropdown-item" target="_blank" href="{{ route('admin.order.edit', $order->id) }}">@lang('Show')</a>
 		                                <div class="dropdown-divider"></div>
 		                              </div>
 		                            </div>

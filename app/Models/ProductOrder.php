@@ -187,9 +187,13 @@ class ProductOrder extends Model
             foreach ($this->consumption_filter->where('color_id', $this->parent->color_id) as $consumption) {
                 $groups0->push([
                     'material_id' => $consumption->material_id,
+                    'material_part_number' => $consumption->material->part_number,
                     'material_name' => $consumption->material->full_name_clear,
+                    'stock' => $consumption->material->stock,
                     'quantity' => $consumption->quantity * $this->quantity,
                     'unit' => $consumption->quantity,
+                    'unit_measurement' => $consumption->material->unit_measurement,
+                    'vendor' => $consumption->material->vendor->short_name,
                     'price' => $consumption->material->price,
                 ]);
             }
@@ -197,9 +201,13 @@ class ProductOrder extends Model
             foreach ($this->consumption_filter->where('size_id', $this->parent->size_id) as $consumption) {
                 $groups2->push([
                     'material_id' => $consumption->material_id,
+                    'material_part_number' => $consumption->material->part_number,
                     'material_name' => $consumption->material->full_name_clear,
+                    'stock' => $consumption->material->stock,
                     'quantity' => $consumption->quantity * $this->quantity,
                     'unit' => $consumption->quantity,
+                    'unit_measurement' => $consumption->material->unit_measurement,
+                    'vendor' => $consumption->material->vendor->short_name,
                     'price' => $consumption->material->price,
                 ]);
             }
@@ -207,9 +215,13 @@ class ProductOrder extends Model
             foreach ($this->consumption_filter->whereNull('color_id')->whereNull('size_id') as $consumption) {
                 $groups3->push([
                     'material_id' => $consumption->material_id,
+                    'material_part_number' => $consumption->material->part_number,
                     'material_name' => $consumption->material->full_name_clear,
+                    'stock' => $consumption->material->stock,
                     'quantity' => $consumption->quantity * $this->quantity,
                     'unit' => $consumption->quantity,
+                    'unit_measurement' => $consumption->material->unit_measurement,
+                    'vendor' => $consumption->material->vendor->short_name,
                     'price' => $consumption->material->price,
                 ]);
             }
@@ -229,9 +241,13 @@ class ProductOrder extends Model
                     ->map(function ($item) {
                         return [
                             'material' => $item[0]['material_name'],
+                            'part_number' => $item[0]['material_part_number'],
                             'price' => $item[0]['price'],
                             'unit' => $item->sum('unit'),
+                            'unit_measurement' => $item[0]['unit_measurement'],
+                            'vendor' => $item[0]['vendor'],
                             'quantity' => $item->sum('quantity'),
+                            'stock' => $item[0]['stock'],
                         ];
                     }); 
         }

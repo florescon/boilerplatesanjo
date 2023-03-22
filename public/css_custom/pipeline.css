@@ -7236,17 +7236,17 @@ h3 + .btn-round, h5 + .btn-round {
   z-index: 1060 !important; }
 
 .checklist-strikethrough {
-  height: 12px;
+  height: 100px;
   background: linear-gradient(90deg, #6303ff 0%, #a471f7 3%, #6610f2 60%, #a471f7 100%);
   border-radius: 2px 3px 2px 2px;
   mix-blend-mode: multiply;
-  transform: skewX(-10deg);
+  transform: skewX(-7deg);
   opacity: .3;
   width: 0;
-  transition: width .35s ease-in-out, opacity .25s ease-in-out;
+  transition: width 2s ease-in-out, opacity .25s ease-in-out;
   position: absolute;
   margin-left: 0;
-  top: 35%;
+  top: 0%;
   pointer-events: none; }
 
 @media (max-width: 991.98px) {

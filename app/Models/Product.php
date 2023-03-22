@@ -164,7 +164,7 @@ class Product extends Model
      */
     public function getFirstCharacterNameAttribute()
     {
-        return $this->name ? substr($this->name, 0, 1) : '';
+        return $this->name ? substr($this->name, 0, 3) : '';
     }
 
     /**
