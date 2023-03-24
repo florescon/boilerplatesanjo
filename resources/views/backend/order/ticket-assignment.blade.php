@@ -103,7 +103,10 @@
                 <tbody>
                   @foreach($ticket->assignments_direct as $assign)
                   <tr>
-                    <td scope="row">{!! $assign->assignmentable->product->full_name !!} {!! '<em>['.$assign->assignmentable->product->code_subproduct_clear.']</em>' !!}</tf>
+                    <td scope="row">{!! $assign->assignmentable->product->full_name !!} {!! '<em>['.$assign->assignmentable->product->code_subproduct_clear.']</em>' !!}
+                        <br>
+                        <strong>{{ $assign->assignmentable->comment }}</strong>
+                    </td>
                     <td align="center">{{ $assign->quantity }}</td>
                   </tr>
                   @endforeach

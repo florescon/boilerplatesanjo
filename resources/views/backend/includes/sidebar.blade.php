@@ -192,8 +192,8 @@
                     class="c-sidebar-nav-link"
                     :href="route('admin.bom.index')"
                     :active="activeClass(Route::is('admin.bom.*'), 'c-active')"
-                    icon="c-sidebar-nav-icon cil-crop-rotate"
-                    :text="__('Bill of Materials')" />
+                    icon="c-sidebar-nav-icon cil-blur-circular"
+                    :text="__('Bom of Materials')" />
             </li>
         @endif
 

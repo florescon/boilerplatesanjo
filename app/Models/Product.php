@@ -425,6 +425,14 @@ class Product extends Model
         return $this->code ?: '--';
     }
 
+    public function getParentCodeAttribute(){
+        if($this->isProduct()){
+            return $this->parent->code;
+        }
+
+        return $this->code ?? '';
+    }
+
     public function getCodeLabelAttribute()
     {
         if(!$this->hasCodeSubproduct() && $this->isProduct()){

@@ -28,7 +28,13 @@ class BomTable extends Component
 
     public $searchTerm = '';
 
+    public $searchFeedstock = '';
+
+    public $searchProduct = '';
+
     public $materials;
+
+    public $products;
 
     public $selectedOrders;
 
@@ -39,7 +45,11 @@ class BomTable extends Component
     protected $listeners = [
         'load-more' => 'loadMore',
     ];
-   
+
+    protected $messages = [
+        'selectedtypes.max' => 'Máximo 10 registros.',
+    ];
+
     public function loadMore()
     {
         $this->perPage = $this->perPage + 10;
@@ -71,7 +81,9 @@ class BomTable extends Component
     private function applySearchFilter($order)
     {
         if ($this->searchTerm) {
-            return $order->whereRaw("id LIKE \"%$this->searchTerm%\"");
+            return $order->whereRaw("id LIKE \"%$this->searchTerm%\"")
+            ->orWhereRaw("comment LIKE \"%$this->searchTerm%\"")
+            ->orWhereRaw("customer LIKE \"%$this->searchTerm%\"");
         }
 
         return null;
@@ -95,8 +107,9 @@ class BomTable extends Component
             'selectedtypes' => 'max:10',
         ]);
 
-        $collect = collect();
+        $consumptionCollect = collect();
         $ordercollection = collect();
+        $productsCollection = collect();
 
         foreach($this->getSelectedProducts() as $orderID){
             $order = Order::with('products.consumption_filter.material', 'products.parent')->find($orderID);
@@ -108,9 +121,22 @@ class BomTable extends Component
             ]);
 
             foreach($order->products as $product_order){
+
+                $productsCollection->push([
+                    'productId' => $product_order->id,
+                    'productParentId' => $product_order->product->parent_id ?? null,
+                    'productParentName' => $product_order->product->only_name ?? null,
+                    'productParentCode' => $product_order->product->parent_code ?? null,
+                    'productOrder' => $product_order->order_id,
+                    'productName' => $product_order->product->full_name_clear ?? null,
+                    'productColor' => $product_order->product->color_id,
+                    'productColorName' => $product_order->product->color->name ?? '',
+                    'productQuantity' => $product_order->quantity,
+                ]);
+
                 if($product_order->gettAllConsumption() != 'empty'){
                     foreach($product_order->gettAllConsumption() as $key => $consumption){
-                        $collect->push([
+                        $consumptionCollect->push([
                             'order' => $orderID,
                             'product_order_id' => $product_order->id, 
                             'material_name' => $consumption['material'],
@@ -127,7 +153,11 @@ class BomTable extends Component
             }
         }
 
-        $collection = $collect->groupBy('material_id')->map(function ($row) {
+        $this->products = $productsCollection->groupBy(['productParentId', function ($item) {
+            return $item['productColor'];
+        }], $preserveKeys = false);
+
+        $materials = $consumptionCollect->groupBy('material_id')->map(function ($row) {
                     return [
                         'order' => $row[0]['order'],
                         'product_order_id' => $row[0]['product_order_id'], 
@@ -142,14 +172,35 @@ class BomTable extends Component
                     ];
                 });
 
-        $this->materials = $collection;
-
-        $ss = $this->rows
-            ->map(fn ($name) => $name->id);
+        $this->materials = $materials;
 
         $this->orderCollection = $ordercollection->toArray();
 
+        // dd($this->products->toArray());
+
         // $this->selectedOrders = $this->rows->whereIn('id', $this->getSelectedProducts())->toArray();
+    }
+
+    private function products(){
+        return $this->products = $this->products ? $this->products->sortBy(['productName', 'asc']) : null;
+    }
+
+    private function materials(){
+        return $this->materials = $this->materials ? $this->materials->sortBy(['unit_measurement', 'asc'],['material_name', 'asc']) : null;
+    }
+
+    private function applySearchFeedstock($collectionFeedstock)
+    {
+        if ($this->searchFeedstock) {
+            $searchFeedstock = strtolower($this->searchFeedstock);
+
+            return $collectionFeedstock->filter(function ($item) use($searchFeedstock){
+                return preg_match("/$searchFeedstock/",strtolower($item['material_name'].' '.$item['part_number'].' '.$item['vendor'].' '.$item['unit_measurement']));
+            });
+
+        }
+
+        return $this->materials();
     }
 
     public function exportMaatwebsiteCustom($extension, ?string $sort = '')
@@ -158,7 +209,7 @@ class BomTable extends Component
             $this->materials = $this->materials->sortBy(['vendor', 'asc'],['material_name', 'asc']);
         }
         else{
-            $this->materials = $this->materials->sortBy(['part_number', 'asc'],['material_name', 'asc']);
+            $this->materials = $this->materials->sortBy(['unit_measurement', 'asc'],['material_name', 'asc']);
         }
 
         abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
@@ -167,11 +218,10 @@ class BomTable extends Component
 
     public function render()
     {
-        $this->materials = $this->materials->sortBy(['part_number', 'asc'],['material_name', 'asc']);
-
         return view('backend.bom.livewire.bom-table', [
           'orders' => $this->rows,
-          'materials' => $this->materials ? $this->materials->toArray() : null,
+          'materialsCollection' => $this->materials ? $this->applySearchFeedstock($this->materials()) : null,
+          'productsCollection' => $this->products ? $this->products() : null,
           'orderCollection' => $this->orderCollection,
         ]);
     }

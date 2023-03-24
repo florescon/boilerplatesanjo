@@ -54,7 +54,7 @@
                               <tr>
                                 <td class="text-left">
                                   {{-- {{ $product->id }}  --}}
-                                  {!! $product->product->full_name !!}
+                                  {!! $product->product->full_name.'<br><strong>'.$product->comment.'</strong>' !!}
                                 </td>
                                 <td>{{ $product->quantity }}</td>
 
@@ -160,7 +160,7 @@
                             <tr>
                               <td class="text-left">
                                 {{-- {{ $assign->id }} --}}
-                                {!! $assign->assignmentable->product->full_name !!}
+                                {!! $assign->assignmentable->product->full_name.'<br> <strong>'.$assign->assignmentable->comment.'</strong>' !!}
                                 <div class="small text-muted">@lang('Last Updated'): {{ $assign->updated_at }}</div>
                               </td>
 
