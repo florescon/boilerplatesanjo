@@ -63,6 +63,11 @@ class OrderController extends Controller
         return view('backend.store.sales_list_store');
     }
 
+    public function output_products_list_store()
+    {
+        return view('backend.store.output_products_list_store');
+    }
+
     public function requests_list_store()
     {
         return view('backend.store.requests_list_store');

@@ -20,7 +20,7 @@ class Order extends Model
 {
     use HasFactory, SoftDeletes, CascadeSoftDeletes, OrderScope, Sluggable;
 
-    protected $cascadeDeletes = ['product_order', 'product_sale', 'product_quotation', 'suborders', 'product_suborder', 'materials_order', 'service_orders'];
+    protected $cascadeDeletes = ['product_order', 'product_sale', 'product_quotation', 'product_output', 'suborders', 'product_suborder', 'materials_order', 'service_orders'];
 
     protected $fillable = [
         'date_entered', 
@@ -271,6 +271,14 @@ class Order extends Model
     /**
      * @return mixed
      */
+    public function product_output()
+    {
+        return $this->hasMany(ProductOrder::class)->with('product.parent', 'product.color', 'product.size')->where('type', 7);
+    }
+
+    /**
+     * @return mixed
+     */
     public function product_suborder()
     {
         return $this->hasMany(ProductOrder::class, 'suborder_id')->with('parent_order.product.parent', 'parent_order.product.color', 'parent_order.product.size');
@@ -378,20 +386,20 @@ class Order extends Model
 
     public function getAdvancedOrderLabelAttribute()
     {
-        if (!$this->parent_order_id && $this->type != 6) {
+        if (!$this->parent_order_id && ($this->type != 6 && $this->type != 7)) {
             return '$'. number_format((float)$this->total_payments, 2);
         }
 
-        return "";
+        return "N/A";
     }
 
     public function getRemainingOrderLabelAttribute()
     {
-        if (!$this->parent_order_id && $this->type != 6) {
+        if (!$this->parent_order_id && ($this->type != 6 && $this->type != 7)) {
             return '$'. number_format((float)$this->total_payments_remaining, 2);
         }
 
-        return "";
+        return "N/A";
     }
 
     public function getLastStatusOrderPercentageAttribute(): int
@@ -453,6 +461,11 @@ class Order extends Model
         return $this->product_quotation->sum('quantity');
     }
 
+    public function getTotalProductsOutputAttribute(): int
+    {
+        return $this->product_output->sum('quantity');
+    }
+
     public function getTotalProductsAssignmentsAttribute()
     {
         return $this->product_order->sum(function($parent) {
@@ -502,7 +515,7 @@ class Order extends Model
 
     public function getTotalArticlesAttribute(): string
     {
-        return $this->total_products + $this->total_products_sale + $this->total_products_request + $this->total_products_suborder + $this->total_products_quotation;
+        return $this->total_products + $this->total_products_sale + $this->total_products_request + $this->total_products_suborder + $this->total_products_quotation + $this->total_products_output;
     }
 
     public function getTotalProductsSuborderAttribute(): int
@@ -549,6 +562,8 @@ class Order extends Model
                     return "<span class='badge text-white' style='background-color: #2eb85c;'>".__('Request').'</span>';
                 case 6:
                     return "<span class='badge text-white' style='background-color: #2eb85c;'>".__('Quotation').'</span>';
+                case 7:
+                    return "<span class='badge text-white' style='background-color: #2eb85c;'>".__('Output Products').'</span>';
                 default:
                     return "<span class='badge badge-primary'>".__('Order').'</span>';
             }
@@ -572,6 +587,8 @@ class Order extends Model
                     return 'SJU-PED';
                 case 6:
                     return 'SJU-COT';
+                case 7:
+                    return 'SJU-OUTP';
                 default:
                     return 'SJU-ORD';
             }
@@ -595,6 +612,8 @@ class Order extends Model
                     return __('Request');
                 case 6:
                     return __('Quotation');
+                case 7:
+                    return __('Output Products');
                 case 1:
                     return __('Order');
             }
@@ -617,6 +636,8 @@ class Order extends Model
                 case 5:
                     return 'background-color: #FFDBD3';
                 case 6:
+                    return 'background-color: #86FFCF';
+                case 7:
                     return 'background-color: #86FFCF';
                 default:
                     return 'background-color: #DEE4FF';
@@ -653,6 +674,11 @@ class Order extends Model
     public function isQuotation(): bool
     {
         return $this->type === 6;
+    }
+
+    public function isOutputProducts(): bool
+    {
+        return $this->type === 7;
     }
 
     /**

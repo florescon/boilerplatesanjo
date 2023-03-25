@@ -135,6 +135,8 @@ if (! function_exists('typeInOrder')) {
     function typeInOrder($type)
     {
         switch ($type) {
+            case 'output_products':
+                return 7;
             case 'quotation':
                 return 6;
             case 'request':

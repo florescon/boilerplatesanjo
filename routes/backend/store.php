@@ -50,6 +50,15 @@ Route::group([
                 ->push(__('Quotation Panel Management'), route('admin.store.quotation'));
         });
 
+    Route::get('output_products', function () {
+            return view('backend.store.output_products');
+        })->name('output_products')
+        ->middleware('permission:admin.access.store.list')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.dashboard')
+                ->push(__('Output Products Panel Management'), route('admin.store.output_products'));
+        });
+
     Route::get('sale', function () {
             return view('backend.store.sale');
         })->name('sale')
@@ -171,6 +180,14 @@ Route::group([
             ->breadcrumbs(function (Trail $trail) {
                 $trail->parent('admin.store.all.index')
                     ->push(__('All store sales'), route('admin.store.all.sales'));
+            });
+
+        Route::get('output_products', [OrderController::class, 'output_products_list_store'])
+            ->name('output_products')
+            ->middleware('permission:admin.access.store.output_products')
+            ->breadcrumbs(function (Trail $trail) {
+                $trail->parent('admin.store.all.index')
+                    ->push(__('All store output products'), route('admin.store.all.output_products'));
             });
 
         Route::get('requests', [OrderController::class, 'requests_list_store'])

@@ -130,7 +130,10 @@ class Summarydb extends Component
     {
         $getProducts = $this->getProducts();
 
+
         $getProducts->when($getProducts->count(), function ($getProducts) {
+
+            $typeOrder = typeInOrder($this->type);
 
             $order = new Order();
             $order->user_id = $this->customer ?? null;
@@ -152,8 +155,8 @@ class Summarydb extends Component
                 $order->products()->create([
                     'product_id' => $product->product_id,
                     'quantity' => $product->quantity,
-                    'price' =>  $product->price,
-                    'price_without_tax' =>  $product->price_without_tax,
+                    'price' =>  $typeOrder != 7 ? $product->price : 0,
+                    'price_without_tax' => $typeOrder != 7 ? $product->price_without_tax : 0,
                     'comment' => $product->comment,
                     'type' => typeInOrder($this->type),
                 ]);

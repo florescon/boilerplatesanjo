@@ -77,6 +77,10 @@ class OrderStoreTable extends Component
                 $this->title = ['title' => 'List of requests', 'color' => 'coral'];
                 return $query->onlyRequests()->onlyFromStore();
             }
+            if ($this->status === 'output_products_store') {
+                $this->title = ['title' => 'List of output products', 'color' => 'coral'];
+                return $query->onlyOutputProducts()->onlyFromStore();
+            }
             if ($this->status === 'quotations_store') {
                 $this->title = ['title' => 'List of quotations', 'color' => '#FAFA33'];
                 return $query->onlyQuotations()->onlyFromStore();

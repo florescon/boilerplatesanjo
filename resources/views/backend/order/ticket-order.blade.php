@@ -52,7 +52,9 @@ ventas@sj-uniformes.com
                 @if($order->payment)
                 <td><strong>Método pago:</strong> </td>
                 @endif
-                <td><strong>@lang('Order'):</strong> #{{ $order->id }}</td>
+                @if(!$order->isOutputProducts())
+                    <td><strong>@lang('Order'):</strong> #{{ $order->id }}</td>
+                @endif
             </tr>
         </table>
 
@@ -204,21 +206,55 @@ ventas@sj-uniformes.com
             <br>
         @endif
 
-        <table width="100%">
-            <tr>
-                <td align="center">
-                    <img src="data:image/png;base64, {{ base64_encode(\QrCode::format('svg')->size(100)->generate(route('frontend.track.show', $order->slug))) }} "/>
-                </td>
-                <td align="center">
-                    <p>
-                        <em>
-                            @lang('Scan this code to track').
-                            (@lang('Available') {{ setting('days_orders') }} @lang('days'))
-                        </em>
-                    </p>
-                </td>
-            </tr>
-        </table>
+       @if(count($order->product_output))
+            <table width="100%">
+                <thead style="background-color: coral;">
+                  <tr align="center">
+                    <th colspan="2">@lang('Output')</th>
+                  </tr>
+                </thead>
+                <thead style="background-color: gray;">
+                  <tr align="center">
+                    <th>Concepto</th>
+                    <th>Cantidad</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach($order->product_output as $product)
+                  <tr>
+                    <td scope="row">{!! $product->product->full_name !!}</td>
+                    <td align="center">{{ $product->quantity }}</td>
+                  </tr>
+                  @endforeach
+                </tbody>
+
+                <tfoot>
+                    <tr>
+                        <td align="right"> </td>
+                        <td align="center" class="gray">{{ $order->total_products_output }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+            <br>
+        @endif
+
+        @if(!$order->isOutputProducts())
+            <table width="100%">
+                <tr>
+                    <td align="center">
+                        <img src="data:image/png;base64, {{ base64_encode(\QrCode::format('svg')->size(100)->generate(route('frontend.track.show', $order->slug))) }} "/>
+                    </td>
+                    <td align="center">
+                        <p>
+                            <em>
+                                @lang('Scan this code to track').
+                                (@lang('Available') {{ setting('days_orders') }} @lang('days'))
+                            </em>
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        @endif
 
     </body>
 </html>

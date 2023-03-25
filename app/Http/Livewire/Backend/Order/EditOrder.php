@@ -289,14 +289,15 @@ class EditOrder extends Component
         $saleExists = $model->product_sale()->exists();
         $requestExists = $model->product_request()->exists();
         $quotationExists = $model->product_quotation()->exists();
+        $productsOutputExists = $model->product_output()->exists();
 
         $OrderStatusDelivery = OrderStatusDelivery::values();    
 
         if(!$model->isSuborder()){
-            return view('backend.order.livewire.edit')->with(compact('model', 'orderExists', 'saleExists', 'requestExists', 'quotationExists', 'statuses', 'OrderStatusDelivery'));
+            return view('backend.order.livewire.edit')->with(compact('model', 'orderExists', 'saleExists', 'requestExists', 'quotationExists', 'productsOutputExists', 'statuses', 'OrderStatusDelivery'));
         }
         else{ 
-            return view('backend.order.suborder')->with(compact('model', 'orderExists', 'saleExists', 'requestExists', 'quotationExists', 'statuses', 'OrderStatusDelivery'));           
+            return view('backend.order.suborder')->with(compact('model', 'orderExists', 'saleExists', 'requestExists', 'quotationExists', 'productsOutputExists', 'statuses', 'OrderStatusDelivery'));           
         }
     }
 }

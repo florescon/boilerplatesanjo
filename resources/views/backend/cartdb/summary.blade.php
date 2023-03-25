@@ -23,9 +23,12 @@
 			<h5 class="justify-content-center text-center">
 				<p> {{ $summary->customer->name }} </p>	
 			</h5>
-			<h6 class="justify-content-center text-center">
-				<strong><em>{{ $summary->customer->customer->type_price_label ?? __('Retail price') }}</em></strong>
-			</h6>
+
+			@if($type != 'output_products')
+				<h6 class="justify-content-center text-center">
+					<strong><em>{{ $summary->customer->customer->type_price_label ?? __('Retail price') }}</em></strong>
+				</h6>
+			@endif
 
 			@if($address)
 				<h6 class="justify-content-center text-center mt-4">
@@ -60,22 +63,23 @@
 		  <textarea class="form-control text-center" wire:model.lazy="description" aria-label="description" aria-describedby="basic-addon1" rows="3">
 		  </textarea>
 		</div>
+		@if($type != 'output_products')
+			<div class="input-group mb-3">
+			  <div class="input-group-prepend">
+			    <span class="input-group-text" id="basic-addon1">@lang('Info customer')</span>
+			  </div>
+			  <textarea class="form-control text-center" wire:model.lazy="info_customer" aria-label="info_customer" aria-describedby="basic-addon1" rows="3">
+			  </textarea>
+			</div>
 
-		<div class="input-group mb-3">
-		  <div class="input-group-prepend">
-		    <span class="input-group-text" id="basic-addon1">@lang('Info customer')</span>
-		  </div>
-		  <textarea class="form-control text-center" wire:model.lazy="info_customer" aria-label="info_customer" aria-describedby="basic-addon1" rows="3">
-		  </textarea>
-		</div>
-
-		<div class="input-group mb-3">
-		  <div class="input-group-prepend">
-		    <span class="input-group-text" id="basic-addon1">@lang('Request n.º')</span>
-		  </div>
-		  <textarea class="form-control text-center" wire:model.lazy="request" aria-label="request" aria-describedby="basic-addon1" rows="3">
-		  </textarea>
-		</div>
+			<div class="input-group mb-3">
+			  <div class="input-group-prepend">
+			    <span class="input-group-text" id="basic-addon1">@lang('Request n.º')</span>
+			  </div>
+			  <textarea class="form-control text-center" wire:model.lazy="request" aria-label="request" aria-describedby="basic-addon1" rows="3">
+			  </textarea>
+			</div>
+		@endif
 
 		@if($customer && $countProducts)
 			<div class="text-center mt-5">

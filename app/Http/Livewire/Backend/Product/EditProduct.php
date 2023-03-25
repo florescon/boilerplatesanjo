@@ -20,10 +20,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Arr;
 use DB;
 use App\Domains\Auth\Models\User;
+use App\Traits\withProducts;
 
 class EditProduct extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, withProducts;
 
     public $slug, $isCode, $code, $isName, $name, $isPriceMaking, $price_making, $isCost, $cost, $isDescription, $origDescription, $newDescription, $inputformat, $inputincrease, $inputsubtract, $inputincreaserevision, $inputsubtractrevision, $inputincreasestore, $inputsubtractstore, $product_id, $color_id_select, $size_id_select, $photo, $imageName, $origPhoto;
 
@@ -38,6 +39,8 @@ class EditProduct extends Component
     public bool $subtractStockRevision = false;
     public bool $increaseStockStore = false;
     public bool $subtractStockStore = false;
+
+    public $code_clone;
 
     public bool $showCodes = false;
     public bool $showLabels = false;
@@ -236,6 +239,11 @@ class EditProduct extends Component
     public function activateCodesProduct()
     {
         Product::whereId($this->product_id)->update(['automatic_code' => true]);
+
+        $updateCodes = Product::find($this->product_id);
+
+        $this->updateCodes($updateCodes);
+
         return $this->redirectHere();
     }
 
@@ -381,6 +389,56 @@ class EditProduct extends Component
            'icon' => 'success',
             'title'   => __('Updated at'), 
         ]);
+    }
+
+    public function clone()
+    {
+        $this->validate([
+            'code_clone' => ['required', 'min:3', 'max:20', 'regex:/^\S*$/u', Rule::unique('products', 'code')],
+        ]);
+
+        $productClone = Product::with('children', 'consumption')->where('id', $this->product_id)->first();
+
+        $clone = $productClone->replicate()->fill([
+            'code' => $this->code_clone,
+            'automatic_code' => 0,
+        ]);
+         
+        $clone->save();
+
+        $combinations = 0;
+
+        foreach($productClone->children as $children){
+
+            $cloneChildren = $children->replicate()->fill([
+                'parent_id' => $clone->id,
+                'code' => null,
+                'stock' => 0,
+                'stock_revision' => 0,
+                'stock_store' => 0,
+                'file_name' => null,
+            ]);
+
+            $cloneChildren->save();
+        }
+
+        // $this->updateCodes($clone);
+
+        foreach($productClone->consumption as $consumption){
+
+                DB::table('consumptions')->insert([
+                    'product_id' => $clone->id,
+                    'material_id' => $consumption->material_id,
+                    'quantity' => $consumption->quantity,
+                    'color_id' => $consumption->color_id,
+                    'size_id' => $consumption->size_id,
+                    'puntual' => $consumption->puntual,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+        }
+
+        return $this->redirectRoute('admin.product.edit', $clone->id);
     }
 
     public function savecode()

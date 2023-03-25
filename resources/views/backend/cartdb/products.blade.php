@@ -39,9 +39,13 @@
 			    <tr>
 			      <th scope="col">#</th>
 			      <th scope="col">@lang('Name')</th>
-			      <th scope="col">@lang('Price')</th>
-			      <th scope="col" class="text-center">@lang('Quantity')</th>
-			      <th scope="col">@lang('Total')</th>
+			      @if($type != 'output_products')
+				      <th scope="col">@lang('Price')</th>
+				  @endif
+				      <th scope="col" class="text-center">@lang('Quantity')</th>
+			      @if($type != 'output_products')
+				      <th scope="col">@lang('Total')</th>
+				  @endif
 			      <th scope="col" colspan="2">@lang('Updated at')</th>
 			    </tr>
 			  </thead>
@@ -57,31 +61,38 @@
 
 				      <td>{!! optional($product->product)->full_name_link !!}</td>
 
-				      <td class="text-center">
-				      	@if(!$product->product->isProduct() or $type == 'quotation')
+				      	@if($type != 'output_products')
 
-							@if($showPriceWithoutTax == false)
-		                    	<livewire:backend.cartdb.price-update :item="$product" :key="now()->timestamp.$product->id" :typeCart="$type" />
-								<div class="small text-muted"> ${{ priceWithoutIvaIncluded($product->price) }} </div>
+					      <td class="text-center">
+					      	@if(!$product->product->isProduct() or $type == 'quotation')
+
+								@if($showPriceWithoutTax == false)
+			                    	<livewire:backend.cartdb.price-update :item="$product" :key="now()->timestamp.$product->id" :typeCart="$type" />
+									<div class="small text-muted"> ${{ priceWithoutIvaIncluded($product->price) }} </div>
+								@else
+									<div class="small text-muted"> ${{ $product->price }} </div>
+			                    	<livewire:backend.cartdb.price-without-taxes-update :item="$product" :key="now()->timestamp.$product->id" :typeCart="$type" />
+			                    @endif
+
 							@else
-								<div class="small text-muted"> ${{ $product->price }} </div>
-		                    	<livewire:backend.cartdb.price-without-taxes-update :item="$product" :key="now()->timestamp.$product->id" :typeCart="$type" />
-		                    @endif
+						      	${{ number_format($product->price, 2) }}
+								<div class="small text-muted"> ${{ priceWithoutIvaIncluded($product->price) }} </div>
+							@endif
+					      </td>
 
-						@else
-					      	${{ number_format($product->price, 2) }}
-							<div class="small text-muted"> ${{ priceWithoutIvaIncluded($product->price) }} </div>
-						@endif
-				      </td>
+					    @endif
 
-				      <td>
-                    	<livewire:backend.cartdb.quantity-update :item="$product" :key="now()->timestamp.$product->id" :typeCart="$type" />
-				      </td>
+					      <td>
+	                    	<livewire:backend.cartdb.quantity-update :item="$product" :key="now()->timestamp.$product->id" :typeCart="$type" />
+					      </td>
 
-				      <td>
-				      	${{ number_format($product->total, 2) }}
-						<div class="small text-muted"> ${{ priceWithoutIvaIncluded($product->total) }} </div>
-				      </td>
+				      	@if($type != 'output_products')
+					      <td>
+					      	${{ number_format($product->total, 2) }}
+							<div class="small text-muted"> ${{ priceWithoutIvaIncluded($product->total) }} </div>
+					      </td>
+
+				      	@endif
 
 				      <td>{{ $product->updated_at }}</td>
 
@@ -99,7 +110,7 @@
 					  	<i class="cil-arrow-thick-left"></i>
 						<i class="cil-arrow-thick-left"></i>
 					  </th>
-				      <th class="text-left" colspan="5">
+				      <th class="text-left" colspan="{{ $type != 'output_products' ? '2' : '5' }}">
                     	<livewire:backend.edit-inline :cart="$product" :key="$product->id"/>
 				      </th>
 				    </tr>
@@ -109,15 +120,19 @@
 			    
 			    @endforeach
 
-			    <td>
-					<th class="text-right" colspan="2">Total</th>	    	
-					<td class="text-center">{{ $totalquantities }}</td>
-					<td class="text-left text-left" colspan="3">
-						${{ number_format($total, 2) }}
-						<div class="small text-muted"> ${{ priceWithoutIvaIncluded($total) }} </div>
-					</td>
-			    </td>
-
+				    <td>
+						<th class="text-right" colspan="{{ $type != 'output_products' ? '2' : '0' }}">Total</th>	    	
+						<td class="text-center">{{ $totalquantities }}</td>
+					    @if($type != 'output_products')
+						<td class="text-left text-left" colspan="3">
+							${{ number_format($total, 2) }}
+							<div class="small text-muted"> ${{ priceWithoutIvaIncluded($total) }} </div>
+						</td>
+						@else
+							<td class="text-center" colspan="2"></td>
+						@endif
+				    </td>
+		
 			  </tbody>
 			</table>
 		</div>

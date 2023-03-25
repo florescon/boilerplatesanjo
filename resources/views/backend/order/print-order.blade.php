@@ -126,8 +126,10 @@
                       <th class="cs-width_1 cs-semi_bold cs-primary_color cs-text_center">@lang('Quantity')</th>
                       <th class="cs-width_2 cs-semi_bold cs-primary_color">@lang('Code')</th>
                       <th class="cs-width_6 cs-semi_bold cs-primary_color">@lang('Description')</th>
-                      <th class="cs-width_1 cs-semi_bold cs-primary_color">@lang('Price')</th>
-                      <th class="cs-width_2 cs-semi_bold cs-primary_color">@lang('Total')</th>
+                      @if(!$order->isOutputProducts())
+                        <th class="cs-width_1 cs-semi_bold cs-primary_color">@lang('Price')</th>
+                        <th class="cs-width_2 cs-semi_bold cs-primary_color">@lang('Total')</th>
+                      @endif
                     </tr>
                   </thead>
                   <tbody>
@@ -249,6 +251,26 @@
                       @endif
                     @endforeach
 
+                    @foreach($order->product_output as $product)
+                      <tr>
+                        <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->quantity }}</td>
+                        <td class="cs-width_2">{{ $product->product->code_subproduct_clear }}</td>
+                        <td class="cs-width_6">
+                          {{ $product->product->only_name }}
+                          <div class="small text-muted"> {!! $product->product->only_parameters !!} </div>
+                        </td>
+                      </tr>
+                      @if($product->comment)
+                        <tr>
+                          <td>
+                          </td>
+                          <td style="text-align: left;" colspan="4">
+                            <img src="{{ asset('img/icons/down-right.svg') }}" width="20" alt="Logo"> 
+                            {{ $product->comment }}
+                          </td>
+                        </tr>
+                      @endif
+                    @endforeach
                   </tbody>
                 </table>
               </div>
@@ -266,6 +288,7 @@
                       <b class="cs-primary_color">@lang('Articles')</b><br/>
                       {{ $order->total_articles }}
                     </td>
+                    @if(!$order->isOutputProducts())
                     <td class="cs-width_5 cs-text_right">
                       @if(!$breakdown)
                         <p class="cs-primary_color cs-bold cs-f16 cs-m0">@lang('Subtotal'):</p>
@@ -280,6 +303,7 @@
                       @endif
                       <p class="cs-primary_color cs-bold cs-f16 cs-m0 cs-text_right">${{ number_format(count($order->product_suborder) ? $total : $order->total_by_all, 2) }}</p>
                     </td>
+                    @endif
                   </tr>
                 </tbody>
               </table>

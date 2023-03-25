@@ -131,7 +131,9 @@
                         <x-input.input-alpine nameData="isRequest" :inputText="$isRequest" :originalInput="$isRequest" wireSubmit="saverequest" modelName="request" maxlength="300" className="" />
                         @error('request') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                       @else
-                        <strong>@lang('Request number'):</strong> {{ $model->request }}
+                        @if($model->request)
+                          <strong>@lang('Request number'):</strong> {{ $model->request }}
+                        @endif
                       @endif
                     </div>
                   </div>
@@ -195,11 +197,13 @@
                 </ins>
               </a>
 
-              <a href="{{ !$from_store ? route('admin.order.ticket_order', [$order_id, true]) : route('admin.store.all.ticket_order', [$order_id, true]) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
-                <ins>
-                  Ticket sin desglose
-                </ins>
-              </a>
+              @if(!$model->isOutputProducts())
+                <a href="{{ !$from_store ? route('admin.order.ticket_order', [$order_id, true]) : route('admin.store.all.ticket_order', [$order_id, true]) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
+                  <ins>
+                    Ticket sin desglose
+                  </ins>
+                </a>
+              @endif
 
             @endif
 
@@ -209,6 +213,7 @@
               </ins>
             </a>
 
+            @if(!$model->isOutputProducts())
             <a href="{{ !$from_store ? route('admin.order.print', [$order_id, true]) : route('admin.store.all.print', [$order_id, true]) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
               <ins>
                 Imprimir sin desglose
@@ -220,6 +225,7 @@
                 Imprimir productos agrupados
               </ins>
             </a>
+            @endif
 
             @if(!$from_store && $model->materials_order()->exists())
               <a href="{{ route('admin.order.ticket_materia', $order_id) }}" class="card-link text-warning" target="_blank"><i class="cil-print"></i>
@@ -246,15 +252,16 @@
             @endif --}}
 
 
-            @if(!$model->isQuotation())
+            @if(!$model->isQuotation() and !$model->isOutputProducts())
               <a href="{{ route('admin.order.service_orders', $order_id) }}" class="card-link">@lang('Create service order')</a>
             @endif
 
           </div>
 
-          @if( ( ($model->user_id || $model->departament_id) || $model->isFromStore() ) && !$model->isQuotation())
+          @if( ( ($model->user_id || $model->departament_id) || $model->isFromStore() ) && (!$model->isQuotation()))
             <div class="card-footer text-center">
               <div class="row">
+                @if(!$model->isOutputProducts())
                 <div class="col-6 col-lg-6">
                   <p><strong>Total: </strong> ${{ number_format((float)$model->total_sale_and_order, 2) }}</p>
                   <p><strong>@lang('Payment'):</strong> {!! $model->payment_label !!} ${{  number_format((float)$model->total_payments, 2) }}</p>
@@ -265,6 +272,7 @@
                   <br>
                   <a href="{{ !$from_store ? route('admin.order.records_payment', $order_id) : route('admin.store.all.records_payment', $order_id) }}" class="card-link">@lang('View payment records')</a>
                 </div>
+                @endif
                 <div class="col-6 col-lg-6">
                   <strong>@lang('Delivery'):</strong> {{ $last_order_delivery_formatted ?? __('Pending') }}
                   <select class="form-control text-center mt-2" style="border: 1px solid #fe8a71" wire:model.debounce.800ms="order_status_delivery">
@@ -537,6 +545,50 @@
             </div>
             @endif
 
+            @if($productsOutputExists)
+
+            <div class="table-responsive">
+              <table class="table table-striped table-bordered table-hover">
+
+                <thead style="background-color: #86FFCF; border-color: #FAFA33; color: dark;">
+                  <tr class="text-center">
+                    <th colspan="2" >@lang('Output Products')</th>
+                  </tr>
+                  <tr class="thead-dark">
+                    <th>@lang('Product')</th>
+                    <th class="text-center">@lang('Quantity')</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  @foreach($model->product_output as $product)
+                  <tr>
+                    <td>
+                      {!! $product->product->full_name !!}
+                    </td>
+
+                    <td class="text-center">
+                      {{ $product->quantity }}
+                    </td>
+
+                  </tr>
+                  <tr>
+                    <th class="text-right">
+                      <img src="{{ asset('img/icons/down-right.svg') }}" width="20" alt="Logo"> 
+                    </th>
+                    <th class="text-left" colspan="3">
+                      <livewire:backend.components.edit-field :model="'\App\Models\ProductOrder'" :entity="$product" :field="'comment'" :key="'comments'.$product->id"/>
+                    </th>
+                  </tr>
+                  @endforeach
+
+
+                </tbody>
+              </table>
+            </div>
+
+            @endif
+
             @if($quotationExists)
 
             @if($model->product_quotation->count() >= 1)
@@ -736,7 +788,9 @@
   </x-slot>
 
   <x-slot name="footer">
+    @if($model->type != '7')
     <x-utils.delete-button :text="__('Delete').' '.$model->type_order_clear" :href="route('admin.order.destroy', $order_id)" />
+      @endif
     <footer class="blockquote-footer float-right">
       Mies Van der Rohe <cite title="Source Title">Less is more</cite>
     </footer>

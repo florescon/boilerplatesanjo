@@ -7,6 +7,7 @@
     <div class="card-header-actions mb-3">
       <x-utils.link class="mt-2 mr-2 card-header-action btn btn-secondary text-dark {{ $status == 'all_store' ? 'button-large pulsate' : '' }}" :href="route('admin.store.all.index')" :text="__('all')" />
       <x-utils.link class="mt-2 mr-2 card-header-action btn btn-aqua text-dark {{ $status == 'quotations_store' ? 'button-large pulsate' : '' }}" :href="route('admin.store.all.quotations')" :text="__('Quotations')" />
+      <x-utils.link class="mt-2 mr-2 card-header-action btn btn-aqua text-dark {{ $status == 'output_products_store' ? 'button-large pulsate' : '' }}" :href="route('admin.store.all.output_products')" :text="__('Output products')" />
       {{-- <x-utils.link class="mt-2 mr-2 card-header-action btn btn-primary text-white {{ $status == 'orders_store' ? 'button-large pulsate' : '' }}" :href="route('admin.store.all.orders')" :text="__('Orders')" /> --}}
       <x-utils.link class="mt-2 mr-2 card-header-action btn btn-coral text-white {{ $status == 'requests_store' ? 'button-large pulsate' : '' }}" :href="route('admin.store.all.requests')" :text="__('Requests')" />
       <x-utils.link class="mt-2 mr-2 card-header-action btn btn-success text-white {{ $status == 'sales_store' ? 'button-large pulsate' : '' }}" :href="route('admin.store.all.sales')" :text="__('Sales')" />
@@ -134,7 +135,11 @@
 	                   {{ $order->date_entered->isoFormat('D, MMM') ?? __('undefined') }}
 	                </td>
 	                <td class="align-middle text-center">
-		                ${{ number_format((float)$order->total_sale_and_order, 2) }}
+	                	@if(!$order->isOutputProducts())
+			                ${{ number_format((float)$order->total_sale_and_order, 2) }}
+										@else
+											N/A
+										@endif
 		              </td>
 									<td class="align-middle text-center">
 			            	{!! $order->advanced_order_label !!}
@@ -147,7 +152,7 @@
 	                </td>
 	                <td class="text-center">
 
-										@if((!$order->exist_user_departament || $order->isFromStore()) && $order->type != 6)
+										@if((!$order->exist_user_departament || $order->isFromStore()) && ($order->type != 6 && !$order->isOutputProducts()))
 											{!! $order->payment_label !!}
 										@else
 											<span class="badge badge-dark">@lang('Internal control')</span>
@@ -159,7 +164,7 @@
 		                  </span>
 	                  @endif
 
-	                  @if($order->type != 6)
+	                  @if(($order->type != 6))
 	                  	{!! $order->last_order_delivery->order_delivery  ?? "<span class='badge text-dark' style='background-color: white;'>".__('Pending').'</span>' !!}
 	                  @endif
 

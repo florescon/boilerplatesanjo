@@ -62,6 +62,9 @@ class Product extends Model
         'vendor_id',
         'cost',
         'special_price',
+        'stock',
+        'stock_revision',
+        'stock_store',
     ];
 
     public function getDescriptionLimitedAttribute()

@@ -50,6 +50,22 @@ class ProductOrder extends Model
     }
 
     /**
+     * @return bool
+     */
+    public function isSale()
+    {
+        return $this->type === 2;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isOutputProducts()
+    {
+        return $this->type === 7;
+    }
+
+    /**
      * @return string
      */
     public function getTypeOrderAttribute()

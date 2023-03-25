@@ -181,6 +181,25 @@
 					    </div>
 			        </p>
 
+			        <p class="card-text">
+
+					    <div x-data="{ show: false }" class="d-inline">
+					        <h5><button class="badge badge-info " @click="show = !show">@lang('Clone product')</button></h5>
+					        <div x-show="show" class="mt-2">
+	                          	<input type="text" class="form-control" placeholder="@lang('New code')" wire:model="code_clone">
+					        </div>
+
+			                @if($code_clone)
+						        <div x-show="show">
+				                	<a role="button" wire:click="clone" class="btn btn-sm btn-primary float-right mt-2 text-white" type="submit">@lang('Save')</a>
+				                </div>
+			                @endif
+					    </div>
+
+	                    @error('code_clone') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+
+			        </p>
+
 			        <hr width="50%;" style="border:1px dashed #661181">
 
 			        <p class="card-text" style="display: inline;"><strong>@lang('Price'): </strong><h4 style="display: inline;" class="text-primary">${{ $model->getPriceWithIvaApply($model->price ?? 0) }}</h4></p>
@@ -729,6 +748,24 @@
 			    @endif
 			</div>
 		</div>
+    <div class="layout-switcher" tabindex="1">
+      <div class="layout-switcher-head d-flex justify-content-between">
+        <span>Acceso directo</span>
+		<i class="cil-chevron-top"></i>
+      </div>
+      <div class="layout-switcher-body">
+
+        <div class="layout-switcher-option active">
+          <a href="#" class="text-white text-center">
+            <i class="cil-user-follow"></i>
+          	Ficha técnica
+          </a>
+        </div>
+
+        
+      </div>
+  	</div>
+
 	</x-slot>
     <x-slot name="footer">
         <x-utils.delete-button :text="__('Delete product')" :href="route('admin.product.destroy', $model->id)" />

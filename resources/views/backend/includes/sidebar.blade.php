@@ -337,6 +337,14 @@
 
                             <li class="c-sidebar-nav-item">
                                 <x-utils.link
+                                    :href="route('admin.store.output_products')"
+                                    class="c-sidebar-nav-link"
+                                    :text="__('Output products')"
+                                    :active="activeClass(Route::is('admin.store.output_products.*'), 'c-active')" />
+                            </li>
+                            
+                            <li class="c-sidebar-nav-item">
+                                <x-utils.link
                                     :href="route('admin.store.all.index')"
                                     class="c-sidebar-nav-link"
                                     :text="__('List Requests/Sales')"
