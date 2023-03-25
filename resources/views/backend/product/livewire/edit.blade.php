@@ -757,7 +757,7 @@
 
         <div class="layout-switcher-option active">
           <a href="#" class="text-white text-center">
-            <i class="cil-user-follow"></i>
+            <i class="cil-text-square"></i>
           	Ficha técnica
           </a>
         </div>
