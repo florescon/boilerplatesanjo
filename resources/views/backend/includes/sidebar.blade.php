@@ -197,8 +197,8 @@
             </li>
         @endif
 
-        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.color.list') || $logged_in_user->can('admin.access.size.list') || $logged_in_user->can('admin.access.cloth.list') || $logged_in_user->can('admin.access.line.list') || $logged_in_user->can('admin.access.unit.list') || $logged_in_user->can('admin.access.brand.list') || $logged_in_user->can('admin.access.model_product.list') ))
-            <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.color.*')  || Route::is('admin.size.*') || Route::is('admin.cloth.*') || Route::is('admin.line.*') || Route::is('admin.unit.*') || Route::is('admin.brand.*') || Route::is('admin.model.*'), 'c-open c-show') }}">
+        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.color.list') || $logged_in_user->can('admin.access.size.list') || $logged_in_user->can('admin.access.cloth.list') || $logged_in_user->can('admin.access.line.list') || $logged_in_user->can('admin.access.unit.list') || $logged_in_user->can('admin.access.brand.list') || $logged_in_user->can('admin.access.family.list') || $logged_in_user->can('admin.access.model_product.list') ))
+            <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.color.*')  || Route::is('admin.size.*') || Route::is('admin.cloth.*') || Route::is('admin.line.*') || Route::is('admin.unit.*') || Route::is('admin.brand.*') || Route::is('admin.family.*') ||  Route::is('admin.model.*'), 'c-open c-show') }}">
                 <x-utils.link
                     href="#"
                     icon="c-sidebar-nav-icon cil-library"
@@ -263,6 +263,16 @@
                                 :href="route('admin.brand.index')"
                                 :active="activeClass(Route::is('admin.brand.*'), 'c-active')"
                                 :text="__('Brands')" />
+                        </li>
+                    @endif
+
+                    @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.family.list')))
+                        <li class="c-sidebar-nav-item">
+                            <x-utils.link
+                                class="c-sidebar-nav-link"
+                                :href="route('admin.family.index')"
+                                :active="activeClass(Route::is('admin.family.*'), 'c-active')"
+                                :text="__('Families')" />
                         </li>
                     @endif
 

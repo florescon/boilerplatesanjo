@@ -28,6 +28,7 @@ class Material extends Model
         'color_id',
         'size_id',
         'vendor_id',
+        'family_id',
         'short_name',
     ];
 
@@ -83,6 +84,14 @@ class Material extends Model
     public function vendor()
     {
         return $this->belongsTo(Vendor::class)->withTrashed();
+    }
+
+    /**
+     * Get the family associated with the Material.
+     */
+    public function family()
+    {
+        return $this->belongsTo(Family::class)->withTrashed();
     }
 
     /**

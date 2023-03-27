@@ -61,8 +61,8 @@
 
     <div class="layout-switcher" tabindex="1">
       <div class="layout-switcher-head d-flex justify-content-between">
-        <span>Acceso directo</span>
-		<i class="cil-chevron-top"></i>
+     		<span>Acceso directo &nbsp;</span>
+				<i class="cil-chevron-top"></i>
       </div>
       <div class="layout-switcher-body">
 

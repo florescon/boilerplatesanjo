@@ -96,6 +96,15 @@
                     </div>
                 </div><!--form-group-->
 
+                <div class="form-group row" wire:ignore>
+                    <label for="familyselect" class="col-md-2 col-form-label">@lang('Family')</label>
+
+                    <div class="col-md-5">
+                        <select id="familyselect" class="custom-select" style="width: 100%;" aria-hidden="true">
+                        </select>
+                    </div>
+                </div><!--form-group-->
+
             </div>
             {{-- <livewire:backend.material-table /> --}}
         </x-slot>
@@ -295,4 +304,47 @@
       });
     </script>
 
+    <script>
+      $(document).ready(function() {
+        $('#familyselect').select2({
+          placeholder: '@lang("Choose family")',
+          // width: 'resolve',
+          theme: 'bootstrap4',
+          // allowClear: true,
+          ajax: {
+                url: '{{ route('admin.family.select') }}',
+                data: function (params) {
+                    return {
+                        search: params.term,
+                        page: params.page || 1
+                    };
+                },
+                dataType: 'json',
+                processResults: function (data) {
+                    data.page = data.page || 1;
+                    return {
+                        results: data.items.map(function (item) {
+                            return {
+                                id: item.id,
+                                text: item.name
+                            };
+                        }),
+                        pagination: {
+                            more: data.pagination
+                        }
+                    }
+                },
+                cache: true,
+                delay: 250,
+                dropdownautowidth: true
+            }
+          });
+
+          $('#familyselect').on('change', function (e) {
+            var data = $('#familyselect').select2("val");
+            @this.set('family_id', data);
+          });
+
+      });
+    </script>
 @endpush

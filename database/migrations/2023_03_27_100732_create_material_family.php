@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMaterialVendor extends Migration
+class CreateMaterialFamily extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class CreateMaterialVendor extends Migration
     public function up()
     {
         Schema::table('materials', function (Blueprint $table) {
-            $table->unsignedBigInteger('vendor_id')->nullable();
+            $table->unsignedBigInteger('family_id')->nullable();
         });
     }
 
@@ -25,6 +25,6 @@ class CreateMaterialVendor extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('material_vendor');
+        Schema::dropIfExists('material_family');
     }
 }

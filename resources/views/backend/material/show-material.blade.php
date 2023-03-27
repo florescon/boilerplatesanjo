@@ -79,6 +79,13 @@
         </tr>
 
         <tr>
+          <th scope="row">@lang('Family')</th>
+          <td>   
+            <x-utils.undefined :data="$family"/>
+          </td>
+        </tr>
+
+        <tr>
           <th scope="row">@lang('Created')</th>
           <td>   
             <x-utils.undefined :data="$created"/>

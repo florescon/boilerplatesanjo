@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Backend;
 
 use App\Models\Material;
+use App\Models\Family;
 use Livewire\WithPagination;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\TableComponent;
@@ -85,8 +86,15 @@ class MaterialTable extends TableComponent
     public function saveMassVendor(int $vendor)
     {
         foreach($this->selected as $key => $select){
-            DB::table('materials')->where('id', $select)->update(['vendor_id' => $vendor, 'updated_at' => now()]);
+            DB::table('materials')->where('id', $select)->update(['family_id' => $vendor, 'updated_at' => now()]);
         }
+
+        $family = Family::find($vendor);
+
+        $this->emit('swal:alert', [
+           'icon' => 'success',
+            'title'   => __('Updated at').' - '.$family->name, 
+        ]);
 
         $this->selected = [];
     }
@@ -96,7 +104,7 @@ class MaterialTable extends TableComponent
      */
     public function query(): Builder
     {
-        $query = Material::query()->with('color', 'size', 'unit', 'vendor');
+        $query = Material::query()->with('color', 'size', 'unit', 'vendor', 'family');
 
         if ($this->status === 'deleted') {
             return $query->onlyTrashed();
@@ -116,6 +124,9 @@ class MaterialTable extends TableComponent
                 ->sortable(),
             Column::make(__('Name'), 'name')
                 ->searchable()
+                ->format(function(Material $model) {
+                    return $this->html(!empty($model->family_id) && isset($model->family->name) ? $model->name.'<br>'.$model->family->name_label : $model->name);
+                })
                 ->sortable(),
             Column::make(__('Unit'), 'unit.name')
                 ->searchable()

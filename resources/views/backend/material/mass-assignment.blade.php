@@ -1,6 +1,6 @@
 <div class="custom-control custom-switch custom-control-inline fw-bolder font-weight-bold text-primary border-0 pt-3 pr-3">
 
-    @lang('Mass assignment') - @lang('Vendor')
+    @lang('Mass assignment') - @lang('Family')
 
     <div class="form-check">
         <label class="c-switch c-switch-primary">
@@ -10,12 +10,12 @@
     </div>
 
     <div class="col-md-5" wire:ignore>
-        <select id="vendorselect" name="vendor_id" id="vendor_id" class="custom-select" style="width: 100%;" aria-hidden="true">
+        <select id="familyselect" name="family_id" id="family_id" class="custom-select" style="width: 100%;" aria-hidden="true">
         </select>
     </div>
 
-    @if($vendor_id && $mass)
-        <button type="button" class="btn btn-link" wire:click="$emit('saveMassVendor', {{ $vendor_id }})">
+    @if($family_id && $mass)
+        <button type="button" class="btn btn-link" wire:click="$emit('saveMassVendor', {{ $family_id }})">
             @lang('Save')
         </button>
     @endif

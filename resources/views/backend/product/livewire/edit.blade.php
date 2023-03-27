@@ -558,7 +558,7 @@
 				@if($model->children->count())
 
 				  	@foreach($model->children->sortBy('color.name')->groupBy('color_id') as $childrens)
-				    <div class="card card-box edit-product mt-4" style="{{ optional($childrens->first()->color)->color ? 'border: '. $childrens->first()->color->color. ' 3px solid' : '' }} ">
+				    <div class="card card-box edit-product mt-4" style="{{ optional($childrens->first()->color)->color ? 'border: '. $childrens->first()->color->color. ' 3px solid' : '' }}">
 				      <div class="card-body">
 
 					    <h5 class="card-title">
@@ -750,7 +750,7 @@
 		</div>
     <div class="layout-switcher" tabindex="1">
       <div class="layout-switcher-head d-flex justify-content-between">
-        <span>Acceso directo</span>
+        <span>Acceso directo &nbsp;</span>
 		<i class="cil-chevron-top"></i>
       </div>
       <div class="layout-switcher-body">

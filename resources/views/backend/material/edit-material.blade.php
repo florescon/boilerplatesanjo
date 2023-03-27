@@ -99,6 +99,17 @@
                         </div>
                     </div><!--form-group-->
 
+                    <div class="form-group row">
+                        <label for="family_id" class="col-md-2 col-form-label">@lang('Family')</label>
+
+                        <div class="col-md-5 text-center">
+                            <x-utils.undefined :data="optional($material->family)->name"/>
+                        </div>
+                        <div class="col-md-5">
+                            <select id="familyselect" name="family_id" id="family_id" class="custom-select" style="width: 100%;" aria-hidden="true" {{ !$material->family_id ? 'required' : '' }}>
+                            </select>
+                        </div>
+                    </div><!--form-group-->
                 </div>
                 {{-- <livewire:backend.material-table /> --}}
             </x-slot>
@@ -277,4 +288,44 @@
 
       });
     </script>
+
+    <script>
+      $(document).ready(function() {
+        $('#familyselect').select2({
+          placeholder: '@lang("Change family")',
+          // width: 'resolve',
+          theme: 'bootstrap4',
+          // allowClear: true,
+          ajax: {
+                url: '{{ route('admin.family.select') }}',
+                data: function (params) {
+                    return {
+                        search: params.term,
+                        page: params.page || 1
+                    };
+                },
+                dataType: 'json',
+                processResults: function (data) {
+                    data.page = data.page || 1;
+                    return {
+                        results: data.items.map(function (item) {
+                            return {
+                                id: item.id,
+                                text: item.name
+                            };
+                        }),
+                        pagination: {
+                            more: data.pagination
+                        }
+                    }
+                },
+                cache: true,
+                delay: 250,
+                dropdownautowidth: true
+            }
+          });
+
+      });
+    </script>
+
 @endpush

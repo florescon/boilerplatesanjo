@@ -10,10 +10,10 @@ class MassAssignment extends Component
 
     public bool $mass = false;
 
-    public ?int $vendor_id = null;
+    public ?int $family_id = null;
 
     public function getVendor($id){
-        $this->vendor_id = $id;
+        $this->family_id = $id;
     }
 
     public function render()

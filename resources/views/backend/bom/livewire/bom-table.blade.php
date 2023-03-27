@@ -86,7 +86,12 @@
               <p>@lang('A collection of materials for explode orders')</p>
             </div>
           </div>
+          <div class="loading mt-2" wire:loading wire:target="sendMaterials">
+            @lang('Processing')
+          </div>            
+
           <div class=" align-items-center mt-3">
+  
             @if($orderCollection)
               @lang('Orders'):
               @foreach($orderCollection as $order)

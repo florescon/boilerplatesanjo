@@ -87,13 +87,13 @@
 
     <script>
       $(document).ready(function() {
-        $('#vendorselect').select2({
-          placeholder: '@lang("Choose vendor")',
+        $('#familyselect').select2({
+          placeholder: '@lang("Choose family")',
           // width: 'resolve',
           theme: 'bootstrap4',
           // allowClear: true,
           ajax: {
-                url: '{{ route('admin.vendor.select') }}',
+                url: '{{ route('admin.family.select') }}',
                 data: function (params) {
                     return {
                         search: params.term,
@@ -121,8 +121,8 @@
             }
           });
 
-          $('#vendorselect').on('change', function (e) {
-            var data = $('#vendorselect').select2("val");
+          $('#familyselect').on('change', function (e) {
+            var data = $('#familyselect').select2("val");
             Livewire.emit('postVendor', data)
           });
 

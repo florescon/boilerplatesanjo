@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMaterialVendor extends Migration
+class CreateFamiliesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class CreateMaterialVendor extends Migration
      */
     public function up()
     {
-        Schema::table('materials', function (Blueprint $table) {
-            $table->unsignedBigInteger('vendor_id')->nullable();
+        Schema::create('families', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->nullable();
+            $table->string('slug')->unique()->nullable();
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -25,6 +29,6 @@ class CreateMaterialVendor extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('material_vendor');
+        Schema::dropIfExists('families');
     }
 }

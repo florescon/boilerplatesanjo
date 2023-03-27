@@ -5,7 +5,7 @@
 	@if (!$material->trashed())
 
 		@if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.material.modify'))
-			<a type="button" href="{{ route('admin.material.edit', $material->id) }}" class="btn btn-transparent-dark">
+			<a type="button" target="_blank" href="{{ route('admin.material.edit', $material->id) }}" class="btn btn-transparent-dark">
 			  <i class='far fa-edit'></i>
 			</a>
 		@endif

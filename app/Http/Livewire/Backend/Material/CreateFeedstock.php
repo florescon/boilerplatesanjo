@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CreateFeedstock extends Component
 {
-    public $part_number, $name, $description, $acquisition_cost, $price, $stock, $unit_id, $color_id, $size_id, $vendor_id, $colors;
+    public $part_number, $name, $description, $acquisition_cost, $price, $stock, $unit_id, $color_id, $size_id, $vendor_id, $family_id, $colors;
 
     protected $listeners = ['createmodal'];
 
@@ -23,6 +23,7 @@ class CreateFeedstock extends Component
         'color_id' => 'required|numeric',
         'size_id' => 'nullable|sometimes|numeric',
         'vendor_id' => 'nullable|sometimes|numeric',
+        'family_id' => 'nullable|sometimes|numeric',
         'stock' => 'required|numeric',
         'description' => 'min:5|max:100|nullable',
     ];
@@ -61,9 +62,9 @@ class CreateFeedstock extends Component
                 'unit_id' => $this->unit_id,                
                 'color_id' => $this->color_id,                
                 'size_id' => $this->size_id,                
-                'vendor_id' => $this->vendor_id,                
+                'vendor_id' => $this->vendor_id,
+                'family_id' => $this->family_id,
                 'description' => $this->description ? $this->description : null,                
-
             ]);
 
             event(new MaterialCreated($material));
