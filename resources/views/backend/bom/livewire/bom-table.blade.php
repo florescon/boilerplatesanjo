@@ -88,7 +88,7 @@
           </div>
           <div class="loading mt-2" wire:loading wire:target="sendMaterials">
             @lang('Processing')
-          </div>            
+          </div>
 
           <div class=" align-items-center mt-3">
   
@@ -141,7 +141,15 @@
                     <div class="media media-member mb-0">
                       <div class="media-body">
                         <h6 class="mb-0" data-filter-by="text">{!! $material['material_name'] !!}</h6>
-                        <span data-filter-by="text">{!! $material['part_number'].' <span class="badge badge-primary"> '.$material['vendor'].'</span>' !!}</span>
+                        <span data-filter-by="text">
+                          {!! $material['part_number'] !!}
+
+                          {!! $material['vendor'] ? '<span class="badge badge-primary"> '
+                            .$material['vendor'].'</span>' : '' !!}
+
+                          {!! $material['family'] ? '<span class="badge badge-dark"> '
+                            .$material['family'].'</span>' : '' !!}
+                        </span>
                       </div>
                       {!! ' <strong>'.$material['quantity'].'</strong>&nbsp;'.$material['unit_measurement']  !!}
                     </div>

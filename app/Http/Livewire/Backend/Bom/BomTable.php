@@ -145,6 +145,7 @@ class BomTable extends Component
                             'unit' => $consumption['unit'],
                             'unit_measurement' => $consumption['unit_measurement'],
                             'vendor' => $consumption['vendor'],
+                            'family' => $consumption['family'],
                             'quantity' => $consumption['quantity'],
                             'stock' => $consumption['stock'],
                         ]);
@@ -167,6 +168,7 @@ class BomTable extends Component
                         'unit' => $row[0]['unit'],
                         'unit_measurement' => $row[0]['unit_measurement'],
                         'vendor' => $row[0]['vendor'],
+                        'family' => $row[0]['family'],
                         'quantity' => $row->sum('quantity'),
                         'stock' => $row[0]['stock'],
                     ];
@@ -195,7 +197,7 @@ class BomTable extends Component
             $searchFeedstock = strtolower($this->searchFeedstock);
 
             return $collectionFeedstock->filter(function ($item) use($searchFeedstock){
-                return preg_match("/$searchFeedstock/",strtolower($item['material_name'].' '.$item['part_number'].' '.$item['vendor'].' '.$item['unit_measurement']));
+                return preg_match("/$searchFeedstock/",strtolower($item['material_name'].' '.$item['part_number'].' '.$item['vendor'].' '.$item['unit_measurement'].' '.$item['family']));
             });
 
         }
