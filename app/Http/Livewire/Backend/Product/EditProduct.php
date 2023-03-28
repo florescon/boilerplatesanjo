@@ -402,6 +402,7 @@ class EditProduct extends Component
         $clone = $productClone->replicate()->fill([
             'code' => $this->code_clone,
             'automatic_code' => 0,
+            'file_name' => null,
         ]);
          
         $clone->save();

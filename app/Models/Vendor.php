@@ -68,10 +68,9 @@ class Vendor extends Model
         return Material::count();
     }
 
-
     public function getTotalPercentageMateriaAttribute() 
     {
-        return ($this->count_materials * 100) / $this->total_variants_materia;
+        return number_format(($this->count_materials * 100) / $this->total_variants_materia, 2);
     }
 
     /**
@@ -88,5 +87,15 @@ class Vendor extends Model
         'rfc',
         'comment',
         'short_name',
+    ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'count_materials',
+        'total_variants_materia',
     ];
 }

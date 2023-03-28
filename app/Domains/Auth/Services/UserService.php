@@ -127,6 +127,7 @@ class UserService extends BaseService
                 'phone' => $data['phone'], 
                 'address' => $data['address'], 
                 'rfc' => $data['rfc'],
+                'short_name' => $data['short_name'],
                 'type_price' => $data['type_price'],
             ]);
 
@@ -176,8 +177,9 @@ class UserService extends BaseService
                 $user->customer()->updateOrCreate([
                     'user_id' => $user->id], [
                     'phone' => $data['phone'], 
-                    'address' => $data['address'], 
+                    'address' => $data['address'],
                     'rfc' => $data['rfc'],
+                    'short_name' => $data['short_name'],
                     'type_price' => $data['type_price'],
                 ]);
 

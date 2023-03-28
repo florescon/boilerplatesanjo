@@ -40,7 +40,7 @@ class ModelProduct extends Model
      */
     public function getTotalVariantsAttribute() : int
     {
-        return Product::where('parent_id', NULL)->count();
+        return Product::where('parent_id', NULL)->whereType(true)->count();
     }
 
     /**

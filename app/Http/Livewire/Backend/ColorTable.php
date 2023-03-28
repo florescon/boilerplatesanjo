@@ -26,7 +26,6 @@ class ColorTable extends Component
 
 	protected $queryString = [
         'searchTerm' => ['except' => ''],
-        'perPage',
         'deleted' => ['except' => FALSE],
         'dateInput' => ['except' => ''],
         'dateOutput' => ['except' => '']
@@ -71,7 +70,7 @@ class ColorTable extends Component
 
     public function getRowsQueryProperty()
     {
-        return Color::query()->with('products')
+        return Color::query()
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?
                     $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', now()]) :

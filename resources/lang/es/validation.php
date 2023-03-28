@@ -180,6 +180,7 @@ return [
         'initial' => 'inicial',
         'received' => 'cantidad recibida',
         'quantity' => 'cantidad',
-        'info_customer' => 'información del cliente'
+        'info_customer' => 'información del cliente',
+        'code_clone' => 'código clon',
     ],
 ];

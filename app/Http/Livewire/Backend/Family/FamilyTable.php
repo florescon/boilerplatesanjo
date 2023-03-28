@@ -94,7 +94,7 @@ class FamilyTable extends TableComponent
                 }),
             Column::make('# '.__('Associated materials'), 'count_materials')
                 ->format(function(Family $model) {
-                    return $this->link(route('admin.family.associates', $model->id), $model->count_materials);
+                    return $this->html($model->count_materials);
                 }),
             Column::make(__('Created at'), 'created_at')
                 ->searchable()

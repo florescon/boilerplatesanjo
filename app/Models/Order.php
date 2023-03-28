@@ -607,7 +607,7 @@ class Order extends Model
                 case 3:
                     return __('Mix: Order/Sale');
                 case 4:
-                    return '';
+                    return __('Output');
                 case 5:
                     return __('Request');
                 case 6:

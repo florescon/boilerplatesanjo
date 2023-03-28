@@ -1,6 +1,6 @@
 <x-backend.card>
     <x-slot name="header">
-        @lang('Show assignament') - {{ $status_name }} - @lang('Order') #{{ $order_id }}
+        @lang('Show assignament') - {{ $status_name }}
     </x-slot>
 
     <x-slot name="headerActions">
@@ -12,6 +12,12 @@
 
         <div class="row ">
             <div class="col-16 col-md-6">
+                <div class="card">
+                  <div class="card-body">
+                    <h6 class="card-title mb-2"> <strong>@lang('Order') #{{ $order_id }}</strong> <em>{{ optional($model2->user)->real_name }}</em></h6>
+                  </div>
+                </div>
+
                 <div class="card card-edit card-product_not_hover card-flyer-without-hover">
                   <div class="card-body">
             

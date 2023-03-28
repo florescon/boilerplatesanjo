@@ -69,6 +69,14 @@
 
         <table style="margin-bottom: 10px;" width="100%">
             <tr>
+                @if($order->user)
+                    <td> {{ optional($order->user)->real_name }}</td>
+                @endif
+            </tr>
+        </table>
+
+        <table style="margin-bottom: 10px;" width="100%">
+            <tr>
                 @if($ticket->user)
                     <td><strong>A:</strong> {{ optional($ticket->user)->name }}</td>
                 @endif

@@ -23,7 +23,7 @@ class SizeTable extends TableComponent
 
     public $tableFooterEnabled = true;
 
-    public $perPageOptions = ['10', '25', '50', '100'];
+    public $perPageOptions = ['10', '25', '50'];
 
     public $exports = ['csv', 'xls', 'xlsx'];
     public $exportFileName = 'sizes';
@@ -32,7 +32,6 @@ class SizeTable extends TableComponent
     
     protected $queryString = [
         'search' => ['except' => ''], 
-        'perPage',
     ];
 
     protected $listeners = ['extra', 'delete', 'restore', 'triggerRefresh' => '$refresh'];
@@ -67,7 +66,7 @@ class SizeTable extends TableComponent
      */
     public function query(): Builder
     {
-        $query = Size::query()->with('products');
+        $query = Size::query();
 
         if ($this->status === 'deleted') {
             return $query->onlyTrashed();

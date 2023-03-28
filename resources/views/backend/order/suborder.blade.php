@@ -19,7 +19,7 @@
             <div class="mt-md-0 mt-2">
               <h4 class="invoice-title">
                 <p class="text-uppercase">
-                  @lang('Order')
+                  @lang('Output')
                   <span class="invoice-number">#{{ $model->characters_type_order }}{{ $model->id }}</span>
                 </p>
               </h4>

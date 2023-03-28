@@ -73,6 +73,11 @@ trait UserAttribute
         return $this->assignments->sum('quantity');
     }
 
+    public function getRealNameAttribute()
+    {
+        return optional($this->customer)->short_name ?? $this->name;
+    }
+
     /**
      * Return Total order price without shipping amount.
      */

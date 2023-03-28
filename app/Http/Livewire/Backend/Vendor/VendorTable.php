@@ -132,7 +132,7 @@ class VendorTable extends TableComponent
                 }),
             Column::make('# '.__('Associated materials'), 'count_materials')
                 ->format(function(Vendor $model) {
-                    return $this->link(route('admin.vendor.associates_materia', $model->id), $model->count_materials);
+                    return $this->link(route('admin.vendor.associates_materia', $model->id), $model->count_materials.' — '.$model->total_percentage_materia.'%');
                 }),
             Column::make(__('Updated at'), 'updated_at')
                 ->searchable()
