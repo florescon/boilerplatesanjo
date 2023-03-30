@@ -160,7 +160,7 @@
         				</td>
                 <td class="text-center">
                   @if($ticket->isPendingAssignmentTicket())
-                    🔥
+                    <span class="dot-alert"></span>
                   @else
                     <span class="dot-success"></span>
                   @endif

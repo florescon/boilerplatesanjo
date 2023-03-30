@@ -55,7 +55,7 @@
           width: 8px;
         }
 
-        .layout-switcher{ position: fixed; bottom: 0; left: 50%; transform: translateX(-50%) translateY(73px); color: #fff; transition: all .35s ease; background: #343a40; border-radius: .25rem .25rem 0 0; padding: .75rem; z-index: 999; }
+        .layout-switcher { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%) translateY(73px); color: #fff; transition: all .35s ease; background: #343a40; border-radius: .25rem .25rem 0 0; padding: .75rem; z-index: 999; }
         .layout-switcher:not(:hover){ opacity: .95; }
         .layout-switcher:not(:focus){ cursor: pointer; }
         .layout-switcher-head{ font-size: .75rem; font-weight: 600; text-transform: uppercase; }

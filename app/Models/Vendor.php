@@ -88,14 +88,4 @@ class Vendor extends Model
         'comment',
         'short_name',
     ];
-
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
-    protected $appends = [
-        'count_materials',
-        'total_variants_materia',
-    ];
 }

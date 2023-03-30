@@ -26,7 +26,7 @@ class EditProduct extends Component
 {
     use WithFileUploads, withProducts;
 
-    public $slug, $isCode, $code, $isName, $name, $isPriceMaking, $price_making, $isCost, $cost, $isDescription, $origDescription, $newDescription, $inputformat, $inputincrease, $inputsubtract, $inputincreaserevision, $inputsubtractrevision, $inputincreasestore, $inputsubtractstore, $product_id, $color_id_select, $size_id_select, $photo, $imageName, $origPhoto;
+    public $slug, $isCode, $code, $isName, $name, $isPriceMaking, $price_making, $isPriceMakingExtra, $price_making_extra, $isCost, $cost, $isDescription, $origDescription, $newDescription, $inputformat, $inputincrease, $inputsubtract, $inputincreaserevision, $inputsubtractrevision, $inputincreasestore, $inputsubtractstore, $product_id, $color_id_select, $size_id_select, $photo, $imageName, $origPhoto;
 
     public ?int $line_id = null;
     public ?int $brand_id = null;
@@ -88,6 +88,7 @@ class EditProduct extends Component
         $this->initcode($product);
         $this->initname($product);
         $this->initpricemaking($product);
+        $this->initpricemakingextra($product);
         $this->initcost($product);
         $this->nameStock = $nameStock;
     }
@@ -361,6 +362,27 @@ class EditProduct extends Component
         $product->save();
 
         $this->initpricemaking($product); // re-initialize the component state with fresh data after saving
+
+        // event(new ProductNameChanged($product));
+
+        $this->emit('swal:alert', [
+           'icon' => 'success',
+            'title'   => __('Updated at'), 
+        ]);
+    }
+
+    public function savepricemakingextra()
+    {
+        $this->validate([
+            'price_making_extra' => 'nullable|not_in:0|regex:/^\d{1,13}(\.\d{1,4})?$/',
+        ]);
+
+        $product = Product::findOrFail($this->product_id);
+
+        $product->price_making_extra = $this->price_making_extra ?? null;
+        $product->save();
+
+        $this->initpricemakingextra($product); // re-initialize the component state with fresh data after saving
 
         // event(new ProductNameChanged($product));
 
@@ -847,6 +869,12 @@ class EditProduct extends Component
     {
         $this->price_making = $product->price_making;
         $this->isPriceMaking = $product->price_making ?? false;
+    }
+
+    private function initpricemakingextra(Product $product)
+    {
+        $this->price_making_extra = $product->price_making_extra;
+        $this->isPriceMakingExtra = $product->price_making_extra ?? false;
     }
 
     private function initcost(Product $product)

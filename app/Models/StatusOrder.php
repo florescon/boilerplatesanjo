@@ -29,7 +29,7 @@ class StatusOrder extends Model
      */
     public function status()
     {
-        return $this->belongsTo(Status::class);
+        return $this->belongsTo(Status::class)->withTrashed();
     }
 
     /**
@@ -57,6 +57,6 @@ class StatusOrder extends Model
 
     public function getDateEnteredOrCreatedAttribute()
     {
-        return !$this->date_entered ? $this->created_at->isoFormat('D, MMM') : $this->date_entered->isoFormat('D, MMM');
+        return !$this->date_entered ? $this->created_at->isoFormat('D, MMM, YY') : $this->date_entered->isoFormat('D, MMM, YY');
     }
 }

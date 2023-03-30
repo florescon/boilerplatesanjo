@@ -192,63 +192,6 @@
     <div class="kanban-col">
       <div class="card-list">
         <div class="card-list-header">
-          <h6>@lang('Production')
-            <span class="badge badge-danger">{{ $orders_production->count() }}</span>
-            <span class="badge badge-info">@lang('Articles'): {{ $orders_production->sum('sum') }}</span>
-          </h6>
-          <div class="dropdown">
-            <button class="btn-options" type="button" id="cardlist-dropdown-button-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="cil-list"></i>
-            </button>
-            <div class="dropdown-menu dropdown-menu-right">
-              <a class="dropdown-item" href="#">@lang('Edit') <span class="badge badge-secondary">@lang('Inactive')</span></a>
-              <a class="dropdown-item text-danger" href="#">@lang('Archive List') <span class="badge badge-secondary">@lang('Inactive')</span></a>            </div>
-          </div>
-        </div>
-        <div class="card-list-body">
-
-          @foreach($orders_production as $order)
-            <div class="card card-kanban">
-
-              <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: {{ $order->percentage_status }}%; background-color: #fb5b35;"  aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-
-              <div class="card-body">
-                <div class="dropdown card-options">
-                  <a class="btn-options" type="button" href="{{ route('admin.order.edit', $order->id) }}">
-                    {{ $order->id }}
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="{{ route('admin.order.edit', $order->id) }}">@lang('Edit')</a>
-                    <a class="dropdown-item text-danger" href="#">@lang('Archive Card')</a>
-                  </div>
-                </div>
-                <div class="card-title">
-                  <a href="{{ route('admin.order.edit', $order->id) }}"><h6>{!! Str::limit($order->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
-                  <p><a class="btn-options" href="{{ route('admin.order.edit', $order->id) }}"><h6>{{ Str::limit($order->comment, 23) }}</h6></a></p>
-                </div>
-
-                <div class="card-meta d-flex justify-content-between">
-                  <div class="d-flex align-items-center">
-                    <span>@lang('Articles'): {{ $order->sum }}</span>
-                  </div>
-                  <span class="text-small">{{ $order->date }}</span>
-                </div>
-              </div>
-            </div>
-          @endforeach
-
-        </div>
-        <div class="card-list-footer">
-          <button class="btn btn-link btn-sm text-small">@lang('Show all')  <span class="badge badge-secondary">@lang('Inactive')</span></button>
-        </div>
-      </div>
-    </div>
-
-    <div class="kanban-col">
-      <div class="card-list">
-        <div class="card-list-header">
           <h6>Corte
             <span class="badge badge-danger">{{ $orders_court->count() }}</span>
             <span class="badge badge-info">@lang('Articles'): {{ $orders_court->sum('sum') }}</span>
@@ -269,64 +212,6 @@
 
               <div class="progress">
                 <div class="progress-bar" role="progressbar" style="width: {{ $order->percentage_status }}%; background-color: #fdc31c;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-
-              <div class="card-body">
-                <div class="dropdown card-options">
-                  <a class="btn-options" type="button" href="{{ route('admin.order.edit', $order->id) }}">
-                    {{ $order->id }}
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="{{ route('admin.order.edit', $order->id) }}">@lang('Edit')</a>
-                    <a class="dropdown-item text-danger" href="#">@lang('Archive Card')</a>
-                  </div>
-                </div>
-                <div class="card-title">
-                  <a href="{{ route('admin.order.edit', $order->id) }}"><h6>{!! Str::limit($order->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
-                  <p><a class="btn-options" href="{{ route('admin.order.edit', $order->id) }}"><h6>{{ Str::limit($order->comment, 23) }}</h6></a></p>
-                </div>
-
-                <div class="card-meta d-flex justify-content-between">
-                  <div class="d-flex align-items-center">
-                    <span>@lang('Articles'): {{ $order->sum }}</span>
-                  </div>
-                  <span class="text-small">{{ $order->date }}</span>
-                </div>
-              </div>
-
-            </div>
-          @endforeach
-
-        </div>
-        <div class="card-list-footer">
-          <button class="btn btn-link btn-sm text-small">@lang('Show all')  <span class="badge badge-secondary">@lang('Inactive')</span></button>
-        </div>
-      </div>
-    </div>
-
-    <div class="kanban-col">
-      <div class="card-list">
-        <div class="card-list-header">
-          <h6>Sublimación
-            <span class="badge badge-danger">{{ $orders_sublimation->count() }}</span>
-            <span class="badge badge-info">@lang('Articles'): {{ $orders_sublimation->sum('sum') }}</span>
-          </h6>
-          <div class="dropdown">
-            <button class="btn-options" type="button" id="cardlist-dropdown-button-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="cil-list"></i>
-            </button>
-            <div class="dropdown-menu dropdown-menu-right">
-              <a class="dropdown-item" href="#">@lang('Edit') <span class="badge badge-secondary">@lang('Inactive')</span></a>
-              <a class="dropdown-item text-danger" href="#">@lang('Archive List') <span class="badge badge-secondary">@lang('Inactive')</span></a>            </div>
-          </div>
-        </div>
-        <div class="card-list-body">
-
-          @foreach($orders_sublimation as $order)
-            <div class="card card-kanban">
-
-              <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: {{ $order->percentage_status }}%; background-color: #bef12c;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
 
               <div class="card-body">

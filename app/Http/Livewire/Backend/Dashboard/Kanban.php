@@ -147,11 +147,7 @@ class Kanban extends Component
 
         $orders_captured = $this->orderProcess(1)->paginate($this->limitPerPage);
 
-        $orders_production = $this->orderProcess(3)->get();
-
         $orders_court = $this->orderProcess(4)->get();
-
-        $orders_sublimation = $this->orderProcess(5)->get();
 
         $orders_making = $this->orderProcess(6)->get();
 
@@ -171,9 +167,7 @@ class Kanban extends Component
           'quotations' => $quotations,
           'orders_to_be_defined' => $orders_to_be_defined,
           'orders_captured' => $orders_captured,
-          'orders_production' => $orders_production,
           'orders_court' => $orders_court,
-          'orders_sublimation' => $orders_sublimation,
           'orders_making' => $orders_making,
           'orders_revision' => $orders_revision,
           'orders_personalization' => $orders_personalization,

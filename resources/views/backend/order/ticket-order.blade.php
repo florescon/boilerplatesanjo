@@ -43,7 +43,7 @@ ventas@sj-uniformes.com
 
         <table width="100%">
             <tr>
-              <td align="left"><strong>Fecha generado:</strong> {{ $order->created_at->isoFormat('D, MMM h:mm:ss a') }}</td>
+              <td align="left"><strong>F. Generado:</strong> {{ $order->created_at->isoFormat('D, MMM YY - h:mm a') }}</td>
             </tr>
         </table>
 

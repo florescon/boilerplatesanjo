@@ -157,7 +157,7 @@ if (! function_exists('printed')) {
      */
     function printed()
     {
-        $printed = now()->isoFormat('D, MMM h:mm:ss a');
+        $printed = now()->isoFormat('D, MMM, YY - h:mm a');
 
         return __('Printed').': '.$printed;        
     }

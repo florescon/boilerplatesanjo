@@ -28,15 +28,6 @@ class Family extends Model
         ];
     }
 
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
-    protected $appends = [
-        'name_label',
-    ];
-
     public function materials(): HasMany
     {
         return $this->hasMany(Material::class, 'family_id');

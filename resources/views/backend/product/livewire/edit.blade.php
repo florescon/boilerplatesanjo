@@ -205,9 +205,15 @@
 			        <p class="card-text" style="display: inline;"><strong>@lang('Price'): </strong><h4 style="display: inline;" class="text-primary">${{ $model->getPriceWithIvaApply($model->price ?? 0) }}</h4></p>
 			        <p class="card-text"><strong>@lang('Price') @lang('without IVA'): </strong>${{ $model->price }}</p>
 
+			        <hr style="border:1px dashed #FFB03F">
+
           			<x-input.input-alpine nameData="isCost" :inputText="$isCost" :originalInput="$isCost" wireSubmit="savecost" :beforeName="'$'" :extraName="__('provider price, without IVA')" modelName="cost" />
 
+			        <hr style="border:1px dashed #FFB03F">
+
           			<x-input.input-alpine nameData="isPriceMaking" :inputText="$isPriceMaking" :originalInput="$isPriceMaking" wireSubmit="savepricemaking" :beforeName="'$'" :extraName="__('price of confeccion service')" modelName="price_making" />
+
+          			<x-input.input-alpine nameData="isPriceMakingExtra" :inputText="$isPriceMakingExtra" :originalInput="$isPriceMakingExtra" wireSubmit="savepricemakingextra" :beforeName="'$'" :extraName="__('extra price of confeccion service')" modelName="price_making_extra" />
 
 			        <p class="card-text mt-4"><strong>@lang('Updated at'): </strong>{{ $model->updated_at }}</p>
 			        <p class="card-text"><strong>@lang('Created at'): </strong>{{ $model->created_at }}</p>

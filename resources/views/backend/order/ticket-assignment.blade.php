@@ -53,7 +53,7 @@
             <tr>
                 <td align="left">
                     <strong>Fecha generado:</strong> 
-                    {{ $ticket->created_at->isoFormat('D, MMM h:mm:ss a') }}
+                    {{ $ticket->created_at->isoFormat('D, MMM, YY - h:mm a') }}
                 </td>
             </tr>
         </table>
@@ -69,19 +69,19 @@
 
         <table style="margin-bottom: 10px;" width="100%">
             <tr>
-                @if($order->user)
-                    <td> {{ optional($order->user)->real_name }}</td>
-                @endif
-            </tr>
-        </table>
-
-        <table style="margin-bottom: 10px;" width="100%">
-            <tr>
                 @if($ticket->user)
                     <td><strong>A:</strong> {{ optional($ticket->user)->name }}</td>
                 @endif
                 @if($ticket->audi)
                     <td><strong>Expedido por:</strong> {{ optional($ticket->audi)->name }} </td>
+                @endif
+            </tr>
+        </table>
+
+        <table style="margin-bottom: -30px; margin-top: -20px;" width="100%">
+            <tr>
+                @if($order->user)
+                    <th class="text-center"> <h2>{{ optional($order->user)->real_name }}</h2></th>
                 @endif
             </tr>
         </table>
