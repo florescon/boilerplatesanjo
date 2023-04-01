@@ -11,7 +11,7 @@
 
 	    <div class="dropdown table-export">
 	      <button class="dropdown-toggle btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	        @lang('Export') {{ __(trim($nameStock, '"')) }}
+	        @lang('Export prices')
 	      </button>
 
 	      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">

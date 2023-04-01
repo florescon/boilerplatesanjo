@@ -17,7 +17,7 @@ class BillOfMaterialsExport implements FromArray, WithMapping, WithHeadings
     public function headings(): array
     {
         return [
-            __('Part number'),
+            __('Code'),
             __('Material'),
             __('Exploded'),
             __('Stock'),

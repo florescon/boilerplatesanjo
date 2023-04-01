@@ -17,10 +17,10 @@
             <x-slot name="body">
                 <div>
                     <div class="form-group row">
-                        <label for="part_number" class="col-md-2 col-form-label">@lang('Part number')</label>
+                        <label for="part_number" class="col-md-2 col-form-label">@lang('Code')</label>
 
                         <div class="col-md-10">
-                            <input type="text" name="part_number" class="form-control" placeholder="{{ __('Part number') }}" value="{{ old('part_number') ?? $material->part_number }}" maxlength="100" />
+                            <input type="text" name="part_number" class="form-control" placeholder="{{ __('Code') }}" value="{{ old('part_number') ?? $material->part_number }}" maxlength="100" />
                         </div>
                     </div><!--form-group-->
                     <div class="form-group row">

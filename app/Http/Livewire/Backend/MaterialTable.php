@@ -119,7 +119,7 @@ class MaterialTable extends TableComponent
     public function columns(): array
     {
         return [
-            Column::make(__('Part number'), 'part_number')
+            Column::make(__('Code'), 'part_number')
                 ->searchable()
                 ->sortable(),
             Column::make(__('Name'), 'name')

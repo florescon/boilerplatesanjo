@@ -9,7 +9,7 @@
       <tbody>
 
         <tr>
-          <th scope="row">@lang('Part number')</th>
+          <th scope="row">@lang('Code')</th>
           <td>   
             <x-utils.undefined :data="$part_number"/>
           </td>

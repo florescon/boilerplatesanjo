@@ -31,7 +31,7 @@ class MaterialsRecordsExport implements FromCollection, WithMapping, WithHeading
     public function headings(): array
     {
         return [
-            __('Part number'),
+            __('Code'),
             __('Feedstock'),
             __('Product'),
             __('Consumption'),

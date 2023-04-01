@@ -11,10 +11,10 @@
         <x-slot name="body">
             <div>
                 <div class="form-group row">
-                    <label for="part_number" class="col-md-2 col-form-label">@lang('Part number')</label>
+                    <label for="part_number" class="col-md-2 col-form-label">@lang('Code')</label>
 
                     <div class="col-md-10">
-                        <input type="text" wire:model.lazy="part_number" class="form-control" placeholder="{{ __('Part number') }}" maxlength="100" />
+                        <input type="text" wire:model.lazy="part_number" class="form-control" placeholder="{{ __('Code') }}" maxlength="100" />
                         @error('part_number') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
                 </div><!--form-group-->

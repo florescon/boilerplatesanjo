@@ -6,7 +6,7 @@
   <x-slot name="content">
 
     <div class="form-group row">
-      <label for="part_number" class="col-sm-2 col-form-label">@lang('Part number')</label>
+      <label for="part_number" class="col-sm-2 col-form-label">@lang('Code')</label>
       <div class="col-sm-10">
         <input type="text" wire:model.defer="part_number" class="form-control @error('part_number') is-invalid @enderror" id="part_number">
         @error('part_number') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror

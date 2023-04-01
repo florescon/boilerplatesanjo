@@ -10,6 +10,7 @@ use App\Models\FinanceType;
 use App\Models\Traits\Scope\FinanceScope;
 use App\Models\Traits\Scope\DateScope;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Str;
 
 class Finance extends Model
 {
@@ -157,6 +158,23 @@ class Finance extends Model
         return "<span class='badge badge-secondary'>".__('undefined').'</span>';
     }
 
+
+    public function getDetailsAttribute(): ?string
+    {
+        $order_id = $this->order_id ? '<strong>'.$this->order->type_order_clear.' #'.$this->order_id.'</strong>' : '';
+        
+        if($order_id !== null){
+            $user = $this->order ? Str::limit(optional($this->order->user)->name, 20) : '';
+            $comment = Str::limit(optional($this->order)->comment, 20) ?? '';
+        }
+
+        if($this->created_at){
+            $created = '<strong>'.$this->date_for_humans_created.'</strong>';            
+        }
+
+        return $order_id.' '.$user.' '.$comment.' '.$created;
+    }
+
     /**
      * Return status style classes.
      *
@@ -186,6 +204,24 @@ class Finance extends Model
                 return 'text-primary';
             case FinanceType::EXPENSE:
                 return 'text-danger';
+        }
+
+        return '';
+    }
+
+
+    /**
+     * Return status style classes.
+     *
+     * @return string
+     */
+    public function getFinanceSignAttribute(): string
+    {
+        switch ($this->type) {
+            case FinanceType::INCOME:
+                return '';
+            case FinanceType::EXPENSE:
+                return '-';
         }
 
         return '';

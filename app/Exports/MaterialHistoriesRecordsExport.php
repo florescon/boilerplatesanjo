@@ -31,7 +31,7 @@ class MaterialHistoriesRecordsExport implements FromCollection, WithMapping, Wit
     public function headings(): array
     {
         return [
-            __('Part number'),
+            __('Code'),
             __('Feedstock'),
             __('Old stock'),
             __('Added stock'),

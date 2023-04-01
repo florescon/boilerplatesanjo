@@ -61,7 +61,7 @@
 
         <table style="margin-bottom: 10px;" width="100%">
             <tr>
-                <td><strong>Expedido por:</strong> {{ optional($box->audi)->name }} </td>
+                <td><strong>Realizó:</strong> {{ optional($box->audi)->name }} </td>
             </tr>
         </table>
 
@@ -116,7 +116,7 @@
                     <th scope="row">{{ $order->id }}</th>
                     <td>{!! $order->user_name !!}</td>
                     <td>{{ $order->comment ?: '--' }}</td>
-                    <td>{!! $order->type_order !!}</td>
+                    <td>{!! $order->type_order_clear !!}</td>
                   </tr>
                   @endforeach
                 </tbody>

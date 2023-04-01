@@ -16,7 +16,7 @@ class CashController extends Controller
 
     public function ticket(Cash $box)
     {
-        $pdf = PDF::loadView('backend.store.box.print-box', compact('box'))->setPaper([0, 0, 1385.98, 296.85], 'landscape');
+        $pdf = PDF::loadView('backend.store.box.print-box', compact('box'))->setPaper([0, 0, 4385.98, 296.85], 'landscape');
         return $pdf->stream();
     }
 
@@ -27,7 +27,7 @@ class CashController extends Controller
             }]
         );
 
-        $pdf = PDF::loadView('backend.store.box.print-box-cash', compact('box'))->setPaper([0, 0, 1385.98, 296.85], 'landscape');
+        $pdf = PDF::loadView('backend.store.box.print-box-cash', compact('box'))->setPaper([0, 0, 4385.98, 296.85], 'landscape');
         return $pdf->stream();
     }
 
@@ -38,8 +38,13 @@ class CashController extends Controller
             }]
         );
 
-        $pdf = PDF::loadView('backend.store.box.print-box-cash-out', compact('box'))->setPaper([0, 0, 1385.98, 296.85], 'landscape');
+        $pdf = PDF::loadView('backend.store.box.print-box-cash-out', compact('box'))->setPaper([0, 0, 4385.98, 296.85], 'landscape');
         return $pdf->stream();
+    }
+
+    public function print(Cash $box)
+    {
+        return view('backend.store.box.print', compact('box'));
     }
 
     public function deleted()

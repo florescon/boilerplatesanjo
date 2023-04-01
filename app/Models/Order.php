@@ -466,6 +466,11 @@ class Order extends Model
         return $this->product_output->sum('quantity');
     }
 
+    public function getDetailsForBoxAttribute()
+    {
+        return '<em>'.__('Articles').': '.$this->total_products_by_all.'</em> -- <strong>$'.$this->total_by_all.'</strong>';        
+    }
+
     public function getTotalProductsAssignmentsAttribute()
     {
         return $this->product_order->sum(function($parent) {

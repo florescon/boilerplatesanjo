@@ -37,6 +37,11 @@
                     <h3>@lang('Daily cash closing')</h3>
                 </td>
             </tr>
+            <tr>
+                <td align="center" style="border: 1px solid; border-style: dashed solid dashed solid;">
+                    <h5><em>@lang('Other payment methods')</em></h5>
+                </td>
+            </tr>
         </table>
 
         <table width="100%">
@@ -56,7 +61,7 @@
 
         <table style="margin-bottom: 10px;" width="100%">
             <tr>
-                <td><strong>Expedido por:</strong> {{ optional($box->audi)->name }} </td>
+                <td><strong>Realizó:</strong> {{ optional($box->audi)->name }} </td>
             </tr>
         </table>
 
@@ -111,7 +116,7 @@
                     <th scope="row">{{ $order->id }}</th>
                     <td>{!! $order->user_name !!}</td>
                     <td>{{ $order->comment ?: '--' }}</td>
-                    <td>{!! $order->type_order !!}</td>
+                    <td>{!! $order->type_order_clear !!}</td>
                   </tr>
                   @endforeach
                 </tbody>
