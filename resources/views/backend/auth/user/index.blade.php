@@ -21,7 +21,7 @@
                         :text="__('Export Customers')"
                     />
                 @endif
-                @if ($logged_in_user->hasAllAccess())
+                @if ($logged_in_user->can('admin.access.user.exportcustomer') || $logged_in_user->hasAllAccess())
                     <x-utils.link
                         icon="c-icon cil-plus"
                         class="card-header-action"

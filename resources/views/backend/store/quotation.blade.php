@@ -58,6 +58,25 @@
 
 	<livewire:backend.cartdb.search-products :typeSearch="'quotation'" branchIdSearch="1"/>
 
+	<livewire:backend.cartdb.create-customer :type="'quotation'" branchId="1"/>
+
+  	<div class="layout-switcher" tabindex="1">
+	    <div class="layout-switcher-head d-flex justify-content-between">
+	   		<span>Acceso directo &nbsp;</span>
+				<i class="cil-chevron-top"></i>
+	    </div>
+	    <div class="layout-switcher-body">
+
+	      <div class="layout-switcher-option active">
+	        <a href="#!" data-toggle="modal" wire:click="createcustomer()" data-target="#createCustomer" class="text-white text-center">
+	          <i class="cil-user-follow"></i>
+	        	Crear cliente
+	        </a>
+	      </div>
+	      
+	    </div>
+	</div>
+
 	{{-- <livewire:backend.store.pos.search-product :onlyType="'products_sale' ?? null"/> --}}
 
 @endsection

@@ -15,6 +15,7 @@
 	        <x-utils.link class="card-header-action" :href="url()->previous()" :text="__('Back')" />
 	    @endif
  	</x-slot>
+
     <x-slot name="body">
 
     	@if(!$model->status)

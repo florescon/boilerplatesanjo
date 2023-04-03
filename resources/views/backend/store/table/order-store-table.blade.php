@@ -132,7 +132,7 @@
 		              	{!! $order->user_name !!}
 		              </td>
 	                <td class="align-middle text-center">
-	                   {{ $order->date_entered->isoFormat('D, MMM') ?? __('undefined') }}
+	                   {{ $order->date_entered->isoFormat('D, MMM, YY') ?? __('undefined') }}
 	                </td>
 	                <td class="align-middle text-center">
 	                	@if(!$order->isOutputProducts())

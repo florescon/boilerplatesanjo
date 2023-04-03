@@ -21,7 +21,7 @@ Route::group([
         'as' => 'user.',
     ], function () {
         Route::group([
-            'middleware' => 'role:'.config('boilerplate.access.role.admin'),
+            'middleware' => 'permission:admin.access.user.exportcustomer|role:'.config('boilerplate.access.role.admin'),
         ], function () {
             Route::get('deleted', [DeletedUserController::class, 'index'])
                 ->name('deleted')
@@ -32,12 +32,13 @@ Route::group([
 
             Route::get('create', [UserController::class, 'create'])
                 ->name('create')
+                ->middleware('permission:admin.access.user.exportcustomer')
                 ->breadcrumbs(function (Trail $trail) {
                     $trail->parent('admin.auth.user.index')
                         ->push(__('Create User'), route('admin.auth.user.create'));
                 });
 
-            Route::post('/', [UserController::class, 'store'])->name('store');
+            Route::post('/', [UserController::class, 'store'])->middleware('permission:admin.access.user.exportcustomer')->name('store');
 
             Route::group(['prefix' => '{user}'], function () {
                 Route::get('edit', [UserController::class, 'edit'])

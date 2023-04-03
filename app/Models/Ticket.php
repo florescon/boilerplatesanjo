@@ -98,7 +98,7 @@ class Ticket extends Model
 
     public function getDateForHumansAttribute()
     {
-        return $this->updated_at->isoFormat('D, MMM');
+        return $this->updated_at->isoFormat('D, MMM, YY');
     }
 
     public function getDateDiffForHumansAttribute()
