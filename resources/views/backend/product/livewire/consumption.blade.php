@@ -5,7 +5,7 @@
  	</x-slot>
 
   <x-slot name="headerActions">
-      <x-utils.link class="card-header-action btn btn-primary text-white" :href="route('admin.product.edit', $model->id)" :text="__('Go to edit product')" />
+      <x-utils.link class="card-header-action btn btn-primary text-white" :href="url()->previous()" :text="__('Go to edit product')" />
       <x-utils.link class="card-header-action" :href="route('admin.product.index')" :text="__('Back')" />
 	</x-slot>
 

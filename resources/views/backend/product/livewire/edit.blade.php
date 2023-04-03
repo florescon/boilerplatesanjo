@@ -10,9 +10,9 @@
        	@endif
 
        	@if(!$nameStock)
-	        <x-utils.link class="card-header-action" :href="route('admin.product.index')" :text="__('Back')" />
+	        <x-utils.link class="card-header-action" :href="url()->previous()" :text="__('Back')" />
 	    @else
-	        <x-utils.link class="card-header-action" :href="route('admin.store.product.index')" :text="__('Back')" />
+	        <x-utils.link class="card-header-action" :href="url()->previous()" :text="__('Back')" />
 	    @endif
  	</x-slot>
     <x-slot name="body">
