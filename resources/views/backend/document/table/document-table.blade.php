@@ -27,8 +27,7 @@
       <strong style="color: black;"> <kbd>@lang('List of documents')</kbd> </strong>
     @endif
     <div class="card-header-actions">
-       <em> @lang('Last request'): {{ now()->format('h:i:s') }} </em>
-      @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.document.create'))
+      @if (!$deleted && ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.document.create')))
         <a href="#" class="card-header-action" style="color: green;" data-toggle="modal" wire:click="createmodal()" data-target="#exampleModal"><i class="c-icon cil-plus"></i> @lang('Create document') </a>
       @endif
     </div>
@@ -36,7 +35,7 @@
     @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.document.deleted'))
       <div class="row justify-content-md-end custom-control custom-switch custom-control-inline">
         <em class="{{ $deleted ? 'text-danger' : 'text-dark' }} mt-2"> @lang('Deletions')</em>
-          <div class="col-md-2 mt-2">
+          <div class="col-md-1 mt-2">
             <div class="form-check">
               <label class="c-switch c-switch-danger">
                 <input type="checkbox" class="c-switch-input" wire:model="deleted">

@@ -30,7 +30,7 @@
                     icon="c-icon cil-plus"
                     class="card-header-action"
                     :href="route('admin.product.create')"
-                    :text="__('Create product')"
+                    :text="__('Create')"
             />
         </x-slot>
 

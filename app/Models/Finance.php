@@ -158,7 +158,6 @@ class Finance extends Model
         return "<span class='badge badge-secondary'>".__('undefined').'</span>';
     }
 
-
     public function getDetailsAttribute(): ?string
     {
         $order_id = $this->order_id ? '<strong>'.$this->order->type_order_clear.' #'.$this->order_id.'</strong>' : '';
@@ -170,6 +169,22 @@ class Finance extends Model
 
         if($this->created_at){
             $created = '<strong>'.$this->date_for_humans_created.'</strong>';            
+        }
+
+        return $order_id.' '.$user.' '.$comment.' '.$created;
+    }
+
+    public function getDetailsClearAttribute(): ?string
+    {
+        $order_id = $this->order_id ? $this->order->type_order_clear.' #'.$this->order_id : '';
+        
+        if($order_id !== null){
+            $user = $this->order ? Str::limit(optional($this->order->user)->name, 100) : '';
+            $comment = Str::limit(optional($this->order)->comment, 100) ?? '';
+        }
+
+        if($this->created_at){
+            $created = $this->date_for_humans_created;            
         }
 
         return $order_id.' '.$user.' '.$comment.' '.$created;

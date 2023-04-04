@@ -10,6 +10,8 @@ use App\Http\Livewire\Backend\DataTable\WithBulkActions;
 use App\Http\Livewire\Backend\DataTable\WithCachedRows;
 use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Response;
+use App\Exports\FinancesExport;
+use Excel;
 
 class FinanceTable extends Component
 {
@@ -74,6 +76,24 @@ class FinanceTable extends Component
         }
 
         $this->sortField = $field;
+    }
+
+    public function export()
+    {
+        return response()->streamDownload(function () {
+            echo $this->selectedRowsQuery->toCsv();
+        }, 'color-list.csv');
+    }
+
+    private function getSelectedProducts()
+    {
+        return $this->selectedRowsQuery->get()->pluck('id')->map(fn($id) => (string) $id)->toArray();
+        // return $this->selectedRowsQuery->where('stock_store', '>', 0)->get()->pluck('id')->map(fn($id) => (string) $id)->toArray();
+    }
+    public function exportMaatwebsite($extension)
+    {   
+        abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
+        return Excel::download(new FinancesExport($this->getSelectedProducts()), 'product-list-'.Carbon::now().'.'.$extension);
     }
 
     public function getRowsQueryProperty()

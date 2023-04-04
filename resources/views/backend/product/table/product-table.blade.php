@@ -2,7 +2,7 @@
 
 	@if($status != 'deleted')
 
-		<div class="row mb-4 justify-content-md-center">
+		<div class="row justify-content-md-center">
 	    <div class="col form-inline">
 	    </div><!--col-->
 
@@ -26,7 +26,7 @@
 		</div>
 
 		<form>
-		  <div class="form-row mb-5">
+		  <div class="form-row">
 		    <div class="form-group col-md-4 ml-2">
 				    <input wire:model.debounce.500ms="searchTerm" id="inputEmail4" class=" input-search" type="text" placeholder="{{ __('Search general product by name') }}..." />
 		      		<span class="border-input-search"></span>

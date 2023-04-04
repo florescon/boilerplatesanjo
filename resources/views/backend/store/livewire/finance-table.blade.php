@@ -227,10 +227,29 @@
             @endif
           </div><!--row-->
 
+          @if($selectPage)
+            <x-utils.alert type="primary">
+              @unless($selectAll)
+              <span>Tienes seleccionado <strong>{{ $finances->count() }}</strong> movimientos, ¿quieres seleccionar  <strong>{{ $finances->total() }} </strong> movimientos?</span>
+                <a href="#" wire:click="selectAll" class="alert-link">Seleccionar todo</a>
+              @else
+                <span>Actualmente seleccionaste <strong>{{ $finances->total() }}</strong> movimientos.</span>
+              @endif
+
+              <em>-- @lang('Order by name') --</em>
+
+            </x-utils.alert>
+          @endif
 
         	<table class="table table-responsive-sm table-hover table-outline mb-0 shadow">
         		<thead class="thead-dark">
         			<tr>
+                <th style="width:30px; max-width: 30px;">
+                  <label class="form-checkbox">
+                    <input type="checkbox" wire:model="selectPage">
+                    <i class="form-icon"></i>
+                  </label>
+                </th>
         				<th>f.º</th>
                 <th>@lang('Name')</th>
         				<th class="text-center">@lang('Amount')</th>
@@ -246,6 +265,12 @@
         		<tbody>
               @foreach($finances as $finance)
         			<tr>
+                <td>
+                  <label class="form-checkbox">
+                      <input type="checkbox" wire:model="selected" value="{{ $finance->id }}">
+                      <i class="form-icon"></i>
+                    </label>
+                </td>
                 <td>
                   #{{ $finance->id }}
                 </td>

@@ -137,7 +137,13 @@
               @foreach($serviceOrders as $serviceOrder)
         			<tr>
                 <td>
-                  <strong>#{{ $serviceOrder->id }}</strong>
+                  
+                  <a href="{{ route('admin.order.print_service_order', [$serviceOrder->order_id, $serviceOrder->id]) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
+                    <ins>
+                      #{{ $serviceOrder->id }}
+                    </ins>
+                  </a>
+
                   <div class="small text-muted">@lang('Service Order')</div>
                 </td>
                 <td>

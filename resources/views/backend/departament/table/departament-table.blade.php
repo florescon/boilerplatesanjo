@@ -28,8 +28,7 @@
     @endif
     @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.departament.create'))
       <div class="card-header-actions">
-         <em> @lang('Last request'): {{ now()->format('h:i:s') }} </em>
-        <a href="{{ route('admin.departament.create') }}" class="card-header-action" style="color: green;"><i class="c-icon cil-plus"></i> @lang('Create departament') </a>
+        <a href="{{ route('admin.departament.create') }}" class="card-header-action" style="color: green;"><i class="c-icon cil-plus"></i> @lang('Create') </a>
       </div>
     @endif
 
