@@ -83,7 +83,7 @@ class Kanban extends Component
                     ['a.deleted_at', '=', null],
                     ['a.from_store', '=', null]
                 ])
-                 ->orderBy('a.id', 'desc')
+                ->orderBy('a.id', 'desc')
                  // ->union($orders_captured2)
                 ->orderByDesc('a.id')
                 ->limit(10);

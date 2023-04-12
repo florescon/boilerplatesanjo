@@ -149,6 +149,59 @@ if (! function_exists('typeInOrder')) {
     }
 }
 
+if (! function_exists('typeOutOrder')) {
+    /**
+     * 
+     *
+     * @return string
+     */
+    function typeOutOrder($type)
+    {
+        switch ($type) {
+            case 7:
+                return 'output_products';
+            case 6:
+                return 'quotation';
+            case 5:
+                return 'request';
+            case 2:
+                return 'sale';
+        }
+
+        return 'order';
+    }
+}
+
+
+if (! function_exists('typeOrderColor')) {
+    /**
+     * 
+     *
+     * @return string
+     */
+    function typeOrderColor($type)
+    {
+        switch ($type) {
+            case 2:
+                return '#DEFFDF';
+            case 3:
+                return '#FFFFDE';
+            case 4:
+                return '#F7DEFF';
+            case 5:
+                return '#FFDBD3';
+            case 6:
+                return '#86FFCF';
+            case 7:
+                return '#86FFCF';
+            default:
+                return '#DEE4FF';
+        }
+
+    return '';
+    }
+}
+
 if (! function_exists('printed')) {
     /**
      * Return the printed date.

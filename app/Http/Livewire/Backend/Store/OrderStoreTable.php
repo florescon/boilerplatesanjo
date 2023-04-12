@@ -109,6 +109,7 @@ class OrderStoreTable extends Component
         if ($this->searchTerm) {
             return $orders->whereRaw("id LIKE \"%$this->searchTerm%\"")
                         ->orWhereRaw("comment LIKE \"%$this->searchTerm%\"")
+                        ->orWhereRaw("info_customer LIKE \"%$this->searchTerm%\"")
                         ->orWhereRaw("slug LIKE \"%$this->searchTerm%\"");
         }
 

@@ -10,7 +10,7 @@
       @error('payment_method') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
       @if($service)
-        <label class="mt-2 text-center">@lang('Price')</label>
+        <label class="mt-2 text-center">@lang('Price') <em class="text-danger">@lang('IVA included')</em></label>
         <input wire:model.defer="price" type="number" step="any" class="form-control"/>
 
         <label class="mt-2">@lang('Amount')</label>

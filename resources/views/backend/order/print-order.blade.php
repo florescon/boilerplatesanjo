@@ -99,7 +99,7 @@
                     @foreach($orderGroup as $product)
                       <tr>
                         <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->sum }}</td>
-                        <td class="cs-width_2">{{ $product->product_code }}</td>
+                        <td class="cs-width_2">{{ $product->product_code ?? '--' }}</td>
                         <td class="cs-width_6">{{ $product->product_name }} - {{ $product->color_name }}</td>
                         <td class="cs-width_1 cs-text_center cs-primary_color">
                           @if($product->omg)

@@ -8,7 +8,7 @@
               <i class="cil-search mr-1"></i>
             </span>
           </div>
-          <input type="search" wire:model.debounce.350ms="searchTerm" class="form-control filter-list-input" placeholder="Search order or quotation" aria-label="Search order or quotation">
+          <input type="search" wire:model.debounce.350ms="searchTerm" class="form-control filter-list-input" placeholder="{{ __('Search order or quotation') }}" aria-label="Search order or quotation">
         </div>
       </form>
 
@@ -53,7 +53,12 @@
                       <div class="checklist-strikethrough"></div>
                     </div>
                   </div>
-                  <span data-filter-by="text">{{ $order->created_at }}</span>
+                  <span data-filter-by="text">
+                    <span class="badge" style="background-color: {{ typeOrderColor($order->type) }}">{{ __(typeOutOrder($order->type)) }}</span>
+                    <span class="badge badge-secondary">{{ $order->name_status }}</span>
+                    <br>
+                    {{ $order->created_at }}
+                    </span>
                 </div>
                 <!--end of form group-->
               </div>

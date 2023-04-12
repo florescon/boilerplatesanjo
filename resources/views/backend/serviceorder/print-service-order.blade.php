@@ -109,7 +109,7 @@
               <tr>
                 <th scope="row">{{ $key+1 }}</th>
                 <td>{!! $product->product->full_name !!}</td>
-                <td align="right">{{ $product->comment }}</td>
+                <td>{{ $product->comment }}</td>
                 <td align="right">{{ $product->quantity }}</td>
               </tr>
             @endforeach
@@ -128,7 +128,10 @@
     <br>
 
     <div 
-      {{-- style="page-break-after: always;" --}}
+      style="
+/*        page-break-after: always;*/
+        page-break-inside:avoid;
+      "
     >
         <table width="100%">
             <tr>
@@ -187,7 +190,7 @@
               <tr>
                 <th scope="row">{{ $key+1 }}</th>
                 <td>{!! $product->product->full_name !!}</td>
-                <td align="right">{{ $product->comment }}</td>
+                <td>{{ $product->comment }}</td>
                 <td align="right">{{ $product->quantity }}</td>
               </tr>
             @endforeach

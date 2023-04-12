@@ -112,6 +112,26 @@ class OrderController extends Controller
     {
         // $selectSub = DB::table('products')->join('products', 'products.id', '=', 'products.parent_id')->whereRaw('product_order.product_id = product.id');
 
+        $orderServices = DB::table('product_order as a')
+                ->selectRaw('
+                    b.name as product_name,
+                    b.code as product_code,
+                    b.color_id as color_name,
+                    b.size_id as size_name,
+                    a.price as min_price,
+                    a.price as max_price,
+                    null as omg,
+                    a.quantity as sum,
+                    sum(a.quantity * a.price) as sum_total,
+                    a.quantity as total_by_product
+                ')
+                ->join('products as b', 'a.product_id', '=', 'b.id')
+                ->where('order_id', $order->id)
+                ->where('b.type', '=', 0)
+                ;
+
+        // dd($orderServices);
+
         $orderGroup = DB::table('product_order as a')
             ->selectRaw('
                 c.name as product_name,
@@ -133,7 +153,10 @@ class OrderController extends Controller
             ->where('order_id', $order->id)
             ->orderBy('product_name')
             ->orderBy('color_name')
+            ->union($orderServices)
             ->get();
+
+        // dd($orderGroup);
 
         return view('backend.order.print-order', compact('order', 'breakdown', 'orderGroup', 'grouped'));
     }
@@ -192,29 +215,51 @@ class OrderController extends Controller
 
             // $selectSub = DB::table('products')->join('products', 'products.id', '=', 'products.parent_id')->whereRaw('product_order.product_id = product.id');
 
-            $orderGroup = DB::table('product_order as a')
+       $orderServices = DB::table('product_order as a')
                 ->selectRaw('
-                    c.name as product_name,
-                    c.code as product_code,
-                    d.name as color_name,
-                    e.name as size_name,
-                    min(a.price) as min_price,
-                    max(a.price) as max_price,
-                    min(a.price) <> max(a.price) as omg,
-                    sum(a.quantity) as sum,
+                    b.name as product_name,
+                    b.code as product_code,
+                    b.color_id as color_name,
+                    b.size_id as size_name,
+                    a.price as min_price,
+                    a.price as max_price,
+                    null as omg,
+                    a.quantity as sum,
                     sum(a.quantity * a.price) as sum_total,
-                    count(*) as total_by_product
+                    a.quantity as total_by_product
                 ')
                 ->join('products as b', 'a.product_id', '=', 'b.id')
-                ->join('products as c', 'b.parent_id', '=', 'c.id')
-                ->join('colors as d', 'b.color_id', '=', 'd.id')
-                ->join('sizes as e', 'b.size_id', '=', 'e.id')
-                ->groupBy('b.parent_id', 'b.color_id', 'a.price')
                 ->where('order_id', $order->id)
-                ->orderBy('product_name')
-                ->orderBy('color_name')
-                ->get();
+                ->where('b.type', '=', 0)
+                ;
 
+        // dd($orderServices);
+
+        $orderGroup = DB::table('product_order as a')
+            ->selectRaw('
+                c.name as product_name,
+                c.code as product_code,
+                d.name as color_name,
+                e.name as size_name,
+                min(a.price) as min_price,
+                max(a.price) as max_price,
+                min(a.price) <> max(a.price) as omg,
+                sum(a.quantity) as sum,
+                sum(a.quantity * a.price) as sum_total,
+                count(*) as total_by_product
+            ')
+            ->join('products as b', 'a.product_id', '=', 'b.id')
+            ->join('products as c', 'b.parent_id', '=', 'c.id')
+            ->join('colors as d', 'b.color_id', '=', 'd.id')
+            ->join('sizes as e', 'b.size_id', '=', 'e.id')
+            ->groupBy('b.parent_id', 'b.color_id', 'a.price')
+            ->where('order_id', $order->id)
+            ->orderBy('product_name')
+            ->orderBy('color_name')
+            ->union($orderServices)
+            ->get();
+
+        // dd($orderGroup);
             return view('backend.order.print-order', compact('order', 'breakdown', 'orderGroup', 'grouped'));
 
         }

@@ -6,7 +6,7 @@
 <x-backend.card>
 
   <x-slot name="header">
-    {{ $model->type_order_clear }} #{{ $order_id }}
+    <h4>{{ $model->type_order_clear }} #{{ $order_id }}</h4>
   </x-slot>
 
   <x-slot name="headerActions">
@@ -209,7 +209,7 @@
 
             <a href="{{ !$from_store ? route('admin.order.print', $order_id) : route('admin.store.all.print', $order_id) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
               <ins>
-                @lang('Print')
+                @lang('Print for invoice')
               </ins>
             </a>
 

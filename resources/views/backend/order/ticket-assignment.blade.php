@@ -123,7 +123,7 @@
                 <tfoot>
                     <tr>
                         <td align="right">Total</td>
-                        <td align="center" style="background-color: dark; color: white;"><strong>{{ $ticket->total_products_assignment_ticket }}</strong></td>
+                        <td align="center" style="background-color: #000; color: white;"><strong>{{ $ticket->total_products_assignment_ticket }}</strong></td>
                     </tr>
                 </tfoot>            
             </table>

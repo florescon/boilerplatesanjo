@@ -42,7 +42,6 @@ class ShopComponent extends Component
 
     protected $listeners = ['selectedBrandItem', 'selectedColorItem', 'selectedSizeItem', 'restore' => '$refresh'];
 
-
     public function getRowsQueryProperty()
     {
         $query = Product::query()

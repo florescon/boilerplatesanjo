@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', __('Bill of Materials'))
+@section('title', __('Bom of Materials'))
 
 @push('after-styles')
     <link rel="stylesheet" href="{{ asset('/css_custom/pipeline.css') }}">

@@ -83,41 +83,41 @@
                 <table>
                   <thead>
                     <tr>
-                      <th class="tm_width_3 tm_medium tm_white_color tm_accent_bg">Item</th>
-                      <th class="tm_width_4 tm_medium tm_white_color tm_accent_bg">Description</th>
-                      <th class="tm_width_2 tm_medium tm_white_color tm_accent_bg">Price</th>
+                      <th class="tm_width_2 tm_medium tm_white_color tm_accent_bg">Item</th>
+                      <th class="tm_width_6 tm_medium tm_white_color tm_accent_bg">Description</th>
+                      <th class="tm_width_1 tm_medium tm_white_color tm_accent_bg">Price</th>
                       <th class="tm_width_1 tm_medium tm_white_color tm_accent_bg">Qty</th>
-                      <th class="tm_width_2 tm_medium tm_white_color tm_accent_bg tm_text_right">Total</th>
+                      <th class="tm_width_1 tm_medium tm_white_color tm_accent_bg tm_text_right">Total</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td class="tm_width_3">1. Website Design</td>
-                      <td class="tm_width_4">Six web page designs and three times revision</td>
-                      <td class="tm_width_2">$350</td>
+                      <td class="tm_width_2">1. Website Design</td>
+                      <td class="tm_width_6">Six web page designs and three times revision</td>
+                      <td class="tm_width_1">$350</td>
                       <td class="tm_width_1">1</td>
-                      <td class="tm_width_2 tm_text_right">$350</td>
+                      <td class="tm_width_1 tm_text_right">$350</td>
                     </tr>
                     <tr>
-                      <td class="tm_width_3">2. Web Development</td>
-                      <td class="tm_width_4">Convert pixel-perfect frontend and make it dynamic</td>
-                      <td class="tm_width_2">$600</td>
+                      <td class="tm_width_2">2. Web Development</td>
+                      <td class="tm_width_6">Convert pixel-perfect frontend and make it dynamic</td>
+                      <td class="tm_width_1">$350</td>
                       <td class="tm_width_1">1</td>
-                      <td class="tm_width_2 tm_text_right">$600</td>
+                      <td class="tm_width_1 tm_text_right">$350</td>
                     </tr>
                     <tr>
-                      <td class="tm_width_3">3. App Development</td>
-                      <td class="tm_width_4">Android & Ios Application Development</td>
-                      <td class="tm_width_2">$200</td>
-                      <td class="tm_width_1">2</td>
-                      <td class="tm_width_2 tm_text_right">$400</td>
+                      <td class="tm_width_2">3. App Development</td>
+                      <td class="tm_width_6">Android & Ios Application Development</td>
+                      <td class="tm_width_1">$350</td>
+                      <td class="tm_width_1">1</td>
+                      <td class="tm_width_1 tm_text_right">$350</td>
                     </tr>
                     <tr>
-                      <td class="tm_width_3">4. Digital Marketing</td>
-                      <td class="tm_width_4">Facebook, Youtube and Google Marketing</td>
-                      <td class="tm_width_2">$100</td>
-                      <td class="tm_width_1">3</td>
-                      <td class="tm_width_2 tm_text_right">$300</td>
+                      <td class="tm_width_2">4. Digital Marketing</td>
+                      <td class="tm_width_6">Facebook, Youtube and Google Marketing</td>
+                      <td class="tm_width_1">$350</td>
+                      <td class="tm_width_1">1</td>
+                      <td class="tm_width_1 tm_text_right">$350</td>
                     </tr>
                   </tbody>
                 </table>

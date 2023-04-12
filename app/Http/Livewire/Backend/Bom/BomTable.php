@@ -61,12 +61,43 @@ class BomTable extends Component
                 ->select('id as id_user', DB::raw('name as customer'));
     }
 
+    private function status(): Builder
+    {
+        return $status = DB::table('statuses as e')
+                ->select('id as id_status', DB::raw('e.name as name_status, e.percentage as percentage_status'));
+    }
+
+    private function lastStatusOrder(): Builder
+    {
+        return $status_orders = DB::table('status_orders as d')
+                            ->select('order_id', DB::raw('MAX(id) as last_status_order_id, count(*) total_status'))
+                            ->groupBy('order_id');
+    }
+
+    private function statusOrder(): Builder
+    {
+        return $status_ordersB = DB::table('status_orders as f')
+                ->joinSub($this->status(), 'status', function (JoinClause $join) {
+                    $join->on('f.status_id', '=', 'status.id_status');
+                })
+                ->select('f.id', 'f.status_id', 'name_status', 'percentage_status');
+    }
+
+
     public function getRowsQueryProperty()
     {
-        $orders = DB::table('orders as a')->leftJoinSub($this->user(), 'user', function (JoinClause $join) {
+        $orders = DB::table('orders as a')
+                ->leftJoinSub($this->user(), 'user', function (JoinClause $join) {
                     $join->on('a.user_id', '=', 'user.id_user');
                 })
+                ->leftJoinSub($this->lastStatusOrder(), 'status', function (JoinClause $join) {
+                    $join->on('a.id', '=', 'status.order_id');
+                })
+                ->leftJoinSub($this->statusOrder(), 'status_orderB', function (JoinClause $join) {
+                    $join->on('last_status_order_id', '=', 'status_orderB.id');
+                })
                 ->whereIn('a.type', $this->types)
+                ->select('*', DB::raw('a.id as id, DATE_FORMAT(a.created_at, "%d-%m-%Y") as date'))
                 ->where([
                     ['a.branch_id', '=', false],
                     ['a.deleted_at', '=', null],
@@ -81,9 +112,15 @@ class BomTable extends Component
     private function applySearchFilter($order)
     {
         if ($this->searchTerm) {
-            return $order->whereRaw("id LIKE \"%$this->searchTerm%\"")
-            ->orWhereRaw("comment LIKE \"%$this->searchTerm%\"")
-            ->orWhereRaw("customer LIKE \"%$this->searchTerm%\"");
+
+            return $order->whereRaw("a.id LIKE \"%$this->searchTerm%\"")
+            ->orWhereRaw("a.comment LIKE \"%$this->searchTerm%\"")
+            ->where([
+                    ['a.branch_id', '=', false],
+                    ['a.deleted_at', '=', null],
+                    ['a.from_store', '=', null]
+                ])
+            ;
         }
 
         return null;
@@ -220,6 +257,10 @@ class BomTable extends Component
 
     public function render()
     {
+        // echo "<pre>";
+        // print_r($this->rows);
+        // echo "</pre>";
+
         return view('backend.bom.livewire.bom-table', [
           'orders' => $this->rows,
           'materialsCollection' => $this->materials ? $this->applySearchFeedstock($this->materials()) : null,

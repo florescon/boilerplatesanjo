@@ -129,7 +129,8 @@
 			            	</strong>
 		            	</td>
 		              <td class="align-middle">
-		              	{!! $order->user_name !!}
+		              	<strong>{!! $order->user_name !!}</strong>
+		              	<em>{{ $order->info_customer }}</em>
 		              </td>
 	                <td class="align-middle text-center">
 	                   {{ $order->date_entered->isoFormat('D, MMM, YY') ?? __('undefined') }}

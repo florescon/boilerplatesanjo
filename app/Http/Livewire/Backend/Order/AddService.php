@@ -41,7 +41,7 @@ class AddService extends Component
         if ($service){
             $this->service = $service;
             $getService = Product::findOrFail($service);
-            $this->price = $getService->price;
+            $this->price = priceIncludeIva($getService->price);
         }
         else{
             $this->service = null;
@@ -60,6 +60,7 @@ class AddService extends Component
             'product_id' => $this->service,
             'quantity' => $this->amount,
             'price' =>  $this->price,
+            'price_without_tax' =>  priceWithoutIvaIncluded($this->price),
             'type' => $this->parameter,
         ]);
 
