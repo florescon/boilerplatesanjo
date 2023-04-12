@@ -11,6 +11,7 @@ use App\Http\Livewire\Backend\DataTable\WithCachedRows;
 use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Response;
 use App\Exports\FinancesExport;
+use Illuminate\Database\Eloquent\Builder;
 use Excel;
 
 class FinanceTable extends Component
@@ -25,6 +26,7 @@ class FinanceTable extends Component
         'deleted' => ['except' => FALSE],
         'incomes' => ['except' => FALSE],
         'expenses' => ['except' => FALSE],
+        'history' => ['except' => FALSE],
         'dateInput' => ['except' => ''],
         'dateOutput' => ['except' => ''],
     ];
@@ -42,6 +44,7 @@ class FinanceTable extends Component
     public bool $currentMonth = false;
     public bool $currentWeek = false;
     public bool $today = false;
+    public bool $history = false;
 
     public $records_sum;
 
@@ -118,7 +121,12 @@ class FinanceTable extends Component
             })
             ->when($this->sortField, function ($query) {
                 $query->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc');
-            });
+            })
+            ->when(!$this->history, function ($query) {
+                $this->applySum($query);
+                $query->where('cash_id', null);
+            })
+            ;
 
         if ($this->status === 'deleted') {
             return $query->onlyTrashed();
@@ -154,10 +162,12 @@ class FinanceTable extends Component
     private function applySearchFilter($searchFinance)
     {
         if ($this->searchTerm) {
-            return $searchFinance->whereRaw("name LIKE \"%$this->searchTerm%\"")
-                        ->orWhereRaw("comment LIKE \"%$this->searchTerm%\"")
-                        ->orWhereRaw("ticket_text LIKE \"%$this->searchTerm%\"")
-                        ->orWhereRaw("amount LIKE \"%$this->searchTerm%\"");
+            return $searchFinance->Where(function(Builder $query) {
+                        $query->whereRaw("name LIKE \"%$this->searchTerm%\"")
+                                ->orWhereRaw("comment LIKE \"%$this->searchTerm%\"")
+                                ->orWhereRaw("ticket_text LIKE \"%$this->searchTerm%\"")
+                                ->orWhereRaw("amount LIKE \"%$this->searchTerm%\"");
+                        });
         }
 
         return null;
@@ -232,10 +242,27 @@ class FinanceTable extends Component
         }
     }
 
+    public function isHistory()
+    {
+        $this->resetPage();
+        $this->dateInput = '';
+        $this->dateOutput = '';
+        $this->currentMonth = FALSE;
+        $this->currentWeek = FALSE;
+
+        if($this->history){
+            $this->history = false;
+        }
+        else{
+            $this->history = TRUE;
+        }
+    }
+
     public function clearAll()
     {
         $this->clearFilterDate();
         $this->searchTerm = '';
+        $this->history = FALSE;
         $this->resetPage();
         $this->perPage = '10';
         $this->deleted = FALSE;
