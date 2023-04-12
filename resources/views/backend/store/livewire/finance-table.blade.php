@@ -184,6 +184,13 @@
         </div>
         <div class="card-body">
 
+          @if($history)
+            <div class="alert alert-warning text-center" role="alert">
+              El historial me muestra todos los movimientos con o sin corte de caja asignado. 
+              <img src="{{ asset('/img/dog.gif')}}" width="50" alt="Dog">
+            </div>
+          @endif
+
           <div class="row mb-4">
             <div class="col form-inline">
               @lang('Per page'): &nbsp;
