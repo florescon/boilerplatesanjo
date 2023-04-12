@@ -97,6 +97,7 @@
                   </thead>
                   <tbody>
                     @foreach($orderGroup as $product)
+                      @if($product->product_name != null && $product->sum != null)
                       <tr>
                         <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->sum }}</td>
                         <td class="cs-width_2">{{ $product->product_code ?? '--' }}</td>
@@ -110,6 +111,7 @@
                         </td>
                         <td class="cs-width_2 cs-text_right cs-primary_color">${{ priceWithoutIvaIncluded($product->sum_total) }}</td>
                       </tr>
+                      @endif
                     @endforeach
                   </tbody>
                 </table>
