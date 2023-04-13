@@ -92,9 +92,24 @@ class Cash extends Model
         return $this->expenses->where('payment_method_id', 1)->sum('amount');
     }
 
+    public function getAmountIncomesDifferentCashAttribute()
+    {
+        return $this->incomes->where('payment_method_id', '<>', 1)->sum('amount');
+    }
+
+    public function getAmountExpensesDifferentCashAttribute()
+    {
+        return $this->expenses->where('payment_method_id', '<>', 1)->sum('amount');
+    }
+
     public function getTotalAmountCashFinancesAttribute()
     {
-        return $this->amount_incomes_cash - $this->amount_expenses_cash;
+        return number_format($this->amount_incomes_cash - $this->amount_expenses_cash, 2);
+    }
+
+    public function getTotalAmountCashDifferentFinancesAttribute()
+    {
+        return number_format($this->amount_incomes_different_cash - $this->amount_expenses_different_cash, 2);
     }
 
     public function getTotalAmountFinancesAttribute()
@@ -104,7 +119,7 @@ class Cash extends Model
 
     public function getDailyCashClosingAttribute()
     {
-        return $this->total_amount_finances + $this->initial;
+        return $this->total_amount_finances;
     }
 
     public function getDateForHumansAttribute()

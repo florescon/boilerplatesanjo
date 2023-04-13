@@ -18,6 +18,11 @@ class BoxHistoryFinanceShow extends Component
         'load-more' => 'loadMore',
         'filterByPayment' => "filterByPayment",
     ];
+
+    public function mount()
+    {
+        $this->cash_id = $this->cash->id;
+    }
    
     public function loadMore()
     {
@@ -40,10 +45,12 @@ class BoxHistoryFinanceShow extends Component
 
     public function render()
     {
+        $cash_finances = Cash::with('finances.user', 'finances.payment', 'finances.order')->find($this->cash_id);
+
         $filter = $this->filter;
         return view('backend.store.box.box-history-finance-show',[
             'payment_methods' => PaymentMethod::all(),
-            'cash_finances' => $this->cash,
+            'cash_finances' => $cash_finances,
             'finances' => 
                 $this->cash->finances()->with('user', 'payment', 'order')
                 ->when($this->filter, function ($query) use ($filter) {

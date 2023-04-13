@@ -39,7 +39,7 @@ class FinancesExport implements FromCollection, WithMapping, WithHeadings
             $finance->amount ? $finance->finance_sign.'$'.$finance->amount :  '',
             $finance->name ?? '',
             $finance->type ? $finance->formatted_type : '',
-            $finance->date_entered ?? '',
+            $finance->date_entered->formatLocalized('%d-%m-%Y') ?? '',
             $finance->created_at ?? '',
             $finance->details_clear ?? '',
         ];

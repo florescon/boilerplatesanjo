@@ -299,6 +299,24 @@ class Product extends Model
     /**
      * @return string
      */
+    public function getFullNameClearLineAttribute()
+    {
+        if($this->parent_id !== null){
+            return $this->parent->name.' '.$this->color_name_clear;
+        }
+        else{
+            if(!$this->isProduct()){
+                return $this->name;
+            }
+            else{
+                return $this->name;
+            }
+        }
+    }
+
+    /**
+     * @return string
+     */
     public function getOnlyAttributesAttribute()
     {
         return $this->size_name.' '.$this->color_name;

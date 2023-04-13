@@ -49,8 +49,15 @@
               <ul class="cs-bar_list">
                 <li><b class="cs-primary_color">Inicial:</b> ${{ $box->initial }}</li>
                 <li><b class="cs-primary_color">Ingresos:</b> ${{ $box->amount_incomes }}</li>
-                <li><b class="cs-primary_color">Egresos:</b> -${{ $box->amount_expenses }}</li>
+                <li><b class="cs-primary_color">Egresos:</b> {{ $box->amount_expenses != 0 ? '-$'. $box->amount_expenses : '--' }}</li>
                 <li><b class="cs-primary_color">Balance:</b> ${{ $box->daily_cash_closing }}</li>
+              </ul>
+            </div>
+            <div class="cs-invoice_right">
+              <br>
+              <ul class="cs-bar_list">
+                <li><b class="cs-primary_color">Efectivo:</b> ${{ $box->total_amount_cash_finances }}</li>
+                <li><b class="cs-primary_color">Otros:</b> ${{ $box->total_amount_cash_different_finances }}</li>
               </ul>
             </div>
           </div>
@@ -117,7 +124,12 @@
                     <tr>
                       <th scope="row" class="cs-width_1">#{{ $order->id }}</th>
                       <td>{!! $order->user_name !!}</td>
-                      <td>{!! $order->details_for_box.' '.$order->comment ?: '--' !!}</td>
+                      <td>
+                        {!! $order->details_for_box.' '.$order->comment ?: '--' !!} =>
+                        @foreach($order->products as $product)
+                          {!! optional($product->product)->full_name_clear_line.', <strong><u>'.$product->quantity.'</u></strong>;'  !!}
+                        @endforeach
+                      </td>
                       <td>
                         {{  $order->type_order_clear }}
                       </td>

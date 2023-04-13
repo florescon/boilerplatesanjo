@@ -238,7 +238,7 @@
           @if($selectPage)
             <x-utils.alert type="primary">
               @unless($selectAll)
-              <span>Tienes seleccionado <strong>{{ $finances->count() }}</strong> movimientos, ¿quieres seleccionar  <strong>{{ $finance->total() }} </strong> movimientos?</span>
+              <span>Tienes seleccionado <strong>{{ $finances->count() }}</strong> movimientos, ¿quieres seleccionar  <strong>{{ $finances->total() }} </strong> movimientos?</span>
                 <a href="#" wire:click="selectAll" class="alert-link">Seleccionar todo</a>
               @else
                 <span>Actualmente seleccionaste <strong>{{ $finances->total() }}</strong> movimientos.</span>
@@ -249,102 +249,104 @@
             </x-utils.alert>
           @endif
 
-        	<table class="table table-responsive-sm table-hover table-outline mb-0 shadow">
-        		<thead class="thead-dark">
-        			<tr>
-                <th style="width:30px; max-width: 30px;">
-                  <label class="form-checkbox">
-                    <input type="checkbox" wire:model="selectPage">
-                    <i class="form-icon"></i>
-                  </label>
-                </th>
-        				<th>f.º</th>
-                <th>@lang('Name')</th>
-        				<th class="text-center">@lang('Amount')</th>
-                <th class="text-center">@lang('User')/@lang('Associated request')/@lang('Daily cash closing')</th>
-        				<th class="text-center">@lang('Comment')</th>
-                <th class="text-center">@lang('Type')</th>
-        				<th>@lang('Activity')</th>
-                <th>@lang('Created')</th>
-                <th>@lang('Bill')</th>
-                <th>@lang('Actions')</th>
-        			</tr>
-        		</thead>
-        		<tbody>
-              @foreach($finances as $finance)
-        			<tr>
-                <td>
-                  <label class="form-checkbox">
-                      <input type="checkbox" wire:model="selected" value="{{ $finance->id }}">
+          <div class="table-responsive">
+          	<table class="table table-hover table-outline mb-0 shadow">
+          		<thead class="thead-dark">
+          			<tr>
+                  <th style="width:30px; max-width: 30px;">
+                    <label class="form-checkbox">
+                      <input type="checkbox" wire:model="selectPage">
                       <i class="form-icon"></i>
                     </label>
-                </td>
-                <td>
-                  #{{ $finance->id }}
-                </td>
-        				<td>
-        					<div> {{ $finance->name }} </div>
-        					@if($finance->date_entered)
-                    <div class="small text-muted">@lang('Date entered'): 
-                      <strong>
-                        {{ $finance->date_entered->format('d-m')}}
-                      </strong>
-                    </div>
-                  @endif
-        				</td>
-        				<td class="text-center {{ $finance->finance_text }}">
-                  ${{ $finance->amount }}
-                  <p>
-                    <span class="badge badge-secondary">{{ $finance->payment_method }}</span>
-                  </p>
-        				</td>
-        				<td>
-        					<div class="clearfix">
-                    {!! $finance->user_name !!}
-                    {!! $finance->order_folio !!}
-                    {!! $finance->cash_title !!}
-        					</div>
-        				</td>
-                <td class="text-center">
-                  
-                  <x-utils.undefined :data="Str::limit($finance->comment, 60)"/>
+                  </th>
+          				<th>f.º</th>
+                  <th>@lang('Name')</th>
+          				<th class="text-center">@lang('Amount')</th>
+                  <th class="text-center">@lang('User')/@lang('Associated request')/@lang('Daily cash closing')</th>
+          				<th class="text-center">@lang('Comment')</th>
+                  <th class="text-center">@lang('Type')</th>
+          				<th>@lang('Activity')</th>
+                  <th>@lang('Created')</th>
+                  <th>@lang('Bill')</th>
+                  <th>@lang('Actions')</th>
+          			</tr>
+          		</thead>
+          		<tbody>
+                @foreach($finances as $finance)
+          			<tr>
+                  <td>
+                    <label class="form-checkbox">
+                        <input type="checkbox" wire:model="selected" value="{{ $finance->id }}">
+                        <i class="form-icon"></i>
+                      </label>
+                  </td>
+                  <td>
+                    #{{ $finance->id }}
+                  </td>
+          				<td>
+          					<div> {{ $finance->name }} </div>
+          					@if($finance->date_entered)
+                      <div class="small text-muted">@lang('Date entered'): 
+                        <strong>
+                          {{ $finance->date_entered->format('d-m')}}
+                        </strong>
+                      </div>
+                    @endif
+          				</td>
+          				<td class="text-center {{ $finance->finance_text }}">
+                    ${{ $finance->amount }}
+                    <p>
+                      <span class="badge badge-secondary">{{ $finance->payment_method }}</span>
+                    </p>
+          				</td>
+          				<td>
+          					<div class="clearfix">
+                      {!! $finance->user_name !!}
+                      {!! $finance->order_folio !!}
+                      {!! $finance->cash_title !!}
+          					</div>
+          				</td>
+                  <td class="text-center">
+                    
+                    <x-utils.undefined :data="Str::limit($finance->comment, 60)"/>
 
-                </td>
-        				<td class="text-center">
-                  <span class="badge {{ $finance->finance_classes }} text-white">
-                    <x-utils.undefined :data="$finance->formatted_type"/>
-                  </span>
-        				</td>
-        				<td>
-        					<div class="small text-muted">@lang('Updated')</div><strong>{{ $finance->date_diff_for_humans }}</strong>
-        				</td>
-                <td>
-                  <div class="small text-muted"></div><strong>{{ $finance->date_diff_for_humans_created }}</strong>
-                </td>
-                <td>
-                  @if($finance->is_bill)
-                    <button wire:loading.attr="disabled" href="#!" wire:click="bill({{ $finance->id }})" class="badge badge-primary">@lang('Yes')</button>
-                  @else
-                    <button wire:loading.attr="disabled" href="#!" wire:click="bill({{ $finance->id }})" class="badge badge-danger">@lang('No')</button>
-                  @endif
-                </td>
-                <td>
-                  @if(!$status == 'deleted')
-                    <div class="btn-group" role="group" aria-label="Basic example">
+                  </td>
+          				<td class="text-center">
+                    <span class="badge {{ $finance->finance_classes }} text-white">
+                      <x-utils.undefined :data="$finance->formatted_type"/>
+                    </span>
+          				</td>
+          				<td>
+          					<div class="small text-muted">@lang('Updated')</div><strong>{{ $finance->date_diff_for_humans }}</strong>
+          				</td>
+                  <td>
+                    <div class="small text-muted"></div><strong>{{ $finance->date_diff_for_humans_created }}</strong>
+                  </td>
+                  <td>
+                    @if($finance->is_bill)
+                      <button wire:loading.attr="disabled" href="#!" wire:click="bill({{ $finance->id }})" class="badge badge-primary">@lang('Yes')</button>
+                    @else
+                      <button wire:loading.attr="disabled" href="#!" wire:click="bill({{ $finance->id }})" class="badge badge-danger">@lang('No')</button>
+                    @endif
+                  </td>
+                  <td>
+                    @if(!$status == 'deleted')
+                      <div class="btn-group" role="group" aria-label="Basic example">
 
-                      <a type="button" href="{{ route('admin.store.finances.print', $finance->id) }}" target="_blank" class="btn btn-transparent-dark">
-                        <i class="fa fa-print"></i>
-                      </a>
+                        <a type="button" href="{{ route('admin.store.finances.print', $finance->id) }}" target="_blank" class="btn btn-transparent-dark">
+                          <i class="fa fa-print"></i>
+                        </a>
 
-                      <x-actions-modal.edit-icon target="editFinance" emitTo="backend.store.finance.edit-finance" function="edit" :id="$finance->id" />
-                      <x-actions-modal.delete-icon function="delete" :id="$finance->id" />
-                    </div>
-                  @endif
-                </td>
-        			</tr>
-              @endforeach
-        		</tbody>
-        	</table>          
+                        <x-actions-modal.edit-icon target="editFinance" emitTo="backend.store.finance.edit-finance" function="edit" :id="$finance->id" />
+                        <x-actions-modal.delete-icon function="delete" :id="$finance->id" />
+                      </div>
+                    @endif
+                  </td>
+          			</tr>
+                @endforeach
+          		</tbody>
+          	</table>
+            </div>     
 		      <nav class="mt-4">
             @if($finances->count())
             <div class="row">
