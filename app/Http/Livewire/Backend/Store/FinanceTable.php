@@ -162,7 +162,7 @@ class FinanceTable extends Component
     private function applySearchFilter($searchFinance)
     {
         if ($this->searchTerm) {
-            return $searchFinance->Where(function(Builder $query) {
+            return $searchFinance->where(function(Builder $query) {
                         $query->whereRaw("name LIKE \"%$this->searchTerm%\"")
                                 ->orWhereRaw("comment LIKE \"%$this->searchTerm%\"")
                                 ->orWhereRaw("ticket_text LIKE \"%$this->searchTerm%\"")

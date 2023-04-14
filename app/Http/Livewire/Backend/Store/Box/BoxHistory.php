@@ -200,7 +200,16 @@ class BoxHistory extends Component
     public function delete($id)
     {
         if($id)
-            $box = Cash::where('id', $id);
+            $box = Cash::where('id', $id)->first();
+
+            foreach($box->finances as $finance){
+                $finance->update(['cash_id' => null]);
+            }
+
+            foreach($box->orders as $orders){
+                $orders->update(['cash_id' => null]);
+            }
+
             $box->delete();
 
        $this->emit('swal:alert', [

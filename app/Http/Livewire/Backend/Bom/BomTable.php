@@ -83,7 +83,6 @@ class BomTable extends Component
                 ->select('f.id', 'f.status_id', 'name_status', 'percentage_status');
     }
 
-
     public function getRowsQueryProperty()
     {
         $orders = DB::table('orders as a')
@@ -99,9 +98,7 @@ class BomTable extends Component
                 ->whereIn('a.type', $this->types)
                 ->select('*', DB::raw('a.id as id, DATE_FORMAT(a.created_at, "%d-%m-%Y") as date'))
                 ->where([
-                    ['a.branch_id', '=', false],
                     ['a.deleted_at', '=', null],
-                    ['a.from_store', '=', null]
                 ]);
 
         $this->applySearchFilter($orders);
@@ -112,15 +109,14 @@ class BomTable extends Component
     private function applySearchFilter($order)
     {
         if ($this->searchTerm) {
-
-            return $order->whereRaw("a.id LIKE \"%$this->searchTerm%\"")
-            ->orWhereRaw("a.comment LIKE \"%$this->searchTerm%\"")
-            ->where([
-                    ['a.branch_id', '=', false],
-                    ['a.deleted_at', '=', null],
-                    ['a.from_store', '=', null]
-                ])
-            ;
+            return $order->where(function(Builder $query) {
+                $query->whereRaw("a.id LIKE \"%$this->searchTerm%\"")
+                ->orWhereRaw("a.comment LIKE \"%$this->searchTerm%\"")
+                ->orWhereRaw("info_customer LIKE \"%$this->searchTerm%\"")
+                ->orWhereRaw("request LIKE \"%$this->searchTerm%\"")
+                ->orWhereRaw("purchase LIKE \"%$this->searchTerm%\"")
+                ->orWhereRaw("name_status LIKE \"%$this->searchTerm%\"");
+            });
         }
 
         return null;
@@ -220,11 +216,13 @@ class BomTable extends Component
         // $this->selectedOrders = $this->rows->whereIn('id', $this->getSelectedProducts())->toArray();
     }
 
-    private function products(){
+    private function products()
+    {
         return $this->products = $this->products ? $this->products->sortBy(['productName', 'asc']) : null;
     }
 
-    private function materials(){
+    private function materials()
+    {
         return $this->materials = $this->materials ? $this->materials->sortBy(['unit_measurement', 'asc'],['material_name', 'asc']) : null;
     }
 
