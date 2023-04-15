@@ -144,7 +144,7 @@ input::-webkit-inner-spin-button {
 
   .layout-switcher-option.active a:hover{ border-color: white; text-decoration: none; }
 
-  .layout-switcher-icon{ width: 100%; border-radius: 4px; }
+  .layout-switcher-icon{ width: 80%; border-radius: 4px; }
   .layout-switcher-body:hover .layout-switcher-option:not(:hover){ opacity: .5; transform: scale(0.9); }
   @media all and (max-width: 990px){ .layout-switcher{ min-width: 250px; } }
   @media all and (max-width: 767px){ .layout-switcher{ display: none; } }

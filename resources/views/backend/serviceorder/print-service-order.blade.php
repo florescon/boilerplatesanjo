@@ -81,11 +81,11 @@
         </tr>
 
         <tr>
-            <td><strong>Archivo:</strong> </td>
-            <td><strong>Dimensiones:</strong></td>
+            <td><strong>Archivo:</strong> {{ $service->file_text }}</td>
+            <td><strong>Dimensiones:</strong> {{ $service->dimensions }}</td>
         </tr>
         <tr>
-            <td><strong>Comentario:</strong> </td>
+            <td><strong>Comentario:</strong> {{ $service->comment }} </td>
         </tr>
 
       </table>
@@ -162,15 +162,15 @@
         </tr>
 
         <tr>
-            <td><strong>Archivo:</strong> </td>
-            <td><strong>Dimensiones:</strong></td>
+            <td><strong>Archivo:</strong> {{ $service->file_text }}</td>
+            <td><strong>Dimensiones:</strong> {{ $service->dimensions }}</td>
         </tr>
         <tr>
-            <td><strong>Comentario:</strong> </td>
+            <td><strong>Comentario:</strong> {{ $service->comment }} </td>
         </tr>
 
       </table>
-
+      
       <br/>
 
       <table width="100%" 

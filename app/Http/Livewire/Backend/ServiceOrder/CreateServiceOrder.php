@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Backend\ServiceOrder;
 
 use Livewire\Component;
 use App\Models\Order;
+use App\Models\ProductOrder;
 use App\Models\ServiceOrder;
 use App\Exceptions\GeneralException;
 use Illuminate\Support\Facades\DB;
@@ -13,6 +14,8 @@ use Exception;
 class CreateServiceOrder extends Component
 {
     public $order;
+
+    public $comment_general, $file_text, $dimensions;
 
     public $image_id, $service_type_id, $quantity, $comment;
 
@@ -36,13 +39,17 @@ class CreateServiceOrder extends Component
     {
         $this->validate();
 
+        // dd($this->comment);
+
         foreach($this->order->products as $bal)
         {
-            if(is_array($this->quantity) && array_key_exists($bal->product_id, $this->quantity)){
+            if(is_array($this->quantity) && array_key_exists($bal->id, $this->quantity)){
 
                 $this->validate([
-                    'quantity.'.$bal->product_id.'.available' => 'sometimes|nullable|numeric|integer|gt:0|max:'.$bal->quantity,
-                    'comment.'.$bal->product_id.'.available' => 'sometimes|nullable',
+                    'quantity.'.$bal->id.'.available' => 'sometimes|nullable|numeric|integer|gt:0|max:'.$bal->quantity,
+                    'comment.'.$bal->id => 'sometimes|nullable|max:255',
+                    'dimensions.'.$bal->id => 'sometimes|nullable|max:255',
+                    'file_text.'.$bal->id => 'sometimes|nullable|max:255',
                 ]);
             }
         }
@@ -59,14 +66,19 @@ class CreateServiceOrder extends Component
                     'image_id' => $this->image_id ?? null,
                     'created_id' => Auth::id(),
                     'branch_id' => $this->order->branch_id ?? 0,
+                    'comment' => $this->comment_general ?? null,
+                    'dimensions' => $this->dimensions ?? null,
+                    'file_text' => $this->file_text ?? null,
                 ]);
 
                 foreach($this->quantity as $key => $quantity){
+                    $productOrder = ProductOrder::where('id', $key)->first();
+
                     if($quantity > 0){
                         $serviceOrder->product_service_orders()->create([
                             'quantity' => $quantity['available'],
                             'comment' => $this->comment[$key] ?? '',
-                            'product_id' => $key,
+                            'product_id' => $productOrder->product_id,
                         ]);        
                     }
                 }

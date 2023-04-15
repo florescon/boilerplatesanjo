@@ -643,7 +643,7 @@ class Order extends Model
                 case 6:
                     return 'background-color: #86FFCF';
                 case 7:
-                    return 'background-color: #86FFCF';
+                    return 'background-color: #d5c5ff';
                 default:
                     return 'background-color: #DEE4FF';
             }

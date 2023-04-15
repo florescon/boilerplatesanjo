@@ -29,51 +29,73 @@
                     @error('image_id') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                 </div>
 
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
+                <div class="mb-4">
+                    <input type="text" class="form-control text-center" wire:model="dimensions" placeholder="{{ __('Dimensions') }}">
+                    @error('dimensions') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                </div>
+
+                <div class="mb-4">
+                    <input type="text" class="form-control text-center" wire:model="file_text" placeholder="{{ __('File') }}">
+                    @error('file_text') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                </div>
+
+                <div class="mb-4">
+                    <input type="text" class="form-control text-center" wire:model="comment_general" placeholder="{{ __('General comment') }}">
+                    @error('comment_general') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                {{-- <th></th> --}}
+                                <th>@lang('Product')</th>
+                                <th>@lang('Quantity')</th>
+                                <th width="40%">@lang('Comment')</th>
+                                <th>@lang('Assignment')</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($products as $record)
                                 <tr>
-                                    {{-- <th></th> --}}
-                                    <th>@lang('Product')</th>
-                                    <th>@lang('Quantity')</th>
-                                    <th width="40%">@lang('Comment')</th>
-                                    <th>@lang('Assignment')</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($products as $record)
-                                    <tr>
-                                        <td>{!! $record->product->full_name !!}</td>
-                                        <td>{{ $record->quantity }}</td>
-                                        <td>
-                                            <input type="text" 
-                                            wire:model.defer="comment.{{ $record->product->id }}"
+                                    <td>{!! $record->product->full_name !!}</td>
+                                    <td>{{ $record->quantity }}</td>
+                                    <td>
+                                        <input type="text" 
+                                        wire:model.defer="comment.{{ $record->id }}"
+                                        wire:keydown.enter="save"
+                                        class="form-control" 
+                                        placeholder="{{ __('Comment') }}" maxlength="260"/>
+
+                                        @error('comment.'.$record->id) 
+                                          <span class="error" style="color: red;">
+                                            <p>@lang('Max: 255')</p>
+                                          </span> 
+                                        @enderror
+
+                                    </td>
+                                    <td>
+                                        <input type="number"
+                                            wire:model.defer="quantity.{{ $record->id }}.available"
                                             wire:keydown.enter="save"
-                                            class="form-control" 
-                                            placeholder="{{ __('Comment') }}" maxlength="150"/>
-                                        </td>
-                                        <td>
-                                            <input type="number"
-                                                wire:model.defer="quantity.{{ $record->product->id }}.available"
-                                                wire:keydown.enter="save"
-                                                class="form-control"
-                                                style="color: blue;" 
-                                                {{-- placeholder="{{ $record->available_assignments }}" --}}
-                                            >
-                                            @error('quantity.'.$record->product_id.'.available') 
-                                              <span class="error" style="color: red;">
-                                                <p>@lang('Check the quantity')</p>
-                                              </span> 
-                                            @enderror
+                                            class="form-control"
+                                            style="color: blue;" 
+                                            {{-- placeholder="{{ $record->available_assignments }}" --}}
+                                        >
+                                        @error('quantity.'.$record->id.'.available') 
+                                          <span class="error" style="color: red;">
+                                            <p>@lang('Check the quantity')</p>
+                                          </span> 
+                                        @enderror
 
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>                                
-                    </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>                                
+                </div>
 
-                    <button class="btn btn-sm float-right text-white" style="background-color: blue;" wire:click="save">@lang('Create Service Order') 🔥</button>
+                <button class="btn btn-sm float-right text-white" style="background-color: blue;" wire:click="save">@lang('Create Service Order') 🔥</button>
 
                 {{-- {{ $products->links() }} --}}
 

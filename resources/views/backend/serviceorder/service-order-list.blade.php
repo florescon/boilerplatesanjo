@@ -147,7 +147,12 @@
                   <div class="small text-muted">@lang('Service Order')</div>
                 </td>
                 <td>
-                  #{{ $serviceOrder->order_id }}
+                  <a href="{{ route('admin.store.all.edit', $serviceOrder->order_id) }}" class="card-link text-dark" target="_blank">
+                    <ins class="mr-2">
+                      #{{ $serviceOrder->order_id }}
+                    </ins>
+                    <i class="cil-external-link"></i>
+                  </a>
                   <div class="small text-muted">@lang('Request')/@lang('Sale')</div>
                 </td>
                 <td>

@@ -67,11 +67,10 @@
 	    </div>
 	    <div class="layout-switcher-body">
 
-	      <div class="layout-switcher-option active">
-	        <a href="#!" data-toggle="modal" wire:click="createcustomer()" data-target="#createCustomer" class="text-white text-center">
-	          <i class="cil-user-follow"></i>
-	        	Crear cliente
-	        </a>
+	      <div class="layout-switcher-option">
+
+	        <img alt="Navigation Side" data-toggle="modal" wire:click="createcustomer()" data-target="#createCustomer" src="{{ asset('/img/ga/create-user.png')}}" width="1" class="layout-switcher-icon" />
+
 	      </div>
 	      
 	    </div>

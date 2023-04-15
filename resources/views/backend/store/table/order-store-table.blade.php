@@ -7,7 +7,7 @@
     <div class="card-header-actions mb-3">
       <x-utils.link class="mt-2 mr-2 card-header-action btn btn-secondary text-dark {{ $status == 'all_store' ? 'button-large pulsate' : '' }}" :href="route('admin.store.all.index')" :text="__('all')" />
       <x-utils.link class="mt-2 mr-2 card-header-action btn btn-aqua text-dark {{ $status == 'quotations_store' ? 'button-large pulsate' : '' }}" :href="route('admin.store.all.quotations')" :text="__('Quotations')" />
-      <x-utils.link class="mt-2 mr-2 card-header-action btn btn-aqua text-dark {{ $status == 'output_products_store' ? 'button-large pulsate' : '' }}" :href="route('admin.store.all.output_products')" :text="__('Output products')" />
+      <x-utils.link class="mt-2 mr-2 card-header-action btn text-dark {{ $status == 'output_products_store' ? 'button-large pulsate' : '' }}" style="background-color: #d5c5ff;" :href="route('admin.store.all.output_products')" :text="__('Output products')" />
       {{-- <x-utils.link class="mt-2 mr-2 card-header-action btn btn-primary text-white {{ $status == 'orders_store' ? 'button-large pulsate' : '' }}" :href="route('admin.store.all.orders')" :text="__('Orders')" /> --}}
       <x-utils.link class="mt-2 mr-2 card-header-action btn btn-coral text-white {{ $status == 'requests_store' ? 'button-large pulsate' : '' }}" :href="route('admin.store.all.requests')" :text="__('Requests')" />
       <x-utils.link class="mt-2 mr-2 card-header-action btn btn-success text-white {{ $status == 'sales_store' ? 'button-large pulsate' : '' }}" :href="route('admin.store.all.sales')" :text="__('Sales')" />
