@@ -37,7 +37,6 @@
 			  <caption>@lang('List of products') {{ $products->count() }} @lang('records') - {{ __(ucfirst($type)) }}</caption>
 			  <thead>
 			    <tr>
-			      <th scope="col">#</th>
 			      <th scope="col">@lang('Name')</th>
 			      @if($type != 'output_products')
 				      <th scope="col">@lang('Price')</th>
@@ -46,7 +45,8 @@
 			      @if($type != 'output_products')
 				      <th scope="col">@lang('Total')</th>
 				  @endif
-			      <th scope="col" colspan="2">@lang('Updated at')</th>
+			      <th scope="col"></th>
+			      <th scope="col" >@lang('Updated at')</th>
 			    </tr>
 			  </thead>
 			  <tbody>
@@ -57,8 +57,6 @@
 			  	@foreach($products as $product)
 
 				    <tr>
-				      <th scope="row">{{ $product->id }}</th>
-
 				      <td>{!! optional($product->product)->full_name_link !!}</td>
 
 				      	@if($type != 'output_products')
@@ -94,11 +92,11 @@
 
 				      	@endif
 
-				      <td>{{ $product->updated_at }}</td>
-
 				      <td>
            				<a wire:click="removeProduct({{ $product->id }})" class="link link-dark-primary link-normal" style="cursor:pointer;"><i class="fas fa-times text-c-blue m-l-10"></i></a> 
            			  </td>
+
+				      <td>{{ $product->updated_at }}</td>
 
 				    </tr>
 

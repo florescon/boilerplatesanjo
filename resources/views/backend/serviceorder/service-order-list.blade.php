@@ -130,7 +130,7 @@
                 <th class="text-center">@lang('Created by')</th>
                 <th class="text-center">@lang('Details')</th>
         				<th class="text-center">@lang('Status')</th>
-                <th></th>
+                <th class="text-center">@lang('Actions')</th>
         			</tr>
         		</thead>
         		<tbody>
@@ -178,12 +178,25 @@
                   <div class="small text-muted">@lang('Total'): {{ $serviceOrder->total_products }} </div>
         				</td>
                 <td class="text-center">
-
-                </td>
-                <td >
                   <div class="btn-group" role="group" aria-label="Basic example">
                       {{-- <x-utils.view-button :href="route('admin.order.assignments', [$serviceOrder->order_id, $serviceOrder->status_id])" /> --}}
+
+                    @if($serviceOrder->done)
+                      <button wire:loading.attr="disabled" href="#!" wire:click="done({{ $serviceOrder->id }})" class="badge badge-primary">@lang('Done')</button>
+                    @else
+                      <button wire:loading.attr="disabled" href="#!" wire:click="done({{ $serviceOrder->id }})" class="badge badge-danger">@lang('Pending')</button>
+                    @endif
                   </div>
+                </td>
+                <td class="text-center">
+                  <div class="btn-group" role="group" aria-label="Basic example">
+
+                    <x-actions-modal.edit-icon target="editServiceOrder" emitTo="backend.service-order.edit-service-order" function="edit" :id="$serviceOrder->id" />
+
+                    <x-actions-modal.delete-icon function="delete" :id="$serviceOrder->id" />
+
+                  </div>
+
                 </td>
         			</tr>
               @endforeach

@@ -10,4 +10,16 @@
 
     <livewire:backend.service-order.service-order-list />
 
+    <livewire:backend.service-order.edit-service-order />
+
 @endsection
+
+@push('after-scripts')
+
+    <script type="text/javascript">
+      Livewire.on("serviceOrderUpdate", () => {
+          $("#editServiceOrder").modal("hide");
+      });
+    </script>
+
+@endpush

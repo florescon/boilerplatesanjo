@@ -15,7 +15,19 @@
 
             <livewire:backend.service-order.service-order-table :order="$order"/>
 
+            <livewire:backend.service-order.edit-service-order />
+
             </div>
         </div>
     </div>
 @endsection
+
+@push('after-scripts')
+
+    <script type="text/javascript">
+      Livewire.on("serviceOrderUpdate", () => {
+          $("#editServiceOrder").modal("hide");
+      });
+    </script>
+
+@endpush

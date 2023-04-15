@@ -18,7 +18,7 @@ class ServiceOrder extends Model
     protected $cascadeDeletes = ['product_service_orders'];
 
     protected $fillable = [
-        'order_id', 'user_id', 'authorized_id', 'created_id', 'image_id', 'branch_id', 'service_type_id', 'comment', 'dimensions', 'file_text',
+        'order_id', 'user_id', 'authorized_id', 'created_id', 'image_id', 'branch_id', 'service_type_id', 'comment', 'dimensions', 'file_text', 'done',
     ];
 
     /**
@@ -48,6 +48,14 @@ class ServiceOrder extends Model
     public function image()
     {
         return $this->belongsTo(Image::class)->withTrashed();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function order()
+    {
+        return $this->belongsTo(Order::class)->withTrashed();
     }
 
     /**

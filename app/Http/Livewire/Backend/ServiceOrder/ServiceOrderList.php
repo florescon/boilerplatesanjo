@@ -43,7 +43,7 @@ class ServiceOrderList extends Component
 
     public $status;
 
-    protected $listeners = ['filter' => 'filter', 'delete', 'restore', 'triggerRefresh' => '$refresh'];
+    protected $listeners = ['filter' => 'filter', 'done', 'delete', 'restore', 'triggerRefresh' => '$refresh'];
 
     public $updated, $selected_id, $deleted;
 
@@ -120,6 +120,24 @@ class ServiceOrderList extends Component
         return $this->cache(function () {
             return $this->rowsQuery->paginate($this->perPage);
         });
+    }
+
+    public function done(?int $id = null)
+    {
+        if($id){
+            $finance = ServiceOrder::withTrashed()->find($id);
+            
+            $finance->update([
+                'done' => $finance->done ? false : true,
+            ]);
+
+            sleep(1);
+        }
+
+        $this->emit('swal:alert', [
+            'icon' => 'success',
+            'title'   => __('Changed'), 
+        ]);
     }
 
     public function clearFilterDate()
@@ -229,10 +247,10 @@ class ServiceOrderList extends Component
         $this->selected = [];
     }
 
-    public function delete($id)
+    public function delete(int $id)
     {
         if($id)
-            $serviceOrder = ServiceOrder::where('id', $id);
+            $serviceOrder = ServiceOrder::where('id', $id)->first();
             $serviceOrder->delete();
 
        $this->emit('swal:alert', [

@@ -8,24 +8,41 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>@lang('Title')</th>
+                                <th>@lang('Type')</th>
+                                <th>@lang('Dimensions')</th>
+                                <th>@lang('File')</th>
+                                <th>@lang('Comment')</th>
                                 <th>@lang('Created by')</th>
                                 <th>@lang('Created at')</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($service_orders as $record)
+                            @foreach($service_orders as $service_order)
                                 <tr>
                                     <td>
-                                        <a href="{{ route('admin.order.print_service_order', [$order_id, $record->id]) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
+                                        <a href="{{ route('admin.order.print_service_order', [$order_id, $service_order->id]) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
                                           <ins>
-                                            #{{ $record->id }}
+                                            #{{ $service_order->id }}
                                           </ins>
                                         </a>
                                     </td>
-                                    <td>{{ optional($record->image)->title }}</td>
-                                    <td>{{ optional($record->createdby)->name }}</td>
-                                    <td>{{ $record->created_at }}</td>
+                                    <td>{{ optional($service_order->image)->title }}</td>
+                                    <td>{{ $service_order->dimensions ?? '--' }}</td>
+                                    <td>{{ $service_order->file_text ?? '--' }}</td>
+                                    <td>{{ $service_order->comment ?? '--' }}</td>
+                                    <td>{{ optional($service_order->createdby)->name }}</td>
+                                    <td>{{ $service_order->created_at }}</td>
+                                    <td>
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                            
+                                            <x-actions-modal.edit-icon target="editServiceOrder" emitTo="backend.service-order.edit-service-order" function="edit" :id="$service_order->id" />
+                        
+                                            <x-actions-modal.delete-icon function="delete" :id="$service_order->id" />
+
+                                        </div>
+   
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

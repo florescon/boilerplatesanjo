@@ -23,7 +23,7 @@
           <strong>@lang('Selected'):</strong>
 
           @foreach($selectedtypes as $link) 
-            <span class="badge badge-dark">#{{ $link }}</span>
+            <span class="badge badge-dark mt-2" style="font-size: 1rem;">#{{ $link }}</span>
           @endforeach
 
           <div wire:loading wire:target="exportMaatwebsite" class="text-nowrap ml-3">
@@ -100,7 +100,7 @@
             @if($orderCollection)
               @lang('Orders'):
               @foreach($orderCollection as $order)
-                <span class="badge badge-warning ml-1 mr-1">#{{ $order['id'] ?? '' }}</span>
+                <span class="badge badge-warning ml-1 mr-1 mt-1" style="font-size: 1rem;">#{{ $order['id'] ?? '' }}</span>
               @endforeach
             @else
               <p>@lang('Nothing selected')</p>

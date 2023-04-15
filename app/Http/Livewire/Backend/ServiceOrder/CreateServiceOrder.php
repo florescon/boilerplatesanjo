@@ -112,6 +112,7 @@ class CreateServiceOrder extends Component
 
     public function resetInput()
     {
+        $this->dimensions = '';
         $this->quantity = '';
         $this->comment = '';
     }
