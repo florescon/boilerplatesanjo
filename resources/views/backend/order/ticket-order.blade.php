@@ -79,8 +79,10 @@ ventas@sj-uniformes.com
                   <tr align="center">
                     <th>Concepto</th>
                     <th>Cantidad</th>
-                    <th>Precio</th>
-                    <th>Total</th>
+                    @if(!$emptyPrices)
+                        <th>Precio</th>
+                        <th>Total</th>
+                    @endif
                   </tr>
                 </thead>
                 <tbody>
@@ -88,8 +90,11 @@ ventas@sj-uniformes.com
                   <tr>
                     <td scope="row">{!! $product->product->full_name !!}</td>
                     <td align="center">{{ $product->quantity }}</td>
-                    <td align="right">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</td>
-                    <td align="right">${{ !$breakdown ? priceWithoutIvaIncluded($product->total_by_product) : $product->total_by_product }}</td>
+                    
+                    @if(!$emptyPrices)
+                        <td align="right">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</td>
+                        <td align="right">${{ !$breakdown ? priceWithoutIvaIncluded($product->total_by_product) : $product->total_by_product }}</td>
+                    @endif
                   </tr>
                   @endforeach
                 </tbody>
@@ -108,8 +113,10 @@ ventas@sj-uniformes.com
                     <tr>
                         <td align="right"></td>
                         <td align="center" class="gray"><strong>{{ $order->total_products }}</strong></td>
-                        <td align="right">Total </td>
-                        <td align="right" class="gray">${{ number_format($order->total_order, 2) }}</td>
+                        @if(!$emptyPrices)
+                            <td align="right">Total </td>
+                            <td align="right" class="gray">${{ number_format($order->total_order, 2) }}</td>
+                        @endif
                     </tr>
                 </tfoot>
             </table>
@@ -120,15 +127,17 @@ ventas@sj-uniformes.com
             <table width="100%">
                 <thead style="background-color: red;">
                   <tr align="center">
-                    <th colspan="4">@lang('Sale')</th>
+                    <th colspan="{{ $emptyPrices ? '2' : '4' }}">@lang('Sale')</th>
                   </tr>
                 </thead>
                 <thead style="background-color: gray;">
                   <tr align="center">
                     <th>Concepto</th>
                     <th>Cantidad</th>
-                    <th>Precio</th>
-                    <th>Total</th>
+                    @if(!$emptyPrices)
+                        <th>Precio</th>
+                        <th>Total</th>
+                    @endif
                   </tr>
                 </thead>
                 <tbody>
@@ -136,8 +145,10 @@ ventas@sj-uniformes.com
                   <tr>
                     <td scope="row">{!! $product->product->full_name !!}</td>
                     <td align="center">{{ $product->quantity }}</td>
-                    <td align="right">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</td>
-                    <td align="right">${{ !$breakdown ? priceWithoutIvaIncluded($product->total_by_product) : $product->total_by_product }}</td>
+                    @if(!$emptyPrices)
+                        <td align="right">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</td>
+                        <td align="right">${{ !$breakdown ? priceWithoutIvaIncluded($product->total_by_product) : $product->total_by_product }}</td>
+                    @endif
                   </tr>
                   @endforeach
                 </tbody>
@@ -156,8 +167,10 @@ ventas@sj-uniformes.com
                     <tr>
                         <td align="right"></td>
                         <td align="center" class="gray"><strong>{{ $order->total_products_sale }}</strong></td>
-                        <td align="right">Total </td>
-                        <td align="right" class="gray">${{ number_format($order->total_sale, 2) }}</td>
+                        @if(!$emptyPrices)
+                            <td align="right">Total </td>
+                            <td align="right" class="gray">${{ number_format($order->total_sale, 2) }}</td>
+                        @endif
                     </tr>
                 </tfoot>
             </table>
@@ -168,15 +181,17 @@ ventas@sj-uniformes.com
             <table width="100%">
                 <thead style="background-color: coral;">
                   <tr align="center">
-                    <th colspan="4">@lang('Request')</th>
+                    <th colspan="{{ $emptyPrices ? '2' : '4' }}">@lang('Request')</th>
                   </tr>
                 </thead>
                 <thead style="background-color: gray;">
                   <tr align="center">
                     <th>Concepto</th>
                     <th>Cantidad</th>
-                    <th>Precio</th>
-                    <th>Total</th>
+                    @if(!$emptyPrices)
+                        <th>Precio</th>
+                        <th>Total</th>
+                    @endif
                   </tr>
                 </thead>
                 <tbody>
@@ -184,8 +199,10 @@ ventas@sj-uniformes.com
                   <tr>
                     <td scope="row">{!! $product->product->full_name !!}</td>
                     <td align="center">{{ $product->quantity }}</td>
-                    <td align="right">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</td>
-                    <td align="right">${{ !$breakdown ? priceWithoutIvaIncluded($product->total_by_product) : $product->total_by_product }}</td>
+                    @if(!$emptyPrices)
+                        <td align="right">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</td>
+                        <td align="right">${{ !$breakdown ? priceWithoutIvaIncluded($product->total_by_product) : $product->total_by_product }}</td>
+                    @endif
                   </tr>
                   @endforeach
                 </tbody>
@@ -204,8 +221,10 @@ ventas@sj-uniformes.com
                     <tr>
                         <td align="right"></td>
                         <td align="center" class="gray"><strong>{{ $order->total_products_request }}</strong></td>
-                        <td align="right">Total </td>
-                        <td align="right" class="gray">${{ number_format($order->total_request, 2) }}</td>
+                        @if(!$emptyPrices)
+                            <td align="right">Total </td>
+                            <td align="right" class="gray">${{ number_format($order->total_request, 2) }}</td>
+                        @endif
                     </tr>
                 </tfoot>
             </table>
@@ -244,7 +263,7 @@ ventas@sj-uniformes.com
             <br>
         @endif
 
-        @if(!$order->isOutputProducts())
+        @if(!$order->isOutputProducts() && !$emptyPrices)
             <table width="100%">
                 <tr>
                     <td align="center">

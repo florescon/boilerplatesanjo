@@ -170,9 +170,9 @@ class OrderController extends Controller
         // return view('backend.order.ticket-order');
     }
 
-    public function ticket_order(Order $order, bool $breakdown = false)
+    public function ticket_order(Order $order, bool $breakdown = false, $emptyPrices = false)
     {
-        $pdf = PDF::loadView('backend.order.ticket-order',compact('order', 'breakdown'))->setPaper([0, 0, 2385.98, 296.85], 'landscape');
+        $pdf = PDF::loadView('backend.order.ticket-order',compact('order', 'breakdown', 'emptyPrices'))->setPaper([0, 0, 2385.98, 296.85], 'landscape');
 
         return $pdf->stream();
     }
@@ -197,10 +197,10 @@ class OrderController extends Controller
         }
     }
 
-    public function ticket_order_store(Order $order, bool $breakdown = false)
+    public function ticket_order_store(Order $order, bool $breakdown = false, bool $emptyPrices = false)
     {
         if($order->from_store){
-            $pdf = PDF::loadView('backend.order.ticket-order',compact('order', 'breakdown'))->setPaper([0, 0, 2385.98, 296.85], 'landscape');
+            $pdf = PDF::loadView('backend.order.ticket-order',compact('order', 'breakdown', 'emptyPrices'))->setPaper([0, 0, 2385.98, 296.85], 'landscape');
 
             return $pdf->stream();
         }

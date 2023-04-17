@@ -8,6 +8,8 @@ use Livewire\WithPagination;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Livewire\Backend\DataTable\WithBulkActions;
 use App\Http\Livewire\Backend\DataTable\WithCachedRows;
+use App\Models\OrderStatusDelivery;
+use Illuminate\Database\Eloquent\Builder;
 use Carbon\Carbon;
 
 class OrderStoreTable extends Component
@@ -34,6 +36,8 @@ class OrderStoreTable extends Component
     public $dateInput = '';
     public $dateOutput = '';
 
+    public $statusOrderDelivery = null;
+
     public function sortBy($field)
     {
         if ($this->sortField === $field) {
@@ -56,6 +60,14 @@ class OrderStoreTable extends Component
             // ->when(!$this->dateInput, function ($query) {
             //     $query->whereYear('created_at', now()->year);
             // })
+
+            ->when($this->statusOrderDelivery, function ($query) {
+
+                $statusOrderDelivery = $this->statusOrderDelivery;
+                $query->whereHas('last_order_delivery', function($queryStatusOrder) use ($statusOrderDelivery){
+                    $queryStatusOrder->where('type', $statusOrderDelivery);
+                });
+            })
             ->when($this->sortField, function ($query) {
                 $query->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc');
             });
@@ -107,13 +119,28 @@ class OrderStoreTable extends Component
     private function applySearchFilter($orders)
     {
         if ($this->searchTerm) {
-            return $orders->whereRaw("id LIKE \"%$this->searchTerm%\"")
-                        ->orWhereRaw("comment LIKE \"%$this->searchTerm%\"")
-                        ->orWhereRaw("info_customer LIKE \"%$this->searchTerm%\"")
-                        ->orWhereRaw("slug LIKE \"%$this->searchTerm%\"");
+            return $orders->where(function(Builder $querySub) {
+                $querySub->whereHas('user', function ($query) {
+                   $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
+                })
+                ->orWhereHas('departament', function ($query) {
+                   $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
+                })
+                ->orWhere('id', 'like', '%' . $this->searchTerm . '%')
+                ->orWhere('info_customer', 'like', '%' . $this->searchTerm . '%')
+                ->orWhere('comment', 'like', '%' . $this->searchTerm . '%');
+            });
         }
 
         return null;
+    }
+
+    public function selectedStatusOrderDeliveryItem(?int $item)
+    {
+        if ($item)
+            $this->statusOrderDelivery = $item;
+        else
+            $this->statusOrderDelivery = null;
     }
 
     private function applySearchDeletedFilter($orders)
@@ -132,6 +159,11 @@ class OrderStoreTable extends Component
         return $this->cache(function () {
             return $this->rowsQuery->paginate($this->perPage);
         });
+    }
+
+    public function clearFilterStatusOrderDelivery()
+    {
+        $this->statusOrderDelivery = null;
     }
 
     public function clearFilterDate()
@@ -173,8 +205,11 @@ class OrderStoreTable extends Component
 
     public function render()
     {
+        $OrderStatusDelivery = OrderStatusDelivery::values();    
+
         return view('backend.store.table.order-store-table', [
           'orders' => $this->rows,
+          'OrderStatusDelivery' => $OrderStatusDelivery,
         ]);
     }
 }

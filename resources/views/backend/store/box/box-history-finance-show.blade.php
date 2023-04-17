@@ -3,7 +3,7 @@
 		<div class="card text-center col-md-9 mt-4 shadow">
 		  <div class="card-body">
 		    <h4 class="card-title">Balance </h4>
-		    <h3 class="text-info">${{ number_format($cash_finances->daily_cash_closing, 2, '.', '') }}</h3>
+		    <h3 class="text-info">${{ $cash_finances->daily_cash_closing }}</h3>
 		    <h5>@lang('Initial'): ${{ $cash_finances->initial }}</h5>
 		    <a href="#" class="card-link text-primary">{{ $cash_finances->incomes->count() }} @lang('Incomes'): <strong>{{ '+$'.number_format($cash_finances->amount_incomes, 2, '.', '') }}</strong></a>
 		    <a href="#" class="card-link text-danger">{{ $cash_finances->expenses->count() }} @lang('Expenses'): <strong>{{ '-$'.number_format($cash_finances->amount_expenses, 2, '.', '') }}</strong></a>

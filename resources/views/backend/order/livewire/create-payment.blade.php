@@ -20,6 +20,15 @@
       <input wire:model="date" type="date" class="form-control"/>
       @error('date') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
+      <label class="mt-2">@lang('Billing')</label>
+
+      <div class="form-check">
+        <label class="c-switch c-switch-primary">
+          <input type="checkbox" class="c-switch-input" wire:model="isBill">
+          <span class="c-switch-slider"></span>
+        </label>
+      </div>
+
   </x-slot>
 
   <x-slot name="footer">

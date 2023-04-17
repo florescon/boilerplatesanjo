@@ -42,6 +42,27 @@
 
   <x-slot name="body">
 
+
+    <div class="col-6 col-lg-6">
+
+	      <strong>@lang('Delivery'): </strong>
+	    <div class="col form-inline mb-2">
+	      <select class="form-control text-center mt-2" style="border: 1px solid #fe8a71" wire:model.debounce.800ms="statusOrderDelivery">
+	        <option value="" hidden>@lang('Select order delivery status')</option>
+	        @foreach($OrderStatusDelivery as $key => $value)
+	              <option value="{{ $key }}">{{ $value }}</option>
+	        @endforeach
+	      </select>
+
+				@if($statusOrderDelivery)
+					<button class="btn btn-danger btn-sm ml-4 pb-2 mt-2" wire:click="clearFilterStatusOrderDelivery">
+						@lang('Clear status order')
+					</button>
+				@endif
+			</div>
+
+    </div>
+
 	  <div class="row mb-4">
 	    <div class="col form-inline">
 	      @lang('Per page'): &nbsp;
@@ -85,37 +106,37 @@
 	        <table class="table table-sm align-items-center js-table">
 	          <thead  class="thead-dark">
 	            <tr>
-	              <th scope="col">
+	              <th style="width:5%" scope="col">
                   <a style="color:white;" wire:click.prevent="sortBy('id')" role="button" href="#">
                     f.º
                     @include('backend.includes._sort-icon', ['field' => 'id'])
                   </a>
 	              </th>
-	              <th scope="col">
+	              <th style="width:22%" scope="col">
 	              	@lang('Customer')
 	              </th>
-                <th scope="col" class="text-center">
+                <th style="width:7%" scope="col" class="text-center">
                   <a style="color:white;" wire:click.prevent="sortBy('date_entered')" role="button" href="#">
 	                  @lang('Date')
                     @include('backend.includes._sort-icon', ['field' => 'date_entered'])
                   </a>
                 </th>
-                <th scope="col" class="text-center">
+                <th style="width:8%" scope="col" class="text-center">
                   @lang('Total')
                 </th>
-                <th scope="col" class="text-center">
+                <th style="width:8%" scope="col" class="text-center">
                 	Anticipo
                 </th>
-                <th scope="col" class="text-center">
+                <th style="width:8%" scope="col" class="text-center">
                   @lang('Remaining')
                 </th>
-                <th scope="col" class="text-center">
+                <th style="width:10%" scope="col" class="text-center">
                   @lang('Status')
                 </th>
-	              <th scope="col" class="text-center">
+	              <th style="width:10%" scope="col" class="text-center">
 	                @lang('Details')
 	              </th>
-                <th scope="col">
+                <th style="width:22%" scope="col">
                   @lang('Comment')
                 </th>
 	            </tr>

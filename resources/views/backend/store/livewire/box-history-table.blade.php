@@ -151,10 +151,10 @@
                   ${{ $cash->initial }}
                 </td>
                 <td class="text-center">
-                  ${{ number_format($cash->total_amount_cash_finances, 2) }}
+                  ${{ $cash->total_amount_cash_finances }}
                 </td>
                 <td class="text-center">
-                  ${{ number_format($cash->daily_cash_closing, 2) }}
+                  ${{ $cash->daily_cash_closing }}
                 </td>
                 <td>
                   <div class="small text-muted"></div><strong>{{ $cash->date_diff_for_humans_checked }}</strong>

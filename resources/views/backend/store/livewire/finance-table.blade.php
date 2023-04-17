@@ -294,7 +294,7 @@
                     @endif
           				</td>
           				<td class="text-center {{ $finance->finance_text }}">
-                    ${{ $finance->amount }}
+                    ${{ number_format($finance->amount, 2) }}
                     <p>
                       <span class="badge badge-secondary">{{ $finance->payment_method }}</span>
                     </p>
@@ -338,7 +338,9 @@
                         </a>
 
                         <x-actions-modal.edit-icon target="editFinance" emitTo="backend.store.finance.edit-finance" function="edit" :id="$finance->id" />
-                        <x-actions-modal.delete-icon function="delete" :id="$finance->id" />
+                        @if(!$finance->cash_id)
+                          <x-actions-modal.delete-icon function="delete" :id="$finance->id" />
+                        @endif
                       </div>
                     @endif
                   </td>

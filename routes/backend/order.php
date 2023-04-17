@@ -108,12 +108,12 @@ Route::group([
             ->name('reasign-user-departament');
             // ->middleware('permission:admin.order.end-add-stock');
 
-        Route::get('print/{breackdown?}/{grouped?}', [OrderController::class, 'print'])
+        Route::get('print/{breakdown?}/{grouped?}', [OrderController::class, 'print'])
             ->name('print')
             ->middleware('permission:admin.access.order.modify')
             ->breadcrumbs(function (Trail $trail, Order $order) {
                 $trail->parent('admin.order.edit', $order)
-                    ->push(__('Print order'), route('admin.order.print', [$order, $breackdown, $grouped]));
+                    ->push(__('Print order'), route('admin.order.print', [$order, $breakdown, $grouped]));
             });
 
         Route::get('ticket', [OrderController::class, 'ticket'])
@@ -124,12 +124,12 @@ Route::group([
                     ->push(__('Ticket order'), route('admin.order.ticket', $order));
             });
 
-        Route::get('ticket_order/{breackdown?}', [OrderController::class, 'ticket_order'])
+        Route::get('ticket_order/{breakdown?}/{emptyPrices?}', [OrderController::class, 'ticket_order'])
             ->name('ticket_order')
             ->middleware('permission:admin.access.order.modify')
             ->breadcrumbs(function (Trail $trail, Order $order) {
                 $trail->parent('admin.order.edit', $order)
-                    ->push(__('Ticket order'), route('admin.order.ticket_order', [$order, $breackdown]));
+                    ->push(__('Ticket order'), route('admin.order.ticket_order', [$order, $breakdown, $emptyPrices]));
             });
 
         Route::get('ticket_monitoring', [OrderController::class, 'ticket_monitoring'])

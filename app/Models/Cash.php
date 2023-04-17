@@ -119,7 +119,7 @@ class Cash extends Model
 
     public function getDailyCashClosingAttribute()
     {
-        return $this->total_amount_finances;
+        return number_format($this->total_amount_finances, 2);
     }
 
     public function getDateForHumansAttribute()

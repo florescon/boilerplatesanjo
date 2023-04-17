@@ -90,7 +90,7 @@
         <tbody>
           <tr>
             <td scope="row">{{ $finances->name }}</tf>
-            <td align="center">${{ $finances->amount }}</td>
+            <td align="center">${{ number_format($finances->amount, 2) }}</td>
           </tr>
         </tbody>
     </table>

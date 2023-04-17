@@ -190,7 +190,62 @@
             </div>
             @endif
 
-            @if(!$model->isQuotation())
+            <div class="text-center">
+              <div class="btn-group" role="group">
+                <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  S/Desglose
+                </button>
+                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                  @if(!$model->isQuotation())
+                    <a class="dropdown-item" href="{{ !$from_store ? route('admin.order.ticket_order', [$order_id, true]) : route('admin.store.all.ticket_order', [$order_id, true]) }}" target="_blank">Ticket</a>
+                  @endif
+                  @if(!$model->isOutputProducts())
+                    <a class="dropdown-item" href="{{ !$from_store ? route('admin.order.print', [$order_id, true]) : route('admin.store.all.print', [$order_id, true]) }}" target="_blank">Carta</a>
+                  @endif
+                </div>
+              </div>
+
+              <div class="btn-group" role="group">
+                <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  P/Factura
+                </button>
+                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                  @if(!$model->isQuotation())
+                    <a class="dropdown-item" href="{{ !$from_store ? route('admin.order.ticket_order', $order_id) : route('admin.store.all.ticket_order', $order_id) }}" target="_blank">Ticket</a>
+                  @endif
+                  <a class="dropdown-item" href="{{ !$from_store ? route('admin.order.print', $order_id) : route('admin.store.all.print', $order_id) }}" target="_blank">Carta</a>
+                </div>
+              </div>
+
+              <div class="btn-group" role="group">
+                <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  S/Precios
+                </button>
+                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                  @if(!$model->isQuotation())
+                    <a class="dropdown-item" href="{{ !$from_store ? route('admin.order.ticket_order', [$order_id, true, true]) : route('admin.store.all.ticket_order', [$order_id, true, true]) }}" target="_blank">Ticket</a>
+                  @endif
+                </div>
+              </div>
+
+              @if(!$model->isOutputProducts())
+                <a type="button" href="{{ !$from_store ? route('admin.order.print', [$order_id, 0, true]) : route('admin.store.all.print', [$order_id, 0, true]) }}" class="btn btn-secondary" target="_blank">Imprimir productos agrupados</a>
+              @endif
+
+              @if(!$from_store && $model->materials_order()->exists())
+                <a type="button" href="{{ route('admin.order.ticket_materia', $order_id) }}" class="btn btn-warning text-white" target="_blank">@lang('Feedstock')</a>
+              @endif
+
+              @if(!$model->isQuotation() and !$model->isOutputProducts())
+                <a type="button" href="{{ route('admin.order.service_orders', $order_id) }}" class="btn btn-link">@lang('Create service order') 
+                  @if($model->service_orders()->count())
+                    <span class="badge badge-success">{{ $model->service_orders()->count() }}</span>
+                  @endif
+                </a>
+              @endif
+            </div>
+
+   {{--          @if(!$model->isQuotation())
               <a href="{{ !$from_store ? route('admin.order.ticket_order', $order_id) : route('admin.store.all.ticket_order', $order_id) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
                 <ins>
                   Ticket
@@ -241,7 +296,7 @@
                   @lang('Tackle and more')
                 </ins>
               </a>
-            @endif
+            @endif --}}
 
             {{-- @if($model->isOrder() or $model->isRequest())
               <a href="{{ route('admin.order.ticket_monitoring', $order_id) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
@@ -252,10 +307,10 @@
             @endif --}}
 
 
-            @if(!$model->isQuotation() and !$model->isOutputProducts())
+{{--             @if(!$model->isQuotation() and !$model->isOutputProducts())
               <a href="{{ route('admin.order.service_orders', $order_id) }}" class="card-link">@lang('Create service order')</a>
             @endif
-
+ --}}
           </div>
 
           @if( ( ($model->user_id || $model->departament_id) || $model->isFromStore() ) && (!$model->isQuotation()))
@@ -788,9 +843,9 @@
   </x-slot>
 
   <x-slot name="footer">
-    @if($model->type != '7')
-    <x-utils.delete-button :text="__('Delete').' '.$model->type_order_clear" :href="route('admin.order.destroy', $order_id)" />
-      @endif
+    @if(($model->type != '7') && !$model->cash_id)
+      <x-utils.delete-button :text="__('Delete').' '.$model->type_order_clear" :href="route('admin.order.destroy', $order_id)" />
+    @endif
     <footer class="blockquote-footer float-right">
       Mies Van der Rohe <cite title="Source Title">Less is more</cite>
     </footer>

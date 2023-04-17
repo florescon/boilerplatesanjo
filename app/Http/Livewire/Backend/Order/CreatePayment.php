@@ -17,6 +17,8 @@ class CreatePayment extends Component
 
     public $orderId;
 
+    public bool $isBill = false;
+
     protected $listeners = ['selectPaymentMethod', 'createmodal'];
 
     public function createmodal(int $id)
@@ -58,6 +60,7 @@ class CreatePayment extends Component
             'type' => 'income',
             'from_store' => true,
             'payment_method_id' => $this->payment_method,
+            'is_bill' => $this->isBill,
             'audi_id' => Auth::id(),
         ]);
 

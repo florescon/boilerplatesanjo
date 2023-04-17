@@ -10,7 +10,7 @@
       <input wire:model.lazy="dimensions" type="text" class="form-control"/>
       @error('dimensions') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
-      <label>@lang('Ticket text')</label>
+      <label>@lang('File')</label>
       <input wire:model.lazy="file_text" type="text" class="form-control"/>
       @error('file_text') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 

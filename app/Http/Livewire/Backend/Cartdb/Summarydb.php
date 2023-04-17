@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Summary;
 use App\Domains\Auth\Models\User;
 use App\Models\Cart;
+use App\Models\OrderStatusDelivery;
 use App\Models\Order;
 use Carbon\Carbon;
 
@@ -130,7 +131,6 @@ class Summarydb extends Component
     {
         $getProducts = $this->getProducts();
 
-
         $getProducts->when($getProducts->count(), function ($getProducts) {
 
             $typeOrder = typeInOrder($this->type);
@@ -162,6 +162,10 @@ class Summarydb extends Component
                 ]);
             }
 
+            if(($this->branchId != 0) && (typeInOrder($this->type) == 2 )){
+                $this->saleReadyForDelivery($order);
+            }
+
             $this->clearSummary();
             $this->emit('clearAllProducts');
 
@@ -169,6 +173,11 @@ class Summarydb extends Component
 
         });
     }    
+
+    public function saleReadyForDelivery($order)
+    {
+        $order ? $order->orders_delivery()->create(['type' => OrderStatusDelivery::DELIVERED, 'audi_id' => Auth::id()]) : '';
+    }
 
     public function render()
     {

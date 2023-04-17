@@ -148,12 +148,12 @@ Route::group([
                         ->push(__('Ticket order'), route('admin.store.all.ticket', $order));
                 });
 
-            Route::get('ticket_order/{breackdown?}', [OrderController::class, 'ticket_order_store'])
+            Route::get('ticket_order/{breackdown?}/{emptyPrices?}', [OrderController::class, 'ticket_order_store'])
                 ->name('ticket_order')
                 ->middleware('permission:admin.access.store.print')
                 ->breadcrumbs(function (Trail $trail, Order $order) {
                     $trail->parent('admin.order.edit', $order)
-                        ->push(__('Ticket order'), route('admin.store.all.ticket_order', [$order, $breackdown]));
+                        ->push(__('Ticket order'), route('admin.store.all.ticket_order', [$order, $breackdown, $emptyPrices]));
                 });
 
             Route::get('records_payment', [OrderController::class, 'records_payment_store'])
