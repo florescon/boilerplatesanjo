@@ -42,7 +42,6 @@
 
   <x-slot name="body">
 
-
     <div class="col-6 col-lg-6">
 
 	      <strong>@lang('Delivery'): </strong>
@@ -56,7 +55,7 @@
 
 				@if($statusOrderDelivery)
 					<button class="btn btn-danger btn-sm ml-4 pb-2 mt-2" wire:click="clearFilterStatusOrderDelivery">
-						@lang('Clear status order')
+						@lang('Clear status')
 					</button>
 				@endif
 			</div>

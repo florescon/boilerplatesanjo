@@ -129,7 +129,9 @@
                 <th class="text-center">@lang('Comment')</th>
                 <th class="text-center">@lang('Created by')</th>
                 <th class="text-center">@lang('Details')</th>
-        				<th class="text-center">@lang('Status')</th>
+                @if($logged_in_user->hasAllAccess())
+          				<th class="text-center">@lang('Status')</th>
+                @endif
                 <th class="text-center">@lang('Actions')</th>
         			</tr>
         		</thead>
@@ -161,7 +163,10 @@
                   @endif
                 </td>
                 <td class="text-center">
-                  {{ optional($serviceOrder->personal)->name ?? '--' }}
+                  {{ optional($serviceOrder->personal)->name }}
+                  @if($logged_in_user->hasAllAccess())
+                    <x-actions-modal.edit-icon target="assignPersonal" emitTo="backend.service-order.assign-personal" function="assignpersonal" :id="$serviceOrder->id" />
+                  @endif
                 </td>
                 <td class="text-center">
                   <strong>{{ optional($serviceOrder->order)->comment ?? '--' }}</strong>
@@ -177,17 +182,17 @@
                   <span class='badge badge-primary'>{{ optional($serviceOrder->service_type)->name }}</span>
                   <div class="small text-muted">@lang('Total'): {{ $serviceOrder->total_products }} </div>
         				</td>
-                <td class="text-center">
-                  <div class="btn-group" role="group" aria-label="Basic example">
-                      {{-- <x-utils.view-button :href="route('admin.order.assignments', [$serviceOrder->order_id, $serviceOrder->status_id])" /> --}}
-
-                    @if($serviceOrder->done)
-                      <button wire:loading.attr="disabled" href="#!" wire:click="done({{ $serviceOrder->id }})" class="badge badge-primary">@lang('Done')</button>
-                    @else
-                      <button wire:loading.attr="disabled" href="#!" wire:click="done({{ $serviceOrder->id }})" class="badge badge-danger">@lang('Pending')</button>
-                    @endif
-                  </div>
-                </td>
+                @if($logged_in_user->hasAllAccess())
+                  <td class="text-center">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                      @if($serviceOrder->done)
+                        <button wire:loading.attr="disabled" href="#!" wire:click="done({{ $serviceOrder->id }})" class="badge badge-primary">@lang('Done')</button>
+                      @else
+                        <button wire:loading.attr="disabled" href="#!" wire:click="done({{ $serviceOrder->id }})" class="badge badge-danger">@lang('Pending')</button>
+                      @endif
+                    </div>
+                  </td>
+                @endif
                 <td class="text-center">
                   <div class="btn-group" role="group" aria-label="Basic example">
 

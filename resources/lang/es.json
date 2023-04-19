@@ -456,6 +456,7 @@
     "Choose colors": "Elegir colores",
     "Choose status": "Elegir estado",
     "Clear status order": "Limpiar estado de orden",
+    "Clear status": "Limpiar estado",
     "Colors": "Colores",
     "Color already exists": "Color ya existe",
     "Color code": "Código de color",
@@ -1182,5 +1183,6 @@
     "Exploded": "Explosionado",
     "Require": "Requerir",
     "A collection of materials for explode orders": "Una colección de materiales para órdenes explosionadas",
-    "Selected": "Seleccionado"
+    "Selected": "Seleccionado",
+    "Direct Access": "Acceso directo"
 }

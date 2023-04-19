@@ -59,23 +59,9 @@
 	<livewire:backend.cartdb.search-products :typeSearch="'quotation'" branchIdSearch="0"/>
 
 	<livewire:backend.cartdb.create-customer :type="'quotation'" branchId="0" isMain="true"/>
-
-  <div class="layout-switcher" tabindex="1">
-    <div class="layout-switcher-head d-flex justify-content-between">
-   		<span>Acceso directo &nbsp;</span>
-			<i class="cil-chevron-top"></i>
-    </div>
-    <div class="layout-switcher-body">
-
-      <div class="layout-switcher-option">
-
-        <img alt="Navigation Side" data-toggle="modal" wire:click="createcustomer()" data-target="#createCustomer" src="{{ asset('/img/ga/create-user.png')}}" width="1" class="layout-switcher-icon" />
-
-      </div>
-      
-    </div>
-	</div>
 	
+  	@include('backend.cartdb.direct-access')
+
 	{{-- <livewire:backend.store.pos.search-product :onlyType="'products_sale' ?? null"/> --}}
 
 @endsection

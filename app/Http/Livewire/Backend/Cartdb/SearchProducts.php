@@ -221,7 +221,6 @@ class SearchProducts extends Component
         array_shift($this->filterSize);
     }
 
-
     public function render()
     {
         $model = null;

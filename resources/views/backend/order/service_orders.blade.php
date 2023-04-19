@@ -20,6 +20,9 @@
             </div>
         </div>
     </div>
+
+    <livewire:backend.service-order.assign-personal/>
+
 @endsection
 
 @push('after-scripts')
@@ -27,6 +30,12 @@
     <script type="text/javascript">
       Livewire.on("serviceOrderUpdate", () => {
           $("#editServiceOrder").modal("hide");
+      });
+    </script>
+
+    <script type="text/javascript">
+      Livewire.on("assignPersonalUpdate", () => {
+          $("#assignPersonal").modal("hide");
       });
     </script>
 

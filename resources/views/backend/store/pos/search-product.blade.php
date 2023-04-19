@@ -110,7 +110,6 @@
         </div>
       </div>
 
-
         @if($selectedProduct->children->count())
           <div class="row mt-3">
             <div class="col-md-6 text-center">

@@ -60,7 +60,7 @@ class ServiceOrderList extends Component
 
     public function getRowsQueryProperty()
     {
-        $query = ServiceOrder::query()->with('personal', 'image')
+        $query = ServiceOrder::query()->with('personal', 'image', 'order', 'service_type', 'product_service_orders', 'createdby')
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?
                     $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', now()]) :

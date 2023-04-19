@@ -13,6 +13,7 @@
                                 <th>@lang('File')</th>
                                 <th>@lang('Comment')</th>
                                 <th>@lang('Created by')</th>
+                                <th class="text-center">@lang('Personal')</th>
                                 <th>@lang('Created at')</th>
                                 <th></th>
                             </tr>
@@ -32,6 +33,14 @@
                                     <td>{{ $service_order->file_text ?? '--' }}</td>
                                     <td>{{ $service_order->comment ?? '--' }}</td>
                                     <td>{{ optional($service_order->createdby)->name }}</td>
+                                    <td class="text-center">
+                                      {{ optional($service_order->personal)->name }}
+                                      @if($logged_in_user->hasAllAccess())
+                                        <x-actions-modal.edit-icon target="assignPersonal" emitTo="backend.service-order.assign-personal" function="assignpersonal" :id="$service_order->id" />
+                                      @endif
+
+                                    </td>
+
                                     <td>{{ $service_order->created_at }}</td>
                                     <td>
                                         <div class="btn-group" role="group" aria-label="Basic example">

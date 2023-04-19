@@ -69,6 +69,14 @@ class ServiceOrder extends Model
     /**
      * @return mixed
      */
+    public function authorized()
+    {
+        return $this->belongsTo(User::class, 'authorized_id')->withTrashed();
+    }
+
+    /**
+     * @return mixed
+     */
     public function createdby()
     {
         return $this->belongsTo(User::class, 'created_id')->withTrashed();
@@ -78,5 +86,4 @@ class ServiceOrder extends Model
     {
         return $this->updated_at->isoFormat('D, MMM, YY');
     }
-
 }
