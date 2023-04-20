@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="author" content="ThemeMarch">
+  <meta name="author" content="Flores">
   <!-- Site Title -->
   <title>{{ $order->request ?? '' }} {{ $order->comment ?? '' }}</title>
   <link rel="stylesheet" href="{{ asset('/css_custom/ivonne.css') }}" />
@@ -315,7 +315,7 @@
             {!! QrCode::size(100)->eye('circle')->generate(route('frontend.track.show', $order->slug)); !!}
             <div class="cs-note_right" style="margin-left: 20px;">
               <p class="cs-mb0"><b class="cs-primary_color cs-bold">@lang('Note'):</b></p>
-              <p class="cs-m0">{{ $order->branch_id > 0 ?  setting('footer') : '--' }}</p>
+              <p class="cs-m0">{!! $order->isQuotation() && ($order->branch_id > 0) ? setting('footer_quotation').'<br>' :'' !!} {{ $order->branch_id > 0 ?  setting('footer') : '--' }}</p>
             </div>
           </div><!-- .cs-note -->
         </div>

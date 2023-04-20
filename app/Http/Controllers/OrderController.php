@@ -118,10 +118,10 @@ class OrderController extends Controller
                     b.code as product_code,
                     b.color_id as color_name,
                     b.size_id as size_name,
-                    a.price as min_price,
-                    a.price as max_price,
-                    null as omg,
-                    a.quantity as sum,
+                    min(a.price) as min_price,
+                    max(a.price) as max_price,
+                    min(a.price) <> max(a.price) as omg,
+                    sum(a.quantity) as sum,
                     sum(a.quantity * a.price) as sum_total,
                     a.quantity as total_by_product
                 ')
@@ -221,10 +221,10 @@ class OrderController extends Controller
                     b.code as product_code,
                     b.color_id as color_name,
                     b.size_id as size_name,
-                    a.price as min_price,
-                    a.price as max_price,
-                    null as omg,
-                    a.quantity as sum,
+                    min(a.price) as min_price,
+                    max(a.price) as max_price,
+                    min(a.price) <> max(a.price) as omg,
+                    sum(a.quantity) as sum,
                     sum(a.quantity * a.price) as sum_total,
                     a.quantity as total_by_product
                 ')
