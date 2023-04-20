@@ -20,7 +20,6 @@
                     @error('service_type_id') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                 </div>
 
-
                 <div class="mb-4" wire:ignore>
                     <select id="imageselect" class="custom-select" style="width: 100%;" aria-hidden="true" >
                     </select>
@@ -132,7 +131,7 @@
                         results: data.items.map(function (item) {
                             return {
                                 id: item.id,
-                                text: item.title
+                                text: '<img src="/storage/' + item.image + '" style="width: 60px; height: auto" title="'+ item.title +'" />&nbsp;&nbsp;&nbsp<h4 style="display:inline;">' + item.title + '</h4>'
                             };
                         }),
                         pagination: {
@@ -143,7 +142,10 @@
                 cache: true,
                 delay: 250,
                 dropdownautowidth: true
-            }
+            },
+
+            escapeMarkup: function(m) { return m; }
+
           });
 
           $('#imageselect').on('change', function (e) {

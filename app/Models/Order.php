@@ -125,7 +125,7 @@ class Order extends Model
     public function getUserNameAttribute(): string
     {
         if($this->user_id){
-            return $this->user->name;
+            return $this->user->real_name;
         }
         elseif($this->departament_id){
            return $this->departament->name;

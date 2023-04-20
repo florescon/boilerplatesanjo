@@ -22,7 +22,9 @@ class UpdateSetting extends Component
         'state.average_wholesale_price_percentage' => 'required|integer|min:0|max:50',
         'state.wholesale_price_percentage' => 'required|integer|min:0|max:50',
         'state.special_price_percentage' => 'required|integer|min:0|max:50',
-        'state.round' => 'required|min:0|max:1',
+        'state.footer' => 'required|max:500',
+        'state.footer_quotation' => 'required|max:500',
+        // 'state.round' => 'required|min:0|max:1',
     ];
 
     protected $validationAttributes = [
@@ -37,7 +39,9 @@ class UpdateSetting extends Component
         'state.average_wholesale_price_percentage' => 'Porcentaje precio medio mayoreo',
         'state.wholesale_price_percentage' => 'Porcentaje precio mayoreo',
         'state.special_price_percentage' => 'Porcentaje precio especial',
-        'state.round' => 'Redondeo',
+        'state.footer' => 'Pie de página de impresiones',
+        'state.footer_quotation' => 'Pie de página de cotizaciones',
+        // 'state.round' => 'Redondeo',
     ]; 
 
     public function mount()

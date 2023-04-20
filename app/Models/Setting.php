@@ -27,5 +27,7 @@ class Setting extends Model
         'iva',
         'round',
         'special_price_percentage',
+        'footer',
+        'footer_quotation',
     ];
 }

@@ -68,23 +68,25 @@
                                     <input wire:model.defer="state.special_price_percentage" type="text" class="form-control" id="footerText" placeholder="{{__('Special price percentage') }}">
                                     @error('state.special_price_percentage') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                                 </div>
-                                <div class="form-group border rounded text-center">
+                                {{-- <div class="form-group border rounded text-center">
                                     <label for="footerText">Redondear precios sugeridos a múltiplos de 5</label>
                                     <br>
                                     <label class="c-switch c-switch-primary">
                                       <input type="checkbox" class="c-switch-input" wire:model.defer="state.round">
                                       <span class="c-switch-slider"></span>
                                     </label>
-                                </div>
+                                </div> --}}
 
-                                {{-- <div class="form-group">
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="sidebarCollapse">
-                                        <label class="custom-control-label" for="sidebarCollapse">Sidebar Collapse</label>
-                                    </div> --}}
-                                    <!-- <label for="sidebar_collapse">Sidebar Collapse</label><br>
-                                    <input wire:model.defer="state.sidebar_collapse" type="checkbox" id="sidebar_collapse"> -->
-                                {{-- </div> --}}
+                                <div class="form-group">
+                                    <label for="footer">@lang('Footer')</label>
+                                    <textarea rows="4" wire:model.defer="state.footer" type="text" class="form-control" id="footer" placeholder="{{__('Enter footer') }}"></textarea>
+                                    @error('state.footer') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="footerQuotation">@lang('Footer quotation')</label>
+                                    <textarea rows="4" wire:model.defer="state.footer_quotation" type="text" class="form-control" id="footerQuotation" placeholder="{{__('Enter footer quotation') }}"></textarea>
+                                    @error('state.footer_quotation') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                                </div>                                
                             </div>
                             <!-- /.card-body -->
 

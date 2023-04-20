@@ -281,5 +281,14 @@ ventas@sj-uniformes.com
             </table>
         @endif
 
+      @if(!$emptyPrices)
+          <table style="margin-top: 10px" width="100%">
+              <tr>
+                <td style="text-align: center;">
+                    <em><strong>@lang('Note'):</strong> {{ setting('footer') ?? '--' }}</em>
+                </td>
+              </tr>
+          </table>
+      @endif
     </body>
 </html>

@@ -51,7 +51,7 @@ class ImagesTable extends Component
             ->when($this->searchTerm, function ($query) {
                 $query->where('title', 'like', '%' . $this->searchTerm . '%');
             })
-            ->orderBy('sort');
+            ->orderBy('created_at', 'desc');
 
         if ($this->status === 'deleted') {
             return $query->onlyTrashed();

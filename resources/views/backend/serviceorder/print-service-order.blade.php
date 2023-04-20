@@ -141,14 +141,14 @@
                 <td align="right" style=" max-width: 260px; max-height: 200px; ">
                     <div><img height="50" src="{{ public_path('img/logo22.png') }}"/></div>
 
-                    <h3>@lang('Service Order')</h3>
+                    <h3>@lang('Service Order') #{{ $service->id }}</h3>
                     <pre>
                         <strong>@lang('Date'):</strong> {{ $service->created_at }}
                     </pre>
                     <pre>
                         <strong>@lang('Order'):</strong> #{{ $order->id }}
-                        <strong>@lang('Folio'):</strong> #{{ $service->id }}
                         <strong>@lang('Service'): </strong> {{ optional($service->service_type)->name }}
+                        <strong>@lang('Created by'): </strong> {{ optional($service->createdby)->name }}
                     </pre>
                 </td>
             </tr>

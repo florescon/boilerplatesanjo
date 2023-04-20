@@ -315,7 +315,7 @@
             {!! QrCode::size(100)->eye('circle')->generate(route('frontend.track.show', $order->slug)); !!}
             <div class="cs-note_right" style="margin-left: 20px;">
               <p class="cs-mb0"><b class="cs-primary_color cs-bold">@lang('Note'):</b></p>
-              <p class="cs-m0">--</p>
+              <p class="cs-m0">{{ $order->branch_id > 0 ?  setting('footer') : '--' }}</p>
             </div>
           </div><!-- .cs-note -->
         </div>

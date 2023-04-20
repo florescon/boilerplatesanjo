@@ -166,6 +166,10 @@ class Summarydb extends Component
                 $this->saleReadyForDelivery($order);
             }
 
+            if(($this->branchId != 0) && (typeInOrder($this->type) == 5 )){
+                $this->requestReadyForDelivery($order);
+            }
+
             $this->clearSummary();
             $this->emit('clearAllProducts');
 
@@ -177,6 +181,11 @@ class Summarydb extends Component
     public function saleReadyForDelivery($order)
     {
         $order ? $order->orders_delivery()->create(['type' => OrderStatusDelivery::DELIVERED, 'audi_id' => Auth::id()]) : '';
+    }
+
+    public function requestReadyForDelivery($order)
+    {
+        $order ? $order->orders_delivery()->create(['type' => OrderStatusDelivery::PENDING, 'audi_id' => Auth::id()]) : '';
     }
 
     public function render()

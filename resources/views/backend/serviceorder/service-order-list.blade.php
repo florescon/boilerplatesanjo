@@ -169,6 +169,7 @@
                   @endif
                 </td>
                 <td class="text-center">
+                  {{ optional($serviceOrder->order->user)->name.' '.optional($serviceOrder->order)->info_customer }}
                   <strong>{{ optional($serviceOrder->order)->comment ?? '--' }}</strong>
                   <div class="small text-muted">{{ $serviceOrder->comment }}</div>
                 </td>
