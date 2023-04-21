@@ -29,6 +29,8 @@ class DepartamentTable extends Component
 
     public $perPage = '10';
 
+    public $limitPerPage = '100';
+
     public $sortField = 'name';
     public $sortAsc = true;
     
@@ -81,7 +83,7 @@ class DepartamentTable extends Component
     public function getRowsProperty()
     {
         return $this->cache(function () {
-            return $this->rowsQuery->paginate($this->perPage);
+            return $this->rowsQuery->paginate(($this->perPage > $this->limitPerPage) ? $this->clear() : $this->perPage);
         });
     }
 

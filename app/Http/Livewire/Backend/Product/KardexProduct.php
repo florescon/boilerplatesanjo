@@ -165,6 +165,11 @@ class KardexProduct extends Component
         $this->resetPage();
     }
 
+    public function updatedDateOutput()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
         return view('backend.product.livewire.kardex', [

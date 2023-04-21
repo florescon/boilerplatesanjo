@@ -32,11 +32,14 @@ class FinanceTable extends Component
     ];
 
     public $perPage = '10';
+    public $limitPerPage = '100';
 
     public $sortField = 'created_at';
     public $sortAsc = false;
     
     public $searchTerm = '';
+
+    public ?int $paymentFilter = null;
 
     public $dateInput = '';
     public $dateOutput = '';
@@ -45,6 +48,8 @@ class FinanceTable extends Component
     public bool $currentWeek = false;
     public bool $today = false;
     public bool $history = false;
+
+    public bool $invoice = false;
 
     public $records_sum;
 
@@ -59,6 +64,8 @@ class FinanceTable extends Component
 
     public function filter($type_finance)
     {
+        $this->resetPage();
+
         if($type_finance === 'incomes'){
             $this->expenses = false;
             $this->incomes = ! $this->incomes;
@@ -133,16 +140,23 @@ class FinanceTable extends Component
         }
 
         if ($this->incomes === TRUE) {
-            $this->applySum($query);
+            $this->applyPaymentFilter($query);
             $this->applySearchFilter($query);
+            $this->applyInvoiceFilter($query);
+            $this->applySum($query);
             return $query->onlyIncomes();
         }
 
         if ($this->expenses === TRUE) {
-            $this->applySum($query);
+            $this->applyPaymentFilter($query);
             $this->applySearchFilter($query);
+            $this->applyInvoiceFilter($query);
+            $this->applySum($query);
             return $query->onlyExpenses();
         }
+
+        $this->applyPaymentFilter($query);
+        $this->applyInvoiceFilter($query);
 
         $this->applySearchFilter($query);
 
@@ -173,10 +187,39 @@ class FinanceTable extends Component
         return null;
     }
 
+    public function filterPayment(int $paymentMethod)
+    {
+        if(!$this->paymentFilter)
+            $this->paymentFilter = $paymentMethod;
+        else
+            $this->paymentFilter = null;
+    }
+
+    private function applyPaymentFilter($finances)
+    {
+        if ($this->paymentFilter) {
+            $filter = $this->paymentFilter;
+            $finances->whereHas('payment', function ($query) use ($filter) {
+                $query->where('payment_method_id', $filter);
+            });
+        }
+
+        return null;
+    }
+
+    private function applyInvoiceFilter($finances)
+    {
+        if ($this->invoice) {
+            $finances->where('is_bill', true);
+        }
+
+        return null;
+    }
+
     public function getRowsProperty()
     {
         return $this->cache(function () {
-            return $this->rowsQuery->paginate($this->perPage);
+            return $this->rowsQuery->paginate(($this->perPage > $this->limitPerPage) ? $this->clear() : $this->perPage);
         });
     }
 
@@ -226,6 +269,19 @@ class FinanceTable extends Component
         }
     }
 
+    public function isInvoice()
+    {
+        $this->resetPage();
+
+        if($this->invoice){
+            $this->invoice = FALSE;
+        }
+        else{
+            $this->invoice = TRUE;
+        }
+    }
+
+
     public function isToday()
     {
         $this->resetPage();
@@ -260,6 +316,7 @@ class FinanceTable extends Component
 
     public function clearAll()
     {
+        $this->paymentFilter = null;
         $this->clearFilterDate();
         $this->searchTerm = '';
         $this->history = FALSE;
@@ -269,6 +326,7 @@ class FinanceTable extends Component
         $this->selectAll = false;
         $this->selectPage = false;
         $this->selected = [];
+        $this->invoice = FALSE;
     }
 
     public function clear()
@@ -286,15 +344,15 @@ class FinanceTable extends Component
         $this->today = FALSE;
     }
 
-    public function updatedSearchTerm()
+    public function updatedDateOutput()
     {
         $this->resetPage();
     }
 
-    // public function hydratesortField()
-    // {
-    //     $this->resetPage();
-    // }
+    public function updatedSearchTerm()
+    {
+        $this->resetPage();
+    }
 
     public function updatedPerPage()
     {

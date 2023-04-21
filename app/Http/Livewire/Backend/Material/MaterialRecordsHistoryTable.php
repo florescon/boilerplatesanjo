@@ -143,6 +143,11 @@ class MaterialRecordsHistoryTable extends Component
         $this->resetPage();
     }
 
+    public function updatedDateOutput()
+    {
+        $this->resetPage();
+    }
+
     public function getRowsProperty()
     {
         return $this->cache(function () {

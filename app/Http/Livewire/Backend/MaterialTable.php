@@ -45,7 +45,6 @@ class MaterialTable extends TableComponent
     protected $queryString = [
         'search' => ['except' => ''], 
         'editStock' => ['except'=> false],
-        'perPage',
     ];
 
     protected $listeners = ['postAdded' => 'updateEditStock', 'postMass' => 'updateMassAssignment', 'saveMassVendor', 'delete', 'restore', 'triggerRefresh' => '$refresh'];

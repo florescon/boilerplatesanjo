@@ -221,6 +221,11 @@ class TicketTable extends Component
         $this->today = FALSE;
     }
 
+    public function updatedDateOutput()
+    {
+        $this->resetPage();
+    }
+
     public function updatedDeleted()
     {
         $this->resetPage();

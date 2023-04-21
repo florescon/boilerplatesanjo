@@ -27,6 +27,8 @@ class OrderStoreTable extends Component
 
     public $perPage = '12';
 
+    public $limitPerPage = '50';
+
     public $sortField = 'id';
     public $sortAsc = false;
 
@@ -51,7 +53,7 @@ class OrderStoreTable extends Component
 
     public function getRowsQueryProperty()
     {
-        $query = Order::query()->with('user', 'orders_payments', 'orders_delivery', 'last_order_delivery', 'product_order', 'product_sale', 'product_suborder', 'last_status_order.status')
+        $query = Order::query()->with('user.customer', 'orders_payments', 'orders_delivery', 'last_order_delivery', 'product_quotation', 'product_output', 'product_order', 'product_sale',  'product_request', 'product_suborder', 'last_status_order.status')
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?
                 $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', now()]) :
@@ -62,7 +64,7 @@ class OrderStoreTable extends Component
             // })
 
             ->when($this->statusOrderDelivery, function ($query) {
-
+        
                 $statusOrderDelivery = $this->statusOrderDelivery;
                 $query->whereHas('last_order_delivery', function($queryStatusOrder) use ($statusOrderDelivery){
                     $queryStatusOrder->where('type', $statusOrderDelivery);
@@ -137,10 +139,13 @@ class OrderStoreTable extends Component
 
     public function selectedStatusOrderDeliveryItem(?int $item)
     {
-        if ($item)
+        if ($item){
+            $this->resetPage();
             $this->statusOrderDelivery = $item;
-        else
+        }
+        else{
             $this->statusOrderDelivery = null;
+        }
     }
 
     private function applySearchDeletedFilter($orders)
@@ -148,7 +153,6 @@ class OrderStoreTable extends Component
         if ($this->searchTerm) {
             return $orders->whereRaw("id LIKE \"%$this->searchTerm%\"")
                         ->orWhereRaw("slug LIKE \"%$this->searchTerm%\"");
-
         }
 
         return null;
@@ -157,12 +161,13 @@ class OrderStoreTable extends Component
     public function getRowsProperty()
     {
         return $this->cache(function () {
-            return $this->rowsQuery->paginate($this->perPage);
+            return $this->rowsQuery->paginate(($this->perPage > $this->limitPerPage) ? $this->clear() : $this->perPage);
         });
     }
 
     public function clearFilterStatusOrderDelivery()
     {
+        $this->resetPage();
         $this->statusOrderDelivery = null;
     }
 
@@ -176,7 +181,7 @@ class OrderStoreTable extends Component
     {
         $this->searchTerm = '';
         $this->resetPage();
-        $this->perPage = '10';
+        $this->perPage = '12';
     }
 
     public function clearAll()
@@ -185,7 +190,7 @@ class OrderStoreTable extends Component
         $this->dateOutput = '';
         $this->searchTerm = '';
         $this->resetPage();
-        $this->perPage = '10';
+        $this->perPage = '12';
     }
 
     public function updatedPerPage()
@@ -194,6 +199,11 @@ class OrderStoreTable extends Component
     }
 
     public function updatedDateInput()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedDateOutput()
     {
         $this->resetPage();
     }

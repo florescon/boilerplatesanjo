@@ -25,6 +25,8 @@ class OrderTable extends Component
 
     public $perPage = '5';
 
+    public $limitPerPage = '100';
+
     public $sortField = 'id';
     public $sortAsc = false;
 
@@ -59,6 +61,7 @@ class OrderTable extends Component
                 $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59']);
             })
             ->when($this->statusOrder, function ($query) {
+
                 $statusOrder = $this->statusOrder;
                 $query->whereHas('last_status_order.status', function($queryStatusOrder) use ($statusOrder){
                     $queryStatusOrder->where('id', $statusOrder);
@@ -127,14 +130,18 @@ class OrderTable extends Component
 
     public function selectedStatusOrderItem(?int $item)
     {
-        if ($item)
+        if ($item){
+            $this->resetPage();
             $this->statusOrder = $item;
-        else
+        }
+        else{
             $this->statusOrder = null;
+        }
     }
 
     public function clearFilterStatusOrder()
     {
+        $this->resetPage();
         $this->emit('clear-status-order');
     }
 
@@ -152,7 +159,7 @@ class OrderTable extends Component
     public function getRowsProperty()
     {
         return $this->cache(function () {
-            return $this->rowsQuery->paginate($this->perPage);
+            return $this->rowsQuery->paginate(($this->perPage > $this->limitPerPage) ? $this->clear() : $this->perPage);
         });
     }
 
@@ -190,6 +197,11 @@ class OrderTable extends Component
     }
 
     public function updatedDateInput()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedDateOutput()
     {
         $this->resetPage();
     }

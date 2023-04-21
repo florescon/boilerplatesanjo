@@ -27,6 +27,8 @@ class ServiceOrderList extends Component
 
     public $perPage = '10';
 
+    public $limitPerPage = '50';
+
     public $sortField = 'id';
     public $sortAsc = false;
     
@@ -118,7 +120,7 @@ class ServiceOrderList extends Component
     public function getRowsProperty()
     {
         return $this->cache(function () {
-            return $this->rowsQuery->paginate($this->perPage);
+            return $this->rowsQuery->paginate(($this->perPage > $this->limitPerPage) ? $this->clear() : $this->perPage);
         });
     }
 
@@ -237,6 +239,11 @@ class ServiceOrderList extends Component
         $this->currentMonth = FALSE;
         $this->currentWeek = FALSE;
         $this->today = FALSE;
+    }
+
+    public function updatedDateOutput()
+    {
+        $this->resetPage();
     }
 
     public function updatedDeleted()

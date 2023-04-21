@@ -27,6 +27,8 @@ class ServiceTable extends Component
 
     public $perPage = '12';
 
+    public $limitPerPage = '100';
+
     public $name, $price, $code, $is_active;
 
     public $created, $updated, $deleted, $selected_id;
@@ -54,7 +56,7 @@ class ServiceTable extends Component
     public function getRowsProperty()
     {
         return $this->cache(function () {
-            return $this->rowsQuery->paginate($this->perPage);
+            return $this->rowsQuery->paginate(($this->perPage > $this->limitPerPage) ? $this->clear() : $this->perPage);
         });
     }
 

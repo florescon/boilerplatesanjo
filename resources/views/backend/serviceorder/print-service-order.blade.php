@@ -65,7 +65,7 @@
                 </pre>
                 <pre>
                     <strong>@lang('Order'):</strong> #{{ $order->id }}
-                    <strong>@lang('Service'): </strong> <u style="display:inline">{{ optional($service->service_type)->name }}</u>
+                    <strong>@lang('Service'): </strong> <u>{{ optional($service->service_type)->name }}</u>
                     <strong>@lang('Created by'): </strong> {{ optional($service->createdby)->name }}
                 </pre>
             </td>
@@ -146,7 +146,7 @@
                     </pre>
                     <pre>
                         <strong>@lang('Order'):</strong> #{{ $order->id }}
-                        <strong>@lang('Service'): </strong> {{ optional($service->service_type)->name }}
+                        <strong>@lang('Service'): </strong> <u>{{ optional($service->service_type)->name }}</u>
                         <strong>@lang('Created by'): </strong> {{ optional($service->createdby)->name }}
                     </pre>
                 </td>
