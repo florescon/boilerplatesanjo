@@ -72,13 +72,15 @@
 			  </textarea>
 			</div>
 
-			<div class="input-group mb-3">
-			  <div class="input-group-prepend">
-			    <span class="input-group-text" id="basic-addon1">@lang('Request n.º')</span>
-			  </div>
-			  <textarea class="form-control text-center" wire:model.lazy="request" aria-label="request" aria-describedby="basic-addon1" rows="3">
-			  </textarea>
-			</div>
+			@if($branchId === 0)
+				<div class="input-group mb-3">
+				  <div class="input-group-prepend">
+				    <span class="input-group-text" id="basic-addon1">@lang('Request n.º')</span>
+				  </div>
+				  <textarea class="form-control text-center" wire:model.lazy="request" aria-label="request" aria-describedby="basic-addon1" rows="3">
+				  </textarea>
+				</div>
+			@endif
 		@endif
 
 		@if($customer && $countProducts)

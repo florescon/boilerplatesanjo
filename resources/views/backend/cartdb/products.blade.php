@@ -80,9 +80,9 @@
 
 					    @endif
 
-					      <td>
-	                    	<livewire:backend.cartdb.quantity-update :item="$product" :key="now()->timestamp.$product->id" :typeCart="$type" />
-					      </td>
+				      	<td wire:ignore>
+                    		<livewire:backend.cartdb.quantity-update :item="$product" :key="now()->timestamp.$product->id" :typeCart="$type" />
+				      	</td>
 
 				      	@if($type != 'output_products')
 					      <td>
@@ -108,7 +108,7 @@
 					  	<i class="cil-arrow-thick-left"></i>
 						<i class="cil-arrow-thick-left"></i>
 					  </th>
-				      <th class="text-left" colspan="{{ $type != 'output_products' ? '2' : '5' }}">
+				      <th class="text-left" colspan="{{ $type != 'output_products' ? '5' : '2' }}">
                     	<livewire:backend.edit-inline :cart="$product" :key="$product->id"/>
 				      </th>
 				    </tr>

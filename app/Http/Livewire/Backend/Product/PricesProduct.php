@@ -36,10 +36,10 @@ class PricesProduct extends Component
 
     protected $rules = [
         'price' => 'required|numeric|min:1',
-        'productModel.*.price' => 'nullable|not_in:0|regex:/^\d{1,13}(\.\d{1,4})?$/',
-        'productModel.*.average_wholesale_price' => 'nullable|not_in:0|regex:/^\d{1,13}(\.\d{1,4})?$/',
-        'productModel.*.wholesale_price' => 'nullable|not_in:0|regex:/^\d{1,13}(\.\d{1,4})?$/',
-        'productModel.*.special_price' => 'nullable|not_in:0|regex:/^\d{1,13}(\.\d{1,4})?$/',
+        'productModel.*.price' => 'nullable|not_in:0',
+        'productModel.*.average_wholesale_price' => 'nullable|not_in:0',
+        'productModel.*.wholesale_price' => 'nullable|not_in:0',
+        'productModel.*.special_price' => 'nullable|not_in:0',
     ];
 
     protected $messages = [
@@ -75,10 +75,10 @@ class PricesProduct extends Component
     public function save()
     {
         $this->validate([
-            'productModel.*.price' => 'nullable|not_in:0|regex:/^\d{1,13}(\.\d{1,4})?$/',
-            'productModel.*.average_wholesale_price' => 'nullable|not_in:0|regex:/^\d{1,13}(\.\d{1,4})?$/',
-            'productModel.*.wholesale_price' => 'nullable|not_in:0|regex:/^\d{1,13}(\.\d{1,4})?$/',
-            'productModel.*.special_price' => 'nullable|not_in:0|regex:/^\d{1,13}(\.\d{1,4})?$/',
+            'productModel.*.price' => 'nullable|not_in:0',
+            'productModel.*.average_wholesale_price' => 'nullable|not_in:0',
+            'productModel.*.wholesale_price' => 'nullable|not_in:0',
+            'productModel.*.special_price' => 'nullable|not_in:0',
         ]);
 
         foreach ($this->productModel as $subprod) {
@@ -140,7 +140,7 @@ class PricesProduct extends Component
     public function saveAverageWholesaleList()
     {
         $this->validate([
-            'productModel.*.average_wholesale_price' => 'nullable|regex:/^\d{1,13}(\.\d{1,4})?$/',
+            'productModel.*.average_wholesale_price' => 'nullable',
         ]);
 
         foreach ($this->productModel as $subprod) {
@@ -165,7 +165,7 @@ class PricesProduct extends Component
     public function saveWholesaleList()
     {
         $this->validate([
-            'productModel.*.wholesale_price' => 'nullable|regex:/^\d{1,13}(\.\d{1,4})?$/',
+            'productModel.*.wholesale_price' => 'nullable',
         ]);
 
         foreach ($this->productModel as $subprod) {

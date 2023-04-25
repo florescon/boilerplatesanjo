@@ -162,7 +162,7 @@
                     <button type="button" class="btn {{ $today ? 'btn-primary' : 'btn-secondary' }}" wire:click="isToday">@lang('Today')</button>
                   </div>
 
-                  <button type="button" class="btn {{ $invoice ? 'btn-primary' : 'btn-secondary' }}" wire:click="isInvoice"><img src="{{ asset('/img/invoice.png')}}" width="20" alt="Inv."></button>
+                  <button type="button" class="btn {{ $invoice ? 'btn-primary' : 'btn-secondary' }}" wire:click="isInvoice"><img src="{{ $invoice ? asset('/img/invoice-white.png') : asset('/img/invoice.png')}}" width="20" alt="Inv."></button>
 
                   <button type="button" class="m-1 btn {{ $history ? 'btn-warning text-white' : 'btn-secondary' }}" wire:click="isHistory">@lang('History')</button>
                 </div>

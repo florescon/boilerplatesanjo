@@ -18,7 +18,7 @@
 
     {{-- <link href="{{ asset('css_custom/app/select2.min.css') }}" rel="stylesheet" /> --}}
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/css/select2.min.css" rel="stylesheet" />
+    <link href="{{ asset('css_custom/app/select2-4.0.9.min.css') }}" rel="stylesheet" />
 
     <link rel="stylesheet" href="{{ asset('css_custom/app/select2-bootstrap4.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css_custom/app/trix.css') }}">
@@ -78,7 +78,7 @@
     @stack('middle-scripts')
 
     {{-- <script src="{{ asset('js_custom/app/select2.min.js') }}"></script> --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script>
+    <script src="{{ asset('js_custom/app/select2-4.0.9.min.js') }}"></script>
 
     <script>
         $.fn.select2.defaults.set('language', '@lang('labels.general.language')');

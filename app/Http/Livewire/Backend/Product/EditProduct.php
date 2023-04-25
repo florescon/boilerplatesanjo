@@ -353,7 +353,7 @@ class EditProduct extends Component
     public function savepricemaking()
     {
         $this->validate([
-            'price_making' => 'nullable|not_in:0|regex:/^\d{1,13}(\.\d{1,4})?$/',
+            'price_making' => 'nullable|not_in:0',
         ]);
 
         $product = Product::findOrFail($this->product_id);
@@ -374,7 +374,7 @@ class EditProduct extends Component
     public function savepricemakingextra()
     {
         $this->validate([
-            'price_making_extra' => 'nullable|not_in:0|regex:/^\d{1,13}(\.\d{1,4})?$/',
+            'price_making_extra' => 'nullable|not_in:0',
         ]);
 
         $product = Product::findOrFail($this->product_id);
@@ -395,7 +395,7 @@ class EditProduct extends Component
     public function savecost()
     {
         $this->validate([
-            'cost' => 'nullable|not_in:0|regex:/^\d{1,13}(\.\d{1,4})?$/',
+            'cost' => 'nullable|not_in:0',
         ]);
 
         $product = Product::findOrFail($this->product_id);

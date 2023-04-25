@@ -20,7 +20,6 @@
             {{-- wire:keydown.tab="reset_search" --}}
             wire:keydown.ArrowUp="decrementHighlight"
             wire:keydown.ArrowDown="incrementHighlight"
-            wire:keydown.enter="dropdown"
            />
             <span class="border-input-search"></span>
 

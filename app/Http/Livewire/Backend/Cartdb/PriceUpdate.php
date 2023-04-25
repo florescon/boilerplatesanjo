@@ -14,7 +14,7 @@ class PriceUpdate extends Component
     public $setModel;
 
     protected $rules = [
-        'price' => 'min:1|digits_between:1,12|not_in:0|regex:/^\d{1,13}(\.\d{1,4})?$/',
+        'price' => 'min:1|digits_between:1,12|not_in:0',
     ];
 
     public function mount($item, string $typeCart, ?string $setModel = 'carts')

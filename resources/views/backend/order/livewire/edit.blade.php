@@ -125,6 +125,7 @@
                       @error('comment') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
                   </div>
+                  @if($model->branch_id === 0)
                   <div class="row mt-3">
                     <div class="col-12 col-lg-12">
                       @if($model->isQuotation())
@@ -137,6 +138,7 @@
                       @endif
                     </div>
                   </div>
+                  @endif
                 </div>
               </div>
 
@@ -699,7 +701,7 @@
                       @endif
 
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" wire:ignore>
                       <livewire:backend.cartdb.quantity-update :item="$product" :key="now()->timestamp.$product->id" :typeCart="$product->type" :setModel="'product_order'"/>
                     </td>
                     <td class="text-center">

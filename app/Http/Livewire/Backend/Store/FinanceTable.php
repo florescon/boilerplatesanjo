@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Exports\FinancesExport;
 use Illuminate\Database\Eloquent\Builder;
 use Excel;
+use DB;
 
 class FinanceTable extends Component
 {
@@ -281,7 +282,6 @@ class FinanceTable extends Component
         }
     }
 
-
     public function isToday()
     {
         $this->resetPage();
@@ -402,6 +402,13 @@ class FinanceTable extends Component
         $date = Carbon::now()->startOfMonth();
 
         $querySum = $this->records_sum;
+        // $finances = DB::table('finances')->get();
+
+        // foreach($finances as $finance){
+        //     DB::table('finances')->where('id', $finance->id)->update([
+        //             'updated_at' => Carbon::parse($finance->updated_at)->subMonth()
+        //         ]);
+        // }
 
         return view('backend.store.livewire.finance-table', [
             'finances' => $this->rows,
