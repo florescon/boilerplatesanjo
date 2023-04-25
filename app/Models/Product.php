@@ -216,7 +216,7 @@ class Product extends Model
         }
         else{
             if(!$this->isProduct()){
-                return $this->name." <span class='badge badge-info' style='color: white; background-color: #85144b;'>".__('Service').'</span>';
+                return $this->name." <span class='badge badge-info' style='color: white; background-color: #85144b;'>&nbsp;".__('Service') .'&nbsp;</span>';
             }
             else{
                 return $this->name." <span class='badge badge-primary'>".__('Main').'</span>';

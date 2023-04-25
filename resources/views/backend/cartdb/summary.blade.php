@@ -85,7 +85,7 @@
 
 		@if($customer && $countProducts)
 			<div class="text-center mt-5">
-			    <a href="#" wire:click="checkout" class="btn btn-success" onkeydown="return event.key != 'Enter';"> @lang('Checkout') {{ __(ucfirst($type)) }}</a>
+			    <a href="#" wire:click="checkout" onclick="confirm('¿Verificó cantidades y totales?') || event.stopImmediatePropagation()" class="btn btn-success" onkeydown="return event.key != 'Enter';"> @lang('Checkout') {{ __(ucfirst($type)) }}</a>
 			</div>
 		@endif
 

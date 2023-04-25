@@ -738,7 +738,7 @@
             </div>
             <div class="card border-0">
               <div class="card-body text-center">
-                <a href="#" class="btn btn-primary" wire:click="processQuotation(true)">Procesar a {{ $from_store ? __('Request') : __('Order') }}</a>
+                <a href="#" class="btn btn-primary" wire:click="processQuotation(true)" onclick="confirm('¿Seguro que desea procesar?') || event.stopImmediatePropagation()">Procesar a {{ $from_store ? __('Request') : __('Order') }}</a>
               </div>
             </div>
             @endif
