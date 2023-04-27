@@ -461,11 +461,11 @@
                           </tr>
                         @endforeach
                       @else
-                          <tr class="table-danger text-center font-italic">
-                              <td colspan="4">
-                                <p>Sin materia prima definida, aun</p>
-                              </td>
-                            </tr>
+                        <tr class="table-danger text-center font-italic">
+                            <td colspan="4">
+                              <p>Sin materia prima definida, aún.</p>
+                            </td>
+                        </tr>
                       @endif
                     @endif
 
@@ -845,7 +845,7 @@
   </x-slot>
 
   <x-slot name="footer">
-    @if(($model->type != '7') && !$model->cash_id)
+    @if(($model->type != '7'))
       <x-utils.delete-button :text="__('Delete').' '.$model->type_order_clear" :href="route('admin.order.destroy', $order_id)" />
     @endif
     <footer class="blockquote-footer float-right">

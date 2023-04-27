@@ -141,4 +141,12 @@
       });
     </script>
 
+    <script>
+        Livewire.on('clear-family', clear => {
+            jQuery(document).ready(function () {
+                $("#familyselect").val('').trigger('change')
+            });
+        })
+    </script>
+
 @endpush

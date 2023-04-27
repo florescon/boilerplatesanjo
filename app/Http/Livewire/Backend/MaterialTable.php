@@ -40,6 +40,8 @@ class MaterialTable extends TableComponent
 
     public $selected = [];
 
+    public $family_id;
+
     public $clearSearchButton = true;
     
     protected $queryString = [
@@ -82,20 +84,9 @@ class MaterialTable extends TableComponent
         $this->massAssginment = !$this->massAssginment;
     }
 
-    public function saveMassVendor(int $vendor)
+    public function saveMassVendor($vendor)
     {
-        foreach($this->selected as $key => $select){
-            DB::table('materials')->where('id', $select)->update(['family_id' => $vendor, 'updated_at' => now()]);
-        }
-
-        $family = Family::find($vendor);
-
-        $this->emit('swal:alert', [
-           'icon' => 'success',
-            'title'   => __('Updated at').' - '.$family->name, 
-        ]);
-
-        $this->selected = [];
+        $this->family_id = $vendor;
     }
 
     /**
@@ -104,6 +95,13 @@ class MaterialTable extends TableComponent
     public function query(): Builder
     {
         $query = Material::query()->with('color', 'size', 'unit', 'vendor', 'family');
+
+        if($this->family_id){
+            $family_id = $this->family_id;
+            $query->whereHas('family', function($queryFamily) use ($family_id){
+                $queryFamily->where('family_id', $family_id);
+            });
+        }
 
         if ($this->status === 'deleted') {
             return $query->onlyTrashed();

@@ -4,7 +4,7 @@
 
       <div class="row justify-content-center">
         <div class="col-lg-11 col-xl-12">
-          <ul class="nav nav-tabs nav-fill mt-1" role="tablist">
+          <ul class="nav nav-tabs nav-fill mt-1 no-print" role="tablist">
             <li class="nav-item">
               <a class="nav-link {{ $status == 'all' ? 'active' : '' }}" href="{{ route('admin.order.all') }}" role="tab">@lang('all')</a>
             </li>
@@ -37,13 +37,13 @@
 				    </div>
 			    @endif
 
-				  <div class="page-header-subtitle mt-4 mb-2">
+				  <div class="page-header-subtitle mt-4 mb-2 no-print">
 				  	<em>
 				  		@lang('Filter by updated date range')
 				  	</em>
 				  </div>
 
-				  <div class="row input-daterange mb-3">
+				  <div class="row input-daterange mb-3 no-print">
 			      <div class="col-md-3 mb-2">
 			        <x-input.date wire:model="dateInput" id="dateInput" borderClass="{{ $title['color'] }}" placeholder="{{ __('From') }}"/>
 			      </div>
@@ -64,7 +64,7 @@
 
           <div class="tab-content">
             <div class="tab-pane fade show active" id="teams" role="tabpanel" data-filter-list="content-list-body">
-              <div class="row content-list-head">
+              <div class="row content-list-head no-print">
                 <div class="col-auto">
 							    <div class="col form-inline">
 							      @lang('Per page'): &nbsp;
@@ -92,7 +92,7 @@
                 </div>
               </div>
 
-              <div class="row content-list-head">
+              <div class="row content-list-head no-print">
                 <div class="col-auto">
                 </div>
                 <form class="col-lg-auto">
@@ -130,6 +130,12 @@
 		                          <div class="card-title">
 		                            <a target="_blank" href="{{ route('admin.order.edit', $order->id) }}" style="text-decoration: none !important"><h6 data-filter-by="text"><strong>#{{ $order->id }}</strong> {!! $order->user_name !!} {!! Str::limit($order->info_customer, 100) ?? '' !!} </h6></a>
 		                            <span class="text-small">{!! Str::limit($order->comment, 100) ?? '<span class="badge badge-secondary">'.__('undefined').'</span>' !!}</span>
+		                            @if(!$order->isSuborder())
+			                            <strong>Totales:</strong>
+			                            <span class="badge badge-primary">
+																		{{ $order->total_products_by_all }}
+									                </span>
+									              @endif
 		                            <span class="badge badge-dot">
 								                  {!! $order->date_diff_for_humans_created !!}
 								                </span>

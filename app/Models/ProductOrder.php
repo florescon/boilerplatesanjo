@@ -34,6 +34,14 @@ class ProductOrder extends Model
     }
 
     /**
+     * @return mixed
+     */
+    public function order()
+    {
+        return $this->belongsTo(Order::class, 'order_id')->withTrashed();
+    }
+
+    /**
      * @return bool
      */
     public function isOrder()

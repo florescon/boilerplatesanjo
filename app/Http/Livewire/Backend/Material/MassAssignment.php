@@ -14,6 +14,14 @@ class MassAssignment extends Component
 
     public function getVendor($id){
         $this->family_id = $id;
+        $this->emit('saveMassVendor', $this->family_id);
+    }
+
+    public function clear()
+    {
+        $this->family_id = null;
+        $this->emit('saveMassVendor', null);
+        $this->emit('clear-family');
     }
 
     public function render()

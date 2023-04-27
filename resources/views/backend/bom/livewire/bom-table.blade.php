@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-8">
+  <div class="col-md-8 no-print">
     <div class="chat-module-top">
       <form>
         <div class="input-group input-group-round mb-4">
@@ -96,19 +96,18 @@
           </div>
 
           <div class=" align-items-center mt-3">
-  
             @if($orderCollection)
               @lang('Orders'):
               @foreach($orderCollection as $order)
                 <span class="badge badge-warning ml-1 mr-1 mt-1" style="font-size: 1rem;">#{{ $order['id'] ?? '' }}</span>
               @endforeach
             @else
-              <p>@lang('Nothing selected')</p>
+              <p>@lang('Nothing processed')</p>
             @endif
           </div>
 
           @if($orderCollection)
-          <ul class="nav nav-tabs nav-justified" role="tablist">
+          <ul class="nav nav-tabs nav-justified no-print" role="tablist">
             <li class="nav-item">
               <a class="nav-link {{ $tab == 'members' ? 'active' : '' }}" wire:click="$set('tab', 'members')"  id="members-tab" data-toggle="tab" href="#members" role="tab" aria-controls="members" aria-selected="true">@lang('Feedstocks')</a>
             </li>
@@ -125,7 +124,7 @@
         <div class="chat-team-sidebar-bottom">
           <div class="tab-content">
             <div class="tab-pane fade show {{ $tab == 'members' ? 'show active' : '' }}" id="members" role="tabpanel" data-filter-list="list-group">
-              <form class="px-3 mb-3">
+              <form class="px-3 mb-3 no-print">
                 <div class="input-group input-group-round">
                   <div class="input-group-prepend">
                     <span class="input-group-text">
@@ -178,18 +177,44 @@
                   <input type="search" wire:model.debounce.350ms="searchProduct" class="form-control filter-list-input" placeholder="@lang('Filter product')" aria-label="Filter product">
                 </div>
               </form> --}}
+
+              <div class="px-3 mb-3 no-print">
+
+                <div class="card text-center">
+                  <div class="card-body">
+                    <h5 class="card-title">@lang('Export products')</h5>
+
+                    <div class="btn-group m-2" role="group">
+                      <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @lang('Detailed')
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                        <a class="dropdown-item" wire:click="exportProductsCustom('xlsx', 'detailed')" href="#">Excel</a>
+                        <a class="dropdown-item" wire:click="exportProductsCustom('csv', 'detailed')" href="#">CSV</a>
+                        <a class="dropdown-item" wire:click="exportProductsCustom('html', 'detailed')" href="#">HTML</a>
+                      </div>
+                    </div>
+
+                    <a href="javascript:window.print()" type="button" class="btn btn-primary">@lang('Grouped') - @lang('Direct') <i class="cil-print"></i> </a>
+
+
+                  </div>
+                </div>
+
+              </div>
+
               <div class="list-group list-group-flush">
 
-                @if($productsCollection)
+                @if($productsCollectionGrouped)
 
-                  @foreach($productsCollection as $product)
+                  @foreach($productsCollectionGrouped as $product)
 
                     @foreach($product as $key => $p)
 
                     @php
                       $sum = 0;
                     @endphp
-  
+
                       @foreach($p as $pp)
                           @php($sum += $pp['productQuantity'])
                       @endforeach
@@ -203,6 +228,8 @@
                           {!! '&nbsp;<strong>'.$sum.'</strong>' !!}
                         </div>
                       </a>
+  
+                    {{-- @json($p) --}}
 
                     @endforeach
                   @endforeach
@@ -214,6 +241,36 @@
             <div class="tab-pane fade {{ $tab == 'files' ? 'show active' : '' }}" id="files" role="tabpanel" data-filter-list="dropzone-previews">
 
               <ul class="list-group list-group-activity dropzone-previews flex-column-reverse list-group-flush" style="margin-bottom: 100px;">
+
+                <li class="list-group-item ">
+                  <div class="media align-items-center">
+                    <ul class="avatars">
+                      <li>
+                        <div class="avatar bg-primary">
+                          <i class="cil-file"></i>
+                        </div>
+                      </li>
+                    </ul>
+                    <div class="media-body d-flex justify-content-between align-items-center">
+                      <div>
+                        <a href="#" wire:click="exportMaatwebsiteCustom('xlsx', 'family')" data-filter-by="text">Exportar por familia</a>
+                        <br>
+                        <span class="text-small" data-filter-by="text">Excel</span>
+                      </div>
+                      <div class="dropdown">
+                        <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="cil-list-rich"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right ">
+                          <a class="dropdown-item" href="#" wire:click="exportMaatwebsiteCustom('xlsx', 'family')">Excel</a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="#" wire:click="exportMaatwebsiteCustom('csv', 'family')">CSV</a>
+                          <a class="dropdown-item" href="#" wire:click="exportMaatwebsiteCustom('html', 'family')">HTML</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
 
                 <li class="list-group-item ">
                   <div class="media align-items-center">

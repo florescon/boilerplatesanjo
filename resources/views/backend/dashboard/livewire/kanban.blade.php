@@ -1,4 +1,5 @@
-<div class="container-kanban">
+<div class="container-kanban" wire:poll.keep-alive.600s>
+  @lang('Last Updated'): {{ now()->format('g:i a') }}
   <div class="container-fluid page-header d-flex justify-content-between align-items-start">
       <div>
         <h1>@lang('Production')</h1>
