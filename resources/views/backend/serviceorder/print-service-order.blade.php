@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>@lang('Service Order') #{{ $order->id }}</title>
+    <title>@lang('Service Order') #{{ $service->id }} {{ optional($service->order)->user_name }}</title>
 
     <style type="text/css">
         * {
@@ -57,7 +57,10 @@
                 <img style="max-height: 250px !important; max-width: 500px; " src="{{ public_path('/storage/' . $service->image->image) }}" alt="Card image cap">
             </td>
             <td align="right" style=" max-width: 260px; max-height: 200px; ">
-                <div><img height="50" src="{{ public_path('img/logo22.png') }}"/></div>
+                <div>
+                <img style="  position: absolute; margin-top: 0px; margin-right: 10px;" src="data:image/png;base64, {{ base64_encode(\QrCode::format('svg')->size(100)->generate('https://sjuniformes.com')) }} "/>
+                    <img height="50" src="{{ public_path('img/logo22.png') }}"/>
+                </div>
 
                 <h3>@lang('Service Order') #{{ $service->id }}</h3>
                 <pre>
@@ -137,7 +140,10 @@
                     <img style="max-height: 250px !important; max-width: 500px; " src="{{ public_path('/storage/' . $service->image->image) }}" alt="Card image cap">
                 </td>
                 <td align="right" style=" max-width: 260px; max-height: 200px; ">
-                    <div><img height="50" src="{{ public_path('img/logo22.png') }}"/></div>
+                    <div>
+                        <img style="  position: absolute; margin-top: 0px; margin-right: 10px;" src="data:image/png;base64, {{ base64_encode(\QrCode::format('svg')->size(100)->generate('https://sjuniformes.com')) }} "/>
+                        <img height="50" src="{{ public_path('img/logo22.png') }}"/>
+                    </div>
 
                     <h3>@lang('Service Order') #{{ $service->id }}</h3>
                     <pre>

@@ -111,8 +111,8 @@
 						    <div class="col">
                     <div class="card-list">
                       <div class="card-list-head">
-                        <h6>@lang($title['title'])</h6>
-                        <div class="dropdown">
+                        <h6 class="ml-4 mb-4">@lang($title['title']) {{ $nameStatus ?? '' }} {{ ' — '. now()->isoFormat('D, MMM, YY - h:mm a') }}</h6>
+                        <div class="dropdown no-print">
                           <button class="btn-options" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="cil-blur"></i>
                           </button>
@@ -128,23 +128,41 @@
 		                        </div>
 		                        <div class="card-body">
 		                          <div class="card-title">
-		                            <a target="_blank" href="{{ route('admin.order.edit', $order->id) }}" style="text-decoration: none !important"><h6 data-filter-by="text"><strong>#{{ $order->id }}</strong> {!! $order->user_name !!} {!! Str::limit($order->info_customer, 100) ?? '' !!} </h6></a>
-		                            <span class="text-small">{!! Str::limit($order->comment, 100) ?? '<span class="badge badge-secondary">'.__('undefined').'</span>' !!}</span>
+		                            <a target="_blank" href="{{ route('admin.order.edit', $order->id) }}" style="text-decoration: none !important">
+		                            	<h6 data-filter-by="text" style="display: inline;"><strong>#{{ $order->id }}</strong> {!! $order->user_name !!} {!! Str::limit($order->info_customer, 100) ?? '' !!} </h6>
+		                            </a>
+		                            @if($order->comment)
+		                            	<em class="text-small" style="">{!! Str::limit($order->comment, 100) !!}</em>
+		                           	@endif
+
+		                            <span class="badge badge-dot">
+								                  {!! $order->date_for_humans !!}
+								                </span>	
+								                		                           	
+		                            <br>
 		                            @if(!$order->isSuborder())
 			                            <strong>Totales:</strong>
-			                            <span class="badge badge-primary">
 																		{{ $order->total_products_by_all }}
-									                </span>
+									              @else
+			                            <strong>Totales:</strong>
+										              	{{ $order->total_products_suborder }}
 									              @endif
-		                            <span class="badge badge-dot">
-								                  {!! $order->date_diff_for_humans_created !!}
-								                </span>
+									              @if($order->purchase)
+			                            <strong>#O. DE COMPRA:</strong>
+																		{{ $order->purchase }}
+									              @endif
+
+									              @if($order->request)
+			                            <strong>#SOLICITUD:</strong>
+																		{{ $order->request }}
+									              @endif
+
 		                          </div>
 		                          <div class="card-meta">
 		                            <div class="d-flex align-items-center">
 		                              <span>{!! $order->last_status_order_label !!} {!! $order->to_stock_final !!} {!! $order->to_customer ? '<i class="cil-check" style="color: blue;"></i>' : '<i class="cil-minus" style="color:red;"></i>' !!}</span>
 		                            </div>
-		                            <div class="dropdown card-options">
+		                            <div class="dropdown card-options no-print">
 		                              <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		                              	<i class="cil-options"></i>
 		                              </button>
@@ -162,14 +180,14 @@
 
 						        @if($orders->count())
 							        <div class="row">
-							          <div class="col">
+							          <div class="col no-print">
 							            <nav>
 							              {{ $orders->onEachSide(1)->links() }}
 							            </nav>
 							          </div>
-							              <div class="col-sm-3 mb-2 text-muted text-right">
-							                Mostrando {{ $orders->firstItem() }} - {{ $orders->lastItem() }} de {{ $orders->total() }} resultados
-							              </div>
+					              <div class="col-sm-3 mb-2 text-muted text-right">
+					                Mostrando {{ $orders->firstItem() }} - {{ $orders->lastItem() }} de {{ $orders->total() }} resultados
+					              </div>
 							        </div>
 						        @else
 						          @lang('No search results') 

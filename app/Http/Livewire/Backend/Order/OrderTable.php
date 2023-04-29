@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Livewire\Backend\DataTable\WithBulkActions;
 use App\Http\Livewire\Backend\DataTable\WithCachedRows;
 use Carbon\Carbon;
+use App\Models\Status;
 
 class OrderTable extends Component
 {
@@ -36,6 +37,7 @@ class OrderTable extends Component
     public $dateInput = '';
     public $dateOutput = '';
 
+    public $nameStatus;
     public ?int $statusOrder = null;
 
     protected $listeners = ['selectedStatusOrderItem'];
@@ -53,7 +55,7 @@ class OrderTable extends Component
 
     public function getRowsQueryProperty()
     {
-        $query = Order::query()->with('user', 'last_status_order.status')
+        $query = Order::query()->with('user', 'products', 'last_status_order.status')
             // ->onlyAssignment(6)
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?
@@ -61,6 +63,10 @@ class OrderTable extends Component
                 $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59']);
             })
             ->when($this->statusOrder, function ($query) {
+
+                $status = Status::findOrFail($this->statusOrder);
+
+                $this->nameStatus = $status->name ? '— '.$status->name : '';
 
                 $statusOrder = $this->statusOrder;
                 $query->whereHas('last_status_order.status', function($queryStatusOrder) use ($statusOrder){
@@ -122,6 +128,8 @@ class OrderTable extends Component
             })
             ->orWhere('id', 'like', '%' . $this->searchTerm . '%')
             ->orWhere('info_customer', 'like', '%' . $this->searchTerm . '%')
+            ->orWhere('request', 'like', '%' . $this->searchTerm . '%')
+            ->orWhere('purchase', 'like', '%' . $this->searchTerm . '%')
             ->orWhere('comment', 'like', '%' . $this->searchTerm . '%');
         }
 
@@ -141,6 +149,8 @@ class OrderTable extends Component
 
     public function clearFilterStatusOrder()
     {
+        $this->statusOrder = null;
+        $this->nameStatus = null;
         $this->resetPage();
         $this->emit('clear-status-order');
     }

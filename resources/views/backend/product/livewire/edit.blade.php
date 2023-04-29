@@ -6,13 +6,13 @@
     <x-slot name="headerActions">
 
     	@if( $logged_in_user->can('admin.access.product.consumption') || $logged_in_user->hasAllAccess())
-        	<x-utils.link class="card-header-action btn btn-warning text-white" :href="route('admin.product.consumption', $model->id)" :text="__('Go to consumption')" />
+        	<x-utils.link class="card-header-action btn btn-warning text-white no-print" :href="route('admin.product.consumption', $model->id)" :text="__('Go to consumption')" />
        	@endif
 
        	@if(!$nameStock)
-	        <x-utils.link class="card-header-action" :href="url()->previous()" :text="__('Back')" />
+	        <x-utils.link class="card-header-action no-print" :href="url()->previous()" :text="__('Back')" />
 	    @else
-	        <x-utils.link class="card-header-action" :href="url()->previous()" :text="__('Back')" />
+	        <x-utils.link class="card-header-action no-print" :href="url()->previous()" :text="__('Back')" />
 	    @endif
  	</x-slot>
 
@@ -182,7 +182,7 @@
 					    </div>
 			        </p>
 
-			        <p class="card-text">
+			        <p class="card-text no-print">
 
 					    <div x-data="{ show: false }" class="d-inline">
 					        <h5><button class="badge badge-info " @click="show = !show">@lang('Clone product')</button></h5>
@@ -225,7 +225,7 @@
 
 			        {{-- <a href="#" class="btn btn-primary pulsingButton">@lang('Edit')</a> --}}
 			      </div>
-		          <div class="card-body">
+		          <div class="card-body no-print">
 					  <ul class="list-group list-group-flush">
 					    <li class="list-group-item">
 						  <a href="{{ route('admin.product.advanced', $model->id) }}" class="card-link">@lang('Advanced information') {!! $model->status_advanced !!}</a>
@@ -254,7 +254,7 @@
   			<div class="col-12 col-sm-6 col-md-8">
 
 				@if(!$model->children->count())
-					<form wire:submit.prevent="storemultiple">
+					<form wire:submit.prevent="storemultiple" class="no-print">
 
 		                <div class="form-group row" wire:ignore>
 		                    <label for="colorselectmultiple" class="col-sm-2 col-form-label">@lang('Colors')</label>
@@ -280,7 +280,7 @@
 
 		            </form>
                 @else 
-	  				<div class="row">
+	  				<div class="row no-print">
 		  				<div class="col-12">
 		  					<h5> @lang('Colors'): 
 		
@@ -389,7 +389,7 @@
 				@endif
 
 				@if($model->children->count())
-	  				<div class="row mt-2">
+	  				<div class="row mt-2 no-print">
 		  				<div class="col-9">
 
 						<table class="table table-borderless table-responsive">
@@ -777,7 +777,7 @@
     <x-slot name="footer">
         <x-utils.delete-button :text="__('Delete product')" :href="route('admin.product.destroy', $model->id)" />
 
-			<footer class="float-right">
+			<footer class="float-right no-print">
     			@if($model->automatic_code)
 					<a wire:click="desactivateCodesProduct" href="#">@lang('Disable automatic codes')</a> 
 				@endif

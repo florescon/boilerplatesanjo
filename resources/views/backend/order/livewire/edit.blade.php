@@ -348,7 +348,7 @@
           @endif
 
           <div class="card-footer text-muted text-center">
-            @lang('Created'): {{ $model->date_diff_for_humans }}
+            @lang('Created'): {{ $model->date_diff_for_humans }} - {{ __('Captured').': '. optional($model->audi)->name }}
           </div>
         </div>
 

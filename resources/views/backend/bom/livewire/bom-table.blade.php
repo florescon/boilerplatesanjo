@@ -197,7 +197,6 @@
 
                     <a href="javascript:window.print()" type="button" class="btn btn-primary">@lang('Grouped') - @lang('Direct') <i class="cil-print"></i> </a>
 
-
                   </div>
                 </div>
 

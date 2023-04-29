@@ -309,6 +309,14 @@ Route::group([
                         ->push(__('Ticket box'), route('admin.store.box.ticket-cash-out', $box));
                 });
 
+            Route::get('voucher-cash', [CashController::class, 'voucherCash'])
+                ->name('voucher-cash')
+                ->middleware('permission:admin.access.store.list_box')
+                ->breadcrumbs(function (Trail $trail, Cash $box) {
+                    $trail->parent('admin.store.box.ticket', $order)
+                        ->push(__('Ticket box'), route('admin.store.box.voucher-cash', $box));
+                });
+
             Route::get('show', [CashController::class, 'show'])
                 ->name('show')
                 ->middleware('permission:admin.access.store.list_box')

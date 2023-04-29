@@ -112,7 +112,7 @@
                       @php($si = [])
                       <th></th>
                       @foreach($selectedProduct->children->unique('size_id')->sortBy('size.sort') as $children)
-                        <th scope="col">{{ optional($children->size)->name }}</th>
+                        <th scope="col" class="text-center">{{ optional($children->size)->name }}</th>
                         @php($yas = $loop->count)
                       @php($si[] = array('id' => optional($children->size)->id, 'name' => optional($children->size)->name))             
                       @endforeach
@@ -151,14 +151,15 @@
                                 @foreach($si as $sip)
                                   @if($i == $loop->index)
 
-                                <div class="input-group mb-3" style="{{ optional($children->color)->color ? 'border-bottom:  3px solid'.optional($children->color)->color.' !important;' : '' }}">
-                                  <div class="input-group-prepend">
+                                <div class="input-group opacity-placeholder mb-3" style="{{ optional($children->color)->color ? 'border-bottom:  3px solid'.optional($children->color)->color.' !important;' : '' }}">
+
+                                  {{-- <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1">{{ $sip['name'] }}</span>
-                                  </div>
+                                  </div> --}}
 
                                   {{-- <input type="text" class="form-control" placeholder="{{ optional($children->color)->name.' '. optional($children->color)->id }}" aria-label="Username" aria-describedby="basic-addon1"> --}}
 
-                                  <input class="form-control" style="background-image: none; padding-right: inherit; min-width: 18px;" wire:model.defer="inputformat.{{ optional($children->color)->id }}.{{ $sip['id'] }}" wire:keydown.enter="format" type="text" min="1" aria-label="Username" aria-describedby="basic-addon1" >
+                                  <input class="form-control text-center opacity-placeholder" style="background-image: none; min-width: 18px; color:red" wire:model.defer="inputformat.{{ optional($children->color)->id }}.{{ $sip['id'] }}" wire:keydown.enter="format" placeholder="{{ $sip['name'] }}" type="text" min="1" aria-label="Username" aria-describedby="basic-addon1" >
 
                                 </div>
 

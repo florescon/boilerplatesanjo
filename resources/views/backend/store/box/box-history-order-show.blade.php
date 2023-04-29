@@ -51,6 +51,13 @@
 				              </ins>
 				            </a>
 					    </div>
+					    <div class="col-sm">
+				            <a href="{{ route('admin.store.box.voucher-cash', $cash_orders->id) }}" class="card-link text-dark" target="_blank">	<i class="cil-print"></i>
+				              <ins>
+				                @lang('Voucher cash')
+				              </ins>
+				            </a>
+					    </div>
 					  </div>
 				  	</div>
 

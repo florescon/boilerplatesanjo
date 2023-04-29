@@ -20,6 +20,12 @@ class CashController extends Controller
         return $pdf->stream();
     }
 
+    public function voucherCash(Cash $box)
+    {
+        $pdf = PDF::loadView('backend.store.box.voucher-cash', compact('box'))->setPaper([0, 0, 438.98, 296.85], 'landscape');
+        return $pdf->stream();
+    }
+
     public function ticketCash(Cash $box)
     {
         $box->load(['finances' => function ($query) {

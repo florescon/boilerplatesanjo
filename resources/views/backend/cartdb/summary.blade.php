@@ -55,22 +55,7 @@
 		    <livewire:backend.cart.user-cart :clear="true"/>
     		@error('user') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 		@endif
-
-		<div class="input-group mb-3">
-		  <div class="input-group-prepend">
-		    <span class="input-group-text" id="basic-addon1">@lang('Description')</span>
-		  </div>
-		  <textarea class="form-control text-center" wire:model.lazy="description" aria-label="description" aria-describedby="basic-addon1" rows="3">
-		  </textarea>
-		</div>
 		@if($type != 'output_products')
-			<div class="input-group mb-3">
-			  <div class="input-group-prepend">
-			    <span class="input-group-text" id="basic-addon1">@lang('Info customer')</span>
-			  </div>
-			  <textarea class="form-control text-center" wire:model.lazy="info_customer" aria-label="info_customer" aria-describedby="basic-addon1" rows="3">
-			  </textarea>
-			</div>
 
 			@if($branchId === 0)
 				<div class="input-group mb-3">
@@ -80,12 +65,31 @@
 				  <textarea class="form-control text-center" wire:model.lazy="request" aria-label="request" aria-describedby="basic-addon1" rows="3">
 				  </textarea>
 				</div>
+
 			@endif
 		@endif
+
+		<div class="input-group mb-3">
+		  <div class="input-group-prepend">
+		    <span class="input-group-text" id="basic-addon1">@lang('Description')</span>
+		  </div>
+		  <textarea class="form-control text-center" wire:model.lazy="description" aria-label="description" aria-describedby="basic-addon1" rows="3">
+		  </textarea>
+		</div>
 
 		@if($customer && $countProducts)
 			<div class="text-center mt-5">
 			    <a href="#" wire:click="checkout" onclick="confirm('¿Verificó cantidades y totales?') || event.stopImmediatePropagation()" class="btn btn-success" onkeydown="return event.key != 'Enter';"> @lang('Checkout') {{ __(ucfirst($type)) }}</a>
+			</div>
+		@endif
+
+		@if($type != 'output_products')
+			<div class="input-group mb-3">
+			  <div class="input-group-prepend">
+			    <span class="input-group-text" id="basic-addon1">@lang('Info customer')</span>
+			  </div>
+			  <textarea class="form-control text-center" wire:model.lazy="info_customer" aria-label="info_customer" aria-describedby="basic-addon1" rows="3">
+			  </textarea>
 			</div>
 		@endif
 

@@ -54,7 +54,7 @@ class MaterialTable extends TableComponent
     /**
      * @var string
      */
-    public $sortField = 'name';
+    public $sortField = 'family_id';
 
     /**
      * @var array
@@ -167,7 +167,15 @@ class MaterialTable extends TableComponent
                     return $this->html(!empty($model->vendor_id) && isset($model->vendor->id) ? (optional($model->vendor)->short_name ?? optional($model->vendor)->name) : '<span class="badge badge-pill badge-secondary"> <em>Proveedor no definido</em></span>');
                 })
                 ->exportFormat(function(Material $model) {
-                    return (!empty($model->vendor_id) && isset($model->vendor->id)) ? optional($model->vendor)->name : '';
+                    return (!empty($model->vendor_id) && isset($model->vendor->id)) ? (optional($model->vendor)->short_name ?? optional($model->vendor)->name) : '';
+                }),
+            Column::make(__('Family'), 'family.name')
+                ->searchable()
+                ->format(function(Material $model) {
+                    return $this->html(!empty($model->family_id) && isset($model->family->id) ? (optional($model->family)->short_name ?? optional($model->family)->name) : '<span class="badge badge-pill badge-secondary"> <em>Familia no definida</em></span>');
+                })
+                ->exportFormat(function(Material $model) {
+                    return (!empty($model->family_id) && isset($model->family->id)) ? optional($model->family)->name : '';
                 }),
             Column::make(__('Actions'))
                 ->format(function (Material $model) {
