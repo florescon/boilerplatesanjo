@@ -32,6 +32,7 @@ class Order extends Model
         'comment',
         'request',
         'purchase',
+        'invoice',
         'branch_id',
         'type',
     ];

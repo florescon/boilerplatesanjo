@@ -11,10 +11,11 @@ use App\Models\Traits\Scope\ProductScope;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use App\Domains\Auth\Models\User;
+use App\Traits\Search;
 
 class Product extends Model
 {
-    use HasFactory, SoftDeletes, CascadeSoftDeletes, Sluggable, ProductScope;
+    use HasFactory, SoftDeletes, CascadeSoftDeletes, Sluggable, ProductScope, Search;
 
     protected $cascadeDeletes = ['children'];
 

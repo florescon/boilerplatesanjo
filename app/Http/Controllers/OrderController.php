@@ -108,6 +108,12 @@ class OrderController extends Controller
         return view('backend.order.create-suborder');
     }
 
+    public function printexportorders(?string $orders = null)
+    {
+
+        return view('backend.order.print-export-orders-index', ['orders' => $orders]);
+    }
+
     public function print(Order $order, bool $breakdown = false, bool $grouped = false)
     {
         // $selectSub = DB::table('products')->join('products', 'products.id', '=', 'products.parent_id')->whereRaw('product_order.product_id = product.id');

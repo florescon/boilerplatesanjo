@@ -118,7 +118,11 @@ class SearchProducts extends Component
 
                     $quantity = $productos[$size];
 
-                    $product = Product::where('parent_id', $this->selectedProduct->id)->where('size_id', $size)->where('color_id', $color)->first()->withoutRelations();
+                    $product = Product::withTrashed()->where('parent_id', $this->selectedProduct->id)->where('size_id', $size)->where('color_id', $color)->first()->withoutRelations();
+
+                    if($product->trashed()){
+                        $product->restore();
+                    }
 
                     DB::table('carts')->insert([
                         'product_id' => $product->id,

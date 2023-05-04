@@ -112,17 +112,25 @@
                     <div class="card-list">
                       <div class="card-list-head">
                         <h6 class="ml-4 mb-4">@lang($title['title']) {{ $nameStatus ?? '' }} {{ ' — '. now()->isoFormat('D, MMM, YY - h:mm a') }}</h6>
-                        <div class="dropdown no-print">
-                          <button class="btn-options" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="cil-blur"></i>
-                          </button>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#">@lang('Export') (@lang('Inactive'))</a>
-                          </div>
-                        </div>
+                        
+                        @if($selectedtypes)
+	                        <div class="dropdown no-print">
+	                          <button class="btn-options" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	                          	<i class="cil-blur"></i> @lang('Export')
+	                          </button>
+	                          <div class="dropdown-menu dropdown-menu-right">
+	                            <a class="dropdown-item" wire:click="productGrouped" href="#">PDF</a>
+	                          </div>
+	                        </div>
+                        @endif
                       </div>
 						            @foreach($orders as $order)
 		                      <div class="card card-task">
+		                      
+				                    {{-- <div class="form-check">
+				                      <input type="checkbox" value="{{ $order->id }}" wire:model="selectedtypes" class="form-check-input" id="exampleCheck{{ $order->id }}">
+				                    </div> --}}
+
 		                        <div class="progress">
 		                          <div class="progress-bar" role="progressbar" style="width: {{ $order->last_status_order_percentage }}%; background-color: {{ $order->last_status_order_color }};" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 		                        </div>

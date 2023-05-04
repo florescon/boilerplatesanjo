@@ -14,7 +14,7 @@
   </x-slot>
   <x-slot name="body">
 
-    @if($orderExists && $model->materials_order()->doesntExist())
+    @if(($orderExists || $requestExists) && $model->materials_order()->doesntExist())
       <div class="alert alert-warning" role="alert">
         <h4 class="alert-heading">Materia prima aún no consumida</h4>
           Para hacerlo, el estado de producción de orden debe cambiarse a producción o posterior.
@@ -36,7 +36,7 @@
     @endif
 
     <div class="row ">
-      <div class="col-12 col-sm-12 {{ $orderExists ? 'col-md-8' : 'col-md-12' }}">
+      <div class="col-12 col-sm-12 {{ $orderExists || $requestExists ? 'col-md-8' : 'col-md-12' }}">
         <div class="card card-product_not_hover card-flyer-without-hover">
           @if($slug)
             <div class="card-header">
@@ -774,7 +774,7 @@
         </div>
       </div>
 
-      @if($orderExists)
+      @if($orderExists || $requestExists)
       <div class="col-12 col-md-4">
         <div class="row d-flex justify-content-center mt-70 mb-70">
           <div class="col-md-12">

@@ -209,6 +209,9 @@
           <br>
           <h5> @lang('Internal comment'): </h5>
           <livewire:backend.components.edit-field :model="'\App\Models\Order'" :entity="$model" :field="'comment'" :key="'comments'.$model->id"/>
+          <br>
+          <h5> @lang('Invoice'): </h5>
+          <livewire:backend.components.edit-field :model="'\App\Models\Order'" :entity="$model" :field="'invoice'" :key="'invoices'.$model->id"/>
         </div>
       </div>
 

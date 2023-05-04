@@ -77,12 +77,6 @@
 		  </textarea>
 		</div>
 
-		@if($customer && $countProducts)
-			<div class="text-center mt-5">
-			    <a href="#" wire:click="checkout" onclick="confirm('¿Verificó cantidades y totales?') || event.stopImmediatePropagation()" class="btn btn-success" onkeydown="return event.key != 'Enter';"> @lang('Checkout') {{ __(ucfirst($type)) }}</a>
-			</div>
-		@endif
-
 		@if($type != 'output_products')
 			<div class="input-group mb-3">
 			  <div class="input-group-prepend">
@@ -90,6 +84,12 @@
 			  </div>
 			  <textarea class="form-control text-center" wire:model.lazy="info_customer" aria-label="info_customer" aria-describedby="basic-addon1" rows="3">
 			  </textarea>
+			</div>
+		@endif
+
+		@if($customer && $countProducts)
+			<div class="text-center mt-5">
+			    <a href="#" wire:click="checkout" onclick="confirm('¿Verificó cantidades y totales?') || event.stopImmediatePropagation()" class="btn btn-success" onkeydown="return event.key != 'Enter';"> @lang('Checkout') {{ __(ucfirst($type)) }}</a>
 			</div>
 		@endif
 

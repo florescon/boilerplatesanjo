@@ -40,6 +40,8 @@ class OrderTable extends Component
     public $nameStatus;
     public ?int $statusOrder = null;
 
+    public $selectedtypes = [];
+
     protected $listeners = ['selectedStatusOrderItem'];
 
     public function sortBy($field)
@@ -51,6 +53,58 @@ class OrderTable extends Component
         }
 
         $this->sortField = $field;
+    }
+
+    private function getSelectedProducts()
+    {
+        return $this->selectedtypes;
+    }
+
+    public function productGrouped()
+    {
+        $this->validate([
+            'selectedtypes' => 'max:10',
+        ]);
+
+        $ordercollection = collect();
+        $productsCollection = collect();
+
+        foreach($this->getSelectedProducts() as $orderID){
+            $order = Order::with('products.parent', 'products.order.user.customer')->find($orderID);
+
+            $ordercollection->push(
+                $order->id,
+            );
+
+            foreach($order->products as $product_order){
+
+                $productsCollection->push([
+                    'productId' => $product_order->id,
+                    'productParentId' => $product_order->product->parent_id ?? $product_order->product_id,
+                    'productParentName' => $product_order->product->only_name ?? null,
+                    'productParentCode' => $product_order->product->parent_code ?? null,
+                    'productOrder' => $product_order->order_id,
+                    'productName' => $product_order->product->full_name_clear ?? null,
+                    'productColor' => $product_order->product->color_id,
+                    'productColorName' => $product_order->product->color->name ?? '',
+                    'productQuantity' => $product_order->quantity,
+                    'isService' => !$product_order->product->parent_id ? true : false,
+                    'customer' => $product_order->order->user_name ?? null,
+                ]);
+
+            }
+        }
+
+        $this->productsCollection = $productsCollection;
+
+        return redirect()->route('admin.order.printexportorders', urlencode(json_encode($ordercollection)));
+
+        $this->products = $productsCollection->groupBy(['productParentId', function ($item) {
+            return $item['productColor'];
+        }], $preserveKeys = false);
+
+
+        $this->orderCollection = $ordercollection->toArray();
     }
 
     public function getRowsQueryProperty()

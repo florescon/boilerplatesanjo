@@ -37,6 +37,9 @@
             @if($order->purchase)
               <p><b class="cs-primary_color cs-semi_bold">@lang('Purchase order'):</b> <br>{{ $order->purchase ?? '' }}</p>
             @endif
+            @if($order->invoice)
+              <p><b class="cs-primary_color cs-semi_bold">@lang('Invoice'):</b> <br>{{ $order->invoice ?? '' }}</p>
+            @endif
           </div>
           <div class="cs-invoice_right cs-text_right">
             <b class="cs-primary_color">{{ __(appName()) }}</b>

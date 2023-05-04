@@ -56,7 +56,7 @@
                             </tr>
                           </thead>
                           <tbody>
-                            @foreach($model2->product_order as $product)
+                            @foreach($model2->products as $product)
                               <tr>
                                 <td class="text-left">
                                   {{-- {{ $product->id }}  --}}

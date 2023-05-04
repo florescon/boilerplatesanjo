@@ -79,6 +79,14 @@ Route::group([
                 ->push(__('Deleted products'), route('admin.order.deleted'));
         });
 
+    Route::get('printexportorders/{orders?}', [OrderController::class, 'printexportorders'])
+        ->name('printexportorders')
+        ->middleware('permission:admin.access.order.modify')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.order.index')
+                ->push(__('Print orders'), route('admin.order.printexportorders', $orders ?? null));
+        });
+
     Route::group(['prefix' => '{order}'], function () {
         Route::get('edit', [OrderController::class, 'edit'])
             ->name('edit')

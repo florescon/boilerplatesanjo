@@ -104,10 +104,10 @@ class AssignmentsOrder extends Component
     {
         $this->validate();
 
-        $orderModel = Order::with('product_order')->find($this->order_id);
+        $orderModel = Order::with('products')->find($this->order_id);
         // $orderModel->product_order()->where('id', $this->quantityy[0])->first();
 
-        foreach($orderModel->product_order as $bal)
+        foreach($orderModel->products as $bal)
         {
             if(is_array($this->quantityy) && array_key_exists($bal->id, $this->quantityy)){
                 // dd($bal->available_assignments);

@@ -38,17 +38,17 @@
 
               <div class="card-body">
                 <div class="dropdown card-options">
-                  <a class="btn-options" type="button" href="{{ route('admin.order.edit', $quotation->id) }}">
+                  <a class="btn-options" type="button" target="_blank" href="{{ route('admin.order.edit', $quotation->id) }}">
                     {{ $quotation->id }}
                   </a>
                   <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="{{ route('admin.order.edit', $quotation->id) }}">@lang('Edit')</a>
+                    <a class="dropdown-item" target="_blank" href="{{ route('admin.order.edit', $quotation->id) }}">@lang('Edit')</a>
                     <a class="dropdown-item text-danger" href="#">@lang('Archive Card')</a>
                   </div>
                 </div>
                 <div class="card-title">
-                  <a href="{{ route('admin.order.edit', $quotation->id) }}"><h6>{{ Str::limit($quotation->customer, 25) }}</h6></a>
-                  <p><a class="btn-options" href="{{ route('admin.order.edit', $quotation->id) }}"><h6>{{ Str::limit($quotation->comment, 23) }}</h6></a></p>
+                  <a target="_blank" href="{{ route('admin.order.edit', $quotation->id) }}"><h6>{{ Str::limit($quotation->customer, 25) }}</h6></a>
+                  <p><a class="btn-options" target="_blank" href="{{ route('admin.order.edit', $quotation->id) }}"><h6>{{ Str::limit($quotation->comment, 23) }}</h6></a></p>
                 </div>
 
                 <div class="card-meta d-flex justify-content-between">
@@ -94,17 +94,17 @@
 
               <div class="card-body">
                 <div class="dropdown card-options">
-                  <a class="btn-options" type="button" href="{{ route('admin.order.edit', $order_captured->id) }}">
+                  <a class="btn-options" type="button" target="_blank" href="{{ route('admin.order.edit', $order_captured->id) }}">
                     {{ $order_captured->id }}
                   </a>
                   <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="{{ route('admin.order.edit', $order_captured->id) }}">@lang('Edit')</a>
+                    <a class="dropdown-item" target="_blank" href="{{ route('admin.order.edit', $order_captured->id) }}">@lang('Edit')</a>
                     <a class="dropdown-item text-danger" href="#">@lang('Archive Card')</a>
                   </div>
                 </div>
                 <div class="card-title">
-                  <a href="{{ route('admin.order.edit', $order_captured->id) }}"><h6>{!! Str::limit($order_captured->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
-                  <p><a class="btn-options" href="{{ route('admin.order.edit', $order_captured->id) }}"><h6>{{ Str::limit($order_captured->comment, 23) }}</h6></a></p>
+                  <a target="_blank" href="{{ route('admin.order.edit', $order_captured->id) }}"><h6>{!! Str::limit($order_captured->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
+                  <p><a class="btn-options" target="_blank" href="{{ route('admin.order.edit', $order_captured->id) }}"><h6>{{ Str::limit($order_captured->comment, 23) }}</h6></a></p>
                 </div>
 
                 <div class="card-meta d-flex justify-content-between">
@@ -152,17 +152,17 @@
 
               <div class="card-body">
                 <div class="dropdown card-options">
-                  <a class="btn-options" type="button" href="{{ route('admin.order.edit', $order_captured->id) }}">
+                  <a class="btn-options" type="button" target="_blank" href="{{ route('admin.order.edit', $order_captured->id) }}">
                     {{ $order_captured->id }}
                   </a>
                   <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="{{ route('admin.order.edit', $order_captured->id) }}">@lang('Edit')</a>
+                    <a class="dropdown-item" target="_blank" href="{{ route('admin.order.edit', $order_captured->id) }}">@lang('Edit')</a>
                     <a class="dropdown-item text-danger" href="#">@lang('Archive Card')</a>
                   </div>
                 </div>
                 <div class="card-title">
-                  <a href="{{ route('admin.order.edit', $order_captured->id) }}"><h6>{!! Str::limit($order_captured->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
-                  <p><a class="btn-options" href="{{ route('admin.order.edit', $order_captured->id) }}"><h6>{{ Str::limit($order_captured->comment, 23) }}</h6></a></p>
+                  <a target="_blank" href="{{ route('admin.order.edit', $order_captured->id) }}"><h6>{!! Str::limit($order_captured->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
+                  <p><a class="btn-options" target="_blank" href="{{ route('admin.order.edit', $order_captured->id) }}"><h6>{{ Str::limit($order_captured->comment, 23) }}</h6></a></p>
                 </div>
 
                 <div class="card-meta d-flex justify-content-between">
@@ -217,17 +217,17 @@
 
               <div class="card-body">
                 <div class="dropdown card-options">
-                  <a class="btn-options" type="button" href="{{ route('admin.order.edit', $order_production->id) }}">
+                  <a class="btn-options" type="button" target="_blank" href="{{ route('admin.order.edit', $order_production->id) }}">
                     {{ $order_production->id }}
                   </a>
                   <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="{{ route('admin.order.edit', $order_production->id) }}">@lang('Edit')</a>
+                    <a class="dropdown-item" target="_blank" href="{{ route('admin.order.edit', $order_production->id) }}">@lang('Edit')</a>
                     <a class="dropdown-item text-danger" href="#">@lang('Archive Card')</a>
                   </div>
                 </div>
                 <div class="card-title">
-                  <a href="{{ route('admin.order.edit', $order_production->id) }}"><h6>{!! Str::limit($order_production->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
-                  <p><a class="btn-options" href="{{ route('admin.order.edit', $order_production->id) }}"><h6>{{ Str::limit($order_production->comment, 23) }}</h6></a></p>
+                  <a target="_blank" href="{{ route('admin.order.edit', $order_production->id) }}"><h6>{!! Str::limit($order_production->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
+                  <p><a class="btn-options" target="_blank" href="{{ route('admin.order.edit', $order_production->id) }}"><h6>{{ Str::limit($order_production->comment, 23) }}</h6></a></p>
                 </div>
 
                 <div class="card-meta d-flex justify-content-between">
@@ -282,17 +282,17 @@
 
               <div class="card-body">
                 <div class="dropdown card-options">
-                  <a class="btn-options" type="button" href="{{ route('admin.order.edit', $order->id) }}">
+                  <a class="btn-options" type="button" target="_blank" href="{{ route('admin.order.edit', $order->id) }}">
                     {{ $order->id }}
                   </a>
                   <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="{{ route('admin.order.edit', $order->id) }}">@lang('Edit')</a>
+                    <a class="dropdown-item" target="_blank" href="{{ route('admin.order.edit', $order->id) }}">@lang('Edit')</a>
                     <a class="dropdown-item text-danger" href="#">@lang('Archive Card')</a>
                   </div>
                 </div>
                 <div class="card-title">
-                  <a href="{{ route('admin.order.edit', $order->id) }}"><h6>{!! Str::limit($order->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
-                  <p><a class="btn-options" href="{{ route('admin.order.edit', $order->id) }}"><h6>{{ Str::limit($order->comment, 23) }}</h6></a></p>
+                  <a target="_blank" href="{{ route('admin.order.edit', $order->id) }}"><h6>{!! Str::limit($order->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
+                  <p><a class="btn-options" target="_blank" href="{{ route('admin.order.edit', $order->id) }}"><h6>{{ Str::limit($order->comment, 23) }}</h6></a></p>
                 </div>
 
                 <div class="card-meta d-flex justify-content-between">
@@ -340,17 +340,17 @@
 
               <div class="card-body">
                 <div class="dropdown card-options">
-                  <a class="btn-options" type="button" href="{{ route('admin.order.edit', $order->id) }}">
+                  <a class="btn-options" type="button" target="_blank" href="{{ route('admin.order.edit', $order->id) }}">
                     {{ $order->id }}
                   </a>
                   <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="{{ route('admin.order.edit', $order->id) }}">@lang('Edit')</a>
+                    <a class="dropdown-item" target="_blank" href="{{ route('admin.order.edit', $order->id) }}">@lang('Edit')</a>
                     <a class="dropdown-item text-danger" href="#">@lang('Archive Card')</a>
                   </div>
                 </div>
                 <div class="card-title">
-                  <a href="{{ route('admin.order.edit', $order->id) }}"><h6>{!! Str::limit($order->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
-                  <p><a class="btn-options" href="{{ route('admin.order.edit', $order->id) }}"><h6>{{ Str::limit($order->comment, 23) }}</h6></a></p>
+                  <a target="_blank" href="{{ route('admin.order.edit', $order->id) }}"><h6>{!! Str::limit($order->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
+                  <p><a class="btn-options" target="_blank" href="{{ route('admin.order.edit', $order->id) }}"><h6>{{ Str::limit($order->comment, 23) }}</h6></a></p>
                 </div>
 
                 <div class="card-meta d-flex justify-content-between">
@@ -398,17 +398,17 @@
 
               <div class="card-body">
                 <div class="dropdown card-options">
-                  <a class="btn-options" type="button" href="{{ route('admin.order.edit', $order->id) }}">
+                  <a class="btn-options" type="button" target="_blank" href="{{ route('admin.order.edit', $order->id) }}">
                     {{ $order->id }}
                   </a>
                   <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="{{ route('admin.order.edit', $order->id) }}">@lang('Edit')</a>
+                    <a class="dropdown-item" target="_blank" href="{{ route('admin.order.edit', $order->id) }}">@lang('Edit')</a>
                     <a class="dropdown-item text-danger" href="#">@lang('Archive Card')</a>
                   </div>
                 </div>
                 <div class="card-title">
-                  <a href="{{ route('admin.order.edit', $order->id) }}"><h6>{!! Str::limit($order->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
-                  <p><a class="btn-options" href="{{ route('admin.order.edit', $order->id) }}"><h6>{{ Str::limit($order->comment, 23) }}</h6></a></p>
+                  <a target="_blank" href="{{ route('admin.order.edit', $order->id) }}"><h6>{!! Str::limit($order->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
+                  <p><a class="btn-options" target="_blank" href="{{ route('admin.order.edit', $order->id) }}"><h6>{{ Str::limit($order->comment, 23) }}</h6></a></p>
                 </div>
 
                 <div class="card-meta d-flex justify-content-between">
@@ -456,17 +456,17 @@
 
               <div class="card-body">
                 <div class="dropdown card-options">
-                  <a class="btn-options" type="button" href="{{ route('admin.order.edit', $order->id) }}">
+                  <a class="btn-options" type="button" target="_blank" href="{{ route('admin.order.edit', $order->id) }}">
                     {{ $order->id }}
                   </a>
                   <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="{{ route('admin.order.edit', $order->id) }}">@lang('Edit')</a>
+                    <a class="dropdown-item" target="_blank" href="{{ route('admin.order.edit', $order->id) }}">@lang('Edit')</a>
                     <a class="dropdown-item text-danger" href="#">@lang('Archive Card')</a>
                   </div>
                 </div>
                 <div class="card-title">
-                  <a href="{{ route('admin.order.edit', $order->id) }}"><h6>{!! Str::limit($order->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
-                  <p><a class="btn-options" href="{{ route('admin.order.edit', $order->id) }}"><h6>{{ Str::limit($order->comment, 23) }}</h6></a></p>
+                  <a target="_blank" href="{{ route('admin.order.edit', $order->id) }}"><h6>{!! Str::limit($order->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
+                  <p><a class="btn-options" target="_blank" href="{{ route('admin.order.edit', $order->id) }}"><h6>{{ Str::limit($order->comment, 23) }}</h6></a></p>
                 </div>
 
                 <div class="card-meta d-flex justify-content-between">
@@ -514,17 +514,17 @@
 
               <div class="card-body">
                 <div class="dropdown card-options">
-                  <a class="btn-options" type="button" href="{{ route('admin.order.edit', $order->id) }}">
+                  <a class="btn-options" type="button" target="_blank" href="{{ route('admin.order.edit', $order->id) }}">
                     {{ $order->id }}
                   </a>
                   <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="{{ route('admin.order.edit', $order->id) }}">@lang('Edit')</a>
+                    <a class="dropdown-item" target="_blank" href="{{ route('admin.order.edit', $order->id) }}">@lang('Edit')</a>
                     <a class="dropdown-item text-danger" href="#">@lang('Archive Card')</a>
                   </div>
                 </div>
                 <div class="card-title">
-                  <a href="{{ route('admin.order.edit', $order->id) }}"><h6>{!! Str::limit($order->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
-                  <p><a class="btn-options" href="{{ route('admin.order.edit', $order->id) }}"><h6>{{ Str::limit($order->comment, 23) }}</h6></a></p>
+                  <a target="_blank" href="{{ route('admin.order.edit', $order->id) }}"><h6>{!! Str::limit($order->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
+                  <p><a class="btn-options" target="_blank" href="{{ route('admin.order.edit', $order->id) }}"><h6>{{ Str::limit($order->comment, 23) }}</h6></a></p>
                 </div>
 
                 <div class="card-meta d-flex justify-content-between">
@@ -573,17 +573,17 @@
 
               <div class="card-body">
                 <div class="dropdown card-options">
-                  <a class="btn-options" type="button" href="{{ route('admin.order.edit', $order->id) }}">
+                  <a class="btn-options" type="button" target="_blank" href="{{ route('admin.order.edit', $order->id) }}">
                     {{ $order->id }}
                   </a>
                   <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="{{ route('admin.order.edit', $order->id) }}">@lang('Edit')</a>
+                    <a class="dropdown-item" target="_blank" href="{{ route('admin.order.edit', $order->id) }}">@lang('Edit')</a>
                     <a class="dropdown-item text-danger" href="#">@lang('Archive Card')</a>
                   </div>
                 </div>
                 <div class="card-title">
-                  <a href="{{ route('admin.order.edit', $order->id) }}"><h6>{!! Str::limit($order->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
-                  <p><a class="btn-options" href="{{ route('admin.order.edit', $order->id) }}"><h6>{{ Str::limit($order->comment, 23) }}</h6></a></p>
+                  <a target="_blank" href="{{ route('admin.order.edit', $order->id) }}"><h6>{!! Str::limit($order->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
+                  <p><a class="btn-options" target="_blank" href="{{ route('admin.order.edit', $order->id) }}"><h6>{{ Str::limit($order->comment, 23) }}</h6></a></p>
                 </div>
 
                 <div class="card-meta d-flex justify-content-between">

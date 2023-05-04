@@ -180,26 +180,37 @@ class EditOrder extends Component
 
     public function updateStatus($statusId): void
     {
-        if($statusId != $this->lates_statusId){
+        if(auth()->user()->can('admin.access.states_production.create')){
+        
+            if($statusId != $this->lates_statusId){
 
-            $order = Order::findOrFail($this->order_id);
+                $order = Order::findOrFail($this->order_id);
 
-            $statusOrder = new StatusOrder([
-                'status_id' => $statusId,
-                'audi_id' => Auth::id(),
+                $statusOrder = new StatusOrder([
+                    'status_id' => $statusId,
+                    'audi_id' => Auth::id(),
+                ]);
+
+                $order->status_order()->save($statusOrder);
+
+                event(new OrderProductionStatusUpdated($order));
+
+                $this->initstatus($order); // re-initialize the component state with fresh data after saving
+            }
+
+            $this->emit('swal:alert', [
+                'icon' => 'success',
+                'title'   => __('Status changed'), 
             ]);
-
-            $order->status_order()->save($statusOrder);
-
-            event(new OrderProductionStatusUpdated($order));
-
-            $this->initstatus($order); // re-initialize the component state with fresh data after saving
+        }
+        else
+        {
+            $this->emit('swal:alert', [
+                'icon' => 'warning',
+                'title'   => __('You do not have access to do that.'), 
+            ]);
         }
 
-        $this->emit('swal:alert', [
-            'icon' => 'success',
-            'title'   => __('Status changed'), 
-        ]);
     }
 
     private function initstatus(Order $order)

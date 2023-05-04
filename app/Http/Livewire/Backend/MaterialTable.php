@@ -124,6 +124,9 @@ class MaterialTable extends TableComponent
                 ->format(function(Material $model) {
                     return $this->html(!empty($model->family_id) && isset($model->family->name) ? $model->name.'<br>'.$model->family->name_label : $model->name);
                 })
+                ->exportFormat(function(Material $model) {
+                    return $model->name ?? '--';
+                })
                 ->sortable(),
             Column::make(__('Unit'), 'unit.name')
                 ->searchable()

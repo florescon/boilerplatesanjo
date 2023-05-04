@@ -40,7 +40,7 @@
             <div class="form-group row" wire:ignore>
                 <label for="request" class="col-sm-3 col-form-label">@lang('Request number')</label>
                 <div class="col-sm-9" >
-                  <input wire:model="request" type="text" class="form-control"/>
+                  <input wire:model="request" type="text" class="form-control" placeholder="{{ __('Enter request number') }}"/>
                   @error('request') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                 </div>
             </div><!--form-group-->
@@ -48,8 +48,16 @@
             <div class="form-group row" wire:ignore>
                 <label for="purchase" class="col-sm-3 col-form-label">@lang('Purchase order')</label>
                 <div class="col-sm-9" >
-                  <input wire:model="purchase" type="text" class="form-control"/>
+                  <input wire:model="purchase" type="text" class="form-control" placeholder="{{ __('Enter purchase order') }}"/>
                   @error('purchase') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                </div>
+            </div><!--form-group-->
+
+            <div class="form-group row" wire:ignore>
+                <label for="invoice" class="col-sm-3 col-form-label">@lang('Invoice')</label>
+                <div class="col-sm-9" >
+                  <input wire:model="invoice" type="text" class="form-control" placeholder="{{ __('Enter invoice') }}" />
+                  @error('invoice') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                 </div>
             </div><!--form-group-->
 
