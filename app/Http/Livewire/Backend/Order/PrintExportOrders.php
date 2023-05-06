@@ -50,7 +50,9 @@ class PrintExportOrders extends Component
                         'productColorName' => $product_order->product->color->name ?? '',
                         'productSize' => $product_order->product->size_id,
                         'productSizeName' => $product_order->product->size->name ?? '',
+                        'productSizeSort' => $product_order->product->size->sort ?? 0,
                         'productQuantity' => $product_order->quantity,
+                        'productPriceWithoutTax' => $product_order->price_without_tax,
                         'isService' => !$product_order->product->parent_id ? true : false,
                         'customer' => $product_order->order->user_name ?? null,
                     ]);
@@ -62,7 +64,7 @@ class PrintExportOrders extends Component
             $this->productsCollection = $productsCollection;
 
             $this->products = $productsCollection->groupBy(['productParentId', function (array $item) {
-                return $item['productColor'];
+                return $item['productParentName'].' - '.$item['productColorName'].' => '.$item['productParentCode'];
             }], $preserveKeys = true);
 
             // $myCollection = collect([
@@ -71,6 +73,7 @@ class PrintExportOrders extends Component
             // ])->map(function($row) {
             //     return collect($row);
             // });
+
 
             // $this->products->dd();
 
@@ -84,7 +87,7 @@ class PrintExportOrders extends Component
         }
 
         return view('backend.order.print-export-orders', [
-            'ordercollection' => $ordercollection,
+            'ordercollection' => $this->orderCollection,
             'productsGrouped' => $this->products ? $this->products() : null,
         ]);
     }

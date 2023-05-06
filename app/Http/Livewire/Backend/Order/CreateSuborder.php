@@ -38,6 +38,7 @@ class CreateSuborder extends Component
     public ?string $request = null;
     public ?string $purchase = null;
     public ?string $invoice = null;
+    public ?string $comment = null;
 
     public $nameDepa = null;
     public $namePrice = null;
@@ -163,6 +164,7 @@ class CreateSuborder extends Component
             $suborder->request = $this->request ?? null;
             $suborder->purchase = $this->purchase ?? null;
             $suborder->invoice = $this->invoice ?? null;
+            $suborder->comment = $this->comment ?? null;
             $suborder->save();
 
             event(new OrderCreated($suborder));

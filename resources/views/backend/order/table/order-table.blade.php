@@ -115,11 +115,11 @@
                         
                         @if($selectedtypes)
 	                        <div class="dropdown no-print">
-	                          <button class="btn-options" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	                          	<i class="cil-blur"></i> @lang('Export')
+	                          <button class="btn-options text-danger" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	                          	<i class="cil-blur"></i>&nbsp; @lang('Export')
 	                          </button>
 	                          <div class="dropdown-menu dropdown-menu-right">
-	                            <a class="dropdown-item" wire:click="productGrouped" href="#">PDF</a>
+	                            <a class="dropdown-item text-danger" wire:click="productGrouped" href="#">PDF</a>
 	                          </div>
 	                        </div>
                         @endif
@@ -127,14 +127,14 @@
 						            @foreach($orders as $order)
 		                      <div class="card card-task">
 		                      
-				                    {{-- <div class="form-check">
+				                    <div class="form-check ml-1">
 				                      <input type="checkbox" value="{{ $order->id }}" wire:model="selectedtypes" class="form-check-input" id="exampleCheck{{ $order->id }}">
-				                    </div> --}}
+				                    </div>
 
 		                        <div class="progress">
 		                          <div class="progress-bar" role="progressbar" style="width: {{ $order->last_status_order_percentage }}%; background-color: {{ $order->last_status_order_color }};" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 		                        </div>
-		                        <div class="card-body">
+		                        <div class="card-body ml-3">
 		                          <div class="card-title">
 		                            <a target="_blank" href="{{ route('admin.order.edit', $order->id) }}" style="text-decoration: none !important">
 		                            	<h6 data-filter-by="text" style="display: inline;"><strong>#{{ $order->id }}</strong> {!! $order->user_name !!} {!! Str::limit($order->info_customer, 100) ?? '' !!} </h6>

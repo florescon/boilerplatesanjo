@@ -61,6 +61,14 @@
                 </div>
             </div><!--form-group-->
 
+            <div class="form-group row" wire:ignore>
+                <label for="comment" class="col-sm-3 col-form-label">@lang('Comment')</label>
+                <div class="col-sm-9" >
+                  <input wire:model="comment" type="text" class="form-control" placeholder="{{ __('Internal comment') }}" />
+                  @error('comment') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                </div>
+            </div><!--form-group-->
+
             <div class="row mt-4 justify-content-md-center">
               <div class="col-3 form-inline">
                 @lang('Per page'): &nbsp;
