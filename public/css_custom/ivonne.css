@@ -807,6 +807,10 @@ kbd {
   color: blue;
 }
 
+.cs-accent_color_second {
+  color: red;
+}
+
 .cs-accent_bg,
 .cs-accent_bg_hover:hover {
   background-color: #2ad19d;
@@ -830,6 +834,10 @@ kbd {
 
 .cs-focus_bg {
   background: #f6f6f6;
+}
+
+.cs-focus_bg2 {
+  background: #FAF2F2;
 }
 
 .cs-accent_10_bg {

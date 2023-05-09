@@ -105,7 +105,7 @@
 		  <div class="card card-flyer card-product">
 		  	@if($product->file_name)
 		  	{{-- @if(Storage::exists($product->file_name)) --}}
-		    	<a href="{{ $linkEdit ? route($linkEdit,  $product->id) : route('admin.product.edit',  $product->id) }}">
+		    	<a  target="_blank" href="{{ $linkEdit ? route($linkEdit,  $product->id) : route('admin.product.edit',  $product->id) }}">
 			    	<img class="card-img-top" src="{{ asset('/storage/' . $product->file_name) }}" alt="{{ $product->name }}">
 			    </a>
 		    @endif
@@ -132,7 +132,7 @@
 			      </p>
 		      @endif
 
-					<a href="{{ $linkEdit ? route($linkEdit,  $product->id) : route('admin.product.edit',  $product->id) }}" class="stretched-link"></a>
+					<a target="_blank" href="{{ $linkEdit ? route($linkEdit,  $product->id) : route('admin.product.edit',  $product->id) }}" class="stretched-link"></a>
 		    </div>
 
 		      @if($product->brand_id)
@@ -184,7 +184,7 @@
 								@lang('consumption')
 							</a>
 						@endif
-						<a href="{{ $linkEdit ? route($linkEdit,  $product->id) : route('admin.product.edit',  $product->id) }}" class="btn btn-primary mb-1">@lang('Edit product')</a>
+						<a target="_blank" href="{{ $linkEdit ? route($linkEdit,  $product->id) : route('admin.product.edit',  $product->id) }}" class="btn btn-primary mb-1">@lang('Edit product')</a>
 					@else
 					    <div class="dropright" style="display:inline-block;">
 					      <a class="btn btn-icon-only" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

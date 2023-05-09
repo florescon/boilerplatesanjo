@@ -232,10 +232,21 @@ class EditOrder extends Component
     {
         $order = Order::whereId($this->order_id)->first();
 
-        $orderUpdate = $order->update(['type' => !$this->from_store ? 1 : 5]);
+        $order->touch();
+
+        $orderUpdate = $order->update(['type' => !$this->from_store ? 1 : 5, 'created_at' => now()]);
         $order->product_quotation()->update(['type' => !$this->from_store ? 1 : 5]);   
 
+        if($this->from_store){
+            $this->requestReadyForDelivery($order);
+        }
+
         return $this->redirectRoute($this->from_store ? 'admin.store.all.edit' : 'admin.order.edit', $this->order_id);
+    }
+
+    public function requestReadyForDelivery($order)
+    {
+        $order ? $order->orders_delivery()->create(['type' => OrderStatusDelivery::PENDING, 'audi_id' => Auth::id()]) : '';
     }
 
     public function approve()

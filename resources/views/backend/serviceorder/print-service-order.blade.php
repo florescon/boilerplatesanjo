@@ -163,7 +163,6 @@
             <td><strong>Realizó:</strong> {{ optional($service->personal)->name }} </td>
             <td><strong>Autorizó:</strong> {{ optional($service->authorized)->name }} </td>
         </tr>
-
         <tr>
             <td><strong>Archivo:</strong> {{ $service->file_text }}</td>
             <td><strong>Dimensiones:</strong> {{ $service->dimensions }}</td>
@@ -171,7 +170,6 @@
         <tr>
             <td><strong>Comentario:</strong> {{ $service->comment }} </td>
         </tr>
-
       </table>
       
       <br/>

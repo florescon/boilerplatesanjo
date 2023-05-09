@@ -11,7 +11,7 @@
 
     <x-backend.card>
         <x-slot name="header">
-            <strong style="color: red;"> @lang('Deleted brands') </strong>  
+            <strong style="color: red;"> @lang('Deleted brands') </strong>
         </x-slot>
 
         <x-slot name="headerActions">
@@ -20,7 +20,7 @@
 
         <x-slot name="body">
 
-            <livewire:backend.brand.brand-table status="deleted"/>
+            <livewire:backend.brand.brand-table status="deleted" />
 
         </x-slot>
     </x-backend.card>
@@ -28,4 +28,3 @@
     <livewire:backend.brand.show-brand />
 
 @endsection
-

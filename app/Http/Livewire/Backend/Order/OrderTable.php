@@ -44,6 +44,10 @@ class OrderTable extends Component
 
     protected $listeners = ['selectedStatusOrderItem'];
 
+    protected $messages = [
+        'selectedtypes.max' => 'Máximo 30 registros a seleccionar.',
+    ];
+
     public function sortBy($field)
     {
         if ($this->sortField === $field) {
@@ -63,7 +67,7 @@ class OrderTable extends Component
     public function productGrouped()
     {
         $this->validate([
-            'selectedtypes' => 'max:10',
+            'selectedtypes' => 'max:30',
         ]);
 
         $ordercollection = collect();
@@ -83,28 +87,28 @@ class OrderTable extends Component
     {
         $query = Order::query()->with('user', 'products', 'last_status_order.status')
             // ->onlyAssignment(6)
-            ->when($this->dateInput, function ($query) {
-                empty($this->dateOutput) ?
-                $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', now()]) :
-                $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59']);
-            })
-            ->when($this->statusOrder, function ($query) {
+        ->when($this->dateInput, function ($query) {
+            empty($this->dateOutput) ?
+            $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', now()]) :
+            $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59']);
+        })
+        ->when($this->statusOrder, function ($query) {
 
-                $status = Status::findOrFail($this->statusOrder);
+            $status = Status::findOrFail($this->statusOrder);
 
-                $this->nameStatus = $status->name ? '— '.$status->name : '';
+            $this->nameStatus = $status->name ? '— '.$status->name : '';
 
-                $statusOrder = $this->statusOrder;
-                $query->whereHas('last_status_order.status', function($queryStatusOrder) use ($statusOrder){
-                    $queryStatusOrder->where('id', $statusOrder);
-                });
-            })
+            $statusOrder = $this->statusOrder;
+            $query->whereHas('last_status_order.status', function($queryStatusOrder) use ($statusOrder){
+                $queryStatusOrder->where('id', $statusOrder);
+            });
+        })
             // ->when(!$this->dateInput, function ($query) {
             //     $query->whereYear('created_at', now()->year);
             // })
-            ->when($this->sortField, function ($query) {
-                $query->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc');
-            });
+        ->when($this->sortField, function ($query) {
+            $query->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc');
+        });
 
         if ($this->status === 'deleted') {
             $this->applySearchDeletedFilter($query);
@@ -147,11 +151,11 @@ class OrderTable extends Component
         if ($this->searchTerm) {
 
             return $orders->whereHas('user', function ($query) {
-               $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
-            })
+             $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
+         })
             ->orWhereHas('departament', function ($query) {
-               $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
-            })
+             $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
+         })
             ->orWhere('id', 'like', '%' . $this->searchTerm . '%')
             ->orWhere('info_customer', 'like', '%' . $this->searchTerm . '%')
             ->orWhere('request', 'like', '%' . $this->searchTerm . '%')
@@ -185,7 +189,7 @@ class OrderTable extends Component
     {
         if ($this->searchTerm) {
             return $orders->whereRaw("id LIKE \"%$this->searchTerm%\"")
-                        ->orWhereRaw("slug LIKE \"%$this->searchTerm%\"");
+            ->orWhereRaw("slug LIKE \"%$this->searchTerm%\"");
 
         }
 
@@ -246,6 +250,6 @@ class OrderTable extends Component
     {
         return view('backend.order.table.order-table', [
           'orders' => $this->rows,
-        ]);
+      ]);
     }
 }

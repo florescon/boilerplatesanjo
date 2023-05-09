@@ -35,6 +35,7 @@ class Order extends Model
         'invoice',
         'branch_id',
         'type',
+        'created_at',
     ];
 
     /**

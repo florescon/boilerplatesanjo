@@ -47,11 +47,11 @@ class ImagesTable extends Component
     public function getRowsQueryProperty()
     {
         $query = Image::query()
-            ->whereType('4')
-            ->when($this->searchTerm, function ($query) {
-                $query->where('title', 'like', '%' . $this->searchTerm . '%');
-            })
-            ->orderBy('created_at', 'desc');
+        ->whereType('4')
+        ->when($this->searchTerm, function ($query) {
+            $query->where('title', 'like', '%' . $this->searchTerm . '%');
+        })
+        ->orderBy('created_at', 'desc');
 
         if ($this->status === 'deleted') {
             return $query->onlyTrashed();
@@ -121,7 +121,7 @@ class ImagesTable extends Component
                     $image->image = $imageName;
                     $image->type = 4;
                     $image->save();
-    
+                    
                     $allImages++;
                 }
             }

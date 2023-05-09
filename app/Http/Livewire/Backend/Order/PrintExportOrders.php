@@ -28,11 +28,12 @@ class PrintExportOrders extends Component
 
             foreach(json_decode($this->orders) as $key => $orderID){
 
-                $order = Order::with('products.parent', 'products.order.user.customer')->find($orderID);
+                $order = Order::with('products', 'user.customer')->find($orderID);
 
                 $ordercollection->push([
                     'id' => $order->id,
-                    'user' => optional($order->user)->name,
+                    'user' => $order->user_name ?? null,
+                    'userId' => $order->user_id ?? null,
                     'comment' => $order->comment,
                 ]);
 
@@ -54,13 +55,14 @@ class PrintExportOrders extends Component
                         'productQuantity' => $product_order->quantity,
                         'productPriceWithoutTax' => $product_order->price_without_tax,
                         'isService' => !$product_order->product->parent_id ? true : false,
-                        'customer' => $product_order->order->user_name ?? null,
+                        'customerId' => $order->user_id ?? null,
+                        'customer' => $order->user_name ?? null,
                     ]);
                 }
             }
 
             $this->orderCollection = $ordercollection->toArray();
-    
+            
             $this->productsCollection = $productsCollection;
 
             $this->products = $productsCollection->groupBy(['productParentId', function (array $item) {

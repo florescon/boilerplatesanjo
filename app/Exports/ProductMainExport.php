@@ -21,9 +21,9 @@ class ProductMainExport implements FromCollection, WithMapping, WithHeadings
     public function headings(): array
     {
         return [
-            __('Name'),
             __('Code'),
             __('Stock'),
+            __('Name'),
             __('Cost'),
         ];
     }
@@ -34,9 +34,9 @@ class ProductMainExport implements FromCollection, WithMapping, WithHeadings
     public function map($product): array
     {
         return [
-            optional($product->parent)->name.', '.optional($product->color)->name.' '.optional($product->size)->name,
             $product->code ? $product->code : optional($product->parent)->code,
             $product->stock ?? 0,
+            optional($product->parent)->name.', '.optional($product->color)->name.' '.optional($product->size)->name,
             $product->parent->cost ?? 0,
         ];
     }

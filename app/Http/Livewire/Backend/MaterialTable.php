@@ -119,6 +119,21 @@ class MaterialTable extends TableComponent
             Column::make(__('Code'), 'part_number')
                 ->searchable()
                 ->sortable(),
+            Column::make(__('Stock'), 'stock')
+                ->searchable()
+                ->sortable()
+                ->format(function(Material $model) {
+                    return $this->html($model->stock_formatted);
+                })
+                ->exportFormat(function(Material $model) {
+                    return $model->stock_formatted;
+                })
+                ->hideIf(auth()->user()->cannot('admin.access.material.show-quantities')),
+            Column::make(__('Unit'), 'unit.name')
+                ->searchable()
+                ->format(function(Material $model) {
+                    return $this->html(!empty($model->unit_id) && isset($model->unit->id) ? $model->unit->name : '<span class="badge badge-pill badge-secondary"> <em>No asignada</em></span>');
+                }),
             Column::make(__('Name'), 'name')
                 ->searchable()
                 ->format(function(Material $model) {
@@ -128,11 +143,6 @@ class MaterialTable extends TableComponent
                     return $model->name ?? '--';
                 })
                 ->sortable(),
-            Column::make(__('Unit'), 'unit.name')
-                ->searchable()
-                ->format(function(Material $model) {
-                    return $this->html(!empty($model->unit_id) && isset($model->unit->id) ? $model->unit->name : '<span class="badge badge-pill badge-secondary"> <em>No asignada</em></span>');
-                }),
             Column::make(__('Color'), 'color.name')
                 ->searchable()
                 ->format(function(Material $model) {
@@ -145,20 +155,6 @@ class MaterialTable extends TableComponent
                 ->searchable()
                 ->sortable()
                 ->hideIf(auth()->user()->cannot('admin.access.material.show-prices')),
-            Column::make(__('Stock'), 'stock')
-                ->searchable()
-                ->sortable()
-                ->format(function(Material $model) {
-                    return $this->html($model->stock_formatted);
-                })
-                ->exportFormat(function(Material $model) {
-                    return $model->stock_formatted;
-                })
-                ->hideIf(auth()->user()->cannot('admin.access.material.show-quantities')),
-            Column::make(__('Updated at'), 'updated_at')
-                ->searchable()
-                ->sortable()
-                ->hideIf($this->editStock == true),
             Column::make(__('Description'), 'description')
                 ->searchable()
                 ->format(function(Material $model) {
@@ -180,6 +176,10 @@ class MaterialTable extends TableComponent
                 ->exportFormat(function(Material $model) {
                     return (!empty($model->family_id) && isset($model->family->id)) ? optional($model->family)->name : '';
                 }),
+            Column::make(__('Updated at'), 'updated_at')
+                ->searchable()
+                ->sortable()
+                ->hideIf($this->editStock == true),
             Column::make(__('Actions'))
                 ->format(function (Material $model) {
                     return view('backend.material.datatable.actions', ['material' => $model]);
