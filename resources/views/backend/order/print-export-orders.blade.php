@@ -14,9 +14,10 @@
 
 <body>
   <div class="cs-container">
+    @if($ordercollection)
     <div class="cs-invoice cs-style1">
-      <div class="cs-invoice_btns cs-hide_print">
-   
+      <div class="cs-invoice_btns cs-hide_print">   
+
         <a href="{{ route('admin.order.index') }}" class="cs-invoice_btn cs-color1">
           <<
           <span>&nbsp; @lang('Back')</span>
@@ -55,15 +56,19 @@
           <div class="legend">
             <b class="cs-primary_color">@lang('About it'):</b>
             <p class="cs-mb8">
-              
-              @if($orderCollection)
-                @foreach($orderCollection as $order)
-                  <span class="badge badge-warning ml-1 mr-1 mt-1" style="font-size: 1rem;">#{!! $order['id'].' => '.$order['comment'].'&nbsp;&nbsp;&nbsp;&nbsp;' ?? '' !!}</span>
-                @endforeach
-              @else
-                <p>@lang('Nothing processed')</p>
-              @endif
-
+              @foreach($orderCollection as $order)
+                <span class="badge badge-warning ml-1 mr-1 mt-1" style="font-size: 1rem;">
+                  #{!! 
+                    $order['id'].' => '.
+                    $order['comment'].' '
+                  !!}
+                  →                  
+                  @if($order['request'])
+                    <strong class="cs-accent_color_second">{{ $order['request'] }}</strong>
+                  @endif
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                </span>
+              @endforeach
             </p>
           </div>
         </div>
@@ -77,7 +82,7 @@
                   <tr class="cs-focus_bg2">
                     <th class="cs-width_3 cs-semi_bold cs-primary_color cs-text_center"># - @lang('Customer')</th>
                     @foreach($products as $key => $product)
-                      <th class="cs-width_1 cs-semi_bold cs-primary_color">
+                      <th class="cs-width_1 cs-semi_bold cs-primary_color cs-text_center">
                         {{-- {{ $key+1 }}.- --}}
 
                         @foreach($product->first() as $key2 => $parentProduct)
@@ -100,7 +105,15 @@
                     @php($totalRowGrouped = 0)
 
                     <tr class="cs-focus_bg2">
-                      <td class="cs-width_3 cs-text_center cs-accent_color">{{ '#'.$order['id'].' - '.$order['user'] }}</td>
+                      <td class="cs-width_3 cs-text_center cs-accent_color">
+                        @if($order['id'])
+                          <a target="_blank"
+                            href="{{ route('admin.order.edit', $order['id']) }}"
+                            style="text-decoration: none !important">
+                            {!! '#'.$order['id'].' - '.$order['user'] !!}
+                          </a>
+                        @endif
+                    </td>
                       @foreach($products as $key => $product)
     
                         @php($totalProductGrouped = 0)
@@ -153,7 +166,7 @@
           </div>
         </div>
 
-        <div class="cs-heading cs-style1 cs-f18 cs-primary_color cs-mb25 cs-semi_bold" style="margin-top: 20px;">@lang('Grouped') - @lang('By product and color')</div>
+        <div class="cs-heading cs-style1 cs-f18 cs-primary_color cs-mb25 cs-semi_bold" style="margin-top: 20px;">@lang('Details') </div>
         
         @php($totalAll = 0)
 
@@ -185,7 +198,15 @@
                       @foreach($parentProduct->groupBy('productOrder') as $keyp => $pp)
 
                         <tr>
-                          <td class="cs-width_3 cs-text_center cs-accent_color">{!! '#'.$pp[0]['productOrder'].' - '.$pp[0]['customer'] !!}
+                          <td class="cs-width_3 cs-text_center cs-accent_color">
+                            @if($pp[0]['productOrder'])
+                              <a target="_blank"
+                                href="{{ route('admin.order.edit', $pp[0]['productOrder']) }}"
+                                style="text-decoration: none !important">
+                                {!! '#'.$pp[0]['productOrder'].' - '.$pp[0]['customer'] !!}
+                              </a>
+                            @endif
+                           
                           </td>
 
                           @php($totalRow = 0)
@@ -276,12 +297,29 @@
           </div>
           <div class="cs-note">
             <div class="cs-note_right" style="margin-left: 20px;">
-              <p class="cs-mb0"><b class="cs-primary_color cs-bold">@lang('Note'): --</b></p>
+              <p class="cs-mb0"><b class="cs-primary_color cs-bold">@lang('Note'): --  Memory: {{ number_format(memory_get_peak_usage() / 1048576, 2) . ' MB' }}</b></p>
             </div>
           </div><!-- .cs-note -->
         </div>
       </div>
     </div>
+    @else
+
+    <div class="cs-invoice cs-style1">
+      
+      <div class="cs-note_right">
+        <p class="cs-mb0"><b class="cs-primary_color cs-bold">@lang('Note'):</b></p>
+        <p class="cs-m0">@lang('Nothing processed'). :)</p>
+      </div>      
+      <div class="cs-invoice_btns cs-hide_print">   
+        <a href="{{ route('admin.order.index') }}" class="cs-invoice_btn cs-color1">
+          <<
+          <span>&nbsp; @lang('Back')</span>
+        </a>
+      </div>
+    </div>
+
+    @endif
   </div>
 
   <script src="{{ asset('/js_custom/vendor.min.js') }}"></script>

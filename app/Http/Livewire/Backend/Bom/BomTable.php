@@ -50,7 +50,7 @@ class BomTable extends Component
     ];
 
     protected $messages = [
-        'selectedtypes.max' => 'Máximo 10 registros.',
+        'selectedtypes.max' => 'Máximo 25 registros.',
     ];
 
     public function loadMore()
@@ -142,15 +142,16 @@ class BomTable extends Component
     public function sendMaterials()
     {   
         $this->validate([
-            'selectedtypes' => 'max:10',
+            'selectedtypes' => 'max:25',
         ]);
 
         $consumptionCollect = collect();
         $ordercollection = collect();
         $productsCollection = collect();
 
-        foreach($this->getSelectedProducts() as $orderID){
-            $order = Order::with('products.consumption_filter.material', 'products.parent', 'products.order.user.customer')->find($orderID);
+        $orders = Order::whereIn('id', $this->getSelectedProducts())->with('products.consumption_filter.material', 'products.parent', 'products.order.user.customer')->get();
+
+        foreach($orders as $order){
 
             $ordercollection->push([
                 'id' => $order->id,
@@ -177,7 +178,7 @@ class BomTable extends Component
                 if($product_order->gettAllConsumption() != 'empty'){
                     foreach($product_order->gettAllConsumption() as $key => $consumption){
                         $consumptionCollect->push([
-                            'order' => $orderID,
+                            'order' => $order->id,
                             'product_order_id' => $product_order->id, 
                             'material_name' => $consumption['material'],
                             'part_number' => $consumption['part_number'],

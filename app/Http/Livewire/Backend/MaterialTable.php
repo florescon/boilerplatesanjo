@@ -123,7 +123,7 @@ class MaterialTable extends TableComponent
                 ->searchable()
                 ->sortable()
                 ->format(function(Material $model) {
-                    return $this->html($model->stock_formatted);
+                    return $this->html('<strong>'.$model->stock_formatted.'</strong>');
                 })
                 ->exportFormat(function(Material $model) {
                     return $model->stock_formatted;
@@ -132,12 +132,12 @@ class MaterialTable extends TableComponent
             Column::make(__('Unit'), 'unit.name')
                 ->searchable()
                 ->format(function(Material $model) {
-                    return $this->html(!empty($model->unit_id) && isset($model->unit->id) ? $model->unit->name : '<span class="badge badge-pill badge-secondary"> <em>No asignada</em></span>');
+                    return $this->html(!empty($model->unit_id) && isset($model->unit->id) ? '<strong>'.$model->unit->name.'</strong>' : '<span class="badge badge-pill badge-secondary"> <em>No asignada</em></span>');
                 }),
             Column::make(__('Name'), 'name')
                 ->searchable()
                 ->format(function(Material $model) {
-                    return $this->html(!empty($model->family_id) && isset($model->family->name) ? $model->name.'<br>'.$model->family->name_label : $model->name);
+                    return $this->html(!empty($model->family_id) && isset($model->family->name) ? '<strong>'.$model->name.'</strong><br>'.$model->family->name_label : '<strong>'.$model->name.'</strong>');
                 })
                 ->exportFormat(function(Material $model) {
                     return $model->name ?? '--';
@@ -146,7 +146,7 @@ class MaterialTable extends TableComponent
             Column::make(__('Color'), 'color.name')
                 ->searchable()
                 ->format(function(Material $model) {
-                    return $this->html(!empty($model->color_id) && isset($model->color->id) ? '<i style="border-bottom: 1px solid; font-size:14px; color:'.(optional($model->color)->color ?  optional($model->color)->color : 'transparent').';" class="fa">&#xf0c8;</i> '. optional($model->color)->name : '<span class="badge badge-pill badge-secondary"> <em>No definido</em></span>');
+                    return $this->html(!empty($model->color_id) && isset($model->color->id) ? '<i style="border-bottom: 1px solid; font-size:14px; color:'.(optional($model->color)->color ?  optional($model->color)->color : 'transparent').';" class="fa">&#xf0c8;</i> <strong>'. optional($model->color)->name.'</strong>' : '<span class="badge badge-pill badge-secondary"> <em>No definido</em></span>');
                 })
                 ->exportFormat(function(Material $model) {
                     return (!empty($model->color_id) && isset($model->color->id)) ? optional($model->color)->name : '';

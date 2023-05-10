@@ -24,17 +24,30 @@ class PrintExportOrders extends Component
         $ordercollection = collect();
         $productsCollection = collect();
 
+        $oss = collect();
+
         if($this->orders){
 
-            foreach(json_decode($this->orders) as $key => $orderID){
+            // $omg = Order::where('from_store', null)->whereIn('type', [1, 6])->get();
 
-                $order = Order::with('products', 'user.customer')->find($orderID);
+            // foreach($omg as $om){
+            //     $oss->push([
+            //         $om->id, 
+            //     ]);
+            // }
+
+            // dd($oss->values()->all());
+            
+            $ordersJson = Order::whereIn('id', json_decode($this->orders))->with('products', 'user.customer')->get();
+
+            foreach($ordersJson as $order){
 
                 $ordercollection->push([
                     'id' => $order->id,
                     'user' => $order->user_name ?? null,
                     'userId' => $order->user_id ?? null,
                     'comment' => $order->comment,
+                    'request' => $order->request,
                 ]);
 
                 foreach($order->products as $product_order){
@@ -69,23 +82,6 @@ class PrintExportOrders extends Component
                 return $item['productParentName'].' - '.$item['productColorName'].' => '.$item['productParentCode'];
             }], $preserveKeys = true);
 
-            // $myCollection = collect([
-            //     ['product_id' => 1, 'price' => 200, 'discount' => '50'],
-            //     ['product_id' => 2, 'price' => 400, 'discount' => '50']
-            // ])->map(function($row) {
-            //     return collect($row);
-            // });
-
-
-            // $this->products->dd();
-
-            // echo "<pre>";
-            // print_r($this->products);
-            // echo "</pre>";
-
-            // dd($this->products);
-
-            // dd($this->productsCollection);
         }
 
         return view('backend.order.print-export-orders', [
