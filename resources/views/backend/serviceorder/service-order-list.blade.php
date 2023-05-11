@@ -28,7 +28,7 @@
 
             <div class="page-header-subtitle mt-5 mb-2">
               <em>
-                @lang('Filter by update date range')
+                @lang('Filter by created date range')
               </em>
             </div>
 
@@ -129,9 +129,7 @@
                 <th class="text-center">@lang('Comment')</th>
                 <th class="text-center">@lang('Created by')</th>
                 <th class="text-center">@lang('Details')</th>
-                @if($logged_in_user->hasAllAccess())
-          				<th class="text-center">@lang('Status')</th>
-                @endif
+        				<th class="text-center">@lang('Status')</th>
                 <th class="text-center">@lang('Actions')</th>
         			</tr>
         		</thead>
@@ -183,17 +181,19 @@
                   <span class='badge badge-primary'>{{ optional($serviceOrder->service_type)->name }}</span>
                   <div class="small text-muted">@lang('Total'): {{ $serviceOrder->total_products }} </div>
         				</td>
-                @if($logged_in_user->hasAllAccess())
                   <td class="text-center">
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                      @if($serviceOrder->done)
-                        <button wire:loading.attr="disabled" href="#!" wire:click="done({{ $serviceOrder->id }})" class="badge badge-primary">@lang('Done')</button>
-                      @else
-                        <button wire:loading.attr="disabled" href="#!" wire:click="done({{ $serviceOrder->id }})" class="badge badge-danger">@lang('Pending')</button>
-                      @endif
-                    </div>
+                    @if($logged_in_user->hasAllAccess())
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        @if($serviceOrder->done)
+                          <button wire:loading.attr="disabled" href="#!" wire:click="done({{ $serviceOrder->id }})" class="badge badge-primary">@lang('Done')</button>
+                        @else
+                          <button wire:loading.attr="disabled" href="#!" wire:click="done({{ $serviceOrder->id }})" class="badge badge-danger">@lang('Pending')</button>
+                        @endif
+                      </div>
+                    @else
+                      {{ $serviceOrder->is_done_label }}
+                    @endif
                   </td>
-                @endif
                 <td class="text-center">
                   <div class="btn-group" role="group" aria-label="Basic example">
 

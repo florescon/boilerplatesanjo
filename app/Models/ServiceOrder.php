@@ -74,6 +74,11 @@ class ServiceOrder extends Model
         return $this->belongsTo(User::class, 'authorized_id')->withTrashed();
     }
 
+    public function getIsDoneLabelAttribute()
+    {
+        return $this->done ? __('Done') : __('Pending');
+    }
+
     /**
      * @return mixed
      */
@@ -84,6 +89,6 @@ class ServiceOrder extends Model
 
     public function getDateForHumansAttribute()
     {
-        return $this->updated_at->isoFormat('D, MMM, YY');
+        return $this->created_at->isoFormat('D, MMM, YY');
     }
 }
