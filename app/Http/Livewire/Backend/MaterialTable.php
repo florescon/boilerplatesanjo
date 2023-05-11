@@ -40,7 +40,7 @@ class MaterialTable extends TableComponent
 
     public $selected = [];
 
-    public $family_id;
+    public $family_id, $vendor_id, $color_id;
 
     public $clearSearchButton = true;
     
@@ -49,7 +49,7 @@ class MaterialTable extends TableComponent
         'editStock' => ['except'=> false],
     ];
 
-    protected $listeners = ['postAdded' => 'updateEditStock', 'postMass' => 'updateMassAssignment', 'saveMassVendor', 'delete', 'restore', 'triggerRefresh' => '$refresh'];
+    protected $listeners = ['postAdded' => 'updateEditStock', 'postMass' => 'updateMassAssignment', 'emitFamily', 'emitVendor', 'emitColor', 'delete', 'restore', 'triggerRefresh' => '$refresh'];
 
     /**
      * @var string
@@ -84,9 +84,22 @@ class MaterialTable extends TableComponent
         $this->massAssginment = !$this->massAssginment;
     }
 
-    public function saveMassVendor($vendor)
+    public function emitFamily($family)
     {
-        $this->family_id = $vendor;
+        $this->resetPage();
+        $this->family_id = $family;
+    }
+
+    public function emitVendor($vendor)
+    {
+        $this->resetPage();
+        $this->vendor_id = $vendor;
+    }
+
+    public function emitColor($color)
+    {
+        $this->resetPage();
+        $this->color_id = $color;
     }
 
     /**
@@ -100,6 +113,20 @@ class MaterialTable extends TableComponent
             $family_id = $this->family_id;
             $query->whereHas('family', function($queryFamily) use ($family_id){
                 $queryFamily->where('family_id', $family_id);
+            });
+        }
+
+        if($this->vendor_id){
+            $vendor_id = $this->vendor_id;
+            $query->whereHas('vendor', function($queryFamily) use ($vendor_id){
+                $queryFamily->where('vendor_id', $vendor_id);
+            });
+        }
+
+        if($this->color_id){
+            $color_id = $this->color_id;
+            $query->whereHas('color', function($queryFamily) use ($color_id){
+                $queryFamily->where('color_id', $color_id);
             });
         }
 

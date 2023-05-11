@@ -49,15 +49,6 @@
             </table>
         @endif
 
-        <table width="100%">
-            <tr>
-                <td align="left">
-                    <strong>Fecha generado:</strong> 
-                    {{ $ticket->created_at->isoFormat('D, MMM, YY - h:mm a') }}
-                </td>
-            </tr>
-        </table>
-
         @if($ticket->order_id)
             <table width="100%">
                 <tr>

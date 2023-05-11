@@ -41,6 +41,10 @@
 
         <div class="cs-invoice_head cs-type1 cs-mb25">
           <div class="legend">
+            <p class="cs-invoice_number cs-primary_color cs-mb0 cs-f16"><b class="cs-primary_color">@lang('Created'):</b> 
+              {{ now()->isoFormat('D, MMM, YY - h:mm a') }}
+            </p>
+
             <p class="cs-invoice_number cs-primary_color cs-mb0 cs-f16"><b class="cs-primary_color">@lang('Orders') No:</b> 
               @foreach($ordercollection as $key => $order)
                 #{{ $order['id']}}
@@ -62,7 +66,6 @@
                     $order['id'].' => '.
                     $order['comment'].' '
                   !!}
-                  →                  
                   @if($order['request'])
                     <strong class="cs-accent_color_second">{{ $order['request'] }}</strong>
                   @endif
@@ -174,7 +177,7 @@
           @foreach($product as $key2 => $parentProduct)
 
           <div
-            style="page-break-inside:avoid;"
+            style="page-break-inside:avoid; padding-top: 15px;"
           >
             <strong style="color: #003075">{{ $key2 }}</strong>
 
@@ -297,7 +300,7 @@
           </div>
           <div class="cs-note">
             <div class="cs-note_right" style="margin-left: 20px;">
-              <p class="cs-mb0"><b class="cs-primary_color cs-bold">@lang('Note'): --  Memory: {{ number_format(memory_get_peak_usage() / 1048576, 2) . ' MB' }}</b></p>
+              <p class="cs-mb0"><b class="cs-primary_color cs-bold">@lang('Note'): --  </b></p>
             </div>
           </div><!-- .cs-note -->
         </div>

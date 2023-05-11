@@ -44,7 +44,7 @@ class PrintExportOrders extends Component
 
                 $ordercollection->push([
                     'id' => $order->id,
-                    'user' => $order->user_name ?? null,
+                    'user' => $order->user_name_clear ?? null,
                     'userId' => $order->user_id ?? null,
                     'comment' => $order->comment,
                     'request' => $order->request,
@@ -69,7 +69,7 @@ class PrintExportOrders extends Component
                         'productPriceWithoutTax' => $product_order->price_without_tax,
                         'isService' => !$product_order->product->parent_id ? true : false,
                         'customerId' => $order->user_id ?? null,
-                        'customer' => $order->user_name ?? null,
+                        'customer' => $order->user_name_clear ?? null,
                     ]);
                 }
             }

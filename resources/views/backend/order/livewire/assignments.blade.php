@@ -149,6 +149,11 @@
 
                       <div class="row mt-3 mb-5">
                         <div class="col-12 col-lg-12">
+                            
+                            @if($ticket->date_entered)
+                              @lang('Date'): <strong class="text-primary">{{ $ticket->date_entered->format('d-m-Y') }}</strong>
+                            @endif
+
                           <livewire:backend.components.edit-field :model="'\App\Models\Ticket'" :entity="$ticket" :field="'comment'" :key="'tickets'.$ticket->id"/>
                         </div>
                       </div>
@@ -208,19 +213,15 @@
                           <div class="col-6 col-md-6 text-left">
                             @lang('Updated at') {{ $ticket->date_diff_for_humans }}
                             <br>
-                            @if($ticket->date_entered)
-                              @lang('Date'): <strong class="text-primary">{{ $ticket->date_entered->format('d-m-Y') }}</strong>
-                            @endif
-
-                              <div class="form-inline mt-3">
-                                <div class="form-group mb-2">
-                                  <label for="inputPassword2" class="sr-only">Password</label>
-                                  <input wire:model="date_entered" class="form-control" type="date">
-                                </div>
-                                @if($date_entered)
-                                  <button type="button mt-4" wire:click="saveDate({{ $ticket->id }})" class="btn btn-primary btn-sm">@lang('Save date')</button>
-                                @endif
+                            <div class="form-inline mt-3">
+                              <div class="form-group mb-2">
+                                <label for="inputPassword2" class="sr-only">Password</label>
+                                <input wire:model="date_entered" class="form-control" type="date">
                               </div>
+                              @if($date_entered)
+                                <button type="button mt-4" wire:click="saveDate({{ $ticket->id }})" class="btn btn-primary btn-sm">@lang('Save date')</button>
+                              @endif
+                            </div>
                           </div>
                           @if($ticket->isPendingAssignmentTicket())
                             <div class="col-6 col-md-6 text-right">

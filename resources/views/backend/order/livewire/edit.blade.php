@@ -219,16 +219,16 @@
                 </div>
               </div>
 
-              <div class="btn-group" role="group">
-                <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  S/Precios
-                </button>
-                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                  @if(!$model->isQuotation())
-                    <a class="dropdown-item" href="{{ !$from_store ? route('admin.order.ticket_order', [$order_id, true, true]) : route('admin.store.all.ticket_order', [$order_id, true, true]) }}" target="_blank">Ticket</a>
-                  @endif
+              @if(!$model->isQuotation())
+                <div class="btn-group" role="group">
+                  <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    S/Precios
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                      <a class="dropdown-item" href="{{ !$from_store ? route('admin.order.ticket_order', [$order_id, true, true]) : route('admin.store.all.ticket_order', [$order_id, true, true]) }}" target="_blank">Ticket</a>
+                  </div>
                 </div>
-              </div>
+              @endif
 
               @if(!$model->isOutputProducts())
                 <a type="button" href="{{ !$from_store ? route('admin.order.print', [$order_id, 0, true]) : route('admin.store.all.print', [$order_id, 0, true]) }}" class="btn btn-secondary" target="_blank">Imprimir productos agrupados</a>

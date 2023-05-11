@@ -119,13 +119,15 @@
 			    @endforeach
 
 				    <td>
-						<th class="text-right" colspan="{{ $type != 'output_products' ? '2' : '0' }}">Total</th>	    	
+					    @if($type != 'output_products')
+							<th class="text-right" colspan="1">Total</th>	    	
+						@endif
 						<td class="text-center">{{ $totalquantities }}</td>
 					    @if($type != 'output_products')
-						<td class="text-left text-left" colspan="3">
-							${{ number_format($total, 2) }}
-							<div class="small text-muted"> ${{ priceWithoutIvaIncluded($total) }} </div>
-						</td>
+							<td class="text-left text-left" colspan="3">
+								${{ number_format($total, 2) }}
+								<div class="small text-muted"> ${{ priceWithoutIvaIncluded($total) }} </div>
+							</td>
 						@else
 							<td class="text-center" colspan="2"></td>
 						@endif

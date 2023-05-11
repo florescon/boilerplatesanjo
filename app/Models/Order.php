@@ -139,6 +139,26 @@ class Order extends Model
         return "<span class='badge badge-primary'>".__('Internal control').'</span>';
     }
 
+    /**
+     * Return the correct order status formatted.
+     *
+     * @return mixed
+     */
+    public function getUserNameClearAttribute(): string
+    {
+        if($this->user_id){
+            return $this->user->real_name;
+        }
+        elseif($this->departament_id){
+           return $this->departament->name;
+        }
+        elseif($this->isFromStore()){
+            return __('General');
+        }
+
+        return __('Internal control');
+    }
+
     public function getTrackingNumberAttribute(): ?string
     {
         return $this->slug ?? '';

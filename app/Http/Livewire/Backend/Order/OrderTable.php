@@ -89,8 +89,8 @@ class OrderTable extends Component
             // ->onlyAssignment(6)
         ->when($this->dateInput, function ($query) {
             empty($this->dateOutput) ?
-            $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', now()]) :
-            $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59']);
+            $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', now()]) :
+            $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59']);
         })
         ->when($this->statusOrder, function ($query) {
 

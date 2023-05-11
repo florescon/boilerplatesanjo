@@ -40,7 +40,7 @@
 
                 <div class="page-header-subtitle mt-4 mb-2 no-print">
                     <em>
-                        @lang('Filter by updated date range')
+                        @lang('Filter by created date range')
                     </em>
                 </div>
 

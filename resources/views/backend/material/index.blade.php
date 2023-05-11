@@ -23,10 +23,6 @@
                 <livewire:backend.material.modify-feedstock />
             @endif
 
-            @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.material.modify-quantities'))
-                <livewire:backend.material.mass-assignment />
-            @endif
-
             @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.material.create'))
                 <x-utils.link
                     icon="c-icon cil-plus"
@@ -40,6 +36,29 @@
         </x-slot>
 
         <x-slot name="body">
+
+            <table class="table mt-2 table-borderless">
+              <thead>
+                <tr>
+                  <th scope="col" style="width: 33.33%;">
+                    @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.material.modify-quantities'))
+                        <livewire:backend.material.select-color />
+                    @endif
+                  </th>
+                  <th scope="col" style="width: 33.33%;">
+                    @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.material.modify-quantities'))
+                        <livewire:backend.material.select-vendor />
+                    @endif
+                  </th>
+                  <th scope="col" style="width: 33.33%;">
+                    @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.material.modify-quantities'))
+                        <livewire:backend.material.select-family />
+                    @endif
+                  </th>
+                </tr>
+              </thead>
+            </table>
+
             <livewire:backend.material-table />
         </x-slot>
 
@@ -123,7 +142,95 @@
 
           $('#familyselect').on('change', function (e) {
             var data = $('#familyselect').select2("val");
+            Livewire.emit('postFamily', data)
+          });
+
+      });
+    </script>
+
+    <script>
+      $(document).ready(function() {
+        $('#vendorselect').select2({
+          placeholder: '@lang("Choose vendor")',
+          // width: 'resolve',
+          theme: 'bootstrap4',
+          // allowClear: true,
+          ajax: {
+                url: '{{ route('admin.vendor.select') }}',
+                data: function (params) {
+                    return {
+                        search: params.term,
+                        page: params.page || 1
+                    };
+                },
+                dataType: 'json',
+                processResults: function (data) {
+                    data.page = data.page || 1;
+                    return {
+                        results: data.items.map(function (item) {
+                            return {
+                                id: item.id,
+                                text: item.name
+                            };
+                        }),
+                        pagination: {
+                            more: data.pagination
+                        }
+                    }
+                },
+                cache: true,
+                delay: 250,
+                dropdownautowidth: true
+            }
+          });
+
+          $('#vendorselect').on('change', function (e) {
+            var data = $('#vendorselect').select2("val");
             Livewire.emit('postVendor', data)
+          });
+
+      });
+    </script>
+
+    <script>
+      $(document).ready(function() {
+        $('#colorselect').select2({
+          placeholder: '@lang("Choose color")',
+          // width: 'resolve',
+          theme: 'bootstrap4',
+          // allowClear: true,
+          ajax: {
+                url: '{{ route('admin.color.select') }}',
+                data: function (params) {
+                    return {
+                        search: params.term,
+                        page: params.page || 1
+                    };
+                },
+                dataType: 'json',
+                processResults: function (data) {
+                    data.page = data.page || 1;
+                    return {
+                        results: data.items.map(function (item) {
+                            return {
+                                id: item.id,
+                                text: item.name
+                            };
+                        }),
+                        pagination: {
+                            more: data.pagination
+                        }
+                    }
+                },
+                cache: true,
+                delay: 250,
+                dropdownautowidth: true
+            }
+          });
+
+          $('#colorselect').on('change', function (e) {
+            var data = $('#colorselect').select2("val");
+            Livewire.emit('postColor', data)
           });
 
       });
@@ -145,6 +252,22 @@
         Livewire.on('clear-family', clear => {
             jQuery(document).ready(function () {
                 $("#familyselect").val('').trigger('change')
+            });
+        })
+    </script>
+
+    <script>
+        Livewire.on('clear-vendor', clear => {
+            jQuery(document).ready(function () {
+                $("#vendorselect").val('').trigger('change')
+            });
+        })
+    </script>
+
+    <script>
+        Livewire.on('clear-color', clear => {
+            jQuery(document).ready(function () {
+                $("#colorselect").val('').trigger('change')
             });
         })
     </script>
