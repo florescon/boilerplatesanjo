@@ -70,7 +70,12 @@
                   <tr class="{{ $loop->last ? 'border-bottom' : '' }}">
                     {{-- @json($product) --}}
                     <td class="py-1">
-                      <p class="card-text font-weight-bold mb-25">{{ $product->product->only_name}}</p>
+                      <p class="card-text mb-25">
+                        {{ $product->product->code_subproduct_clear }}
+                        <strong>
+                          {{ $product->product->only_name}}
+                        </strong>
+                      </p>
                       <p class="card-text text-nowrap">
                         {!! $product->product->only_parameters !!}
                       </p>

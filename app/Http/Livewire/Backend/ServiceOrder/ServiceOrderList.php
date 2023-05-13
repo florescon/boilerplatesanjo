@@ -54,6 +54,7 @@ class ServiceOrderList extends Component
         if ($this->sortField === $field) {
             $this->sortAsc = ! $this->sortAsc;
         } else {
+            $this->resetPage();
             $this->sortAsc = true;
         }
 

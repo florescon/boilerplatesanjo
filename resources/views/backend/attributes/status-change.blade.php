@@ -1,6 +1,6 @@
 <div class="form-group row" wire:ignore>
     <div class="col-sm-12">
-        <select id="statuschange" class="custom-select" style="width: 100%;" aria-hidden="true">
+        <select id="statuschange" class="custom-select" style="width: 250px;" aria-hidden="true">
         </select>
     </div>
 </div>

@@ -129,7 +129,12 @@
                 <th class="text-center">@lang('Comment')</th>
                 <th class="text-center">@lang('Created by')</th>
                 <th class="text-center">@lang('Details')</th>
-        				<th class="text-center">@lang('Status')</th>
+        				<th class="text-center">
+                  <a style="color:white;" wire:click.prevent="sortBy('done')" role="button" href="#">
+                    @lang('Status')
+                    @include('backend.includes._sort-icon', ['field' => 'done'])
+                  </a>
+                </th>
                 <th class="text-center">@lang('Actions')</th>
         			</tr>
         		</thead>

@@ -85,7 +85,6 @@ class Kanban extends Component
                 ])
                 ->orderBy('a.id', 'desc')
                  // ->union($orders_captured2)
-                ->orderByDesc('a.id')
                 ->limit(10);
     }
 
@@ -126,7 +125,6 @@ class Kanban extends Component
                     $query->select('status_id')
                         ->from('status_orders')
                         ->whereColumn('status_orders.order_id', 'a.id')
-                        ->orderByDesc('status_orders.created_at')
                         ->limit(1);
                 }, null)
                 ->select('*', DB::raw('DATE_FORMAT(a.created_at, "%d-%m-%Y") as date'))

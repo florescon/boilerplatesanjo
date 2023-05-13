@@ -409,6 +409,7 @@
                   <tr>
                     <td>
                       <a href="{{ route('admin.product.consumption_filter', $product->product_id) }}" target=”_blank”> <span class="badge badge-warning"> <i class="cil-color-fill"></i> <em class="text-white">@lang('Consumption')</em> </span></a>
+                      {{ $product->product->code_subproduct_clear }}
                       {!! $product->product->full_name_link !!}
                     </td>
                     <td class="text-center">
@@ -508,6 +509,7 @@
                   @foreach($model->product_sale as $product)
                   <tr >
                     <td>
+                      {{ $product->product->code_subproduct_clear }}
                       {!! $product->product->full_name !!}
                     </td>
                     <td class="text-center">
@@ -566,6 +568,7 @@
                   @foreach($model->product_request as $product)
                   <tr >
                     <td>
+                      {{ $product->product->code_subproduct_clear }}
                       {!! $product->product->full_name !!}
                     </td>
                     <td class="text-center">
@@ -621,6 +624,7 @@
                   @foreach($model->product_output as $product)
                   <tr>
                     <td>
+                      {{ $product->product->code_subproduct_clear }}
                       {!! $product->product->full_name !!}
                     </td>
 
@@ -688,6 +692,7 @@
                   @foreach($model->product_quotation as $product)
                   <tr>
                     <td>
+                      {{ $product->product->code_subproduct_clear }}
                       {!! $product->product->full_name !!}
                     </td>
                     <td class="text-center">

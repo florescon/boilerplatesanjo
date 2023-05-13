@@ -75,7 +75,7 @@
                                 <div class="col form-inline">
                                     @lang('Per page'): &nbsp;
 
-                                    <select wire:model="perPage" class="form-control ml-4 mb-2">
+                                    <select wire:model="perPage" class="form-control ml-4 ">
                                         <option>5</option>
                                         <option>10</option>
                                         <option>25</option>
@@ -84,11 +84,11 @@
                                     </select>
 
                                     @if ($status == '' || $status == 'all')
-                                        <div class="ml-4">
+                                        <div class="ml-4 mt-2">
                                             <livewire:backend.attributes.status-change />
                                         </div>
                                         @if ($statusOrder)
-                                            <button class="btn btn-danger btn-sm ml-4 pb-2 mb-2"
+                                            <button class="btn btn-danger btn-sm ml-4 pb-2 mt-2"
                                                 wire:click="clearFilterStatusOrder">
                                                 @lang('Clear status order')
                                             </button>

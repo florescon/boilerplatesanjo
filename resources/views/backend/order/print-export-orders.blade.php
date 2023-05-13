@@ -1,27 +1,20 @@
-<!DOCTYPE html>
-<html class="no-js" lang="es">
-<head>
-  <!-- Meta Tags -->
-  <meta charset="utf-8">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="author" content="Flores">
-  <!-- Site Title -->
-  <title>@lang('Export orders by products') {{ now() }}</title>
-  <link rel="stylesheet" href="{{ asset('/css_custom/ivonne.css') }}" />
-  <link rel="icon" type="image/png" href="{{ asset('/img/ga/san2.png')}}">
-</head>
-
-<body>
-  <div class="cs-container">
+<div class="cs-container" style="{{ $width ? 'max-width: 2080px;' : '' }}">
     @if($ordercollection)
     <div class="cs-invoice cs-style1">
       <div class="cs-invoice_btns cs-hide_print">   
 
-        <a href="{{ route('admin.order.index') }}" class="cs-invoice_btn cs-color1">
+        <a href="{{ route('admin.order.index') }}" class="cs-invoice_btn cs-color1" style="margin-right: 10px;">
           <<
           <span>&nbsp; @lang('Back')</span>
         </a>
+
+        <button wire:click="$toggle('width')" class="cs-invoice_btn {{ !$width ? '' : 'cs-color1' }}">
+          @if(!$width)
+            @lang('Fullscreen')
+          @else
+            @lang('Exit Fullscreen')
+          @endif
+        </button>
 
         <a href="javascript:window.print()" class="cs-invoice_btn cs-color2">
           <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M384 368h24a40.12 40.12 0 0040-40V168a40.12 40.12 0 00-40-40H104a40.12 40.12 0 00-40 40v160a40.12 40.12 0 0040 40h24" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32"/><rect x="128" y="240" width="256" height="208" rx="24.32" ry="24.32" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32"/><path d="M384 128v-24a40.12 40.12 0 00-40-40H168a40.12 40.12 0 00-40 40v24" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32"/><circle cx="392" cy="184" r="24"/></svg>
@@ -45,7 +38,7 @@
               {{ now()->isoFormat('D, MMM, YY - h:mm a') }}
             </p>
 
-            <p class="cs-invoice_number cs-primary_color cs-mb0 cs-f16"><b class="cs-primary_color">@lang('Orders') No:</b> 
+            <p class="cs-invoice_number cs-primary_color cs-mb0 cs-f16"><b class="cs-primary_color"> {{ count($ordercollection) }} @lang('Orders'):</b> 
               @foreach($ordercollection as $key => $order)
                 #{{ $order['id']}}
                 {{ !$loop->last ? ',' : '' }}
@@ -323,20 +316,4 @@
     </div>
 
     @endif
-  </div>
-
-  <script src="{{ asset('/js_custom/vendor.min.js') }}"></script>
-
-  <script type="text/javascript">
-    $(window).on('load', function() {
-      if (feather) {
-        feather.replace({
-          width: 14
-          , height: 14
-        });
-      }
-    })
-  </script>
-
-</body>
-</html>
+</div>

@@ -13,12 +13,15 @@ class PrintExportOrders extends Component
 
     public $productsCollection;
 
+    public bool $width = false;
+
     public $products;
 
     private function products()
     {
         return $this->products = $this->products ? $this->products->sortBy(['productName', 'asc']) : null;
     }
+
     public function render()
     {
         $ordercollection = collect();
