@@ -54,13 +54,13 @@
                                         </span>
                                         <div class="custom-control custom-checkbox col">
                                             <input type="checkbox" class="custom-control-input"
-                                                value="{{ $order->id }}" wire:model="selectedtypes"
+                                                value="{{ $order->folio }}" wire:model="selectedtypes"
                                                 id="checklist-item-{{ $order->id }}">
                                             <label class="custom-control-label"
                                                 for="checklist-item-{{ $order->id }}"></label>
                                             <div>
                                                 <a href="{{ route('admin.order.edit', $order->id) }}"
-                                                    target="_blank"><strong>#{{ $order->id }}</strong></a>
+                                                    target="_blank"><strong>#{{ $order->folio }}</strong></a>
                                                 <input type="text" placeholder="{{ __('undefined customer') }}"
                                                     value="{{ Str::limit($order->customer, 50) }}"
                                                     data-filter-by="value" />
@@ -117,7 +117,7 @@
                             @lang('Orders'):
                             @foreach ($orderCollection as $order)
                                 <span class="badge badge-warning ml-1 mr-1 mt-1"
-                                    style="font-size: 1rem;">#{{ $order['id'] ?? '' }}</span>
+                                    style="font-size: 1rem;">#{{ $order['folio'] ?? '' }}</span>
                             @endforeach
                         @else
                             <p>@lang('Nothing processed')</p>

@@ -16,7 +16,7 @@ use DB;
 
 class EditOrder extends Component
 {
-    public $order_id, $lates_statusId, $slug, $isComment, $comment, $isRequest, $request, $isInfo_customer, $info_customer, $isDate, $date_entered;
+    public $order_id, $lates_statusId, $slug, $isComment, $comment, $isDiscount, $discount, $isRequest, $request, $isInfo_customer, $info_customer, $isDate, $date_entered;
 
     public $previousMaterialByProduct, $maerialAll;
 
@@ -42,6 +42,7 @@ class EditOrder extends Component
         $this->from_store = $order->from_store;
         $this->lates_statusId = $order->last_status_order->status_id ?? null;
         $this->initcomment($order);
+        $this->initdiscount($order);
         $this->initrequest($order);
         $this->initinfo_customer($order);
         $this->initdate($order);
@@ -78,6 +79,12 @@ class EditOrder extends Component
     {
         $this->comment = $order->comment;
         $this->isComment = $order->comment || empty($order) ? $order->comment : __('Define comment');
+    }
+
+    private function initdiscount(Order $order)
+    {
+        $this->discount = $order->discount;
+        $this->isDiscount = $order->discount || empty($order) ? $order->discount.'% '.__('Discount') : __('Define discount');
     }
 
     private function initrequest(Order $order)
@@ -138,6 +145,23 @@ class EditOrder extends Component
         ]);
     }
 
+    public function savediscount()
+    {
+        $this->validate([
+            'discount' => 'integer|min:0|max:100',
+        ]);
+
+        $order = Order::findOrFail($this->order_id);
+        $order->discount = $this->discount ?? 0;
+        $order->save();
+
+        $this->initdiscount($order); // re-initialize the component state with fresh data after saving
+
+        $this->emit('swal:alert', [
+           'icon' => 'success',
+            'title'   => __('Updated at'), 
+        ]);
+    }
     public function saverequest()
     {
         $this->validate([
@@ -234,7 +258,9 @@ class EditOrder extends Component
 
         $order->touch();
 
-        $orderUpdate = $order->update(['type' => !$this->from_store ? 1 : 5, 'created_at' => now()]);
+        $last_order_or_request = $order->last_order_or_request;
+
+        $orderUpdate = $order->update(['type' => !$this->from_store ? 1 : 5, 'folio' => $last_order_or_request+1, 'created_at' => now()]);
         $order->product_quotation()->update(['type' => !$this->from_store ? 1 : 5]);   
 
         if($this->from_store){

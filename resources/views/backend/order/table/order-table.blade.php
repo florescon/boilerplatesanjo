@@ -158,7 +158,7 @@
                                                         href="{{ route('admin.order.edit', $order->id) }}"
                                                         style="text-decoration: none !important">
                                                         <h6 data-filter-by="text" style="display: inline;">
-                                                            <strong>#{{ $order->id }}</strong>
+                                                            <strong>#{!! $order->folio_or_id !!}</strong>
                                                             {!! $order->user_name !!} {!! Str::limit($order->info_customer, 100) ?? '' !!} </h6>
                                                     </a>
                                                     @if ($order->comment)

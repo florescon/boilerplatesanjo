@@ -8,7 +8,7 @@
           </div>
 
             <h4 class="card-title">@lang('Service Order')</h4>
-            <p class="card-description"> @lang('Request') #{{ $order->id }} </p>
+            <p class="card-description"> @lang('Request') #{!! $order->folio_or_id !!} </p>
 
             @if($products->count())
 

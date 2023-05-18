@@ -10,6 +10,7 @@
   <!-- Site Title -->
   <title>{{ $order->request ?? '' }} {{ $order->comment ?? '' }}</title>
   <link rel="stylesheet" href="{{ asset('/css_custom/ivonne.css') }}" />
+  <link rel="icon" type="image/png" href="{{ asset('/img/ga/san2.png')}}">
 </head>
 
 <body>
@@ -19,7 +20,7 @@
         <div class="cs-invoice_head cs-type1 cs-mb25">
           <div class="cs-invoice_left">
             <div class="cs-logo cs-mb5"><img src="{{ asset('img/logo22.png') }}" width="100" alt="Logo"></div>
-            <p class="cs-invoice_number cs-primary_color cs-mb0 cs-f16"><b class="cs-primary_color">{{ $order->type_order_clear }} No:</b> #{{ $order->characters_type_order }}{{ $order->id }}</p>
+            <p class="cs-invoice_number cs-primary_color cs-mb0 cs-f16"><b class="cs-primary_color">{{ $order->type_order_clear }} No:</b> #{{ $order->characters_type_order }}{!! $order->folio_or_id !!}</p>
           </div>
           <div class="cs-invoice_right cs-text_right">
             <div class="cs-logo cs-mb5"><img src="{{ asset('img/bacapro.png') }}" width="130" alt="Logo"></div>
@@ -133,7 +134,7 @@
                       <th class="cs-width_6 cs-semi_bold cs-primary_color">@lang('Description')</th>
                       @if(!$order->isOutputProducts())
                         <th class="cs-width_1 cs-semi_bold cs-primary_color">@lang('Price')</th>
-                        <th class="cs-width_2 cs-semi_bold cs-primary_color">@lang('Total')</th>
+                        <th class="cs-width_2 cs-semi_bold cs-primary_color cs-text_right">@lang('Total')</th>
                       @endif
                     </tr>
                   </thead>
@@ -242,7 +243,7 @@
                           <div class="small text-muted"> {!! $product->product->only_parameters !!} </div>
                         </td>
                         <td class="cs-width_1 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</td>
-                        <td class="cs-width_2 cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</td>
+                        <td class="cs-width_2 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</td>
                       </tr>
                       @if($product->comment)
                         <tr>
@@ -297,16 +298,32 @@
                     <td class="cs-width_5 cs-text_right">
                       @if(!$breakdown)
                         <p class="cs-primary_color cs-bold cs-f16 cs-m0">@lang('Subtotal'):</p>
+                      @endif
+                      @if($order->discount)
+                        <p class="cs-primary_color cs-bold cs-f16 cs-m0">@lang('Discount'):</p>
+                      @endif
+                      @if(!$breakdown)
                         <p class="cs-mb5 cs-mb5 cs-f15 cs-primary_color cs-semi_bold">IVA:</p>
                       @endif
                       <p class="cs-primary_color cs-bold cs-f16 cs-m0">@lang('Total'):</p>
                     </td>
                     <td class="cs-width_2 cs-text_rightcs-f16">
                       @if(!$breakdown)
-                        <p class="cs-primary_color cs-bold cs-f16 cs-m0 cs-text_right">${{ priceWithoutIvaIncluded(count($order->product_suborder) ? $total : $order->total_by_all)  }}</p>
-                        <p class="cs-mb5 cs-mb5 cs-text_right cs-f15 cs-primary_color cs-semi_bold">${{ ivaPrice(count($order->product_suborder) ? $total : $order->total_by_all) }}</p>
+                        <p class="cs-primary_color cs-bold cs-f16 cs-m0 cs-text_right">${{ count($order->product_suborder) ? $total_by_all : number_format($order->subtotal_by_all, 2)  }}</p>
                       @endif
-                      <p class="cs-primary_color cs-bold cs-f16 cs-m0 cs-text_right">${{ number_format(count($order->product_suborder) ? $total : $order->total_by_all, 2) }}</p>
+                      @if($order->discount)
+                        <p class="cs-mb5 cs-mb5 cs-text_right cs-f15 cs-primary_color cs-semi_bold">
+                          @if(!$breakdown)
+                            ${{ number_format($order->calculate_discount_all, 2)}}
+                          @else
+                            %{{ $order->discount }}
+                          @endif
+                        </p>
+                      @endif
+                      @if(!$breakdown)
+                        <p class="cs-mb5 cs-mb5 cs-text_right cs-f15 cs-primary_color cs-semi_bold">${{ calculateIva($order->subtotal_less_discount) }}</p>
+                      @endif
+                      <p class="cs-primary_color cs-bold cs-f16 cs-m0 cs-text_right">${{ number_format(count($order->product_suborder) ? $total : $order->total_by_all_with_discount, 2) }}</p>
                     </td>
                     @endif
                   </tr>

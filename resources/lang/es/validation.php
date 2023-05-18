@@ -182,5 +182,6 @@ return [
         'quantity' => 'cantidad',
         'info_customer' => 'información del cliente',
         'code_clone' => 'código clon',
+        'discount' => 'descuento'
     ],
 ];

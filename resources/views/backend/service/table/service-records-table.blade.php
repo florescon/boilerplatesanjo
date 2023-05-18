@@ -173,7 +173,7 @@
                 ${{ $record->price_order_or_suborder }}
               </td>
               <td class="align-middle text-center">
-                <a href="{{ route('admin.order.edit', $record->order_or_suborder) }}"> #{{ $record->order_or_suborder }}</a>
+                <a href="{{ route('admin.order.edit', $record->order_or_suborder) }}"> #{!! $record->order_or_suborder_label !!}</a>
               </td>
               <td class="align-middle text-center">
                 {!! $record->type_order_label !!}

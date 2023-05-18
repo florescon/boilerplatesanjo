@@ -65,7 +65,7 @@
                 <h3>@lang('Service Order') #{{ $service->id }}</h3>
                 <pre>
                     <strong>@lang('Date'):</strong> {{ $service->created_at }}
-                    <strong>@lang('Order'):</strong> #{{ $order->id }}
+                    <strong>@lang('Order'):</strong> #{!! $order->folio_or_id !!}
                     <strong>@lang('Service'): </strong> <u>{{ optional($service->service_type)->name }}</u>
                     <strong>@lang('Customer'):</strong> {{ optional($service->order)->user_name }}
                     <strong>@lang('Created by'): </strong> {{ optional($service->createdby)->name }}
@@ -148,7 +148,7 @@
                     <h3>@lang('Service Order') #{{ $service->id }}</h3>
                     <pre>
                         <strong>@lang('Date'):</strong> {{ $service->created_at }}
-                        <strong>@lang('Order'):</strong> #{{ $order->id }}
+                        <strong>@lang('Order'):</strong> #{!! $order->folio_or_id !!}
                         <strong>@lang('Service'): </strong> <u>{{ optional($service->service_type)->name }}</u>
                         <strong>@lang('Customer'):</strong> {{ optional($service->order)->user_name }}
                         <strong>@lang('Created by'): </strong> {{ optional($service->createdby)->name }}

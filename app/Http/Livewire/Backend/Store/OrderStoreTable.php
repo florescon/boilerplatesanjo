@@ -29,7 +29,7 @@ class OrderStoreTable extends Component
 
     public $limitPerPage = '50';
 
-    public $sortField = 'id';
+    public $sortField = 'folio';
     public $sortAsc = false;
 
     public $status;
@@ -56,8 +56,8 @@ class OrderStoreTable extends Component
         $query = Order::query()->with('user.customer', 'orders_payments', 'orders_delivery', 'last_order_delivery', 'product_quotation', 'product_output', 'product_order', 'product_sale',  'product_request', 'product_suborder', 'last_status_order.status')
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?
-                $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', now()]) :
-                $query->whereBetween('updated_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59']);
+                $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', now()]) :
+                $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59']);
             })
             // ->when(!$this->dateInput, function ($query) {
             //     $query->whereYear('created_at', now()->year);
@@ -128,7 +128,7 @@ class OrderStoreTable extends Component
                 ->orWhereHas('departament', function ($query) {
                    $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
                 })
-                ->orWhere('id', 'like', '%' . $this->searchTerm . '%')
+                ->orWhere('folio', 'like', '%' . $this->searchTerm . '%')
                 ->orWhere('info_customer', 'like', '%' . $this->searchTerm . '%')
                 ->orWhere('comment', 'like', '%' . $this->searchTerm . '%');
             });

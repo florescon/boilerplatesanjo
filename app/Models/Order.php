@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\OrderStatusPayment;
 use App\Models\OrderStatusDelivery;
 use App\Models\OrdersDelivery;
+use Carbon\Carbon;
 use DB;
 
 class Order extends Model
@@ -36,6 +37,8 @@ class Order extends Model
         'branch_id',
         'type',
         'created_at',
+        'folio',
+        'from_quotation',
     ];
 
     /**
@@ -225,32 +228,6 @@ class Order extends Model
     }
 
     /**
-     * Return Total order price without shipping amount.
-     */
-    public function getTotalPaymentsRemainingAttribute(): string
-    {
-        return $this->total_sale_and_order - $this->total_payments();
-    }
-
-    /**
-     * Return payment label.
-     */
-    public function getPaymentLabelAttribute()
-    {
-        if($this->orders_payments()->exists()){
-            if($this->total_payments_remaining <= 0){
-                return "<span class='badge badge-success'>".__(OrderStatusPayment::PAID).'</span>';
-            }
-            else{
-                return "<span class='badge badge-warning text-white'>".__(OrderStatusPayment::ADVANCED).'</span>';
-            }
-        }
-        else{
-            return "<span class='badge badge-danger'>".__('Payment').' '.__(OrderStatusPayment::PENDING).'</span>';
-        }
-    }
-
-    /**
      * @return mixed
      */
     public function products()
@@ -374,6 +351,51 @@ class Order extends Model
         return $this->hasOne(StatusOrder::class)->latestOfMany();
     }
 
+    public function getLastOrderByTypeAndBranchAttribute(): int
+    {   
+        if($this->type){
+            $order = DB::table('orders')->where('branch_id', $this->branch_id)->where('type', $this->type)->latest()->first();
+            return $order->folio ?: $this->id;
+        }
+
+        return $this->id;
+    }
+
+    public function getLastOrderByTypeAndBranchSkipAttribute(): int
+    {   
+        if($this->type){
+
+            switch( $this->type){
+                case 6: 
+                    $order = DB::table('orders')->where('branch_id', $this->branch_id ?? 0)->latest()->skip(1)->first();
+                default:
+                    $order = DB::table('orders')->where('branch_id', $this->branch_id ?? 0)->where('type', $this->type ?? 1)->latest()->skip(1)->first();
+            }
+
+            return $order ? ($order->folio ?: $this->id) : $this->id;
+        }
+
+        return $this->id;
+    }
+
+    public function getLastOrderOrRequestAttribute(): int
+    {   
+        if($this->type){
+            $order = DB::table('orders')->where('branch_id', $this->branch_id)->where('type', !$this->from_store ? 1 : 5)->latest()->first();
+            return $order->folio ?: $this->id;
+        }
+
+        return $this->id;
+    }
+
+    public function getFolioOrIDAttribute()
+    {
+        if($this->folio !== 0)
+            return '<em style="color:red;">'.$this->folio.'.</em>';
+
+        return '<em style="color:red;">'.$this->id.'.</em>';
+    }
+
     public function last_status()
     {
         return DB::table('statuses')->latest('level')->first();
@@ -488,11 +510,6 @@ class Order extends Model
         return $this->product_output->sum('quantity');
     }
 
-    public function getDetailsForBoxAttribute()
-    {
-        return '<em>'.__('Articles').': '.$this->total_products_by_all.'</em> -- <strong>$'.$this->total_by_all.'</strong>';        
-    }
-
     public function getTotalProductsAssignmentsAttribute()
     {
         return $this->product_order->sum(function($parent) {
@@ -502,9 +519,99 @@ class Order extends Model
 
     public function getTotalByAllAttribute()
     {
+        //1160
         return $this->products->sum(function($parent) {
           return $parent->quantity * $parent->price;
         });
+    }
+
+    public function getSubtotalByAllAttribute()
+    {
+        //1000
+        $subtotal = $this->products->sum(function($parent) {
+          return $parent->quantity * $parent->price;
+        });
+
+        return priceWithoutIvaIncludedNon($subtotal);
+    }
+
+    public function getCalculateDiscountAllAttribute()
+    {
+        //100
+        return $this->discount > 0 ? (($this->discount * $this->subtotal_by_all) / 100) : 0;
+    }
+
+    public function getSubtotalLessDiscountAttribute()
+    {
+        //900
+        return $this->subtotal_by_all - $this->calculate_discount_all;        
+    }
+
+    public function getTotalByAllWithDiscountAttribute()
+    {
+        //
+        return $this->subtotal_less_discount + calculateIvaNon($this->subtotal_less_discount);
+    }
+
+    public function calculateDiscount($total)
+    {
+        return $this->discount > 0 ? ($this->discount * $total) / 100 : $calculate;
+    }
+
+    /**
+     * Return Total order price without shipping amount.
+     */
+    public function getTotalPaymentsRemainingAttribute(): string
+    {
+        return $this->total_by_all_with_discount - $this->total_payments();
+    }
+
+    public function filterByDiscount(): bool
+    {
+        $limit = $this->created_at->addHours(1);
+        $now = Carbon::now();
+
+        switch ($this->type) {
+            case 2:
+                return !$now->gt($limit) ? true : false;
+            case 3:
+                return !$now->gt($limit) ? true : false;
+            case 4:
+                return false;
+            case 5:
+                return !$now->gt($limit) ? true : false;
+            case 6:
+                return true;
+            case 7:
+                return false;
+            default:
+                return !$now->gt($limit) ? true : false;
+        }
+
+        return false;
+    }
+
+    /**
+     * Return payment label.
+     */
+    public function getPaymentLabelAttribute()
+    {
+        if($this->orders_payments()->exists()){
+            if($this->total_payments_remaining <= 0){
+                return "<span class='badge badge-success'>".__(OrderStatusPayment::PAID).'</span>';
+            }
+            else{
+                return "<span class='badge badge-warning text-white'>".__(OrderStatusPayment::ADVANCED).'</span>';
+            }
+        }
+        else{
+            return "<span class='badge badge-danger'>".__('Payment').' '.__(OrderStatusPayment::PENDING).'</span>';
+        }
+    }
+
+    public function getDetailsForBoxAttribute()
+    {
+        return '<em>'.__('Articles').': '.$this->total_products_by_all.'</em> -- <strong>$'.$this->total_by_all.'</strong>';        
     }
 
     public function getTotalOrderAttribute()

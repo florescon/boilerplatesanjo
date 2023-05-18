@@ -169,7 +169,7 @@
                 </td>
                 <td class="align-middle text-center">
                   @if($record->order_or_suborder)
-                    <a href="{{ route('admin.order.edit', $record->order_or_suborder ) }}"> #{{ $record->order_or_suborder }}</a>
+                    <a href="{{ route('admin.order.edit', $record->order_or_suborder ) }}"> #{!! $record->order_or_suborder_label !!}</a>
                   @endif
                 </td>
                 <td class="align-middle text-center">

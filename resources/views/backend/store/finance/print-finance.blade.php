@@ -74,7 +74,7 @@
         @if($finances->order_id)
           <thead style="background-color: #FCFCAA;">
             <tr align="center">
-              <th colspan="2">@lang('Order')/@lang('Sale'): #{{ $finances->order_id }}</th>
+              <th colspan="2">@lang('Order')/@lang('Sale'): #{!! optional($finances->order)->folio_or_id !!}</th>
             </tr>
             <tr align="center">
               <th colspan="2">@lang('Tracking number'): {{ optional($finances->order)->slug }}</th>

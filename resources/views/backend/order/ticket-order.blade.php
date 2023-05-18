@@ -59,7 +59,7 @@ ventas@sj-uniformes.com
                     @else
                         @lang('Output'):
                     @endif
-                    </strong> #{{ $order->id }}
+                    </strong> #{!! $order->folio_or_id !!}
                 </td>
             </tr>
         </table>
@@ -73,61 +73,11 @@ ventas@sj-uniformes.com
             </tr>
         </table>
 
-        @if(count($order->product_order))
+        @if(count($order->products) && !count($order->product_output))
             <table width="100%">
-                <thead style="background-color: gray;">
+                <thead style="background-color: brown; color: white;">
                   <tr align="center">
-                    <th>Concepto</th>
-                    <th>Cantidad</th>
-                    @if(!$emptyPrices)
-                        <th>Precio</th>
-                        <th>Total</th>
-                    @endif
-                  </tr>
-                </thead>
-                <tbody>
-                  @foreach($order->product_order as $product)
-                  <tr>
-                    <td scope="row">{!! $product->product->full_name !!}</td>
-                    <td align="center">{{ $product->quantity }}</td>
-                    
-                    @if(!$emptyPrices)
-                        <td align="right">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</td>
-                        <td align="right">${{ !$breakdown ? priceWithoutIvaIncluded($product->total_by_product) : $product->total_by_product }}</td>
-                    @endif
-                  </tr>
-                  @endforeach
-                </tbody>
-
-                <tfoot>
-                    @if(!$breakdown)
-                        <tr>
-                            <td align="right" colspan="3">Subtotal </td>
-                            <td align="right" class="gray">${{ priceWithoutIvaIncluded($order->total_order) }}</td>
-                        </tr>
-                        <tr>
-                            <td align="right" colspan="3">IVA </td>
-                            <td align="right" class="gray">${{ ivaPrice($order->total_order) }}</td>
-                        </tr>
-                    @endif
-                    <tr>
-                        <td align="right"></td>
-                        <td align="center" class="gray"><strong>{{ $order->total_products }}</strong></td>
-                        @if(!$emptyPrices)
-                            <td align="right">Total </td>
-                            <td align="right" class="gray">${{ number_format($order->total_order, 2) }}</td>
-                        @endif
-                    </tr>
-                </tfoot>
-            </table>
-            <br>
-        @endif
-
-        @if(count($order->product_sale))
-            <table width="100%">
-                <thead style="background-color: red;">
-                  <tr align="center">
-                    <th colspan="{{ $emptyPrices ? '2' : '4' }}">@lang('Sale')</th>
+                    <th colspan="{{ $emptyPrices ? '2' : '4' }}">{{ $order->type_order_clear }}</th>
                   </tr>
                 </thead>
                 <thead style="background-color: gray;">
@@ -141,7 +91,7 @@ ventas@sj-uniformes.com
                   </tr>
                 </thead>
                 <tbody>
-                  @foreach($order->product_sale as $product)
+                  @foreach($order->products as $product)
                   <tr>
                     <td scope="row">{!! $product->product->full_name !!}</td>
                     <td align="center">{{ $product->quantity }}</td>
@@ -157,73 +107,33 @@ ventas@sj-uniformes.com
                     @if(!$breakdown)
                         <tr>
                             <td align="right" colspan="3">Subtotal </td>
-                            <td align="right" class="gray">${{ priceWithoutIvaIncluded($order->total_sale) }}</td>
+                            <td align="right" class="gray">${{ count($order->product_suborder) ? $total_by_all : number_format($order->subtotal_by_all, 2)  }}</td>
                         </tr>
+                    @endif
+                    @if($order->discount && !$emptyPrices)
                         <tr>
-                            <td align="right" colspan="3">IVA </td>
-                            <td align="right" class="gray">${{ ivaPrice($order->total_sale) }}</td>
+                            <td align="right" colspan="3">@lang('Disc.') </td>
+                            <td align="right" class="gray">
+                                @if(!$breakdown)
+                                    ${{ number_format($order->calculate_discount_all, 2)}}
+                                @else
+                                    {{ $order->discount }}%
+                                @endif
+                            </td>
                         </tr>
                     @endif
-                    <tr>
-                        <td align="right"></td>
-                        <td align="center" class="gray"><strong>{{ $order->total_products_sale }}</strong></td>
-                        @if(!$emptyPrices)
-                            <td align="right">Total </td>
-                            <td align="right" class="gray">${{ number_format($order->total_sale, 2) }}</td>
-                        @endif
-                    </tr>
-                </tfoot>
-            </table>
-            <br>
-        @endif
-
-        @if(count($order->product_request))
-            <table width="100%">
-                <thead style="background-color: coral;">
-                  <tr align="center">
-                    <th colspan="{{ $emptyPrices ? '2' : '4' }}">@lang('Request')</th>
-                  </tr>
-                </thead>
-                <thead style="background-color: gray;">
-                  <tr align="center">
-                    <th>Concepto</th>
-                    <th>Cantidad</th>
-                    @if(!$emptyPrices)
-                        <th>Precio</th>
-                        <th>Total</th>
-                    @endif
-                  </tr>
-                </thead>
-                <tbody>
-                  @foreach($order->product_request as $product)
-                  <tr>
-                    <td scope="row">{!! $product->product->full_name !!}</td>
-                    <td align="center">{{ $product->quantity }}</td>
-                    @if(!$emptyPrices)
-                        <td align="right">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</td>
-                        <td align="right">${{ !$breakdown ? priceWithoutIvaIncluded($product->total_by_product) : $product->total_by_product }}</td>
-                    @endif
-                  </tr>
-                  @endforeach
-                </tbody>
-
-                <tfoot>
                     @if(!$breakdown)
                         <tr>
-                            <td align="right" colspan="3">Subtotal </td>
-                            <td align="right" class="gray">${{ priceWithoutIvaIncluded($order->total_request) }}</td>
-                        </tr>
-                        <tr>
                             <td align="right" colspan="3">IVA </td>
-                            <td align="right" class="gray">${{ ivaPrice($order->total_request) }}</td>
+                            <td align="right" class="gray">${{ calculateIva($order->subtotal_less_discount) }}</td>
                         </tr>
                     @endif
                     <tr>
                         <td align="right"></td>
-                        <td align="center" class="gray"><strong>{{ $order->total_products_request }}</strong></td>
+                        <td align="center" class="gray"><strong>{{ $order->total_articles }}</strong></td>
                         @if(!$emptyPrices)
                             <td align="right">Total </td>
-                            <td align="right" class="gray">${{ number_format($order->total_request, 2) }}</td>
+                            <td align="right" class="gray">${{ number_format(count($order->product_suborder) ? $total : $order->total_by_all_with_discount, 2) }}</td>
                         @endif
                     </tr>
                 </tfoot>

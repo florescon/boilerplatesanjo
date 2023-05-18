@@ -179,7 +179,7 @@
               @endif
             ">
               <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1 text-primary">#{{ $suborder->id}}</h5>
+                <h5 class="mb-1 text-primary">#{!! $suborder->folio_or_id !!}</h5>
                 <small>{{ $suborder->date_diff_for_humans }}</small>
               </div>
               <div class="d-flex w-100 justify-content-between">

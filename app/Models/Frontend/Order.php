@@ -93,6 +93,14 @@ class Order extends Model
         return $this->hasMany(ProductOrder::class, 'suborder_id')->with('parent_order.product.parent', 'parent_order.product.color', 'parent_order.product.size');
     }
 
+    public function getFolioOrIDAttribute()
+    {
+        if($this->folio !== 0)
+            return '<em style="color:blue;">'.$this->folio.'</em>';
+
+        return '<em style="color:blue;">'.$this->id.'</em>';
+    }
+
     public function last_status_order()
     {
         return $this->hasOne(StatusOrder::class)->latestOfMany();

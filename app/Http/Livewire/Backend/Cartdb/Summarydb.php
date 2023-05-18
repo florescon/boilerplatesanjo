@@ -129,6 +129,7 @@ class Summarydb extends Component
 
     public function checkout()
     {
+
         $getProducts = $this->getProducts();
 
         $getProducts->when($getProducts->count(), function ($getProducts) {
@@ -146,6 +147,7 @@ class Summarydb extends Component
             $order->from_store = $this->isMain ? null : true;
             $order->approved = 1;
             $order->branch_id = $this->branchId;
+            $order->from_quotation = ($typeOrder == 6) ? true : false;
             $order->save();
 
             $product_type = 'product_'.$this->type;

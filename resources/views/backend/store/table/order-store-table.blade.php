@@ -1,4 +1,4 @@
-<x-backend.card borderClass="{{ $title['color'] }}">
+<x-backend.card >
 
   <x-slot name="header">
   	<h3>
@@ -7,33 +7,33 @@
     <div class="card-header-actions mb-3">
       <x-utils.link class="mt-2 mr-2 card-header-action btn btn-secondary text-dark {{ $status == 'all_store' ? 'button-large pulsate' : '' }}" :href="route('admin.store.all.index')" :text="__('all')" />
       <x-utils.link class="mt-2 mr-2 card-header-action btn btn-aqua text-dark {{ $status == 'quotations_store' ? 'button-large pulsate' : '' }}" :href="route('admin.store.all.quotations')" :text="__('Quotations')" />
-      <x-utils.link class="mt-2 mr-2 card-header-action btn text-dark {{ $status == 'output_products_store' ? 'button-large pulsate' : '' }}" style="background-color: #d5c5ff;" :href="route('admin.store.all.output_products')" :text="__('Output products')" />
       {{-- <x-utils.link class="mt-2 mr-2 card-header-action btn btn-primary text-white {{ $status == 'orders_store' ? 'button-large pulsate' : '' }}" :href="route('admin.store.all.orders')" :text="__('Orders')" /> --}}
       <x-utils.link class="mt-2 mr-2 card-header-action btn btn-coral text-white {{ $status == 'requests_store' ? 'button-large pulsate' : '' }}" :href="route('admin.store.all.requests')" :text="__('Requests')" />
       <x-utils.link class="mt-2 mr-2 card-header-action btn btn-success text-white {{ $status == 'sales_store' ? 'button-large pulsate' : '' }}" :href="route('admin.store.all.sales')" :text="__('Sales')" />
       {{-- <x-utils.link class="mt-2 mr-2 card-header-action btn btn-warning text-white {{ $status == 'mix_store' ? 'button-large pulsate' : '' }}" :href="route('admin.store.all.mix')" :text="__('Mix')" /> --}}
+      <x-utils.link class="mt-2 mr-2 card-header-action btn text-dark {{ $status == 'output_products_store' ? 'button-large pulsate' : '' }}" style="background-color: #d5c5ff;" :href="route('admin.store.all.output_products')" :text="__('Output products')" />
     </div>
     
     <div class="page-header-subtitle mt-5 mb-2">
     	<em>
-    		@lang('Filter by updated date range')
+    		@lang('Filter by created date range')
     	</em>
     </div>
 
     <div class="row input-daterange">
         <div class="col-md-3 mr-2 mb-2 pr-5=">
-          <x-input.date wire:model="dateInput" id="dateInput" borderClass="{{ $title['color'] }}" placeholder="{{ __('From') }}"/>
+          <x-input.date wire:model="dateInput" id="dateInput" placeholder="{{ __('From') }}"/>
         </div>
 
         <div class="col-md-3 mr-2 mb-2">
-          <x-input.date wire:model="dateOutput" id="dateOutput" borderClass="{{ $title['color'] }}" placeholder="{{ __('To') }}"/>
+          <x-input.date wire:model="dateOutput" id="dateOutput" placeholder="{{ __('To') }}"/>
         </div>
         &nbsp;
 
         <div class="col-md-3 mb-2">
           <div class="btn-group mr-2" role="group" aria-label="First group">
-            <button type="button" class="btn btn-outline-{{ $title['color'] }}" wire:click="clearFilterDate"  class="btn btn-default">@lang('Clear date')</button>
-            <button type="button" class="btn btn-outline-{{ $title['color'] }}" wire:click="clearAll" class="btn btn-default">@lang('Clear all')</button>
+            <button type="button" class="btn btn-outline-dark" wire:click="clearFilterDate"  class="btn btn-default">@lang('Clear date')</button>
+            <button type="button" class="btn btn-outline-dark" wire:click="clearAll" class="btn btn-default">@lang('Clear all')</button>
           </div>
         </div>
         &nbsp;
@@ -75,7 +75,7 @@
 
 	    <div class="col">
 	      <div class="input-group">
-	        <input wire:model.debounce.350ms="searchTerm" class="form-control" type="text" placeholder="{{ __('Search by folio, tracking number or comment') }}..." />
+	        <input wire:model.debounce.350ms="searchTerm" class="form-control" type="text" placeholder="{{ __('Search by folio, customer, tracking number or comment') }}..." />
 	        @if($searchTerm !== '')
 		        <div class="input-group-append">
 		          <button type="button" wire:click="clear" class="close" aria-label="Close">
@@ -142,14 +142,18 @@
 	          </thead>
 	          <tbody>
 	            @foreach($orders as $order)
-		            <tr class="table-tr" data-url="{{ route('admin.store.all.edit', $order->id) }}" style="{{ $order->type_order_classes }}">
+		            <tr class="table-tr" style="{{ $order->type_order_classes }}">
 		            	<td class="align-middle">
-		            		<strong>
-			            		#{{ $order->id }}
-			            	</strong>
+		            		<a style="text-decoration: none !important" href="{{ route('admin.store.all.edit', $order->id) }}" target="_blank">
+			            		<strong>
+				            		#{!! $order->folio_or_id !!}
+				            	</strong>
+				            </a>
 		            	</td>
 		              <td class="align-middle">
-		              	<strong>{!! $order->user_name !!}</strong>
+		            		<a style="text-decoration: none !important; color: #000;" href="{{ route('admin.store.all.edit', $order->id) }}" target="_blank">
+			              	<strong>{!! $order->user_name !!}</strong>
+			              </a>
 		              	<em>{{ $order->info_customer }}</em>
 		              </td>
 	                <td class="align-middle text-center">

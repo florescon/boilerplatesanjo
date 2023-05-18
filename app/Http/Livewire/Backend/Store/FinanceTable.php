@@ -181,6 +181,7 @@ class FinanceTable extends Component
                         $query->whereRaw("name LIKE \"%$this->searchTerm%\"")
                                 ->orWhereRaw("comment LIKE \"%$this->searchTerm%\"")
                                 ->orWhereRaw("ticket_text LIKE \"%$this->searchTerm%\"")
+                                ->orWhereRaw("id LIKE \"%$this->searchTerm%\"")
                                 ->orWhereRaw("amount LIKE \"%$this->searchTerm%\"");
                         });
         }

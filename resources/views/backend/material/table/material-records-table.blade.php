@@ -186,7 +186,7 @@
                 ${{ rtrim(rtrim(sprintf('%.8F', $record->total_by_material), '0'), ".") }}
               </td>
               <td class="align-middle text-center">
-                <a href="{{ route('admin.order.edit', $record->order_id) }}"> #{{ $record->order_id }}</a>
+                <a href="{{ route('admin.order.edit', $record->order_id) }}"> #{!! $record->order->folio_or_id !!}</a>
               </td>
               <td class="align-middle">
                 <span class="badge badge-dot mr-4">

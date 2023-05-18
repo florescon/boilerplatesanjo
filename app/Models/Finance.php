@@ -137,7 +137,7 @@ class Finance extends Model
     public function getOrderFolioAttribute(): ?string
     {
         if($this->order_id !== null){
-            return $this->order ? '<a href="'.route($this->isFromStore() ? 'admin.store.all.edit' : 'admin.order.edit', $this->order_id).'" target="_blank"><strong> #'.$this->order->id.'</strong></a>' : "<span class='badge badge-secondary'>".__('undefined order/sale').'</span>';
+            return $this->order ? '<a href="'.route($this->isFromStore() ? 'admin.store.all.edit' : 'admin.order.edit', $this->order_id).'" target="_blank"><strong> #'.$this->order->folio_or_id.'</strong></a>' : "<span class='badge badge-secondary'>".__('undefined order/sale').'</span>';
         }
         return "<span class='badge badge-secondary'>".__('undefined order/sale').'</span>';
     }

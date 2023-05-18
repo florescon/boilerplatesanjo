@@ -21,7 +21,7 @@
                       </div>
 
                         <h4 class="card-title">@lang('Payment records')</h4>
-                        <p class="card-description"> @lang('Order') #{{ $order->id }} </p>
+                        <p class="card-description"> @lang('Order') #{!! $order->folio_or_id !!} </p>
                         @if($records_payment->count())
                             <div class="table-responsive">
                                 <table class="table">

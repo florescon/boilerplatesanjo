@@ -155,6 +155,7 @@ class BomTable extends Component
 
             $ordercollection->push([
                 'id' => $order->id,
+                'folio' => $order->folio,
                 'user' => optional($order->user)->name,
                 'comment' => $order->comment,
             ]);

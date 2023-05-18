@@ -52,7 +52,7 @@
         @if($ticket->order_id)
             <table width="100%">
                 <tr>
-                    <td><strong>@lang('Order'):</strong><u style="font-size: 140%;"> #{{ $ticket->order_id }}</u></td>
+                    <td><strong>@lang('Order'):</strong><u style="font-size: 140%;"> #{!! optional($ticket->order)->folio_or_id !!}</u></td>
                     <td><strong>Ticket:</strong><u style="font-size: 140%;"> #{{ $ticket->id }}</u></td>
                 </tr>
             </table>
@@ -92,7 +92,7 @@
         @endif
 
         @if(count($ticket->assignments_direct))
-            <table width="100%" style='font-family:"Courier New", Courier, monospace; font-size:97%'>
+            <table width="100%" style='margin-top: 10px; font-family:"Courier New", Courier, monospace; font-size:97%'>
                 <thead style="background-color: gray;">
                   <tr align="center">
                     <th>Concepto</th>

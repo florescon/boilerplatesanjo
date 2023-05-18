@@ -47,6 +47,7 @@ class PrintExportOrders extends Component
 
                 $ordercollection->push([
                     'id' => $order->id,
+                    'folio' => $order->folio,
                     'user' => $order->user_name_clear ?? null,
                     'userId' => $order->user_id ?? null,
                     'comment' => $order->comment,
@@ -61,7 +62,7 @@ class PrintExportOrders extends Component
                         'productParentName' => $product_order->product->only_name ?? null,
                         'productParentCode' => $product_order->product->parent_code ?? null,
                         'productCode' => $product_order->product->code ?? null,
-                        'productOrder' => $product_order->order_id,
+                        'productOrder' => $order->folio,
                         'productName' => $product_order->product->full_name_clear ?? null,
                         'productColor' => $product_order->product->color_id,
                         'productColorName' => $product_order->product->color->name ?? '',

@@ -111,6 +111,24 @@ if (! function_exists('priceWithoutIvaIncluded')) {
     }
 }
 
+if (! function_exists('priceWithoutIvaIncludedNon')) {
+    /**
+     * 
+     *
+     * @return string
+     */
+    function priceWithoutIvaIncludedNon($price)
+    {
+        if(is_numeric($price)){
+
+            $iva = (setting('iva') / 100) + 1;
+
+            return $price / $iva;
+        }
+    }
+}
+
+
 if (! function_exists('ivaPrice')) {
     /**
      * 
@@ -125,6 +143,33 @@ if (! function_exists('ivaPrice')) {
     }
 }
 
+if (! function_exists('calculateIva')) {
+    /**
+     * 
+     *
+     * @return string
+     */
+    function calculateIva($price)
+    {
+        $iva = setting('iva') / 100;
+
+        return number_format($price * $iva, 2);
+    }
+}
+
+if (! function_exists('calculateIvaNon')) {
+    /**
+     * 
+     *
+     * @return string
+     */
+    function calculateIvaNon($price)
+    {
+        $iva = setting('iva') / 100;
+
+        return $price * $iva;
+    }
+}
 
 if (! function_exists('typeInOrder')) {
     /**
@@ -227,5 +272,17 @@ if (! function_exists('generated')) {
         $generated = now()->isoFormat('D, MMM h:mm:ss a');
 
         return __('Generated').': '.$generated;        
+    }
+}
+
+if (! function_exists('number_formatted')) {
+    /**
+     * Return the generated number formatted.
+     *
+     * @return boolean
+     */
+    function number_formatted($number)
+    {
+        return number_format($number, strlen(substr(strrchr($number, "."), 2)));
     }
 }

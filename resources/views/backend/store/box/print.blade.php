@@ -122,7 +122,7 @@
                 <tbody>
                   @foreach($box->orders as $order)
                     <tr>
-                      <th scope="row" class="cs-width_1">#{{ $order->id }}</th>
+                      <th scope="row" class="cs-width_1">#{!! $order->folio_or_id !!}</th>
                       <td>{!! $order->user_name !!}</td>
                       <td>
                         {!! $order->details_for_box.' '.$order->comment ?: '--' !!} =>

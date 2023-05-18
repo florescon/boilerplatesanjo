@@ -154,7 +154,7 @@
                 <td>
                   <a href="{{ route('admin.store.all.edit', $serviceOrder->order_id) }}" class="card-link text-dark" target="_blank">
                     <ins class="mr-2">
-                      #{{ $serviceOrder->order_id }}
+                      #{!! optional($serviceOrder->order)->folio_or_id !!}
                     </ins>
                     <i class="cil-external-link"></i>
                   </a>

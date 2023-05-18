@@ -10,6 +10,7 @@ use App\Http\Livewire\Backend\DataTable\WithBulkActions;
 use App\Http\Livewire\Backend\DataTable\WithCachedRows;
 use Carbon\Carbon;
 use App\Models\Status;
+use DB;
 
 class OrderTable extends Component
 {
@@ -28,7 +29,7 @@ class OrderTable extends Component
 
     public $limitPerPage = '100';
 
-    public $sortField = 'id';
+    public $sortField = 'created_at';
     public $sortAsc = false;
 
     public $status;
@@ -156,7 +157,7 @@ class OrderTable extends Component
             ->orWhereHas('departament', function ($query) {
              $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
          })
-            ->orWhere('id', 'like', '%' . $this->searchTerm . '%')
+            ->orWhere('folio', 'like', '%' . $this->searchTerm . '%')
             ->orWhere('info_customer', 'like', '%' . $this->searchTerm . '%')
             ->orWhere('request', 'like', '%' . $this->searchTerm . '%')
             ->orWhere('purchase', 'like', '%' . $this->searchTerm . '%')
@@ -248,6 +249,15 @@ class OrderTable extends Component
 
     public function render()
     {
+
+        // $orders = Order::query()->withTrashed()->get();
+
+        // foreach($orders as $order){
+        //     $si = DB::table('orders')
+        //       ->where('id', $order->id)
+        //       ->update(['folio' => $order->id]);
+        // }
+
         return view('backend.order.table.order-table', [
           'orders' => $this->rows,
       ]);

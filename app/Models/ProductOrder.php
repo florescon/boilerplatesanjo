@@ -42,6 +42,14 @@ class ProductOrder extends Model
     }
 
     /**
+     * @return mixed
+     */
+    public function suborder()
+    {
+        return $this->belongsTo(Order::class, 'suborder_id', 'id')->withTrashed();
+    }
+
+    /**
      * @return bool
      */
     public function isOrder()
@@ -144,6 +152,22 @@ class ProductOrder extends Model
         return '';
     }
 
+    /**
+     * @return string
+     */
+    public function getOrderOrSuborderLabelAttribute()
+    {
+        if($this->order_id){
+            return $this->order->folio_or_id;
+        }
+
+        if($this->suborder_id){
+            return $this->suborder->folio_or_id;            
+        }
+
+        return '';
+    }
+
     public function getOrderOrSuborderAttribute()
     {
         if($this->order_id){
@@ -156,7 +180,6 @@ class ProductOrder extends Model
 
         return null;
     }
-
     /**
      * @return mixed
      */

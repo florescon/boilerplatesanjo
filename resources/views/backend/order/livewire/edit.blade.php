@@ -6,7 +6,7 @@
 <x-backend.card>
 
   <x-slot name="header">
-    <h4>{{ $model->type_order_clear }} #{{ $order_id }}</h4>
+    <h4>{{ $model->type_order_clear }} #{!! $model->folio_or_id !!}</h4>
   </x-slot>
 
   <x-slot name="headerActions">
@@ -50,7 +50,7 @@
             </div>
           @endif
           <div class="card-body">
-            <h5 class="card-title">#{{ $order_id }}</h5>
+            <h5 class="card-title">#{!! $model->folio_or_id !!}</h5>
             <p class="card-text">
               <div class="form-row ">
                 
@@ -125,6 +125,17 @@
                       @error('comment') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
                   </div>
+
+                  @if($model->filterByDiscount() && $model->total_payments < 1)
+                    <div class="row mt-3">
+                      <div class="col-12 col-lg-12">
+                        {{-- {{ $model->discount }} --}}
+                        <x-input.input-alpine nameData="isDiscount" :inputText="$isDiscount" :originalInput="$isDiscount" wireSubmit="savediscount" modelName="discount" maxlength="300" className="" />
+                        @error('discount') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                      </div>
+                    </div>
+                  @endif
+
                   @if($model->branch_id === 0)
                   <div class="row mt-3">
                     <div class="col-12 col-lg-12">
@@ -320,7 +331,12 @@
               <div class="row">
                 @if(!$model->isOutputProducts())
                 <div class="col-6 col-lg-6">
-                  <p><strong>Total: </strong> ${{ number_format((float)$model->total_sale_and_order, 2) }}</p>
+                  <p><strong>Total: </strong> ${{ number_format($model->total_by_all_with_discount, 2) }}</p>
+
+                  @if($model->discount)
+                    <p><strong>@lang('Discount') {{ '(%'.$model->discount.')' }}:</strong> ${{ number_format($model->calculate_discount_all, 2) }}</p>
+                  @endif
+
                   <p><strong>@lang('Payment'):</strong> {!! $model->payment_label !!} ${{  number_format((float)$model->total_payments, 2) }}</p>
                   @if($model->total_payments_remaining > 0)
                     <p><strong>@lang('Remaining'):</strong> ${{ number_format((float)$model->total_payments_remaining, 2)  }}</p>

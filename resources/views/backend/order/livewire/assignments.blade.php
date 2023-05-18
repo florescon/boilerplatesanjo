@@ -14,7 +14,7 @@
             <div class="col-16 col-md-6">
                 <div class="card">
                   <div class="card-body">
-                    <h6 class="card-title mb-2"> <strong>@lang('Order') #{{ $order_id }}</strong> <em>{{ optional($model2->user)->real_name }}</em>
+                    <h6 class="card-title mb-2"> <strong>@lang('Order') #{!! $model2->folio_or_id !!}</strong> <em>{{ optional($model2->user)->real_name }}</em>
                       <p class="mt-2">{{ $model2->info_customer }}</p>
                       <p>{{ $model2->comment }}</p>
                     </h6>

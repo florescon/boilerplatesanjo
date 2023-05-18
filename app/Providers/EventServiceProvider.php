@@ -20,6 +20,8 @@ use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use App\Models\StatusOrder;
 use App\Observers\StatusOrderObserver;
+use App\Models\Order;
+use App\Observers\OrderObserver;
 use App\Models\MaterialOrder;
 use App\Observers\MaterialOrderObserver;
 use App\Models\ProductOrder;
@@ -70,6 +72,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         parent::boot();
+            Order::observe(OrderObserver::class);
             StatusOrder::observe(StatusOrderObserver::class);
             MaterialOrder::observe(MaterialOrderObserver::class);
             ProductOrder::observe(ProductOrderObserver::class);

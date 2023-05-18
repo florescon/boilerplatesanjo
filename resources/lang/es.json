@@ -350,6 +350,7 @@
     "Reasign user": "Reasignar usuario",
     "Reasign departament": "Reasignar departamento",
     "Search by folio, tracking number or comment": "Buscar por folio, número de seguimiento o comentario",
+    "Search by folio, customer, tracking number or comment": "Buscar por folio, cliente, número de seguimiento o comentario",
     "Product name" : "Nombre de producto",
     "Search another product": "Buscar otro producto",
     "Go to view product" : "Ir a ver el producto",
@@ -1115,6 +1116,9 @@
     "Inventory details": "Detalles de inventarios",
     "All store list": "Lista de tienda",
     "All store orders": "Lista de órdenes",
+    "All store requests": "Lista de pedidos de tienda",
+    "All store quotations": "Lista de cotizaciones de tienda",
+    "All store output products": "Lista de salida de productos",
     "All store sales": "Lista de ventas",
     "All store mix orders/sales": "Lista de órdenes/ventas",
     "Store inventory": "Inventario de tienda",
@@ -1206,5 +1210,8 @@
     "Enter footer quotation": "Ingrese pie de página de cotizaciones",
     "Voucher cash": "Comprobante efectivo",
     "Fullscreen": "Pantalla completa",
+    "Discount": "Descuento",
+    "Disc.": "Desc.",
+    "Define discount": "Definir descuento",
     "Exit Fullscreen": "Salir de pantalla completa"
 }

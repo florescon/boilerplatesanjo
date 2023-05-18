@@ -108,7 +108,7 @@
                 <tbody>
                   @foreach($box->orders as $order)
                   <tr>
-                    <th scope="row">{{ $order->id }}</th>
+                    <th scope="row">{!! $order->folio_or_id !!}</th>
                     <td>{!! $order->user_name !!}</td>
                     <td>{{ $order->comment ?: '--' }}</td>
                     <td>{!! $order->type_order_clear !!}</td>

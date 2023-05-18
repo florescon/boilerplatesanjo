@@ -40,7 +40,7 @@
 
             <p class="cs-invoice_number cs-primary_color cs-mb0 cs-f16"><b class="cs-primary_color"> {{ count($ordercollection) }} @lang('Orders'):</b> 
               @foreach($ordercollection as $key => $order)
-                #{{ $order['id']}}
+                #{{ $order['folio']}}
                 {{ !$loop->last ? ',' : '' }}
               @endforeach
             </p>
@@ -56,7 +56,7 @@
               @foreach($orderCollection as $order)
                 <span class="badge badge-warning ml-1 mr-1 mt-1" style="font-size: 1rem;">
                   #{!! 
-                    $order['id'].' => '.
+                    $order['folio'].' => '.
                     $order['comment'].' '
                   !!}
                   @if($order['request'])
@@ -106,7 +106,7 @@
                           <a target="_blank"
                             href="{{ route('admin.order.edit', $order['id']) }}"
                             style="text-decoration: none !important">
-                            {!! '#'.$order['id'].' - '.$order['user'] !!}
+                            {!! '#'.$order['folio'].' - '.$order['user'] !!}
                           </a>
                         @endif
                     </td>

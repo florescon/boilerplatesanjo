@@ -15,7 +15,7 @@
 										<div class="col-12 text-center">
 											<h4 class="mb-0 color-white">@lang('Order') 
 												<span class="color-primary">
-													#{{ $order_id }}
+													#{!! $order->folio_or_id !!}
 												</span>
 												<br>
 												<div>
@@ -173,7 +173,7 @@
 															<td>{!! clean($product->product->full_name) !!}</td>
 															<td class="text-center">{{ $product->quantity }}</td>
 															<td class="text-center">${{ $product->price }}</td>
-															<td class="text-center">${{ number_format($totalprod = $product->price * $product->quantity, 2, ".", ",") }}</td>
+															<td class="text-center">${{ number_format($totalprod = $product->price * $product->quantity, 2) }}</td>
 														</tr>
 														@endforeach
 											            @php($total += $totalprod)
@@ -212,7 +212,7 @@
 															<td>{!! clean($product->product->full_name) !!}</td>
 															<td class="text-center">{{ $product->quantity }}</td>
 															<td class="text-center">${{ $product->price }}</td>
-															<td class="text-center">${{ number_format($totalprod = $product->price * $product->quantity, 2, ".", ",") }}</td>
+															<td class="text-center">${{ number_format($totalprod = $product->price * $product->quantity, 2) }}</td>
 														</tr>
 														@endforeach
 											            @php($total += $totalprod)

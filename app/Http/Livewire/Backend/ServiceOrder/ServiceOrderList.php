@@ -63,7 +63,7 @@ class ServiceOrderList extends Component
 
     public function getRowsQueryProperty()
     {
-        $query = ServiceOrder::query()->with('personal', 'image', 'order', 'service_type', 'product_service_orders', 'createdby')
+        $query = ServiceOrder::query()->with('personal', 'image', 'order.user', 'service_type', 'product_service_orders', 'createdby')
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?
                     $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', now()]) :
@@ -101,8 +101,10 @@ class ServiceOrderList extends Component
             return $searchFinance->whereHas('personal', function ($query) {
                $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
             })
-            ->orWhere('id', 'like', '%' . $this->searchTerm . '%')
-            ->orWhere('order_id', 'like', '%' . $this->searchTerm . '%');
+            ->orWhereHas('order', function ($query) {
+               $query->whereRaw("folio LIKE \"%$this->searchTerm%\"");
+            })
+            ->orWhere('id', 'like', '%' . $this->searchTerm . '%');
         }
 
         return null;

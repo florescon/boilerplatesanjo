@@ -140,7 +140,7 @@
                   <div class="small text-muted">@lang('Ticket')</div>
                 </td>
                 <td>
-                  #{{ $ticket->order_id }}
+                  #{!! optional($ticket->order)->folio_or_id !!}
                   <div class="small text-muted">@lang('Order')</div>
                 </td>
                 <td class="text-center">
