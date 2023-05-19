@@ -121,7 +121,7 @@ class OrderTable extends Component
             $this->applySearchFilter($query);
 
             if ($this->status === 'suborders') {
-                $this->title = ['title' => 'List of suborder outputs', 'color' => 'secondary'];
+                $this->title = ['title' => 'List of outputs', 'color' => 'secondary'];
                 return $query->onlySuborders()->outFromStore();
             }
             if ($this->status === 'quotations') {
@@ -161,6 +161,7 @@ class OrderTable extends Component
             ->orWhere('info_customer', 'like', '%' . $this->searchTerm . '%')
             ->orWhere('request', 'like', '%' . $this->searchTerm . '%')
             ->orWhere('purchase', 'like', '%' . $this->searchTerm . '%')
+            ->orWhere('invoice', 'like', '%' . $this->searchTerm . '%')
             ->orWhere('comment', 'like', '%' . $this->searchTerm . '%');
         }
 

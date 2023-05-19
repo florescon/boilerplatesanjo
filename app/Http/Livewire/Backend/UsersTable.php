@@ -25,6 +25,8 @@ class UsersTable extends TableComponent
      */
     public $status;
 
+    public $perPage = '10';
+
     /**
      * @var array
      */
@@ -46,7 +48,7 @@ class UsersTable extends TableComponent
      */
     public function query(): Builder
     {
-        $query = User::with('roles', 'twoFactorAuth')
+        $query = User::with('roles', 'twoFactorAuth', 'customer')
             ->withCount('twoFactorAuth');
 
         if ($this->status === 'deleted') {

@@ -750,6 +750,7 @@
     "List of orders": "Lista de órdenes",
     "List of suborders": "Lista de subórdenes",
     "List of suborder outputs": "Lista de salida de subórdenes",
+    "List of outputs": "Lista de salidas",
     "List of sales": "Lista de ventas",
     "List of mix": "Lista de órdenes/ventas",
     "List of all": "Lista de todo",
@@ -1213,5 +1214,6 @@
     "Discount": "Descuento",
     "Disc.": "Desc.",
     "Define discount": "Definir descuento",
+    "Necessary but not required": "Necesario pero no obligatorio",
     "Exit Fullscreen": "Salir de pantalla completa"
 }

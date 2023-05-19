@@ -20,7 +20,7 @@
               <h4 class="invoice-title">
                 <p class="text-uppercase">
                   @lang('Output')
-                  <span class="invoice-number">#{{ $model->characters_type_order }}{{ $model->id }}</span>
+                  <span class="invoice-number">#{{ $model->characters_type_order }}{!! $model->folio_or_id !!}</span>
                 </p>
               </h4>
               <div class="invoice-date-wrapper">
@@ -182,9 +182,9 @@
             <i class="cil-print"></i>
             @lang('Print')
           </a>
-          <a class="btn btn-success btn-block" href="{{ route('admin.order.ticket', $model->id) }}" target="_blank">
+          {{-- <a class="btn btn-success btn-block" href="{{ route('admin.order.ticket', $model->id) }}" target="_blank">
             Ticket
-          </a>
+          </a> --}}
         </div>
       </div>
 

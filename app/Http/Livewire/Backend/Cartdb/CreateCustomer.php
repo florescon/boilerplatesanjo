@@ -8,6 +8,7 @@ use App\Exceptions\GeneralException;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class CreateCustomer extends Component
 {
@@ -24,7 +25,7 @@ class CreateCustomer extends Component
         'phone' => 'required|digits:10|numeric',
         'address' => 'nullable|max:100',
         'rfc' => 'nullable|max:100',
-        'email' => 'email|min:3|max:255|unique:users',
+        'email' => 'email|min:3|max:255|nullable|unique:users',
     ];
 
     public function mount(string $type, ?int $branchId = 0, ?bool $isMain = false)
@@ -67,10 +68,14 @@ class CreateCustomer extends Component
     {
         $this->validate();
 
+        $mytime = Carbon::now();
+        $myString = $this->email;
+        $contains = Str::contains($myString, '@');
+
         $user = User::create([
             'type' => User::TYPE_USER,
             'name' => $this->name,
-            'email' => $this->email,
+            'email' => (isset($this->email) && $contains) ? $this->email : $mytime->dayOfYear().'-'.$mytime->getTimestamp().'@sjuniformes.com',
             'password' => Str::random(8),
         ]);
 

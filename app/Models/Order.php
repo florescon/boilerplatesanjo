@@ -391,9 +391,9 @@ class Order extends Model
     public function getFolioOrIDAttribute()
     {
         if($this->folio !== 0)
-            return '<em style="color:red;">'.$this->folio.'.</em>';
+            return '<strong style="color:#1433D8;">'.$this->folio.'.</strong>';
 
-        return '<em style="color:red;">'.$this->id.'.</em>';
+        return '<strong style="color:#1433D8;">'.$this->id.'.</strong>';
     }
 
     public function last_status()

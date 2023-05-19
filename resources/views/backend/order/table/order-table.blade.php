@@ -182,12 +182,14 @@
                                                         <strong>#O. DE COMPRA:</strong>
                                                         {{ $order->purchase }}
                                                     @endif
-
                                                     @if ($order->request)
                                                         <strong>#SOLICITUD:</strong>
                                                         {{ $order->request }}
                                                     @endif
-
+                                                    @if ($order->invoice)
+                                                        <strong>FACTURA:</strong>
+                                                        {{ $order->invoice }}
+                                                    @endif
                                                 </div>
                                                 <div class="card-meta">
                                                     <div class="d-flex align-items-center">

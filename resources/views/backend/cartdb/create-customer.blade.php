@@ -22,8 +22,8 @@
     </div>
     <div class="form-row">
       <div class="form-group col">
-        <label for="inputEmail">@lang('Email')<sup>*</sup></label>
-        <input type="text" name="email" id="inputEmail" wire:model.lazy="email" class="form-control" placeholder="{{ __('Email') }}">
+        <label for="inputEmail">@lang('Email')</label>
+        <input type="text" name="email" id="inputEmail" wire:model.lazy="email" class="form-control" placeholder="{{ __('Necessary but not required') }}">
         @error('email') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
       </div>
       <div class="form-group col">
@@ -39,6 +39,9 @@
         @error('address') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
       </div>
     </div>
+    
+    <p class="text-right"><strong class="text-danger">*</strong> @lang('Required')</p>
+
   </x-slot>
 
   <x-slot name="footer">

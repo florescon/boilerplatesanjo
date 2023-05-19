@@ -309,7 +309,7 @@
                     </td>
                     <td class="cs-width_2 cs-text_rightcs-f16">
                       @if(!$breakdown)
-                        <p class="cs-primary_color cs-bold cs-f16 cs-m0 cs-text_right">${{ count($order->product_suborder) ? $total_by_all : number_format($order->subtotal_by_all, 2)  }}</p>
+                        <p class="cs-primary_color cs-bold cs-f16 cs-m0 cs-text_right">${{ count($order->product_suborder) ? '--' : number_format($order->subtotal_by_all, 2)  }}</p>
                       @endif
                       @if($order->discount)
                         <p class="cs-mb5 cs-mb5 cs-text_right cs-f15 cs-primary_color cs-semi_bold">
@@ -321,7 +321,7 @@
                         </p>
                       @endif
                       @if(!$breakdown)
-                        <p class="cs-mb5 cs-mb5 cs-text_right cs-f15 cs-primary_color cs-semi_bold">${{ calculateIva($order->subtotal_less_discount) }}</p>
+                        <p class="cs-mb5 cs-mb5 cs-text_right cs-f15 cs-primary_color cs-semi_bold">${{ count($order->product_suborder) ? '--' : calculateIva($order->subtotal_less_discount) }}</p>
                       @endif
                       <p class="cs-primary_color cs-bold cs-f16 cs-m0 cs-text_right">${{ number_format(count($order->product_suborder) ? $total : $order->total_by_all_with_discount, 2) }}</p>
                     </td>
