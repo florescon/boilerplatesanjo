@@ -32,6 +32,15 @@ Route::group([
                 ->push(__('Order Panel Management'), route('admin.store.order'));
         });
 
+    Route::get('dashboard', function () {
+            return view('backend.store.dashboard.index');
+        })->name('dashboard')
+        ->middleware('permission:admin.access.store.list')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.dashboard')
+                ->push(__('Dashboard store'), route('admin.store.dashboard'));
+        });
+
     Route::get('request', function () {
             return view('backend.store.request');
         })->name('request')

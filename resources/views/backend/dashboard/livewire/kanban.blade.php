@@ -50,7 +50,6 @@
                   <a target="_blank" href="{{ route('admin.order.edit', $quotation->id) }}"><h6>{{ Str::limit($quotation->customer, 25) }}</h6></a>
                   <p><a class="btn-options" target="_blank" href="{{ route('admin.order.edit', $quotation->id) }}"><h6>{{ Str::limit($quotation->comment, 23) }}</h6></a></p>
                 </div>
-
                 <div class="card-meta d-flex justify-content-between">
                   <div class="d-flex align-items-center">
                     <span>@lang('Articles'): {{ $quotation->sum }}</span>
@@ -61,7 +60,6 @@
 
             </div>
           @endforeach
-
 
         </div>
         <div class="card-list-footer">

@@ -13,7 +13,7 @@
 								<div class="container">
 									<div class="row">
 										<div class="col-12 text-center">
-											<h4 class="mb-0 color-white">@lang('Order') 
+											<h4 class="mb-0 color-white"> 
 												<span class="color-primary">
 													#{!! $order->folio_or_id !!}
 												</span>
@@ -31,7 +31,7 @@
 															<span class="countdown-block"><span id="seconds"></span><br>@lang('seconds')</span>
 														</h5>
 														<h5 class="color-gray mt-4">
-															Restante para visualizar
+															Restante para visualizar, una vez vencido el tiempo, se requerirá iniciar sesión.
 														</h5>
 													</div>
 												</div>
@@ -136,7 +136,7 @@
 															<td>{!! clean($product->product->full_name) !!}</td>
 															<td class="text-center">{{ $product->quantity }}</td>
 															<td class="text-center">${{ $product->price }}</td>
-															<td class="text-center">${{ $product->total_by_product }}</td>
+															<td class="text-center">${{ number_format($product->total_by_product, 2) }}</td>
 														</tr>
 														@endforeach
 													</tbody>
@@ -250,7 +250,7 @@
 															<td>{!! clean($product->product->full_name) !!}</td>
 															<td class="text-center">{{ $product->quantity }}</td>
 															<td class="text-center">${{ $product->price }}</td>
-															<td class="text-center">${{ $product->total_by_product }}</td>
+															<td class="text-center">${{ number_format($product->total_by_product, 2) }}</td>
 														</tr>
 														@endforeach
 													</tbody>
@@ -287,7 +287,7 @@
 															<td>{!! clean($product->product->full_name) !!}</td>
 															<td class="text-center">{{ $product->quantity }}</td>
 															<td class="text-center">${{ $product->price }}</td>
-															<td class="text-center">${{ $product->total_by_product }}</td>
+															<td class="text-center">${{ number_format($product->total_by_product, 2) }}</td>
 														</tr>
 														@endforeach
 													</tbody>

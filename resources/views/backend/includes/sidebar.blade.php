@@ -302,7 +302,7 @@
         @endif
 
         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.store.list') || $logged_in_user->can('admin.access.store.list_finance') || $logged_in_user->can('admin.access.store.create_finance')))
-            <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.store.product.index') || Route::is('admin.store.quotation') || Route::is('admin.store.request') || Route::is('admin.store.order') || Route::is('admin.store.sale') || Route::is('admin.store.all.*') || Route::is('admin.serviceorder.index') || Route::is('admin.store.finances.*') || Route::is('admin.store.box.*'), 'c-open c-show') }}">
+            <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.store.product.index') || Route::is('admin.store.quotation') || Route::is('admin.store.dashboard')  || Route::is('admin.store.request') || Route::is('admin.store.order') || Route::is('admin.store.sale') || Route::is('admin.store.all.*') || Route::is('admin.serviceorder.index') || Route::is('admin.store.finances.*') || Route::is('admin.store.box.*'), 'c-open c-show') }}">
                 <x-utils.link
                     href="#"
                     icon="c-sidebar-nav-icon fas fa-store"
@@ -312,6 +312,14 @@
                 <ul class="c-sidebar-nav-dropdown-items">
 
                         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.store.list')))
+
+                            <li class="c-sidebar-nav-item">
+                                <x-utils.link
+                                    :href="route('admin.store.dashboard')"
+                                    class="c-sidebar-nav-link"
+                                    :text="__('Dashboard')"
+                                    :active="activeClass(Route::is('admin.store.dashboard.*'), 'c-active')" />
+                            </li>
 
                             <li class="c-sidebar-nav-item">
                                 <x-utils.link
