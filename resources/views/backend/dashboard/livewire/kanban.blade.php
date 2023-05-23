@@ -1,16 +1,16 @@
 <div class="container-kanban" wire:poll.keep-alive.600s>
   @lang('Last Updated'): {{ now()->format('g:i a') }}
   <div class="container-fluid page-header d-flex justify-content-between align-items-start">
-      <div>
-        <h1>@lang('Process')</h1>
-        <p class="lead d-none d-md-block">@lang('Research, ideate and present brand concepts for client consideration')</p>
-      </div>
-      <div class="d-flex align-items-center">
-        <button class="btn btn-round flex-shrink-0" data-toggle="tooltip" data-placement="top" title="Create register">
-          <i class="cil-plus"></i>
-        </button>
-        <input type="text" class="form-control ml-3" placeholder="Inactive" aria-label="Recipient's username" aria-describedby="basic-addon2">
-      </div>
+    <div>
+      <h1>@lang('Process')</h1>
+      <p class="lead d-none d-md-block">@lang('Research, ideate and present brand concepts for client consideration')</p>
+    </div>
+    <div class="d-flex align-items-center">
+      <button class="btn btn-round flex-shrink-0" data-toggle="tooltip" data-placement="top" title="Create register">
+        <i class="cil-plus"></i>
+      </button>
+      <input type="text" class="form-control ml-3" placeholder="Inactive" aria-label="Recipient's username" aria-describedby="basic-addon2">
+    </div>
   </div>
 
   <div class="kanban-board container-fluid mt-lg-3">
@@ -19,7 +19,7 @@
       <div class="card-list" style="background-color: #feebe5;">
         <div class="card-list-header">
           <h6>@lang('Quotations') 
-            <span class="badge badge-danger">{{ $quotations->count() }}</span>
+            <span class="badge badge-danger">{{ $quotations->total() }}</span>
             <span class="badge badge-info">@lang('Articles'): {{ $quotations->sum('sum') }}</span>
           </h6>
           <div class="dropdown">
@@ -61,6 +61,14 @@
             </div>
           @endforeach
 
+          @if($quotations->hasMorePages())
+            <div class="card text-center" style="background-color: rgba(245, 245, 245, 1); opacity: .9;">
+              <div class="card-body">
+                <button type="button" class="btn btn-primary" wire:click="$emit('load-more', 'pageQuotations')">@lang('Load more')</button>
+              </div>
+            </div>
+          @endif
+          
         </div>
         <div class="card-list-footer">
           <a href="{{ route('admin.order.quotation') }}" class="btn btn-link btn-sm text-small text-danger">@lang('Add quotation') + </a>
@@ -127,7 +135,7 @@
       <div class="card-list">
         <div class="card-list-header">
           <h6>@lang('Captured')
-            <span class="badge badge-danger">{{ $orders_captured->count() }}</span>
+            <span class="badge badge-danger">{{ $orders_captured->total() }}</span>
             <span class="badge badge-info">@lang('Articles'): {{ $orders_captured->sum('sum') }}</span>
           </h6>
           <div class="dropdown">
@@ -176,7 +184,7 @@
           @if($orders_captured->hasMorePages())
             <div class="card text-center" style="background-color: rgba(245, 245, 245, 1); opacity: .9;">
               <div class="card-body">
-                <button type="button" class="btn btn-primary" wire:click="$emit('load-more')">@lang('Load more')</button>
+                <button type="button" class="btn btn-primary" wire:click="$emit('load-more', 'pageCaptured')">@lang('Load more')</button>
               </div>
             </div>
           @endif
@@ -192,7 +200,7 @@
       <div class="card-list">
         <div class="card-list-header">
           <h6>@lang('Production')
-            <span class="badge badge-danger">{{ $orders_production->count() }}</span>
+            <span class="badge badge-danger">{{ $orders_production->total() }}</span>
             <span class="badge badge-info">@lang('Articles'): {{ $orders_production->sum('sum') }}</span>
           </h6>
           <div class="dropdown">
@@ -241,7 +249,7 @@
           @if($orders_production->hasMorePages())
             <div class="card text-center" style="background-color: rgba(245, 245, 245, 1); opacity: .9;">
               <div class="card-body">
-                <button type="button" class="btn btn-primary" wire:click="$emit('load-more')">@lang('Load more')</button>
+                <button type="button" class="btn btn-primary" wire:click="$emit('load-more', 'pageProduction')">@lang('Load more')</button>
               </div>
             </div>
           @endif
@@ -539,73 +547,6 @@
         </div>
         <div class="card-list-footer">
           <button class="btn btn-link btn-sm text-small">@lang('Show all')  <span class="badge badge-secondary">@lang('Inactive')</span></button>
-        </div>
-      </div>
-    </div>
-
-    <div class="kanban-col">
-      <div class="card-list">
-        <div class="card-list-header">
-          <h6>
-            @lang('Delivered')
-            <span class="badge badge-danger">{{ $orders_finalized->count() }}</span>
-            <span class="badge badge-info">@lang('Articles'): {{ $orders_finalized->sum('sum') }}</span>
-          </h6>
-          <div class="dropdown">
-            <button class="btn-options" type="button" id="cardlist-dropdown-button-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="cil-list"></i>
-            </button>
-            <div class="dropdown-menu dropdown-menu-right">
-              <a class="dropdown-item" href="#">@lang('Edit') <span class="badge badge-secondary">@lang('Inactive')</span></a>
-              <a class="dropdown-item text-danger" href="#">@lang('Archive List') <span class="badge badge-secondary">@lang('Inactive')</span></a>            </div>
-          </div>
-        </div>
-        <div class="card-list-body">
-
-          @foreach($orders_finalized as $order)
-            <div class="card card-kanban">
-
-              <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: {{ $order->percentage_status }}%; background-color: blue;" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-
-              <div class="card-body">
-                <div class="dropdown card-options">
-                  <a class="btn-options" type="button" target="_blank" href="{{ route('admin.order.edit', $order->id) }}">
-                    {{ $order->id }}
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" target="_blank" href="{{ route('admin.order.edit', $order->id) }}">@lang('Edit')</a>
-                    <a class="dropdown-item text-danger" href="#">@lang('Archive Card')</a>
-                  </div>
-                </div>
-                <div class="card-title">
-                  <a target="_blank" href="{{ route('admin.order.edit', $order->id) }}"><h6>{!! Str::limit($order->customer, 25) ?? '<em>'.__('undefined customer').'</em>' !!}</h6></a>
-                  <p><a class="btn-options" target="_blank" href="{{ route('admin.order.edit', $order->id) }}"><h6>{{ Str::limit($order->comment, 23) }}</h6></a></p>
-                </div>
-
-                <div class="card-meta d-flex justify-content-between">
-                  <div class="d-flex align-items-center">
-                    <span>@lang('Articles'): {{ $order->sum }}</span>
-                  </div>
-                  <span class="text-small">{{ $order->date }}</span>
-                </div>
-              </div>
-
-            </div>
-          @endforeach
-
-          @if($orders_finalized->hasMorePages())
-            <div class="card text-center" style="background-color: rgba(245, 245, 245, 1); opacity: .9;">
-              <div class="card-body">
-                <button type="button" class="btn btn-primary" wire:click="$emit('load-more')">@lang('Load more')</button>
-              </div>
-            </div>
-          @endif
-
-        </div>
-        <div class="card-list-footer">
-          <button class="btn btn-link btn-sm text-small">@lang('Show all done')</button>
         </div>
       </div>
     </div>

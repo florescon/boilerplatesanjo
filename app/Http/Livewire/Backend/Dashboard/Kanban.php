@@ -5,6 +5,7 @@ use Illuminate\Database\Query\JoinClause;
 use Illuminate\Database\Query\Builder;
 use Livewire\Component;
 use DB;
+use Illuminate\Support\Arr;
 
 class Kanban extends Component
 {
@@ -14,9 +15,20 @@ class Kanban extends Component
         'load-more' => 'loadMore',
     ];
    
-    public function loadMore()
+    public $pageQuotations;
+    public $pageCaptured;
+    public $pageProduction;
+
+    public function mount()
     {
-        $this->limitPerPage = $this->limitPerPage + 10;
+        $this->pageQuotations = array($this->limitPerPage, 'pageQuotations');
+        $this->pageCaptured = array($this->limitPerPage, 'pageCaptured');
+        $this->pageProduction = array($this->limitPerPage, 'pageProduction');
+    }
+
+    public function loadMore(?string $typeLoad)
+    {
+        $this->$typeLoad = Arr::set($this->$typeLoad, '0', $this->$typeLoad[0] + $this->limitPerPage);
     }
 
     private function productsOrder(): Builder
@@ -110,7 +122,7 @@ class Kanban extends Component
                     ['a.from_store', '=', null]
                 ])
                 ->orderByDesc('a.id');
-    }  
+    }
 
     private function ordersToBeDefined()
     {
@@ -139,13 +151,13 @@ class Kanban extends Component
 
     public function render()
     {
-        $quotations = $this->quotations()->paginate($this->limitPerPage);
+        $quotations = $this->quotations()->paginate(head($this->pageQuotations), ['*'], last($this->pageQuotations));
 
         $orders_to_be_defined = $this->ordersToBeDefined()->get();
 
-        $orders_captured = $this->orderProcess(1)->paginate($this->limitPerPage);
+        $orders_captured = $this->orderProcess(1)->paginate(head($this->pageCaptured), ['*'], last($this->pageCaptured));
 
-        $orders_production = $this->orderProcess(3)->paginate($this->limitPerPage);
+        $orders_production = $this->orderProcess(3)->paginate(head($this->pageProduction), ['*'], last($this->pageProduction));
 
         $orders_court = $this->orderProcess(4)->get();
 
@@ -156,8 +168,6 @@ class Kanban extends Component
         $orders_personalization = $this->orderProcess(8)->get();
 
         $orders_revision_final = $this->orderProcess(9)->get();
-
-        $orders_finalized = $this->orderProcess(2)->paginate($this->limitPerPage);
 
         // echo "<pre>";
         // print_r($orders_captured);
@@ -173,7 +183,6 @@ class Kanban extends Component
           'orders_revision' => $orders_revision,
           'orders_personalization' => $orders_personalization,
           'orders_revision_final' => $orders_revision_final,
-          'orders_finalized' => $orders_finalized,
         ]);
     }
 }

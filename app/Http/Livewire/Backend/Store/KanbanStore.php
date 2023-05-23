@@ -5,18 +5,30 @@ use Illuminate\Database\Query\JoinClause;
 use Illuminate\Database\Query\Builder;
 use Livewire\Component;
 use DB;
+use Illuminate\Support\Arr;
 
 class KanbanStore extends Component
 {
-    public $limitPerPage = 10;
+    public $limitPerPage = 5;
 
     protected $listeners = [
         'load-more' => 'loadMore',
     ];
-   
-    public function loadMore()
+
+    public $pageQuotations;
+    public $pageRequests;
+    public $pageServices;
+
+    public function mount()
     {
-        $this->limitPerPage = $this->limitPerPage + 10;
+        $this->pageQuotations = array($this->limitPerPage, 'pageQuotations');
+        $this->pageRequests = array($this->limitPerPage, 'pageRequests');
+        $this->pageServices = array($this->limitPerPage, 'pageServices');
+    }
+
+    public function loadMore(?string $typeLoad)
+    {
+        $this->$typeLoad = Arr::set($this->$typeLoad, '0', $this->$typeLoad[0] + $this->limitPerPage);
     }
 
     private function productsOrder(): Builder
@@ -45,15 +57,21 @@ class KanbanStore extends Component
                 ->select('id as id_service', DB::raw('e.name as name_service'));
     }
 
-    private function quotations()
+    public function mainFunction()
     {
-        return $quotations = DB::table('orders as a')
+        return DB::table('orders as a')
                 ->joinSub($this->productsOrder(), 'products', function (JoinClause $join) {
                     $join->on('a.id', '=', 'products.order_id');
                 })
                 ->joinSub($this->user(), 'user', function (JoinClause $join) {
                     $join->on('a.user_id', '=', 'user.id_user');
                 })
+                ;
+    }
+
+    private function quotations()
+    {
+        return $quotations = $this->mainFunction()
                 ->select('*', DB::raw('DATE_FORMAT(a.created_at, "%d-%m-%Y") as date'))
                 ->where([
                     ['a.type', '=', '6'],
@@ -66,13 +84,7 @@ class KanbanStore extends Component
 
     private function requests_pendings()
     {
-        return $requests_pendings = DB::table('orders as a')
-                ->joinSub($this->productsOrder(), 'products', function (JoinClause $join) {
-                    $join->on('a.id', '=', 'products.order_id');
-                })
-                ->joinSub($this->user(), 'user', function (JoinClause $join) {
-                    $join->on('a.user_id', '=', 'user.id_user');
-                })
+        return $requests_pendings = $this->mainFunction()
                 ->where(function (Builder $query) {
                     $query->select('type')
                         ->from('orders_deliveries')
@@ -113,9 +125,9 @@ class KanbanStore extends Component
 
     public function render()
     {
-        $quotations = $this->quotations()->paginate($this->limitPerPage);
-        $requests_pendings = $this->requests_pendings()->paginate($this->limitPerPage);
-        $services_pendings = $this->services_pendings()->paginate($this->limitPerPage);
+        $quotations = $this->quotations()->paginate(head($this->pageQuotations), ['*'], last($this->pageQuotations));
+        $requests_pendings = $this->requests_pendings()->paginate(head($this->pageRequests), ['*'], last($this->pageRequests));
+        $services_pendings = $this->services_pendings()->paginate(head($this->pageServices), ['*'], last($this->pageServices));
 
         return view('backend.store.dashboard.kanban-store', [
             'quotations' => $quotations,
