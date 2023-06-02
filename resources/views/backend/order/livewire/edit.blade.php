@@ -798,6 +798,35 @@
       @if($orderExists || $requestExists)
       <div class="col-12 col-md-4">
         <div class="row d-flex justify-content-center mt-70 mb-70">
+
+          {{-- <div class="col-md-12">
+            <div class="main-card mb-3 card card-edit">
+              <div class="card-body">
+                <h5 class="card-title">
+                  @lang('Batches')
+                  @if($model->batches_main->count() > 0)
+                    <span class="badge badge-primary">{{ $model->batches_main->count() }}</span>
+                  @endif
+                </h5>
+
+                <div class="list-group">
+                  @foreach($statuses as $status)
+                    @if($status->process)
+                      <a href="{{ route('admin.order.batches', [$order_id, $status->id]) }}" class="list-group-item list-group-item-action" aria-current="true">
+                        <div class="d-flex w-100 justify-content-between">
+                          <h5 class="mb-1">{{ $status->name }}</h5>
+                          <small>3 days ago</small>
+                        </div>
+                        <p class="mb-1">{{ $status->description }}</p>
+                        <small>Último creado: </small>
+                      </a>
+                    @endif
+                  @endforeach
+                </div>
+              </div>
+            </div>
+          </div> --}}
+
           <div class="col-md-12">
             <div class="main-card mb-3 card card-edit">
               <div class="card-body">

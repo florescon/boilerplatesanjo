@@ -77,6 +77,11 @@ class Cash extends Model
         return $this->incomes->sum('amount');
     }
 
+    public function getAmountIncomes($cashes)
+    {
+        return Cash::whereIn('id', $cashes)->incomes->sum('amount');
+    }
+
     public function getAmountExpensesAttribute()
     {
         return $this->expenses->sum('amount');

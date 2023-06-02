@@ -446,6 +446,16 @@ class OrderController extends Controller
         return view('backend.order.assignments-order', compact('order', 'status'));
     }
 
+    public function batches(Order $order, Status $status)
+    {
+        if($status->process == false){
+            abort(401);
+        }
+
+        // dd($order->id);
+        return view('backend.order.batches-order', compact('order', 'status'));
+    }
+
     public function deleted()
     {
         return view('backend.order.deleted');

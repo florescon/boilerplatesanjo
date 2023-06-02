@@ -34,11 +34,14 @@ class BoxHistory extends Component
     public $dateInput = '';
     public $dateOutput = '';
 
+    public bool $lastMonth = false;
     public bool $currentMonth = false;
     public bool $currentWeek = false;
     public bool $today = false;
 
     public $status;
+
+    public bool $forExport = false;
 
     protected $listeners = ['filter' => 'filter', 'delete', 'restore', 'triggerRefresh' => '$refresh'];
 
@@ -61,6 +64,9 @@ class BoxHistory extends Component
         $query = Cash::query()
             ->whereNotNull('checked')
             ->when($this->dateInput, function ($query) {
+
+                $this->isExportable();
+
                 empty($this->dateOutput) ?
                     $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', now()]) :
                     $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59']);
@@ -134,30 +140,97 @@ class BoxHistory extends Component
         $this->currentWeek = FALSE;
         $this->today = FALSE;
         $this->currentMonth = FALSE;
+        $this->lastMonth = FALSE;
+        $this->isExportable();
+   }
+
+    public function export()
+    {
+        $boxescollection = collect();
+
+        foreach($this->rowsQuery->get() as $boxes){
+            $boxescollection->push(
+                $boxes->id,
+            );
+        }
+
+        return redirect()->route('admin.store.printexport', urlencode(json_encode($boxescollection)));
     }
 
     public function isCurrentMonth()
     {
-        $this->clearFilterDate();
+        $this->resetPage();
+        $this->dateInput = '';
+        $this->dateOutput = '';
         $this->currentWeek = FALSE;
+        $this->lastMonth = FALSE;
         $this->today = FALSE;
-        $this->currentMonth = TRUE;
+
+        if($this->currentMonth){
+            $this->currentMonth = false;
+        }
+        else{
+            $this->currentMonth = TRUE;
+        }
+
+        $this->isExportable();
+    }
+
+    public function isLastMonth()
+    {
+        $this->resetPage();
+        $this->dateInput = '';
+        $this->dateOutput = '';
+        $this->currentWeek = FALSE;
+        $this->currentMonth = FALSE;
+        $this->today = FALSE;
+
+        if($this->lastMonth){
+            $this->lastMonth = false;
+        }
+        else{
+            $this->lastMonth = TRUE;
+        }
+
+        $this->isExportable();
     }
 
     public function isCurrentWeek()
     {
-        $this->clearFilterDate();
+        $this->resetPage();
+        $this->dateInput = '';
+        $this->dateOutput = '';
         $this->currentMonth = FALSE;
+        $this->lastMonth = FALSE;
         $this->today = FALSE;
-        $this->currentWeek = TRUE;
+
+        if($this->currentWeek){
+            $this->currentWeek = false;
+        }
+        else{
+            $this->currentWeek = TRUE;
+        }
+
+        $this->isExportable();
     }
 
     public function isToday()
     {
-        $this->clearFilterDate();
+        $this->resetPage();
+        $this->dateInput = '';
+        $this->dateOutput = '';
         $this->currentMonth = FALSE;
         $this->currentWeek = FALSE;
-        $this->today = TRUE;
+        $this->lastMonth = FALSE;
+
+        if($this->today){
+            $this->today = false;
+        }
+        else{
+            $this->today = TRUE;
+        }
+
+        $this->isExportable();
     }
 
     public function clearAll()
@@ -195,6 +268,26 @@ class BoxHistory extends Component
         $this->selectAll = false;
         $this->selectPage = false;
         $this->selected = [];
+    }
+
+    /**
+     * @return bool
+     */
+    public function isExportable(): bool
+    {
+        if($this->currentMonth)
+            return $this->forExport = true;
+        if($this->currentWeek)
+            return $this->forExport = true;
+        if($this->today)
+            return $this->forExport = true;
+        if($this->lastMonth)
+            return $this->forExport = true;
+
+        if($this->dateInput)
+            return $this->forExport = true;
+
+        return $this->forExport = false;
     }
 
     public function delete($id)

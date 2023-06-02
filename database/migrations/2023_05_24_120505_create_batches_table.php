@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductOrderTable extends Migration
+class CreateBatchesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,16 @@ class CreateProductOrderTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_order', function (Blueprint $table) {
+        Schema::create('batches', function (Blueprint $table) {
             $table->id();
-            $table->string('random_string')->nullable();
             $table->unsignedBigInteger('order_id')->nullable();
-            $table->unsignedBigInteger('suborder_id')->nullable();
-            $table->unsignedBigInteger('product_id')->nullable();
-            $table->integer('quantity')->default(0);
-            $table->decimal('price', 8, 2)->nullable();
-            $table->tinyInteger('type')->nullable();
+            $table->unsignedBigInteger('status_id')->nullable();
+            $table->unsignedBigInteger('personal_id')->nullable();
+            $table->longText('comment')->nullable();
+            $table->date('date_entered')->nullable();
+            $table->unsignedBigInteger('audi_id')->nullable();
+            $table->unsignedBigInteger('batch_id')->nullable();
+            $table->integer('folio');
             $table->softDeletes();
             $table->timestamps();
 
@@ -30,9 +31,9 @@ class CreateProductOrderTable extends Migration
                 ->on('orders')
                 ->onDelete('cascade');
 
-            $table->foreign('suborder_id')
+            $table->foreign('batch_id')
                 ->references('id')
-                ->on('orders')
+                ->on('batches')
                 ->onDelete('cascade');
         });
     }
@@ -44,6 +45,6 @@ class CreateProductOrderTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_order');
+        Schema::dropIfExists('batches');
     }
 }

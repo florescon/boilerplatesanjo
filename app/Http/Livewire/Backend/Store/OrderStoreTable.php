@@ -29,7 +29,7 @@ class OrderStoreTable extends Component
 
     public $limitPerPage = '50';
 
-    public $sortField = 'folio';
+    public $sortField = 'id';
     public $sortAsc = false;
 
     public $status;
@@ -53,7 +53,7 @@ class OrderStoreTable extends Component
 
     public function getRowsQueryProperty()
     {
-        $query = Order::query()->with('user.customer', 'orders_payments', 'orders_delivery', 'last_order_delivery', 'product_quotation', 'product_output', 'product_order', 'product_sale',  'product_request', 'product_suborder', 'last_status_order.status')
+        $query = Order::query()->with('user.customer', 'orders_payments', 'last_order_delivery', 'product_quotation', 'product_output', 'product_order', 'product_sale',  'product_request', 'product_suborder', 'last_status_order', 'service_orders')
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?
                 $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', now()]) :

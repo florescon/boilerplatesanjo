@@ -22,6 +22,8 @@ use App\Models\StatusOrder;
 use App\Observers\StatusOrderObserver;
 use App\Models\Order;
 use App\Observers\OrderObserver;
+use App\Models\Batch;
+use App\Observers\BatchObserver;
 use App\Models\MaterialOrder;
 use App\Observers\MaterialOrderObserver;
 use App\Models\ProductOrder;
@@ -73,6 +75,7 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot();
             Order::observe(OrderObserver::class);
+            Batch::observe(BatchObserver::class);
             StatusOrder::observe(StatusOrderObserver::class);
             MaterialOrder::observe(MaterialOrderObserver::class);
             ProductOrder::observe(ProductOrderObserver::class);

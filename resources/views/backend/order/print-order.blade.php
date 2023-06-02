@@ -31,7 +31,7 @@
             <b class="cs-primary_color">@lang('Extra information'):</b>
             <p class="cs-mb8">{{ $order->comment ?? '--'}}</p>
 
-            <p><b class="cs-primary_color cs-semi_bold">@lang('Date Issued'):</b> <br>{{ $order->date_for_humans }}</p>
+            <p><b class="cs-primary_color cs-semi_bold">@lang('Date Issued'):</b> <br>{{ $order->date_entered_or_created }}</p>
             @if($order->request)
               <p><b class="cs-primary_color cs-semi_bold">@lang('Request number'):</b> <br>{{ $order->request ?? '' }}</p>
             @endif

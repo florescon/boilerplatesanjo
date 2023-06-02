@@ -102,9 +102,9 @@
 
                     <tr class="cs-focus_bg2">
                       <td class="cs-width_3 cs-text_center cs-accent_color">
-                        @if($order['id'])
+                        @if($order['folio'])
                           <a target="_blank"
-                            href="{{ route('admin.order.edit', $order['id']) }}"
+                            href="{{ route('admin.order.edit', $order['folio']) }}"
                             style="text-decoration: none !important">
                             {!! '#'.$order['folio'].' - '.$order['user'] !!}
                           </a>
@@ -119,7 +119,7 @@
                           @foreach($product as $key2 => $parentProduct)
 
                             @foreach($parentProduct as $al)
-                              @if($al['productOrder'] === $order['id'])
+                              @if($al['productOrder'] === $order['folio'])
                                 @php($totalProductGrouped += $al['productQuantity'])
                               @endif
                             @endforeach

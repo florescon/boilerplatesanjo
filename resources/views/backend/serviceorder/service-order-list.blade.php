@@ -49,6 +49,8 @@
                     <button type="button" class="btn {{ $currentWeek ? 'btn-success' : 'btn-secondary' }}" wire:click="isCurrentWeek">@lang('Current week')</button>
                     <button type="button" class="btn {{ $today ? 'btn-success' : 'btn-secondary' }}" wire:click="isToday">@lang('Today')</button>
                   </div>
+                  <button type="button" class="m-1 btn {{ $history ? 'btn-warning text-white' : 'btn-secondary' }}" wire:click="isHistory">@lang('History')</button>
+
                 </div>
                 &nbsp;
 
@@ -63,6 +65,13 @@
             </div>
         </div>
         <div class="card-body">
+
+          @if($history)
+            <div class="alert alert-warning text-center" role="alert">
+              El historial me muestra todas las órdenes de servicio pendientes y listas.
+              <img src="{{ asset('/img/tiger.gif')}}" width="50" alt="Tiger">
+            </div>
+          @endif
 
           <div class="row mb-4">
             <div class="col form-inline">

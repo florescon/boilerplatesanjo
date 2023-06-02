@@ -180,12 +180,21 @@ class ProductOrder extends Model
 
         return null;
     }
+    
     /**
      * @return mixed
      */
     public function material()
     {
         return $this->hasMany(MaterialOrder::class);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function batch_product()
+    {
+        return $this->hasMany(BatchProduct::class, 'product_order_id');
     }
 
     public function getTotalByProductAttribute()
@@ -201,6 +210,11 @@ class ProductOrder extends Model
     public function getAvailableAssignmentsAttribute()
     {
         return $this->quantity - $this->assignments->where('output', 0)->sum('quantity');
+    }
+
+    public function getAvailableBatchAttribute()
+    {
+        return $this->quantity - $this->batch_product->where('status_id', 4)->sum('quantity');
     }
 
     /**
@@ -317,6 +331,8 @@ class ProductOrder extends Model
     /**
      * Get all of the product order's assignments.
      */
+
+
     public function assignments()
     {
         return $this->morphMany(Assignment::class, 'assignmentable');

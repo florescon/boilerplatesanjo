@@ -53,6 +53,49 @@ class CashController extends Controller
         return view('backend.store.box.print', compact('box'));
     }
 
+    public function printexport(?string $boxes = null)
+    {
+        $json_decode = json_decode($boxes);
+
+        if($boxes)
+            $cashes = Cash::whereIn('id', $json_decode)
+                    ->with('finances', 'orders')
+                    ->get();
+        else
+            $cashes = null;
+
+        $totalIncomes = 0;
+        $totalExpenses = 0;
+        $totalCash = 0;
+        $totalAnotherPayment = 0;
+
+        foreach($cashes as $cash){
+            foreach($cash->finances as $finance ){
+                if($finance->isIncome()){
+                    if($finance->payment_method_id === 1){
+                        $totalCash += $finance->amount;
+                    }
+                    else{
+                        $totalAnotherPayment += $finance->amount;
+                    }
+                    $totalIncomes += $finance->amount;
+                }
+
+                if($finance->isExpense())
+                    $totalExpenses += $finance->amount;
+            }            
+        }
+
+        return view('backend.store.box.print-export-index', [
+            'boxes' => $cashes,
+            'json_decode' => $json_decode,
+            'totalIncomes' => $totalIncomes ?? 0,
+            'totalExpenses' => $totalExpenses ?? 0,
+            'totalCash' => $totalCash ?? 0,
+            'totalAnotherPayment' => $totalAnotherPayment ?? 0,
+        ]);
+    }
+
     public function deleted()
     {
         return view('backend.store.deleted-box-history');

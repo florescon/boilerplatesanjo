@@ -85,6 +85,14 @@ Route::group([
                 ->push(__('Sales Panel Management'), route('admin.store.sales'));
         });
 
+    Route::get('printexport/{boxes?}', [CashController::class, 'printexport'])
+        ->name('printexport')
+        ->middleware('permission:admin.access.store.list_box')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.dashboard')
+                ->push(__('Print boxes'), route('admin.store.printexport', $boxes ?? null));
+        });
+
     Route::group([
         'prefix' => 'product',
         'as' => 'product.',

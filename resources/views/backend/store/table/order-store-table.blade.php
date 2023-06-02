@@ -69,7 +69,6 @@
 	      <select wire:model="perPage" class="form-control">
 	        <option>12</option>
 	        <option>25</option>
-	        <option>50</option>
 	      </select>
 	    </div><!--col-->
 
@@ -197,6 +196,10 @@
 	                </td>
 	                <td class="align-middle">
 	                  {!! Str::limit($order->comment, 100) ?? '<span class="badge badge-secondary">'.__('undefined').'</span>' !!}
+	                  @if($order->service_orders->count())
+	                  	<br>
+	                    <strong>@lang('Service Orders'):</strong> <span class="badge badge-success">{{ $order->service_orders->count() }}</span>
+	                  @endif
 	                </td>
 		            </tr>
 	            @endforeach

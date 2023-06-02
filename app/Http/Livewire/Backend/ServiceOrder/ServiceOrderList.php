@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Livewire\Backend\DataTable\WithBulkActions;
 use App\Http\Livewire\Backend\DataTable\WithCachedRows;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 
 class ServiceOrderList extends Component
 {
@@ -42,6 +43,8 @@ class ServiceOrderList extends Component
     public bool $today = false;
 
     public bool $pending = false;
+
+    public bool $history = false;
 
     public $status;
 
@@ -80,7 +83,11 @@ class ServiceOrderList extends Component
             })
             ->when($this->sortField, function ($query) {
                 $query->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc');
-            });
+            })
+            ->when(!$this->history, function ($query) {
+                $query->where('done', false);
+            })
+            ;
 
 
         if ($this->status === 'deleted') {
@@ -98,13 +105,15 @@ class ServiceOrderList extends Component
     private function applySearchFilter($searchFinance)
     {
         if ($this->searchTerm) {
-            return $searchFinance->whereHas('personal', function ($query) {
-               $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
-            })
-            ->orWhereHas('order', function ($query) {
-               $query->whereRaw("folio LIKE \"%$this->searchTerm%\"");
-            })
-            ->orWhere('id', 'like', '%' . $this->searchTerm . '%');
+            return $searchFinance->where(function(Builder $queryy) {
+                $queryy->whereHas('personal', function ($query) {
+                    $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
+                 })
+                ->orWhereHas('order', function ($query) {
+                    $query->whereRaw("folio LIKE \"%$this->searchTerm%\"");
+                })
+                ->orWhere('id', 'like', '%' . $this->searchTerm . '%');
+            });
         }
 
         return null;
@@ -125,6 +134,22 @@ class ServiceOrderList extends Component
         return $this->cache(function () {
             return $this->rowsQuery->paginate(($this->perPage > $this->limitPerPage) ? $this->clear() : $this->perPage);
         });
+    }
+
+    public function isHistory()
+    {
+        $this->resetPage();
+        $this->dateInput = '';
+        $this->dateOutput = '';
+        $this->currentMonth = FALSE;
+        $this->currentWeek = FALSE;
+
+        if($this->history){
+            $this->history = false;
+        }
+        else{
+            $this->history = TRUE;
+        }
     }
 
     public function done(?int $id = null)

@@ -97,6 +97,8 @@
 
     <script src="{{ asset('js_custom/app/filepond.js') }}"></script>
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js"></script>
+
     <livewire:scripts />
 
     @stack('after-scripts')

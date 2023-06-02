@@ -43,10 +43,16 @@
 
                 <div class="col-md-3">
                   <div class="btn-group" role="group" aria-label="Range date">
+                    {{-- <button type="button" class="btn {{ $lastMonth ? 'btn-success' : 'btn-secondary' }}" wire:click="isLastMonth">@lang('Last month')</button> --}}
                     <button type="button" class="btn {{ $currentMonth ? 'btn-success' : 'btn-secondary' }}" wire:click="isCurrentMonth">@lang('Current month')</button>
                     <button type="button" class="btn {{ $currentWeek ? 'btn-success' : 'btn-secondary' }}" wire:click="isCurrentWeek">@lang('Current week')</button>
                     <button type="button" class="btn {{ $today ? 'btn-success' : 'btn-secondary' }}" wire:click="isToday">@lang('Today')</button>
                   </div>
+
+                  @if($forExport)
+                    <button type="button" class="m-1 btn btn-primary text-white' }}" wire:click="export">@lang('Export')</button>
+                  @endif
+
                 </div>
                 &nbsp;
 

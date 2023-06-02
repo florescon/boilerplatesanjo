@@ -271,18 +271,6 @@ class FinanceTable extends Component
         }
     }
 
-    public function isInvoice()
-    {
-        $this->resetPage();
-
-        if($this->invoice){
-            $this->invoice = FALSE;
-        }
-        else{
-            $this->invoice = TRUE;
-        }
-    }
-
     public function isToday()
     {
         $this->resetPage();
@@ -296,6 +284,18 @@ class FinanceTable extends Component
         }
         else{
             $this->today = TRUE;
+        }
+    }
+
+    public function isInvoice()
+    {
+        $this->resetPage();
+
+        if($this->invoice){
+            $this->invoice = FALSE;
+        }
+        else{
+            $this->invoice = TRUE;
         }
     }
 

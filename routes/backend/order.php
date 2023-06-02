@@ -204,6 +204,14 @@ Route::group([
                     ->push(__('Assignments').' - '.$status->name, route('admin.order.assignments', [$order, $status]));
             });
 
+        Route::get('batches/{status}', [OrderController::class, 'batches'])
+            ->name('batches')
+            ->middleware('permission:admin.access.order.modify')
+            ->breadcrumbs(function (Trail $trail, Order $order, Status $status) {
+                $trail->parent('admin.order.edit', $order)
+                    ->push(__('batches').' - '.$status->name, route('admin.order.batches', [$order, $status]));
+            });
+
         Route::get('ticket_assignment/{ticket}', [OrderController::class, 'ticket_assignment'])
             ->name('ticket_assignment')
             ->middleware('permission:admin.access.order.modify')

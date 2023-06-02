@@ -21,7 +21,7 @@ class Order extends Model
 {
     use HasFactory, SoftDeletes, CascadeSoftDeletes, OrderScope, Sluggable;
 
-    protected $cascadeDeletes = ['product_order', 'product_sale', 'product_quotation', 'product_output', 'suborders', 'product_suborder', 'materials_order', 'service_orders'];
+    protected $cascadeDeletes = ['product_order', 'product_sale', 'product_quotation', 'product_output', 'suborders', 'product_suborder', 'batches', 'materials_order', 'service_orders'];
 
     protected $fillable = [
         'date_entered', 
@@ -165,6 +165,34 @@ class Order extends Model
     public function getTrackingNumberAttribute(): ?string
     {
         return $this->slug ?? '';
+    }
+
+    /**
+     * @return mixed
+     */
+    public function batches()
+    {
+        return $this->hasMany(Batch::class)->orderBy('created_at', 'desc');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function batches_main()
+    {
+        return $this->hasMany(Batch::class, 'order_id')->where('batch_id', NULL)->orderBy('created_at', 'desc');
+    }
+
+    public function getTotalBatchAttribute(): int
+    {
+        return $this->batches_main->sum(function($batches) {
+          return $batches->batch_product->sum('quantity');
+        });
+    }
+
+    public function getTotalBatchPendingAttribute(): int
+    {
+        return $this->total_products - $this->total_batch;
     }
 
     /**

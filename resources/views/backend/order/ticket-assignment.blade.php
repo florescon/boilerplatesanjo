@@ -69,26 +69,29 @@
             </tr>
         </table>
 
-        <table style="margin-bottom: -30px; margin-top: -20px;" width="100%">
-            <tr>
-                @if($order->user)
-                    <th class="text-center"> <h2>{{ optional($order->user)->real_name }}</h2></th>
-                @endif
-            </tr>
-        </table>
 
-        @if($order->comment)
-            <table style="margin-bottom: 10px;" width="100%">
-                <tr align="center">
-                    <th>
-                        @if($order->comment)
-                            {{ $order->info_customer ?? '' }}
-                            <br>
-                        @endif
-                        {{ $order->comment ?? '' }}
-                    </th>
+        @if($ticket->status_id !== 6)
+            <table style="margin-bottom: -30px; margin-top: -20px;" width="100%">
+                <tr>
+                    @if($order->user)
+                        <th class="text-center"> <h2>{{ optional($order->user)->real_name }}</h2></th>
+                    @endif
                 </tr>
             </table>
+
+            @if($order->comment)
+                <table style="margin-bottom: 10px;" width="100%">
+                    <tr align="center">
+                        <th>
+                            @if($order->comment)
+                                {{ $order->info_customer ?? '' }}
+                                <br>
+                            @endif
+                            {{ $order->comment ?? '' }}
+                        </th>
+                    </tr>
+                </table>
+            @endif
         @endif
 
         @if(count($ticket->assignments_direct))
