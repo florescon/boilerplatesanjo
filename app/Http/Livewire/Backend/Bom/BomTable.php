@@ -114,7 +114,7 @@ class BomTable extends Component
     {
         if ($this->searchTerm) {
             return $order->where(function(Builder $query) {
-                $query->whereRaw("a.id LIKE \"%$this->searchTerm%\"")
+                $query->whereRaw("a.folio LIKE \"%$this->searchTerm%\"")
                 ->orWhereRaw("a.comment LIKE \"%$this->searchTerm%\"")
                 ->orWhereRaw("info_customer LIKE \"%$this->searchTerm%\"")
                 ->orWhereRaw("customer LIKE \"%$this->searchTerm%\"")
@@ -157,6 +157,7 @@ class BomTable extends Component
                 'id' => $order->id,
                 'folio' => $order->folio,
                 'user' => optional($order->user)->name,
+                'type' => $order->characters_type_order,
                 'comment' => $order->comment,
             ]);
 
@@ -167,7 +168,7 @@ class BomTable extends Component
                     'productParentId' => $product_order->product->parent_id ?? $product_order->product_id,
                     'productParentName' => $product_order->product->only_name ?? null,
                     'productParentCode' => $product_order->product->parent_code ?? null,
-                    'productOrder' => $product_order->order_id,
+                    'productOrder' => $product_order->order->folio_or_id_clear,
                     'productName' => $product_order->product->full_name_clear ?? null,
                     'productColor' => $product_order->product->color_id,
                     'productColorName' => $product_order->product->color->name ?? '',

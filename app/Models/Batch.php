@@ -113,7 +113,6 @@ class Batch extends Model
         return $this->id;
     }
 
-
     public function getParentOrIDAttribute()
     {
         if($this->batch_id !== null)

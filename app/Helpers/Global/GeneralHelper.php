@@ -218,6 +218,35 @@ if (! function_exists('typeOutOrder')) {
 }
 
 
+if (! function_exists('typeOrderCharacters')) {
+    /**
+     * 
+     *
+     * @return string
+     */
+    function typeOrderCharacters($type)
+    {
+            switch ($type) {
+                case 2:
+                    return 'VEN';
+                case 3:
+                    return 'MIX';
+                case 4:
+                    return 'OUT';
+                case 5:
+                    return 'PED';
+                case 6:
+                    return 'COT';
+                case 7:
+                    return 'OUTP';
+                default:
+                    return 'ORD';
+            }
+
+        return '';
+    }
+}
+
 if (! function_exists('typeOrderColor')) {
     /**
      * 

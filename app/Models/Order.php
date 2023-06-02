@@ -424,6 +424,14 @@ class Order extends Model
         return '<strong style="color:#1433D8;">'.$this->id.'.</strong>';
     }
 
+    public function getFolioOrIDClearAttribute()
+    {
+        if($this->folio !== 0)
+            return $this->folio;
+
+        return $this->id;
+    }
+
     public function last_status()
     {
         return DB::table('statuses')->latest('level')->first();
@@ -740,19 +748,19 @@ class Order extends Model
     {
             switch ($this->type) {
                 case 2:
-                    return 'SJU-VEN';
+                    return 'VEN';
                 case 3:
-                    return 'SJU-MIX';
+                    return 'MIX';
                 case 4:
-                    return 'SJU-OUT';
+                    return 'OUT';
                 case 5:
-                    return 'SJU-PED';
+                    return 'PED';
                 case 6:
-                    return 'SJU-COT';
+                    return 'COT';
                 case 7:
-                    return 'SJU-OUTP';
+                    return 'OUTP';
                 default:
-                    return 'SJU-ORD';
+                    return 'ORD';
             }
 
         return '';

@@ -799,7 +799,7 @@
       <div class="col-12 col-md-4">
         <div class="row d-flex justify-content-center mt-70 mb-70">
 
-          {{-- <div class="col-md-12">
+          <div class="col-md-12">
             <div class="main-card mb-3 card card-edit">
               <div class="card-body">
                 <h5 class="card-title">
@@ -825,7 +825,7 @@
                 </div>
               </div>
             </div>
-          </div> --}}
+          </div>
 
           <div class="col-md-12">
             <div class="main-card mb-3 card card-edit">

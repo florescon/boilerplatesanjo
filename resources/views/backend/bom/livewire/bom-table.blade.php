@@ -28,11 +28,11 @@
                         </span>
                     @enderror
 
-                    <strong>@lang('Selected'):</strong>
+                    {{-- <strong>@lang('Selected'):</strong>
 
                     @foreach ($selectedtypes as $link)
                         <span class="badge badge-dark mt-2" style="font-size: 1rem;">#{{ $link }}</span>
-                    @endforeach
+                    @endforeach --}}
 
                     <div wire:loading wire:target="exportMaatwebsite" class="text-nowrap ml-3">
                         <strong>@lang('Processing')...</strong>
@@ -54,13 +54,13 @@
                                         </span>
                                         <div class="custom-control custom-checkbox col">
                                             <input type="checkbox" class="custom-control-input"
-                                                value="{{ $order->folio }}" wire:model="selectedtypes"
+                                                value="{{ $order->id }}" wire:model="selectedtypes"
                                                 id="checklist-item-{{ $order->id }}">
                                             <label class="custom-control-label"
                                                 for="checklist-item-{{ $order->id }}"></label>
                                             <div>
                                                 <a href="{{ route('admin.order.edit', $order->id) }}"
-                                                    target="_blank"><strong>#{{ $order->folio }}</strong></a>
+                                                    target="_blank"><strong>{{ typeOrderCharacters($order->type) }}{{ $order->folio }}</strong></a>
                                                 <input type="text" placeholder="{{ __('undefined customer') }}"
                                                     value="{{ Str::limit($order->customer, 50) }}"
                                                     data-filter-by="value" />
@@ -117,7 +117,7 @@
                             @lang('Orders'):
                             @foreach ($orderCollection as $order)
                                 <span class="badge badge-warning ml-1 mr-1 mt-1"
-                                    style="font-size: 1rem;">#{{ $order['folio'] ?? '' }}</span>
+                                    style="font-size: 1rem;">{{ $order['type'] }}{{ $order['folio'] ?? '' }}</span>
                             @endforeach
                         @else
                             <p>@lang('Nothing processed')</p>
