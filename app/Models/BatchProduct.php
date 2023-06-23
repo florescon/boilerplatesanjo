@@ -12,19 +12,22 @@ class BatchProduct extends Model
 {
     use HasFactory, SoftDeletes, CascadeSoftDeletes;
 
-    protected $cascadeDeletes = ['received'];
+    protected $cascadeDeletes = ['received', 'children'];
 
     protected $fillable = [
         'order_id',
         'batch_id',
         'product_order_id',
         'product_id',
+        'product_parent_id',
         'status_id',
         'personal_id',
         'quantity',
+        'active',
         'comment',
         'audi_id',
         'batch_product_id',
+        'from_stock',
     ];
 
     /**
@@ -41,6 +44,14 @@ class BatchProduct extends Model
     public function children()
     {
         return $this->hasMany(self::class, 'batch_product_id');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function parent()
+    {
+        return $this->belongsTo(self::class, 'batch_product_id')->withTrashed();
     }
 
     public function getQuantityChildrenAttribute()
@@ -107,5 +118,4 @@ class BatchProduct extends Model
     {
         return $this->belongsTo(Status::class)->withTrashed();
     }
-
 }

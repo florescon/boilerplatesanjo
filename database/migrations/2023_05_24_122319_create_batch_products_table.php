@@ -19,11 +19,14 @@ class CreateBatchProductsTable extends Migration
             $table->unsignedBigInteger('batch_id')->nullable();
             $table->unsignedBigInteger('product_order_id')->nullable();
             $table->unsignedBigInteger('product_id')->nullable();
+            $table->unsignedBigInteger('product_parent_id')->nullable();
             $table->unsignedInteger('status_id')->nullable();
             $table->unsignedBigInteger('personal_id')->nullable();
             $table->integer('quantity')->default(0)->nullable();
+            $table->integer('active')->default(0)->nullable();
             $table->longText('comment')->nullable();
             $table->unsignedBigInteger('batch_product_id')->nullable();
+            $table->boolean('from_stock')->default(false);
             $table->softDeletes();
             $table->timestamps();
 

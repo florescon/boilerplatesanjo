@@ -92,12 +92,8 @@
                     @endif
                     @if($orderExists)
                       <div class="col-6 col-lg-6">
-                        <a href="{{ route('admin.order.whereIs',$order_id) }}" style="color:#a20909ff;">
-                          <em>
-                            @lang('Where is products?')
-                          </em> 
-                        </a>                                   
-                        <i class="fa fa-question" aria-hidden="true"></i>
+
+
                       </div>
                     @endif
                   </div>
@@ -123,6 +119,13 @@
                       {{-- {{ $model->comment }} --}}
                       <x-input.input-alpine nameData="isComment" :inputText="$isComment" :originalInput="$isComment" wireSubmit="savecomment" modelName="comment" maxlength="300" className="" />
                       @error('comment') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                    </div>
+                  </div>
+                  <div class="row mt-3">
+                    <div class="col-12 col-lg-12">
+                      {{-- {{ $model->comment }} --}}
+                      <x-input.input-alpine nameData="isObservation" :inputText="$isObservation" :originalInput="$isObservation" wireSubmit="saveobservation" modelName="observation" maxlength="300" className="" />
+                      @error('observation') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
                   </div>
 
@@ -421,7 +424,7 @@
                 </thead>
                 <tbody>
 
-                  @foreach($model->product_order as $product)
+                  @foreach($model->product_order->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']]) as $product)
                   <tr>
                     <td>
                       <a href="{{ route('admin.product.consumption_filter', $product->product_id) }}" target=”_blank”> <span class="badge badge-warning"> <i class="cil-color-fill"></i> <em class="text-white">@lang('Consumption')</em> </span></a>
@@ -522,7 +525,7 @@
                 </thead>
                 <tbody>
 
-                  @foreach($model->product_sale as $product)
+                  @foreach($model->product_sale->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']]) as $product)
                   <tr >
                     <td>
                       {{ $product->product->code_subproduct_clear }}
@@ -581,8 +584,8 @@
                 </thead>
                 <tbody>
 
-                  @foreach($model->product_request as $product)
-                  <tr >
+                  @foreach($model->product_request->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']]) as $product)
+                  <tr>
                     <td>
                       {{ $product->product->code_subproduct_clear }}
                       {!! $product->product->full_name !!}
@@ -596,7 +599,7 @@
                       ${{ number_format((float)$product->total_by_product, 2) }}
                       <div class="small text-muted"> ${{ priceWithoutIvaIncluded($product->total_by_product) }} </div>
                     </td>
-                 </tr>
+                  </tr>
                   <tr>
                     <th class="text-right">
                       <img src="{{ asset('img/icons/down-right.svg') }}" width="20" alt="Logo"> 
@@ -637,28 +640,27 @@
                 </thead>
                 <tbody>
 
-                  @foreach($model->product_output as $product)
-                  <tr>
-                    <td>
-                      {{ $product->product->code_subproduct_clear }}
-                      {!! $product->product->full_name !!}
-                    </td>
+                  @foreach($model->product_output->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']]) as $product)
+                    <tr>
+                      <td>
+                        {{ $product->product->code_subproduct_clear }}
+                        {!! $product->product->full_name !!}
+                      </td>
 
-                    <td class="text-center">
-                      {{ $product->quantity }}
-                    </td>
+                      <td class="text-center">
+                        {{ $product->quantity }}
+                      </td>
 
-                  </tr>
-                  <tr>
-                    <th class="text-right">
-                      <img src="{{ asset('img/icons/down-right.svg') }}" width="20" alt="Logo"> 
-                    </th>
-                    <th class="text-left" colspan="3">
-                      <livewire:backend.components.edit-field :model="'\App\Models\ProductOrder'" :entity="$product" :field="'comment'" :key="'comments'.$product->id"/>
-                    </th>
-                  </tr>
+                    </tr>
+                    <tr>
+                      <th class="text-right">
+                        <img src="{{ asset('img/icons/down-right.svg') }}" width="20" alt="Logo"> 
+                      </th>
+                      <th class="text-left" colspan="3">
+                        <livewire:backend.components.edit-field :model="'\App\Models\ProductOrder'" :entity="$product" :field="'comment'" :key="'comments'.$product->id"/>
+                      </th>
+                    </tr>
                   @endforeach
-
 
                 </tbody>
               </table>
@@ -705,7 +707,7 @@
                 </thead>
                 <tbody>
 
-                  @foreach($model->product_quotation as $product)
+                  @foreach($model->product_quotation->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']]) as $product)
                   <tr>
                     <td>
                       {{ $product->product->code_subproduct_clear }}
@@ -722,7 +724,7 @@
                       @endif
 
                     </td>
-                    <td class="text-center" wire:ignore>
+                    <td class="text-center" wire:ignore.self>
                       <livewire:backend.cartdb.quantity-update :item="$product" :key="now()->timestamp.$product->id" :typeCart="$product->type" :setModel="'product_order'"/>
                     </td>
                     <td class="text-center">
@@ -796,98 +798,141 @@
       </div>
 
       @if($orderExists || $requestExists)
-      <div class="col-12 col-md-4">
-        <div class="row d-flex justify-content-center mt-70 mb-70">
+        <div class="col-12 col-md-4">
+          <div class="row d-flex justify-content-center mt-70 mb-70">
 
-          <div class="col-md-12">
-            <div class="main-card mb-3 card card-edit">
-              <div class="card-body">
-                <h5 class="card-title">
-                  @lang('Batches')
-                  @if($model->batches_main->count() > 0)
-                    <span class="badge badge-primary">{{ $model->batches_main->count() }}</span>
-                  @endif
-                </h5>
+            @if(!$model->from_store 
+              && ($model->id > 977)
+              )
+            <div class="col-md-12" wire:ignore>
+              <div class="main-card mb-3 card card-edit">
+                <div>
+                  <canvas id="doughnut-chart" width="800" height="550"></canvas>
+                </div>
+                
+                <div class="card-body border-dashed conic">
+                  <h5 class="card-title">
+                    @lang('Batches')
+                    @if($model->batches_main->count() > 0)
+                      <span class="badge badge-primary">{{ $model->batches_main->count() }}</span>
+                    @endif
+                  </h5>
 
-                <div class="list-group">
-                  @foreach($statuses as $status)
-                    @if($status->process)
+                  {{-- {{ $model->total_graphic }} --}}
+
+                  <div class="list-group">
+                    <a href="javascript:void(0)" class="list-group-item list-group-item-action" aria-current="true">
+                      <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">Captura</h5>
+                        <small class="text-danger">
+                          {{ $model->total_graphic->get('captura') }}
+                        </small>
+                      </div>
+                    </a>
+                    @foreach($batches as $status)
                       <a href="{{ route('admin.order.batches', [$order_id, $status->id]) }}" class="list-group-item list-group-item-action" aria-current="true">
                         <div class="d-flex w-100 justify-content-between">
                           <h5 class="mb-1">{{ $status->name }}</h5>
-                          <small>3 days ago</small>
+                          <small class="text-danger">
+                            {{ $model->total_graphic->get($status->short_name) ?? '--' }}
+                          </small>
                         </div>
                         <p class="mb-1">{{ $status->description }}</p>
-                        <small>Último creado: </small>
+                        <small>Última actualización: </small>
                       </a>
-                    @endif
-                  @endforeach
+                    @endforeach
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div class="col-md-12">
-            <div class="main-card mb-3 card card-edit">
-              <div class="card-body">
-                <h5 class="card-title">@lang('Order production status')
-                  <span class='badge badge-primary'>{{ $model->last_status_order->status->name ?? '' }}</span>
-                </h5>
-                <div wire:loading wire:target="updateStatus" class="loading">@lang('Wait 1 second')</div>
-                <div class="vertical-timeline vertical-timeline--animate vertical-timeline--one-column">
+            <div class="col-md-12">
+              <div class="main-card mb-3 card card-edit">
+                <div class="card-body conic2">
+                  <h5 class="card-title">
+                    @lang('Process')
+                  </h5>
 
-                  @foreach($statuses as $status)
-                  <div class="vertical-timeline-item vertical-timeline-element">
-                    <div> <span wire:click="updateStatus({{ $status->id }})" class="vertical-timeline-element-icon bounce-in"> <i  wire:loading.class.remove="badge-dot-xl badge-dot-xl2" class="badge badge-dot
-                      {{ $status->id == $lates_statusId ? 'badge-dot-xl2' : 'badge-dot-xl' }}
-                      badge-primary"> </i> </span>
-                      <div class="vertical-timeline-element-content bounce-in" style="{{ $status->id == $lates_statusId ? 'font-size: medium;' : '' }}">
-                        <p class="timeline-title  {{ $status->id == $lates_statusId ? 'text-primary' : 'text-info' }}">{{ $status->name }}</p>
-                        <p>{{ $status->description }}</p> 
-                        @if($status->to_add_users)
-                          <a href="{{ route('admin.order.assignments', [$order_id, $status->id]) }}">
-                            <span class="vertical-timeline-element-date badge text-primary">
-                              <i class="c-icon c-icon-4x cil-people"></i><i class="cil-plus"></i>
-                            </span>
-                          </a>
-                        @endif
-                      </div>
-                    </div>
+                  <div class="list-group">
+                    @foreach($process as $status)
+                        <a href="{{ route('admin.order.process', [$order_id, $status->id]) }}" class="list-group-item list-group-item-action" aria-current="true">
+                          <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{ $status->name }}</h5>
+                            <small class="text-danger">
+                              {{ $model->total_graphic->get($status->short_name) ?? '--' }}
+                            </small>
+                          </div>
+                          <p class="mb-1">{{ $status->description }}</p>
+                          <small>Último creado: </small>
+                        </a>
+                    @endforeach
                   </div>
-                  @endforeach
                 </div>
               </div>
+            </div>
+            @endif
 
-              @if($model->last_status_order)
-                @if($model->last_status_order->status->level === $model->last_status()->level)
-                  @if(!$model->to_stock)
-                    <div class="card-body text-center">
-                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sendFinalProduct">@lang('Send to finished product')</button>
+            <div class="col-md-12">
+              <div class="main-card mb-3 card card-edit">
+                <div class="card-body">
+                  <h5 class="card-title">@lang('Order production status')
+                    <span class='badge badge-primary'>{{ $model->last_status_order->status->name ?? '' }}</span>
+                  </h5>
+                  <div wire:loading wire:target="updateStatus" class="loading">@lang('Wait 1 second')</div>
+                  <div class="vertical-timeline vertical-timeline--animate vertical-timeline--one-column">
 
-                      @include('backend.order.modal.send-final-product')
+                    @foreach($statuses as $status)
+                    <div class="vertical-timeline-item vertical-timeline-element">
+                      <div> <span wire:click="updateStatus({{ $status->id }})" class="vertical-timeline-element-icon bounce-in"> <i  wire:loading.class.remove="badge-dot-xl badge-dot-xl2" class="badge badge-dot
+                        {{ $status->id == $lates_statusId ? 'badge-dot-xl2' : 'badge-dot-xl' }}
+                        badge-primary"> </i> </span>
+                        <div class="vertical-timeline-element-content bounce-in" style="{{ $status->id == $lates_statusId ? 'font-size: medium;' : '' }}">
+                          <p class="timeline-title  {{ $status->id == $lates_statusId ? 'text-primary' : 'text-info' }}">{{ $status->name }}</p>
+                          <p>{{ $status->description }}</p> 
+                          @if($status->to_add_users)
+                            <a href="{{ route('admin.order.assignments', [$order_id, $status->id]) }}">
+                              <span class="vertical-timeline-element-date badge text-primary">
+                                <i class="c-icon c-icon-4x cil-people"></i><i class="cil-plus"></i>
+                              </span>
+                            </a>
+                          @endif
+                        </div>
+                      </div>
                     </div>
-                  @else
-                    <div class="card-body text-center">
-                      <a href="#" class="card-link">@lang('Sent to finished product') <i class="cil-check"></i> <i class="cil-check"></i></a>
-                    </div>
+                    @endforeach
+                  </div>
+                </div>
+
+                @if($model->last_status_order)
+                  @if($model->last_status_order->status->level === $model->last_status()->level)
+                    @if(!$model->to_stock)
+                      <div class="card-body text-center">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sendFinalProduct">@lang('Send to finished product')</button>
+
+                        @include('backend.order.modal.send-final-product')
+                      </div>
+                    @else
+                      <div class="card-body text-center">
+                        <a href="#" class="card-link">@lang('Sent to finished product') <i class="cil-check"></i> <i class="cil-check"></i></a>
+                      </div>
+                    @endif
                   @endif
                 @endif
-              @endif
 
-              <div class="card-body text-center">
-                <a href="{{ route('admin.order.records', $order_id) }}" class="card-link">@lang('View status records')</a>
-              </div>
-              <div class="card-body text-center">
-                <livewire:backend.order.to-customer 
-                  :model="$model"
-                  field="to_customer"
-                  key="{{ $model->id }}" 
-                />
+                <div class="card-body text-center">
+                  <a href="{{ route('admin.order.records', $order_id) }}" class="card-link">@lang('View status records')</a>
+                </div>
+                <div class="card-body text-center">
+                  <livewire:backend.order.to-customer 
+                    :model="$model"
+                    field="to_customer"
+                    key="{{ $model->id }}" 
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
       @endif
 
     </div>
@@ -911,6 +956,36 @@
 <livewire:backend.order.add-service />
 
 @push('after-scripts')
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script> 
+
+  <script>
+
+    var labels =  {!! $model->total_graphic->keys() !!};
+    var values =  {!! $model->total_graphic->values() !!};
+
+    new Chart(document.getElementById("doughnut-chart"), {
+        type: 'doughnut',
+        data: {
+          labels: labels,
+          values: values,
+          datasets: [
+            {
+              label: "Estaciones",
+              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9"],
+              data: values
+            }
+          ]
+        },
+        options: {
+          title: {
+            display: true,
+            text: 'Avance'
+          }
+        }
+    });
+  </script>
+
   <script type="text/javascript">
     Livewire.on("paymentStore", () => {
         $("#createPayment").modal("hide");

@@ -23,7 +23,9 @@ class Batch extends Model
         'comment',
         'audi_id',
         'batch_id',
+        'batch_parent_id',
         'folio',
+        'is_consumption',
     ];
 
     /**
@@ -110,7 +112,7 @@ class Batch extends Model
         if($this->folio !== 0)
             return $this->folio;
 
-        return $this->id;
+        return $this->batch_parent_id;
     }
 
     public function getParentOrIDAttribute()
@@ -118,12 +120,14 @@ class Batch extends Model
         if($this->batch_id !== null)
             return $this->parent->folio_or_id;
 
-        return $this->folio_or_id;
+        return $this->folio;
     }
 
     public function getLastFolioBatchAttribute(): int
     {   
-        if($this->batch_id){
+        $firstStatusBatch = \App\Models\Status::firstStatusBatch();
+
+        if($this->batch_id && ($firstStatusBatch->id !== $this->status_id)){
             return  0;
         }
         else{

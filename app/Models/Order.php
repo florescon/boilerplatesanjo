@@ -16,6 +16,7 @@ use App\Models\OrderStatusDelivery;
 use App\Models\OrdersDelivery;
 use Carbon\Carbon;
 use DB;
+use Illuminate\Support\Collection;
 
 class Order extends Model
 {
@@ -183,6 +184,14 @@ class Order extends Model
         return $this->hasMany(Batch::class, 'order_id')->where('batch_id', NULL)->orderBy('created_at', 'desc');
     }
 
+    /**
+     * @return mixed
+     */
+    public function batches_products()
+    {
+        return $this->hasMany(BatchProduct::class)->orderBy('created_at', 'desc');
+    }
+
     public function getTotalBatchAttribute(): int
     {
         return $this->batches_main->sum(function($batches) {
@@ -193,6 +202,29 @@ class Order extends Model
     public function getTotalBatchPendingAttribute(): int
     {
         return $this->total_products - $this->total_batch;
+    }
+
+    public function getTotalGraphicAttribute()
+    {
+        $totals = DB::table('batch_products')
+            ->where('order_id', $this->id)
+            ->where('deleted_at', NULL)
+            ->where('active', '>', 0);
+
+            $statuses = DB::table('statuses')->where('batch', TRUE)->orWhere('process', TRUE)->where('deleted_at', NULL)->pluck('id','short_name');
+
+            foreach ($statuses as $key => $status) {
+                $totals->selectRaw("SUM(CASE WHEN status_id = $status THEN active END) as $key");
+            }
+
+            $related = $totals->first();
+
+            $difference = $this->total_products - $this->total_batch;
+
+            $collection = collect($related);
+            $collection->prepend("$difference", 'captura');
+
+            return $collection->filter();
     }
 
     /**
@@ -419,9 +451,9 @@ class Order extends Model
     public function getFolioOrIDAttribute()
     {
         if($this->folio !== 0)
-            return '<strong style="color:#1433D8;">'.$this->folio.'.</strong>';
+            return '<strong style="color:#000;">'.$this->folio.'.</strong>';
 
-        return '<strong style="color:#1433D8;">'.$this->id.'.</strong>';
+        return '<strong style="color:#000;">'.$this->id.'.</strong>';
     }
 
     public function getFolioOrIDClearAttribute()

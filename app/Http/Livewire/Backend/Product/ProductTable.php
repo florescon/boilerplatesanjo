@@ -174,6 +174,7 @@ class ProductTable extends Component
     {
         if ($this->searchTermExactly) {
             return $products->whereRaw("code LIKE \"%$this->searchTermExactly%\"")
+                            ->orWhereRaw("name LIKE \"%$this->searchTermExactly%\"")
                             ->onlyProducts();
         }
 

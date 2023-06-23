@@ -112,6 +112,11 @@ class Cash extends Model
         return number_format($this->amount_incomes_cash - $this->amount_expenses_cash, 2);
     }
 
+    public function getTotalAmountCashFinancesInvoiceAttribute()
+    {
+        return $this->incomes->where('payment_method_id', 1)->where('is_bill', true)->sum('amount');
+    }
+
     public function getTotalAmountCashDifferentFinancesAttribute()
     {
         return number_format($this->amount_incomes_different_cash - $this->amount_expenses_different_cash, 2);

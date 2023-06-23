@@ -168,6 +168,12 @@
                                     @if ($materialsCollection)
                                         <a class="list-group-item text-center">
                                             {{ count($materialsCollection) . ' ' . __('Records') }}
+
+                                            <a href="javascript:window.print()" type="button"
+                                                class="btn btn-primary disabled" aria-disabled="true">@lang('Ticket')
+                                                <i class="cil-print"></i> 
+                                            </a>
+
                                         </a>
                                         @foreach ($materialsCollection as $material)
                                             <a class="list-group-item list-group-item-action" href="#">

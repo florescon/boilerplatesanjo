@@ -43,6 +43,7 @@
           <th scope="row">@lang('Stock')<sup>*</sup></th>
           <td>
             <x-utils.undefined :data="$old_stock"/>
+            <em class="text-danger">{!! $unit !!}.</em>
           </td>
           <td>
             <input type="number" step="any" wire:model.lazy="stock" class="form-control @error('stock') is-invalid @enderror" id="stock" placeholder="@lang('Input / Output') (@lang('Required'))">

@@ -5,6 +5,7 @@ use App\Http\Controllers\ServiceTypeController;
 use App\Models\Order;
 use App\Models\Status;
 use App\Models\Ticket;
+use App\Models\Batch;
 use Tabuna\Breadcrumbs\Trail;
 
 Route::group([
@@ -209,7 +210,15 @@ Route::group([
             ->middleware('permission:admin.access.order.modify')
             ->breadcrumbs(function (Trail $trail, Order $order, Status $status) {
                 $trail->parent('admin.order.edit', $order)
-                    ->push(__('batches').' - '.$status->name, route('admin.order.batches', [$order, $status]));
+                    ->push(__('Batches').' - '.$status->name, route('admin.order.batches', [$order, $status]));
+            });
+
+        Route::get('process/{status}', [OrderController::class, 'process'])
+            ->name('process')
+            ->middleware('permission:admin.access.order.modify')
+            ->breadcrumbs(function (Trail $trail, Order $order, Status $status) {
+                $trail->parent('admin.order.edit', $order)
+                    ->push(__('Process').' - '.$status->name, route('admin.order.process', [$order, $status]));
             });
 
         Route::get('ticket_assignment/{ticket}', [OrderController::class, 'ticket_assignment'])
@@ -218,6 +227,14 @@ Route::group([
             ->breadcrumbs(function (Trail $trail, Ticket $ticket) {
                 $trail->parent('admin.order.edit', $ticket)
                     ->push(__('Ticket assignment').' '.$ticket->id, route('admin.order.ticket_assignment', [$order, $ticket]));
+            });
+
+        Route::get('ticket_batch/{batch}', [OrderController::class, 'ticket_batch'])
+            ->name('ticket_batch')
+            ->middleware('permission:admin.access.order.modify')
+            ->breadcrumbs(function (Trail $trail, Batch $batch) {
+                $trail->parent('admin.order.edit', $batch)
+                    ->push(__('Batch assignment').' '.$batch->id, route('admin.order.ticket_batch', [$order, $batch]));
             });
 
         Route::get('records', [OrderController::class, 'records'])

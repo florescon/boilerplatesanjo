@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Batch;
+use App\Models\BatchProduct;
 use Illuminate\Http\Request;
 
 class BatchController extends Controller
@@ -19,7 +20,13 @@ class BatchController extends Controller
 
     public function destroy(Batch $batch)
     {
+        foreach($batch->batch_product as $batch_product){
+            $batch_product->parent()->increment('active', abs($batch_product->quantity));
+            $batch_product->children()->update(['active' => 0]);
+        }
+
         if($batch->id){
+            $batch->update(['active' => 0]);
             $batch->delete();
         }
 

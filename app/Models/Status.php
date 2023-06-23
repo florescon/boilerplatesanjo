@@ -33,6 +33,25 @@ class Status extends Model
         return $this->to_add_users === true;
     }
 
+    public function firstStatusBatch()
+    {
+        return self::where('batch', TRUE)->orderBy('level')->first();        
+    }
+    public function lastStatusBatch()
+    {
+        return self::where('batch', TRUE)->orderBy('level')->first();        
+    }
+
+    public function firstStatusProcess()
+    {
+        return self::where('process', TRUE)->orderBy('level')->first();        
+    }
+
+    public function lastStatusProcess()
+    {
+        return self::where('process', TRUE)->orderBy('level')->first();        
+    }
+
     /**
      * Get the table associated with the model.
      *

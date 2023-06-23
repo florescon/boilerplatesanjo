@@ -217,6 +217,11 @@ class ProductOrder extends Model
         return $this->quantity - $this->batch_product->where('status_id', 4)->sum('quantity');
     }
 
+    public function getAssignProcessAttribute()
+    {
+        return $this->batch_product->where('status_id', 11)->sum('quantity');
+    }
+
     /**
      * @return mixed
      */

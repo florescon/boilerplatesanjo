@@ -75,7 +75,7 @@
               <div class="card-body">
                 <div class="dropdown card-options">
                   <a class="btn-options" type="button" target="_blank" href="{{ route('admin.order.edit', $quotation->id) }}">
-                    {{ $quotation->id }}
+                    {{ $quotation->folio ?? $quotation->id }}
                   </a>
                   <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item" target="_blank" href="{{ route('admin.order.edit', $quotation->id) }}">@lang('Edit')</a>
@@ -137,7 +137,7 @@
               <div class="card-body">
                 <div class="dropdown card-options">
                   <a class="btn-options" type="button" target="_blank" href="{{ route('admin.order.edit', $order_captured->id) }}">
-                    {{ $order_captured->id }}
+                    {{ $order_captured->folio ?? $order->captured->id }}
                   </a>
                   <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item" target="_blank" href="{{ route('admin.order.edit', $order_captured->id) }}">@lang('Edit')</a>
@@ -165,7 +165,7 @@
           <button class="btn btn-link btn-sm text-small">@lang('Show all')  <span class="badge badge-secondary">@lang('Inactive')</span></button>
         </div>
       </div>
-    </div>
+    </div>capture
 
     <div class="kanban-col">
       <div class="card-list">
@@ -195,7 +195,7 @@
               <div class="card-body">
                 <div class="dropdown card-options">
                   <a class="btn-options" type="button" target="_blank" href="{{ route('admin.order.edit', $order_captured->id) }}">
-                    {{ $order_captured->id }}
+                    {{ $order_captured->folio ?? $order_captured->id }}
                   </a>
                   <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item" target="_blank" href="{{ route('admin.order.edit', $order_captured->id) }}">@lang('Edit')</a>
@@ -261,7 +261,7 @@
               <div class="card-body">
                 <div class="dropdown card-options">
                   <a class="btn-options" type="button" target="_blank" href="{{ route('admin.order.edit', $order_production->id) }}">
-                    {{ $order_production->id }}
+                    {{ $order_production->folio ?? $order_production->id }}
                   </a>
                   <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item" target="_blank" href="{{ route('admin.order.edit', $order_production->id) }}">@lang('Edit')</a>
@@ -326,7 +326,7 @@
               <div class="card-body">
                 <div class="dropdown card-options">
                   <a class="btn-options" type="button" target="_blank" href="{{ route('admin.order.edit', $order->id) }}">
-                    {{ $order->id }}
+                    {{ $order->folio ?? $order->id }}
                   </a>
                   <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item" target="_blank" href="{{ route('admin.order.edit', $order->id) }}">@lang('Edit')</a>
@@ -384,7 +384,7 @@
               <div class="card-body">
                 <div class="dropdown card-options">
                   <a class="btn-options" type="button" target="_blank" href="{{ route('admin.order.edit', $order->id) }}">
-                    {{ $order->id }}
+                    {{ $order->folio ?? $order->id }}
                   </a>
                   <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item" target="_blank" href="{{ route('admin.order.edit', $order->id) }}">@lang('Edit')</a>
@@ -442,7 +442,7 @@
               <div class="card-body">
                 <div class="dropdown card-options">
                   <a class="btn-options" type="button" target="_blank" href="{{ route('admin.order.edit', $order->id) }}">
-                    {{ $order->id }}
+                    {{ $order->folio ?? $order->id }}
                   </a>
                   <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item" target="_blank" href="{{ route('admin.order.edit', $order->id) }}">@lang('Edit')</a>
@@ -500,7 +500,7 @@
               <div class="card-body">
                 <div class="dropdown card-options">
                   <a class="btn-options" type="button" target="_blank" href="{{ route('admin.order.edit', $order->id) }}">
-                    {{ $order->id }}
+                    {{ $order->folio ?? $order->id }}
                   </a>
                   <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item" target="_blank" href="{{ route('admin.order.edit', $order->id) }}">@lang('Edit')</a>
@@ -558,7 +558,7 @@
               <div class="card-body">
                 <div class="dropdown card-options">
                   <a class="btn-options" type="button" target="_blank" href="{{ route('admin.order.edit', $order->id) }}">
-                    {{ $order->id }}
+                    {{ $order->folio ?? $order->id }}
                   </a>
                   <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item" target="_blank" href="{{ route('admin.order.edit', $order->id) }}">@lang('Edit')</a>

@@ -308,6 +308,11 @@ class Finance extends Model
         return $this->created_at->diffForHumans();
     }
 
+    public function getIsInvoiceAttribute()
+    {
+        return $this->is_bill ? 'P/F' : '';
+    }
+
     public function getIsBillLabelAttribute()
     {
         if($this->is_bill){

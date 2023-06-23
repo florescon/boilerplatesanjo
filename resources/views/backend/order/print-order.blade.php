@@ -141,7 +141,7 @@
                   <tbody>
                     @php($total = 0)
 
-                    @foreach($order->product_suborder as $product)
+                    @foreach($order->product_suborder->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']])  as $product)
                       <tr>
                         <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->quantity }}</td>
                         <td class="cs-width_2">{{ $product->product->code_subproduct_clear }}</td>
@@ -165,7 +165,7 @@
                     @php($total += $totalprod)
                     @endforeach
 
-                    @foreach($order->product_request as $product)
+                    @foreach($order->product_request->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']])  as $product)
                       <tr>
                         <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->quantity }}</td>
                         <td class="cs-width_2">{{ $product->product->code_subproduct_clear }}</td>
@@ -188,7 +188,7 @@
                       @endif
                     @endforeach
 
-                    @foreach($order->product_order as $product)
+                    @foreach($order->product_order->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']])  as $product)
                       <tr>
                         <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->quantity }}</td>
                         <td class="cs-width_2">{{ $product->product->code_subproduct_clear }}</td>
@@ -211,7 +211,7 @@
                       @endif
                     @endforeach
 
-                    @foreach($order->product_sale as $product)
+                    @foreach($order->product_sale->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']])  as $product)
                       <tr>
                         <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->quantity }}</td>
                         <td class="cs-width_2">{{ $product->product->code_subproduct_clear }}</td>
@@ -234,7 +234,7 @@
                       @endif
                     @endforeach
 
-                    @foreach($order->product_quotation as $product)
+                    @foreach($order->product_quotation->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']])  as $product)
                       <tr>
                         <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->quantity }}</td>
                         <td class="cs-width_2">{{ $product->product->code_subproduct_clear }}</td>
@@ -257,7 +257,7 @@
                       @endif
                     @endforeach
 
-                    @foreach($order->product_output as $product)
+                    @foreach($order->product_output->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']])  as $product)
                       <tr>
                         <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->quantity }}</td>
                         <td class="cs-width_2">{{ $product->product->code_subproduct_clear }}</td>

@@ -16,7 +16,7 @@ use DB;
 
 class EditOrder extends Component
 {
-    public $order_id, $lates_statusId, $slug, $isComment, $comment, $isDiscount, $discount, $isRequest, $request, $isInfo_customer, $info_customer, $isDate, $date_entered;
+    public $order_id, $lates_statusId, $slug, $isComment, $comment, $isObservation, $observation, $isDiscount, $discount, $isRequest, $request, $isInfo_customer, $info_customer, $isDate, $date_entered;
 
     public $previousMaterialByProduct, $maerialAll;
 
@@ -42,6 +42,7 @@ class EditOrder extends Component
         $this->from_store = $order->from_store;
         $this->lates_statusId = $order->last_status_order->status_id ?? null;
         $this->initcomment($order);
+        $this->initobservation($order);
         $this->initdiscount($order);
         $this->initrequest($order);
         $this->initinfo_customer($order);
@@ -79,6 +80,12 @@ class EditOrder extends Component
     {
         $this->comment = $order->comment;
         $this->isComment = $order->comment || empty($order) ? $order->comment : __('Define comment');
+    }
+
+    private function initobservation(Order $order)
+    {
+        $this->observation = $order->observation;
+        $this->isObservation = $order->observation || empty($order) ? $order->observation : __('Define observation');
     }
 
     private function initdiscount(Order $order)
@@ -138,6 +145,26 @@ class EditOrder extends Component
         $order->save();
 
         $this->initcomment($order); // re-initialize the component state with fresh data after saving
+
+        $this->emit('swal:alert', [
+           'icon' => 'success',
+            'title'   => __('Updated at'), 
+        ]);
+    }
+
+    public function saveobservation()
+    {
+        $this->validate([
+            'observation' => 'required|max:300',
+        ]);
+
+        $order = Order::findOrFail($this->order_id);
+        $newComment = (string)Str::of($this->observation)->trim()->substr(0, 300); // trim whitespace & more than 100 characters
+
+        $order->observation = $newComment ?? null;
+        $order->save();
+
+        $this->initobservation($order); // re-initialize the component state with fresh data after saving
 
         $this->emit('swal:alert', [
            'icon' => 'success',
@@ -332,6 +359,8 @@ class EditOrder extends Component
                 ])->findOrFail($this->order_id);
 
         $statuses = Status::orderBy('level')->get();
+        $batches = Status::orderBy('level')->where('batch', TRUE)->get();
+        $process = Status::orderBy('level')->where('process', TRUE)->get();
 
         $orderExists = $model->product_order()->exists();
         $saleExists = $model->product_sale()->exists();
@@ -342,10 +371,10 @@ class EditOrder extends Component
         $OrderStatusDelivery = OrderStatusDelivery::values();    
 
         if(!$model->isSuborder()){
-            return view('backend.order.livewire.edit')->with(compact('model', 'orderExists', 'saleExists', 'requestExists', 'quotationExists', 'productsOutputExists', 'statuses', 'OrderStatusDelivery'));
+            return view('backend.order.livewire.edit')->with(compact('model', 'orderExists', 'saleExists', 'requestExists', 'quotationExists', 'productsOutputExists', 'statuses', 'batches', 'process', 'OrderStatusDelivery'));
         }
-        else{ 
-            return view('backend.order.suborder')->with(compact('model', 'orderExists', 'saleExists', 'requestExists', 'quotationExists', 'productsOutputExists', 'statuses', 'OrderStatusDelivery'));           
+        else{
+            return view('backend.order.suborder')->with(compact('model', 'orderExists', 'saleExists', 'requestExists', 'quotationExists', 'productsOutputExists', 'statuses', 'batches', 'process', 'OrderStatusDelivery'));           
         }
     }
 }

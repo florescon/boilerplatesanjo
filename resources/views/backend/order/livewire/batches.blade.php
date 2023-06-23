@@ -22,9 +22,13 @@
                 </div>
 
                 <div class="card card-edit card-product_not_hover card-flyer-without-hover">
+                  <img class="card-img-top" src="{{ asset('/ga/img/lotes2.jpg' )}}" alt="Card image cap">
+
                   <div class="card-body">
-            
-                  <h4 class="card-title font-weight-bold mb-2">{{ $status_name }}</h4>
+              
+                    <h4 class="card-title font-weight-bold mb-2" style="margin-top: -60px;">{{ $status_name }}</h4>
+
+                    <br><br>
 
                     <livewire:backend.user.only-admins/>
                     
@@ -57,7 +61,7 @@
                             <tr>
                               <th>Producto</th>
                               <th>Cantidad orden</th>
-                              <th  style="background-color:#5DADE2;" class="text-white">To batched</th>
+                              <th  style="background-color:#5DADE2;" class="text-white">@lang('To batched')</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -66,7 +70,7 @@
                               <td>{{ $model->total_products }}</td>
                               <td>{{ $model->total_batch_pending }}</td>
                             </tr>
-                            @foreach($model->products as $product)
+                            @foreach($model->products->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']]) as $product)
                               <tr>
                                 <td class="text-left">
                                   {{-- {{ $product->id }}  --}}
@@ -76,7 +80,7 @@
 
                                 <td class="table-info"> 
                                     <input type="number" 
-                                        wire:model.defer="quantity.{{ $product->id }}.available"
+                                        wire:model.lazy="quantity.{{ $product->id }}.available"
                                         wire:keydown.enter="save" 
                                         class="form-control"
                                         style="color: blue;" 
@@ -93,12 +97,18 @@
                             <tr>
                               <td class="text-right">Total:</td>
                               <td>{{ $model->total_products }}</td>
-                              <td>{{ $model->total_batch_pending }}</td>
+                              <td>
+                                {{ $model->total_batch_pending }}
+                                @if($sumQuantity > 0)
+                                  <div style="border-width: 2px; border-style: dashed; border-color: red; "> @lang('Captured'): <strong>{{ $sumQuantity }}</strong> </div>
+                                @endif
+                              </td>
                             </tr>
                             <tr>
                               <td colspan="2"></td>
                               <td>
-                                <button type="button" wire:click="save" class="btn btn-primary btn-sm">@lang('Create batch')</button>
+                                <button type="button" wire:click="save" class="btn btn-primary btn-sm" wire:loading.attr="disabled">@lang('Create batch')
+                                </button>
                               </td>
                             </tr>
                           </tbody>
@@ -113,15 +123,15 @@
                           <table class="table table-dark">
                             <thead>
                               <tr>
-                                <th scope="col">Product</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Received</th>
+                                <th scope="col">@lang('Product')</th>
+                                <th scope="col">@lang('Quantity')</th>
+                                <th scope="col">@lang('Received')</th>
                                 <th scope="col">{{ $status_name }}</th>
-                                <th scope="col">Available</th>
+                                <th scope="col">@lang('Available')</th>
                               </tr>
                             </thead>
                             <tbody>
-                              @foreach($batch->batch_product as $product)
+                              @foreach($batch->batch_product->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']]) as $product)
                                 <tr>
                                   <td>{!! $product->product->full_name !!}</td>
                                   <td>{{ $product->quantity }}</td>
@@ -153,7 +163,7 @@
                               <tr>
                                 <td colspan="4"></td>
                                 <td class="text-center">
-                                  <button type="button" wire:click="continue({{ $batch->id }})" class="btn btn-primary btn-sm">Continue</button>
+                                  <button type="button" wire:click="continue({{ $batch->id }})" class="btn btn-primary btn-sm">@lang('Continue')</button>
                                 </td>
                             </tbody>
                           </table>
@@ -172,6 +182,7 @@
                   @if($previous_status)
                     <a href="{{ route('admin.order.batches', [$model->id, $previous_status->id]) }}" class="btn btn-outline-primary" data-toggle="tooltip" title="{{ $previous_status->name ?? null }}"><i class="c-icon  c-icon-4x cil-people"></i> @lang('Previous status')</a>
                   @endif
+
                   @if($next_status)
                     <a href="{{ route('admin.order.batches', [$model->id, $next_status->id]) }}" class="btn btn-outline-primary" data-toggle="tooltip" title="{{ $next_status->name ?? null }}"><i class="c-icon  c-icon-4x cil-people"></i> @lang('Next status')</a>
                   @endif
@@ -197,7 +208,7 @@
                             #{{ $batch->parent_or_id.' - '.$batch->status->name }}
                           </div>
                           <div class="col-md-4 col-sm-3">
-                              <a href="{{ route('admin.order.ticket_assignment', [$order_id, $batch->id]) }}" class="card-link" target="_blank"><i class="cil-print"></i> Ticket </a>
+                              <a href="{{ route('admin.order.ticket_batch', [$order_id, $batch->id]) }}" class="card-link" target="_blank"><i class="cil-print"></i> Ticket </a>
                           </div>
                           <div class="col-md-2 col-sm-6 text-right">
                             {{-- <a href="{{ url('/') }}">
@@ -234,22 +245,22 @@
                             </thead>
                             <tbody>
 
-                              @foreach($batch->batch_product as $batch_product)
-                              <tr>
-                                <td class="text-left">
-                                  {!! $batch_product->product->full_name !!}
-                                  <div class="small text-muted">@lang('Last Updated'): {{ $batch_product->updated_at }}</div>
-                                </td>
-                                <td> 
-                                  {{ $batch_product->quantity }}
-                                </td>
-                                <td>
-                                  {{ $batch_product->quantity_received }}
-                                </td>
-                                <td>
-                                  <livewire:backend.order.batch-amount-received :batch="$batch_product" :key="$batch_product->id" />
-                                </td>
-                              </tr>
+                              @foreach($batch->batch_product->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']]) as $batch_product)
+                                <tr>
+                                  <td class="text-left">
+                                    {!! $batch_product->product->full_name !!}
+                                    <div class="small text-muted">@lang('Last Updated'): {{ $batch_product->updated_at }}</div>
+                                  </td>
+                                  <td> 
+                                    {{ $batch_product->quantity }}
+                                  </td>
+                                  <td>
+                                    {{ $batch_product->quantity_received }}
+                                  </td>
+                                  <td>
+                                    <livewire:backend.order.batch-amount-received :batch="$batch_product" :last_status="$next_status->id ?? null" :key="$batch_product->id" />
+                                  </td>
+                                </tr>
                               @endforeach
                               <tr>
                                 <td colspan="1" class="text-right">Total:</td>
@@ -279,9 +290,11 @@
 
                               </div>
                             </div>
-                              <div class="col-6 col-md-6 text-right">
-                                <a wire:click="outputUpdateAll({{ $batch->id }})" class="card-link text-right"><u>Marcar que se recibieron todos los productos de este avance</u></a>
-                              </div>
+                            <div class="col-6 col-md-6 text-right">
+                              <a wire:click="outputUpdateAll({{ $batch->id }})" class="card-link text-right" wire:loading.remove>
+                                <u>Marcar que se recibieron todos los productos de este avance</u>
+                              </a>
+                            </div>
                           </div>
                         </div>
 

@@ -12,7 +12,7 @@
           <table class="table">
             <tbody>
               <tr>
-                <th scope="row">@lang('Name')</th>
+                <th scope="row">@lang('Departament')</th>
                 <td>
                   {{ $name }}
                 </td>

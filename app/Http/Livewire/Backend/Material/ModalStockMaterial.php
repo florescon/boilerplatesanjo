@@ -12,7 +12,7 @@ use App\Events\Material\MaterialUpdated;
 
 class ModalStockMaterial extends Component
 {
-    public $part_number, $name, $acquisition_cost, $price, $stock;
+    public $part_number, $name, $acquisition_cost, $price, $stock, $unit;
 
     public $old_price, $old_stock;
 
@@ -33,7 +33,7 @@ class ModalStockMaterial extends Component
         $this->material_id = $material->id;
         $this->part_number = $material->part_number;
         $this->name = $material->full_name;
-
+        $this->unit = $material->unit_name_label;
         $this->acquisition_cost = $material->acquisition_cost;
         $this->old_price = $material->price;
         $this->old_stock = $material->stock;

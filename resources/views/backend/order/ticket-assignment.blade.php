@@ -103,7 +103,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @foreach($ticket->assignments_direct as $assign)
+                  @foreach($ticket->assignments_direct->sortBy([['assignmentable.product.parent.name', 'asc'], ['assignmentable.product.size.sort', 'asc']]) as $assign)
                   <tr>
                     <td scope="row">{!! $assign->assignmentable->product->full_name !!} {!! '<em>['.$assign->assignmentable->product->code_subproduct_clear.']</em>' !!}
                         <br>

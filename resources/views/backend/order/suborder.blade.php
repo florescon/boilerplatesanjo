@@ -66,7 +66,7 @@
                 </tr>
               </thead>
               <tbody>
-                @foreach($model->product_suborder as $product)
+                @foreach($model->product_suborder->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']]) as $product)
                   <tr class="{{ $loop->last ? 'border-bottom' : '' }}">
                     {{-- @json($product) --}}
                     <td class="py-1">

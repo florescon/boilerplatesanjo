@@ -59,7 +59,7 @@
                             </tr>
                           </thead>
                           <tbody>
-                            @foreach($model2->products as $product)
+                            @foreach($model2->products->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']]) as $product)
                               <tr>
                                 <td class="text-left">
                                   {{-- {{ $product->id }}  --}}
@@ -170,7 +170,7 @@
                           </thead>
                           <tbody>
 
-                            @foreach($ticket->assignments_direct as $assign)
+                            @foreach($ticket->assignments_direct->sortBy([['assignmentable.product.parent.name', 'asc'], ['assignmentable.product.size.sort', 'asc']]) as $assign)
                             <tr>
                               <td class="text-left">
                                 {{-- {{ $assign->id }} --}}

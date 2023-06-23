@@ -22,7 +22,9 @@ class CreateBatchesTable extends Migration
             $table->date('date_entered')->nullable();
             $table->unsignedBigInteger('audi_id')->nullable();
             $table->unsignedBigInteger('batch_id')->nullable();
+            $table->unsignedBigInteger('batch_parent_id')->nullable();
             $table->integer('folio');
+            $table->boolean('is_consumption')->default(false);
             $table->softDeletes();
             $table->timestamps();
 

@@ -128,7 +128,7 @@
                 @endif
                 <th scope="col">
                   <a style="color:white;" wire:click.prevent="sortBy('name')" role="button" href="#">
-                    @lang('Name')
+                    @lang('Departament')
                     @include('backend.includes._sort-icon', ['field' => 'name'])
                   </a>
                 </th>

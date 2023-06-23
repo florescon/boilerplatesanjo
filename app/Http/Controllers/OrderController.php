@@ -8,6 +8,7 @@ use App\Models\StatusOrder;
 use App\Models\MaterialOrder;
 use App\Models\ServiceOrder;
 use App\Models\Ticket;
+use App\Models\Batch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use PDF;
@@ -281,6 +282,12 @@ class OrderController extends Controller
         return $pdf->stream();
     }
 
+    public function ticket_batch(Order $order, Batch $batch)
+    {
+        $pdf = PDF::loadView('backend.order.ticket-batch',compact('order', 'batch'))->setPaper([0, -16, 2085.98, 296.85], 'landscape');
+
+        return $pdf->stream();
+    }
 
     public function print_service_order(Order $order, ServiceOrder $service)
     {
@@ -442,18 +449,25 @@ class OrderController extends Controller
             abort(401);
         }
 
-        // dd($order->id);
         return view('backend.order.assignments-order', compact('order', 'status'));
     }
 
     public function batches(Order $order, Status $status)
     {
+        if($status->batch == false){
+            abort(401);
+        }
+
+        return view('backend.order.batches-order', compact('order', 'status'));
+    }
+
+    public function process(Order $order, Status $status)
+    {
         if($status->process == false){
             abort(401);
         }
 
-        // dd($order->id);
-        return view('backend.order.batches-order', compact('order', 'status'));
+        return view('backend.order.process-order', compact('order', 'status'));
     }
 
     public function deleted()

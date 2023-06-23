@@ -91,7 +91,7 @@ ventas@sj-uniformes.com
                   </tr>
                 </thead>
                 <tbody>
-                  @foreach($order->products as $product)
+                  @foreach($order->products->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']])  as $product)
                   <tr>
                     <td scope="row">{!! $product->product->full_name !!}</td>
                     <td align="center">{{ $product->quantity }}</td>
@@ -155,7 +155,7 @@ ventas@sj-uniformes.com
                   </tr>
                 </thead>
                 <tbody>
-                  @foreach($order->product_output as $product)
+                  @foreach($order->product_output->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']])  as $product)
                   <tr>
                     <td scope="row">{!! $product->product->full_name !!}</td>
                     <td align="center">{{ $product->quantity }}</td>

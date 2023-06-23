@@ -57,6 +57,7 @@
               <br>
               <ul class="cs-bar_list">
                 <li><b class="cs-primary_color">Efectivo:</b> ${{ $box->total_amount_cash_finances }}</li>
+                <li><b class="cs-primary_color">Efectivo P/F:</b> ${{ $box->total_amount_cash_finances_invoice }}</li>
                 <li><b class="cs-primary_color">Otros:</b> ${{ $box->total_amount_cash_different_finances }}</li>
               </ul>
             </div>
@@ -87,7 +88,7 @@
                     <tr>
                       <th scope="row" class="cs-width_1">#{{ $finance->id }}</th>
                       <td>{{ $finance->name }}</td>
-                      <td>{!! '<ins>'.$finance->payment_method.'</ins>' ?: '--' !!} {!! $finance->details !!}</td>
+                      <td>{!! '<ins>'.$finance->payment_method.' '.$finance->is_invoice.'</ins>' ?: '--' !!} {!! $finance->details !!}</td>
                       <td class="cs-width_1">
                         {{ $finance->finance_sign }}${{ $finance->amount }}
                       </td>

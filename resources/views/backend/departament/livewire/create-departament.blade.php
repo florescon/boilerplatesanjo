@@ -13,7 +13,7 @@
         <x-slot name="body">
           <div>
             <div class="form-group row" wire:ignore>
-                <label for="userselect" class="col-md-2 col-form-label">@lang('User')</label>
+                <label for="userselect" class="col-md-2 col-form-label">@lang('Customer')</label>
 
                 <div class="col-md-10">
                   <select id="userselect" class="custom-select" style="width: 100%;" aria-hidden="true">
@@ -29,10 +29,10 @@
             </div>
 
             <div class="form-group row">
-                <label for="name" class="col-md-2 col-form-label">@lang('Name')</label>
+                <label for="name" class="col-md-2 col-form-label">@lang('Departament')</label>
 
                 <div class="col-md-10">
-                    <input type="text" wire:model.lazy="name" class="form-control" placeholder="{{ __('Name') }}" maxlength="100" />
+                    <input type="text" wire:model.lazy="name" class="form-control" placeholder="{{ __('Departament') }}" maxlength="100" />
                     @error('name') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                 </div>
             </div><!--form-group-->
@@ -117,7 +117,7 @@
   <script>
     $(document).ready(function() {
       $('#userselect').select2({
-        placeholder: '@lang("Choose user")',
+        placeholder: '@lang("Choose customer")',
         // width: 'resolve',
         theme: 'bootstrap4',
         // allowClear: true,

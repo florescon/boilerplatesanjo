@@ -121,6 +121,14 @@ class Material extends Model
     /**
      * @return string
      */
+    public function getUnitNameLabelAttribute()
+    {
+        return $this->unit_id ? ($this->unit->abbreviation ?? $this->unit->name) : '';
+    }
+
+    /**
+     * @return string
+     */
     public function getFullNameAttribute()
     {
         return '<strong>'.$this->name.'</strong> '.$this->unit_name.' '.$this->size_name.' '.$this->color_name;

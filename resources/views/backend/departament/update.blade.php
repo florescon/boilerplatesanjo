@@ -16,7 +16,7 @@
 
           <input type="hidden" wire:model="selected_id">
 
-          <label>@lang('Name')</label>
+          <label>@lang('Departament')</label>
           <input wire:model.lazy="name" type="text" class="form-control"/>
           @error('name') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 

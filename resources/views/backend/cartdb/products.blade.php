@@ -54,7 +54,7 @@
 	            @php($totalquantities = 0)
 	            @php($total = 0)
 
-			  	@foreach($products as $product)
+			  	@foreach($products->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']])  as $product)
 
 				    <tr>
 				      <td>{!! optional($product->product)->full_name_link !!}</td>
@@ -80,7 +80,7 @@
 
 					    @endif
 
-				      	<td wire:ignore>
+				      	<td wire:ignore.self>
                     		<livewire:backend.cartdb.quantity-update :item="$product" :key="now()->timestamp.$product->id" :typeCart="$type" />
 				      	</td>
 

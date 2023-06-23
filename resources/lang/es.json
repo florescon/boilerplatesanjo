@@ -811,6 +811,7 @@
     "Title": "Título",
     "Comment": "Comentario",
     "Define comment": "Definir comentario",
+    "Define observation": "Definir observación",
     "Define info customer": "Definir información del cliente",
     "Approved": "Aprobada",
     "Pending": "Pendiente",
@@ -886,6 +887,7 @@
     "Gallery": "Galería",
     "To add users": "Agregar usuarios",
     "Choose user": "Elegir usuario",
+    "Choose customer": "Elegir cliente",
     "Choose internal user": "Elegir usuario interno",
     "Users": "Usuarios",
     "Show users": "Mostrar usuarios",
@@ -1217,5 +1219,9 @@
     "Disc.": "Desc.",
     "Define discount": "Definir descuento",
     "Necessary but not required": "Necesario pero no obligatorio",
-    "Exit Fullscreen": "Salir de pantalla completa"
+    "Exit Fullscreen": "Salir de pantalla completa",
+    "Create batch": "Crear lote",
+    "To batched": "A lotear",
+    "Show batches": "Mostrar lotes",
+    "Batch": "Lote"
 }

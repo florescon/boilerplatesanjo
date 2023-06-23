@@ -14,7 +14,11 @@ class CreateStatusProcess extends Migration
     public function up()
     {
         Schema::table('statuses', function (Blueprint $table) {
+            $table->boolean('batch')->default(false)->nullable();
+            $table->boolean('automatic')->default(false)->nullable();
+            $table->boolean('not_restricted')->default(false)->nullable();
             $table->boolean('process')->default(false)->nullable();
+            $table->string('short_name')->nullable();
         });
     }
 

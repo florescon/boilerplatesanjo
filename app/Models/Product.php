@@ -429,6 +429,11 @@ class Product extends Model
         return $this->type;
     }
 
+    public function getParentOrIDAttribute()
+    {
+        return  $this->isChildren() ? $this->parent_id : $this->id;
+    }
+
     public function getCodeSubproductAttribute()
     {
         if(!$this->hasCodeSubproduct() && $this->isProduct()){
