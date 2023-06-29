@@ -165,7 +165,7 @@
           <button class="btn btn-link btn-sm text-small">@lang('Show all')  <span class="badge badge-secondary">@lang('Inactive')</span></button>
         </div>
       </div>
-    </div>capture
+    </div>
 
     <div class="kanban-col">
       <div class="card-list">

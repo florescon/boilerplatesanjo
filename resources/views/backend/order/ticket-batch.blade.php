@@ -60,8 +60,8 @@
 
         <table style="margin-bottom: 10px;" width="100%">
             <tr>
-                @if($batch->user)
-                    <td><strong>A:</strong> {{ optional($batch->user)->name }}</td>
+                @if($batch->personal)
+                    <td><strong>A:</strong> {{ optional($batch->personal)->name }}</td>
                 @endif
                 @if($batch->audi)
                     <td><strong>Expedido por:</strong> {{ optional($batch->audi)->name }} </td>
@@ -73,8 +73,8 @@
         @if($batch->status_id !== 6)
             <table style="margin-bottom: -30px; margin-top: -20px;" width="100%">
                 <tr>
-                    @if($order->user)
-                        <th class="text-center"> <h2>{{ optional($order->user)->real_name }}</h2></th>
+                    @if($order->personal)
+                        <th class="text-center"> <h2>{{ optional($order->personal)->real_name }}</h2></th>
                     @endif
                 </tr>
             </table>

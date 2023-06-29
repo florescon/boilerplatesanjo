@@ -34,6 +34,13 @@
         <a href="{{ route('frontend.index') }}">
            <img src="{{ asset('img/bacapro.png') }}" width="80" alt="Logo">
         </a>
+
+        <li class="c-header-nav-item px-3">
+            <a class="c-header-nav-link" href="{{ route('admin.documentation.index') }}">
+                Docs
+            </a>
+        </li>
+
         @livewire('backend.header.header-cart')
 
         <li class="c-header-nav-item dropdown">

@@ -50,7 +50,7 @@
                               <td></td>
                               <td></td>
                             </tr>
-                            @foreach($model->products as $product)
+                            @foreach($model->products->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']]) as $product)
                               <tr>
                                 <td class="text-left">
                                   {{-- {{ $product->id }}  --}}
@@ -213,7 +213,7 @@
                             </thead>
                             <tbody>
 
-                              @foreach($batch->batch_product as $batch_product)
+                              @foreach($batch->batch_product->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']]) as $batch_product)
                               <tr>
                                 <td class="text-left">
                                   {!! $batch_product->product->full_name !!}
@@ -226,7 +226,7 @@
                                   {{ $batch_product->quantity_received }}
                                 </td>
                                 <td>
-                                  {{-- <livewire:backend.order.batch-amount-received :batch="$batch_product" :last_status="$next_status->id ?? null" :key="$batch_product->id" /> --}}
+                                  <livewire:backend.order.batch-amount-received :batch="$batch_product" :last_status="$next_status->id ?? null" :key="$batch_product->id" />
                                 </td>
                               </tr>
                               @endforeach
@@ -259,7 +259,7 @@
                               </div>
                             </div>
                               <div class="col-6 col-md-6 text-right">
-                                {{-- <a wire:click="outputUpdateAll({{ $batch->id }})" class="card-link text-right"><u>Marcar que se recibieron todos los productos de este avance</u></a> --}}
+                                <a wire:click="outputUpdateAll({{ $batch->id }})" class="card-link text-right"><u>Marcar que se recibieron todos los productos de este avance</u></a>
                               </div>
                           </div>
                         </div>

@@ -832,6 +832,7 @@
     "Apply discount": "Aplicar descuento",
     "Enter discount code": "Ingrese código de descuento",
     "Featured": "Destacados",
+    "Features": "Características",
     "Features and description": "Características y descripción",
     "Summary": "Resumen",
     "Estimated prices": "Precios estimados",
@@ -1223,5 +1224,7 @@
     "Create batch": "Crear lote",
     "To batched": "A lotear",
     "Show batches": "Mostrar lotes",
-    "Batch": "Lote"
+    "Batch": "Lote",
+    "Quick Start": "Inicio Rápido",
+    "Quick start": "Inicio rápido"
 }

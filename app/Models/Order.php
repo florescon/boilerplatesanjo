@@ -204,6 +204,11 @@ class Order extends Model
         return $this->total_products - $this->total_batch;
     }
 
+    public function getStatuses()
+    {
+        return DB::table('statuses')->where('batch', TRUE)->orWhere('process', TRUE)->where('deleted_at', NULL)->pluck('id','short_name');
+    }
+
     public function getTotalGraphicAttribute()
     {
         $totals = DB::table('batch_products')
@@ -211,9 +216,7 @@ class Order extends Model
             ->where('deleted_at', NULL)
             ->where('active', '>', 0);
 
-            $statuses = DB::table('statuses')->where('batch', TRUE)->orWhere('process', TRUE)->where('deleted_at', NULL)->pluck('id','short_name');
-
-            foreach ($statuses as $key => $status) {
+            foreach ($this->getStatuses() as $key => $status) {
                 $totals->selectRaw("SUM(CASE WHEN status_id = $status THEN active END) as $key");
             }
 
@@ -224,7 +227,8 @@ class Order extends Model
             $collection = collect($related);
             $collection->prepend("$difference", 'captura');
 
-            return $collection->filter();
+            // return $collection->filter();
+            return $collection;
     }
 
     /**
