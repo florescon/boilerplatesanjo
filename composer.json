@@ -1,13 +1,12 @@
 {
-    "name": "sj",
+    "name": "rappasoft/laravel-boilerplate",
     "type": "project",
     "description": "The SJ Project.",
     "keywords": [
         "framework",
         "laravel",
         "sj"
-    ],
-    "license": "MIT",
+    ],    "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
         "arcanedev/log-viewer": "8.x",
