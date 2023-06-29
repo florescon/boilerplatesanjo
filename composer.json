@@ -1,11 +1,11 @@
 {
-    "name": "rappasoft/laravel-boilerplate",
+    "name": "sj",
     "type": "project",
-    "description": "The Laravel Boilerplate Project.",
+    "description": "The SJ Project.",
     "keywords": [
         "framework",
         "laravel",
-        "boilerplate"
+        "sj"
     ],
     "license": "MIT",
     "require": {
