@@ -77,6 +77,20 @@
 	              <th scope="col">
 	                  @lang('To add users')
 	              </th>
+
+	              <th scope="col">
+	                  @lang('Batch')
+	              </th>
+	              <th scope="col">
+	                  @lang('Automatic')
+	              </th>
+	              <th scope="col">
+	                  @lang('Not restricted')
+	              </th>
+	              <th scope="col">
+	                  @lang('Process')
+	              </th>
+
 	              <th scope="col">
 	                  @lang('Updated')
 	              </th>
@@ -100,6 +114,20 @@
 	              <td>
 	              	{!! $status->status_add_users !!}
 	              </td>
+
+	              <td>
+	              	{!! $status->status_batch !!}
+	              </td>
+	              <td>
+	              	{!! $status->status_automatic !!}
+	              </td>
+	              <td>
+	              	{!! $status->status_not_restricted !!}
+	              </td>
+	              <td>
+	              	{!! $status->status_process !!}
+	              </td>
+
 	              <td>
 									{{ $status->date_for_humans }}
 	              </td>

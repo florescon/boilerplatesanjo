@@ -8,20 +8,19 @@
 
 @push('after-styles')
 
-<style type="text/css">
-    .shadow-primary {   
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.075) inset, 0 0 10px rgb(0, 0, 193);
-    }   
+    <style type="text/css">
+        .shadow-primary {   
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.075) inset, 0 0 10px rgb(0, 0, 193);
+        }   
 
-    .shadow-effects{
-        font-size:25px;
-        font-weight:bold;
-        color: transparent;
-        letter-spacing: .10em;
-        text-shadow: -3px -3px 2px #000,1px -1px 0 #fe6161, 2px 1px 3px red,3px 3px 1px #37408C;
-    }  
-
-</style>
+        .shadow-effects{
+            font-size:25px;
+            font-weight:bold;
+            color: transparent;
+            letter-spacing: .10em;
+            text-shadow: -3px -3px 2px #000,1px -1px 0 #fe6161, 2px 1px 3px red,3px 3px 1px #37408C;
+        }  
+    </style>
 
 @endpush
 
@@ -31,7 +30,7 @@
         <x-slot name="header">
             <strong> <kbd>@lang('Order statuses')</kbd> </strong>
             <div class="card-header-actions mb-5">
-              <a href="#" class="card-header-action" style="color: green;"  data-toggle="modal" wire:click="createmodal()" data-target="#exampleModal"><i class="c-icon cil-plus"></i> @lang('Create status') </a>
+              <a href="#" class="card-header-action" style="color: green;"  data-toggle="modal" wire:click="createmodal()" data-target="#exampleModal"><i class="c-icon cil-plus"></i> @lang('Create status') {{ '('.__('Disabled').')' }} </a>
             </div>
         </x-slot>
 

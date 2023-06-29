@@ -52,8 +52,8 @@ class DocumentTable extends Component
     ];
 
     protected $messages = [
-        'file_dst.mimetypes' => 'Incorrect format',
-        'file_emb.mimetypes' => 'Incorrect format',
+        'file_dst.mimetypes' => 'Formato incorrecto',
+        'file_emb.mimetypes' => 'Formato incorrecto',
     ];
 
     public function getRowsQueryProperty()

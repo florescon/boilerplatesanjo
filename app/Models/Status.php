@@ -66,6 +66,63 @@ class Status extends Model
         return "<span class='badge badge-secondary'>".__('No').'</span>';
     }
 
+    /**
+     * Get the table associated with the model.
+     *
+     * @return string
+     */
+    public function getStatusBatchAttribute()
+    {
+        if($this->batch){
+            return "<span class='badge badge-primary'>".__('Yes').'</span>';
+        }
+
+        return "<span class='badge badge-secondary'>".__('No').'</span>';
+    }
+
+    /**
+     * Get the table associated with the model.
+     *
+     * @return string
+     */
+    public function getStatusAutomaticAttribute()
+    {
+        if($this->automatic){
+            return "<span class='badge badge-primary'>".__('Yes').'</span>';
+        }
+
+        return "<span class='badge badge-secondary'>".__('No').'</span>';
+    }
+
+    /**
+     * Get the table associated with the model.
+     *
+     * @return string
+     */
+    public function getStatusNotRestrictedAttribute()
+    {
+        if($this->not_restricted){
+            return "<span class='badge badge-primary'>".__('Yes').'</span>';
+        }
+
+        return "<span class='badge badge-secondary'>".__('No').'</span>';
+    }
+
+    /**
+     * Get the table associated with the model.
+     *
+     * @return string
+     */
+    public function getStatusProcessAttribute()
+    {
+        if($this->process){
+            return "<span class='badge badge-primary'>".__('Yes').'</span>';
+        }
+
+        return "<span class='badge badge-secondary'>".__('No').'</span>';
+    }
+
+
     public function getDateForHumansAttribute()
     {
         return $this->updated_at->isoFormat('D, MMM, YY');
