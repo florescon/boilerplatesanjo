@@ -12,11 +12,11 @@
     <x-backend.card>
         <x-slot name="body">
 
-          <livewire:backend.dashboard.apex />
+          {{-- <livewire:backend.dashboard.apex /> --}}
 
           {{-- @lang('Welcome to the Dashboard') --}}
       
-          {{-- <livewire:backend.dashboard.kanban /> --}}
+          <livewire:backend.dashboard.kanban />
 
         </x-slot>
 

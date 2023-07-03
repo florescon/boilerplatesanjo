@@ -113,6 +113,11 @@ class BatchesOrder extends Component
         ]);
     }
 
+    public function batch_or()
+    {
+        dd('si');
+    }
+
     public function saveDate($ticketID)
     {
         $this->validate([

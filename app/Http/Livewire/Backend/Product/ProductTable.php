@@ -63,6 +63,14 @@ class ProductTable extends Component
             ->whereNull('parent_id')
             ->orderBy('updated_at', 'desc');
 
+
+        if ($this->searchTermExactly) {
+            $this->applySearchFilterExactly($query);
+        }
+        if($this->searchTerm){
+            $this->applySearchFilter($query);
+        }
+        
         if($this->brand){
             $brand = $this->brand;
             $query->whereHas('brand', function($queryBrand) use ($brand){
@@ -88,12 +96,7 @@ class ProductTable extends Component
             return $query->onlyTrashed();
         }
 
-        if ($this->searchTermExactly) {
-            $this->applySearchFilterExactly($query);
-        }
-        if($this->searchTerm){
-            $this->applySearchFilter($query);
-        }
+
 
         return $query;
     }

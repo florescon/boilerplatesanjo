@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Backend\Order;
 use Livewire\Component;
 use App\Models\Order;
 use App\Models\Batch;
+use App\Models\Product;
 use App\Models\Status;
 use App\Models\ProductOrder;
 use App\Models\BatchProduct;
@@ -28,6 +29,10 @@ class ProcessOrder extends Component
     public ?string $date = null;
     public ?string $date_entered = null;
 
+    public ?bool $status_automatic = false;
+    public ?bool $status_not_restricted = false;
+    public ?bool $status_to_add_users = false;
+
     public $output;
 
     protected $listeners = ['selectedCompanyItem', 'save' => '$refresh', 'AmountReceived' => 'render'];
@@ -43,6 +48,10 @@ class ProcessOrder extends Component
                 ->latest('level')
                 ->first();
         $this->status_name = $status->name;
+
+        $this->status_automatic = $status->automatic;
+        $this->status_not_restricted = $status->not_restricted;
+        $this->status_to_add_users = $status->to_add_users;
     }
 
     protected $rules = [
@@ -169,24 +178,31 @@ class ProcessOrder extends Component
        $this->resetInput();
     }
 
-    public function continue(?int $batch_id = null)
+    public function continue()
     {
-        $this->validate();
-
-        $batch = Batch::with('batch_product.product')->find($batch_id);
-
-        foreach($batch->batch_product as $bal)
-        {
-            if(is_array($this->q) && array_key_exists($bal->id, $this->q)){
-                $this->validate([
-                    'q.'.$bal->id.'.available' => 'sometimes|nullable|numeric|integer|gt:0|max:'.$bal->available,
-                ]);
-            }
+        if($this->status_to_add_users){
+            $this->validate();
         }
 
-        DB::beginTransaction();
+        $orderModel = Order::with('products')->find($this->order_id);
 
-        try {
+        foreach($orderModel->products as $product)
+        {
+            // dd($product->product_id);
+
+            if(is_array($this->q) && array_key_exists($product->id, $this->q)){
+                $this->validate([
+                    'q.'.$product->id.'.quantity' => 'sometimes|nullable|numeric|integer|gt:0|max:'.$product->assign_process,
+                ]);
+            }
+
+        }
+
+        // dd('si');
+
+        // DB::beginTransaction();
+
+        // try {
 
             if(!empty($this->q)){
 
@@ -195,27 +211,29 @@ class ProcessOrder extends Component
                     'status_id' => $this->status_id,
                     'personal_id' => $this->user ?? null,
                     'date_entered' => $this->date ?: today(),
-                    'batch_id' => $batch_id,
                     'audi_id' => Auth::id(),
                 ]);
 
-                $batch->children()->save($batchCreate);                
+                $orderModel->batches()->save($batchCreate);                
 
                 foreach($this->q as $key => $product){
-                    // dd($product['available']);
-                    if(!empty($product['available'])){
+                    // dd($product['quantity']);
+                    if(!empty($product['quantity'])){
 
-                        $batch_product = BatchProduct::where('id', $key)->withTrashed()->first();
+                        // dd($key);
+
+                        $productOrder = ProductOrder::where('id', $key)->withTrashed()->first();
+
+                            // dd($batch_product);
 
                         $batchCreate->batch_product()->create([
                             'order_id' =>  $this->order_id,
-                            'ticket_id' =>  $batchCreate->id,
-                            'batch_product_id' => $key,
-                            'product_order_id' => $batch_product->product_order_id,
-                            'product_id' =>  $batch_product->product_id,
+                            // 'batch_id' =>  $batchCreate->id,
+                            'product_order_id' => $key,
+                            'product_id' =>  $productOrder->product_id,
                             'status_id' =>  $this->status_id,
                             'personal_id' =>  $this->user ?? null,
-                            'quantity' => $product['available'],
+                            'quantity' => $product['quantity'],
                         ]); 
                     }
                 }
@@ -227,11 +245,11 @@ class ProcessOrder extends Component
 
             }
 
-        } catch (Exception $e) {
-            DB::rollBack();
+        // } catch (Exception $e) {
+        //     DB::rollBack();
 
-            throw new GeneralException(__('There was a problem.'));
-        }
+        //     throw new GeneralException(__('There was a problem.'));
+        // }
 
         DB::commit();
 

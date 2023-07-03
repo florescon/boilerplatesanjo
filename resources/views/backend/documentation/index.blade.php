@@ -17,6 +17,7 @@
     <!-- Plugins CSS -->
     <link rel="stylesheet" href="{{ asset('docs/assets/plugins/font-awesome/css/font-awesome.css') }}">
     <link rel="stylesheet" href="{{ asset('docs/assets/plugins/elegant_font/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css_custom/custom.css') }}">
 
     <!-- Theme CSS -->
     <link id="theme-style" rel="stylesheet" href="{{ asset('docs/assets/css/styles.css') }}">
@@ -48,7 +49,7 @@
                 <h2 class="title">@lang('Documentation')</h2>
                 <div class="intro">
 
-                    <div class="cta-container">
+                    <div class="cta-container no-print">
                         <a class="btn btn-primary btn-cta" href="{{ url('/') }}" target="_blank"><i class="fa fa-star"></i> Ver pantalla de inicio</a>
 
                         <a class="btn btn-info btn-cta" href="{{ route('admin.dashboard') }}" target="_blank"><i class="fa fa-dashboard"></i> Panel administración</a>
@@ -63,7 +64,7 @@
                               <i class="icon fa fa-paper-plane"></i>
                           </div><!--//icon-holder-->
                           <h3 class="title">@lang('Quick Start')</h3>
-                          <p class="intro">Get installed properly and take it from there.</p>
+                          <p class="intro">Características y panorama general de la aplicación.</p>
                           <a class="link" href="{{ route('admin.documentation.start') }}"><span></span></a>
                       </div><!--//item-inner-->
                   </div><!--//item-->
@@ -74,7 +75,7 @@
                               <span aria-hidden="true" class="icon icon_puzzle_alt"></span>
                           </div><!--//icon-holder-->
                           <h3 class="title">@lang('Documentation')</h3>
-                          <p class="intro">All the inner working that will save you time.</p>
+                          <p class="intro">Todo el funcionamiento interno que le orientará.</p>
                           <a class="link" href="{{ route('admin.documentation.documentation') }}"><span></span></a>
                       </div><!--//item-inner-->
                   </div><!--//item-->
@@ -85,7 +86,7 @@
                                 <span aria-hidden="true" class="icon icon_lifesaver"></span>
                             </div><!--//icon-holder-->
                             <h3 class="title">FAQs</h3>
-                            <p class="intro">You know you were going to ask at lease one of these.</p>
+                            <p class="intro">Sabemos que ibas a consultar algo de esto.</p>
                             <a class="link" href="{{ route('admin.documentation.faqs') }}"><span></span></a>
                         </div><!--//item-inner-->
                     </div><!--//item-->
@@ -96,7 +97,7 @@
                                 <span aria-hidden="true" class="icon icon_gift"></span>
                             </div><!--//icon-holder-->
                             <h3 class="title">Licencia &amp; Créditos</h3>
-                            <p class="intro">Obligatorio</p>
+                            <p class="intro">Obligatorio.</p>
                             <a class="link" href="{{ route('admin.documentation.license') }}"><span></span></a>
                         </div><!--//item-inner-->
                     </div><!--//item-->

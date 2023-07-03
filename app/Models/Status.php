@@ -122,7 +122,6 @@ class Status extends Model
         return "<span class='badge badge-secondary'>".__('No').'</span>';
     }
 
-
     public function getDateForHumansAttribute()
     {
         return $this->updated_at->isoFormat('D, MMM, YY');

@@ -127,17 +127,22 @@ class Batch extends Model
     {   
         $firstStatusBatch = \App\Models\Status::firstStatusBatch();
 
-        if($this->batch_id && ($firstStatusBatch->id !== $this->status_id)){
-            return  0;
-        }
-        else{
-            $batch = DB::table('batches')->where('folio', '<>', 0)->where('deleted_at', null)->latest()->first();
-
-            if($batch){
-                return $batch->folio ? $batch->folio + 1 : $this->id;
+        if(!$this->status->process){
+            if($this->batch_id && ($firstStatusBatch->id !== $this->status_id)){
+                return  0;
             }
+            else{
+                $batch = DB::table('batches')->where('folio', '<>', 0)->where('deleted_at', null)->latest()->first();
 
-            return $this->id;
+                if($batch){
+                    return $batch->folio ? $batch->folio + 1 : $this->id;
+                }
+
+                return $this->id;
+            }
+        }
+        else {
+            return 0;
         }
 
         return $this->id;

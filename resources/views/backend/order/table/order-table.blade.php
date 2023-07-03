@@ -33,7 +33,7 @@
 
                 @if ($status == 'suborders')
                     <div class="page-header-subtitle text-right mt-4 mb-2">
-                        <x-utils.link style="color: purple;" icon="c-icon cil-plus" class="card-header-action"
+                        <x-utils.link style="color: purple;" target="_blank" icon="c-icon cil-plus" class="card-header-action"
                             :href="route('admin.order.createsuborder')" :text="__('Create output')" />
                     </div>
                 @endif

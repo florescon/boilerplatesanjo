@@ -2,26 +2,26 @@
     <div class="card card-product_not_hover card-product card-flyer-without-hover">
       <div class="card-body">
 
-		<div class="card border-primary">
-		  <div class="card-body">
+				<div class="card border-primary">
+				  <div class="card-body">
 
-			@if($cartVar['user'])
-				<h5 class="justify-content-center text-center">
-					<p>{{ $cartVar['user'][0]->name ?? '' }}</p>	
-				</h5>
-				<h6 class="justify-content-center text-center">
-					<em>{{ $cartVar['user'][0]->customer->type_price_label ?? __('Retail price') }}</em>
-				</h6>
-				<h5 class="justify-content-center text-center mt-4">
-					<span class="badge badge-danger" wire:click="clearUser" style="cursor:pointer;">@lang('Clear user')</span>
-				</h5>
-			@else
-			    <livewire:backend.cart.user-cart :clear="true"/>
-	        	@error('user') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
-	        @endif 
+						@if($cartVar['user'])
+							<h5 class="justify-content-center text-center">
+								<p>{{ $cartVar['user'][0]->name ?? '' }}</p>	
+							</h5>
+							<h6 class="justify-content-center text-center">
+								<em>{{ $cartVar['user'][0]->customer->type_price_label ?? __('Retail price') }}</em>
+							</h6>
+							<h5 class="justify-content-center text-center mt-4">
+								<span class="badge badge-danger" wire:click="clearUser" style="cursor:pointer;">@lang('Clear user')</span>
+							</h5>
+						@else
+					    <livewire:backend.cart.user-cart :clear="true"/>
+				    	@error('user') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+			      @endif 
 
-		  </div>
-		</div>
+				  </div>
+				</div>
       </div>
   	</div>
 

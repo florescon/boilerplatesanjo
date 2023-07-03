@@ -254,6 +254,8 @@
     "The status delivery was successfully changed.": "Estado de entrega ha sido actualizado con éxito.",
     "Next status": "Siguiente estado",
     "Previous status": "Anterior estado",
+    "Previous workstation": "Anterior estación",
+    "Next workstation": "Siguiente estación",
     "Last Login At": "Último inicio de sesión en",
     "Login At": "Inicio de sesión a",
     "IP Address": "Dirección IP",
@@ -893,7 +895,6 @@
     "Users": "Usuarios",
     "Show users": "Mostrar usuarios",
     "Create": "Crear",
-
     "Move": "Mover",
     "Detail": "Detalle",
     "Details": "Detalles",
@@ -966,7 +967,6 @@
     "Main": "Principal",
     "Days": "Días",
     "Limit": "Límite",
-
     "Departament": "Departamento",
     "Departament Management": "Administración de departamentos",
     "Departaments": "Departamentos",
