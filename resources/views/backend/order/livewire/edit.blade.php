@@ -56,7 +56,7 @@
                 
                 @if($slug)
                   <div class="col-md-3 mb-3">
-                    <div class="visible-print text-left" wire:ignore>
+                    <div class="visible-print text-left" wire:ignore.self>
                       {!! QrCode::size(100)->gradient(55, 115, 250, 105, 5, 70, 'radial')->generate(route('frontend.track.show', $slug)); !!}
                       <p class="mt-2">@lang('Scan me for go track')</p>
                     </div>
