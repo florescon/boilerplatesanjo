@@ -251,8 +251,8 @@
                   Para crear un ingreso o egreso es obligatorio el nombre del movimiento, cantidad y método de pago. La distinción de un ingreso o egreso es que este último se da en la casilla de verificación 'Quiero que sea egreso' donde se corrobora que efectivamente el movimiento se guardará con el botón último 'Guardar egreso'.
                 </p>
                 <div class="screenshot-holder">
-                  <a href="{{ asset('docs/img/documentation/create-income.png') }}" data-title="Create Income" data-toggle="lightbox" class="hoverZoomLink"><img class="img-responsive" src="{{ asset('docs/img/documentation/create-income.png') }}" alt="screenshot"></a>
-                  <a class="mask hoverZoomLink" href="{{ asset('docs/img/documentation/create-income.png') }}" data-title="Create Income" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                  <a href="{{ asset('docs/img/documentation/create-income.png') }}" data-title="Crear ingreso/egreso" data-toggle="lightbox" class="hoverZoomLink"><img class="img-responsive" src="{{ asset('docs/img/documentation/create-income.png') }}" alt="screenshot"></a>
+                  <a class="mask hoverZoomLink" href="{{ asset('docs/img/documentation/create-income.png') }}" data-title="Crear ingreso/egreso" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
                 </div>
                 <p>
                   El listado de ingresos y egresos muestra por defecto sólo los movimientos no asignados a ningún corte de caja, es decir, los últimos creados desde el último corte de caja. Existen filtros que seleccionando cada uno de los recuadros ingresos y egresos, azul y rojo respectivamente, me filtra sólo el que haya seleccionado. Otro filtro muy importante es el botón de historial, que muestra el listado completo con o sin corte asignado. La entrada rango de fecha y los botones por 'mes', 'semana actual' y 'hoy' son algunos otros filtros más en los que mostrará dependiendo de cuál haya sido la selección.

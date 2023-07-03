@@ -9,7 +9,7 @@ class Apex extends Component
 {
     public function render()
     {
-        $orders = Order::orderByDesc('id')->take(5)->get();
+        $orders = Order::orderByDesc('id')->where('type', 1)->take(5)->get();
 
         $ordercollection = collect();
 

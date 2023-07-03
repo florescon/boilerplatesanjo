@@ -238,7 +238,7 @@
 
             <div class="highlight">
               <pre tabindex="0" class="chroma">
-                <code class="language-text" data-lang="text"><span class="line"><span class="cl">dashboard/
+                <code class="language-text" data-lang="text"><span class="line"><span class="cl">          dashboard/
                   </span></span><span class="line"><span class="cl">├── acceso/
                   </span></span><span class="line"><span class="cl">│   ├── usuarios/
                   </span></span><span class="line"><span class="cl">│   │   ├── crear usuario/

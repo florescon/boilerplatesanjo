@@ -151,7 +151,7 @@
                               <td></td>
                               <td>
                                 
-                                <button type="button" wire:click="continue" class="btn btn-primary btn-sm" disabled>@lang('Continue')</button>
+                                <button type="button" wire:click="continue" class="btn btn-primary btn-sm">@lang('Continue')</button>
 
                               </td>
                             </tr>
@@ -204,7 +204,7 @@
                                 <i class="cil-x-circle"></i>
                               </a> --}}
 
-                            {{-- <x-utils.delete-button :text="__('')" :href="route('admin.batch.destroy', $batch->id)" /> --}}
+                            <x-utils.delete-button :text="__('')" :href="route('admin.batch.destroy', $batch->id)" />
 
                             </div>
                           </div>
