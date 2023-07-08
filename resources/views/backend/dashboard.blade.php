@@ -16,7 +16,7 @@
 
           {{-- @lang('Welcome to the Dashboard') --}}
       
-          {{-- <livewire:backend.dashboard.kanban /> --}}
+          <livewire:backend.dashboard.kanban />
 
         </x-slot>
 
