@@ -8,32 +8,38 @@
 
 @push('after-scripts')
 <script>
+
+  var captura = {!! $captura !!};
+  var corte = {!! $corte !!};
+  var confeccion = {!! $confeccion !!};
+  var conformado = {!! $conformado !!};
+  var personalizacion = {!! $personalizacion !!};
+  var embarque = {!! $embarque !!};
+
   var options = {
       series: [{
-      name: 'Marine Sprite',
-      data: [44, 55, 41, 37, 22, 43, 211]
+      name: 'captura',
+      data: captura
     }, {
-      name: 'Striking Calf',
-      data: [53, 32, 33, 52, 13, 43, 32]
+      name: 'corte',
+      data: corte
     }, {
-      name: 'Tank Picture',
-      data: [12, 17, 11, 9, 15, 11, 20]
+      name: 'confeccion',
+      data: confeccion
     }, {
-      name: 'Bucket Slope',
-      data: [9, 7, 5, 8, 6, 9, 4]
+      name: 'conformado',
+      data: conformado
     }, {
-      name: 'Reborn Kid',
-      data: [25, 12, 19, 32, 25, 24, 10]
+      name: 'personalizacion',
+      data: personalizacion
+    }, {
+      name: 'embarque',
+      data: embarque
     }],
       chart: {
       type: 'bar',
       height: 380,
       stacked: true,
-      events: {
-          dataPointSelection: function(event, chartContext, obj) {
-              return document.location.href = obj.w.config.series[obj.seriesIndex].data[obj.dataPointIndex].z;
-          }
-      }
     },
     plotOptions: {
       bar: {
@@ -55,10 +61,10 @@
       colors: ['#fff']
     },
     title: {
-      text: 'Fiction Books Sales'
+      text: 'Pedidos en proceso'
     },
     subtitle: {
-        text: 'subtitle',
+        text: 'Listado de pendientes',
         align: 'left',
         margin: 30,
         offsetX: 0,
@@ -81,7 +87,7 @@
     },
     yaxis: {
       title: {
-        text: 'orders'
+        text: 'Pedidos'
       },
     },
     tooltip: {

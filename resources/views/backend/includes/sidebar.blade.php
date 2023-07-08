@@ -148,7 +148,7 @@
                     class="c-sidebar-nav-link"
                     :href="route('admin.batch.index')"
                     :active="activeClass(Route::is('admin.batch.*'), 'c-active')"
-                    icon="c-sidebar-nav-icon cil-short-text"
+                    icon="c-sidebar-nav-icon cil-view-column"
                     :text="__('Batches')" />
             </li>
         @endif

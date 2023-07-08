@@ -10,7 +10,7 @@
               <div class="mt-3">
                 <h5 class="heading">
                   <kbd>
-                    <i class="cil-short-text"></i> 
+                    <i class="cil-view-column"></i> 
                     @lang('Batches')
                     @if($status == 'deleted')
                       <span class="badge badge-danger">@lang('Deletions')</span>
@@ -133,36 +133,36 @@
         			</tr>
         		</thead>
         		<tbody>
-              @foreach($batches as $ticket)
+              @foreach($batches as $batch)
         			<tr>
                 <td>
-                  <strong>#{{ $ticket->id }}</strong>
-                  <div class="small text-muted">@lang('Ticket')</div>
+                  <strong>#{{ $batch->folio_or_id }}</strong>
+                  <div class="small text-muted">@lang('Batch')</div>
                 </td>
                 <td>
-                  #{!! optional($ticket->order)->folio_or_id !!}
+                  #{!! optional($batch->order)->folio_or_id !!}
                   <div class="small text-muted">@lang('Order')</div>
                 </td>
                 <td class="text-center">
-                  {{ optional($ticket->status)->name }}
+                  {{ optional($batch->status)->name }}
                 </td>
                 <td>
-                  <strong>{{ optional($ticket->order)->comment ?? '--' }}</strong>
-                  <div class="small text-muted">{{ $ticket->comment }}</div>
+                  <strong>{{ optional($batch->order)->comment ?? '--' }}</strong>
+                  <div class="small text-muted">{{ $batch->comment }}</div>
                 </td>
         				<td class="text-center">
-                  <div> {{ optional($ticket->personal)->name ?? __('undefined') }} </div>
-        					<div class="small text-muted">@lang('Batch registered'): {{ $ticket->date_for_humans }}</div>
+                  <div> {{ optional($batch->personal)->name ?? __('undefined') }} </div>
+        					<div class="small text-muted">@lang('Batch registered'): {{ $batch->date_for_humans }}</div>
         				</td>
         				<td class="text-center">
-                  <span class='badge badge-primary'>{{ $ticket->status->name }}</span>
+                  <span class='badge badge-primary'>{{ $batch->status->name }}</span>
         				</td>
                 <td class="text-center">
 
                 </td>
                 <td >
                   <div class="btn-group" role="group" aria-label="Basic example">
-                      <x-utils.view-button :href="route('admin.order.batches', [$ticket->order_id, $ticket->status_id])" />
+                      <x-utils.view-button :href="route('admin.order.batches', [$batch->order_id, $batch->status_id])" />
                   </div>
                 </td>
         			</tr>
