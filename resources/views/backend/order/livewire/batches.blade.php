@@ -43,15 +43,13 @@
 
                     @enderror
 
-                    @if($user)
-                      <div class="form-group row">
-                          <label for="date" class="col-sm-3 col-form-label">@lang('Date') <em>(Por defecto hoy)</em></label>
-                          <div class="col-sm-9" >
-                            <input wire:model="date" type="date" class="form-control"/>
-                          </div>
-                          @error('date') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
-                      </div><!--form-group-->
-                    @endif
+                    <div class="form-group row">
+                        <label for="date" class="col-sm-3 col-form-label">@lang('Date') <em>(Por defecto hoy)</em></label>
+                        <div class="col-sm-9" >
+                          <input wire:model="date" type="date" class="form-control"/>
+                        </div>
+                        @error('date') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                    </div><!--form-group-->
 
                     @if(!$previous_status)
 
@@ -80,10 +78,9 @@
 
                                 <td class="table-info"> 
                                     <input type="number" 
-                                        wire:model.lazy="quantity.{{ $product->id }}.available"
-                                        wire:keydown.enter="save" 
+                                        wire:model.debounce.700ms="quantity.{{ $product->id }}.available"
                                         class="form-control"
-                                        style="color: blue;" 
+                                        style="color: blue;"
                                         placeholder="{{ $product->available_batch }}"
                                     >
                                     @error('quantity.'.$product->id.'.available') 
@@ -99,8 +96,9 @@
                               <td>{{ $model->total_products }}</td>
                               <td>
                                 {{ $model->total_batch_pending }}
-                                @if($sumQuantity > 0)
-                                  <div style="border-width: 2px; border-style: dashed; border-color: red; "> @lang('Captured'): <strong>{{ $sumQuantity }}</strong> </div>
+                                @if($quantity)
+                                  {{-- <div style="border-width: 2px; border-style: dashed; border-color: red; "> @lang('Captured'): <strong>{{ $sumQuantity }}</strong> </div> --}}
+                                  <livewire:backend.components.sum-captured />
                                 @endif
                               </td>
                             </tr>
@@ -139,7 +137,7 @@
                                   <td>{{ $product->quantity_children }}</td>
                                   <td> 
                                     <input type="number" 
-                                        wire:model.defer="q.{{ $product->id }}.available"
+                                        wire:model.debounce.700ms="q.{{ $product->id }}.available"
                                         wire:keydown.enter="continue({{ $batch->id }})" 
                                         class="form-control"
                                         style="color: blue;" 
@@ -158,7 +156,12 @@
                                 <td>{{ $batch->total_batch }}</td>
                                 <td>{{ $batch->total_batch_received }}</td>
                                 <td>{{ $batch->total_batched }}</td>
-                                <td></td>
+                                <td>
+                                  @if($q)
+                                    {{-- <div style="border-width: 2px; border-style: dashed; border-color: red; "> @lang('Captured'): <strong>{{ $sumQuantity }}</strong> </div> --}}
+                                    <livewire:backend.components.sum-captured />
+                                  @endif
+                                </td>
                               </tr>
                               <tr>
                                 <td colspan="4"></td>

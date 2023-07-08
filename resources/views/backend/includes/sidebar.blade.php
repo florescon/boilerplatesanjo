@@ -146,6 +146,17 @@
             <li class="c-sidebar-nav-item">
                 <x-utils.link
                     class="c-sidebar-nav-link"
+                    :href="route('admin.batch.index')"
+                    :active="activeClass(Route::is('admin.batch.*'), 'c-active')"
+                    icon="c-sidebar-nav-icon cil-short-text"
+                    :text="__('Batches')" />
+            </li>
+        @endif
+
+        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.order.order')))
+            <li class="c-sidebar-nav-item">
+                <x-utils.link
+                    class="c-sidebar-nav-link"
                     :href="route('admin.ticket.index')"
                     :active="activeClass(Route::is('admin.ticket.*'), 'c-active')"
                     icon="c-sidebar-nav-icon cil-short-text"

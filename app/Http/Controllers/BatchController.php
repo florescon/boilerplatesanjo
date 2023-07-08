@@ -15,7 +15,7 @@ class BatchController extends Controller
      */
     public function index()
     {
-        return view('backend.ticket.index');
+        return view('backend.batch.index');
     }
 
     public function destroy(Batch $batch)

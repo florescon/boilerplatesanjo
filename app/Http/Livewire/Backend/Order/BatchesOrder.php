@@ -19,11 +19,11 @@ use Illuminate\Support\Collection;
 
 class BatchesOrder extends Component
 {
-    public $order_id, $status_id, $quantity, $user, $status_name;
+    public $order_id, $status_id, $quantity, $status_name;
 
     public $q;
 
-    public $sumQuantity;
+    public ?int $user = null;
 
     public $next_status, $previous_status;
 
@@ -51,10 +51,10 @@ class BatchesOrder extends Component
         'user' => 'required',
     ];
 
-    public function selectedCompanyItem($item)
+    public function selectedCompanyItem($getUser)
     {
-        if ($item)
-            $this->user = $item;
+        if ($getUser)
+            $this->user = $getUser;
         else
             $this->user = null;
     }
@@ -113,11 +113,6 @@ class BatchesOrder extends Component
         ]);
     }
 
-    public function batch_or()
-    {
-        dd('si');
-    }
-
     public function saveDate($ticketID)
     {
         $this->validate([
@@ -147,7 +142,20 @@ class BatchesOrder extends Component
             }
         }
 
-        $this->sumQuantity = $s;
+        $this->emit('calculateSum', $s);
+    }
+
+
+    public function updatedQ()
+    {
+        $s = 0;
+        foreach($this->q as $q){
+            if($q['available'] > 0){
+                $s += $q['available'];
+            }
+        }
+
+        $this->emit('calculateSum', $s);
     }
 
     public function save()
@@ -295,7 +303,6 @@ class BatchesOrder extends Component
     {
         $this->quantity = '';
         $this->q = '';
-        $this->sumQuantity = '';
     }
 
     public function removeProduct($productId): void

@@ -1,6 +1,6 @@
 <x-backend.card>
     <x-slot name="header">
-        @lang('Show batches') - {{ $status_name }}
+        @lang('Show process') - {{ $status_name }}
     </x-slot>
 
     <x-slot name="headerActions">

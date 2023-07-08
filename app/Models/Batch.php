@@ -5,13 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Domains\Auth\Models\User;
+use App\Models\Traits\Scope\DateScope;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
 use DB;
 
 class Batch extends Model
 {
-    use HasFactory, SoftDeletes, CascadeSoftDeletes;
+    use HasFactory, DateScope, SoftDeletes, CascadeSoftDeletes;
 
     protected $cascadeDeletes = ['children', 'batch_product'];
 
@@ -148,9 +149,18 @@ class Batch extends Model
         return $this->id;
     }
 
+    public function getDateForHumansAttribute()
+    {
+        return $this->updated_at->isoFormat('D, MMM, YY');
+    }
+
+    public function getDateDiffForHumansAttribute()
+    {
+        return $this->updated_at->diffForHumans();
+    }
+
     public function getDateDiffForHumansCreatedAttribute()
     {
         return $this->created_at->diffForHumans();
     }
-
 }
