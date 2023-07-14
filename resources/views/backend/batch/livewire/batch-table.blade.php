@@ -161,9 +161,13 @@
 
                 </td>
                 <td >
-                  <div class="btn-group" role="group" aria-label="Basic example">
-                      <x-utils.view-button :href="route('admin.order.batches', [$batch->order_id, $batch->status_id])" />
-                  </div>
+                  @if($batch->order->trashed())
+                    <x-utils.delete-button :text="__('')" :href="route('admin.batch.destroy', $batch->id)" />
+                  @else
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <x-utils.view-button :href="route('admin.order.batches', [$batch->order_id, $batch->status_id])" />
+                    </div>
+                  @endif
                 </td>
         			</tr>
               @endforeach

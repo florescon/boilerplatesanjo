@@ -12,7 +12,7 @@
     <script>
       $(document).ready(function() {
         $('#userselect').select2({
-          placeholder: '@lang("Choose user")',
+          placeholder: '@lang("Choose customer")',
           width: 'resolve',
           theme: 'bootstrap4',
           allowClear: true,

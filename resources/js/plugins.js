@@ -56,10 +56,10 @@ $(function () {
         e.preventDefault();
 
         Swal.fire({
-            title: 'Are you sure you want to delete this item?',
+            title: '¿Estás seguro de que quieres realmente eliminarlo?',
             showCancelButton: true,
-            confirmButtonText: 'Confirm Delete',
-            cancelButtonText: 'Cancel',
+            confirmButtonText: 'Confirmar eliminación',
+            cancelButtonText: 'Cancelar',
             icon: 'warning'
         }).then((result) => {
             if (result.value) {
@@ -73,10 +73,10 @@ $(function () {
             e.preventDefault();
 
             Swal.fire({
-                title: 'Are you sure you want to do this?',
+                title: '¿Estás seguro de que quieres hacer esto?',
                 showCancelButton: true,
-                confirmButtonText: 'Continue',
-                cancelButtonText: 'Cancel',
+                confirmButtonText: 'Continuar',
+                cancelButtonText: 'Cancelar',
                 icon: 'warning'
             }).then((result) => {
                 if (result.value) {
@@ -93,10 +93,10 @@ $(function () {
         e.preventDefault();
 
         Swal.fire({
-            title: 'Are you sure you want to do this?',
+            title: '¿Estás seguro de que quieres hacer esto?',
             showCancelButton: true,
-            confirmButtonText: 'Continue',
-            cancelButtonText: 'Cancel',
+            confirmButtonText: 'Continuar',
+            cancelButtonText: 'Cancelar',
             icon: 'info',
         }).then((result) => {
             result.value && window.location.assign($(this).attr('href'));

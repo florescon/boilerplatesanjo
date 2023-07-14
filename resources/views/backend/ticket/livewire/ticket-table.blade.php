@@ -166,9 +166,13 @@
                   @endif
                 </td>
                 <td >
-                  <div class="btn-group" role="group" aria-label="Basic example">
-                      <x-utils.view-button :href="route('admin.order.assignments', [$ticket->order_id, $ticket->status_id])" />
-                  </div>
+                  @if($ticket->order->trashed())
+                    <x-utils.delete-button :text="__('')" :href="route('admin.ticket.destroy', $ticket->id)" />
+                  @else
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <x-utils.view-button :href="route('admin.order.assignments', [$ticket->order_id, $ticket->status_id])" />
+                    </div>
+                  @endif
                 </td>
         			</tr>
               @endforeach

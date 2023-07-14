@@ -103,7 +103,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @foreach($batch->batch_product  as $assign)
+                  @foreach($batch->batch_product->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']])  as $assign)
                   <tr>
                     <td scope="row">
                         {!! $assign->product->full_name !!}

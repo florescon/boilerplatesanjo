@@ -61,12 +61,6 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <tr>
-                              <td class="text-right">Total:</td>
-                              <td>{{ $model->total_products }}</td>
-                              <td></td>
-                              <td></td>
-                            </tr>
                             @foreach($model->products->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']]) as $product)
                               <tr>
                                 <td class="text-left">
