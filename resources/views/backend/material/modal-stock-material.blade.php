@@ -5,6 +5,20 @@
 
   <x-slot name="content">
 
+    <div class="form-group form-check text-center">
+      <label class="c-switch c-switch-danger">
+        <input type="checkbox" class="c-switch-input" wire:model="checkboxOutput" checked>
+        <span class="c-switch-slider"></span>
+      </label>
+      <div>
+        @if($checkboxOutput == false)
+          <strong>@lang('I want it to be output')<i class="cil-hand-point-up"></i></strong>
+        @else
+          <strong>@lang('Now is an output')</strong>
+        @endif
+      </div>
+    </div>
+
     <table class="table">
       <tbody>
 
@@ -46,7 +60,7 @@
             <em class="text-danger">{!! $unit !!}.</em>
           </td>
           <td>
-            <input type="number" step="any" wire:model.lazy="stock" class="form-control @error('stock') is-invalid @enderror" id="stock" placeholder="@lang('Input / Output') (@lang('Required'))">
+            <input type="number" step="any" wire:model.lazy="stock" class="form-control @error('stock') is-invalid @enderror" id="stock" placeholder="{{ $checkboxOutput ? __('Output') : __('Input') }} (@lang('Required'))">
           </td>
         </tr>
 
@@ -63,6 +77,12 @@
 
   <x-slot name="footer">
       <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('Close')</button>
-      <button type="submit" class="btn btn-primary">@lang('Save')</button>
+
+      @if($checkboxOutput == false)
+        <button type="submit" class="btn btn-primary">@lang('Save input')</button>
+      @else
+        <button type="submit" class="btn btn-danger">@lang('Save output')</button>
+      @endif
+
   </x-slot>
 </x-utils.modal>

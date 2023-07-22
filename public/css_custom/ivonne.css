@@ -1109,12 +1109,12 @@ kbd {
 
 .cs-table.cs-style2 td {
   border: none;
+  page-break-inside:avoid;
 }
 
 .cs-table.cs-style2 td,
 .cs-table.cs-style2 th {
-  padding: 12px 15px;
-  line-height: 1.55em;
+  padding: 0px 10px;
 }
 
 .cs-table.cs-style2 tr:not(:first-child) {

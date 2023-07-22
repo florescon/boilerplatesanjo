@@ -74,8 +74,8 @@
                                 <td class="table-info"> 
                                     <input type="number" 
                                         wire:model.debounce.700ms="quantity.{{ $product->id }}.available"
-                                        class="form-control"
-                                        style="color: blue;"
+                                        class="form-control text-center"
+                                        style="color: red;"
                                         placeholder="{{ $product->available_batch }}"
                                     >
                                     @error('quantity.'.$product->id.'.available') 
@@ -93,7 +93,7 @@
                                 {{ $model->total_batch_pending }}
                                 @if($quantity)
                                   {{-- <div style="border-width: 2px; border-style: dashed; border-color: red; "> @lang('Captured'): <strong>{{ $sumQuantity }}</strong> </div> --}}
-                                  <livewire:backend.components.sum-captured />
+                                  {{-- <livewire:backend.components.sum-captured /> --}}
                                 @endif
                               </td>
                             </tr>
@@ -134,8 +134,8 @@
                                     <input type="number" 
                                         wire:model.debounce.700ms="q.{{ $product->id }}.available"
                                         wire:keydown.enter="continue({{ $batch->id }})" 
-                                        class="form-control"
-                                        style="color: blue;" 
+                                        class="form-control text-center"
+                                        style="color: red;" 
                                         placeholder="{{ $product->available }}"
                                     >
                                     @error('q.'.$product->id.'.available') 
@@ -154,7 +154,7 @@
                                 <td>
                                   @if($q)
                                     {{-- <div style="border-width: 2px; border-style: dashed; border-color: red; "> @lang('Captured'): <strong>{{ $sumQuantity }}</strong> </div> --}}
-                                    <livewire:backend.components.sum-captured />
+                                    {{-- <livewire:backend.components.sum-captured /> --}}
                                   @endif
                                 </td>
                               </tr>

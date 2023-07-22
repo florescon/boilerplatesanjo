@@ -21,7 +21,7 @@ class Apex extends Component
             $ordercollection->push(
                 // 'id' => $order->id,
                 // 'folio' => $order->folio,
-                 '#'.$order->folio_or_id_clear.' '.optional($order->user)->name,
+                 '#'.$order->folio_or_id_clear.' '.optional($order->user)->name.' - '.$order->comment,
                 // 'type' => $order->characters_type_order,
                 // 'comment' => $order->comment,
             );

@@ -205,5 +205,6 @@
 
   <x-slot name="footer">
     <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('Close')</button>
+    <button type="button" wire:click="format" class="btn btn-primary">@lang('Save')</button>
   </x-slot>
 </x-utils.modal>

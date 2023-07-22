@@ -215,10 +215,9 @@
                 <td>
                   <div class="btn-group" role="group" aria-label="Basic example">
 
-
-                      <button type="button" data-toggle="modal" data-target="#showModal" wire:click="show({{ $color->id }})" class="btn btn-transparent-dark">
-                          <i class='far fa-eye'></i>
-                      </button>
+                    <button type="button" data-toggle="modal" data-target="#showModal" wire:click="show({{ $color->id }})" class="btn btn-transparent-dark">
+                        <i class='far fa-eye'></i>
+                    </button>
 
                     @if(!$color->trashed())
 

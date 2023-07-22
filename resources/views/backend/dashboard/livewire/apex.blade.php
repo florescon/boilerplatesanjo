@@ -66,12 +66,12 @@
     subtitle: {
         text: 'Listado de pendientes',
         align: 'left',
-        margin: 30,
+        margin: 40,
         offsetX: 0,
         offsetY: 0,
         floating: false,
         style: {
-          fontSize:  '12px',
+          fontSize:  '15px',
           fontWeight:  'normal',
           fontFamily:  undefined,
           color:  '#9699a2'
@@ -79,15 +79,29 @@
     },
     xaxis: {
       categories: {!! $categories !!},
+      title: {
+        text: 'Cantidad de productos'
+      },
       labels: {
         formatter: function (val) {
-          return val + " Prod."
+          return val
         }
       }
     },
     yaxis: {
       title: {
         text: 'Pedidos'
+      },
+      labels: {
+          show: true,
+          minWidth: 0,
+          maxWidth: 350,
+          style: {
+              fontSize: '12px',
+              fontFamily: 'Helvetica, Arial, sans-serif',
+              fontWeight: 900,
+              cssClass: 'apexcharts-yaxis-label',
+          },
       },
     },
     tooltip: {
@@ -102,8 +116,9 @@
     },
     legend: {
       position: 'top',
-      horizontalAlign: 'left',
-      offsetX: 40
+      horizontalAlign: 'center',
+      offsetX: 40,
+      offsetY: -30,
     }
   };
 

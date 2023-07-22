@@ -131,10 +131,10 @@
                     <tr class="cs-focus_bg">
                       <th class="cs-width_1 cs-semi_bold cs-primary_color cs-text_center">@lang('Quantity')</th>
                       <th class="cs-width_2 cs-semi_bold cs-primary_color">@lang('Code')</th>
-                      <th class="cs-width_6 cs-semi_bold cs-primary_color">@lang('Description')</th>
+                      <th class="cs-width_7 cs-semi_bold cs-primary_color">@lang('Description')</th>
                       @if(!$order->isOutputProducts())
                         <th class="cs-width_1 cs-semi_bold cs-primary_color">@lang('Price')</th>
-                        <th class="cs-width_2 cs-semi_bold cs-primary_color cs-text_right">@lang('Total')</th>
+                        <th class="cs-width_1 cs-semi_bold cs-primary_color cs-text_right">@lang('Total')</th>
                       @endif
                     </tr>
                   </thead>

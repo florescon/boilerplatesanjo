@@ -129,7 +129,7 @@
                 <th class="text-center">@lang('User')</th>
                 <th class="text-center">@lang('Details')</th>
         				<th class="text-center">@lang('Status')</th>
-                <th></th>
+                <th class="text-center"></th>
         			</tr>
         		</thead>
         		<tbody>
@@ -165,13 +165,17 @@
                     <span class="dot-success"></span>
                   @endif
                 </td>
-                <td >
-                  @if($ticket->order->trashed())
-                    <x-utils.delete-button :text="__('')" :href="route('admin.ticket.destroy', $ticket->id)" />
+                <td class="text-center">
+                  @if($ticket->order)
+                    @if($ticket->order->trashed())
+                      <x-utils.delete-button :text="__('')" :href="route('admin.ticket.destroy', $ticket->id)" />
+                    @else
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                          <x-utils.view-button :href="route('admin.order.assignments', [$ticket->order_id, $ticket->status_id])" />
+                      </div>
+                    @endif
                   @else
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                        <x-utils.view-button :href="route('admin.order.assignments', [$ticket->order_id, $ticket->status_id])" />
-                    </div>
+                    <x-utils.delete-button :text="__('Request not found, delete ticket')" :href="route('admin.ticket.destroy', $ticket->id)" />
                   @endif
                 </td>
         			</tr>

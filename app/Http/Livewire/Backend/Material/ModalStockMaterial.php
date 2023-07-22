@@ -20,10 +20,12 @@ class ModalStockMaterial extends Component
 
     public $material_id;
 
+    public bool $checkboxOutput = false;
+
     protected $listeners = ['modalUpdateStock'];
 
     protected $rules = [
-        'stock' => 'required|numeric',
+        'stock' => 'required|numeric|gt:0',
         'price' => 'nullable|sometimes|numeric',
         'comment' => 'nullable|sometimes',
     ];
@@ -44,6 +46,7 @@ class ModalStockMaterial extends Component
         $this->price = '';
         $this->stock = '';
         $this->comment = '';
+        $this->checkboxOutput = false;
     }
 
     public function update()
@@ -54,8 +57,10 @@ class ModalStockMaterial extends Component
 
         if(!empty($this->stock)){
 
+            $stock = $this->checkboxOutput ? - $this->stock : $this->stock;
+
             if($this->price > 0 || empty($this->price)){
-                $changed_stock = $material->stock + $this->stock;
+                $changed_stock = $material->stock + $stock;
 
                 if(empty($this->price)){
                     $material->update(['stock' => $changed_stock]);
@@ -67,7 +72,7 @@ class ModalStockMaterial extends Component
 
                 $material->history()->create([
                     'old_stock' => $this->old_stock,
-                    'stock' => $this->stock,
+                    'stock' => $stock,
                     'old_price' => $this->old_price,
                     'price' => empty($this->price) ? $this->old_price : $this->price,
                     'audi_id' => Auth::id(),

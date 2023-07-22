@@ -111,7 +111,6 @@ class SearchProducts extends Component
 
             foreach($this->inputformat as $color => $productos){
 
-
                 while($array = current($productos)){
 
                     $size = key($productos);
@@ -139,12 +138,20 @@ class SearchProducts extends Component
                     next($productos);
                 }
             }
+
+            $this->emit('swal:alert', [
+                'icon' => 'success',
+                'title'   => __('Captured').' '.$this->array_multisum($this->inputformat).' '.__('products'), 
+            ]);
+
+        }
+        else{
+            $this->emit('swal:alert', [
+                'icon' => 'warning',
+                'title'   => 'No puedes capturar datos vacios', 
+            ]);
         }
 
-        $this->emit('swal:alert', [
-            'icon' => 'success',
-            'title'   => __('Captured').' '.$this->array_multisum($this->inputformat).' '.__('products'), 
-        ]);
 
         $this->emit('clearAll');
         $this->clearAll();
