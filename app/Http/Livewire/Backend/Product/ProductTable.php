@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use App\Events\Product\ProductRestored;
 use Symfony\Component\HttpFoundation\Response;
 use App\Exports\ParentProductsExport;
+use App\Exports\ProductMainExport;
 use Excel;
 use DB;
 
@@ -213,6 +214,18 @@ class ProductTable extends Component
     {
         return Product::query()
             ->onlyProducts()->whereNull('parent_id')->get()->pluck('id')->map(fn($id) => (string) $id)->toArray();
+    }
+
+    private function getSelectedProductsStock()
+    {
+        return Product::query()
+            ->onlyProducts()->where('stock', '<>', 0)->get()->pluck('id')->map(fn($id) => (string) $id)->toArray();
+    }
+
+    public function exportMaatwebsiteStock($extension)
+    {   
+        abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
+        return Excel::download(new ProductMainExport($this->getSelectedProductsStock()), 'product-list-'.Carbon::now().'.'.$extension);
     }
 
     public function exportMaatwebsite($extension)

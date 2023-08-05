@@ -11,6 +11,21 @@
 
 	    <div class="dropdown table-export">
 	      <button class="dropdown-toggle btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	        @lang('Export stock')
+	      </button>
+
+	      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+	        <a class="dropdown-item" wire:click="exportMaatwebsiteStock('csv')">CSV</a>
+	        <a class="dropdown-item" wire:click="exportMaatwebsiteStock('xlsx')">Excel</a>
+	        <a class="dropdown-item" wire:click="exportMaatwebsiteStock('xls')">Excel ('XLS')</a>
+	        <a class="dropdown-item" wire:click="exportMaatwebsiteStock('html')">HTML</a>
+	        <a class="dropdown-item" wire:click="exportMaatwebsiteStock('tsv')">TSV</a>
+	        <a class="dropdown-item" wire:click="exportMaatwebsiteStock('ods')">ODS</a>
+	      </div>
+	    </div><!--export-dropdown-->
+
+	    <div class="dropdown table-export">
+	      <button class="dropdown-toggle btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	        @lang('Export prices')
 	      </button>
 
@@ -25,18 +40,18 @@
 	    </div><!--export-dropdown-->
 		</div>
 
-		<form>
-		  <div class="form-row">
-
-		    <div class=" form-group col-md-12">
-				    <input wire:model.debounce.500ms="searchTermExactly" id="inputPassword4" class="input-search text-center" type="text" placeholder="{{ __('Search general product by name or code') }}" />
-		      		<span class="border-input-search"></span>
-		    </div>
-
-		  </div>
-		</form>
 
 		<div class="card-deck mb-4">
+
+			<div class="card border-0">
+			  <div class="card-body mt-3">
+			    <div class=" form-group col-md-12">
+					    <input wire:model.debounce.500ms="searchTermExactly" id="inputPassword4" class="input-search text-center {{ $searchTermExactly ? 'bg-light' : '' }} text-primary" type="text" placeholder="{{ __('Search general product by name or code') }}" />
+			      		<span class="border-input-search"></span>
+			    </div>
+				</div>
+			</div>
+
 			<div class="card border-0">
 			  <div class="card-body">
 					<div class="row pt-4">

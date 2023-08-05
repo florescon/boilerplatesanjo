@@ -350,6 +350,16 @@ class EditOrder extends Component
         ]);
     }
 
+    public function renderButton()
+    {
+        $this->emit('serviceStore');
+
+        $this->emit('swal:alert', [
+            'icon' => 'success',
+            'title'   => __('Data saved in this table'), 
+        ]);
+    }
+
     public function render()
     {
         $model = Order::with(['product_order', 'product_sale', 'product_request', 'suborders.user', 'last_status_order', 

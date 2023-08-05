@@ -473,6 +473,16 @@ class Order extends Model
         return DB::table('statuses')->latest('level')->first();
     }
 
+    public function previousOrder()
+    {
+        return self::where('id', '<', $this->id)->where('type', 1)->orderBy('id','desc')->first();
+    }
+
+    public function nextOrder()
+    {
+        return self::where('id', '>', $this->id)->where('type', 1)->orderBy('id','asc')->first();
+    }
+
     public function getLastStatusOrderIdAttribute()
     {
         if (!$this->parent_order_id && $this->type != 2) {
@@ -493,7 +503,7 @@ class Order extends Model
                 return "<span class='badge badge-secondary'>".__('undefined').'</span>';
             }
 
-            return '<strong>'.$this->last_status_order->name_status.'</strong> - '.$this->last_status_order->date_entered_or_created;
+            return '<strong>'.$this->last_status_order->name_status.'</strong> <br>'.$this->last_status_order->date_entered_or_created;
         }
 
         return "";

@@ -4,19 +4,32 @@
   </x-slot>
 
   <x-slot name="content">
-
-    <div class="form-group form-check text-center">
-      <label class="c-switch c-switch-danger">
-        <input type="checkbox" class="c-switch-input" wire:model="checkboxOutput" checked>
-        <span class="c-switch-slider"></span>
-      </label>
+    
+    <div class="container">
+      <div class="row">
+        <div class="col-sm">
+          <div class="form-group form-check text-center">
+            <label class="c-switch c-switch-primary">
+              <input type="checkbox" class="c-switch-input" wire:model="checkboxInput" checked>
+              <span class="c-switch-slider"></span>
+            </label>
+            <div>
+              <strong>@lang('Input')</strong>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm">
+          <div class="form-group form-check text-center">
+            <label class="c-switch c-switch-danger">
+              <input type="checkbox" class="c-switch-input" wire:model="checkboxOutput" checked>
+              <span class="c-switch-slider"></span>
+            </label>
+            <div>
+              <strong>@lang('Output')</strong>
+            </div>
+          </div>
+        </div>
       <div>
-        @if($checkboxOutput == false)
-          <strong>@lang('I want it to be output')<i class="cil-hand-point-up"></i></strong>
-        @else
-          <strong>@lang('Now is an output')</strong>
-        @endif
-      </div>
     </div>
 
     <table class="table">
@@ -60,7 +73,7 @@
             <em class="text-danger">{!! $unit !!}.</em>
           </td>
           <td>
-            <input type="number" step="any" wire:model.lazy="stock" class="form-control @error('stock') is-invalid @enderror" id="stock" placeholder="{{ $checkboxOutput ? __('Output') : __('Input') }} (@lang('Required'))">
+            <input type="number" step="any" wire:model.lazy="stock" class="form-control @error('stock') is-invalid @enderror" id="stock" placeholder="{{ $checkboxOutput ? __('Output') : __('Input') }}">
           </td>
         </tr>
 
@@ -78,9 +91,10 @@
   <x-slot name="footer">
       <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('Close')</button>
 
-      @if($checkboxOutput == false)
+      @if($checkboxInput == true)
         <button type="submit" class="btn btn-primary">@lang('Save input')</button>
-      @else
+      @endif
+      @if($checkboxOutput == true)
         <button type="submit" class="btn btn-danger">@lang('Save output')</button>
       @endif
 

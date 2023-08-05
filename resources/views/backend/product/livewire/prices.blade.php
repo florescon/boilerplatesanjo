@@ -28,26 +28,26 @@
                                     </h2>
                                 </div>
                                 <div class="card-body row text-center">
-                                  <div class="col">
-                                    <div class="text-value-xl mb-2">{{ $product_code }}</div>
+                                    <div class="col">
+                                        <div class="text-value-xl mb-2">{{ $product_code }}</div>
 
-                                    <p class="custom-control custom-switch m-0 text-uppercase text-muted">
-                                        <input class="custom-control-input" id="customCodes" type="checkbox" wire:model="customCodes">
-                                        <label class="custom-control-label font-italic" for="customCodes">@lang('Codes')</label>
-                                    </p>
+                                        <p class="custom-control custom-switch m-0 text-uppercase text-muted">
+                                            <input class="custom-control-input" id="customCodes" type="checkbox" wire:model="customCodes">
+                                            <label class="custom-control-label font-italic" for="customCodes">@lang('Codes')</label>
+                                        </p>
 
 
-                                    @if($customCodes == true)
-                                        <h3 class="h5 my-4 text-center">
-                                            <x-utils.form-button
-                                                :action="route('admin.product.create-codes', $product_id)"
-                                                name="confirm-item"
-                                                button-class="btn btn-outline-primary"
-                                                >
-                                                @lang('Create codes automatically')
-                                            </x-utils.form-button>
-                                        </h3>
-                                    @endif
+                                        @if($customCodes == true)
+                                            <h3 class="h5 my-4 text-center">
+                                                <x-utils.form-button
+                                                    :action="route('admin.product.create-codes', $product_id)"
+                                                    name="confirm-item"
+                                                    button-class="btn btn-outline-primary"
+                                                    >
+                                                    @lang('Create codes automatically')
+                                                </x-utils.form-button>
+                                            </h3>
+                                        @endif
 
                                     </div>
                                     <div class="c-vr"></div>
@@ -61,7 +61,7 @@
                                             <div class="card mt-4 border-0">
 
                                                 <div class="col-md-12 mb-3">
-                                                    <input type="number" min="1" step="any" name="price" wire:model="price" class="form-control @error('price') is-invalid  @enderror" placeholder="{{ __('Price') }}" value="{{ old('price') }}" maxlength="100" required/>
+                                                    <input type="number" min="1" step="any" name="price" wire:model="price" class="form-control text-center @error('price') is-invalid  @enderror" placeholder="{{ __('Provider price, without IVA') }}" value="{{ old('price') }}" maxlength="100" required/>
                                                 </div>
 
                                                 <div class="col-md-12 text-center mb-3">
@@ -75,7 +75,7 @@
                                                   <div class="input-group-prepend">
                                                     <span class="input-group-text" id="basic-addon1">${{ $product_price }}</span>
                                                   </div>
-                                                  <input type="text" class="form-control" wire:model.lazy="retail_price" aria-label="Text input with segmented dropdown button" placeholder="@lang('Retail price')">
+                                                  <input type="text" class="form-control" wire:model.lazy="retail_price" aria-label="Text input with segmented dropdown button" placeholder="@lang('Retail price, without IVA')">
                                                   <div class="input-group-append">
                                                     <button type="button" wire:click="saveRetail" class="btn btn-outline-primary">@lang('Save')</button>
                                                     <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -95,7 +95,7 @@
                                                   <div class="input-group-prepend">
                                                     <span class="input-group-text" id="basic-addon1">${{ $product_average_wholesale_price }}</span>
                                                   </div>
-                                                  <input type="text" class="form-control" wire:model.lazy="average_wholesale_price" aria-label="Text input with segmented dropdown button" placeholder="@lang('Average wholesale price')">
+                                                  <input type="text" class="form-control" wire:model.lazy="average_wholesale_price" aria-label="Text input with segmented dropdown button" placeholder="@lang('Average wholesale price, without IVA')">
                                                   <div class="input-group-append">
                                                     <button type="button" wire:click="saveAverageWholesale" class="btn btn-outline-primary">@lang('Save')</button>
                                                     <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -115,7 +115,7 @@
                                                   <div class="input-group-prepend">
                                                     <span class="input-group-text" id="basic-addon1">${{ $product_wholesale_price }}</span>
                                                   </div>
-                                                  <input type="text" class="form-control" wire:model.lazy="wholesale_price" aria-label="Text input with segmented dropdown button" placeholder="@lang('Wholesale price')">
+                                                  <input type="text" class="form-control" wire:model.lazy="wholesale_price" aria-label="Text input with segmented dropdown button" placeholder="@lang('Wholesale price, without IVA')">
                                                   <div class="input-group-append">
                                                     <button type="button" wire:click="saveWholesale" class="btn btn-outline-primary">@lang('Save')</button>
                                                     <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -137,7 +137,7 @@
                                                       <div class="input-group-prepend">
                                                         <span class="input-group-text" id="basic-addon1">${{ $product_special_price }}</span>
                                                       </div>
-                                                      <input type="text" class="form-control" wire:model.lazy="special_price" aria-label="Text input with segmented dropdown button" placeholder="@lang('Special price')">
+                                                      <input type="text" class="form-control" wire:model.lazy="special_price" aria-label="Text input with segmented dropdown button" placeholder="@lang('Special price, without IVA')">
                                                       <div class="input-group-append">
                                                         <button type="button" wire:click="saveSpecial" class="btn btn-outline-primary">@lang('Save')</button>
                                                         <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

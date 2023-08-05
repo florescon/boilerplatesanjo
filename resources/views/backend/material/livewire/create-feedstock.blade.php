@@ -36,7 +36,7 @@
                 </div><!--form-group-->
 
                 <div class="form-group row" wire:ignore>
-                    <label for="unitselect" class="col-md-2 col-form-label">@lang('Unit')</label>
+                    <label for="unitselect" class="col-md-2 col-form-label">@lang('Unit of measurement')</label>
 
                     <div class="col-md-5">
                         <select id="unitselect" class="custom-select" style="width: 100%;" aria-hidden="true" required>
@@ -74,7 +74,7 @@
                     <label for="stock" class="col-md-2 col-form-label">@lang('Stock')</label>
 
                     <div class="col-md-10">
-                        <input type="number" step="any" wire:model.lazy="stock" class="form-control" placeholder="{{ __('stock') }}" maxlength="100" />
+                        <input type="number" step="any" wire:model.lazy="stock" class="form-control" placeholder="{{ __('Stock') }}" maxlength="100" />
                         @error('stock') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
                 </div><!--form-group-->

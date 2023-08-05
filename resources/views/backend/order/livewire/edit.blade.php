@@ -10,6 +10,18 @@
   </x-slot>
 
   <x-slot name="headerActions">
+
+    @if($model->isOrder() && !$model->isFromStore())
+
+      @if($model->previousOrder())
+        <x-utils.link class="card-header-action" :href="route('admin.order.edit', $model->previousOrder())" icon="cil-chevron-double-left" :text="__('Previous')" />
+      @endif
+      @if($model->nextOrder())
+        <x-utils.link class="card-header-action" :href="route('admin.order.edit', $model->nextOrder())" icon="cil-chevron-double-right" :text="__('Next')" />
+      @endif
+
+    @endif
+
     <x-utils.link class="card-header-action" :href="$model->from_store ? route('admin.store.all.index') : route('admin.order.index')" icon="fa fa-chevron-left" :text="__('Back')" />
   </x-slot>
   <x-slot name="body">
@@ -753,6 +765,16 @@
                     <td class="text-center">
                       ${{ number_format((float)$model->total_quotation, 2) }}
                       <div class="small text-muted"> ${{ priceWithoutIvaIncluded($model->total_quotation) }} </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="border-0">
+                    </td>
+                    <td colspan="2" class="text-center border-0">
+                      <button type="button" class="btn" style="background-color: #86FFCF;" wire:click="renderButton">@lang('Save')</button>
+                    </td>
+                    <td colspan="2" class="border-0">
                     </td>
                   </tr>
 

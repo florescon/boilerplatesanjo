@@ -15,7 +15,7 @@ class CreateFeedstock extends Component
     protected $listeners = ['createmodal'];
 
     protected $rules = [
-        'part_number' => 'min:3|max:30|nullable|unique:materials',
+        'part_number' => 'min:3|max:30|required|unique:materials',
         'name' => 'required|min:3|max:40',
         'price' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/',
         'acquisition_cost' => 'nullable|numeric|sometimes|regex:/^\d+(\.\d{1,2})?$/',

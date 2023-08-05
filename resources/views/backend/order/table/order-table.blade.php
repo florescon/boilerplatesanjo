@@ -191,14 +191,19 @@
                                                         {{ $order->invoice }}
                                                     @endif
                                                 </div>
-                                                <div class="card-meta">
+                                                <div class="card-meta" style="border-bottom: 1px solid;">
                                                     <div class="d-flex align-items-center">
-                                                        <span>{!! $order->last_status_order_id === 2 && $order->to_customer
+                                                        <span class="text-center">
+                                                            {!! $order->last_status_order_id === 2 && $order->to_customer
                                                             ? __('Delivered')
-                                                            : $order->last_status_order_label !!} {!! $order->to_stock_final !!}
+                                                            : $order->last_status_order_label !!}
+
+                                                            {!! $order->to_stock_final !!}
+                                                            
                                                             {!! $order->to_customer
                                                                 ? '<i class="cil-check" style="color: blue;"></i>'
-                                                                : '<i class="cil-minus" style="color:red;"></i>' !!}</span>
+                                                                : '<i class="cil-minus" style="color:red;"></i>' !!}
+                                                        </span>
                                                     </div>
                                                     <div class="dropdown card-options no-print">
                                                         <button class="btn-options" type="button"

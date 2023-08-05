@@ -169,10 +169,9 @@
                                         <a class="list-group-item text-center">
                                             {{ count($materialsCollection) . ' ' . __('Records') }}
 
-                                            <a href="javascript:window.print()" type="button"
-                                                class="btn btn-primary disabled" aria-disabled="true">@lang('Ticket')
-                                                <i class="cil-print"></i> 
-                                            </a>
+                                            <br>
+                                            <input class="btn btn-primary disabled mt-2" aria-disabled="true" type="button" value="{{ __('Ticket') }}"
+                                                   onclick="window.print()" />
 
                                         </a>
                                         @foreach ($materialsCollection as $material)

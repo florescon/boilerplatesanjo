@@ -20,6 +20,7 @@ class ModalStockMaterial extends Component
 
     public $material_id;
 
+    public bool $checkboxInput = false;
     public bool $checkboxOutput = false;
 
     protected $listeners = ['modalUpdateStock'];
@@ -47,6 +48,17 @@ class ModalStockMaterial extends Component
         $this->stock = '';
         $this->comment = '';
         $this->checkboxOutput = false;
+        $this->checkboxInput = false;
+    }
+
+    public function updatedCheckboxInput()
+    {
+        $this->checkboxOutput = FALSE;
+    }
+
+    public function updatedCheckboxOutput()
+    {
+        $this->checkboxInput = FALSE;
     }
 
     public function update()
