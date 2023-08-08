@@ -19,6 +19,7 @@ class PricesProduct extends Component
 
     public $originalPrice;
 
+    public $cost;
     public $price;
     public $nameStock;
 
@@ -36,10 +37,15 @@ class PricesProduct extends Component
 
     protected $rules = [
         'price' => 'required|numeric|min:1',
+        'cost' => 'required|numeric|min:1',
         'productModel.*.price' => 'nullable|not_in:0',
         'productModel.*.average_wholesale_price' => 'nullable|not_in:0',
         'productModel.*.wholesale_price' => 'nullable|not_in:0',
         'productModel.*.special_price' => 'nullable|not_in:0',
+    ];
+
+    protected $validationAttributes = [
+        'cost' => 'precio proveedor'
     ];
 
     protected $messages = [
@@ -64,6 +70,7 @@ class PricesProduct extends Component
         $this->product_name = $product->name;
         $this->product_code = $product->code;
         $this->product_price = $product->price;
+        $this->product_cost = $product->cost;
         $this->product_average_wholesale_price = $product->average_wholesale_price ?? __('undefined');
         $this->product_wholesale_price = $product->wholesale_price ?? __('undefined');
         $this->product_special_price = $product->special_price ?? __('undefined');
@@ -187,6 +194,10 @@ class PricesProduct extends Component
         $this->clearPrices();
     }
 
+    private function initproviderprice(Product $product)
+    {
+        $this->product_cost = number_format($product->cost, 2);
+    }
     private function initretailprice(Product $product)
     {
         $this->product_price = number_format($product->price, 2);
@@ -202,6 +213,52 @@ class PricesProduct extends Component
     private function initspecialprice(Product $product)
     {
         $this->product_special_price = number_format($product->special_price, 2);
+    }
+
+    public function saveCost(bool $clear = false)
+    {
+        // dd($clear);
+
+        $this->validate([
+            'cost' => 'regex:/^\d{1,13}(\.\d{1,4})?$/',
+        ]);
+        
+        $save_cost = Product::find($this->product_id);
+
+        if($clear == true){
+            $save_cost->update([
+                'cost' => $this->cost ?? null,
+                'price' => $this->retail_price ?? null,
+                'average_wholesale_price' => $this->average_wholesale_price ?? null,
+                'wholesale_price' => $this->wholesale_price ?? null,
+                'special_price' => $this->special_price ?? null,
+            ]);
+
+            $this->emit('swal:alert', [
+                'icon' => 'success',
+                'title'   => __('Saved all prices'), 
+            ]);
+
+            $this->initretailprice($save_cost);
+            $this->initaveragewholesaleprice($save_cost);
+            $this->initwholesaleprice($save_cost);
+            $this->initspecialprice($save_cost);
+
+        }
+        else{
+            $save_cost->update([
+                'cost' => $this->cost ?? null,
+            ]);
+
+            $this->emit('swal:alert', [
+                'icon' => 'success',
+                'title'   => __('Saved provider price'), 
+            ]);
+        }
+
+        $this->emit('saveAfterUpdate');
+
+        $this->initproviderprice($save_cost);
     }
 
     public function saveRetail(bool $clear = false)
@@ -326,14 +383,14 @@ class PricesProduct extends Component
 
     public function calculateIVA()
     {
-        if($this->price){
+        if($this->cost){
             $this->priceIVA = $this->originalPrice + ((setting('iva') / 100) * $this->originalPrice);
         }
     }
 
     public function calculatePrice()
     {
-        $priceRetaiPrice = getPriceValue($this->price, 'retail_price_percentage');
+        $priceRetaiPrice = getPriceValue($this->cost, 'retail_price_percentage');
 
         // $this->retail_price = setting('round') ? ceil($priceRetaiPrice / 5) * 5 : $priceRetaiPrice;
         $this->retail_price = $priceRetaiPrice;
@@ -344,7 +401,7 @@ class PricesProduct extends Component
 
     public function calculateAverageWholesalePrice()
     {
-        $priceAverageWholesalePrice = getPriceValue($this->price, 'average_wholesale_price_percentage');
+        $priceAverageWholesalePrice = getPriceValue($this->cost, 'average_wholesale_price_percentage');
 
         $this->average_wholesale_price = setting('round') ? ceil($priceAverageWholesalePrice / 5) * 5 : $priceAverageWholesalePrice;
 
@@ -354,7 +411,7 @@ class PricesProduct extends Component
 
     public function calculateWholesalePrice()
     {
-        $priceWholesalePrice = $priceWholesalePrice = getPriceValue($this->price, 'wholesale_price_percentage');;
+        $priceWholesalePrice = $priceWholesalePrice = getPriceValue($this->cost, 'wholesale_price_percentage');;
 
         $this->wholesale_price = setting('round') ? ceil($priceWholesalePrice / 5) * 5 : $priceWholesalePrice;
 
@@ -364,7 +421,7 @@ class PricesProduct extends Component
 
     public function calculateSpecialPrice()
     {
-        $priceSpecial = getPriceValue($this->price, 'special_price_percentage');
+        $priceSpecial = getPriceValue($this->cost, 'special_price_percentage');
 
         // $this->special_price = setting('round') ? ceil($priceSpecial / 5) * 5 : $priceSpecial;
         $this->special_price = $priceSpecial;
@@ -373,9 +430,9 @@ class PricesProduct extends Component
         $this->special_price = number_format($this->special_price, 2);
     }
 
-    public function updatedPrice()
+    public function updatedCost()
     {
-        $this->originalPrice = $this->price;
+        $this->originalPrice = $this->cost;
 
         $this->calculatePrice();
         $this->calculateAverageWholesalePrice();

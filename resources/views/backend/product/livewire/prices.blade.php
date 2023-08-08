@@ -58,18 +58,33 @@
                                             <label class="custom-control-label font-italic" for="customPrices">@lang('Prices')</label>
                                         </p>
                                         @if($customPrices)
+
                                             <div class="card mt-4 border-0">
-
-                                                <div class="col-md-12 mb-3">
+                                                {{-- <div class="col-md-12 mb-3">
                                                     <input type="number" min="1" step="any" name="price" wire:model="price" class="form-control text-center @error('price') is-invalid  @enderror" placeholder="{{ __('Provider price, without IVA') }}" value="{{ old('price') }}" maxlength="100" required/>
+                                                </div> --}}
+
+                                                <div class="input-group">
+                                                  <div class="input-group-prepend">
+                                                    <span class="input-group-text border-primary" id="basic-addon1">${{ $product_cost }}</span>
+                                                  </div>
+                                                  <input type="number" min="1" step="any" name="cost" class="form-control  border-primary @error('cost') is-invalid  @enderror" wire:model="cost" value="{{ old('cost') }}" aria-label="Text input with segmented dropdown button" placeholder="@lang('Provider price, without IVA')">
+                                                  <div class="input-group-append">
+                                                    <button type="button" wire:click="saveCost" class="btn btn-outline-primary">@lang('Save')</button>
+                                                    <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                      <span class="sr-only">@lang('Custom')</span>
+                                                    </button>
+
+                                                    <div class="dropdown-menu">
+                                                      <a class="dropdown-item" href="#" wire:click="saveCost(true)">@lang('Save provider price and all prices')</a>
+                                                    </div>
+                                                  </div>
                                                 </div>
 
-                                                <div class="col-md-12 text-center mb-3">
-                                                    {{-- <div class="custom-control custom-switch">
-                                                      <input type="checkbox" class="custom-control-input" id="switchIVA" wire:click="$toggle('switchIVA')">
-                                                      <label class="custom-control-label" for="switchIVA">Precio de proveedor no incluye IVA, incluirlo</label>
-                                                    </div> --}}
-                                                </div>
+                                            </div>
+                                            @error('cost') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+
+                                            <div class="card mt-4 border-0">
 
                                                 <div class="input-group">
                                                   <div class="input-group-prepend">

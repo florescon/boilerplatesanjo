@@ -5,32 +5,6 @@
 
   <x-slot name="content">
     
-    <div class="container">
-      <div class="row">
-        <div class="col-sm">
-          <div class="form-group form-check text-center">
-            <label class="c-switch c-switch-primary">
-              <input type="checkbox" class="c-switch-input" wire:model="checkboxInput" checked>
-              <span class="c-switch-slider"></span>
-            </label>
-            <div>
-              <strong>@lang('Input')</strong>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm">
-          <div class="form-group form-check text-center">
-            <label class="c-switch c-switch-danger">
-              <input type="checkbox" class="c-switch-input" wire:model="checkboxOutput" checked>
-              <span class="c-switch-slider"></span>
-            </label>
-            <div>
-              <strong>@lang('Output')</strong>
-            </div>
-          </div>
-        </div>
-      <div>
-    </div>
 
     <table class="table">
       <tbody>
@@ -63,6 +37,37 @@
           </td>
           <td>
             <input type="number" step="any" wire:model.lazy="price" class="form-control @error('price') is-invalid @enderror" id="price" placeholder="@lang('New price') (@lang('Optional'))">
+          </td>
+        </tr>
+
+        <tr>
+          <td colspan="3">
+            <div class="container pt-4" >
+              <div class="row">
+                <div class="col-sm">
+                  <div class="form-group form-check text-center">
+                    <label class="c-switch c-switch-primary">
+                      <input type="checkbox" class="c-switch-input" wire:model="checkboxInput" checked>
+                      <span class="c-switch-slider"></span>
+                    </label>
+                    <div>
+                      <strong>@lang('Input')</strong>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm">
+                  <div class="form-group form-check text-center">
+                    <label class="c-switch c-switch-danger">
+                      <input type="checkbox" class="c-switch-input" wire:model="checkboxOutput" checked>
+                      <span class="c-switch-slider"></span>
+                    </label>
+                    <div>
+                      <strong>@lang('Output')</strong>
+                    </div>
+                  </div>
+                </div>
+              <div>
+            </div>
           </td>
         </tr>
 

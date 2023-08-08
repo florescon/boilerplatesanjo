@@ -203,16 +203,16 @@ class MaterialTable extends TableComponent
                 ->exportFormat(function(Material $model) {
                     return (!empty($model->family_id) && isset($model->family->id)) ? optional($model->family)->name : '';
                 }),
-            Column::make(__('Updated at'), 'updated_at')
-                ->searchable()
-                ->sortable()
-                ->hideIf($this->editStock == true),
             Column::make(__('Actions'))
                 ->format(function (Material $model) {
                     return view('backend.material.datatable.actions', ['material' => $model]);
                 })
                 ->excludeFromExport()
                 ->hideIf($this->editStock == true or $this->massAssginment == true),
+            Column::make(__('Updated at'), 'updated_at')
+                ->searchable()
+                ->sortable()
+                ->hideIf($this->editStock == true),
             Column::make(__('Mass assignment'))
                 ->format(function (Material $model) {
                     return view('backend.material.datatable.mass', ['material' => $model]);
