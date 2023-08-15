@@ -1,6 +1,8 @@
 <x-backend.card>
 	<x-slot name="header">
-        @lang('Update product') {{ $nameStock }}<i class="cil-fire"></i>
+		<strong class="no-print">
+    	    @lang('Update product') {{ $nameStock }}<i class="cil-fire"></i>
+	    </strong>
  	</x-slot>
 
     <x-slot name="headerActions">
@@ -64,7 +66,7 @@
 			  	    	@endif
 				    @endif
 
-					  <ul class="list-group list-group-flush">
+					  <ul class="list-group list-group-flush no-print">
 					    <li class="list-group-item">
                         	<div wire:loading wire:target="photo">@lang('Uploading')...</div>
 							<div class="custom-file">
@@ -93,7 +95,7 @@
 
 	                <x-input.input-alpine nameData="isEditing" :inputText="$isDescription" :originalInput="$origDescription" wireSubmit="savedescription" modelName="newDescription" />
 
-			        <p class="card-text mt-3"><strong>@lang('Total stock'): </strong>{{ $model->total_stock }}</p>
+			        <p class="card-text mt-3"><strong>@lang('Stock'): </strong>{{ $model->total_stock }}</p>
 
 			        <p class="card-text"><strong>@lang('Line'):</strong> 
 			            <x-utils.undefined :data="optional($model->line)->name"/>
@@ -206,9 +208,7 @@
 			        <p class="card-text" style="display: inline;"><strong>@lang('Price'): </strong><h4 style="display: inline;" class="text-primary">${{ $model->getPriceWithIvaApply($model->price ?? 0) }}</h4></p>
 			        <p class="card-text"><strong>@lang('Price') @lang('without IVA'): </strong>${{ $model->price }}</p>
 
-			        <hr style="border:1px dashed #FFB03F">
-
-          			<x-input.input-alpine nameData="isCost" :inputText="$isCost" :originalInput="$isCost" wireSubmit="savecost" :beforeName="'$'" :extraName="__('provider price, without IVA')" modelName="cost" />
+			        <p class="card-text"><strong>@lang('Provider price, without IVA'): </strong>${{ $model->cost }}</p>
 
 			        <hr style="border:1px dashed #FFB03F">
 
@@ -219,7 +219,7 @@
 			        <p class="card-text mt-4"><strong>@lang('Updated at'): </strong>{{ $model->updated_at }}</p>
 			        <p class="card-text"><strong>@lang('Created at'): </strong>{{ $model->created_at }}</p>
 
-				  	<a href="{{ route('frontend.shop.show', $model->slug) }}" class="card-link" target="_blank">
+				  	<a href="{{ route('frontend.shop.show', $model->slug) }}" class="card-link no-print" target="_blank">
 				  		@lang('Show in store') <i class="cil-external-link"></i>
 				  	</a>
 
@@ -484,6 +484,10 @@
 					            <button type="button" class="btn btn-outline-dark btn-sm text-monospace font-weight-bold" wire:click="clearAll">
 					            	<u>@lang('Clear filters')</u>
 					            </button>
+
+                                <input class="btn btn-primary disabled ml-2" aria-disabled="true" type="button" value="{{ __('Print') }}"
+                                   onclick="window.print()" />
+
 					        </div>
 				        </div>
 
@@ -695,7 +699,7 @@
 								  @endif
 
 								  @if(($showSpecificConsumptions == FALSE) && is_null($nameStock))
-								  <td>
+								  <td class="no-print">
 								  	<div x-data="{ highlightedButton: '' }" style="display:inline;">
 									    <a @click="highlightedButton='order'"  :class="{'badge-danger': highlightedButton === 'order'}" onmousedown="party.sparkles(this)" class="badge badge-primary text-white" wire:click="addToCart({{ $children->id }}, 'products')" ><i class="cil-cart"> </i> @lang('Order')</a>
 									</div>
@@ -755,7 +759,7 @@
 			    @endif
 			</div>
 		</div>
-    <div class="layout-switcher" tabindex="1">
+    <div class="layout-switcher no-print" tabindex="1">
       <div class="layout-switcher-head d-flex justify-content-between">
         <span>Acceso directo &nbsp;</span>
 		<i class="cil-chevron-top"></i>
@@ -775,16 +779,17 @@
 
 	</x-slot>
     <x-slot name="footer">
-        <x-utils.delete-button :text="__('Delete product')" :href="route('admin.product.destroy', $model->id)" />
-
-			<footer class="float-right no-print">
-    			@if($model->automatic_code)
-					<a wire:click="desactivateCodesProduct" href="#">@lang('Disable automatic codes')</a> 
-				@endif
-    			@if($model->status)
-					<a wire:click="desactivateProduct" class="ml-3" href="#">@lang('Disable product')</a> 
-				@endif
-			</footer>
+    	<em class="no-print">
+	        <x-utils.delete-button :text="__('Delete product')" :href="route('admin.product.destroy', $model->id)" />
+	    </em>
+		<footer class="float-right no-print">
+			@if($model->automatic_code)
+				<a wire:click="desactivateCodesProduct" href="#">@lang('Disable automatic codes')</a> 
+			@endif
+			@if($model->status)
+				<a wire:click="desactivateProduct" class="ml-3" href="#">@lang('Disable product')</a> 
+			@endif
+		</footer>
 	</x-slot>
 </x-backend.card> 
 

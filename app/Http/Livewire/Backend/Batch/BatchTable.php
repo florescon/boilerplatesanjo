@@ -35,6 +35,8 @@ class BatchTable extends Component
     public $dateInput = '';
     public $dateOutput = '';
 
+    public int $typeBatch;
+
     public bool $currentMonth = false;
     public bool $currentWeek = false;
     public bool $today = false;
@@ -60,7 +62,9 @@ class BatchTable extends Component
 
     public function getRowsQueryProperty()
     {
-        $query = Batch::query()->where('status_id', 4)->with('batch_product', 'personal', 'audi', 'status')
+        $query = Batch::query()
+            ->where('status_id', $this->typeBatch)
+            ->with('batch_product', 'personal', 'audi', 'status')
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?
                     $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', now()]) :
@@ -89,26 +93,29 @@ class BatchTable extends Component
             $this->applySearchFilter($query);
         }        
 
-        return $query;
+        return $query->where('status_id', $this->typeBatch);
     }
 
-    private function applySearchFilter($searchFinance)
+    private function applySearchFilter($searchBatch)
     {
         if ($this->searchTerm) {
-            return $searchFinance->whereHas('personal', function ($query) {
+            return $searchBatch->whereHas('personal', function ($query) {
                $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
             })
-            ->orWhere('id', 'like', '%' . $this->searchTerm . '%')
-            ->orWhere('order_id', 'like', '%' . $this->searchTerm . '%');
+            // ->orWhereHas('order', function ($query) {
+            //    $query->whereRaw("comment LIKE \"%$this->searchTerm%\"");
+            // })
+            ->orWhere('folio', 'like', '%' . $this->searchTerm . '%')
+            ->orWhere('comment', 'like', '%' . $this->searchTerm . '%');
         }
 
         return null;
     }
 
-    private function applySearchDeletedFilter($searchFinance)
+    private function applySearchDeletedFilter($searchBatch)
     {
         if ($this->searchTerm) {
-            return $searchFinance->onlyTrashed()
+            return $searchBatch->onlyTrashed()
                     ->whereRaw("id LIKE \"%$this->searchTerm%\"");
         }
 

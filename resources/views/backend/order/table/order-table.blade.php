@@ -171,6 +171,9 @@
                                                     </span>
 
                                                     <br>
+
+                                                    {!! $order->type_order !!}
+
                                                     @if (!$order->isSuborder())
                                                         <strong>Totales:</strong>
                                                         {{ $order->total_products_by_all }}

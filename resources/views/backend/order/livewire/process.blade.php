@@ -125,10 +125,10 @@
                                   {{ $product->assign_process ?? 0 }}
                                 </td>
                                 <td>
-                                  <input type="number" 
+                                  <input type="number"
                                       wire:model.defer="q.{{ $product->id }}.quantity"
-                                      class="form-control"
-                                      style="color: blue;" 
+                                      class="form-control text-center"
+                                      style="color: red;" 
                                       placeholder="{{ $product->assign_process }}"
                                   >
                                   @error('q.'.$product->id.'.quantity') 

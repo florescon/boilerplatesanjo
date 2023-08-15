@@ -70,13 +70,14 @@ class StockShowTable extends Component
     private function applySearchFilter($searchProduct)
     {
         if ($this->searchTerm) {
-               return $searchProduct->where('inventory_id', $this->inventory_id)->with('product.color', 'product.size', 'product.parent', 'audi')->whereHas('product.parent', function ($query) {
-               $query->whereRaw("name LIKE \"%$this->searchTerm%\"")
-                    ->orWhereRaw("code LIKE \"%$this->searchTerm%\"");
-            })
-            ->orWhere('id', 'like', '%' . $this->searchTerm . '%')
-            ->orWhere('stock', 'like', '%' . $this->searchTerm . '%')
-            ->orWhere('capture', 'like', '%' . $this->searchTerm . '%');
+           return $searchProduct->where('inventory_id', $this->inventory_id)->with('product.color', 'product.size', 'product.parent', 'audi')
+                ->whereHas('product.parent', function ($query) {
+                    $query->whereRaw("name LIKE \"%$this->searchTerm%\"")
+                        ->orWhereRaw("code LIKE \"%$this->searchTerm%\"");
+                })
+                ->orWhere('id', 'like', '%' . $this->searchTerm . '%')
+                ->orWhere('stock', 'like', '%' . $this->searchTerm . '%')
+                ->orWhere('capture', 'like', '%' . $this->searchTerm . '%');
      }
 
         return null;

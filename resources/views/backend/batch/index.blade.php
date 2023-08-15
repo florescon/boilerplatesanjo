@@ -8,6 +8,6 @@
 
 @section('content')
 
-    <livewire:backend.batch.batch-table />
+    <livewire:backend.batch.batch-table :typeBatch="4" />
 
 @endsection

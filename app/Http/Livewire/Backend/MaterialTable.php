@@ -158,6 +158,7 @@ class MaterialTable extends TableComponent
                 ->hideIf(auth()->user()->cannot('admin.access.material.show-quantities')),
             Column::make(__('Unit'), 'unit.name')
                 ->searchable()
+                ->sortable()
                 ->format(function(Material $model) {
                     return $this->html(!empty($model->unit_id) && isset($model->unit->id) ? '<strong>'.$model->unit->name.'</strong>' : '<span class="badge badge-pill badge-secondary"> <em>No asignada</em></span>');
                 }),
@@ -184,6 +185,7 @@ class MaterialTable extends TableComponent
                 ->hideIf(auth()->user()->cannot('admin.access.material.show-prices')),
             Column::make(__('Description'), 'description')
                 ->searchable()
+                ->sortable()
                 ->format(function(Material $model) {
                     return $this->html($model->description ?? '--');
                 }),
@@ -194,18 +196,20 @@ class MaterialTable extends TableComponent
                 })
                 ->exportFormat(function(Material $model) {
                     return (!empty($model->vendor_id) && isset($model->vendor->id)) ? (optional($model->vendor)->short_name ?? optional($model->vendor)->name) : '';
-                }),
+                })
+                ->sortable(),
             Column::make(__('Family'), 'family.name')
                 ->searchable()
                 ->format(function(Material $model) {
                     return $this->html(!empty($model->family_id) && isset($model->family->id) ? (optional($model->family)->short_name ?? optional($model->family)->name) : '<span class="badge badge-pill badge-secondary"> <em>Familia no definida</em></span>');
                 })
+                ->sortable()
                 ->exportFormat(function(Material $model) {
                     return (!empty($model->family_id) && isset($model->family->id)) ? optional($model->family)->name : '';
                 }),
             Column::make(__('Actions'))
                 ->format(function (Material $model) {
-                    return view('backend.material.datatable.actions', ['material' => $model]);
+                    return view('backend.material.datatable.actions', ['model' => $model]);
                 })
                 ->excludeFromExport()
                 ->hideIf($this->editStock == true or $this->massAssginment == true),
@@ -215,13 +219,13 @@ class MaterialTable extends TableComponent
                 ->hideIf($this->editStock == true),
             Column::make(__('Mass assignment'))
                 ->format(function (Material $model) {
-                    return view('backend.material.datatable.mass', ['material' => $model]);
+                    return view('backend.material.datatable.mass', ['model' => $model]);
                 })
                 ->excludeFromExport()
                 ->hideIf($this->massAssginment == false),
             Column::make(__('Input / Output'))
                 ->format(function (Material $model) {
-                    return view('backend.material.datatable.input', ['material' => $model]);
+                    return view('backend.material.datatable.input', ['model' => $model]);
                 })
                 ->excludeFromExport()
                 ->hideIf($this->editStock == false),

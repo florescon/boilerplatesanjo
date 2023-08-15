@@ -152,11 +152,11 @@ class OrderTable extends Component
         if ($this->searchTerm) {
 
             return $orders->whereHas('user', function ($query) {
-             $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
-         })
+                $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
+            })
             ->orWhereHas('departament', function ($query) {
-             $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
-         })
+                $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
+            })
             ->orWhere('folio', 'like', '%' . $this->searchTerm . '%')
             ->orWhere('info_customer', 'like', '%' . $this->searchTerm . '%')
             ->orWhere('request', 'like', '%' . $this->searchTerm . '%')
