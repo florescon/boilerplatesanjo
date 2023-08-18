@@ -18,31 +18,12 @@
     <div class="cs-invoice cs-style1">
       <div class="cs-invoice_in" id="download_section">
         <div class="cs-invoice_head cs-type1 cs-mb25">
-          <div class="cs-invoice_left">
+
+          <div class="cs-invoice_left" style="padding-bottom: 25px;">
             <div class="cs-logo cs-mb5"><img src="{{ asset('img/logo22.png') }}" width="100" alt="Logo"></div>
             <p class="cs-invoice_number cs-primary_color cs-mb0 cs-f16"><b class="cs-primary_color">{{ $order->type_order_clear }} No:</b> #{{ $order->characters_type_order }}{!! $order->folio_or_id !!}</p>
           </div>
-          <div class="cs-invoice_right cs-text_right">
-            <div class="cs-logo cs-mb5"><img src="{{ asset('img/bacapro.png') }}" width="130" alt="Logo"></div>
-          </div>
-        </div>
-        <div class="cs-invoice_head cs-mb10">
-          <div class="cs-invoice_left">
-            <b class="cs-primary_color">@lang('Extra information'):</b>
-            <p class="cs-mb8">{{ $order->comment ?? '--'}}</p>
-
-            <p><b class="cs-primary_color cs-semi_bold">@lang('Date Issued'):</b> <br>{{ $order->date_entered_or_created }}</p>
-            @if($order->request)
-              <p><b class="cs-primary_color cs-semi_bold">@lang('Request number'):</b> <br>{{ $order->request ?? '' }}</p>
-            @endif
-            @if($order->purchase)
-              <p><b class="cs-primary_color cs-semi_bold">@lang('Purchase order'):</b> <br>{{ $order->purchase ?? '' }}</p>
-            @endif
-            @if($order->invoice)
-              <p><b class="cs-primary_color cs-semi_bold">@lang('Invoice'):</b> <br>{{ $order->invoice ?? '' }}</p>
-            @endif
-          </div>
-          <div class="cs-invoice_right cs-text_right">
+          <div class="cs-invoice_right cs-text_center">
             <b class="cs-primary_color">{{ __(appName()) }}</b>
             <p>
               Margarito González Rubio {{ $order->from_store ? '#822' : '#886-1' }}, C.P. 47470 <br/>
@@ -51,7 +32,49 @@
               +52 47 47 42 30 00
             </p>
           </div>
+
+          <div class="cs-invoice_right cs-text_right" style="padding-bottom: 25px;">
+            <div class="cs-logo cs-mb5"><img src="{{ asset('img/bacapro.png') }}" width="130" alt="Logo"></div>
+          </div>
+
         </div>
+
+        <div class="cs-invoice_head cs-mb10">
+          <div class="cs-invoice_right">
+            @if($order->info_customer)
+              <p><b class="cs-primary_color cs-semi_bold">@lang('Information'):</b> <br>{{ $order->info_customer }}</p>
+            @endif
+          </div>
+        </div>
+
+        <div class="cs-invoice_head cs-mb10">
+          <div class="cs-invoice_right">
+            <b class="cs-primary_color">@lang('Extra information'):</b>
+            <p class="cs-mb8">{{ $order->comment ?? '--'}}</p>
+          </div>
+        </div>
+
+        <div class="cs-invoice_head cs-mb10">
+          <div class="cs-invoice_right cs-text_center">
+            <p><b class="cs-primary_color cs-semi_bold">@lang('Date Issued'):</b> <br>{{ $order->date_entered_or_created }}</p>
+          </div>
+          <div class="cs-invoice_right cs-text_center">
+            @if($order->request)
+              <p><b class="cs-primary_color cs-semi_bold">@lang('Request number'):</b> <br>{{ $order->request ?? '' }}</p>
+            @endif
+          </div>
+          <div class="cs-invoice_right cs-text_center">
+            @if($order->purchase)
+              <p><b class="cs-primary_color cs-semi_bold">@lang('Purchase order'):</b> <br>{{ $order->purchase ?? '' }}</p>
+            @endif
+          </div>
+          @if($order->invoice)
+            <div class="cs-invoice_right cs-text_center">
+                <p><b class="cs-primary_color cs-semi_bold">@lang('Invoice'):</b> <br>{{ $order->invoice ?? '' }}</p>
+            </div>
+          @endif
+        </div>
+
         <div class="cs-heading cs-style1 cs-f18 cs-primary_color cs-mb25 cs-semi_bold">@lang('Customer Information')</div>
         <ul class="cs-grid_row cs-col_3 cs-mb5">
           <li>
@@ -76,12 +99,6 @@
               <p class="cs-mb20"><b class="cs-primary_color">@lang('RFC'):</b> <br><span class="cs-primary_color">{!! optional($order->user)->customer['rfc'] ?? '' !!}</span></p>
             </li>
             @endif
-          @endif
-
-          @if($order->info_customer)
-            <li>
-            <p class="cs-mb20"><b class="cs-primary_color">@lang('Information'):</b> <br><span class="cs-primary_color">{{ $order->info_customer }}</span></p>
-            </li>
           @endif
 
         </ul>
@@ -332,7 +349,7 @@
             </div>
           </div>
           <div class="cs-note">
-            {!! QrCode::size(100)->eye('circle')->generate(route('frontend.track.show', $order->slug)); !!}
+            {!! QrCode::size(80)->eye('circle')->generate(route('frontend.track.show', $order->slug)); !!}
             <div class="cs-note_right" style="margin-left: 20px;">
               <p class="cs-mb0"><b class="cs-primary_color cs-bold">@lang('Note'):</b></p>
               <p class="cs-m0">{!! $order->isQuotation() && ($order->branch_id > 0) ? setting('footer_quotation').'<br>' :'' !!} {{ $order->branch_id > 0 ?  setting('footer') : '--' }}</p>

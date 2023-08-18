@@ -57,6 +57,14 @@ Route::group([
                     ->push(__('Edit feedstock'), route('admin.material.edit', $material));
             });
 
+        Route::get('print', [MaterialController::class, 'print'])
+            ->name('print')
+            ->middleware('permission:admin.access.material.modify')
+            ->breadcrumbs(function (Trail $trail, Material $material) {
+                $trail->parent('admin.material.index')
+                    ->push(__('Print feedstock'), route('admin.material.print', $material));
+            });
+
         Route::get('t/{quantity?}', [MaterialController::class, 'short_ticket'])
             ->name('t')
             ->breadcrumbs(function (Trail $trail, Material $material) {

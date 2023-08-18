@@ -141,11 +141,11 @@ class Departament extends Model
     }
 
     public function getUpdatedAtFormattedAttribute() {
-        return date('d/m h:i A', strtotime($this->attributes['updated_at']));
+        return date('d/m/y h:i A', strtotime($this->attributes['updated_at']));
     }
 
     public function getCreatedAtFormattedAttribute() {
-        return date('d/m h:i A', strtotime($this->attributes['created_at']));
+        return date('d/m/y h:i A', strtotime($this->attributes['created_at']));
     }
 
     public function getDateForHumansAttribute()

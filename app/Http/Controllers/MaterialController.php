@@ -52,6 +52,11 @@ class MaterialController extends Controller
         return view('backend.material.edit-material', compact('material'));
     }
 
+    public function print(Material $material)
+    {
+        return view('backend.material.print-material', compact('material'));
+    }
+
     public function update(Request $request, Material $material)
     {
         $validated = $request->validate([

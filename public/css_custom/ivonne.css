@@ -971,8 +971,12 @@ kbd {
 }
 
 .cs-invoice.cs-style1 .cs-invoice_left {
-  max-width: 55%;
+  max-width: 35%;
 }
+
+/*before*/
+/*  max-width: 35%;*/
+
 
 .cs-invoice_btns {
   display: -webkit-box;

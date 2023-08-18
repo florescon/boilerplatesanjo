@@ -159,6 +159,7 @@ class ServiceOrderList extends Component
             
             $finance->update([
                 'done' => $finance->done ? false : true,
+                'approved' => $finance->done ? null : now(),
             ]);
 
             sleep(1);

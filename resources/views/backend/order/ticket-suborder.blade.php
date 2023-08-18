@@ -59,13 +59,15 @@ ventas@sj-uniformes.com
     </tr>
   </table>
 
-  <table width="100%">
+  <table width="100%" style="text-align: center;">
     <tr>
         @if($order->departament)
             <td>
                 <strong>A:</strong> {{ optional($order->departament)->name }}
             </td>
         @endif
+    </tr>
+    <td>
         <td><strong>Expedido por:</strong> {{ optional($order->audi)->name }} </td>
     </tr>
   </table>

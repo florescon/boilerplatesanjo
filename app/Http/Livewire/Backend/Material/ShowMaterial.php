@@ -7,13 +7,14 @@ use Livewire\Component;
 
 class ShowMaterial extends Component
 {
-    public $part_number, $name, $description, $acquisition_cost, $price, $stock, $unit, $color, $size, $vendor, $family, $created, $deleted, $updated;
+    public $part_number, $name, $description, $acquisition_cost, $price, $stock, $unit, $color, $size, $vendor, $family, $created, $deleted, $updated, $idFeedstock;
 
     protected $listeners = ['show'];
 
     public function show($id)
     {
         $record = Material::withTrashed()->findOrFail($id);
+        $this->idFeedstock = $record->id;
         $this->part_number = $record->part_number;
         $this->name = $record->name;
 

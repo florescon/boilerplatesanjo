@@ -58,11 +58,13 @@
             </table>
         @endif
 
-        <table style="margin-bottom: 10px;" width="100%">
+        <table style="margin-bottom: 10px; text-align: center;" width="100%">
             <tr>
                 @if($ticket->user)
-                    <td><strong>A:</strong> {{ optional($ticket->user)->name }}</td>
+                    <td><strong>Asignado a:</strong> {{ optional($ticket->user)->name }}</td>
                 @endif
+            </tr>
+            <tr>
                 @if($ticket->audi)
                     <td><strong>Expedido por:</strong> {{ optional($ticket->audi)->name }} </td>
                 @endif

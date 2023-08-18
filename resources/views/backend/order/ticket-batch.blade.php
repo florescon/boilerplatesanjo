@@ -58,11 +58,13 @@
             </table>
         @endif
 
-        <table style="margin-bottom: 10px;" width="100%">
+        <table style="margin-bottom: 10px; text-align: center;" width="100%">
             <tr>
                 @if($batch->personal)
-                    <td><strong>A:</strong> {{ optional($batch->personal)->name }}</td>
+                    <td><strong>Asignado a:</strong> {{ optional($batch->personal)->name }}</td>
                 @endif
+            </tr>
+            <tr>
                 @if($batch->audi)
                     <td><strong>Expedido por:</strong> {{ optional($batch->audi)->name }} </td>
                 @endif

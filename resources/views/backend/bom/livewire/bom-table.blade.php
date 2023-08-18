@@ -64,6 +64,7 @@
                                                 <input type="text" placeholder="{{ __('undefined customer') }}"
                                                     value="{{ Str::limit($order->customer, 50) }}"
                                                     data-filter-by="value" />
+                                                <br>
                                                 {{ $order->comment }}
                                                 <div class="checklist-strikethrough"></div>
                                             </div>

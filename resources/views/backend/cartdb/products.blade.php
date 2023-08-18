@@ -39,11 +39,11 @@
 			    <tr>
 			      <th scope="col">@lang('Name')</th>
 			      @if($type != 'output_products')
-				      <th scope="col">@lang('Price')</th>
+				      <th scope="col" class="text-center">@lang('Price')</th>
 				  @endif
 				      <th scope="col" class="text-center">@lang('Quantity')</th>
 			      @if($type != 'output_products')
-				      <th scope="col">@lang('Total')</th>
+				      <th scope="col" class="text-center">@lang('Total')</th>
 				  @endif
 			      <th scope="col"></th>
 			      <th scope="col" >@lang('Updated at')</th>

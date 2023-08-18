@@ -1,9 +1,20 @@
 <x-utils.modal id="showModal" width="modal-dialog-centered">
   <x-slot name="title">
     @lang('Show feedstock')
+
+
   </x-slot>
 
   <x-slot name="content">
+
+    @if($idFeedstock)
+      <div class="text-center mb-4">
+        <a href="{{ route('admin.material.print', $idFeedstock) }}" target="_blank"> 
+          <i class="cil-print"></i>
+          @lang('Print')
+        </a>
+      </div>
+    @endif
 
     <table class="table">
       <tbody>

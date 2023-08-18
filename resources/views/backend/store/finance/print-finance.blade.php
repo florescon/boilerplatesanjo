@@ -55,11 +55,13 @@
         </tr>
     </table>
 
-    <table style="margin-bottom: 10px;" width="100%">
+    <table style="margin-bottom: 10px; text-align: center;" width="100%">
         <tr>
             @if($finances->user || $finances->departament)
                 <td><strong>A:</strong> {{ $finances->user_name_or_departament }}</td>
             @endif
+        </tr>
+        <tr>
             <td><strong>Expedido por:</strong> {{ optional($finances->audi)->name }} </td>
         </tr>
     </table>
