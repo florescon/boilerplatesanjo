@@ -49,6 +49,11 @@ class CreateProduct extends Component
         $this->name = '';
     }
 
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
+    }
+
     public function store()
     {
         $this->validate();
@@ -171,11 +176,6 @@ class CreateProduct extends Component
     {
         // $typePrice = $typePrice + ((setting('iva') / 100) * $typePrice);
         $typePrice = number_format($typePrice, 2);
-    }
-
-    public function updated($propertyName)
-    {
-        $this->validateOnly($propertyName);
     }
 
     public function render()

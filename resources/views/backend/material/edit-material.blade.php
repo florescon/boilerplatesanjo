@@ -27,14 +27,14 @@
                         <label for="name" class="col-md-2 col-form-label">@lang('Name')</label>
 
                         <div class="col-md-10">
-                            <input type="text" name="name" class="form-control" placeholder="{{ __('Name') }}" value="{{ old('name') ?? $material->name }}" maxlength="100" required />
+                            <input type="text" name="name" class="form-control" placeholder="{{ __('Name') }}" value="{{ old('name') ?? $material->name }}" maxlength="100" />
                         </div>
                     </div><!--form-group-->
                     <div class="form-group row">
                         <label for="price" class="col-md-2 col-form-label">@lang('Price')</label>
 
                         <div class="col-md-10">
-                            <input type="text" name="price" class="form-control" placeholder="{{ __('Price') }}" value="{{ old('price') ?? $material->price }}" maxlength="100" required />
+                            <input type="text" name="price" class="form-control" placeholder="{{ __('Price') }}" value="{{ old('price') ?? $material->price }}" maxlength="100" />
                         </div>
                     </div><!--form-group-->
 

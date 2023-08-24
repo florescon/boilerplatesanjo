@@ -40,6 +40,7 @@ class Order extends Model
         'created_at',
         'folio',
         'from_quotation',
+        'quotation',
     ];
 
     /**
@@ -427,16 +428,23 @@ class Order extends Model
 
     public function getLastOrderByTypeAndBranchSkipAttribute(): int
     {   
-        if($this->type){
+        if($this->type != 6){
 
             switch( $this->type){
-                case 6: 
-                    $order = DB::table('orders')->where('branch_id', $this->branch_id ?? 0)->latest()->skip(1)->first();
+                case 11: 
+                    $order = DB::table('orders')->where('branch_id', $this->branch_id ?? 0)->where('from_quotation', true)->latest()->skip(1)->first();
                 default:
                     $order = DB::table('orders')->where('branch_id', $this->branch_id ?? 0)->where('type', $this->type ?? 1)->latest()->skip(1)->first();
             }
 
             return $order ? ($order->folio ?: $this->id) : $this->id;
+        }
+
+        else{
+
+            $order = DB::table('orders')->where('branch_id', $this->branch_id ?? 0)->where('from_quotation', true)->latest()->skip(1)->first();
+
+            return $order ? ($order->quotation ?: $this->id): $this->id;
         }
 
         return $this->id;

@@ -51,12 +51,12 @@ class Cloth extends Model
 
     public function getCreatedAtAttribute($value)
     {
-        return Carbon::parse($value)->isoFormat('D, MMM h:mm:ss a');
+        return Carbon::parse($value)->isoFormat('D, MMM, YY h:mm:ss a');
     }
 
     public function getUpdatedAtAttribute($value)
     {
-        return Carbon::parse($value)->isoFormat('D, MMM h:mm:ss a');
+        return Carbon::parse($value)->isoFormat('D, MMM, YY h:mm:ss a');
     }
 
     /**

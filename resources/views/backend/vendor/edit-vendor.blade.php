@@ -34,7 +34,7 @@
                         <label for="email" class="col-md-2 col-form-label">@lang('Email')</label>
 
                         <div class="col-md-10">
-                            <input type="email" name="email" class="form-control" placeholder="{{ __('Email') }}" value="{{ old('email') ?? $vendor->email }}" maxlength="100" required />
+                            <input type="email" name="email" class="form-control" placeholder="{{ __('Email') }}" value="{{ old('email') ?? $vendor->email }}" maxlength="100" />
                         </div>
                     </div><!--form-group-->
                     <div class="form-group row">

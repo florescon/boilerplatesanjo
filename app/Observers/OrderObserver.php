@@ -14,7 +14,7 @@ class OrderObserver
      */
     public function created(Order $order)
     {
-        $order->update(['folio' => $order->last_order_by_type_and_branch_skip + 1 ]);
+        $order->update(['folio' => $order->last_order_by_type_and_branch_skip + 1, 'quotation' => $order->type == 6 ? $order->last_order_by_type_and_branch_skip + 1 : 0 ]);
     }
 
     /**

@@ -14,7 +14,7 @@
                     <label for="name" class="col-md-2 col-form-label">@lang('Name')</label>
 
                     <div class="col-md-10">
-                        <input type="text" wire:model.lazy="name" class="form-control" placeholder="{{ __('Name') }}" maxlength="100" required/>
+                        <input type="text" wire:model.lazy="name" class="form-control" placeholder="{{ __('Name') }}" maxlength="100" />
                         @error('name') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
                 </div><!--form-group-->
@@ -22,7 +22,7 @@
                     <label for="name" class="col-md-2 col-form-label">@lang('Short name')</label>
 
                     <div class="col-md-10">
-                        <input type="text" wire:model.lazy="short_name" class="form-control" placeholder="{{ __('Short name') }}" maxlength="15" required/>
+                        <input type="text" wire:model.lazy="short_name" class="form-control" placeholder="{{ __('Short name') }}" maxlength="15" />
                         @error('short_name') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
                 </div><!--form-group-->
@@ -47,7 +47,7 @@
                     <label for="cityselect" class="col-md-2 col-form-label">@lang('City')</label>
 
                     <div class="col-md-10">
-                        <select id="cityselect" class="custom-select" style="width: 100%;" aria-hidden="true" required>
+                        <select id="cityselect" class="custom-select" style="width: 100%;" aria-hidden="true">
                         </select>
                     </div>
                 </div><!--form-group-->

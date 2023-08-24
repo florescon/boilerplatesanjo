@@ -7,7 +7,7 @@
 
     <div class="form-group row justify-content-center">
       <div class="col-md-10">
-          <input type="text" name="name" wire:model.lazy="name" class="form-control" placeholder="{{ __('Name') }}" value="{{ old('name') }}" maxlength="100" autofocus required />
+          <input type="text" name="name" wire:model.lazy="name" class="form-control" placeholder="{{ __('Name') }}" value="{{ old('name') }}" maxlength="100" autofocus />
                                   
           @error('name') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
       </div>
@@ -23,7 +23,7 @@
 
     <div class="form-group row justify-content-center">
       <div class="col-md-10">
-          <input type="text" name="price" wire:model.lazy="price" class="form-control" placeholder="{{ __('Price') }}" value="{{ old('price') }}" maxlength="100" required />
+          <input type="text" name="price" wire:model.lazy="price" class="form-control" placeholder="{{ __('Price') }}" value="{{ old('price') }}" maxlength="100" />
 
           @error('price') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
       </div>

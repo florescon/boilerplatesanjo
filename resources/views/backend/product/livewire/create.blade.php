@@ -29,7 +29,7 @@
                 <label for="name" class="col-md-2 col-form-label">@lang('Name')<sup>*</sup></label>
 
                 <div class="col-md-10">
-                    <input type="text" name="name" wire:model.lazy="name" class="form-control" placeholder="{{ __('Name') }}" value="{{ old('name') }}" maxlength="100" autofocus required />
+                    <input type="text" name="name" wire:model.lazy="name" class="form-control" placeholder="{{ __('Name') }}" value="{{ old('name') }}" maxlength="100" autofocus />
                                             
                     @error('name') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                 </div>
@@ -39,7 +39,7 @@
                 <label for="code" class="col-md-2 col-form-label">@lang('Code')<sup>*</sup></label>
 
                 <div class="col-md-10">
-                    <input type="text" name="code" wire:model.lazy="code" class="form-control" placeholder="{{ __('Code') }}" value="{{ old('code') }}" maxlength="100" required />
+                    <input type="text" name="code" wire:model.lazy="code" class="form-control" placeholder="{{ __('Code') }}" value="{{ old('code') }}" maxlength="100"  />
 
                     @error('code') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                 </div>
@@ -141,15 +141,15 @@
 
                 <div class="form-row align-items-center ml-2">
                     <div class="{{ $switchIVA ? 'col-md-12' : 'col-md-12' }} mb-12">
-                        <input type="number" min="1" step="any" name="price" wire:model="price" class="form-control @error('price') is-invalid  @enderror" placeholder="{{ __('Price') }}" value="{{ old('price') }}" maxlength="100" required/>
+                        <input type="number" min="1" step="any" name="price" wire:model="price" class="form-control @error('price') is-invalid  @enderror" placeholder="{{ __('Price') }}" value="{{ old('price') }}" maxlength="100"/>
                     </div>
 
                     @if($switchIVA)
                         <div class="col-md-3 mb-3">
-                            {{-- <input type="text" name="priceIVA" wire:model="priceIVA" class="form-control" placeholder="{{ __('Price') }}" value="{{ old('priceIVA') }}" maxlength="100" required disabled/> --}}
+                            {{-- <input type="text" name="priceIVA" wire:model="priceIVA" class="form-control" placeholder="{{ __('Price') }}" value="{{ old('priceIVA') }}" maxlength="100" disabled/> --}}
  
                             <div class="input-group">
-                              <input type="text" class="form-control" wire:model="priceIVA" value="{{ old('priceIVA') }}" aria-label="Recipient's username" aria-describedby="basic-addon2" required disabled>
+                              <input type="text" class="form-control" wire:model="priceIVA" value="{{ old('priceIVA') }}" aria-label="Recipient's username" aria-describedby="basic-addon2"  disabled>
                               <div class="input-group-append">
                                 <span class="input-group-text" id="basic-addon2">@lang('Net purchase price')</span>
                               </div>
@@ -170,7 +170,7 @@
                 <label for="retail_price" class="col-md-2 col-form-label">@lang('Retail price')</label>
 
                 <div class="col-md-10">
-                    <input type="number" min="1" step="any" name="retail_price" wire:model="retail_price" class="form-control" placeholder="{{ __('Retail price') }}" value="{{ old('retail_price') }}" maxlength="100" required />
+                    <input type="number" min="1" step="any" name="retail_price" wire:model="retail_price" class="form-control" placeholder="{{ __('Retail price') }}" value="{{ old('retail_price') }}" maxlength="100" />
 
                     @error('retail_price') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                 </div>
@@ -180,7 +180,7 @@
                 <label for="average_wholesale_price" class="col-md-2 col-form-label">@lang('Average wholesale price')</label>
 
                 <div class="col-md-10">
-                    <input type="number" min="1" step="any" name="average_wholesale_price" wire:model="average_wholesale_price" class="form-control" placeholder="{{ __('Average wholesale price') }}" value="{{ old('average_wholesale_price') }}" maxlength="100" required />
+                    <input type="number" min="1" step="any" name="average_wholesale_price" wire:model="average_wholesale_price" class="form-control" placeholder="{{ __('Average wholesale price') }}" value="{{ old('average_wholesale_price') }}" maxlength="100" />
 
                     @error('average_wholesale_price') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                 </div>
@@ -190,7 +190,7 @@
                 <label for="average_wholesale_price" class="col-md-2 col-form-label">@lang('Wholesale price')</label>
 
                 <div class="col-md-10">
-                    <input type="number" min="1" step="any" name="wholesale_price" wire:model="wholesale_price" class="form-control" placeholder="{{ __('Wholesale price') }}" value="{{ old('wholesale_price') }}" maxlength="100" required />
+                    <input type="number" min="1" step="any" name="wholesale_price" wire:model="wholesale_price" class="form-control" placeholder="{{ __('Wholesale price') }}" value="{{ old('wholesale_price') }}" maxlength="100" />
 
                     @error('wholesale_price') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                 </div>
@@ -200,7 +200,7 @@
                 <label for="average_wholesale_price" class="col-md-2 col-form-label">@lang('Special price')</label>
 
                 <div class="col-md-10">
-                    <input type="number" min="1" step="any" name="special_price" wire:model="special_price" class="form-control" placeholder="{{ __('Special price') }}" value="{{ old('special_price') }}" maxlength="100" required />
+                    <input type="number" min="1" step="any" name="special_price" wire:model="special_price" class="form-control" placeholder="{{ __('Special price') }}" value="{{ old('special_price') }}" maxlength="100" />
 
                     @error('special_price') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                 </div>

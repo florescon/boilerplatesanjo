@@ -30,7 +30,7 @@
                     <label for="price" class="col-md-2 col-form-label">@lang('Price')</label>
 
                     <div class="col-md-10">
-                        <input type="text" wire:model.lazy="price" class="form-control" placeholder="{{ __('Price') }}" maxlength="100" required />
+                        <input type="text" wire:model.lazy="price" class="form-control" placeholder="{{ __('Price') }}" maxlength="100" />
                         @error('price') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                         </div>
                 </div><!--form-group-->
@@ -39,7 +39,7 @@
                     <label for="unitselect" class="col-md-2 col-form-label">@lang('Unit of measurement')</label>
 
                     <div class="col-md-5">
-                        <select id="unitselect" class="custom-select" style="width: 100%;" aria-hidden="true" required>
+                        <select id="unitselect" class="custom-select" style="width: 100%;" aria-hidden="true">
                         </select>
                     </div>
                 </div><!--form-group-->
@@ -47,7 +47,7 @@
                     <label for="colorselect" class="col-md-2 col-form-label">@lang('Color')</label>
 
                     <div class="col-md-5">
-                        <select id="colorselect" class="custom-select" style="width: 100%;" aria-hidden="true" required>
+                        <select id="colorselect" class="custom-select" style="width: 100%;" aria-hidden="true">
                         </select>
                     </div>
                 </div><!--form-group-->
