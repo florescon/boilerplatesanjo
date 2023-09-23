@@ -17,14 +17,14 @@
   <div class="cs-container">
     <div class="cs-invoice cs-style1">
       <div class="cs-invoice_in" id="download_section">
-        <div class="cs-invoice_head cs-type1 cs-mb25">
+        <div class="cs-invoice_head cs-type1 cs-mb10">
 
           <div class="cs-invoice_left" style="padding-bottom: 25px;">
             <div class="cs-logo cs-mb5"><img src="{{ asset('img/logo22.png') }}" width="100" alt="Logo"></div>
             <p class="cs-invoice_number cs-primary_color cs-mb0 cs-f16"><b class="cs-primary_color">{{ $order->type_order_clear }} No:</b> #{{ $order->characters_type_order }}{!! $order->folio_or_id !!}</p>
           </div>
           <div class="cs-invoice_right cs-text_center">
-            <b class="cs-primary_color">{{ __(appName()) }}</b>
+            <b class="cs-primary_color cs-f16">{{ __(appName()) }}</b>
             <p>
               Margarito González Rubio {{ $order->from_store ? '#822' : '#886-1' }}, C.P. 47470 <br/>
               Col. El Refugio, Lagos de Moreno, Jal. MX. <br/>
@@ -39,7 +39,35 @@
 
         </div>
 
-        <div class="cs-invoice_head cs-mb10">
+        <div class="cs-style1 cs-f18 cs-primary_color cs-mb10 cs-semi_bold">@lang('Customer Information')</div>
+        <ul class="cs-grid_row cs-col_3 cs-mb5">
+          <li>
+            <p class="cs-mb10"><b class="cs-primary_color">@lang('Customer'):</b> <br><span class="cs-primary_color">{{ optional($order->user)->name . optional($order->departament)->name }}</span></p>
+          </li>
+          <li>
+            @if(optional($order->user)->customer)
+              @if(optional($order->user)->customer['phone'])
+                <p class="cs-mb10"><b class="cs-primary_color">@lang('Phone'):</b> <br><span class="cs-primary_color">{!! optional($order->user)->customer['phone'] ?? '' !!}</span></p>
+              @endif
+            @endif
+
+            @if(optional($order->user)->customer)
+              @if(optional($order->user)->customer['address'])
+                <p class="cs-mb10"><b class="cs-primary_color">@lang('Address'):</b> <br><span class="cs-primary_color">{!! optional($order->user)->customer['address'] ?? '' !!}</span></p>
+              @endif
+            @endif
+          </li>
+          @if(optional($order->user)->customer)
+            @if(optional($order->user)->customer['rfc'])
+            <li>
+              <p class="cs-mb10"><b class="cs-primary_color">@lang('RFC'):</b> <br><span class="cs-primary_color">{!! optional($order->user)->customer['rfc'] ?? '' !!}</span></p>
+            </li>
+            @endif
+          @endif
+
+        </ul>
+
+        <div class="cs-invoice_head">
           <div class="cs-invoice_right">
             @if($order->info_customer)
               <p><b class="cs-primary_color cs-semi_bold">@lang('Information'):</b> <br>{{ $order->info_customer }}</p>
@@ -47,14 +75,14 @@
           </div>
         </div>
 
-        <div class="cs-invoice_head cs-mb10">
+        <div class="cs-invoice_head">
           <div class="cs-invoice_right">
             <b class="cs-primary_color">@lang('Extra information'):</b>
             <p class="cs-mb8">{{ $order->comment ?? '--'}}</p>
           </div>
         </div>
 
-        <div class="cs-invoice_head cs-mb10">
+        <div class="cs-invoice_head">
           <div class="cs-invoice_right cs-text_center">
             <p><b class="cs-primary_color cs-semi_bold">@lang('Date Issued'):</b> <br>{{ $order->date_entered_or_created }}</p>
           </div>
@@ -75,33 +103,6 @@
           @endif
         </div>
 
-        <div class="cs-heading cs-style1 cs-f18 cs-primary_color cs-mb25 cs-semi_bold">@lang('Customer Information')</div>
-        <ul class="cs-grid_row cs-col_3 cs-mb5">
-          <li>
-            <p class="cs-mb20"><b class="cs-primary_color">@lang('Customer'):</b> <br><span class="cs-primary_color">{{ optional($order->user)->name . optional($order->departament)->name }}</span></p>
-          </li>
-          <li>
-            @if(optional($order->user)->customer)
-              @if(optional($order->user)->customer['phone'])
-                <p class="cs-mb20"><b class="cs-primary_color">@lang('Phone'):</b> <br><span class="cs-primary_color">{!! optional($order->user)->customer['phone'] ?? '' !!}</span></p>
-              @endif
-            @endif
-
-            @if(optional($order->user)->customer)
-              @if(optional($order->user)->customer['address'])
-                <p class="cs-mb20"><b class="cs-primary_color">@lang('Address'):</b> <br><span class="cs-primary_color">{!! optional($order->user)->customer['address'] ?? '' !!}</span></p>
-              @endif
-            @endif
-          </li>
-          @if(optional($order->user)->customer)
-            @if(optional($order->user)->customer['rfc'])
-            <li>
-              <p class="cs-mb20"><b class="cs-primary_color">@lang('RFC'):</b> <br><span class="cs-primary_color">{!! optional($order->user)->customer['rfc'] ?? '' !!}</span></p>
-            </li>
-            @endif
-          @endif
-
-        </ul>
         @if($grouped)
           <div class="cs-table cs-style2">
             <div class="cs-round_border">
@@ -314,22 +315,22 @@
                     @if(!$order->isOutputProducts())
                     <td class="cs-width_5 cs-text_right">
                       @if(!$breakdown)
-                        <p class="cs-primary_color cs-bold cs-f16 cs-m0">@lang('Subtotal'):</p>
+                        <p class="cs-primary_color cs-bold cs-f14 cs-m0">@lang('Subtotal'):</p>
                       @endif
                       @if($order->discount)
-                        <p class="cs-primary_color cs-bold cs-f16 cs-m0">@lang('Discount'):</p>
+                        <p class="cs-primary_color cs-bold cs-f14 cs-m0">@lang('Discount'):</p>
                       @endif
                       @if(!$breakdown)
-                        <p class="cs-mb5 cs-mb5 cs-f15 cs-primary_color cs-semi_bold">IVA:</p>
+                        <p class="cs-mb5 cs-mb5 cs-f14 cs-primary_color cs-semi_bold">IVA:</p>
                       @endif
-                      <p class="cs-primary_color cs-bold cs-f16 cs-m0">@lang('Total'):</p>
+                      <p class="cs-primary_color cs-bold cs-f14 cs-m0">@lang('Total'):</p>
                     </td>
-                    <td class="cs-width_2 cs-text_rightcs-f16">
+                    <td class="cs-width_2 cs-text_rightcs-f14">
                       @if(!$breakdown)
-                        <p class="cs-primary_color cs-bold cs-f16 cs-m0 cs-text_right">${{ count($order->product_suborder) ? '--' : number_format($order->subtotal_by_all, 2)  }}</p>
+                        <p class="cs-primary_color cs-bold cs-f14 cs-m0 cs-text_right">${{ count($order->product_suborder) ? '--' : number_format($order->subtotal_by_all, 2)  }}</p>
                       @endif
                       @if($order->discount)
-                        <p class="cs-mb5 cs-mb5 cs-text_right cs-f15 cs-primary_color cs-semi_bold">
+                        <p class="cs-mb5 cs-mb5 cs-text_right cs-f14 cs-primary_color cs-semi_bold">
                           @if(!$breakdown)
                             ${{ number_format($order->calculate_discount_all, 2)}}
                           @else
@@ -338,9 +339,9 @@
                         </p>
                       @endif
                       @if(!$breakdown)
-                        <p class="cs-mb5 cs-mb5 cs-text_right cs-f15 cs-primary_color cs-semi_bold">${{ count($order->product_suborder) ? '--' : calculateIva($order->subtotal_less_discount) }}</p>
+                        <p class="cs-mb5 cs-mb5 cs-text_right cs-f14 cs-primary_color cs-semi_bold">${{ count($order->product_suborder) ? '--' : calculateIva($order->subtotal_less_discount) }}</p>
                       @endif
-                      <p class="cs-primary_color cs-bold cs-f16 cs-m0 cs-text_right">${{ number_format(count($order->product_suborder) ? $total : $order->total_by_all_with_discount, 2) }}</p>
+                      <p class="cs-primary_color cs-bold cs-f14 cs-m0 cs-text_right">${{ number_format(count($order->product_suborder) ? $total : $order->total_by_all_with_discount, 2) }}</p>
                     </td>
                     @endif
                   </tr>

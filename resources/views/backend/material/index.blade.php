@@ -14,7 +14,7 @@
 
     <x-backend.card>
         <x-slot name="header">
-            <strong style="color: #0061f2;"> <kbd>@lang('Feedstock')</kbd> </strong>
+            <strong style="color: #0061f2;"> <kbd>@lang('Feedstock')</kbd> @lang('Sorted by'): @lang('Family') </strong>
         </x-slot>
 
         <x-slot name="headerActions">
@@ -95,6 +95,8 @@
         </x-slot>
     </x-backend.card>
 
+    <livewire:backend.material.massive-feedstocks />
+
     <livewire:backend.material.create-material />
     <livewire:backend.material.show-material />
 
@@ -150,6 +152,50 @@
 
     <script>
       $(document).ready(function() {
+        $('#familysecondselect').select2({
+          placeholder: '@lang("Choose family")',
+          // width: 'resolve',
+          theme: 'bootstrap4',
+          // allowClear: true,
+          ajax: {
+                url: '{{ route('admin.family.select') }}',
+                data: function (params) {
+                    return {
+                        search: params.term,
+                        page: params.page || 1
+                    };
+                },
+                dataType: 'json',
+                processResults: function (data) {
+                    data.page = data.page || 1;
+                    return {
+                        results: data.items.map(function (item) {
+                            return {
+                                id: item.id,
+                                text: item.name
+                            };
+                        }),
+                        pagination: {
+                            more: data.pagination
+                        }
+                    }
+                },
+                cache: true,
+                delay: 250,
+                dropdownautowidth: true
+            }
+          });
+
+          $('#familysecondselect').on('change', function (e) {
+            var data = $('#familysecondselect').select2("val");
+            Livewire.emit('postFamilySecond', data)
+          });
+
+      });
+    </script>
+
+    <script>
+      $(document).ready(function() {
         $('#vendorselect').select2({
           placeholder: '@lang("Choose vendor")',
           // width: 'resolve',
@@ -187,6 +233,94 @@
           $('#vendorselect').on('change', function (e) {
             var data = $('#vendorselect').select2("val");
             Livewire.emit('postVendor', data)
+          });
+
+      });
+    </script>
+
+    <script>
+      $(document).ready(function() {
+        $('#vendorsecondselect').select2({
+          placeholder: '@lang("Choose vendor")',
+          // width: 'resolve',
+          theme: 'bootstrap4',
+          // allowClear: true,
+          ajax: {
+                url: '{{ route('admin.vendor.select') }}',
+                data: function (params) {
+                    return {
+                        search: params.term,
+                        page: params.page || 1
+                    };
+                },
+                dataType: 'json',
+                processResults: function (data) {
+                    data.page = data.page || 1;
+                    return {
+                        results: data.items.map(function (item) {
+                            return {
+                                id: item.id,
+                                text: item.name
+                            };
+                        }),
+                        pagination: {
+                            more: data.pagination
+                        }
+                    }
+                },
+                cache: true,
+                delay: 250,
+                dropdownautowidth: true
+            }
+          });
+
+          $('#vendorsecondselect').on('change', function (e) {
+            var data = $('#vendorsecondselect').select2("val");
+            Livewire.emit('postVendorSecond', data)
+          });
+
+      });
+    </script>
+
+    <script>
+      $(document).ready(function() {
+        $('#colorsecondselect').select2({
+          placeholder: '@lang("Choose color")',
+          // width: 'resolve',
+          theme: 'bootstrap4',
+          // allowClear: true,
+          ajax: {
+                url: '{{ route('admin.color.select') }}',
+                data: function (params) {
+                    return {
+                        search: params.term,
+                        page: params.page || 1
+                    };
+                },
+                dataType: 'json',
+                processResults: function (data) {
+                    data.page = data.page || 1;
+                    return {
+                        results: data.items.map(function (item) {
+                            return {
+                                id: item.id,
+                                text: item.name
+                            };
+                        }),
+                        pagination: {
+                            more: data.pagination
+                        }
+                    }
+                },
+                cache: true,
+                delay: 250,
+                dropdownautowidth: true
+            }
+          });
+
+          $('#colorsecondselect').on('change', function (e) {
+            var data = $('#colorsecondselect').select2("val");
+            Livewire.emit('postColorSecond', data)
           });
 
       });
@@ -243,6 +377,12 @@
     </script>
 
     <script type="text/javascript">
+      Livewire.on("massiveStore", () => {
+          $("#massiveFeedstocks").modal("hide");
+      });
+    </script>
+
+    <script type="text/javascript">
       Livewire.on("materialUpdate", () => {
           $("#updateStockModal").modal("hide");
       });
@@ -268,6 +408,30 @@
         Livewire.on('clear-color', clear => {
             jQuery(document).ready(function () {
                 $("#colorselect").val('').trigger('change')
+            });
+        })
+    </script>
+
+    <script>
+        Livewire.on('clear-second-family', clear => {
+            jQuery(document).ready(function () {
+                $("#familysecondselect").val('').trigger('change')
+            });
+        })
+    </script>
+
+    <script>
+        Livewire.on('clear-second-vendor', clear => {
+            jQuery(document).ready(function () {
+                $("#vendorsecondselect").val('').trigger('change')
+            });
+        })
+    </script>
+
+    <script>
+        Livewire.on('clear-second-color', clear => {
+            jQuery(document).ready(function () {
+                $("#colorsecondselect").val('').trigger('change')
             });
         })
     </script>

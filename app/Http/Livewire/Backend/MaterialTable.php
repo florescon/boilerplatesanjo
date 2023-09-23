@@ -38,7 +38,7 @@ class MaterialTable extends TableComponent
     public $exports = ['csv', 'xls', 'xlsx'];
     public $exportFileName = 'feedstocks';
 
-    public $selected = [];
+    public $selectedMassive = [];
 
     public $family_id, $vendor_id, $color_id;
 
@@ -49,7 +49,7 @@ class MaterialTable extends TableComponent
         'editStock' => ['except'=> false],
     ];
 
-    protected $listeners = ['postAdded' => 'updateEditStock', 'postMass' => 'updateMassAssignment', 'emitFamily', 'emitVendor', 'emitColor', 'delete', 'restore', 'triggerRefresh' => '$refresh'];
+    protected $listeners = ['postAdded' => 'updateEditStock', 'postMassive' => 'updateMassAssignment', 'emitFamily', 'emitVendor', 'emitColor', 'delete', 'restore', 'triggerRefresh' => '$refresh'];
 
     /**
      * @var string
@@ -81,6 +81,8 @@ class MaterialTable extends TableComponent
 
     public function updateMassAssignment()
     {
+        // dd($this->selectedMassive);
+        $this->emit('massivemodal', $this->selectedMassive);
         $this->massAssginment = !$this->massAssginment;
     }
 
@@ -143,6 +145,11 @@ class MaterialTable extends TableComponent
     public function columns(): array
     {
         return [
+            Column::make(__('Massive changes'))
+                ->format(function (Material $model) {
+                    return view('backend.material.datatable.massive', ['model' => $model]);
+                })
+                ->excludeFromExport(),
             Column::make(__('Code'), 'part_number')
                 ->searchable()
                 ->sortable(),
@@ -217,12 +224,12 @@ class MaterialTable extends TableComponent
                 ->searchable()
                 ->sortable()
                 ->hideIf($this->editStock == true),
-            Column::make(__('Mass assignment'))
-                ->format(function (Material $model) {
-                    return view('backend.material.datatable.mass', ['model' => $model]);
-                })
-                ->excludeFromExport()
-                ->hideIf($this->massAssginment == false),
+            // Column::make(__('Mass assignment'))
+            //     ->format(function (Material $model) {
+            //         return view('backend.material.datatable.mass', ['model' => $model]);
+            //     })
+            //     ->excludeFromExport()
+            //     ->hideIf($this->massAssginment == false),
             Column::make(__('Input / Output'))
                 ->format(function (Material $model) {
                     return view('backend.material.datatable.input', ['model' => $model]);

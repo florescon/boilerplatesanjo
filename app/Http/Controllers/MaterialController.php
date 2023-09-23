@@ -27,6 +27,11 @@ class MaterialController extends Controller
         return view('backend.material.create');
     }
 
+    public function out()
+    {
+        return view('backend.material.out');
+    }
+
     public function recordsMaterial()
     {
         return view('backend.material.records');

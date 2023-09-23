@@ -24,6 +24,14 @@ Route::group([
                 ->push(__('Create feedstock'), route('admin.material.create'));
         });
 
+    Route::get('out', [MaterialController::class, 'out'])
+        ->name('out')
+        ->middleware('permission:admin.access.material.list')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.material.index')
+                ->push(__('Out feedstock'), route('admin.material.out'));
+        });
+
     Route::get('records', [MaterialController::class, 'recordsMaterial'])
         ->name('records')
         ->middleware('permission:admin.access.material.modify')

@@ -376,7 +376,7 @@
                                 <x-utils.link
                                     :href="route('admin.store.all.index')"
                                     class="c-sidebar-nav-link"
-                                    :text="__('List Requests/Sales')"
+                                    :text="__('Requests/Sales')"
                                     :active="activeClass(Route::is('admin.store.all.*'), 'c-active')" />
                             </li>
 
@@ -384,7 +384,7 @@
                                 <x-utils.link
                                     :href="route('admin.serviceorder.index')"
                                     class="c-sidebar-nav-link"
-                                    :text="__('List Service Order')"
+                                    :text="__('Service Order')"
                                     :active="activeClass(Route::is('admin.serviceorder.index'), 'c-active')" />
                             </li>
 

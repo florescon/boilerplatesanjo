@@ -15,8 +15,8 @@
             :text="__('Permanently Delete')" />
     @endif
 @else
-    @if ($logged_in_user->hasAllAccess())
         <x-utils.view-button :href="route('admin.auth.user.show', $user)" />
+    @if ($logged_in_user->hasAllAccess())
         <x-utils.edit-button :href="route('admin.auth.user.edit', $user)" />
     @endif
 

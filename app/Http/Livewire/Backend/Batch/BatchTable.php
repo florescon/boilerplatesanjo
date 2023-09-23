@@ -99,8 +99,9 @@ class BatchTable extends Component
     private function applySearchFilter($searchBatch)
     {
         if ($this->searchTerm) {
-            return $searchBatch->whereHas('personal', function ($query) {
-               $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
+            return $searchBatch->whereHas('order', function ($query) {
+               $query->whereRaw("comment LIKE \"%$this->searchTerm%\"")
+                    ->orWhereRaw("folio LIKE \"%$this->searchTerm%\"");
             })
             // ->orWhereHas('order', function ($query) {
             //    $query->whereRaw("comment LIKE \"%$this->searchTerm%\"");

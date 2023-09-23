@@ -730,6 +730,7 @@
     "Associated order": "Orden asociada",
     "Associated request": "Pedido asociado",
     "Order track": "Seguimiento de orden",
+    "Sorted by": "Ordenado por",
     "Sorted by date created descending": "Ordenado por fecha creada descendente",
     "Order by name": "Ordenado por nombre",
     "Tracking number": "Número de seguimiento",
@@ -1251,5 +1252,6 @@
     "Quick Start": "Inicio Rápido",
     "Quick start": "Inicio rápido",
     "Not restricted": "No restrictivo",
-    "Automatic": "Automático"
+    "Automatic": "Automático",
+    "Massive changes": "Cambios masivos"
 }
