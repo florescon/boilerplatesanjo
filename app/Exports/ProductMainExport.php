@@ -23,6 +23,7 @@ class ProductMainExport implements FromCollection, WithMapping, WithHeadings
         return [
             __('Code'),
             __('Name'),
+            __('Price'),
             __('Stock'),
         ];
     }
@@ -35,6 +36,7 @@ class ProductMainExport implements FromCollection, WithMapping, WithHeadings
         return [
             $product->code ? $product->code : optional($product->parent)->code,
             optional($product->parent)->name.', '.optional($product->color)->name.' '.optional($product->size)->name,
+            optional($product->parent)->cost ?? 0,
             $product->stock ?? 0,
         ];
     }

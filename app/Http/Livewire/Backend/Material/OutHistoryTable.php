@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Http\Livewire\Backend\ServiceOrder;
+namespace App\Http\Livewire\Backend\Material;
 
 use Livewire\Component;
-use App\Models\ServiceOrder;
+use App\Models\Out;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Livewire\Backend\DataTable\WithBulkActions;
 use App\Http\Livewire\Backend\DataTable\WithCachedRows;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
 
-class ServiceOrderList extends Component
+class OutHistoryTable extends Component
 {
     use Withpagination, WithBulkActions, WithCachedRows;
 
@@ -28,8 +27,6 @@ class ServiceOrderList extends Component
 
     public $perPage = '10';
 
-    public $limitPerPage = '50';
-
     public $sortField = 'id';
     public $sortAsc = false;
     
@@ -44,11 +41,9 @@ class ServiceOrderList extends Component
 
     public bool $pending = false;
 
-    public bool $history = false;
-
     public $status;
 
-    protected $listeners = ['filter' => 'filter', 'done', 'delete', 'restore', 'triggerRefresh' => '$refresh'];
+    protected $listeners = ['filter' => 'filter', 'delete', 'restore', 'triggerRefresh' => '$refresh'];
 
     public $updated, $selected_id, $deleted;
 
@@ -57,7 +52,6 @@ class ServiceOrderList extends Component
         if ($this->sortField === $field) {
             $this->sortAsc = ! $this->sortAsc;
         } else {
-            $this->resetPage();
             $this->sortAsc = true;
         }
 
@@ -66,7 +60,7 @@ class ServiceOrderList extends Component
 
     public function getRowsQueryProperty()
     {
-        $query = ServiceOrder::query()->with('personal', 'image', 'order.user', 'service_type', 'product_service_orders', 'createdby')
+        $query = Out::query()->with('feedstocks')
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?
                     $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', now()]) :
@@ -83,11 +77,7 @@ class ServiceOrderList extends Component
             })
             ->when($this->sortField, function ($query) {
                 $query->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc');
-            })
-            ->when(!$this->history, function ($query) {
-                $query->where('done', false);
-            })
-            ;
+            });
 
 
         if ($this->status === 'deleted') {
@@ -105,19 +95,11 @@ class ServiceOrderList extends Component
     private function applySearchFilter($searchFinance)
     {
         if ($this->searchTerm) {
-            return $searchFinance->where(function(Builder $queryy) {
-                $queryy->whereHas('personal', function ($query) {
-                    $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
-                 })
-                ->orWhereHas('order', function ($query) {
-                    $query->whereHas('user', function ($query) {
-                        $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
-                    })
-                    ->orWhere('folio', 'like', '%' . $this->searchTerm . '%')
-                    ;
-                })
-                ->orWhere('id', 'like', '%' . $this->searchTerm . '%');
-            });
+            return $searchFinance->whereHas('customer', function ($query) {
+               $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
+            })
+            ->orWhere('id', 'like', '%' . $this->searchTerm . '%')
+            ->orWhere('description', 'like', '%' . $this->searchTerm . '%');
         }
 
         return null;
@@ -136,43 +118,8 @@ class ServiceOrderList extends Component
     public function getRowsProperty()
     {
         return $this->cache(function () {
-            return $this->rowsQuery->paginate(($this->perPage > $this->limitPerPage) ? $this->clear() : $this->perPage);
+            return $this->rowsQuery->paginate($this->perPage);
         });
-    }
-
-    public function isHistory()
-    {
-        $this->resetPage();
-        $this->dateInput = '';
-        $this->dateOutput = '';
-        $this->currentMonth = FALSE;
-        $this->currentWeek = FALSE;
-
-        if($this->history){
-            $this->history = false;
-        }
-        else{
-            $this->history = TRUE;
-        }
-    }
-
-    public function done(?int $id = null)
-    {
-        if($id){
-            $finance = ServiceOrder::withTrashed()->find($id);
-            
-            $finance->update([
-                'done' => $finance->done ? false : true,
-                'approved' => $finance->done ? null : now(),
-            ]);
-
-            sleep(1);
-        }
-
-        $this->emit('swal:alert', [
-            'icon' => 'success',
-            'title'   => __('Changed'), 
-        ]);
     }
 
     public function clearFilterDate()
@@ -287,11 +234,11 @@ class ServiceOrderList extends Component
         $this->selected = [];
     }
 
-    public function delete(int $id)
+    public function delete($id)
     {
         if($id)
-            $serviceOrder = ServiceOrder::where('id', $id)->first();
-            $serviceOrder->delete();
+            $out = Out::where('id', $id);
+            $out->delete();
 
        $this->emit('swal:alert', [
             'icon' => 'success',
@@ -302,9 +249,8 @@ class ServiceOrderList extends Component
     public function render()
     {
         $date = Carbon::now()->startOfMonth();
-
-        return view('backend.serviceorder.service-order-list', [
-            'serviceOrders' => $this->rows,
+        return view('backend.material.livewire.out-history-table', [
+            'tickets' => $this->rows,
             'date' => $date,
         ]);
     }

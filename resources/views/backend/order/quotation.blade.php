@@ -25,7 +25,7 @@
 						</li>
 						<ul class="breadcrumb">
 							<li class="breadcrumb-item">
-								<a href="#!" data-toggle="modal" wire:click="searchproduct()" data-target="#searchProduct"><i class="fa fa-search mr-1 ml-1"></i> @lang('Search product')</a>
+								<a href="#!" data-toggle="modal" wire:click="searchproduct()" data-target="#searchProduct"><i class="fa fa-search mr-1 ml-1"></i> @lang('Add product')</a>
 							</li>
 						</ul>
 					</div>

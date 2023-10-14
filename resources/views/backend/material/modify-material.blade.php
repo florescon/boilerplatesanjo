@@ -1,5 +1,9 @@
 <div class="custom-control custom-switch custom-control-inline fw-bolder font-weight-bold shadow border-0 pt-3 pr-3">
 
+    <x-utils.link class="card-header-action" :href="route('admin.material.out')" :text="__('Warehouse relaese form')" />
+
+    |
+
     <x-utils.link
         icon="c-icon cil-plus"
         class="card-header-action"

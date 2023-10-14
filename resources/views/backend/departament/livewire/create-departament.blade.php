@@ -122,7 +122,7 @@
         theme: 'bootstrap4',
         // allowClear: true,
         ajax: {
-              url: '{{ route('admin.users.onlyUsers') }}',
+              url: '{{ route('admin.users.select') }}',
               data: function (params) {
                   return {
                       search: params.term,

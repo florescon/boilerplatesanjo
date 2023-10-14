@@ -4,7 +4,7 @@
 
 <x-utils.modal id="searchProduct" width="modal-lg">
   <x-slot name="title">
-    @lang('Search product')
+    @lang('Add product')
   </x-slot>
 
   <x-slot name="content">

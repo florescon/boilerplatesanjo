@@ -26,7 +26,7 @@ Route::group([
 
     Route::get('records', [ProductController::class, 'recordsProduct'])
         ->name('records')
-        ->middleware('permission:admin.access.product.modify')
+        ->middleware('permission:admin.access.product.list')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.product.index')
                 ->push(__('Records of products'), route('admin.product.records'));

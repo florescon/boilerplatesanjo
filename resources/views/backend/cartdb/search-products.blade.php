@@ -4,7 +4,7 @@
 
 <x-utils.modal id="searchProduct" width="modal-xl">
   <x-slot name="title">
-    @lang('Search product') - {{ __(ucfirst($type)) }}
+    @lang('Add product') - {{ __(ucfirst($type)) }}
   </x-slot>
 
   <x-slot name="content">

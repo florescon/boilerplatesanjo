@@ -1253,5 +1253,12 @@
     "Quick start": "Inicio rápido",
     "Not restricted": "No restrictivo",
     "Automatic": "Automático",
-    "Massive changes": "Cambios masivos"
+    "Massive changes": "Cambios masivos",
+    "Warehouse relaese form": "Vale de salida de almacén M.P.",
+    "Warehouse relaese form Management": "Administración de Vale de salida de almacén M.P.", 
+    "Warehouse release forms list": "Lista de Vales de salida de almacén M.P.",
+    "List of feedstocks": "Lista de materias prima",
+    "Search feedstock": "Buscar materia prima",
+    "Clear feedstocks": "Limpiar materias primas",
+    "Add feedstock": "Agregar materia prima"
 }

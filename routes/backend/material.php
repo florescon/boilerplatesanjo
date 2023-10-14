@@ -29,7 +29,16 @@ Route::group([
         ->middleware('permission:admin.access.material.list')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.material.index')
-                ->push(__('Out feedstock'), route('admin.material.out'));
+                ->push(__('Warehouse relaese form'), route('admin.material.out'));
+        });
+
+    Route::get('out_history', function () {
+            return view('backend.material.out-history');
+        })->name('out_history')
+        ->middleware('permission:admin.access.material.list')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.material.out')
+                ->push(__('Warehouse relaese form Management'), route('admin.material.out_history'));
         });
 
     Route::get('records', [MaterialController::class, 'recordsMaterial'])
