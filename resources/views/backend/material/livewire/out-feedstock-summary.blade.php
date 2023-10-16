@@ -52,9 +52,9 @@
 		</div>
 
 		@if($customer && $countProducts)
-			{{-- <div class="text-center mt-5">
+			<div class="text-center mt-5">
 			    <a href="#" wire:click="checkout" onclick="confirm('¿Verificó cantidades y totales?') || event.stopImmediatePropagation()" class="btn btn-success" onkeydown="return event.key != 'Enter';"> @lang('Save') {{ __(ucfirst($type)) }}</a>
-			</div> --}}
+			</div>
 		@endif
 
 	  </div>

@@ -42,8 +42,11 @@ class SearchFeedstock extends Component
     public function updatedQuery()
     {
         $this->products = Material::with('color', 'size', 'unit')
-            ->whereRaw("part_number LIKE \"%$this->query%\"")
-            ->orWhereRaw("name LIKE \"%$this->query%\"")
+            ->whereHas('color', function ($qq) {
+               $qq->whereRaw("name LIKE \"%$this->query%\"");
+            })
+            ->orWhere('part_number', 'like', '%' . $this->query . '%')
+            ->orWhere('name', 'like', '%' . $this->query . '%')
             ->get()->take(15)
             ->toArray();
 

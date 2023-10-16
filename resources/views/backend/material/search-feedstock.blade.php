@@ -46,13 +46,12 @@
               <a href="#" wire:click="selectProduct({{ $product['id'] }})">
                 <div class="card card-flyer card-product">
                   <div class="card-body"  style="transform: rotate(0);">
-                    <h5 class="card-title text-dark text-center"><strong>{{ $product['name'] }}</strong></h5>
+                    <h5 class="card-title text-dark text-center"><strong>{!! $product['name'] .'<br>'. (!is_null($product['color']) ? '<em>'.$product['color']['name'].'</em>'  :  '') !!}</strong></h5>
                     <h5 class="card-title text-muted text-center">{{ $product['part_number'] }}</h5>
                     <div class="text-center">
                         <h2 class="text-primary">
                           {{ $product['price'] ? '$'.$product['price'] : 'undefined price' }}
                         </h2>
-                        <div class="small text-muted"> ${{ priceIncludeIva($product['price']) ?? 0 }} </div>
                     </div>
                   </div>
 
