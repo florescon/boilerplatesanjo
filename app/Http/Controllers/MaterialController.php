@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Material;
+use App\Models\Out;
 use App\Models\MaterialHistory;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -50,6 +51,13 @@ class MaterialController extends Controller
     public function deleted()
     {
         return view('backend.material.deleted');
+    }
+
+    public function ticket_out(Out $out)
+    {
+        $pdf = PDF::loadView('backend.material.ticket-out',compact('out'))->setPaper([0, 0, 2385.98, 296.85], 'landscape');
+
+        return $pdf->stream();
     }
 
     public function edit(Material $material)

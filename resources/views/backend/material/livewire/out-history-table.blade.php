@@ -143,7 +143,7 @@
                 </td>
 
                 <td class="text-center">
-                  Print
+                  <a href="{{ route('admin.material.ticket_out', $ticket->id) }}" class="card-link" target="_blank"><i class="cil-print"></i> Vale </a>
                 </td>
               </tr>
               @endforeach

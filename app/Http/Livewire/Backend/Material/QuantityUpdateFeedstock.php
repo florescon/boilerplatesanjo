@@ -13,7 +13,7 @@ class QuantityUpdateFeedstock extends Component
     public $setModel;
 
     protected $rules = [
-        'quantity' => 'integer|min:1',
+        'quantity' => 'required|numeric|gt:0',
     ];
 
     public function mount($item, ?string $setModel = 'cart_feedstocks')

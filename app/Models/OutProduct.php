@@ -25,4 +25,12 @@ class OutProduct extends Model
     {
         return $this->belongsTo(Out::class)->withTrashed();
     }
+
+    /**
+     * @return mixed
+     */
+    public function material()
+    {
+        return $this->belongsTo(Material::class)->withTrashed();
+    }
 }

@@ -42,6 +42,10 @@ class Out extends Model
         return $this->belongsTo(User::class, 'customer_id')->withTrashed();
     }
 
+    public function getTotalOutAttribute(): int
+    {
+        return $this->feedstocks->sum('price');
+    }
 
     public function getDateForHumansAttribute()
     {

@@ -10,6 +10,7 @@ use App\Domains\Auth\Models\User;
 use App\Models\CartFeedstock;
 use App\Models\OrderStatusDelivery;
 use App\Models\Out;
+use App\Models\Material;
 use Carbon\Carbon;
 
 class OutFeedstockSummary extends Component
@@ -103,14 +104,20 @@ class OutFeedstockSummary extends Component
             $out->user_id = Auth::id();
             $out->save();
 
-            foreach($this->getProducts() as $product){
+            foreach($this->getProducts() as $material){
+
+                $materialDecrement = Material::withTrashed()->find($material->material_id);
+                
+                if($material->quantity > 0){
+                    $materialDecrement->decrement('stock', abs($material->quantity));
+                }
 
                 $out->feedstocks()->create([
-                    'material_id' => $product->product_id,
-                    'quantity' => $product->quantity,
-                    'price' =>  $product->price,
-                    'comment' => $product->comment,
-                    'type' => $product->type,
+                    'material_id' => $material->material_id,
+                    'quantity' => $material->quantity,
+                    'price' =>  $material->price,
+                    'comment' => $material->comment,
+                    'type' => $material->type,
                 ]);
             }
 

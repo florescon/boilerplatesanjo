@@ -41,6 +41,14 @@ Route::group([
                 ->push(__('Warehouse relaese form Management'), route('admin.material.out_history'));
         });
 
+    Route::get('ticket_out/{out}', [MaterialController::class, 'ticket_out'])
+        ->name('ticket_out')
+        ->middleware('permission:admin.access.material.list')
+        ->breadcrumbs(function (Trail $trail, Ticket $out) {
+            $trail->parent('backend.material.out_history')
+                ->push(__('Ticket assignment').' '.$out->id, route('admin.material.ticket_out', $out));
+        });
+
     Route::get('records', [MaterialController::class, 'recordsMaterial'])
         ->name('records')
         ->middleware('permission:admin.access.material.modify')
