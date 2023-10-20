@@ -166,13 +166,18 @@
             <td><strong>Realizó:</strong> {{ optional($service->personal)->name }} </td>
             <td><strong>Autorizó:</strong> {{ optional($service->authorized)->name }} </td>
         </tr>
+
         <tr>
             <td><strong>Archivo:</strong> {{ $service->file_text }}</td>
-            <td><strong>Dimensiones:</strong> {{ $service->dimensions }}</td>
+            @if($service->approved)
+                <td><strong>Autorizado:</strong> {{ $service->approved }}</td>
+            @endif
         </tr>
         <tr>
             <td><strong>Comentario:</strong> {{ $service->comment }} </td>
+            <td><strong>Dimensiones:</strong> {{ $service->dimensions }}</td>
         </tr>
+
       </table>
       
       <br/>

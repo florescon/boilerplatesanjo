@@ -25,7 +25,7 @@ class OrderTable extends Component
 
     public $title = [];
 
-    public $perPage = '5';
+    public $perPage = '10';
 
     public $limitPerPage = '100';
 

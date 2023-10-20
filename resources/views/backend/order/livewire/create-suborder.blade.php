@@ -29,6 +29,8 @@
 
             <livewire:backend.departament.select-departaments/>
 
+            <livewire:backend.cart.user-cart/>
+
             <div class="form-group row" wire:ignore>
                 <label for="date" class="col-sm-3 col-form-label">@lang('Date')</label>
                 <div class="col-sm-9" >
@@ -102,6 +104,7 @@
             <div class="row justify-content-end">
               <div class="col-9">
                 @error('departament') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                @error('user') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
               </div>
             </div>
               <div class="table-responsive">

@@ -84,21 +84,21 @@
 
         <div class="cs-invoice_head">
           <div class="cs-invoice_right cs-text_center">
-            <p><b class="cs-primary_color cs-semi_bold">@lang('Date Issued'):</b> <br>{{ $order->date_entered_or_created }}</p>
+            <p><b class="cs-primary_color cs-semi_bold">@lang('Date Issued'): <br>{{ $order->date_entered_or_created }}</p></b>
           </div>
           <div class="cs-invoice_right cs-text_center">
             @if($order->request)
-              <p><b class="cs-primary_color cs-semi_bold">@lang('Request number'):</b> <br>{{ $order->request ?? '' }}</p>
+              <p><b class="cs-primary_color cs-semi_bold">@lang('Request number'): <br>{{ $order->request ?? '' }}</p></b>
             @endif
           </div>
           <div class="cs-invoice_right cs-text_center">
             @if($order->purchase)
-              <p><b class="cs-primary_color cs-semi_bold">@lang('Purchase order'):</b> <br>{{ $order->purchase ?? '' }}</p>
+              <p><b class="cs-primary_color cs-semi_bold">@lang('Purchase order'): <br>{{ $order->purchase ?? '' }}</p></b>
             @endif
           </div>
           @if($order->invoice)
             <div class="cs-invoice_right cs-text_center">
-                <p><b class="cs-primary_color cs-semi_bold">@lang('Invoice'):</b> <br>{{ $order->invoice ?? '' }}</p>
+                <p><b class="cs-primary_color cs-semi_bold">@lang('Invoice'):<br>{{ $order->invoice ?? '' }}</p></b>
             </div>
           @endif
         </div>

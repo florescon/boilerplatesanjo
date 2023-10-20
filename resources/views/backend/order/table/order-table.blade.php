@@ -40,7 +40,7 @@
 
                 <div class="page-header-subtitle mt-4 mb-2 no-print">
                     <em>
-                        @lang('Filter by created date range')
+                        @lang('Filter by created order date range')
                     </em>
                 </div>
 
@@ -175,11 +175,13 @@
                                                     {!! $order->type_order !!}
 
                                                     @if (!$order->isSuborder())
-                                                        <strong>Totales:</strong>
-                                                        {{ $order->total_products_by_all }}
+                                                        <strong>Totales:
+                                                            {{ $order->total_products_by_all }}
+                                                        </strong>
                                                     @else
-                                                        <strong>Totales:</strong>
-                                                        {{ $order->total_products_suborder }}
+                                                        <strong>Totales:
+                                                            {{ $order->total_products_suborder }}
+                                                        </strong>
                                                     @endif
                                                     @if ($order->purchase)
                                                         <strong>#O. DE COMPRA:</strong>

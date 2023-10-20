@@ -70,7 +70,7 @@ ventas@sj-uniformes.com
                     <td><strong>Asignado a:</strong> {{ $order->user_name }}</td>
                 @endif
             </tr>
-            <td>
+            <tr>
                 <td><strong>Expedido por:</strong> {{ optional($order->audi)->name }} </td>
             </tr>
         </table>

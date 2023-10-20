@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductOrder;
 use App\Models\Departament;
+use App\Domains\Auth\Models\User;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\GeneralException;
 use Exception;
@@ -23,9 +24,9 @@ class CreateSuborder extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $order_id, $quantityy, $departament, $status_name;
+    public $order_id, $quantityy, $departament, $user, $status_name;
 
-    public $perPage = '60';
+    public $perPage = '5';
 
     public $searchTerm = '';
 
@@ -43,7 +44,7 @@ class CreateSuborder extends Component
     public $nameDepa = null;
     public $namePrice = null;
 
-    protected $listeners = ['selectedDeparament', 'savesuborder' => '$refresh', 'renderview' => 'render'];
+    protected $listeners = ['selectedDeparament', 'selectedCompanyItem', 'savesuborder' => '$refresh', 'renderview' => 'render'];
 
     protected $queryString = [
         'searchTerm' => ['except' => ''],
@@ -51,7 +52,8 @@ class CreateSuborder extends Component
     ];
 
     protected $rules = [
-        'departament' => 'required',
+        'user' => 'prohibited_unless:departament,null',
+        'departament' => 'prohibited_unless:user,null',
     ];
 
     public function sortBy($field)
@@ -131,9 +133,26 @@ class CreateSuborder extends Component
             $this->departament = null;
     }
 
+    public function selectedCompanyItem($item)
+    {
+        if ($item)
+            $this->user = $item;
+
+            if($this->user != null){
+                $user = User::find($this->user);
+                $this->nameDepa = $user->name ?? '';
+                $this->namePrice = $user->type_price_label ?? '';
+            }
+
+        else
+            $this->user = null;
+    }
+
     public function savesuborder()
     {
         $this->validate();
+
+        dd($this->nameDepa);
 
         $suborder = Product::query()->onlySubProducts()->with('parent')->where('stock', '<>', 0)->get();
 
