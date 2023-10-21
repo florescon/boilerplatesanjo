@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductOrder;
 use App\Models\Departament;
+use App\Domains\Auth\Models\User;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\GeneralException;
 use Exception;
@@ -23,7 +24,7 @@ class CreateSuborder extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $order_id, $quantityy, $departament, $status_name;
+    public $order_id, $quantityy, $departament, $user, $status_name;
 
     public $perPage = '60';
 
@@ -43,16 +44,29 @@ class CreateSuborder extends Component
     public $nameDepa = null;
     public $namePrice = null;
 
-    protected $listeners = ['selectedDeparament', 'savesuborder' => '$refresh', 'renderview' => 'render'];
+    protected $listeners = ['selectedDeparament', 'selectedCompanyItem', 'savesuborder' => '$refresh', 'renderview' => 'render'];
 
     protected $queryString = [
         'searchTerm' => ['except' => ''],
         'perPage',
     ];
 
+    // protected $rules = [
+    //     'user' => 'prohibited_unless:departament,null',
+    //     'departament' => 'prohibited_unless:user,null',
+    // ];
+
     protected $rules = [
-        'departament' => 'required',
+        'user' => [
+            'required_without:departament',
+            'prohibited_unless:departament,null',
+        ],
+        'departament' => [
+            'required_without:user',
+            'prohibited_unless:user,null',
+        ],
     ];
+
 
     public function sortBy($field)
     {
@@ -131,9 +145,38 @@ class CreateSuborder extends Component
             $this->departament = null;
     }
 
+    public function selectedCompanyItem($item)
+    {
+        if ($item)
+            $this->user = $item;
+
+            if($this->user != null){
+                $user = User::find($this->user);
+                $this->nameDepa = $user->name ?? '';
+                $this->namePrice = $user->type_price_label ?? '';
+            }
+
+        else
+            $this->user = null;
+    }
+
+    public function clearFilterDepartament()
+    {
+        $this->emit('clear-departament');
+        $this->departament = null;
+    }
+
+    public function clearFilterUser()
+    {
+        $this->emit('clear-user');
+        $this->user = null;
+    }
+
     public function savesuborder()
     {
         $this->validate();
+
+        // dd('si');
 
         $suborder = Product::query()->onlySubProducts()->with('parent')->where('stock', '<>', 0)->get();
 
@@ -156,6 +199,7 @@ class CreateSuborder extends Component
             // dd($this->quantity);
             $suborder = new Order();
             $suborder->departament_id = $this->departament ?? null;
+            $suborder->user_id = $this->user ?? null;
             $suborder->date_entered = Carbon::now()->format('Y-m-d');
             $suborder->audi_id = Auth::id();
             $suborder->approved = true;
@@ -170,6 +214,16 @@ class CreateSuborder extends Component
             event(new OrderCreated($suborder));
 
             $departament = Departament::find($this->departament);
+            $user = User::with('customer')->find($this->user);
+
+
+            if($departament){
+                $price = $departament->type_price;
+            }
+
+            if($user){
+                $price = $user->customer->type_price;
+            }
 
             foreach($this->quantityy as $key => $product){
 
@@ -183,7 +237,7 @@ class CreateSuborder extends Component
                     $suborderIntoPro->product_suborder()->create([
                         'product_id' => $key,
                         'quantity' => $product['available'],
-                        'price' => $this->departament ? $getProduct->getPriceWithIva($departament->type_price) : $item->getPriceWithIva(),
+                        'price' => ($this->departament || $this->user) ? $getProduct->getPriceWithIva($price) : $item->getPriceWithIva(),
                         'parent_product_id' => $key,
                         'type' => 4,
                     ]);
@@ -194,7 +248,7 @@ class CreateSuborder extends Component
                             'stock' => $product['available'],
                             'old_stock' => $getProduct->stock ?? null,
                             'type_stock' => 'stock',
-                            'price' => $this->departament ? $getProduct->getPriceWithIva($departament->type_price) : $item->getPriceWithIva(),
+                            'price' => ($this->departament || $this->user) ? $getProduct->getPriceWithIva($price) : $item->getPriceWithIva(),
                             'order_id' => $suborderIntoPro->id,
                             'is_output' => true,
                             'audi_id' => Auth::id(),

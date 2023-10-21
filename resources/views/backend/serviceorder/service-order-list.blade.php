@@ -188,7 +188,7 @@
         					<div> 
                     {{ optional($serviceOrder->createdby)->name ?? __('undefined') }}</a> 
                   </div>
-        					<div class="small text-muted">@lang('Ticket registered'): {{ $serviceOrder->date_for_humans }}</div>
+        					<div class="small text-muted">{{ $serviceOrder->date_for_humans }}</div>
         				</td>
         				<td class="text-center">
                   <span class='badge badge-primary'>{{ optional($serviceOrder->service_type)->name }}</span>

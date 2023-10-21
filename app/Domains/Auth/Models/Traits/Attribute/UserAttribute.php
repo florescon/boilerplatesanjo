@@ -97,4 +97,65 @@ trait UserAttribute
     {
         return $this->price_making();
     }
+
+
+    /**
+     * @return mixed
+     */
+    public function isRetail(): bool
+    {
+        return $this->customer->type_price === self::PRICE_RETAIL;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function isAverageWholesale(): bool
+    {
+        return $this->customer->type_price === self::PRICE_AVERAGE_WHOLESALE;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function isWholesale(): bool
+    {
+        return $this->customer->type_price === self::PRICE_WHOLESALE;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function isSpecial(): bool
+    {
+        return $this->customer->type_price === self::PRICE_SPECIAL;
+    }
+
+    /**
+     * @param $type_price
+     *
+     * @return bool
+     */
+    public function isTypePrice($type_price): bool
+    {
+        return $this->type_price === $type_price;
+    }
+
+    public function getTypePriceLabelAttribute()
+    {
+        if($this->isRetail()){
+            return __('Retail price');
+        }
+        elseif($this->isAverageWholesale()){
+            return __('Average wholesale price');
+        }
+        elseif($this->isWholesale()){
+            return __('Wholesale price');
+        }
+        elseif($this->isSpecial()){
+            return __('Special price');
+        }
+
+        return __('Retail price');
+    }
 }

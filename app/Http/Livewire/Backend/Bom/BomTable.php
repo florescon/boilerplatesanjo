@@ -270,6 +270,11 @@ class BomTable extends Component
         return Excel::download(new BillOfMaterialsExport($this->materials->toArray()), 'bill-of-materials-'.Carbon::now().'.'.$extension);
     }
 
+    public function printTicket()
+    {
+        return redirect()->route('admin.bom.ticket_bom', urlencode(json_encode($this->getSelectedProducts())));
+    }
+
     public function exportProductsCustom($extension, ?string $sort = '')
     {   
      

@@ -152,7 +152,7 @@
                 </td>
         				<td class="text-center">
                   <div> {{ optional($batch->personal)->name ?? __('undefined') }} </div>
-        					<div class="small text-muted">@lang('Batch registered'): {{ $batch->date_for_humans }}</div>
+        					<div class="small text-muted">{{ $batch->date_for_humans }}</div>
         				</td>
         				<td class="text-center">
                   <span class='badge badge-primary'>{{ $batch->status->name }}</span>

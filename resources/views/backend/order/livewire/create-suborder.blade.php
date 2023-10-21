@@ -27,7 +27,31 @@
               <i class="c-icon c-icon-4x cil-library"></i>
             </span>
 
-            <livewire:backend.departament.select-departaments/>
+            <div>
+              <livewire:backend.departament.select-departaments/>
+
+              @if($departament)
+                <div class="col-12 text-center mb-4">
+                  <button class="btn btn-danger" wire:click="clearFilterDepartament">
+                    @lang('Clear departament')
+                  </button>
+                </div>
+              @endif
+
+            </div>
+
+            <div>
+              <livewire:backend.cart.user-cart/>
+
+              @if($user)
+                <div class="col-12 text-center mb-4">
+                  <button class="btn btn-danger" wire:click="clearFilterUser">
+                    @lang('Clear user')
+                  </button>
+                </div>
+              @endif
+
+            </div>
 
             <div class="form-group row" wire:ignore>
                 <label for="date" class="col-sm-3 col-form-label">@lang('Date')</label>
@@ -102,6 +126,7 @@
             <div class="row justify-content-end">
               <div class="col-9">
                 @error('departament') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                @error('user') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
               </div>
             </div>
               <div class="table-responsive">
@@ -143,7 +168,7 @@
                         <tr>
                           <td colspan="2"></td>
                           <td>
-                            <button type="button" wire:click="savesuborder" style="background: purple; color: white;" class="btn btn-sm">@lang('Save suborder output') {{ $nameDepa ?? '' }} <span class="badge badge-light">{{ $namePrice ?? '' }}</span></button>
+                            <button type="button" wire:click="savesuborder" style="background: purple; color: white;" class="btn btn-sm">@lang('Save output') &nbsp; <strong class="text-success">{{ $nameDepa ?? '' }}</strong> <span class="badge badge-light">{{ $namePrice ?? '' }}</span></button>
                           </td>
                         </tr>
                       @endif

@@ -171,8 +171,10 @@
                                             {{ count($materialsCollection) . ' ' . __('Records') }}
 
                                             <br>
-                                            <input class="btn btn-primary disabled mt-2" aria-disabled="true" type="button" value="{{ __('Ticket') }}"
-                                                   onclick="window.print()" />
+                                             <a wire:click="printTicket" class="btn btn-primary mt-2" target="_blank"><i class="cil-print"></i> Ticket </a>
+
+                                            {{-- <input class="btn btn-primary disabled mt-2" aria-disabled="true" type="button" value="{{ __('Ticket') }}"
+                                                   onclick="window.print()" /> --}}
 
                                         </a>
                                         @foreach ($materialsCollection as $material)

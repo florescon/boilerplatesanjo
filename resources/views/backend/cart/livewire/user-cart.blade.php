@@ -53,4 +53,12 @@
 
       });
     </script>
+
+    <script>
+        Livewire.on('clear-user', cleardepa => {
+            jQuery(document).ready(function () {
+                $("#userselect").val('').trigger('change')
+            });
+        })
+    </script>
 @endpush
