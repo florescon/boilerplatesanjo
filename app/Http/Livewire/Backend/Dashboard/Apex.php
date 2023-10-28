@@ -14,6 +14,8 @@ class Apex extends Component
         $ordercollection = collect();
         $coll = collect();
 
+        $ids = collect();
+
         foreach($orders as $order){
 
             $coll[] = $order->total_graphic;
@@ -21,9 +23,16 @@ class Apex extends Component
             $ordercollection->push(
                 // 'id' => $order->id,
                 // 'folio' => $order->folio,
-                 '#'.$order->folio_or_id_clear.' '.optional($order->user)->name.' - '.$order->comment,
+
+                 ['#'.$order->folio_or_id_clear.' —— '.optional($order->user)->real_name, $order->comment],
+                // ['#'.$order->folio_or_id_clear.' '.optional($order->user)->name], [$order->comment],
+
                 // 'type' => $order->characters_type_order,
                 // 'comment' => $order->comment,
+            );
+
+            $ids->push(
+                 $order->id,
             );
         }
 
@@ -70,6 +79,7 @@ class Apex extends Component
 
         return view('backend.dashboard.livewire.apex', [
             'categories' => $categories,
+            'ids' => $ids,
             'captura' => $captura->values(),
             'corte' => $corte->values(),
             'confeccion' => $confeccion->values(),

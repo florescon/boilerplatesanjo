@@ -16,6 +16,8 @@ class BatchTable extends Component
 
     protected $paginationTheme = 'bootstrap';
 
+    public ?string $theName = '';
+
     protected $queryString = [
         'searchTerm' => ['except' => ''],
         'perPage',
@@ -48,6 +50,11 @@ class BatchTable extends Component
     protected $listeners = ['filter' => 'filter', 'delete', 'restore', 'triggerRefresh' => '$refresh'];
 
     public $updated, $selected_id, $deleted;
+
+    public function mount(string $theName)
+    {
+        $this->theName = $theName;
+    }
 
     public function sortBy($field)
     {

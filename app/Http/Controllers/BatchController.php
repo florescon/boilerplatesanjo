@@ -18,6 +18,27 @@ class BatchController extends Controller
         return view('backend.batch.index');
     }
 
+    public function index_conformed()
+    {
+        return view('backend.batch.index-conformed');
+    }
+
+    public function index_manufacturing()
+    {
+        return view('backend.batch.index-manufacturing');
+    }
+
+    public function index_personalization()
+    {
+        return view('backend.batch.index-personalization');
+    }
+
+    public function index_shipment()
+    {
+        return view('backend.batch.index-shipment');
+    }
+
+
     public function destroy(Batch $batch)
     {
         foreach($batch->batch_product as $batch_product){

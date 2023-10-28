@@ -29,11 +29,11 @@ class BillOfMaterialsExport implements FromArray, WithMapping, WithHeadings, Wit
     {
         return [
             __('Code'),
+            __('Stock'),
             __('Material'),
             __('Exploded'),
-            __('Stock'),
             __('Require'),
-            __('Unit of measurement'),
+            __('Unit'),
             __('Family'),
             __('Vendor'),
         ];
@@ -47,9 +47,9 @@ class BillOfMaterialsExport implements FromArray, WithMapping, WithHeadings, Wit
     {
         return [
             $material['part_number'] ?? '',
+            $material['stock'] ?? '',
             $material['material_name'] ?? '',
             $material['quantity'] ?? '--',
-            $material['stock'] ?? '',
             $material['stock'] < $material['quantity'] ? abs($material['stock'] - $material['quantity']) : '',
             $material['unit_measurement'] ?? '',
             $material['family'] ?? '--',

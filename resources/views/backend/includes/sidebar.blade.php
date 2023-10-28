@@ -142,7 +142,7 @@
             </li>
         @endif
 
-        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.order.order')))
+{{--         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.order.order')))
             <li class="c-sidebar-nav-item">
                 <x-utils.link
                     class="c-sidebar-nav-link"
@@ -151,7 +151,61 @@
                     icon="c-sidebar-nav-icon cil-view-column"
                     :text="__('Batches')" />
             </li>
+        @endif --}}
+
+        @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.order.order'))
+            <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.batch.*') || Route::is('admin.batch.conformed'), 'c-open c-show') }}">
+                <x-utils.link
+                    href="#"
+                    icon="c-sidebar-nav-icon cil-view-column"
+                    class="c-sidebar-nav-dropdown-toggle"
+                    :text="__('Workstations')" />
+
+                <ul class="c-sidebar-nav-dropdown-items">
+
+                        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.order.order')))
+                            <li class="c-sidebar-nav-item">
+                                <x-utils.link
+                                    :href="route('admin.batch.index')"
+                                    class="c-sidebar-nav-link"
+                                    :text="__('Cutting')"
+                                    :active="activeClass(Route::is('admin.batch.*'), 'c-active')" />
+                            </li>
+
+                            <li class="c-sidebar-nav-item">
+                                <x-utils.link
+                                    :href="route('admin.batch.manufacturing')"
+                                    class="c-sidebar-nav-link"
+                                    :text="__('Manufacturing')"
+                                    :active="activeClass(Route::is('admin.batch.*'), 'c-active')" />
+                            </li>
+                            {{-- <li class="c-sidebar-nav-item">
+                                <x-utils.link
+                                    :href="route('admin.batch.conformed')"
+                                    class="c-sidebar-nav-link"
+                                    :text="__('Conformed')"
+                                    :active="activeClass(Route::is('admin.batch.*'), 'c-active')" />
+                            </li>
+                            <li class="c-sidebar-nav-item">
+                                <x-utils.link
+                                    :href="route('admin.batch.personalization')"
+                                    class="c-sidebar-nav-link"
+                                    :text="__('Personalization')"
+                                    :active="activeClass(Route::is('admin.batch.*'), 'c-active')" />
+                            </li>
+                            <li class="c-sidebar-nav-item">
+                                <x-utils.link
+                                    :href="route('admin.batch.shipment')"
+                                    class="c-sidebar-nav-link"
+                                    :text="__('Shipment')"
+                                    :active="activeClass(Route::is('admin.batch.*'), 'c-active')" />
+                            </li> --}}
+                        @endif
+
+                </ul>
+            </li>
         @endif
+
 
         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.order.order')))
             <li class="c-sidebar-nav-item">

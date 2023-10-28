@@ -11,7 +11,7 @@
                 <h5 class="heading">
                   <kbd>
                     <i class="cil-view-column"></i> 
-                    @lang('Batches')
+                    @lang('Workstation') ——> {{ __(ucfirst($theName)) }}
                     @if($status == 'deleted')
                       <span class="badge badge-danger">@lang('Deletions')</span>
                     @endif
@@ -136,7 +136,7 @@
               @foreach($batches as $batch)
         			<tr>
                 <td>
-                  <strong>#{{ $batch->folio_or_id }}</strong>
+                  <strong>#{{ $batch->parent_or_id }}</strong>
                   <div class="small text-muted">@lang('Batch')</div>
                 </td>
                 <td>

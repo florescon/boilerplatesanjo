@@ -1262,5 +1262,12 @@
     "List of feedstocks": "Lista de materias prima",
     "Search feedstock": "Buscar materia prima",
     "Clear feedstocks": "Limpiar materias primas",
-    "Add feedstock": "Agregar materia prima"
+    "Add feedstock": "Agregar materia prima",
+    "Manufacturing": "Confección",
+    "Conformed": "Conformado",
+    "Personalization": "Personalización",
+    "Shipment": "Embarque",
+    "Cutting": "Corte",
+    "Workstation": "Estación",
+    "Workstations": "Estaciones"
 }

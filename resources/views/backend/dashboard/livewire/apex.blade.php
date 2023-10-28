@@ -17,29 +17,38 @@
   var embarque = {!! $embarque !!};
 
   var options = {
-      series: [{
-      name: 'captura',
-      data: captura
-    }, {
-      name: 'corte',
-      data: corte
-    }, {
-      name: 'confeccion',
-      data: confeccion
-    }, {
-      name: 'conformado',
-      data: conformado
-    }, {
-      name: 'personalizacion',
-      data: personalizacion
-    }, {
-      name: 'embarque',
-      data: embarque
+    series: [{
+        name: 'captura',
+        data: captura
+      }, {
+        name: 'corte',
+        data: corte
+      }, {
+        name: 'confeccion',
+        data: confeccion
+      }, {
+        name: 'conformado',
+        data: conformado
+      }, {
+        name: 'personalizacion',
+        data: personalizacion
+      }, {
+        name: 'embarque',
+        data: embarque
     }],
-      chart: {
+    chart: {
       type: 'bar',
-      height: 380,
+      height: 580,
       stacked: true,
+      events: {
+        dataPointSelection: function(event, chartContext, opts) {
+          let id = opts.w.config.si.categories[opts.dataPointIndex];
+          window.open('order/' + id + '/edit', '_blank');
+        },
+        dataPointMouseEnter: function(event, chartContext, config) {
+          event.target.style.cursor = 'pointer';
+        },
+      },
     },
     plotOptions: {
       bar: {
@@ -77,6 +86,9 @@
           color:  '#9699a2'
         },
     },
+    si: {
+      categories: {!! $ids !!},
+    },
     xaxis: {
       categories: {!! $categories !!},
       title: {
@@ -94,14 +106,32 @@
       },
       labels: {
           show: true,
+          align: 'left',
           minWidth: 0,
-          maxWidth: 350,
+          maxWidth: 550,
           style: {
-              fontSize: '12px',
+              fontSize: '11px',
               fontFamily: 'Helvetica, Arial, sans-serif',
               fontWeight: 900,
               cssClass: 'apexcharts-yaxis-label',
           },
+        formatter: function (value) {
+            return value;
+        }
+      },
+      axisBorder: {
+          show: true,
+          color: '#78909C',
+          offsetX: 0,
+          offsetY: 0
+      },
+      axisTicks: {
+          show: true,
+          borderType: 'solid',
+          color: '#78909C',
+          width: 380,
+          offsetX: 0,
+          offsetY: 0
       },
     },
     tooltip: {
