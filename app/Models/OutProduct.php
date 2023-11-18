@@ -33,4 +33,9 @@ class OutProduct extends Model
     {
         return $this->belongsTo(Material::class)->withTrashed();
     }
+
+    public function getTotalByProductAttribute()
+    {
+        return $this->quantity * $this->price;
+    }
 }

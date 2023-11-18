@@ -108,7 +108,7 @@
                   @foreach($batch->batch_product->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']])  as $assign)
                   <tr>
                     <td scope="row">
-                        {!! $assign->product->full_name !!}
+                        {!! $assign->product->full_name !!} {{ ' ['.$assign->product->code_subproduct_clear.']' }}
                         <br>
                         <strong>{{ $assign->comment }}</strong>
                     </td>

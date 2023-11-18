@@ -135,6 +135,7 @@
                 <th class="text-center">@lang('Type')</th>
                 <th class="text-center">@lang('Personal')</th>
                 <th class="text-center">@lang('Comment')</th>
+                <th class="text-center">@lang('File N.')</th>
                 <th class="text-center">@lang('Created by')</th>
                 <th class="text-center">@lang('Details')</th>
         				<th class="text-center">
@@ -183,6 +184,9 @@
                   {{ optional($serviceOrder->order->user)->name.' '.optional($serviceOrder->order)->info_customer }}
                   <strong>{{ optional($serviceOrder->order)->comment ?? '--' }}</strong>
                   <div class="small text-muted">{{ $serviceOrder->comment }}</div>
+                </td>
+                <td class="text-center">
+                  {{ $serviceOrder->file_text ?? '--' }}
                 </td>
         				<td class="text-center">
         					<div> 

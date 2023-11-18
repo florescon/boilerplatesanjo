@@ -26,7 +26,7 @@ class CreateSuborder extends Component
 
     public $order_id, $quantityy, $departament, $user, $status_name;
 
-    public $perPage = '60';
+    public $perPage = '30';
 
     public $searchTerm = '';
 
@@ -117,7 +117,7 @@ class CreateSuborder extends Component
     {
         $this->searchTerm = '';
         $this->resetPage();
-        $this->perPage = '60';
+        $this->perPage = '30';
     }
 
     public function updatedSearchTerm()
@@ -279,7 +279,7 @@ class CreateSuborder extends Component
     public function render()
     {
         // $products = Product::query()->onlySubProducts()->with('parent')->where('stock', '<>', 0)->paginate(10);
-        $model = Order::query()->onlySuborders()->orderBy('created_at', 'desc')->limit('10')->get();
+        $model = Order::query()->with('departament', 'user', 'product_suborder')->onlySuborders()->orderBy('created_at', 'desc')->limit('10')->get();
 
         return view('backend.order.livewire.create-suborder', [
             'products' => $this->rows,

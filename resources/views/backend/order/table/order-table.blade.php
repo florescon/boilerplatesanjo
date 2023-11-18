@@ -165,11 +165,10 @@
                                                         <em class="text-small"
                                                             style="">{!! Str::limit($order->comment, 100) !!}</em>
                                                     @endif
-
-                                                    <span class="badge badge-dot">
-                                                        {!! $order->date_for_humans !!}
-                                                    </span>
-
+                                                    &nbsp;
+                                                        <span class="badge badge-pill badge-secondary">
+                                                            {!! $order->date_for_humans !!}
+                                                        </span>
                                                     <br>
 
                                                     {!! $order->type_order !!}

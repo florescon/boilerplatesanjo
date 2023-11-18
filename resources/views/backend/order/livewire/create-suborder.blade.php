@@ -110,7 +110,7 @@
             <div class="row mb-4 justify-content-md-center">
               <div class="col-9">
                 <div class="input-group">
-                  <input wire:model.debounce.350ms="searchTerm" class="input-search" type="text" placeholder="Buscar producto terminado..." />
+                  <input wire:model.debounce.450ms="searchTerm" class="input-search" type="text" placeholder="Buscar producto terminado..." />
                   <span class="border-input-search"></span>
                 </div>
               </div>
