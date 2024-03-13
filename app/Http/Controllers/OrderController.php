@@ -104,6 +104,13 @@ class OrderController extends Controller
         }
     }
 
+    public function edit_chart(Order $order)
+    {
+        $vvar =  $order->created_at->timestamp;
+
+        return view('backend.chart.order.edit', compact('order', 'vvar'));
+    }
+
     public function createsuborder()
     {
         return view('backend.order.create-suborder');
@@ -469,6 +476,21 @@ class OrderController extends Controller
 
         return view('backend.order.process-order', compact('order', 'status'));
     }
+
+    public function quotations_chart_list()
+    {
+        return view('backend.chart.quotations');
+    }
+    public function all_chart()
+    {
+        return view('backend.chart.all_chart');
+    }
+
+    public function flowchart_request()
+    {
+        return view('backend.flowchart.requests');
+    }
+
 
     public function deleted()
     {

@@ -271,8 +271,49 @@ Route::group([
                     ->push(__('Service Orders'), route('admin.order.service_orders', $order));
             });
 
+        Route::get('edit_chart', [OrderController::class, 'edit_chart'])
+            ->name('edit_chart')
+            ->middleware('permission:admin.access.order.modify')
+            ->breadcrumbs(function (Trail $trail, Order $order) {
+                $trail->parent($order->from_store ? 'admin.store.all.index' : 'admin.order.index')
+                    ->push(__('Edit'), route('admin.order.edit_chart', $order));
+            });
+
         Route::delete('/', [OrderController::class, 'destroy'])->name('destroy');
     });
+
+    Route::get('quotation_chart', function () {
+            return view('backend.flowchart.quotation');
+        })->name('quotation_chart')
+        ->middleware('permission:admin.access.order.quotation')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.dashboard')
+                ->push(__('Quotation Panel Management'), route('admin.order.quotation_chart'));
+    });
+
+    Route::get('quotations_chart', [OrderController::class, 'quotations_chart_list'])
+        ->name('quotations_chart')
+        ->middleware('permission:admin.access.order.order-sales')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.order.index')
+                ->push(__('Quotations'), route('admin.order.quotations_chart'));
+        });
+    Route::get('all_chart', [OrderController::class, 'all_chart'])
+        ->name('all_chart')
+        ->middleware('permission:admin.access.order.modify')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.order.suborders')
+                ->push(__('All orders'), route('admin.order.all_chart'));
+        });
+
+
+    Route::get('request_chart', [OrderController::class, 'flowchart_request'])
+        ->name('request_chart')
+        ->middleware('permission:admin.access.order.order')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.dashboard')
+                ->push(__('Requests Management'), route('admin.order.request_chart'));
+        });
 
 });
 

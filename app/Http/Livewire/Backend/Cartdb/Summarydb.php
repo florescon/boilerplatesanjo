@@ -19,6 +19,7 @@ class Summarydb extends Component
     public ?int $branchIdSummary = 0;
 
     public bool $isMain = false;
+    public bool $flowchart = false;
 
     public $description = '';
     public $info_customer = '';
@@ -30,9 +31,10 @@ class Summarydb extends Component
 
     protected $listeners = ['selectedCompanyItem', 'cartUpdated' => '$refresh'];
 
-    public function mount(string $typeSummary, ?int $branchIdSummary = 0, ?bool $isMain = false)
+    public function mount(string $typeSummary, ?int $branchIdSummary = 0, ?bool $isMain = false, ?bool $flowchart = false)
     {
         $this->isMain = $isMain;
+        $this->flowchart = $flowchart;
         $this->type = $typeSummary;
         $this->branchId = $branchIdSummary;
         $this->summary = Summary::where('type', $typeSummary)->where('branch_id', $branchIdSummary)->where('user_id', Auth::id())->first() ?? null;
@@ -145,6 +147,7 @@ class Summarydb extends Component
             $order->type = typeInOrder($this->type);
             $order->audi_id = Auth::id();
             $order->from_store = $this->isMain ? null : true;
+            $order->flowchart = $this->flowchart ? null : true;
             $order->approved = 1;
             $order->branch_id = $this->branchId;
             $order->from_quotation = ($typeOrder == 6) ? true : false;

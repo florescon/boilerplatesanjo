@@ -120,6 +120,40 @@
             </li>
         @endif
 
+        @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.order.order'))
+            <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.order.all_chart') || Route::is('admin.order.quotations_chart') || Route::is('admin.order.quotation_chart') || Route::is('admin.order.request_chart'), 'c-open c-show') }}">
+                <x-utils.link
+                    href="#"
+                    new
+                    icon="c-sidebar-nav-icon cil-view-column"
+                    class="c-sidebar-nav-dropdown-toggle"
+                    :text="__('Production')" />
+
+                <ul class="c-sidebar-nav-dropdown-items">
+
+                        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.order.order')))
+                            <li class="c-sidebar-nav-item">
+                                <x-utils.link
+                                    :href="route('admin.order.quotation_chart')"
+                                    class="c-sidebar-nav-link"
+                                    :text="__('Quotation')"
+                                    :active="activeClass(Route::is('admin.order.quotation_chart'), 'c-active')" />
+                            </li>
+
+                            <li class="c-sidebar-nav-item">
+                                <x-utils.link
+                                    :href="route('admin.order.request_chart')"
+                                    class="c-sidebar-nav-link"
+                                    :text="__('Requests')"
+                                    :active="activeClass(Route::is('admin.order.request_chart'), 'c-active')" />
+                            </li>
+                        @endif
+
+                </ul>
+            </li>
+        @endif
+
+
         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.order.order')))
             <li class="c-sidebar-nav-item">
                 <x-utils.link
@@ -127,6 +161,7 @@
                     :href="route('admin.order.index')"
                     :active="activeClass(Route::is('admin.order.index'), 'c-active')"
                     icon="c-sidebar-nav-icon cil-cash"
+                    old
                     :text="__('Orders')" />
             </li>
         @endif
@@ -138,6 +173,7 @@
                     :href="route('admin.order.quotation')"
                     :active="activeClass(Route::is('admin.order.quotation'), 'c-active')"
                     icon="c-sidebar-nav-icon cil-center-focus"
+                    old
                     :text="__('Quotation')" />
             </li>
         @endif
@@ -159,6 +195,7 @@
                     href="#"
                     icon="c-sidebar-nav-icon cil-view-column"
                     class="c-sidebar-nav-dropdown-toggle"
+                    old
                     :text="__('Workstations')" />
 
                 <ul class="c-sidebar-nav-dropdown-items">
@@ -214,6 +251,7 @@
                     :href="route('admin.ticket.index')"
                     :active="activeClass(Route::is('admin.ticket.*'), 'c-active')"
                     icon="c-sidebar-nav-icon cil-short-text"
+                    old
                     :text="__('Tickets')" />
             </li>
         @endif

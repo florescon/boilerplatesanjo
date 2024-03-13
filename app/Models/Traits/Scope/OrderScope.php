@@ -122,6 +122,16 @@ trait OrderScope
      *
      * @return mixed
      */
+    public function scopeFlowchart($query)
+    {
+        return $query->where('flowchart', true);
+    }
+
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
     public function scopeOnlyAssignment($query, $assignment)
     {
         return $query->whereHas('last_status_order', function ($query) use ($assignment) {
