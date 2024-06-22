@@ -32,6 +32,22 @@
     <link href="{{ asset('css_custom/app/filepond.css') }}" rel="stylesheet">
     <link href="{{ asset('css_custom/app/filepond-plugin-image-preview.css') }}" rel="stylesheet">
 
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    
+    <style type="text/css">
+        .text-decoration-line-through{text-decoration:line-through!important}
+ 
+        .btn-outline-primary:hover {
+          color: white !important;
+        }
+        .btn-primary:hover {
+          color: white !important;
+        }
+    </style>
+
     <link rel="stylesheet" href="{{ asset('css_custom/product.css') }}">
     <link rel="stylesheet" href="{{ asset('css_custom/custom.css') }}">
 
@@ -45,7 +61,7 @@
         @include('backend.includes.header')
         @include('includes.partials.read-only')
         @include('includes.partials.logged-in-as')
-        {{-- @include('includes.partials.announcements') --}}
+        @include('includes.partials.announcements')
 
         <div class="c-body">
             <main class="c-main">

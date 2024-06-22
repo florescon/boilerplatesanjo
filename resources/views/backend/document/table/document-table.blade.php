@@ -11,6 +11,11 @@
       .table-striped>thead>tr>th {
          background-color: #eee;
       }
+
+      .card-columns {
+        column-count: 4;
+      }
+
     </style>
 @endpush
 
@@ -22,13 +27,13 @@
 
   <div class="card-header" style="background-color:#ffffcc;">
     @if($deleted)
-      <strong style="color: red;"> @lang('List of deleted documents') </strong>
+      <strong style="color: red;"> @lang('List of deleted documents_') </strong>
     @else
-      <strong style="color: black;"> <kbd>@lang('List of documents')</kbd> </strong>
+      <strong style="color: black;"> <kbd>@lang('List of documents_')</kbd> </strong>
     @endif
     <div class="card-header-actions">
       @if (!$deleted && ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.document.create')))
-        <a href="#" class="card-header-action" style="color: green;" data-toggle="modal" wire:click="createmodal()" data-target="#exampleModal"><i class="c-icon cil-plus"></i> @lang('Create document') </a>
+        <a href="#" class="card-header-action" style="color: green;" data-toggle="modal" wire:click="createmodal()" data-target="#exampleModal"><i class="c-icon cil-plus"></i> @lang('Create document_') </a>
       @endif
     </div>
 
@@ -60,9 +65,10 @@
 
       <select wire:model="perPage" class="form-control">
         <option>10</option>
-        <option>25</option>
+        <option>20</option>
+        <option>30</option>
+        <option>40</option>
         <option>50</option>
-        <option>100</option>
       </select>
     </div><!--col-->
 
@@ -116,132 +122,10 @@
 
   <div class="row mt-4">
     <div class="col">
-      <div class="table-responsive">
-        <table class="table table-sm align-items-center table-striped table-flush  table-hover">
-          <thead style="
-          " class="thead-dark">
-            <tr>
-              @if(!$deleted)
-                <th style="width:30px; max-width: 30px;">
-                  <label class="form-checkbox">
-                    <input type="checkbox" wire:model="selectPage">
-                    <i class="form-icon"></i>
-                  </label>
-                </th>
-              @endif
-              <th scope="col">
-                <a style="color:white;" wire:click.prevent="sortBy('title')" role="button" href="#">
-                  @lang('Title')
-                  @include('backend.includes._sort-icon', ['field' => 'title'])
-                </a>
-              </th>
-              @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.document.show-dst'))
-                <th scope="col">@lang('File DST')</th>
-              @endif
-              @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.document.show-emb'))
-                <th scope="col">@lang('File EMB')</th>
-              @endif
-              <th scope="col">@lang('Comment')</th>
-              <th scope="col">@lang('Updated at')</th>
-              <th scope="col" style="width:90px; max-width: 90px;">@lang('Actions')</th>
-            </tr>
-          </thead>
-          <tbody>
-            @foreach($documents as $document)
-            <tr>
-              @if(!$deleted)
-                <td>
-                  <label class="form-checkbox">
-                      <input type="checkbox" wire:model="selected" value="{{ $document->id }}">
-                    <i class="form-icon"></i>
-                    </label>
-                </td>
-              @endif
-              <th scope="row">
-                  <div> 
-                    {{ $document->title }} 
-                    @if($document->image)
-                      <span class="badge badge-success">
-                        <i class="fa fa-picture-o" aria-hidden="true"></i>
-                      </span>
-                    @endif
-                  </div>
-                  <div class="small text-muted">@lang('Registered'): {{ $document->date_for_humans_created }}</div>
-                  <div>
-                    {!! $document->is_disabled !!}
-                  </div>
-              </th>
-              @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.document.show-dst'))
-                <td>
-                  {!! $document->download_dst !!}
-                </td>
-              @endif
-              @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.document.show-emb'))
-                <td>
-                  {!! $document->download_emb !!}
-                </td>
-              @endif
-              <td>
-                <x-utils.undefined :data="$document->comment"/>
-              </td>
-              <td>
-                {{ $document->updated_at }}
-              </td>
-              <td>
-                <div class="btn-group" role="group" aria-label="Basic example">
-
-                    <button type="button" data-toggle="modal" data-target="#updateModal" wire:click="edit({{ $document->id }})" class="btn btn-transparent-dark">
-                        <i class='far fa-edit'></i>
-                    </button>
-
-                    <button type="button" data-toggle="modal" data-target="#showModal" wire:click="show({{ $document->id }})" class="btn btn-transparent-dark">
-                        <i class='far fa-eye'></i>
-                    </button>
-
-                  @if(!$document->trashed())
-
-                    {{-- <button type="button" data-toggle="modal" data-target="#updateModal" wire:click="edit({{ $document->id }})" class="btn btn-transparent-dark">
-                      <i class='far fa-edit'></i>
-                    </button> --}}
-
-                    @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.document.deactivate'))
-                      <div class="dropdown">
-                        <a class="btn btn-icon-only " href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-ellipsis-v"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                          @if($document->is_enabled)
-                            <a class="dropdown-item" wire:click="disable({{ $document->id }})">@lang('Disable')</a>
-                          @else
-                            <a class="dropdown-item" wire:click="enable({{ $document->id }})">@lang('Enable')</a>
-                          @endif
-                          <a class="dropdown-item" wire:click="delete({{ $document->id }})">@lang('Delete')</a>
-                        </div>
-                      </div>
-                    @endif
-
-                  @else
-                    <div class="dropdown">
-                      <a class="btn btn-icon-only" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <i class="fas fa-ellipsis-v"></i>
-                      </a>
-                      <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                        <a class="dropdown-item" href="#" wire:click="restore({{ $document->id }})">
-                          @lang('Restore')
-                        </a>
-                      </div>
-                    </div>
-                  @endif
-
-                </div>
-              </td>
-            </tr>
-            @endforeach
-          </tbody>
-        </table>
+      <div class="">
 
         @if($documents->count())
-        <div class="row">
+        <div class="row m-4">
           <div class="col">
             <nav>
               {{ $documents->links() }}
@@ -265,6 +149,87 @@
             {{ __('in the page').' '.$page }}
           @endif
         @endif
+
+      <div class="card-columns">
+        @foreach($documents as $document)
+          <div class="card">
+            @if($document->image)
+              <img class="card-img-top" src="{{ asset('/storage/' . $document->image) }}" alt="Card image cap">
+            @endif
+            <div class="card-body">
+              <h5 class="card-title text-center">{{ $document->title }}</h5>
+              <h5 class="card-title text-center">{!! $document->is_disabled !!}</h5>
+              <p class="card-text text-center">
+                {{
+                  \Illuminate\Support\Str::limit($document->comment, 70, '...')
+                }}
+              </p>
+            </div>
+            <div class="card-body text-center">
+
+              <button type="button" data-toggle="modal" data-target="#showModal" wire:click="show({{ $document->id }})" class="btn btn-transparent-dark">
+                  <i class='far fa-eye'></i>
+              </button>
+              @if(!$deleted)
+                <button type="button" data-toggle="modal" data-target="#updateModal" wire:click="edit({{ $document->id }})" class="btn btn-transparent-dark">
+                    <i class='far fa-edit'></i>
+                </button>
+              @endif
+
+              @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.document.show-dst'))
+                {!! $document->card_link_dst !!}
+              @endif
+
+              @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.document.show-emb'))
+                {!! $document->card_link_emb !!}
+              @endif
+
+              @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.document.show-pdf'))
+                {!! $document->card_link_pdf !!}
+              @endif
+
+              @if(!$document->trashed())
+
+                {{-- <button type="button" data-toggle="modal" data-target="#updateModal" wire:click="edit({{ $document->id }})" class="btn btn-transparent-dark">
+                  <i class='far fa-edit'></i>
+                </button> --}}
+
+                @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.document.deactivate'))
+                  <div class="dropdown d-inline">
+                    <a class="btn btn-icon-only " href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                      @if($document->is_enabled)
+                        <a class="dropdown-item" wire:click="disable({{ $document->id }})">@lang('Disable')</a>
+                      @else
+                        <a class="dropdown-item" wire:click="enable({{ $document->id }})">@lang('Enable')</a>
+                      @endif
+                      <a class="dropdown-item" wire:click="delete({{ $document->id }})">@lang('Delete')</a>
+                    </div>
+                  </div>
+                @endif
+
+              @else
+                <div class="dropdown">
+                  <a class="btn btn-icon-only" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-ellipsis-v"></i>
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                    <a class="dropdown-item" href="#" wire:click="restore({{ $document->id }})">
+                      @lang('Restore')
+                    </a>
+                  </div>
+                </div>
+              @endif
+
+            </div>
+            <div class="card-footer text-muted text-center">
+              <em class="text-dark"><strong>@lang('Updated at'):</strong></em> {{ $document->updated_at }}
+            </div>
+          </div>
+        @endforeach
+      </div>
 
       </div>
 

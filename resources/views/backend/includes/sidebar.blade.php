@@ -1,4 +1,4 @@
-<div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" style="background: linear-gradient(to top, #000, #343a40);" id="sidebar">
+<div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" style="background: linear-gradient(to top, #000, #052c65);" id="sidebar">
     <div class="c-sidebar-brand d-lg-down-none" style="background-color: white;">
         <a href="{{ route('admin.dashboard') }}" class="logo">
             <img width="30"  src="{{ asset('/img/logo.png')}}" alt="">
@@ -109,6 +109,28 @@
             </li>
         @endif
 
+        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.information.view')))
+            <li class="c-sidebar-nav-item">
+                <x-utils.link
+                    class="c-sidebar-nav-link"
+                    :href="route('admin.information.index')"
+                    :active="activeClass(Route::is('admin.information.index'), 'c-active')"
+                    icon="c-sidebar-nav-icon cil-newspaper"
+                    :text="__('Information')" />
+            </li>
+        @endif
+
+        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.information.view')))
+            <li class="c-sidebar-nav-item">
+                <x-utils.link
+                    class="c-sidebar-nav-link"
+                    :href="route('admin.information.chart')"
+                    :active="activeClass(Route::is('admin.information.chart'), 'c-active')"
+                    icon="c-sidebar-nav-icon cil-chart"
+                    :text="__('Chart')" />
+            </li>
+        @endif
+
         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.departament.list')))
             <li class="c-sidebar-nav-item">
                 <x-utils.link
@@ -121,7 +143,7 @@
         @endif
 
         @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.order.order'))
-            <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.order.all_chart') || Route::is('admin.order.quotations_chart') || Route::is('admin.order.quotation_chart') || Route::is('admin.order.request_chart'), 'c-open c-show') }}">
+            <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.order.all_chart') || Route::is('admin.order.quotations_chart') || Route::is('admin.station.index') || Route::is('admin.order.quotation_chart') || Route::is('admin.order.request_chart'), 'c-open c-show') }}">
                 <x-utils.link
                     href="#"
                     new
@@ -147,14 +169,33 @@
                                     :text="__('Requests')"
                                     :active="activeClass(Route::is('admin.order.request_chart'), 'c-active')" />
                             </li>
+
+                            <li class="c-sidebar-nav-item">
+                                <x-utils.link
+                                    :href="route('admin.station.index')"
+                                    class="c-sidebar-nav-link"
+                                    :text="__('Workstations')"
+                                    :active="activeClass(Route::is('admin.station.index'), 'c-active')" />
+                            </li>
+
                         @endif
 
                 </ul>
             </li>
         @endif
 
-
         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.order.order')))
+
+            <li class="c-sidebar-nav-item">
+                <x-utils.link
+                    class="c-sidebar-nav-link"
+                    :href="route('admin.dashboard_old')"
+                    :active="activeClass(Route::is('admin.dashboard_old'), 'c-active')"
+                    icon="c-sidebar-nav-icon cil-speedometer"
+                    old
+                    :text="__('Dashboard old')" />
+            </li>
+
             <li class="c-sidebar-nav-item">
                 <x-utils.link
                     class="c-sidebar-nav-link"
@@ -301,7 +342,7 @@
         @endif
 
         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.color.list') || $logged_in_user->can('admin.access.size.list') || $logged_in_user->can('admin.access.cloth.list') || $logged_in_user->can('admin.access.line.list') || $logged_in_user->can('admin.access.unit.list') || $logged_in_user->can('admin.access.brand.list') || $logged_in_user->can('admin.access.family.list') || $logged_in_user->can('admin.access.model_product.list') ))
-            <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.color.*')  || Route::is('admin.size.*') || Route::is('admin.cloth.*') || Route::is('admin.line.*') || Route::is('admin.unit.*') || Route::is('admin.brand.*') || Route::is('admin.family.*') ||  Route::is('admin.model.*'), 'c-open c-show') }}">
+            <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.color.*')  || Route::is('admin.size.*') || Route::is('admin.cloth.*') || Route::is('admin.line.*') || Route::is('admin.unit.*') || Route::is('admin.brand.*') || Route::is('admin.image.*') ||  Route::is('admin.servicetype.*') || Route::is('admin.family.*') ||  Route::is('admin.model.*'), 'c-open c-show') }}">
                 <x-utils.link
                     href="#"
                     icon="c-sidebar-nav-icon cil-library"
@@ -336,6 +377,16 @@
                                 :href="route('admin.cloth.index')"
                                 :active="activeClass(Route::is('admin.cloth.*'), 'c-active')"
                                 :text="__('Cloths')" />
+                        </li>
+                    @endif
+
+                    @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.thread.list')))
+                        <li class="c-sidebar-nav-item">
+                            <x-utils.link
+                                class="c-sidebar-nav-link"
+                                :href="route('admin.thread.index')"
+                                :active="activeClass(Route::is('admin.thread.*'), 'c-active')"
+                                :text="__('Threads')" />
                         </li>
                     @endif
 
@@ -399,6 +450,25 @@
                         </li>
                     @endif
 
+                    @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.servicetype.list')))
+                        <li class="c-sidebar-nav-item">
+                            <x-utils.link
+                                class="c-sidebar-nav-link"
+                                :href="route('admin.servicetype.index')"
+                                :active="activeClass(Route::is('admin.servicetype.*'), 'c-active')"
+                                :text="__('Service Type')" />
+                        </li>
+                    @endif
+
+                    @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.image.list')))
+                        <li class="c-sidebar-nav-item">
+                            <x-utils.link
+                                class="c-sidebar-nav-link"
+                                :href="route('admin.image.index')"
+                                :active="activeClass(Route::is('admin.image.*'), 'c-active')"
+                                :text="__('Images')" />
+                        </li>
+                    @endif
                 </ul>
 
             </li>
@@ -591,7 +661,7 @@
                     :href="route('admin.document.index')"
                     :active="activeClass(Route::is('admin.document.*'), 'c-active')"
                     icon="c-sidebar-nav-icon cil-file"
-                    :text="__('Documents')" />
+                    :text="__('Documents_')" />
             </li>
         @endif
 

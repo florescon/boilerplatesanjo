@@ -96,6 +96,15 @@ class OutFeedstockSummary extends Component
     {
         $getProducts = $this->getProducts();
 
+        foreach ($getProducts as $product) {
+            if ($product->material->stock < $product->quantity) {
+                return $this->emit('swal:modal', [
+                    'icon' => 'error',
+                    'title' => __('Una o más materias primas no cuenta con la suficiente existencia'),
+                ]);
+            }
+        }
+
         $getProducts->when($getProducts->count(), function ($getProducts) {
 
             $out = new Out();
@@ -123,6 +132,8 @@ class OutFeedstockSummary extends Component
 
             $this->clearSummary();
             $this->emit('clearAllProducts');
+
+            return redirect()->route('admin.material.ticket_out', $out->id);
 
         });
     }    

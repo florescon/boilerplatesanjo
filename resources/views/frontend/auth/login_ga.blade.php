@@ -11,8 +11,8 @@
                         <div class="col-lg-7 col-xl-5">
                             <div class="section py-4 py-md-5 px-3 px-sm-4 px-lg-5 over-hide border-4 section-shadow-blue bg-white section-background-24 background-img-top form">
 
-                                <form action="{{ route('frontend.auth.login') }}" class="section" method="post">
-                                @csrf
+                                <form action="{{ route('frontend.auth.login') }}" class="section" id="loginForm" method="post">
+                                {{ csrf_field() }}
 
                                     <h4 class="mb-4 text-sm-center">
                                         @lang('Login')
@@ -50,7 +50,7 @@
 
                                     <div class="row mt-4">  
                                         <div class="col-12 text-sm-center">
-                                            <button type="submit" class="btn btn-dark-primary">@lang('Sign in')<i class="uil uil-arrow-right size-22 ml-3"></i></button>  
+                                            <button type="submit" id="submitBtn" class="btn btn-dark-primary">@lang('Sign in')<i class="uil uil-arrow-right size-22 ml-3"></i></button>  
                                         </div>
                                     </div>
                                     @if (config('boilerplate.access.user.registration'))
@@ -81,3 +81,13 @@
         </div>
 
 @endsection
+
+@push('after-scripts')
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function() {
+            var submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerText = '@lang('Logging in...')';
+        });
+    </script>
+@endpush

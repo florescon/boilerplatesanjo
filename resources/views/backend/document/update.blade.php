@@ -3,7 +3,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="updateModalLabel">@lang('Update document')</h5>
+        <h5 class="modal-title" id="updateModalLabel">@lang('Update document_')</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -17,6 +17,42 @@
           <label>@lang('Title')</label>
           <input wire:model.lazy="title" type="text" class="form-control"/>
           @error('title') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+
+          <label class="mt-4">@lang('Width') (mm)</label>
+          <input wire:model.lazy="width" type="text" class="form-control"/>
+          @error('width') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+
+          <label class="mt-4">@lang('Height') (mm)</label>
+          <input wire:model.lazy="height" type="text" class="form-control"/>
+          @error('height') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+
+          <label class="mt-4">
+            @lang('File DST')
+            <br>
+            {!! $file_dst_label !!}
+          </label>
+          
+          <input wire:model="file_dst" type="file" class="form-control-file"/>
+          @error('file_dst') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+
+          <label class="mt-4">
+            @lang('File EMB')
+            <br>
+            {!! $file_emb_label !!}
+          </label>
+          
+          <input wire:model="file_emb" type="file" class="form-control-file"/>
+          @error('file_emb') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+
+
+          <label class="mt-4">
+            @lang('File PDF')
+            <br>
+            {!! $file_pdf_label !!}
+          </label>
+          
+          <input wire:model="file_pdf" type="file" class="form-control-file"/>
+          @error('file_pdf') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
           <label class="mt-4">@lang('Comment')</label>
           <input wire:model.lazy="comment" type="text" class="form-control"/>

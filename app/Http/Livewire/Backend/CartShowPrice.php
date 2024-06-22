@@ -23,7 +23,7 @@ class CartShowPrice extends Component
         $this->product = $product;
         $this->typeCart = $typeCart;
         $this->price = CartFacade::priceReal($product, $typeCart);
-        $this->priceWithIva = number_format($this->priceWithIva($this->price), 2);
+        $this->priceWithIva = number_format($this->priceWithIva($this->price), 2, '.', '');
     }
 
     public function priceWithIva($price)

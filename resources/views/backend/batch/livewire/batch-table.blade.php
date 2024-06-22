@@ -158,7 +158,11 @@
                   <span class='badge badge-primary'>{{ $batch->status->name }}</span>
         				</td>
                 <td class="text-center">
-
+                  @if($batch->total_batch_received != $batch->total_batch)
+                    <span class="dot-alert"></span>
+                  @else
+                    <span class="dot-success"></span>
+                  @endif
                 </td>
                 <td >
                   @if($batch->order->trashed())

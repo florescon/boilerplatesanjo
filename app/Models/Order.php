@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\OrderStatusPayment;
 use App\Models\OrderStatusDelivery;
 use App\Models\OrdersDelivery;
+use App\Models\ProductStation;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Support\Collection;
@@ -22,7 +23,7 @@ class Order extends Model
 {
     use HasFactory, SoftDeletes, CascadeSoftDeletes, OrderScope, Sluggable;
 
-    protected $cascadeDeletes = ['product_order', 'product_sale', 'product_quotation', 'product_output', 'suborders', 'product_suborder', 'batches', 'materials_order', 'service_orders'];
+    protected $cascadeDeletes = ['product_order', 'product_sale', 'product_quotation', 'product_output', 'suborders', 'product_suborder', 'batches', 'materials_order', 'service_orders', 'stations'];
 
     protected $fillable = [
         'date_entered', 
@@ -194,6 +195,60 @@ class Order extends Model
         return $this->hasMany(BatchProduct::class)->orderBy('created_at', 'desc');
     }
 
+    /**
+     * @return mixed
+     */
+    public function stations()
+    {
+        return $this->hasMany(Station::class)->orderBy('created_at', 'desc');
+    }
+
+    public function stations_products()
+    {
+        return $this->hasMany(ProductStation::class)->orderBy('created_at', 'desc');
+    }
+
+    public function stations_products_without_not_restricted()
+    {
+        return $this->hasMany(ProductStation::class)
+                    ->whereHas('status', function ($query) {
+                        $query->where('not_restricted', false);
+                    })
+                    ->orderBy('created_at', 'desc');
+    }
+
+    public function initialLot()
+    {
+        return Status::where('initial_lot', true)->first();
+    }
+
+    public function initialProcess()
+    {
+        return Status::where('initial_process', true)->first();
+    }
+
+    public function getLastProcess()
+    {
+        return Status::lastStatusProcess();  
+    }
+
+    public function lot_stations()
+    {
+        return $this->hasMany(Station::class)->where('status_id', $this->initialLot()->id)->orderBy('created_at', 'desc');
+    }
+
+    public function process_stations()
+    {
+        return $this->hasMany(Station::class)->where('status_id', $this->initialProcess()->id)->orderBy('created_at', 'desc');
+    }
+
+    public function getTotalStationsAttribute(): int
+    {
+        return $this->stations_products_without_not_restricted->sum(function($product) {
+          return $product->metadata['open'] + $product->metadata['closed'];
+        });
+    }
+
     public function getTotalBatchAttribute(): int
     {
         return $this->batches_main->sum(function($batches) {
@@ -206,7 +261,22 @@ class Order extends Model
         return $this->total_products - $this->total_batch;
     }
 
-    public function getStatuses()
+
+    public function getStatuses($restricted = false)
+    {
+        return DB::table('statuses')
+            ->where(function($query) {
+                $query->where('batch', true)
+                      ->orWhere('supplier', true)
+                      ->orWhere('process', true);
+            })
+            ->whereNull('deleted_at')
+            ->where('not_restricted', $restricted ? 1 : 0)
+            ->pluck('id', 'short_name');
+    }
+
+
+    public function getStatusesStation()
     {
         return DB::table('statuses')->where('batch', TRUE)->orWhere('process', TRUE)->where('deleted_at', NULL)->pluck('id','short_name');
     }
@@ -231,6 +301,132 @@ class Order extends Model
 
             // return $collection->filter();
             return $collection;
+    }
+
+
+
+    public function getTotalGraphicNewAttribute()
+    {
+        $orderId = $this->id;
+
+        $statuses = $this->getStatuses();
+        $statusesRestricted = $this->getStatuses(true);
+
+        $selects = $statuses->map(function($status, $key) {
+            return "SUM(CASE WHEN status_id = $status THEN JSON_EXTRACT(metadata, '$.open') + JSON_EXTRACT(metadata, '$.closed') END) as $key";
+        })->implode(', ');
+
+        $selectsExtra = $statusesRestricted->map(function($status, $key) {
+            return "SUM(CASE WHEN status_id = $status THEN JSON_EXTRACT(metadata, '$.open') + JSON_EXTRACT(metadata, '$.closed') END) as $key";
+        })->implode(', ');
+
+        $totals = DB::table('product_stations')
+            ->where('order_id', $orderId)
+            ->whereNull('deleted_at')
+            ->whereRaw("active > 0")
+            ->selectRaw($selects)
+            ->first();
+
+        $totalsExtra = DB::table('product_stations')
+            ->where('order_id', $orderId)
+            ->whereNull('deleted_at')
+            ->whereRaw("active > 0")
+            ->selectRaw($selectsExtra)
+            ->first();
+
+        // Obtener la suma de 'out'
+        $outTotal = DB::table('product_station_outs')
+            ->where('order_id', $orderId)
+            ->whereNull('deleted_at')
+            ->sum('out_quantity');
+
+        $difference = $this->total_products - $this->total_stations - $outTotal;
+
+        $collection = collect($totals)->filter();
+        $collectionExtra = collect($totalsExtra)->filter();
+
+        if($difference < 0){
+            $anotherDifference = $difference;
+            $difference = 0;
+            $collectionExtra->prepend(abs($anotherDifference), 'diferencia');
+        }
+
+        $collection->prepend($difference, 'captura');
+        $collection->put('salida', $outTotal);
+
+        // Mapa de colores
+        $colors = [
+            'captura' => '#EEEEEE',
+            'salida' => '#8e5ea2',
+            'corte' => '#3ABEF9',
+            'confeccion' => '#3572EF',
+            'personalizacion' => '#E1AFD1',
+            'proveedor' => '#FFFF80',
+            'conformado' => '#FFE6E6',
+            'embarque' => '#AD88C6',
+            'calidad' => '#050C9C',
+            'entrega' => '#7469B6',
+            'diferencia' => '#49e82b',
+        ];
+
+        return ['collection' => $collection, 'collectionExtra' => $collectionExtra, 'colors' => $colors];
+    }
+
+    public function getTotalByStationAttribute()
+    {
+        $totals = DB::table('product_stations')
+            ->where('order_id', $this->id)
+            ->where('deleted_at', NULL)
+            ->where('active', '=', 1);
+
+            foreach ($this->getStatusesStation() as $key => $status) {
+                $totals->selectRaw("SUM(CASE WHEN status_id = $status THEN quantity END) as $key");
+            }
+
+            $related = $totals->first();
+
+            $difference = $this->total_products - $this->total_batch;
+
+            $collection = collect($related);
+            $collection->prepend("$difference", 'captura');
+
+            // return $collection->filter();
+            return $collection;
+    }
+
+    public function getTotalQuantityByStation($status)
+    {
+        $totals = DB::table('product_stations')
+            ->where('order_id', $this->id)
+            ->where('status_id', $status)
+            ->where('deleted_at', NULL)
+            ->sum('quantity');
+
+        return $totals;
+    }
+
+    public function getTotalQuantityByStationOpened($status)
+    {
+        $totals = DB::table('product_stations')
+            ->where('order_id', $this->id)
+            ->where('status_id', $status)
+            ->where('active', '=', 1)
+            ->where('deleted_at', NULL)
+            ->sum('metadata->open');
+
+        return $totals;
+    }
+
+    public function getTotalQuantityByStationClosed($status)
+    {
+        $totals = DB::table('product_stations')
+            ->where('order_id', $this->id)
+            ->where('status_id', $status)
+            ->where('active', '=', 1)
+            ->where('deleted_at', NULL)
+            ->sum('metadata->closed');
+
+        return $totals;
     }
 
     /**
@@ -427,7 +623,7 @@ class Order extends Model
         return $this->id;
     }
 
-    public function getLastOrderByTypeAndBranchSkipAttribute(): int
+    /*public function getLastOrderByTypeAndBranchSkipAttribute(): int
     {   
         if($this->type != 6){
 
@@ -449,7 +645,32 @@ class Order extends Model
         }
 
         return $this->id;
+    }*/
+
+
+    public function getLastOrderByTypeAndBranchSkipAttribute()
+    {   
+        // Determine the field to check for the last consecutive number
+        $field = $this->type === 6 ? 'quotation' : 'folio';
+
+        // Get the last order for the given type and branch_id
+        
+        if($this->type === 6){
+            $lastOrder = self::where('branch_id', $this->branch_id ?? 0)
+                ->orderBy($field, 'desc')
+                ->first();
+        }
+        else{
+        $lastOrder = self::where('type', $this->type)
+            ->where('branch_id', $this->branch_id ?? 0)
+            ->orderBy($field, 'desc')
+            ->first();
+        }
+
+        // Return the next consecutive number
+        return $lastOrder ? $lastOrder->$field + 1 : 1;
     }
+
 
     public function getLastOrderOrRequestAttribute(): int
     {   
@@ -479,7 +700,7 @@ class Order extends Model
 
     public function last_status()
     {
-        return DB::table('statuses')->latest('level')->first();
+        return DB::table('statuses')->latest('level')->where('deleted_at', NULL)->first();
     }
 
     public function previousOrder()
@@ -522,7 +743,7 @@ class Order extends Model
     public function getAdvancedOrderLabelAttribute()
     {
         if (!$this->parent_order_id && ($this->type != 6 && $this->type != 7)) {
-            return '$'. number_format((float)$this->total_payments, 2);
+            return '$'. number_format((float)$this->total_payments, 2, '.', '');
         }
 
         return "N/A";
@@ -531,7 +752,7 @@ class Order extends Model
     public function getRemainingOrderLabelAttribute()
     {
         if (!$this->parent_order_id && ($this->type != 6 && $this->type != 7)) {
-            return '$'. number_format((float)$this->total_payments_remaining, 2);
+            return '$'. number_format((float)$this->total_payments_remaining, 2, '.', '');
         }
 
         return "N/A";
@@ -771,6 +992,59 @@ class Order extends Model
         });
     }
 
+    public function areAllProductOrdersMatched(): bool
+    {
+        return $this->product_order->every(function ($productOrder) {
+            return $productOrder->isQuantityMatched();
+        });
+    }
+
+    public function areAllProductOrdersMatchedSendToStock(): bool
+    {
+        return $this->product_order->every(function ($productOrder) {
+            return $productOrder->isQuantityMatchedSendToStock();
+        });
+    }
+
+    public function areAllProductStationsZero(): bool
+    {
+        return $this->stations_products->every(function ($productStation) {
+            return $productStation->metadata['closed'] == 0 && $productStation->metadata['open'] == 0;
+        });
+    }
+
+    public function aboutOrder()
+    {
+        switch (true) {
+            case ($this->areAllProductOrdersMatched() || $this->areAllProductOrdersMatchedSendToStock()) 
+                && 
+                $this->areAllProductStationsZero():
+                return '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><g fill="none" stroke="#000" stroke-width="2" stroke-linejoin="round"><path fill="#FFF" d="M17.5 21h-11A1.5 1.5 0 0 1 5 19.5v-7c0-.83.67-1.5 1.5-1.5h11c.83 0 1.5.67 1.5 1.5v7c0 .83-.67 1.5-1.5 1.5Z"></path><path d="M8 11V7a4 4 0 1 1 8 0v4"></path><circle cx="12" cy="16" r=".25"></circle></g></svg>';
+            case $this->stations()->exists():
+                return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect fill="#FF156D" stroke="#FF156D" stroke-width="15" width="30" height="30" x="25" y="85"><animate attributeName="opacity" calcMode="spline" dur="2" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.4"></animate></rect><rect fill="#FF156D" stroke="#FF156D" stroke-width="15" width="30" height="30" x="85" y="85"><animate attributeName="opacity" calcMode="spline" dur="2" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.2"></animate></rect><rect fill="#FF156D" stroke="#FF156D" stroke-width="15" width="30" height="30" x="145" y="85"><animate attributeName="opacity" calcMode="spline" dur="2" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="0"></animate></rect></svg>';
+            default:
+                return '';
+        }
+
+        return '';
+    }
+
+    public function aboutOrderInfo()
+    {
+        switch (true) {
+            case ($this->areAllProductOrdersMatched() || $this->areAllProductOrdersMatchedSendToStock())
+                && 
+                $this->areAllProductStationsZero():
+                return 'Orden finalizada';
+            case $this->stations()->exists():
+                return '¡En proceso tu orden!';
+            default:
+                return 'Aún sin nada procesado';
+        }
+
+        return 'Aún sin nada procesado';
+    }
+
     /**
      * @return string
      */
@@ -801,22 +1075,22 @@ class Order extends Model
      */
     public function getCharactersTypeOrderAttribute()
     {
-            switch ($this->type) {
-                case 2:
-                    return 'VEN';
-                case 3:
-                    return 'MIX';
-                case 4:
-                    return 'OUT';
-                case 5:
-                    return 'PED';
-                case 6:
-                    return 'COT';
-                case 7:
-                    return 'OUTP';
-                default:
-                    return 'ORD';
-            }
+        switch ($this->type) {
+            case 2:
+                return 'VEN';
+            case 3:
+                return 'MIX';
+            case 4:
+                return 'OUT';
+            case 5:
+                return 'PED';
+            case 6:
+                return 'COT';
+            case 7:
+                return 'OUTP';
+            default:
+                return 'ORD';
+        }
 
         return '';
     }
@@ -851,22 +1125,22 @@ class Order extends Model
      */
     public function getTypeOrderClassesAttribute()
     {
-            switch ($this->type) {
-                case 2:
-                    return 'background-color:#DEFFDF';
-                case 3:
-                    return 'background-color: #FFFFDE';
-                case 4:
-                    return 'background-color: #F7DEFF';
-                case 5:
-                    return 'background-color: #FFDBD3';
-                case 6:
-                    return 'background-color: #86FFCF';
-                case 7:
-                    return 'background-color: #d5c5ff';
-                default:
-                    return 'background-color: #DEE4FF';
-            }
+        switch ($this->type) {
+            case 2:
+                return 'background-color:#DEFFDF';
+            case 3:
+                return 'background-color: #FFFFDE';
+            case 4:
+                return 'background-color: #F7DEFF';
+            case 5:
+                return 'background-color: #FFDBD3';
+            case 6:
+                return 'background-color: #86FFCF';
+            case 7:
+                return 'background-color: #d5c5ff';
+            default:
+                return 'background-color: #DEE4FF';
+        }
 
         return '';
     }

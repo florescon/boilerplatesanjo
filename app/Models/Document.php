@@ -27,6 +27,10 @@ class Document extends Model
         'comment',
         'is_enabled',
         'image',
+        'width',
+        'height',
+        'threads',
+        'file_pdf'
     ];
 
     /**
@@ -67,7 +71,8 @@ class Document extends Model
     {
         if ($this->file_dst) {
             if (Storage::disk('public')->exists($this->file_dst)){
-                return substr($this->file_dst, 10);
+                // return substr($this->file_dst, 10);
+                return '<div class="badge bg-primary text-white text-wrap" >'.$this->title.'.dst </div>';
             }
         }
 
@@ -78,7 +83,20 @@ class Document extends Model
     {
         if ($this->file_emb) {
             if (Storage::disk('public')->exists($this->file_emb)){
-                return substr($this->file_emb, 10);
+                // return substr($this->file_emb, 10);
+                return '<div class="badge bg-primary text-white text-wrap" >'.$this->title.'.emb </div>';
+            }
+        }
+
+        return "<span class='badge badge-secondary'>".__('undefined').'</span>';
+    }
+
+    public function getFilePdfLabelAttribute()
+    {
+        if ($this->file_pdf) {
+            if (Storage::disk('public')->exists($this->file_pdf)){
+                // return substr($this->file_pdf, 10);
+                return '<div class="badge bg-primary text-white text-wrap" >'.$this->title.'.pdf </div>';
             }
         }
 
@@ -99,12 +117,47 @@ class Document extends Model
     public function getDownloadEmbAttribute()
     {
         if ($this->file_emb) {
-            if (Storage::disk('public')->exists($this->file_dst)){
+            if (Storage::disk('public')->exists($this->file_emb)){
                 return "<a  href=".route('admin.document.download_emb', $this->id)." class='btn btn-primary btn-sm'>".__('Download EMB').'</a>';
             }
         }
 
         return "<span class='badge badge-secondary'>".__('undefined').'</span>';
+    }
+
+
+    public function getCardLinkDstAttribute()
+    {
+        if ($this->file_dst) {
+            if (Storage::disk('public')->exists($this->file_dst)){
+                return "<a href=".route('admin.document.download_dst', $this->id)." class='card-link'>DST <i class='cil-cloud-download'></i> </a>";
+            }        
+        }
+
+        return '<a href="#!" class="card-link text-decoration-line-through">DST</a>';
+    }
+
+    public function getCardLinkEmbAttribute()
+    {
+        if ($this->file_emb) {
+            if (Storage::disk('public')->exists($this->file_emb)){
+                return "<a href=".route('admin.document.download_emb', $this->id)." class='card-link'>EMB <i class='cil-cloud-download'></i></a>";
+            }        
+        }
+
+        return '<a href="#!" class="card-link text-decoration-line-through">EMB</a>';
+    }
+
+
+    public function getCardLinkPdfAttribute()
+    {
+        if ($this->file_pdf) {
+            if (Storage::disk('public')->exists($this->file_pdf)){
+                return "<a href=".route('admin.document.download_pdf', $this->id)." class='card-link'>PDF <i class='cil-cloud-download'></i></a>";
+            }        
+        }
+
+        return '<a href="#!" class="card-link text-decoration-line-through">PDF</a>';
     }
 
     /**

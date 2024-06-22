@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Backend\Vendor;
 
 use App\Models\Vendor;
 use Livewire\Component;
+use Illuminate\Support\Facades\DB;
 
 class CreateVendor extends Component
 {

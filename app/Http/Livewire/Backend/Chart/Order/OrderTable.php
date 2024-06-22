@@ -21,19 +21,22 @@ class OrderTable extends Component
     protected $queryString = [
         'searchTerm' => ['except' => ''],
         'perPage',
+        'history' => ['except' => FALSE],
     ];
 
     public $title = [];
 
     public $perPage = '10';
 
-    public $limitPerPage = '100';
+    public $limitPerPage = '50';
 
     public $sortField = 'created_at';
     public $sortAsc = false;
 
     public $status;
     public $searchTerm = '';
+
+    public bool $history = false;
 
     public $dateInput = '';
     public $dateOutput = '';
@@ -86,7 +89,9 @@ class OrderTable extends Component
 
     public function getRowsQueryProperty()
     {
-        $query = Order::query()->with('user', 'products', 'last_status_order.status')
+        $lastProcessId = Order::getLastProcess()->id;
+
+        $query = Order::query()->with('product_order.product_station_received', 'product_order.product_station_out', 'user', 'products', 'product_order', 'last_status_order.status')
             // ->onlyAssignment(6)
         ->when($this->dateInput, function ($query) {
             empty($this->dateOutput) ?
@@ -104,9 +109,26 @@ class OrderTable extends Component
                 $queryStatusOrder->where('id', $statusOrder);
             });
         })
-            // ->when(!$this->dateInput, function ($query) {
-            //     $query->whereYear('created_at', now()->year);
-            // })
+        ->when(!$this->history, function ($query) use ($lastProcessId) {
+            if ($this->status != 'quotations') {
+                $query->where(function ($query) use ($lastProcessId) {
+                    $query->whereHas('product_order', function ($query) use ($lastProcessId) {
+                        $query
+                        ->whereDoesntHave('product_station_received', function ($query) use ($lastProcessId) {
+                            $query->havingRaw('SUM(quantity) >= product_order.quantity')->where('status_id', $lastProcessId);
+                        })
+                        ->whereDoesntHave('product_station_out', function ($query) {
+                            $query->havingRaw('SUM(out_quantity) >= product_order.quantity');
+                        })
+                        ;
+                    });
+
+                });
+            }
+        })
+        // ->when(!$this->dateInput, function ($query) {
+        //     $query->whereYear('created_at', now()->year);
+        // })
         ->when($this->sortField, function ($query) {
             $query->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc');
         });
@@ -196,6 +218,22 @@ class OrderTable extends Component
         }
 
         return null;
+    }
+
+    public function isHistory()
+    {
+        $this->resetPage();
+        $this->dateInput = '';
+        $this->dateOutput = '';
+        $this->currentMonth = FALSE;
+        $this->currentWeek = FALSE;
+
+        if($this->history){
+            $this->history = FALSE;
+        }
+        else{
+            $this->history = TRUE;
+        }
     }
 
     public function getRowsProperty()

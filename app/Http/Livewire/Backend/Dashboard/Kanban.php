@@ -93,6 +93,7 @@ class Kanban extends Component
                     ['a.type', '=', '1'],
                     ['a.branch_id', '=', false],
                     ['a.deleted_at', '=', null],
+                    ['a.flowchart', '=', false],
                     ['a.from_store', '=', null]
                 ])
                 ->orderBy('a.id', 'desc')
@@ -119,6 +120,7 @@ class Kanban extends Component
                     ['a.type', '=', '6'],
                     ['a.branch_id', '=', false],
                     ['a.deleted_at', '=', null],
+                    ['a.flowchart', '=', false],
                     ['a.from_store', '=', null]
                 ])
                 ->orderByDesc('a.id');
@@ -144,6 +146,7 @@ class Kanban extends Component
                     ['a.type', '=', '1'],
                     ['a.branch_id', '=', false],
                     ['a.deleted_at', '=', null],
+                    ['a.flowchart', '=', false],
                     ['a.from_store', '=', null]
                 ])
                 ->orderBy('a.id', 'desc')->limit(10);

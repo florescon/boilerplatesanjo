@@ -3,7 +3,7 @@
 @section('title', __('Output products'))
 
 @section('breadcrumb-links')
-    @include('backend.order.includes.breadcrumb-links')
+    {{-- @include('backend.order.includes.breadcrumb-links') --}}
 @endsection
 
 @section('content')

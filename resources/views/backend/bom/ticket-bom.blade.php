@@ -35,7 +35,7 @@
         </table>
 
 
-      <table width="100%">
+        <table width="100%">
           <tr>
             <td align="center">
                 <h3>@lang('Bom of Materials')</h3>
@@ -81,7 +81,7 @@
             <thead style="background-color: white;">
 
                 <tr align="right">
-                    <td> <em style="font-size: 80%;">{{ printed() }}</em></td>
+                    <td> <em style="font-size: 80%;">Sort by: <strong>family</strong> &nbsp;&nbsp; {{ printed() }}</em></td>
                 </tr>
             </thead>
         </table>

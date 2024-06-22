@@ -26,152 +26,6 @@
   </x-slot>
   <x-slot name="body">
 
-
-<div class="row">
-  <div class="col-sm-6">
-<div class="card" style="background-color: #f0f0f0;">
-    <div class="col d-flex"><span class="text-muted" id="orderno">order #546924</span></div>
-    <div class="gap">
-        <div class="col-2 d-flex mx-auto"> </div>
-    </div>
-    <div class="title mx-auto"> Thank you for your order! </div>
-    <div class="main"> <span id="sub-title">
-            <p><b>Payment Summary</b></p>
-        </span>
-        <div class="row row-main">
-            <div class="col-3"> <img class="img-fluid" src="https://i.imgur.com/qSnCFIS.png"> </div>
-            <div class="col-6">
-                <div class="row d-flex">
-                    <p><b>iPhone XR</b></p>
-                </div>
-                <div class="row d-flex">
-                    <p class="text-muted">128GB White</p>
-                </div>
-            </div>
-            <div class="col-3 d-flex justify-content-end">
-                <p><b>$599</b></p>
-            </div>
-        </div>
-        <div class="row row-main">
-            <div class="col-3"> <img class="img-fluid" src="https://i.imgur.com/WuJwAJD.jpg"> </div>
-            <div class="col-6">
-                <div class="row d-flex">
-                    <p><b>Airpods</b></p>
-                </div>
-                <div class="row d-flex">
-                    <p class="text-muted">With charging case</p>
-                </div>
-            </div>
-            <div class="col-3 d-flex justify-content-end">
-                <p><b>$199</b></p>
-            </div>
-        </div>
-        <div class="row row-main">
-            <div class="col-3 "> <img class="img-fluid" src="https://i.imgur.com/hOsIes2.png"> </div>
-            <div class="col-6">
-                <div class="row d-flex">
-                    <p><b>Belkin Boost Up</b></p>
-                </div>
-                <div class="row d-flex">
-                    <p class="text-muted">Wireless charging pad</p>
-                </div>
-            </div>
-            <div class="col-3 d-flex justify-content-end">
-                <p><b>$49.95</b></p>
-            </div>
-        </div>
-        <hr>
-        <div class="total">
-            <div class="row">
-                <div class="col"> <b> Total:</b> </div>
-                <div class="col d-flex justify-content-end"> <b>$847.95</b> </div>
-            </div> <button class="btn d-flex mx-auto"> Track your order </button>
-        </div>
-    </div>
-</div>
-  </div>
-  <div class="col-sm-6">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="row">
-    <div class="col-md-3 col-sm-6">
-        <div class="pricing-table-3 basic">
-            <div class="pricing-table-header">
-                <h4><strong>BASIC</strong></h4>
-                <p>Loerm Ipsum Donor Sit Amet</p>
-            </div>
-            <div class="price"><strong>$3</strong> / MONTH</div>
-            <div class="pricing-body">
-                <ul class="pricing-table-ul">
-                    <li><i class="fa fa-send"></i> Unlimited Email Addresses</li>
-                    <li><i class="fa fa-cloud"></i> 50 GB Disk Space</li>
-                    <li><i class="fa fa-database"></i> Unlimited MySQL Database</li>
-                    <li class="not-avail"><i class="fa fa-clock-o"></i> 24X7 Support</li>
-                    <li class="not-avail"><i class="fa fa-envelope"></i> Email Support</li>
-                </ul><a href="#" class="view-more">View More</a></div>
-        </div>
-    </div>
-    <div class="col-md-3 col-sm-6">
-        <div class="pricing-table-3 basic">
-            <div class="pricing-table-header">
-                <h4><strong>BASIC</strong></h4>
-                <p>Loerm Ipsum Donor Sit Amet</p>
-            </div>
-            <div class="price"><strong>$3</strong> / MONTH</div>
-            <div class="pricing-body">
-                <ul class="pricing-table-ul">
-                    <li><i class="fa fa-send"></i> Unlimited Email Addresses</li>
-                    <li><i class="fa fa-cloud"></i> 50 GB Disk Space</li>
-                    <li><i class="fa fa-database"></i> Unlimited MySQL Database</li>
-                    <li class="not-avail"><i class="fa fa-clock-o"></i> 24X7 Support</li>
-                    <li class="not-avail"><i class="fa fa-envelope"></i> Email Support</li>
-                </ul><a href="#" class="view-more">View More</a></div>
-        </div>
-    </div>
-    <div class="col-md-3 col-sm-6">
-        <div class="pricing-table-3 premium">
-            <div class="pricing-table-header">
-                <h4><strong>PREMIUM</strong></h4>
-                <p>Loerm Ipsum Donor Sit Amet</p>
-            </div>
-            <div class="price"><strong>$8</strong> / MONTH</div>
-            <div class="pricing-body">
-                <ul class="pricing-table-ul">
-                    <li><i class="fa fa-send"></i> Unlimited Email Addresses</li>
-                    <li><i class="fa fa-cloud"></i> 80 GB Disk Space</li>
-                    <li><i class="fa fa-database"></i> Unlimited MySQL Database</li>
-                    <li class="not-avail"><i class="fa fa-clock-o"></i> 24X7 Support</li>
-                    <li class="not-avail"><i class="fa fa-envelope"></i> Email Support</li>
-                </ul><a href="#" class="view-more">View More</a></div>
-        </div>
-    </div>
-    <div class="col-md-3 col-sm-12">
-        <div class="pricing-table-3 business">
-            <div class="pricing-table-header">
-                <h4><strong>BUSINESS</strong></h4>
-                <p>Loerm Ipsum Donor Sit Amet</p>
-            </div>
-            <div class="price"><strong>$12</strong> / MONTH</div>
-            <div class="pricing-body">
-                <ul class="pricing-table-ul">
-                    <li><i class="fa fa-send"></i> Unlimited Email Addresses</li>
-                    <li><i class="fa fa-cloud"></i> 120 GB Disk Space</li>
-                    <li><i class="fa fa-database"></i> Unlimited MySQL Database</li>
-                    <li class="not-avail"><i class="fa fa-clock-o"></i> 24X7 Support</li>
-                    <li class="not-avail"><i class="fa fa-envelope"></i> Email Support</li>
-                </ul><a href="#" class="view-more">View More</a></div>
-        </div>
-    </div>
-</div>
-
     @if(!$model->approved)
       <div class="alert alert-danger" role="alert">
         @lang('Not approved') <a wire:click="approve" href="#">@lang('Approve')</a> 
@@ -518,6 +372,11 @@
           <div class="card-footer text-muted text-center">
             @lang('Created'): {{ $model->date_diff_for_humans }} - {{ __('Captured').': '. optional($model->audi)->name }}
           </div>
+          @if($model->quotation && $model->isOrder())
+            <div class="card-footer text-muted text-center h5">
+              {!! __('Quotation'). ' <strong class="text-danger">: #'.$model->quotation.'</strong>' !!}
+            </div>
+          @endif
         </div>
 
 
@@ -525,7 +384,7 @@
           <div class="card-body">
             @if($orderExists)
 
-            <div class="row">
+            <div class="row justify-content-md-center">
               @if($model->materials_order()->doesntExist())
               <div class="col-sm-6">
                 <div class="card">
@@ -533,7 +392,7 @@
                     <div class="custom-control custom-switch custom-control-inline">
                       <input type="checkbox" wire:model="previousMaterialByProduct" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
                       <label class="custom-control-label" for="customRadioInline1">
-                        @lang('See raw material by product, prior to consumption')
+                        @lang('See raw material of each product')
                      </label>
                     </div>
                   </div>
@@ -576,7 +435,7 @@
                   @foreach($model->product_order->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']]) as $product)
                   <tr>
                     <td>
-                      <a href="{{ route('admin.product.consumption_filter', $product->product_id) }}" target=”_blank”> <span class="badge badge-warning"> <i class="cil-color-fill"></i> <em class="text-white">@lang('Consumption')</em> </span></a>
+                      <a href="{{ route('admin.product.consumption_filter', $product->product_id) }}" target=”_blank”> <span class="badge badge-warning"> <i class="cil-color-fill"></i> <em class="text-white">@lang('BOM')</em> </span></a>
                       {{ $product->product->code_subproduct_clear }}
                       {!! $product->product->full_name_link !!}
                     </td>
@@ -965,8 +824,15 @@
               )
             <div class="col-md-12" wire:ignore>
               <div class="main-card mb-3 card card-edit">
+                <p class="card-text text-center pt-4"><strong>@lang('Total'):</strong> <strong class="text-danger">{{ $model->total_products }}</strong> </p>
                 <div>
                   <canvas id="doughnut-chart" width="800" height="550"></canvas>
+
+                  <div class="text-center p-4">
+                    @foreach($model->total_graphic_new['collectionExtra'] as $key => $value)
+                      <li class="list-group-item list-group-item-secondary"> {!! ucfirst($key) .': <strong class="text-danger">'.$value.'</strong>' !!}</li>
+                    @endforeach
+                  </div>
                 </div>
                 
                 <div class="card-body border-dashed conic">
@@ -984,16 +850,16 @@
                       <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">Captura</h5>
                         <small class="text-danger">
-                          {{ $model->total_graphic->get('captura') }}
+                          {{ $model->total_graphic_new['collection']->get('captura') }}
                         </small>
                       </div>
                     </a>
                     @foreach($batches as $status)
-                      <a href="{{ route('admin.order.batches', [$order_id, $status->id]) }}" class="list-group-item list-group-item-action" aria-current="true">
+                      <a href="{{ route('admin.order.station', [$order_id, $status->id]) }}" class="list-group-item list-group-item-action" aria-current="true">
                         <div class="d-flex w-100 justify-content-between">
                           <h5 class="mb-1">{{ $status->name }}</h5>
                           <small class="text-danger">
-                            {{ $model->total_graphic->get($status->short_name) ?? '--' }}
+                            {{ $model->total_by_station->get($status->short_name) ?? '--' }}
                           </small>
                         </div>
                         <p class="mb-1">{{ $status->description }}</p>
@@ -1009,16 +875,39 @@
               <div class="main-card mb-3 card card-edit">
                 <div class="card-body conic2">
                   <h5 class="card-title">
+                    @lang('Vendor')
+                  </h5>
+
+                  <div class="list-group">
+                    <a href="{{ route('admin.order.station', [$order_id, $supplier->id]) }}" class="list-group-item list-group-item-action" aria-current="true">
+                      <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ $supplier->name }}</h5>
+                        <small class="text-danger">
+                          {{ $model->total_graphic_new['collection']->get($supplier->short_name) ?? '--' }}
+                        </small>
+                      </div>
+                      <p class="mb-1">{{ $supplier->description }}</p>
+                      <small>Último creado: </small>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="main-card mb-3 card card-edit">
+                <div class="card-body conic2">
+                  <h5 class="card-title">
                     @lang('Process')
                   </h5>
 
                   <div class="list-group">
                     @foreach($process as $status)
-                        <a href="{{ route('admin.order.process', [$order_id, $status->id]) }}" class="list-group-item list-group-item-action" aria-current="true">
+                        <a href="{{ route('admin.order.station', [$order_id, $status->id]) }}" class="list-group-item list-group-item-action" aria-current="true">
                           <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1">{{ $status->name }}</h5>
                             <small class="text-danger">
-                              {{ $model->total_graphic->get($status->short_name) ?? '--' }}
+                              {{ $model->total_graphic_new['collection']->get($status->short_name) ?? '--' }}
                             </small>
                           </div>
                           <p class="mb-1">{{ $status->description }}</p>
@@ -1060,30 +949,32 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script> 
 
   <script>
+  var labels =  {!! json_encode($model->total_graphic_new['collection']->keys()) !!};
+  var values =  {!! json_encode($model->total_graphic_new['collection']->values()) !!};
+  var colors = {!! json_encode($model->total_graphic_new['colors']) !!};
 
-    var labels =  {!! $model->total_graphic->keys() !!};
-    var values =  {!! $model->total_graphic->values() !!};
+  // Map labels to their corresponding colors
+  var backgroundColors = labels.map(label => colors[label] || '#000000'); // Default to black if no color is found
 
-    new Chart(document.getElementById("doughnut-chart"), {
-        type: 'doughnut',
-        data: {
-          labels: labels,
-          values: values,
-          datasets: [
-            {
-              label: "Estaciones",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9"],
-              data: values
-            }
-          ]
-        },
-        options: {
-          title: {
-            display: true,
-            text: 'Avance'
+  new Chart(document.getElementById("doughnut-chart"), {
+      type: 'doughnut',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: "Estaciones",
+            backgroundColor: backgroundColors,
+            data: values
           }
+        ]
+      },
+      options: {
+        title: {
+          display: true,
+          text: 'Avance'
         }
-    });
+      }
+  });
   </script>
 
   <script type="text/javascript">

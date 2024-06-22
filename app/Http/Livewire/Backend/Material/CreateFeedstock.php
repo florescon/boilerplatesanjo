@@ -7,6 +7,7 @@ use App\Models\Color;
 use Livewire\Component;
 use App\Events\Material\MaterialCreated;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CreateFeedstock extends Component
 {

@@ -181,6 +181,15 @@ Route::group([
                         ->push(__('Status records payment'), route('admin.store.all.records_payment', $order));
                 });
 
+            Route::get('deleted', [OrderController::class, 'deleted_store'])
+                ->name('deleted')
+                ->middleware('permission:admin.access.store.list')
+                ->breadcrumbs(function (Trail $trail) {
+                    $trail->parent('admin.store.all.index')
+                        ->push(__('Deleted products'), route('admin.store.all.deleted'));
+                });
+
+
         });
 
         Route::get('orders', [OrderController::class, 'orders_list_store'])

@@ -27,7 +27,7 @@ class BomController extends Controller
         return view('backend.bom.index');
     }
 
-    public function ticket_bom( $selectedtypes = null)
+    public function ticket_bom($selectedtypes = null)
     {
         $consumptionCollect = collect();
         $ordercollection = collect();
@@ -36,7 +36,7 @@ class BomController extends Controller
         $orders = Order::whereIn('id', json_decode($selectedtypes))->with('products.consumption_filter.material', 'products.parent', 'products.order.user.customer')->get();
 
 
-     foreach($orders as $order){
+        foreach($orders as $order){
 
             $ordercollection->push([
                 'id' => $order->id,
@@ -112,8 +112,9 @@ class BomController extends Controller
             'part_number'         => $product['part_number'],
             'unit_measurement' => $product['unit_measurement'],
             'quantity' => $product['quantity'],
+            'family' => $product['family']
             ];
-        });
+        })->sortBy(['family', 'asc'],['material_name', 'asc']);
 
 
 

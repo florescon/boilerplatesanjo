@@ -41,6 +41,8 @@ class CreateSuborder extends Component
     public ?string $invoice = null;
     public ?string $comment = null;
 
+    public $getSum = 0;
+
     public $nameDepa = null;
     public $namePrice = null;
 
@@ -123,6 +125,17 @@ class CreateSuborder extends Component
     public function updatedSearchTerm()
     {
         $this->resetPage();
+    }
+
+    public function updatedQuantityy()
+    {
+        $sum = 0;
+
+        foreach($this->quantityy as $key => $product){
+            $sum += (int) $product['available'];
+        }
+
+        $this->getSum = $sum;
     }
 
     public function updatedPerPage()

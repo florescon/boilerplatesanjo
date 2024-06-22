@@ -37,6 +37,15 @@ class DocumentController extends Controller
         return Storage::disk('public')->download($document->file_emb, $document->title.'.EMB', $headers);
     }
 
+    public function download_pdf(Document $document)
+    {
+        $headers = [
+          'Content-Type' => 'mimetypes:mimetypes:application/pdf',
+        ];
+  
+        return Storage::disk('public')->download($document->file_pdf, $document->title.'.PDF', $headers);
+    }
+
     public function select2LoadMore(Request $request)
     {
         $search = $request->get('search');

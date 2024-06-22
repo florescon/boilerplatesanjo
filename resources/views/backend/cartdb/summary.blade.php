@@ -69,20 +69,16 @@
 			@endif
 		@endif
 
-		<div class="input-group mb-3">
-		  <div class="input-group-prepend">
-		    <span class="input-group-text" id="basic-addon1">@lang('Description')</span>
-		  </div>
-		  <textarea class="form-control text-center" wire:model.lazy="description" aria-label="description" aria-describedby="basic-addon1" rows="3">
+		<div class="form-group mb-3">
+		  <label for="description" >@lang('Description') </label>
+		  <textarea id="description" class="form-control text-center" wire:model.lazy="description" aria-label="description" aria-describedby="basic-addon1" rows="3">
 		  </textarea>
 		</div>
 
 		@if($type != 'output_products')
-			<div class="input-group mb-3">
-			  <div class="input-group-prepend">
-			    <span class="input-group-text" id="basic-addon1">@lang('Info customer')</span>
-			  </div>
-			  <textarea class="form-control text-center" wire:model.lazy="info_customer" aria-label="info_customer" aria-describedby="basic-addon1" rows="3">
+			<div class="form-group mb-3">
+			  <label for="info_customer" >@lang('Info customer') </label>
+			  <textarea id="info_customer" class="form-control text-center" wire:model.lazy="info_customer" aria-label="info_customer" aria-describedby="basic-addon1" rows="3">
 			  </textarea>
 			</div>
 		@endif

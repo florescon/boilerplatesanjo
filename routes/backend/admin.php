@@ -10,3 +10,9 @@ Route::get('dashboard', [DashboardController::class, 'index'])
     ->breadcrumbs(function (Trail $trail) {
         $trail->push(__('Home'), route('admin.dashboard'));
     });
+
+Route::get('dashboard_old', [DashboardController::class, 'index_old'])
+    ->name('dashboard_old')
+    ->breadcrumbs(function (Trail $trail) {
+        $trail->push(__('Home'), route('admin.dashboard_old'));
+    });

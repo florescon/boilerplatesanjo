@@ -124,6 +124,18 @@ class Batch extends Model
         return $this->folio;
     }
 
+    public function isPending(): bool
+    {
+        return $this->batch_product->where('active', 0)->count();
+    }
+
+    public function isTotal()
+    {
+        return $this->batch_product->sum(function($parent) {
+          return $parent->active;
+        });
+    }
+
     public function getLastFolioBatchAttribute(): int
     {   
         $firstStatusBatch = \App\Models\Status::firstStatusBatch();

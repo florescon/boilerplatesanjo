@@ -20,6 +20,8 @@ use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use App\Models\StatusOrder;
 use App\Observers\StatusOrderObserver;
+use App\Models\ProductStation;
+use App\Observers\ProductStationObserver;
 use App\Models\Order;
 use App\Observers\OrderObserver;
 use App\Models\Batch;
@@ -30,6 +32,8 @@ use App\Models\MaterialOrder;
 use App\Observers\MaterialOrderObserver;
 use App\Models\ProductOrder;
 use App\Observers\ProductOrderObserver;
+use App\Models\Station;
+use App\Observers\StationObserver;
 
 /**
  * Class EventServiceProvider.
@@ -80,8 +84,10 @@ class EventServiceProvider extends ServiceProvider
             Batch::observe(BatchObserver::class);
             BatchProduct::observe(BatchProductObserver::class);
             StatusOrder::observe(StatusOrderObserver::class);
+            ProductStation::observe(ProductStationObserver::class);
             MaterialOrder::observe(MaterialOrderObserver::class);
             ProductOrder::observe(ProductOrderObserver::class);
+            Station::observe(StationObserver::class);
         //
     }
 }

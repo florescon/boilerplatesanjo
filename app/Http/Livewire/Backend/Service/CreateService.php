@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Backend\Service;
 use Livewire\Component;
 use App\Models\Product;
 use App\Events\Service\ServiceCreated;
+use Illuminate\Support\Facades\DB;
 
 class CreateService extends Component
 {

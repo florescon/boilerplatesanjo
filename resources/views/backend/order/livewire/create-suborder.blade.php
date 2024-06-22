@@ -139,7 +139,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach($products as $product)
+                    @foreach($products->sortBy([['parent.name', 'asc'], ['color.name', 'asc'], ['size.sort', 'asc']]) as $product)
                       <tr>
                         <td class="text-left">{!! $product->code_subproduct !!} {!! $product->full_name !!}</td>
                         <td class="border-right-0">{{ $product->stock }}</td>
@@ -162,12 +162,12 @@
                       <tr>
                         <td class="text-right">Total:</td>
                         <td class="border-right-0">{{ $products->sum('stock') }}</td>
-                        <td style="color:purple;"></td>
+                        <td style="color:purple;"> {{ $getSum }} </td>
                       </tr>
                       @if($quantityy)
                         <tr>
-                          <td colspan="2"></td>
-                          <td>
+                          <td> </td>
+                          <td colspan="2">
                             <button type="button" wire:click="savesuborder" style="background: purple; color: white;" class="btn btn-sm">@lang('Save output') &nbsp; <strong class="text-success">{{ $nameDepa ?? '' }}</strong> <span class="badge badge-light">{{ $namePrice ?? '' }}</span></button>
                           </td>
                         </tr>

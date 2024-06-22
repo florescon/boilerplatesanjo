@@ -47,7 +47,7 @@
           <div class="cs-invoice_right cs-text_right">
             <div class="cs-invoice_right">
               <ul class="cs-bar_list">
-                <li><b class="cs-primary_color">Inicial:</b> ${{ $box->initial }}</li>
+                <li><b class="cs-primary_color">Fondo Inicial:</b> ${{ $box->initial }}</li>
                 <li><b class="cs-primary_color">Ingresos:</b> ${{ number_format($box->amount_incomes, 2) }}</li>
                 <li><b class="cs-primary_color">Egresos:</b> {{ $box->amount_expenses != 0 ? '-$'. number_format($box->amount_expenses, 2) : '--' }}</li>
                 <li><b class="cs-primary_color">Balance:</b> ${{ $box->daily_cash_closing }}</li>

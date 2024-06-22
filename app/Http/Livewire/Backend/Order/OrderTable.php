@@ -160,6 +160,7 @@ class OrderTable extends Component
             ->orWhere('folio', 'like', '%' . $this->searchTerm . '%')
             ->orWhere('info_customer', 'like', '%' . $this->searchTerm . '%')
             ->orWhere('request', 'like', '%' . $this->searchTerm . '%')
+            ->orWhere('quotation', 'like', '%' . $this->searchTerm . '%')
             ->orWhere('purchase', 'like', '%' . $this->searchTerm . '%')
             ->orWhere('invoice', 'like', '%' . $this->searchTerm . '%')
             ->orWhere('comment', 'like', '%' . $this->searchTerm . '%');
@@ -190,9 +191,21 @@ class OrderTable extends Component
     private function applySearchDeletedFilter($orders)
     {
         if ($this->searchTerm) {
-            return $orders->whereRaw("id LIKE \"%$this->searchTerm%\"")
-            ->orWhereRaw("slug LIKE \"%$this->searchTerm%\"");
+            // return $orders->whereRaw("id LIKE \"%$this->searchTerm%\"")
+            // ->orWhereRaw("slug LIKE \"%$this->searchTerm%\"");
 
+            return $orders->whereHas('user', function ($query) {
+                $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
+            })
+            ->orWhereHas('departament', function ($query) {
+                $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
+            })
+            ->orWhere('folio', 'like', '%' . $this->searchTerm . '%')
+            ->orWhere('info_customer', 'like', '%' . $this->searchTerm . '%')
+            ->orWhere('request', 'like', '%' . $this->searchTerm . '%')
+            ->orWhere('purchase', 'like', '%' . $this->searchTerm . '%')
+            ->orWhere('invoice', 'like', '%' . $this->searchTerm . '%')
+            ->orWhere('comment', 'like', '%' . $this->searchTerm . '%');
         }
 
         return null;

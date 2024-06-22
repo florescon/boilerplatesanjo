@@ -23,7 +23,7 @@ class StatusTable extends Component
         'perPage',
     ];
 
-    public $perPage = '10';
+    public $perPage = '20';
 
     public $sortField = 'level';
     public $sortAsc = true;
@@ -89,7 +89,7 @@ class StatusTable extends Component
     {
         $this->searchTerm = '';
         $this->resetPage();
-        $this->perPage = '10';
+        $this->perPage = '20';
     }
 
 
@@ -97,7 +97,7 @@ class StatusTable extends Component
     {
         $this->searchTerm = '';
         $this->resetPage();
-        $this->perPage = '10';
+        $this->perPage = '20';
     }
 
 

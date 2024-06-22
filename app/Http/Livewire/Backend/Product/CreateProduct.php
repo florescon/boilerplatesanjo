@@ -132,7 +132,7 @@ class CreateProduct extends Component
 
         $this->retail_price = $priceRetaiPrice;
 
-        $this->retail_price = number_format($this->retail_price, 2);
+        $this->retail_price = number_format($this->retail_price, 2, '.', '');
     }
 
     public function calculateAverageWholesalePrice()
@@ -141,7 +141,7 @@ class CreateProduct extends Component
 
         $this->average_wholesale_price = setting('round') ? ceil($priceAverageWholesalePrice / 5) * 5 : $priceAverageWholesalePrice;
 
-        $this->average_wholesale_price = number_format($this->average_wholesale_price, 2);
+        $this->average_wholesale_price = number_format($this->average_wholesale_price, 2, '.', '');
     }
 
     public function calculateWholesalePrice()
@@ -150,7 +150,7 @@ class CreateProduct extends Component
 
         $this->wholesale_price = setting('round') ? ceil($priceWholesalePrice / 5) * 5 : $priceWholesalePrice;
 
-        $this->wholesale_price = number_format($this->wholesale_price, 2);
+        $this->wholesale_price = number_format($this->wholesale_price, 2, '.', '');
     }
 
     public function calculateSpecialPrice()
@@ -159,7 +159,7 @@ class CreateProduct extends Component
 
         $this->special_price = $priceSpecial;
 
-        $this->special_price = number_format($this->special_price, 2);
+        $this->special_price = number_format($this->special_price, 2, '.', '');
     }
 
     public function updatedPrice()
@@ -175,7 +175,7 @@ class CreateProduct extends Component
     public function calculateIVATypePrice($typePrice, string $typeString)
     {
         // $typePrice = $typePrice + ((setting('iva') / 100) * $typePrice);
-        $typePrice = number_format($typePrice, 2);
+        $typePrice = number_format($typePrice, 2, '.', '');
     }
 
     public function render()

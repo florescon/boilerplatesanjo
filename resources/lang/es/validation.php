@@ -180,10 +180,13 @@ return [
         "sort" => 'orden',
         "abbreviation" => 'abreviatura',
         'initial' => 'inicial',
+        'initial box' => 'Fondo de caja',
         'received' => 'cantidad recibida',
         'quantity' => 'cantidad',
         'info_customer' => 'información del cliente',
         'code_clone' => 'código clon',
-        'discount' => 'descuento'
+        'discount' => 'descuento',
+        'width' => 'ancho',
+        'height' => 'alto'
     ],
 ];

@@ -259,7 +259,7 @@
                                   <td>
                                     <livewire:backend.order.batch-amount-received :batch="$batch_product" :last_status="$next_status->id ?? null" :key="$batch_product->id" />
                                   </td>
-                                </tr>
+                                </tr> 
                               @endforeach
                               <tr>
                                 <td colspan="1" class="text-right">Total:</td>

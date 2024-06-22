@@ -58,7 +58,7 @@ class DocumentsExport implements FromCollection, WithMapping, WithHeadings, With
      */
     public function title(): string
     {
-        return __('Documents').' '.now()->format('g:i a l jS F Y');
+        return __('Documents_').' '.now()->format('g:i a l jS F Y');
     }
 
     /**

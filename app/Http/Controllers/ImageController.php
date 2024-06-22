@@ -7,6 +7,16 @@ use App\Models\Image;
 
 class ImageController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return view('backend.image.index');
+    }
+
     public function select2LoadMore(Request $request)
     {
         $search = $request->get('search');

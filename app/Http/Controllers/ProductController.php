@@ -34,8 +34,9 @@ class ProductController extends Controller
     {
         $nameStock = 'store_stock';
         $linkEdit = 'admin.store.product.edit';
+        $fromStore = true;
 
-        return view('backend.product.index', compact('nameStock', 'linkEdit'));
+        return view('backend.product.index', compact('nameStock', 'linkEdit', 'fromStore'));
     }
 
     /**

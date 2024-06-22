@@ -3,7 +3,7 @@
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="showModalLabel">@lang('View document')</h5>
+        <h5 class="modal-title" id="showModalLabel">@lang('View document_')</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -18,6 +18,12 @@
                 </td>
               </tr>
               <tr>
+                <th scope="row">@lang('Measures')</th>
+                <td>
+                  @lang('Width'): <strong>{{ $width }}</strong>mm. @lang('Height'): <strong>{{ $height }}</strong>mm.
+                </td>
+              </tr>
+              <tr>
                 <th scope="row">@lang('File DST')</th>
                 <td>          
                   {!! $file_dst !!}
@@ -27,6 +33,12 @@
                 <th scope="row">@lang('File EMB')</th>
                 <td>          
                   {!! $file_emb !!}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">@lang('File PDF')</th>
+                <td>          
+                  {!! $file_pdf !!}
                 </td>
               </tr>
               <tr>

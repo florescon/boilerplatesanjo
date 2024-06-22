@@ -109,7 +109,7 @@ class Cash extends Model
 
     public function getTotalAmountCashFinancesAttribute()
     {
-        return number_format($this->amount_incomes_cash - $this->amount_expenses_cash, 2);
+        return number_format($this->amount_incomes_cash - $this->amount_expenses_cash, 2, '.', '');
     }
 
     public function getTotalAmountCashFinancesInvoiceAttribute()
@@ -119,7 +119,7 @@ class Cash extends Model
 
     public function getTotalAmountCashDifferentFinancesAttribute()
     {
-        return number_format($this->amount_incomes_different_cash - $this->amount_expenses_different_cash, 2);
+        return number_format($this->amount_incomes_different_cash - $this->amount_expenses_different_cash, 2, '.', '');
     }
 
     public function getTotalAmountFinancesAttribute()
@@ -129,7 +129,7 @@ class Cash extends Model
 
     public function getDailyCashClosingAttribute()
     {
-        return number_format($this->total_amount_finances, 2);
+        return number_format($this->total_amount_finances, 2, '.', '');
     }
 
     public function getDateForHumansAttribute()

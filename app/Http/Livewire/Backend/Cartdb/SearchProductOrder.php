@@ -128,8 +128,8 @@ class SearchProductOrder extends Component
                     DB::table('product_order')->insert([
                         'order_id' => $this->orderId,
                         'product_id' => $product->id,
-                        'price' => $product->getPriceWithIva($getSummary->customer->type_price ?? User::PRICE_RETAIL),
-                        'price_without_tax' => $product->getPriceWithoutIva($getSummary->customer->type_price ?? User::PRICE_RETAIL),
+                        'price' => str_replace(',', '', $product->getPriceWithIva($getSummary->customer->type_price ?? User::PRICE_RETAIL)),
+                        'price_without_tax' => str_replace(',', '',  $product->getPriceWithoutIva($getSummary->customer->type_price ?? User::PRICE_RETAIL)),
                         'quantity' => $quantity,
                         'type'=> $this->type,
                         'created_at' => now(),
@@ -195,8 +195,8 @@ class SearchProductOrder extends Component
         DB::table('product_order')->insert([
             'order_id' => $this->orderId,
             'product_id' => $idProduct,
-            'price' => $product->getPriceWithIva(User::PRICE_RETAIL),
-            'price_without_tax' => $product->getPriceWithoutIva(User::PRICE_RETAIL),
+            'price' => str_replace(',', '',  $product->getPriceWithIva(User::PRICE_RETAIL)),
+            'price_without_tax' => str_replace(',', '',  $product->getPriceWithoutIva(User::PRICE_RETAIL)),
             'type'=> $this->type,
             'created_at' => now(),
             'updated_at' => now(),

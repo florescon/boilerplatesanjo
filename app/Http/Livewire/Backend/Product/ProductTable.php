@@ -222,16 +222,22 @@ class ProductTable extends Component
             ->onlyProducts()->where('stock', '<>', 0)->get()->pluck('id')->map(fn($id) => (string) $id)->toArray();
     }
 
+    private function getSelectedProductsStoreStock()
+    {
+        return Product::query()
+            ->onlyProducts()->where('stock_store', '<>', 0)->get()->pluck('id')->map(fn($id) => (string) $id)->toArray();
+    }
+
     public function exportMaatwebsiteStock($extension)
     {   
         abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
-        return Excel::download(new ProductMainExport($this->getSelectedProductsStock()), 'product-list-'.Carbon::now().'.'.$extension);
+        return Excel::download(new ProductMainExport($this->from_store ? $this->getSelectedProductsStoreStock() : $this->getSelectedProductsStock(), $this->from_store), 'product-list-'.Carbon::now().'.'.$extension);
     }
 
     public function exportMaatwebsite($extension)
     {   
         abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
-        return Excel::download(new ParentProductsExport($this->getSelectedProducts()), 'product-list-'.Carbon::now().'.'.$extension);
+        return Excel::download(new ParentProductsExport($this->getSelectedProducts(), $this->from_store), 'product-list-'.Carbon::now().'.'.$extension);
     }
 
     public function restore($id)

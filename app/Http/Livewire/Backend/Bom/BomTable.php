@@ -107,7 +107,7 @@ class BomTable extends Component
 
         $this->applySearchFilter($orders);
 
-        return $orders->orderByDesc('a.id');
+        return $orders->orderByDesc('a.created_at');
     }
 
     private function applySearchFilter($order)

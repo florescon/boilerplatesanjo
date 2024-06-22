@@ -294,7 +294,7 @@ class EditOrder extends Component
             $this->requestReadyForDelivery($order);
         }
 
-        return $this->redirectRoute($this->from_store ? 'admin.store.all.edit' : 'admin.order.edit', $this->order_id);
+        return $this->redirectRoute($this->from_store ? 'admin.store.all.edit' : 'admin.order.edit_chart', $this->order_id);
     }
 
     public function requestReadyForDelivery($order)
@@ -369,6 +369,7 @@ class EditOrder extends Component
                 ])->findOrFail($this->order_id);
 
         $statuses = Status::orderBy('level')->get();
+        $supplier = Status::orderBy('level')->where('supplier', TRUE)->first();
         $batches = Status::orderBy('level')->where('batch', TRUE)->get();
         $process = Status::orderBy('level')->where('process', TRUE)->get();
 
@@ -381,10 +382,10 @@ class EditOrder extends Component
         $OrderStatusDelivery = OrderStatusDelivery::values();    
 
         if(!$model->isSuborder()){
-            return view('backend.chart.order.edit-order')->with(compact('model', 'orderExists', 'saleExists', 'requestExists', 'quotationExists', 'productsOutputExists', 'statuses', 'batches', 'process', 'OrderStatusDelivery'));
+            return view('backend.chart.order.edit-order')->with(compact('model', 'orderExists', 'saleExists', 'requestExists', 'quotationExists', 'productsOutputExists', 'statuses', 'batches', 'supplier', 'process', 'OrderStatusDelivery'));
         }
         else{
-            return view('backend.order.suborder')->with(compact('model', 'orderExists', 'saleExists', 'requestExists', 'quotationExists', 'productsOutputExists', 'statuses', 'batches', 'process', 'OrderStatusDelivery'));           
+            return view('backend.order.suborder')->with(compact('model', 'orderExists', 'saleExists', 'requestExists', 'quotationExists', 'productsOutputExists', 'statuses', 'supplier', 'batches', 'process', 'OrderStatusDelivery'));           
         }
     }
 }

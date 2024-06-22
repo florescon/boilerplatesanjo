@@ -1,10 +1,33 @@
- <script>
+<script>
 
-const SwalModal = (icon, title, html) => {
+const SwalModal = (icon, title, html, imageUrl) => {
     Swal.fire({
         icon,
         title,
-        html
+        imageUrl,
+        imageWidth: 100,
+        imageHeight: 100,
+        html,
+
+          showClass: {
+            popup: `
+              animate__animated
+              animate__fadeInDown
+              animate__faster
+            `
+          },
+          hideClass: {
+            popup: `
+              animate__animated
+              animate__fadeOutDown
+              animate__faster
+            `
+          },
+        backdrop: `
+            rgba(0,0,123,0.4)
+            left top
+            no-repeat
+          `
     })
 }
 
@@ -14,10 +37,16 @@ const SwalConfirm = (icon, title, html, confirmButtonText, method, params, callb
         title,
         html,
         showCancelButton: true,
+        focusConfirm: false,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText,
         reverseButtons: true,
+        backdrop: `
+            rgba(0,0,123,0.4)
+            left top
+            no-repeat
+          `
     }).then(result => {
         if (result.value) {
             return livewire.emit(method, params)
@@ -29,16 +58,17 @@ const SwalConfirm = (icon, title, html, confirmButtonText, method, params, callb
     })
 }
 
-const SwalAlert = (icon, title, timeout = 7000) => {
+const SwalAlert = (icon, title, timeout = 4000) => {
     const Toast = Swal.mixin({
         toast: true,
-        position: 'top-end',
+        position: 'top',
         showConfirmButton: false,
+        timerProgressBar: true,
         timer: timeout,
         onOpen: toast => {
             toast.addEventListener('mouseenter', Swal.stopTimer)
             toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
+        },
     })
 
     Toast.fire({
@@ -51,11 +81,11 @@ const SwalAlert = (icon, title, timeout = 7000) => {
 window.addEventListener('DOMContentLoaded', () => { 
 
     this.livewire.on('swal:modal', data => {
-        SwalModal(data.icon, data.title, data.text)
+        SwalModal(data.icon, data.title, data.html, data.imageUrl)
     })
 
     this.livewire.on('swal:confirm', data => {
-        SwalConfirm(data.icon, data.title, data.text, data.confirmText, data.method, data.params, data.callback)
+        SwalConfirm(data.icon, data.title, data.html, data.confirmText, data.method, data.params, data.callback)
     })
 
     this.livewire.on('swal:alert', data => {

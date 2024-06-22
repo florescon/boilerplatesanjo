@@ -3,7 +3,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">@lang('Create document')</h5>
+        <h5 class="modal-title" id="exampleModalLabel">@lang('Create document_')</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -15,6 +15,20 @@
           <label>@lang('Title')</label>
           <input wire:model.lazy="title" type="text" class="form-control"/>
           @error('title') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+
+          <div class="form-row mt-2">
+            <div class="form-group col-md-6">
+              <label>@lang('Width')</label>
+              <input wire:model.lazy="width" type="text" class="form-control"/>
+              @error('width') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>@lang('Height')</label>
+              <input wire:model.lazy="height" type="text" class="form-control"/>
+              @error('height') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+            </div>
+          </div>
 
           <div class="form-row">
             <div class="form-group col-md-6">
@@ -48,6 +62,26 @@
                   <div wire:loading.remove wire:target="file_emb" class="mt-4"> 
                       <div class="float-left">
                           <button type="button" wire:click="removeEMB" class="btn btn-light">
+                              <i class="cil-x-circle"></i> @lang('Delete')
+                          </button>
+                      </div>
+                  </div>
+              @endif
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label class="mt-4">@lang('File PDF')</label>
+              <input wire:model="file_pdf" type="file" class="form-control-file"/>
+              @error('file_pdf') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+            </div>
+
+            <div class="form-group col-md-6">
+              @if($file_pdf)
+                  <div wire:loading.remove wire:target="file_pdf" class="mt-4"> 
+                      <div class="float-left">
+                          <button type="button" wire:click="removePDF" class="btn btn-light">
                               <i class="cil-x-circle"></i> @lang('Delete')
                           </button>
                       </div>

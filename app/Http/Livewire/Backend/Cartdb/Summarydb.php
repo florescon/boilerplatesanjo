@@ -11,6 +11,7 @@ use App\Models\Cart;
 use App\Models\OrderStatusDelivery;
 use App\Models\Order;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Route;
 
 class Summarydb extends Component
 {
@@ -27,12 +28,17 @@ class Summarydb extends Component
 
     public $summary;
 
+    public $chartUrl;
+
     public $customer, $phone, $address, $rfc;
 
     protected $listeners = ['selectedCompanyItem', 'cartUpdated' => '$refresh'];
 
     public function mount(string $typeSummary, ?int $branchIdSummary = 0, ?bool $isMain = false, ?bool $flowchart = false)
     {
+
+        $this->chartUrl = Route::is('admin.order.quotation_chart');
+
         $this->isMain = $isMain;
         $this->flowchart = $flowchart;
         $this->type = $typeSummary;
@@ -73,7 +79,12 @@ class Summarydb extends Component
     public function redirectLink()
     {
         if($this->isMain){
-            return redirect()->route('admin.order.quotation');
+            if($this->chartUrl){
+                return redirect()->route('admin.order.quotation_chart');
+            }
+            else{
+                return redirect()->route('admin.order.quotation');
+            }
         }
 
         $link = 'admin.store.'.$this->type;
@@ -147,7 +158,7 @@ class Summarydb extends Component
             $order->type = typeInOrder($this->type);
             $order->audi_id = Auth::id();
             $order->from_store = $this->isMain ? null : true;
-            $order->flowchart = $this->flowchart ? null : true;
+            $order->flowchart = $this->flowchart ? true : null;
             $order->approved = 1;
             $order->branch_id = $this->branchId;
             $order->from_quotation = ($typeOrder == 6) ? true : false;
@@ -178,8 +189,17 @@ class Summarydb extends Component
             $this->clearSummary();
             $this->emit('clearAllProducts');
 
-            return redirect()->route($this->branchIdSummary ? 'admin.store.all.edit' : 'admin.order.edit', $order->id);
 
+            if($this->isMain){
+                if($this->chartUrl){
+                    return redirect()->route('admin.order.edit_chart', $order->id);
+                }
+                else{
+                    return redirect()->route('admin.order.edit', $order->id);
+                }
+            }
+
+            return redirect()->route('admin.store.all.edit', $order->id);
         });
     }    
 

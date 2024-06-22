@@ -125,8 +125,8 @@ class SearchProducts extends Component
 
                     DB::table('carts')->insert([
                         'product_id' => $product->id,
-                        'price' => $product->getPriceWithIva($getSummary->type_price ?? User::PRICE_RETAIL),
-                        'price_without_tax' => $product->getPriceWithoutIva($getSummary->type_price ?? User::PRICE_RETAIL),
+                        'price' => str_replace(',', '', $product->getPriceWithIva($getSummary->type_price ?? User::PRICE_RETAIL)),
+                        'price_without_tax' => str_replace(',', '', $product->getPriceWithoutIva($getSummary->type_price ?? User::PRICE_RETAIL)),
                         'quantity' => $quantity,
                         'type'=> $this->type,
                         'branch_id' => $this->branchId,
@@ -206,8 +206,8 @@ class SearchProducts extends Component
 
         DB::table('carts')->insert([
             'product_id' => $idProduct,
-            'price' => $product->getPriceWithIva(User::PRICE_RETAIL),
-            'price_without_tax' => $product->getPriceWithoutIva(User::PRICE_RETAIL),
+            'price' => str_replace(',', '',  $product->getPriceWithIva(User::PRICE_RETAIL)),
+            'price_without_tax' => str_replace(',', '',  $product->getPriceWithoutIva(User::PRICE_RETAIL)),
             'type'=> $this->type,
             'branch_id' => $this->branchId,
             'user_id' => Auth::id(),

@@ -24,6 +24,7 @@ class Brand extends Model
         'website',
         'description',
         'position',
+        'is_internal',
     ];
 
     public function products(): HasMany
@@ -66,6 +67,16 @@ class Brand extends Model
         return Carbon::parse($value)->isoFormat('D, MMM, YY h:mm:ss a');
     }
 
+    public function getIsInternalLabelAttribute()
+    {
+        if($this->is_internal){
+            return "<span class='badge badge-primary'>".__('Yes').'</span>';
+        }
+
+        return "<span class='badge badge-dark'>".__('No').'</span>';
+    }
+
+
     /**
      * Return the sluggable configuration array for this model.
      *
@@ -80,4 +91,15 @@ class Brand extends Model
             ]
         ];
     }
+
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'is_internal' => 'boolean',
+    ];
+
 }

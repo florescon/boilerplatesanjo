@@ -21,4 +21,10 @@ class DashboardController extends Controller
     {
         return view('backend.dashboard');
     }
+
+    public function index_old()
+    {
+        return view('backend.dashboard_old');
+    }
+
 }

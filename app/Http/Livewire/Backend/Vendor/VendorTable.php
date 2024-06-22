@@ -35,7 +35,7 @@ class VendorTable extends TableComponent
         'perPage',
     ];
 
-    protected $listeners = ['extra', 'delete', 'restore', 'triggerRefresh' => '$refresh'];
+    protected $listeners = ['internal', 'extra', 'delete', 'restore', 'triggerRefresh' => '$refresh'];
 
     /**
      * @var string
@@ -134,6 +134,11 @@ class VendorTable extends TableComponent
                 ->format(function(Vendor $model) {
                     return $this->link(route('admin.vendor.associates_materia', $model->id), $model->count_materials.' — '.$model->total_percentage_materia.'%');
                 }),
+            Column::make(__('Internal vendor'), 'is_internal')
+                ->format(function (Vendor $model) {
+                    return view('backend.vendor.datatable.internal', ['vendor' => $model]);
+                })
+                ->excludeFromExport(),
             Column::make(__('Updated at'), 'updated_at')
                 ->searchable()
                 ->sortable(),
@@ -143,6 +148,24 @@ class VendorTable extends TableComponent
                 })
                 ->excludeFromExport(),
         ];
+    }
+
+    public function internal(?int $id = null)
+    {
+        if($id){
+            $vendor = Vendor::withTrashed()->find($id);
+            
+            $vendor->update([
+                'is_internal' => $vendor->is_internal ? false : true,
+            ]);
+
+            sleep(1);
+        }
+
+        $this->emit('swal:alert', [
+            'icon' => 'success',
+            'title'   => __('Changed'), 
+        ]);
     }
 
     public function delete(Vendor $vendor)

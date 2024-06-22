@@ -35,7 +35,7 @@ class BrandTable extends TableComponent
         'perPage',
     ];
 
-    protected $listeners = ['delete', 'restore', 'triggerRefresh' => '$refresh'];
+    protected $listeners = ['internal', 'delete', 'restore', 'triggerRefresh' => '$refresh'];
 
     /**
      * @var string
@@ -104,6 +104,11 @@ class BrandTable extends TableComponent
                 ->format(function(Brand $model) {
                     return $this->link(route('admin.brand.associates', $model->id), $model->count_products);
                 }),
+            Column::make(__('Internal brand'), 'is_internal')
+                ->format(function (Brand $model) {
+                    return view('backend.brand.datatable.internal', ['brand' => $model]);
+                })
+                ->excludeFromExport(),
             Column::make(__('Created at'), 'created_at')
                 ->searchable()
                 ->sortable(),
@@ -117,6 +122,25 @@ class BrandTable extends TableComponent
                 ->excludeFromExport(),
         ];
     }
+
+    public function internal(?int $id = null)
+    {
+        if($id){
+            $brand = Brand::withTrashed()->find($id);
+            
+            $brand->update([
+                'is_internal' => $brand->is_internal ? false : true,
+            ]);
+
+            sleep(1);
+        }
+
+        $this->emit('swal:alert', [
+            'icon' => 'success',
+            'title'   => __('Changed'), 
+        ]);
+    }
+
 
     public function delete(Brand $brand)
     {

@@ -68,12 +68,11 @@
                                         <option>10</option>
                                         <option>25</option>
                                         <option>50</option>
-                                        <option>100</option>
                                     </select>
 
                                     @if ($status == '' || $status == 'all')
                                         <div class="ml-4 mt-2">
-                                            <livewire:backend.attributes.status-change />
+                                          <button type="button" class="m-1 btn {{ $history ? 'btn-warning text-white' : 'btn-secondary' }}" wire:click="isHistory">@lang('History')</button>
                                         </div>
                                         @if ($statusOrder)
                                             <button class="btn btn-danger btn-sm ml-4 pb-2 mt-2"
@@ -183,18 +182,12 @@
                                                         {{ $order->invoice }}
                                                     @endif
                                                 </div>
-                                                <div class="card-meta" style="border-bottom: 1px solid;">
+                                                <div class="card-meta" style="">
                                                     <div class="d-flex align-items-center">
                                                         <span class="text-center">
-                                                            {!! $order->last_status_order_id === 2 && $order->to_customer
-                                                            ? __('Delivered')
-                                                            : $order->last_status_order_label !!}
-
-                                                            {!! $order->to_stock_final !!}
-                                                            
-                                                            {!! $order->to_customer
+                                                            {!! ($order->areAllProductOrdersMatched() || $order->areAllProductOrdersMatchedSendToStock()) && $order->areAllProductStationsZero()
                                                                 ? '<i class="cil-check" style="color: blue;"></i>'
-                                                                : '<i class="cil-minus" style="color:red;"></i>' !!}
+                                                                : '' !!}
                                                         </span>
                                                     </div>
                                                     <div class="dropdown card-options no-print">

@@ -8,6 +8,7 @@ use App\Models\StatusOrder;
 use App\Models\MaterialOrder;
 use App\Models\ServiceOrder;
 use App\Models\Ticket;
+use App\Models\Station;
 use App\Models\Batch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -86,6 +87,10 @@ class OrderController extends Controller
 
     public function edit(Order $order)
     {
+        if(($order->branch_id == 0) && $order->flowchart){
+            return redirect()->route('admin.order.edit_chart', $order->id);
+        }
+
         $vvar =  $order->created_at->timestamp;
 
         return view('backend.order.edit-order', compact('order', 'vvar'));
@@ -106,6 +111,10 @@ class OrderController extends Controller
 
     public function edit_chart(Order $order)
     {
+        if(($order->branch_id == 0) && !$order->flowchart){
+            return redirect()->route('admin.order.edit', $order->id);
+        }
+
         $vvar =  $order->created_at->timestamp;
 
         return view('backend.chart.order.edit', compact('order', 'vvar'));
@@ -120,6 +129,11 @@ class OrderController extends Controller
     {
 
         return view('backend.order.print-export-orders-index', ['orders' => $orders]);
+    }
+
+    public function report(Order $order)
+    {
+        return view('backend.order.report', ['order' => $order]);
     }
 
     public function print(Order $order, bool $breakdown = false, bool $grouped = false)
@@ -326,6 +340,75 @@ class OrderController extends Controller
     }
 
 
+    public function ticket_materia_station(Order $order, Station $station)
+    {
+        $consumptionCollect = collect();
+        $ordercollection = collect();
+        $productsCollection = collect();
+
+            $ordercollection->push([
+                'id' => $order->id,
+                'folio' => $order->folio,
+                'user' => optional($order->user)->name,
+                'type' => $order->characters_type_order,
+                'comment' => $order->comment,
+            ]);
+
+            foreach($station->product_station as $product_statione){
+                $quantity = $product_statione->quantity;
+
+                if($product_statione->product_order->gettAllConsumptionSecond($quantity) != 'empty'){
+                    foreach($product_statione->product_order->gettAllConsumptionSecond($quantity) as $key => $consumption){
+                        $consumptionCollect->push([
+                            'order' => $order->id,
+                            'product_order_id' => $product_statione->product_order->id, 
+                            'material_name' => $consumption['material'],
+                            'part_number' => $consumption['part_number'],
+                            'material_id' => $key,
+                            'unit' => $consumption['unit'],
+                            'unit_measurement' => $consumption['unit_measurement'],
+                            'vendor' => $consumption['vendor'],
+                            'family' => $consumption['family'],
+                            'quantity' => $consumption['quantity'],
+                            'stock' => $consumption['stock'],
+                        ]);
+                    }
+                }
+            }
+
+        $materials = $consumptionCollect->groupBy('material_id')->map(function ($row) {
+                    return [
+                        'order' => $row[0]['order'],
+                        'product_order_id' => $row[0]['product_order_id'], 
+                        'material_name' => $row[0]['material_name'],
+                        'part_number' => $row[0]['part_number'],
+                        'material_id' => $row[0]['material_id'],
+                        'unit' => $row[0]['unit'],
+                        'unit_measurement' => $row[0]['unit_measurement'],
+                        'vendor' => $row[0]['vendor'],
+                        'family' => $row[0]['family'],
+                        'quantity' => $row->sum('quantity'),
+                        'stock' => $row[0]['stock'],
+                    ];
+                });
+
+
+        $allMaterials = $materials->map(function ($product) {
+        return [
+            'order'            => $product['order'],
+            'material_name' => $product['material_name'],
+            'part_number'         => $product['part_number'],
+            'unit_measurement' => $product['unit_measurement'],
+            'quantity' => $product['quantity'],
+            ];
+        });
+
+        $pdf = PDF::loadView('backend.order.ticket-materia-station',compact('order', 'station', 'allMaterials'))->setPaper([0, 0, 1585.98, 296.85], 'landscape');
+
+        return $pdf->stream();
+    }
+
+
     public function short_ticket_materia(Order $order)
     {
         $order->load(['materials_order' => function($query){
@@ -468,6 +551,11 @@ class OrderController extends Controller
         return view('backend.order.batches-order', compact('order', 'status'));
     }
 
+    public function station(Order $order, Status $status)
+    {
+        return view('backend.order.station-order', compact('order', 'status'));
+    }
+
     public function process(Order $order, Status $status)
     {
         if($status->process == false){
@@ -491,6 +579,32 @@ class OrderController extends Controller
         return view('backend.flowchart.requests');
     }
 
+    public function chart()
+    {
+        $lastProcessId = Order::getLastProcess()->id;
+
+        $orders = Order::with('product_order.product_station_received', 'product_order.product_station_out')
+                    ->where(function ($query) use ($lastProcessId) {
+                        $query->whereHas('product_order', function ($query) use ($lastProcessId) {
+                            $query
+                            ->whereDoesntHave('product_station_received', function ($query) use ($lastProcessId) {
+                                $query->havingRaw('SUM(quantity) >= product_order.quantity')->where('status_id', $lastProcessId);
+                            })
+                            ->whereDoesntHave('product_station_out', function ($query) {
+                                $query->havingRaw('SUM(out_quantity) >= product_order.quantity');
+                            })
+                            ;
+                        });
+                    })
+                    ->onlyOrders()
+                    ->outFromStore()
+                    ->flowchart()
+                    ->orderBy('id', 'desc')
+                    ->paginate(3);
+
+
+        return view('backend.information.chart', compact('orders'));
+    }
 
     public function deleted()
     {

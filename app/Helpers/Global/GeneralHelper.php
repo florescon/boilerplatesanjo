@@ -88,7 +88,7 @@ if (! function_exists('priceIncludeIva')) {
     {
         if(is_numeric($price)){
 
-            return number_format($price + ((setting('iva') / 100) * $price), 2);
+            return number_format($price + ((setting('iva') / 100) * $price), 2, '.', '');
 
         }
     }
@@ -106,7 +106,7 @@ if (! function_exists('priceWithoutIvaIncluded')) {
 
             $iva = (setting('iva') / 100) + 1;
 
-            return number_format(($price / $iva), 2);
+            return number_format(($price / $iva), 2, '.', '');
         }
     }
 }
@@ -139,7 +139,7 @@ if (! function_exists('ivaPrice')) {
     {
         $iva = (setting('iva') / 100) + 1;
 
-        return number_format($price - ($price / $iva), 2);
+        return number_format($price - ($price / $iva), 2, '.', '');
     }
 }
 
@@ -153,7 +153,7 @@ if (! function_exists('calculateIva')) {
     {
         $iva = setting('iva') / 100;
 
-        return number_format($price * $iva, 2);
+        return number_format($price * $iva, 2, '.', '');
     }
 }
 
@@ -312,6 +312,6 @@ if (! function_exists('number_formatted')) {
      */
     function number_formatted($number)
     {
-        return number_format($number, strlen(substr(strrchr($number, "."), 2)));
+        return number_format($number, strlen(substr(strrchr($number, "."), 2, '.', '')));
     }
 }

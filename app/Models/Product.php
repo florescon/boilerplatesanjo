@@ -142,6 +142,14 @@ class Product extends Model
     /**
      * @return string
      */
+    public function getVendorNameAttribute()
+    {
+        return $this->vendor_id ? "<span class='badge badge-info' style='color: white; background-color: #000080;'>&nbsp;".$this->vendor->name.'</span>' : '';
+    }
+
+    /**
+     * @return string
+     */
     public function getSizeSortAttribute()
     {
         return $this->size_id ? $this->size->sort : 0;
@@ -189,6 +197,21 @@ class Product extends Model
         }
     }
 
+    public function getOnlyNameLinkAttribute()
+    {
+        if($this->parent_id !== null){
+            return '<a tabindex="-1" class="text-primary" target="_blank" href="'.route('admin.product.edit', $this->parent_id).'">'.$this->parent->name.'</a>';
+        }
+        else{
+            if(!$this->isProduct()){
+                return $this->name." <span class='badge badge-info' style='color: white; background-color: #85144b;'>&nbsp;".__('Service') .'&nbsp;</span>';
+            }
+            else{
+                return $this->name;
+            }
+        }
+    }
+
     /**
      * @return string
      */
@@ -224,6 +247,24 @@ class Product extends Model
             }
         }
     }
+    /**
+     * @return string
+     */
+    public function getFullNameBreakAttribute()
+    {
+        if($this->parent_id !== null){
+            return '<strong> ['. $this->parent->code .'] '.$this->parent->name.'</strong> <em><br>'.$this->size_name.' '.$this->color_name.'</em>';
+        }
+        else{
+            if(!$this->isProduct()){
+                return $this->name." <span class='badge badge-info' style='color: white; background-color: #85144b;'>&nbsp;".__('Service') .'&nbsp;</span>';
+            }
+            else{
+                return $this->name." <span class='badge badge-primary'>".__('Main').'</span>';
+            }
+        }
+    }
+
 
     /**
      * @return string
@@ -232,6 +273,25 @@ class Product extends Model
     {
         if($this->parent_id !== null){
             return '<a tabindex="-1" target="_blank" href="'.route('admin.product.edit', $this->parent_id).'"><strong>'.$this->parent->name.'</strong></a> <em>'.$this->size_name.' '.$this->color_name.'</em>';
+        }
+        else{
+            if(!$this->isProduct()){
+                return $this->name." <span class='badge badge-info' style='color: white; background-color: #85144b;'>".__('Service').'</span>';
+            }
+            else{
+                return $this->name." <span class='badge badge-primary'>".__('Main').'</span>';
+            }
+        }
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getFullNameAndVendorLinkAttribute()
+    {
+        if($this->parent_id !== null){
+            return '<a tabindex="-1" target="_blank" href="'.route('admin.product.edit', $this->parent_id).'"><strong>'.$this->parent->name.'</strong></a> <em>'.$this->size_name.' '.$this->color_name.'</em> '.$this->parent->vendor_name ;
         }
         else{
             if(!$this->isProduct()){
@@ -599,19 +659,19 @@ class Product extends Model
 
     public function getPriceWithIvaApply($price)
     {
-        return number_format($price + ((setting('iva') / 100) * $price), 2);
+        return number_format($price + ((setting('iva') / 100) * $price), 2, '.', '');
     }
 
     public function getPriceWithIva(?string $type_price = null)
     {
         $getPrice = $this->getPrice($type_price ?? User::PRICE_RETAIL);
-        return number_format($getPrice + ((setting('iva') / 100) * $getPrice), 2);
+        return number_format($getPrice + ((setting('iva') / 100) * $getPrice), 2, '.', '');
     }
 
     public function getPriceWithoutIva(?string $type_price = null)
     {
         $getPrice = $this->getPrice($type_price ?? User::PRICE_RETAIL);
-        return number_format($getPrice, 2);
+        return number_format($getPrice, 2, '.', '');
     }
 
     /**

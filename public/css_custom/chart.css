@@ -11,7 +11,7 @@ h3{
 .container-fluid,.container { 
     margin:auto;
   padding:0px 15px;
-  max-width:1200px;
+  width:100%;
 }
 label{
   font-weight:500;
@@ -20,7 +20,19 @@ label{
   margin-bottom:5px;
 }
 
+textarea,select{ 
+    margin: 5px 0px ;
+    font-size:13px !important; 
+    border-radius:0px;
+}
+select,textarea{ 
+    width: 100%; 
+    border:1px solid #DADADA; 
+    padding: 5px 10px;  
+    height:45px;  
+}
 
+/*
 input,textarea,select,button{ 
     margin: 5px 0px ;
     font-size:13px !important; 
@@ -39,7 +51,7 @@ input[type=submit],input[type=button],input[type=reset],button{
   height:45px;
   color:#FFF;
 }
-
+*/
 .btn:hover,.btn:focus{  
     cursor:pointer; 
     color:#FFF;
@@ -112,17 +124,17 @@ ul{
 /* DEMO 01 */
 .pricing-table-3{
   background-color:#FFF;
-  margin:15px auto;
+  margin:5px auto;
   box-shadow:0px 0px 25px rgba(0,0,0,0.1);
-  max-width:300px;
+  max-width:500px;
   border-radius:0px 10px 0px 10px;
   overflow:hidden;
   position:relative;
-  min-height:250px;
+  min-height:450px;
   transition:all ease-in-out 0.25s;
 }
 .pricing-table-3:hover{
-  transform:scale(1.1,1.1);
+  transform:scale(1.01,1.01);
   cursor:pointer;
 }
 
@@ -136,6 +148,10 @@ ul{
 }
 .pricing-table-3.business .price{
   background-color:#c3185c;
+  color:#FFF;
+}
+.pricing-table-3.disabled .price{
+  background-color:#adb1bb;
   color:#FFF;
 }
 
@@ -154,7 +170,7 @@ ul{
   content:"";
   position:absolute;
   left:-50px;
-  right:-180px;
+  right:-230px;
   height:125px;
   top:-50px;
   background-color:#212121;
@@ -208,6 +224,12 @@ ul{
 .pricing-table-3.business .pricing-table-ul .fa{
   color:#c3185c;
 }
+.pricing-table-3.disabled .pricing-table-ul .fa{
+  color:#adb1bb;
+;
+}
+
+
 .pricing-table-3 .view-more{
   margin:10px 20px;
   display:block;
@@ -257,7 +279,7 @@ ul{
     text-align: center;
     font-size: 2rem;
     font-weight: bold;
-    padding: 12%
+    padding: 5%
 }
 
 .main {
@@ -303,7 +325,7 @@ hr {
     }
 }
 
-.btn {
+./*btn {
     background-color: rgb(3, 122, 219);
     border-color: rgb(3, 122, 219);
     color: white;
@@ -327,4 +349,20 @@ hr {
 
 .btn:hover {
     color: white
+}*/
+
+
+html, body {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.skulls {
+  position: relative;
+  margin: auto;
+  border: 24px solid;
+  border-image: url(https://skullctf.com/images/skull-border.svg);
+  border-image-slice: 32;
+  border-image-repeat: round;
 }

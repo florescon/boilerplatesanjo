@@ -13,8 +13,22 @@ class ProductOrder extends Model
 
     protected $table = 'product_order';
 
+    protected $initialLot;
+    protected $initialProcess;
+    protected $supplierProcess;
+    protected $lastProcess;
+
 	protected $fillable = [
-        'order_id', 'suborder_id', 'product_id', 'quantity', 'price', 'type', 'parent_product_id', 'comment', 'price_without_tax',
+        'order_id', 
+        'suborder_id', 
+        'product_id', 
+        'quantity', 
+        'price', 
+        'type', 
+        'parent_product_id', 
+        'comment', 
+        'price_without_tax', 
+        'product_order_id',
     ];
 
     /**
@@ -133,7 +147,7 @@ class ProductOrder extends Model
 
     public function getPriceWithIvaAttribute()
     {
-        return number_format($this->price + ((setting('iva') / 100) * $this->price), 2);
+        return number_format($this->price + ((setting('iva') / 100) * $this->price), 2, '.', '');
     }
 
     /**
@@ -222,6 +236,106 @@ class ProductOrder extends Model
         return $this->batch_product->where('status_id', 11)->sum('quantity');
     }
 
+
+
+    /* Available Lot */
+
+    /**
+     * @return mixed
+     */
+    public function lot_product()
+    {
+        return $this->hasMany(ProductStation::class, 'product_order_id');
+    }
+
+    public function product_station_received()
+    {
+        return $this->hasMany(ProductStationReceived::class, 'product_order_id');
+    }
+
+    public function product_station_out()
+    {
+        return $this->hasMany(ProductStationOut::class, 'product_order_id');
+    }
+
+    public function isQuantityMatched() :bool
+    {
+        $totalReceivedQuantity = $this->product_station_received->where('status_id', $this->getLastProcess()->id)->sum('quantity');
+        return $this->quantity == $totalReceivedQuantity;
+    }
+
+    public function isQuantityMatchedSendToStock() :bool
+    {
+        $totalReceivedQuantity = $this->product_station_received->where('status_id', $this->getInitialProcess()->id)->sum('quantity');
+        return $this->quantity == $totalReceivedQuantity;
+    }
+
+    /* Available Initial Lot */
+    public function getAvailableLotAttribute()
+    {
+        return $this->quantity - $this->sum_initial_lot - $this->sum_supplier - $this->sum_initial_process;
+    }
+
+
+    /* Available Initial Process */
+    public function getAvailableProcessAttribute()
+    {
+        return $this->quantity - $this->sum_initial_process - $this->sum_supplier;
+    }
+
+    /* Available Supplier Process */
+    public function getAvailableSupplierAttribute()
+    {
+        return $this->quantity - $this->sum_initial_lot - $this->sum_initial_process - $this->sum_supplier;
+    }
+
+    public function getSumInitialLotAttribute()
+    {
+        return $this->lot_product->where('status_id', $this->getInitialLot()->id)->where('product_station_id', null)->sum('quantity');
+    }
+    public function getSumInitialProcessAttribute()
+    {
+        return $this->lot_product->where('status_id', $this->getInitialProcess()->id)->sum('quantity');   
+    }
+    public function getSumSupplierAttribute()
+    {
+        return $this->lot_product->where('status_id', $this->getSupplierProcess()->id)->where('product_station_id', null)->sum('quantity');
+    }
+
+    public function getInitialLot()
+    {
+        if (!$this->initialLot) {
+            $this->initialLot = Status::firstStatusBatch();
+        }
+        return $this->initialLot;
+    }
+
+    public function getInitialProcess()
+    {
+        if (!$this->initialProcess) {
+            $this->initialProcess = Status::firstStatusProcess();
+        }
+        return $this->initialProcess;
+    }
+
+    public function getSupplierProcess()
+    {
+        if (!$this->supplierProcess) {
+            $this->supplierProcess = Status::getSupplierStatus();
+        }
+        return $this->supplierProcess;
+    }
+
+    public function getLastProcess()
+    {
+        if(!$this->lastProcess){
+            $this->lastProcess = Status::lastStatusProcess();  
+        }
+
+        return $this->lastProcess;
+    }
+
+
     /**
      * @return mixed
      */
@@ -240,6 +354,55 @@ class ProductOrder extends Model
         $this->consumption_filter()->where('color_id', null);
     }
 
+
+
+public function gettAllConsumptionUngrouped()
+{
+    if ($this->consumption_filter->isNotEmpty()) {
+        $groups = collect();
+
+        $conditions = [
+            ['color_id', $this->parent->color_id],
+            ['size_id', $this->parent->size_id],
+            [null, null]
+        ];
+
+        foreach ($conditions as $condition) {
+            $filtered = $this->consumption_filter;
+
+            if ($condition[0] !== null) {
+                $filtered = $filtered->where('color_id', $condition[0]);
+            }
+
+            if ($condition[1] !== null) {
+                $filtered = $filtered->where('size_id', $condition[1]);
+            } else {
+                $filtered = $filtered->whereNull('color_id')->whereNull('size_id');
+            }
+
+            foreach ($filtered as $consumption) {
+                $groups->push([
+                    'material_id' => $consumption->material_id,
+                    'material_part_number' => $consumption->material->part_number ?? null,
+                    'material_name' => $consumption->material->full_name_clear ?? null,
+                    'stock' => $consumption->material->stock,
+                    'quantity' => $consumption->quantity * $this->quantity,
+                    'unit' => $consumption->quantity,
+                    'unit_measurement' => $consumption->material->unit_measurement ?? null,
+                    'vendor' => $consumption->material->vendor->short_name ?? null,
+                    'family' => $consumption->material->family->name ?? null,
+                    'price' => $consumption->material->price ?? null,
+                ]);
+            }
+        }
+
+        return $groups;
+    }
+
+    return 'empty';
+}
+
+    /*
     public function gettAllConsumptionUngrouped()
     {
         if($this->consumption_filter->isNotEmpty()){
@@ -300,7 +463,7 @@ class ProductOrder extends Model
         }
         
         return 'empty';
-    }
+    } */
 
     public function gettAllConsumption()
     {
@@ -325,6 +488,70 @@ class ProductOrder extends Model
         return 'empty';                                                   
     }
 
+    public function gettAllConsumptionUngroupedSecond($quantity)
+    {
+        if($this->consumption_filter->isEmpty()){
+            return 'empty';
+        }
+
+        $groups = collect();
+
+        foreach ($this->consumption_filter as $consumption) {
+            $groupKey = null;
+
+            if ($consumption->color_id === $this->parent->color_id) {
+                $groupKey = 'color';
+            } elseif ($consumption->size_id === $this->parent->size_id) {
+                $groupKey = 'size';
+            } elseif (is_null($consumption->color_id) && is_null($consumption->size_id)) {
+                $groupKey = 'none';
+            }
+
+            if ($groupKey) {
+                $groups->push([
+                    'material_id' => $consumption->material_id,
+                    'material_part_number' => $consumption->material->part_number ?? null,
+                    'material_name' => $consumption->material->full_name_clear ?? null,
+                    'stock' => $consumption->material->stock,
+                    'quantity' => $consumption->quantity * $quantity,
+                    'unit' => $consumption->quantity,
+                    'unit_measurement' => $consumption->material->unit_measurement ?? null,
+                    'vendor' => $consumption->material->vendor->short_name ?? null,
+                    'family' => $consumption->material->family->name ?? null,
+                    'price' => $consumption->material->price ?? null,
+                ]);
+            }
+        }
+
+        return $groups;
+    }
+
+    public function gettAllConsumptionSecond($quantity)
+    {
+        $consumptions = $this->gettAllConsumptionUngroupedSecond($quantity);
+
+        if ($consumptions === 'empty') {
+            return 'empty';
+        }
+
+        return $consumptions->groupBy('material_id')->map(function ($items) {
+            $firstItem = $items->first();
+
+            return [
+                'material' => $firstItem['material_name'],
+                'part_number' => $firstItem['material_part_number'],
+                'price' => $firstItem['price'],
+                'unit' => $items->sum('unit'),
+                'unit_measurement' => $firstItem['unit_measurement'],
+                'vendor' => $firstItem['vendor'],
+                'family' => $firstItem['family'],
+                'quantity' => $items->sum('quantity'),
+                'stock' => $firstItem['stock'],
+            ];
+        });
+    }
+
+
     /**
      * Get the product's.
      */
@@ -337,6 +564,15 @@ class ProductOrder extends Model
      * Get all of the product order's assignments.
      */
 
+    public function setPriceAttribute($value)
+    {
+        $this->attributes['price'] =  str_replace(',', '', $value);
+    }
+
+    public function setPriceWithoutTaxAttribute($value)
+    {
+        $this->attributes['price_without_tax'] =  str_replace(',', '', $value);
+    }
 
     public function assignments()
     {

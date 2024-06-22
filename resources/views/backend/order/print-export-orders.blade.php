@@ -3,9 +3,9 @@
     <div class="cs-invoice cs-style1">
       <div class="cs-invoice_btns cs-hide_print">   
 
-        <a href="{{ route('admin.order.index') }}" class="cs-invoice_btn cs-color1" style="margin-right: 10px;">
-          <<
-          <span>&nbsp; @lang('Back')</span>
+        <a href="{{ route('admin.dashboard') }}" class="cs-invoice_btn cs-color1" style="margin-right: 10px;">
+          <<---
+          <span>&nbsp; @lang('Home')</span>
         </a>
 
         <button wire:click="$toggle('width')" class="cs-invoice_btn {{ !$width ? '' : 'cs-color1' }}">
@@ -59,6 +59,13 @@
                     $order['folio'].' => '.
                     $order['comment'].' '
                   !!}
+
+                    <a target="_blank"
+                      href="#"
+                      style="text-decoration: none !important">
+                      {{ $order['user'] }}
+                    </a>
+
                   @if($order['request'])
                     <strong class="cs-accent_color_second">{{ $order['request'] }}</strong>
                   @endif
@@ -76,7 +83,9 @@
               <table>
                 <thead>
                   <tr class="cs-focus_bg2">
+                    @if(count($ordercollection) > 1)
                     <th class="cs-width_3 cs-semi_bold cs-primary_color cs-text_center"># - @lang('Customer')</th>
+                    @endif
                     @foreach($products as $key => $product)
                       <th class="cs-width_1 cs-semi_bold cs-primary_color cs-text_center">
                         {{-- {{ $key+1 }}.- --}}
@@ -101,15 +110,17 @@
                     @php($totalRowGrouped = 0)
 
                     <tr class="cs-focus_bg2">
+                      @if(count($ordercollection) > 1)
                       <td class="cs-width_3 cs-text_center cs-accent_color">
                         @if($order['folio'])
                           <a target="_blank"
-                            href="{{ route('admin.order.edit', $order['folio']) }}"
+                            href="#"
                             style="text-decoration: none !important">
                             {!! '#'.$order['folio'].' - '.$order['user'] !!}
                           </a>
                         @endif
-                    </td>
+                      </td>
+                      @endif
                       @foreach($products as $key => $product)
     
                         @php($totalProductGrouped = 0)
@@ -137,7 +148,9 @@
                     </tr>
                   @endforeach
                   <tr class="cs-focus_bg2">
-                    <th class="cs-width_3 cs-semi_bold cs-primary_color cs-text_center"></th>
+                    @if(count($ordercollection) > 1)
+                      <th class="cs-width_3 cs-semi_bold cs-primary_color cs-text_center"></th>
+                    @endif
                     @foreach($products as $or)
 
                       @php($totalByParentProduct = 0)
@@ -180,7 +193,9 @@
                   <table>
                     <thead>
                       <tr class="cs-accent_10_bg">
-                        <th class="cs-width_3 cs-semi_bold cs-primary_color cs-text_center"># - @lang('Customer')</th>
+                        @if(count($ordercollection) > 1)
+                          <th class="cs-width_3 cs-semi_bold cs-primary_color cs-text_center"># - @lang('Customer')</th>
+                        @endif
                         @foreach($parentProduct->unique('productSize')->sortBy('productSizeSort') as $app)
                           <th class="cs-width_1 cs-semi_bold cs-primary_color cs-text_center">{{ $app['productSizeName'] }}</th>
                         @endforeach
@@ -194,16 +209,18 @@
                       @foreach($parentProduct->groupBy('productOrder') as $keyp => $pp)
 
                         <tr>
+                          @if(count($ordercollection) > 1)
                           <td class="cs-width_3 cs-text_center cs-accent_color">
                             @if($pp[0]['productOrder'])
                               <a target="_blank"
-                                href="{{ route('admin.order.edit', $pp[0]['productOrder']) }}"
+                                href="#"
                                 style="text-decoration: none !important">
                                 {!! '#'.$pp[0]['productOrder'].' - '.$pp[0]['customer'] !!}
                               </a>
                             @endif
                            
                           </td>
+                          @endif
 
                           @php($totalRow = 0)
 
@@ -238,7 +255,9 @@
                         </tr>
                       @endforeach
                       <tr class="cs-focus_bg">
-                        <th class="cs-width_3 cs-semi_bold cs-primary_color cs-text_center"></th>
+                        @if(count($ordercollection) > 1)
+                          <th class="cs-width_3 cs-semi_bold cs-primary_color cs-text_center"></th>
+                        @endif
                         @foreach($parentProduct->unique('productSize')->sortBy('productSizeSort') as $app)
                           <th class="cs-width_1 cs-semi_bold cs-primary_color cs-text_center">
 

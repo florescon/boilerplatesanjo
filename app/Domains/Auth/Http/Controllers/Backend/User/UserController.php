@@ -172,21 +172,21 @@ class UserController extends Controller
     public function select2LoadMore(Request $request)
     {
         $search = $request->get('search');
-        $data = User::select(['id', 'name'])->where('name', 'like', '%' . $search . '%')->orderBy('name')->paginate(5);
+        $data = User::select(['id', 'name'])->where('name', 'like', '%' . $search . '%')->where('active', true)->orderBy('name')->paginate(5);
         return response()->json(['items' => $data->toArray()['data'], 'pagination' => $data->nextPageUrl() ? true : false]);
     }
 
     public function selectAdmins(Request $request)
     {
         $search = $request->get('search');
-        $data = User::admins()->select(['id', 'name'])->where('name', 'like', '%' . $search . '%')->orderBy('name')->paginate(5);
+        $data = User::admins()->select(['id', 'name'])->where('name', 'like', '%' . $search . '%')->where('active', true)->orderBy('name')->paginate(5);
         return response()->json(['items' => $data->toArray()['data'], 'pagination' => $data->nextPageUrl() ? true : false]);
     }
 
     public function selectUsers(Request $request)
     {
         $search = $request->get('search');
-        $data = User::users()->select(['id', 'name'])->where('name', 'like', '%' . $search . '%')->orderBy('name')->paginate(5);
+        $data = User::users()->select(['id', 'name'])->where('name', 'like', '%' . $search . '%')->where('active', true)->orderBy('name')->paginate(5);
         return response()->json(['items' => $data->toArray()['data'], 'pagination' => $data->nextPageUrl() ? true : false]);
     }
 

@@ -42,18 +42,26 @@ class DocumentTable extends Component
 
     public $title, $file_emb, $file_dst, $email, $comment, $is_enabled, $is_disabled;
 
+    public $file_dst_label, $file_emb_label, $file_pdf_label;
+
+    public $width, $height, $file_pdf;
+
     public $created, $updated, $deleted, $selected_id;
 
     protected $rules = [
         'title' => 'required|min:3|max:60',
-        'file_dst' => 'sometimes|mimetypes:application/octet-stream|max:2048',
-        'file_emb' => 'sometimes|mimetypes:application/vnd.ms-office|max:2048',
+        'file_dst' => 'sometimes|mimetypes:application/octet-stream|max:5048',
+        'file_emb' => 'sometimes|mimetypes:application/vnd.ms-office|max:5048',
+        'file_pdf' => 'sometimes|nullable|mimes:pdf|max:5048',
+        'width' => 'sometimes|integer|min:1|max:500',
+        'height' => 'sometimes|integer|min:1|max:500',
         'comment' => 'max:300',
     ];
 
     protected $messages = [
         'file_dst.mimetypes' => 'Formato incorrecto',
         'file_emb.mimetypes' => 'Formato incorrecto',
+        'file_pdf.mimetypes' => 'Formato incorrecto',
     ];
 
     public function getRowsQueryProperty()
@@ -137,6 +145,7 @@ class DocumentTable extends Component
             $documentModel = new Document;
             $fileDST = $this->file_dst ? $this->file_dst->store("documents/".$date,'public') : null;
             $fileEMB = $this->file_emb ? $this->file_emb->store("documents/".$date,'public') : null;
+            $filePDF = $this->file_pdf ? $this->file_pdf->store("documents/".$date,'public') : null;
     
             if($this->image){
                 $imageName = $this->image->store("documents/".$date,'public');
@@ -145,8 +154,11 @@ class DocumentTable extends Component
             $documentModel->title = $this->title;
             $documentModel->file_dst = $this->file_dst ? $fileDST : null;
             $documentModel->file_emb = $this->file_emb ? $fileEMB : null;
+            $documentModel->file_pdf = $this->file_pdf ? $filePDF : null;
             $documentModel->image = $this->image ? $imageName : null;
             $documentModel->comment = $this->comment ?? null;
+            $documentModel->width = $this->width ?? null;
+            $documentModel->height = $this->height ?? null;
             $documentModel->save();
 
             $this->emit('swal:alert', [
@@ -170,9 +182,17 @@ class DocumentTable extends Component
         $record = Document::findOrFail($id);
         $this->selected_id = $id;
         $this->title = $record->title;
-        $this->file_dst = $record->file_dst;
-        $this->file_emb = $record->file_emb;
+
+        $this->file_dst_label = $record->file_dst_label;
+        $this->file_emb_label = $record->file_emb_label;
+        $this->file_pdf_label = $record->file_pdf_label;
+
+        $this->file_dst = null;
+        $this->file_emb = null;
+        $this->file_pdf = null;
         $this->comment = $record->comment;
+        $this->width = $record->width;
+        $this->height = $record->height;
     }
 
     public function show($id)
@@ -181,7 +201,10 @@ class DocumentTable extends Component
         $this->title = $record->title;
         $this->file_dst = $record->file_dst_label;
         $this->file_emb = $record->file_emb_label;
+        $this->file_pdf = $record->file_pdf_label;
         $this->comment = $record->comment;
+        $this->width = $record->width;
+        $this->height = $record->height;
         $this->imageShow = $record->image;
         $this->is_enabled = $record->is_enabled_document;
         $this->created = $record->created_at;
@@ -190,32 +213,51 @@ class DocumentTable extends Component
 
     public function update()
     {
-        $this->validate([
+        $rules = [
             'selected_id' => 'required|numeric',
             'title' => 'required|min:3',
-            // 'file_dst' => 'sometimes|nullable|mimetypes:application/octet-stream|max:2048',
-            // 'file_emb' => 'sometimes|nullable|mimetypes:application/vnd.ms-office|max:2048',
             'comment' => 'sometimes|max:300',
-        ]);
+            'width' => 'sometimes|integer|min:1|max:500',
+            'height' => 'sometimes|integer|min:1|max:500',
+        ];
+
+        if ($this->file_dst) {
+            $rules['file_dst'] = 'sometimes|nullable|mimetypes:application/octet-stream|max:5048';
+        }
+
+        if ($this->file_emb) {
+            $rules['file_emb'] = 'sometimes|nullable|mimetypes:application/vnd.ms-office|max:5048';
+        }
+
+        if ($this->file_pdf) {
+            $rules['file_pdf'] = 'sometimes|nullable|mimetypes:application/pdf|max:5048';
+        }
+
+        $this->validate($rules);
 
         if ($this->selected_id) {
             $record = Document::find($this->selected_id);
             $record->update([
                 'title' => $this->title,
-                // 'file_dst' => $this->file_dst ? $this->file_dst->store("documents",'public') : null,
-                // 'file_emb' => $this->file_emb ? $this->file_emb->store("documents",'public') : null,
-                'comment' => $this->comment
+                'file_dst' => $this->file_dst ? $this->file_dst->store("documents", 'public') : $record->file_dst,
+                'file_emb' => $this->file_emb ? $this->file_emb->store("documents", 'public') : $record->file_emb,
+                'file_pdf' => $this->file_pdf ? $this->file_pdf->store("documents", 'public') : $record->file_pdf,
+                'comment' => $this->comment,
+                'width' => $this->width,
+                'height' => $this->height,
             ]);
+
             $this->resetInputFields();
         }
 
         $this->emit('documentUpdate');
 
-       $this->emit('swal:alert', [
+        $this->emit('swal:alert', [
             'icon' => 'success',
-            'title'   => __('Updated'), 
+            'title' => __('Updated'),
         ]);
     }
+
 
     private function resetInputFields()
     {
@@ -223,6 +265,8 @@ class DocumentTable extends Component
         $this->file_emb = '';
         $this->file_dst = '';
         $this->comment = '';
+        $this->width = '';
+        $this->height = '';
     }
 
     public function export()
@@ -296,6 +340,12 @@ class DocumentTable extends Component
     public function removeEMB()
     {
         $this->file_emb = '';
+        $this->resetValidation();
+    }
+
+    public function removePDF()
+    {
+        $this->file_pdf = '';
         $this->resetValidation();
     }
 

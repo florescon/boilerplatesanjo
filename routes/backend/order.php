@@ -4,6 +4,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ServiceTypeController;
 use App\Models\Order;
 use App\Models\Status;
+use App\Models\Station;
 use App\Models\Ticket;
 use App\Models\Batch;
 use Tabuna\Breadcrumbs\Trail;
@@ -125,6 +126,16 @@ Route::group([
                     ->push(__('Print order'), route('admin.order.print', [$order, $breakdown, $grouped]));
             });
 
+
+        Route::get('report', [OrderController::class, 'report'])
+            ->name('report')
+            ->middleware('permission:admin.access.order.modify')
+            ->breadcrumbs(function (Trail $trail) {
+                $trail->parent('admin.order.index')
+                    ->push(__('Report'), route('admin.order.report', $orders));
+            });
+
+
         Route::get('ticket', [OrderController::class, 'ticket'])
             ->name('ticket')
             ->middleware('permission:admin.access.order.modify')
@@ -155,6 +166,15 @@ Route::group([
             ->breadcrumbs(function (Trail $trail, Order $order) {
                 $trail->parent('admin.order.edit', $order)
                     ->push(__('Ticket order'), route('admin.order.ticket_materia', $order));
+            });
+
+
+        Route::get('ticket_materia_station/{station}', [OrderController::class, 'ticket_materia_station'])
+            ->name('ticket_materia_station')
+            ->middleware('permission:admin.access.order.modify')
+            ->breadcrumbs(function (Trail $trail, Order $order, Station $station) {
+                $trail->parent('admin.order.edit', $order)
+                    ->push(__('Ticket order'), route('admin.order.ticket_materia_station', [$order, $station]));
             });
 
         Route::get('short_ticket_materia', [OrderController::class, 'short_ticket_materia'])
@@ -211,6 +231,15 @@ Route::group([
             ->breadcrumbs(function (Trail $trail, Order $order, Status $status) {
                 $trail->parent('admin.order.edit', $order)
                     ->push(__('Batches').' - '.$status->name, route('admin.order.batches', [$order, $status]));
+            });
+
+
+        Route::get('station/{status}', [OrderController::class, 'station'])
+            ->name('station')
+            ->middleware('permission:admin.access.order.modify')
+            ->breadcrumbs(function (Trail $trail, Order $order, Status $status) {
+                $trail->parent('admin.order.edit_chart', $order)
+                    ->push(__('Workstations').' - '.$status->name, route('admin.order.station', [$order, $status]));
             });
 
         Route::get('process/{status}', [OrderController::class, 'process'])
@@ -275,7 +304,7 @@ Route::group([
             ->name('edit_chart')
             ->middleware('permission:admin.access.order.modify')
             ->breadcrumbs(function (Trail $trail, Order $order) {
-                $trail->parent($order->from_store ? 'admin.store.all.index' : 'admin.order.index')
+                $trail->parent($order->from_store ? 'admin.store.all.index' : 'admin.order.request_chart')
                     ->push(__('Edit'), route('admin.order.edit_chart', $order));
             });
 

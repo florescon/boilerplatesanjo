@@ -51,4 +51,15 @@ class Cart extends Model
     {
         return DB::table('carts')->latest('id')->first();
     }
+
+    public function setPriceAttribute($value)
+    {
+        $this->attributes['price'] =  str_replace(',', '', $value);
+    }
+
+    public function setPriceWithoutTaxAttribute($value)
+    {
+        $this->attributes['price_without_tax'] =  str_replace(',', '', $value);
+    }
+
 }

@@ -13,9 +13,11 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 class ProductMainExport implements FromCollection, WithMapping, WithHeadings
 {
     private $productsIDs = [];
+    private $from_store;
 
-    public function __construct($productsIDs = False){
+    public function __construct($productsIDs = False, $from_store){
         $this->productsIDs = $productsIDs;
+        $this->from_store = $from_store;
     }
 
     public function headings(): array
@@ -37,7 +39,7 @@ class ProductMainExport implements FromCollection, WithMapping, WithHeadings
             $product->code ? $product->code : optional($product->parent)->code,
             optional($product->parent)->name.', '.optional($product->color)->name.' '.optional($product->size)->name,
             optional($product->parent)->cost ?? 0,
-            $product->stock ?? 0,
+            $this->from_store ? ($product->stock_store ?? 0) : ($product->stock ?? 0),
         ];
     }
 

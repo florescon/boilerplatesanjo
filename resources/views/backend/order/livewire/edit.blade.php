@@ -381,6 +381,12 @@
           <div class="card-footer text-muted text-center">
             @lang('Created'): {{ $model->date_diff_for_humans }} - {{ __('Captured').': '. optional($model->audi)->name }}
           </div>
+          @if($model->quotation && $model->isOrder())
+            <div class="card-footer text-muted text-center h5">
+              {!! __('Quotation'). ' <strong class="text-danger">: #'.$model->quotation.'</strong>' !!}
+            </div>
+          @endif
+
         </div>
 
 
@@ -723,7 +729,7 @@
                   <tr>
                     <td>
                       {{ $product->product->code_subproduct_clear }}
-                      {!! $product->product->full_name !!}
+                      {!! $product->product->full_name_link !!}
                     </td>
                     <td class="text-center">
                       

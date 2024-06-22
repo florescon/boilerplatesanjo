@@ -22,5 +22,8 @@ Route::group([
 
         Route::get('download_emb', [DocumentController::class, 'download_emb'])
             ->name('download_emb');
+
+        Route::get('download_pdf', [DocumentController::class, 'download_pdf'])
+            ->name('download_pdf');
     });
 });
