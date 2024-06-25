@@ -20,7 +20,7 @@
         <div class="cs-invoice_head cs-type1 cs-mb10">
 
           <div class="cs-invoice_left" style="padding-bottom: 25px;">
-            <div class="cs-logo cs-mb5"><img src="{{ asset('img/logo22.png') }}" width="100" alt="Logo"></div>
+            <div class="cs-logo cs-mb5"><img src="{{ asset('img/logo2.svg') }}" width="100" alt="Logo"></div>
             <p class="cs-invoice_number cs-primary_color cs-mb0 cs-f16"><b class="cs-primary_color">{{ $order->type_order_clear }} No:</b> #{{ $order->characters_type_order }}{!! $order->folio_or_id !!}</p>
           </div>
           <div class="cs-invoice_right cs-text_center">

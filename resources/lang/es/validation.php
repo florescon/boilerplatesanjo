@@ -159,6 +159,7 @@ return [
         'size_id' => 'talla',
         'color_id' => 'color',
         "unit_id" => 'unidad',
+        'vendor_id' => 'proveedor',
         'comment' => 'comentario',
         'Site phone' => 'Teléfono del sitio',
         'phone' => 'teléfono',
@@ -187,6 +188,7 @@ return [
         'code_clone' => 'código clon',
         'discount' => 'descuento',
         'width' => 'ancho',
-        'height' => 'alto'
+        'height' => 'alto',
+        'stitches' => 'puntadas'
     ],
 ];

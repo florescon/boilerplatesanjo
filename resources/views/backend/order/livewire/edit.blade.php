@@ -112,7 +112,7 @@
 
                   <div class="row mt-3">
                     <div class="col-6 col-lg-6">
-                      <x-input.input-alpine nameData="isDate" :inputText="$isDate" :originalInput="$isDate" wireSubmit="savedate" modelName="date_entered" inputType="date" className=""/>
+                      {{ $model->date_entered->format('d-m-Y') }}
 
                     </div>
                     <div class="col-6 col-lg-6">

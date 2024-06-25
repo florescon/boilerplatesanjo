@@ -72,7 +72,7 @@
                                 <h5>{{ ucfirst($status->name) }}</h5>
                             </td>
                             <td >
-                              <img src="{{ public_path('img/logo22.png') }}" alt="" width="100"/>
+                              <img src="{{ public_path('img/logo2.svg') }}" alt="" width="100"/>
                                 <br><br>
                                 @lang('Date'): {{ now() }}            
                             </td>

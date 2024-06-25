@@ -861,6 +861,7 @@ class StationsOrder extends Component
 
 
         foreach($station->product_station as $product_statione){
+
             $quantity = $product_statione->quantity;
 
             if($product_statione->product_order->gettAllConsumptionSecond($quantity) != 'empty'){
@@ -873,9 +874,8 @@ class StationsOrder extends Component
                         'price' => $consumption['price'],
                         'unit_quantity' => $consumption['unit'],
                         'quantity' => $consumption['quantity'],
-                    ]);                
+                    ]);
                 }
-
             }
         }
 

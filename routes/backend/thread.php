@@ -21,7 +21,7 @@ Route::group([
         ->middleware('permission:admin.access.thread.deleted')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.thread.index')
-                ->push(__('Deleted threads'), route('admin.thread.deleted'));
+                ->push(__('Deleted Threads'), route('admin.thread.deleted'));
         });
 });
 

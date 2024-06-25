@@ -108,6 +108,17 @@
                 </ul>
             </li>
         @endif
+        
+        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.departament.list')))
+            <li class="c-sidebar-nav-item">
+                <x-utils.link
+                    class="c-sidebar-nav-link"
+                    :href="route('admin.departament.index')"
+                    :active="activeClass(Route::is('admin.departament.*'), 'c-active')"
+                    icon="c-sidebar-nav-icon cil-grid"
+                    :text="__('Departaments')" />
+            </li>
+        @endif
 
         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.information.view')))
             <li class="c-sidebar-nav-item">
@@ -116,6 +127,7 @@
                     :href="route('admin.information.index')"
                     :active="activeClass(Route::is('admin.information.index'), 'c-active')"
                     icon="c-sidebar-nav-icon cil-newspaper"
+                    new
                     :text="__('Information')" />
             </li>
         @endif
@@ -127,18 +139,8 @@
                     :href="route('admin.information.chart')"
                     :active="activeClass(Route::is('admin.information.chart'), 'c-active')"
                     icon="c-sidebar-nav-icon cil-chart"
-                    :text="__('Chart')" />
-            </li>
-        @endif
-
-        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.departament.list')))
-            <li class="c-sidebar-nav-item">
-                <x-utils.link
-                    class="c-sidebar-nav-link"
-                    :href="route('admin.departament.index')"
-                    :active="activeClass(Route::is('admin.departament.*'), 'c-active')"
-                    icon="c-sidebar-nav-icon cil-grid"
-                    :text="__('Departaments')" />
+                    new
+                    :text="__('Charts')" />
             </li>
         @endif
 
@@ -460,7 +462,7 @@
                         </li>
                     @endif
 
-                    @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.image.list')))
+                    @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.store.index')))
                         <li class="c-sidebar-nav-item">
                             <x-utils.link
                                 class="c-sidebar-nav-link"

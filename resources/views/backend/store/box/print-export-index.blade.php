@@ -22,7 +22,7 @@
 
         <div class="cs-invoice_head cs-type1 cs-mb25">
           <div class="cs-invoice_left">
-            <div class="cs-logo cs-mb5"><img src="{{ asset('img/logo22.png') }}" width="100" alt="Logo"></div>
+            <div class="cs-logo cs-mb5"><img src="{{ asset('img/logo2.svg') }}" width="100" alt="Logo"></div>
             <p class="cs-invoice_number cs-primary_color cs-mb0 cs-f16"><b class="cs-primary_color">@lang('Daily cash closing') No:</b> 
               @if($json_decode)
                 @foreach($json_decode as $js)

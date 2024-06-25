@@ -8,7 +8,7 @@
           <div class="d-flex justify-content-between flex-md-row flex-column invoice-spacing mt-0">
             <div>
               <div class="logo-wrapper">
-                <img src="{{ asset('img/logo22.png') }}" width="90" alt="CoreUI Logo">
+                <img src="{{ asset('img/logo2.svg') }}" width="90" alt="CoreUI Logo">
                 <h3 class="text-primary invoice-logo">{{ __(appName()) }}</h3>
               </div>
               <p class="card-text mb-0">Margarito Gonzalez Rubio #822</p>

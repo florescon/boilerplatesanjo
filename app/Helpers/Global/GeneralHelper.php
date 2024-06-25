@@ -298,7 +298,7 @@ if (! function_exists('generated')) {
      */
     function generated()
     {
-        $generated = now()->isoFormat('D, MMM h:mm:ss a');
+        $generated = now()->isoFormat('D, MMM, YY h:mm:ss a');
 
         return __('Generated').': '.$generated;        
     }

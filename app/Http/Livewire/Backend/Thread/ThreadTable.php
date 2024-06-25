@@ -86,6 +86,14 @@ class ThreadTable extends TableComponent
             Column::make(__('Code'), 'code')
                 ->searchable()
                 ->sortable(),
+            Column::make(__('Vendor'), 'vendor.name')
+                ->searchable()
+                ->format(function(Thread $model) {
+                    return $this->html(!empty($model->vendor_id) && isset($model->vendor->id) ? (optional($model->vendor)->short_name ?? optional($model->vendor)->name) : '<span class="badge badge-pill badge-secondary"> <em>Proveedor no definido</em></span>');
+                })
+                ->exportFormat(function(Thread $model) {
+                    return (!empty($model->vendor_id) && isset($model->vendor->id)) ? (optional($model->vendor)->short_name ?? optional($model->vendor)->name) : '';
+                }),
             Column::make(__('Created at'), 'created_at')
                 ->searchable()
                 ->sortable(),

@@ -1,5 +1,5 @@
 <?php
-
+    
 namespace App\Http\Livewire\Backend\Document;
 
 use Livewire\Component;
@@ -27,7 +27,7 @@ class DocumentTable extends Component
         'deleted' => ['except' => FALSE],
     ];
 
-    public $perPage = '10';
+    public $perPage = '8';
 
     public $sortField = 'title';
     public $sortAsc = true;
@@ -42,20 +42,26 @@ class DocumentTable extends Component
 
     public $title, $file_emb, $file_dst, $email, $comment, $is_enabled, $is_disabled;
 
-    public $file_dst_label, $file_emb_label, $file_pdf_label;
+    public $file_dst_label, $file_emb_label, $file_pdf_label, $file_image_label;
+
+    public $stitches = 0;
 
     public $width, $height, $file_pdf;
+
+    public $photoStatus;
 
     public $created, $updated, $deleted, $selected_id;
 
     protected $rules = [
         'title' => 'required|min:3|max:60',
-        'file_dst' => 'sometimes|mimetypes:application/octet-stream|max:5048',
-        'file_emb' => 'sometimes|mimetypes:application/vnd.ms-office|max:5048',
-        'file_pdf' => 'sometimes|nullable|mimes:pdf|max:5048',
+        'file_dst' => 'nullable|mimetypes:application/octet-stream|max:5048',
+        'file_emb' => 'nullable|mimetypes:application/vnd.ms-office|max:5048',
+        'file_pdf' => 'nullable|nullable|mimes:pdf|max:5048',
         'width' => 'sometimes|integer|min:1|max:500',
         'height' => 'sometimes|integer|min:1|max:500',
-        'comment' => 'max:300',
+        'comment' => 'nullable|max:300',
+        'stitches' => 'sometimes|integer|min:1|max:9999999',
+        'image' => 'nullable|image|max:5048',
     ];
 
     protected $messages = [
@@ -124,7 +130,7 @@ class DocumentTable extends Component
     {
         $this->searchTerm = '';
         $this->resetPage();
-        $this->perPage = '10';
+        $this->perPage = '8';
     }
 
     public function createmodal()
@@ -138,7 +144,7 @@ class DocumentTable extends Component
         // $yas = $this->file_emb->getMimeType();
         // dd($yas);
 
-        $validatedData = $this->validate();
+        $this->validate();
 
         if($this->file_dst || $this->file_emb) {
             $date = date("Y-m-d");
@@ -159,6 +165,7 @@ class DocumentTable extends Component
             $documentModel->comment = $this->comment ?? null;
             $documentModel->width = $this->width ?? null;
             $documentModel->height = $this->height ?? null;
+            $documentModel->stitches = $this->stitches ?? 0;
             $documentModel->save();
 
             $this->emit('swal:alert', [
@@ -187,10 +194,15 @@ class DocumentTable extends Component
         $this->file_emb_label = $record->file_emb_label;
         $this->file_pdf_label = $record->file_pdf_label;
 
+        $this->file_image_label = $record->image;
+
         $this->file_dst = null;
         $this->file_emb = null;
         $this->file_pdf = null;
+
+        $this->image = null;
         $this->comment = $record->comment;
+        $this->stitches = $record->stitches;
         $this->width = $record->width;
         $this->height = $record->height;
     }
@@ -202,6 +214,7 @@ class DocumentTable extends Component
         $this->file_dst = $record->file_dst_label;
         $this->file_emb = $record->file_emb_label;
         $this->file_pdf = $record->file_pdf_label;
+        $this->stitches = number_format($record->stitches, 0, '', ',');        
         $this->comment = $record->comment;
         $this->width = $record->width;
         $this->height = $record->height;
@@ -219,6 +232,7 @@ class DocumentTable extends Component
             'comment' => 'sometimes|max:300',
             'width' => 'sometimes|integer|min:1|max:500',
             'height' => 'sometimes|integer|min:1|max:500',
+            'stitches' => 'sometimes|integer|min:1|max:9999999',
         ];
 
         if ($this->file_dst) {
@@ -233,6 +247,10 @@ class DocumentTable extends Component
             $rules['file_pdf'] = 'sometimes|nullable|mimetypes:application/pdf|max:5048';
         }
 
+        if ($this->image) {
+            $rules['image'] = 'sometimes|image|max:5048';
+        }
+
         $this->validate($rules);
 
         if ($this->selected_id) {
@@ -242,9 +260,11 @@ class DocumentTable extends Component
                 'file_dst' => $this->file_dst ? $this->file_dst->store("documents", 'public') : $record->file_dst,
                 'file_emb' => $this->file_emb ? $this->file_emb->store("documents", 'public') : $record->file_emb,
                 'file_pdf' => $this->file_pdf ? $this->file_pdf->store("documents", 'public') : $record->file_pdf,
+                'image' => $this->image ? $this->image->store("documents", 'public') : $record->image,
                 'comment' => $this->comment,
                 'width' => $this->width,
                 'height' => $this->height,
+                'stitches' => $this->stitches,
             ]);
 
             $this->resetInputFields();
@@ -263,10 +283,13 @@ class DocumentTable extends Component
     {
         $this->title = '';
         $this->file_emb = '';
-        $this->file_dst = '';
+        $this->file_dst = null;
+        $this->file_pdf = null;
         $this->comment = '';
         $this->width = '';
         $this->height = '';
+        $this->image = null;
+        $this->stitches = 0;
     }
 
     public function export()
@@ -335,18 +358,21 @@ class DocumentTable extends Component
     {
         $this->file_dst = '';
         $this->resetValidation();
+        $this->emit('fileDstRemoved');
     }
 
     public function removeEMB()
     {
         $this->file_emb = '';
         $this->resetValidation();
+        $this->emit('fileEmbRemoved');
     }
 
     public function removePDF()
     {
         $this->file_pdf = '';
         $this->resetValidation();
+        $this->emit('filePdfRemoved');
     }
 
     public function delete(Document $document)

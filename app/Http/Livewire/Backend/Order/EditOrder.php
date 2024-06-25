@@ -287,7 +287,7 @@ class EditOrder extends Component
 
         $last_order_or_request = $order->last_order_or_request;
 
-        $orderUpdate = $order->update(['type' => !$this->from_store ? 1 : 5, 'folio' => $last_order_or_request+1, 'created_at' => now()]);
+        $orderUpdate = $order->update(['type' => !$this->from_store ? 1 : 5, 'folio' => $last_order_or_request+1, 'date_entered' => today(), 'created_at' => now()]);
         $order->product_quotation()->update(['type' => !$this->from_store ? 1 : 5]);   
 
         if($this->from_store){

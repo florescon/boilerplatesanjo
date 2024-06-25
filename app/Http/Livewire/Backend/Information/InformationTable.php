@@ -30,7 +30,7 @@ class InformationTable extends Component
 
     public $perPage = '10';
 
-    public $days = 31;
+    public $days = 65;
 
     public $sortField = 'id';
     public $sortAsc = false;

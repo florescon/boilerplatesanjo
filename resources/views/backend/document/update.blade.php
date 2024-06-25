@@ -44,7 +44,6 @@
           <input wire:model="file_emb" type="file" class="form-control-file"/>
           @error('file_emb') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
-
           <label class="mt-4">
             @lang('File PDF')
             <br>
@@ -53,6 +52,42 @@
           
           <input wire:model="file_pdf" type="file" class="form-control-file"/>
           @error('file_pdf') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+
+          <label class="mt-4">
+            @lang('Image')
+            <br>
+            @if($file_image_label && !$image)
+              <img class="card-img-top" src="{{ asset('/storage/' . $file_image_label) }}" alt="Card image cap">
+            @endif
+            @if ($image)
+                <br><br>
+                @php
+                    try {
+                       $url = $image->temporaryUrl();
+                       $photoStatus = true;
+                    }catch (RuntimeException $exception){
+                        $this->photoStatus =  false;
+                    }
+                @endphp
+                @if($photoStatus)
+                    <img class="img-fluid" alt="Responsive image" src="{{ $url }}">
+                @else
+                    @lang('Something went wrong while uploading the file.')
+                @endif
+            @endif
+          </label>
+
+          <div class="custom-file">
+            <input type="file" wire:model.lazy="image" class="custom-file-input @error('image') is-invalid  @enderror" id="customFileLangHTML">
+            <label class="custom-file-label" for="customFileLangHTML" data-browse="Principal">@lang('Image')</label>
+          </div>
+
+          <div wire:loading wire:target="image">@lang('Uploading')...</div>
+          @error('image') <span class="text-danger">{{ $message }}</span> @enderror
+
+          <label class="mt-4">@lang('Stitches')</label>
+          <input wire:model.lazy="stitches" type="text" class="form-control"/>
+          @error('stitches') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
           <label class="mt-4">@lang('Comment')</label>
           <input wire:model.lazy="comment" type="text" class="form-control"/>

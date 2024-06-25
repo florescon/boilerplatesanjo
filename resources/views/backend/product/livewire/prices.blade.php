@@ -17,6 +17,7 @@
         <section class="ftco-section">
             <div class="">
                 <div class="row">
+
                     <div class="col-md-12">
                         <div class="row d-flex justify-content-center">
                             <div class="col-sm-6 col-lg-10 grid-margin stretch-card">
@@ -100,6 +101,7 @@
                                                       <a class="dropdown-item" href="#" wire:click="saveRetail">@lang('Only save')</a>
                                                       <div role="separator" class="dropdown-divider"></div>
                                                       <a class="dropdown-item" href="#" wire:click="saveRetail(true)">@lang('Save and clear all retail price variants')</a>
+                                                      <a class="dropdown-item" data-toggle="modal" wire:click="setField('average_wholesale_price')" data-target="#exampleModal">@lang('Update by sizes')</a>
                                                     </div>
                                                   </div>
                                                 </div>
@@ -120,6 +122,8 @@
                                                       <a class="dropdown-item" href="#" wire:click="saveAverageWholesale">@lang('Only save')</a>
                                                       <div role="separator" class="dropdown-divider"></div>
                                                       <a class="dropdown-item" wire:click="saveAverageWholesale(true)" href="#">@lang('Save and clear all average wholesale price variants')</a>
+                                                      <div role="separator" class="dropdown-divider"></div>
+                                                      <a class="dropdown-item" data-toggle="modal" wire:click="setField('average_wholesale_price')" data-target="#exampleModal">@lang('Update by sizes')</a>
                                                     </div>
                                                   </div>
                                                 </div>
@@ -140,6 +144,9 @@
                                                       <a class="dropdown-item" href="#" wire:click="saveWholesale">@lang('Only save')</a>
                                                       <div role="separator" class="dropdown-divider"></div>
                                                       <a class="dropdown-item" wire:click="saveWholesale(true)" href="#">@lang('Save and clear all wholesale price variants')</a>
+                                                      <div role="separator" class="dropdown-divider"></div>
+                                                      <a class="dropdown-item" data-toggle="modal" wire:click="setField('wholesale_price')" data-target="#exampleModal">@lang('Update by sizes')</a>
+
                                                     </div>
                                                   </div>
                                                 </div>
@@ -162,6 +169,8 @@
                                                           <a class="dropdown-item" href="#" wire:click="saveSpecial">@lang('Only save')</a>
                                                           <div role="separator" class="dropdown-divider"></div>
                                                           <a class="dropdown-item" wire:click="saveSpecial(true)" href="#">@lang('Save and clear all special price variants')</a>
+                                                          <div role="separator" class="dropdown-divider"></div>
+                                                          <a class="dropdown-item" data-toggle="modal" wire:click="setField('special_price')" data-target="#exampleModal">@lang('Update by sizes')</a>
                                                         </div>
                                                       </div>
                                                     </div>
@@ -181,8 +190,8 @@
                             <table class="table myaccordion table-hover" id="accordion">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
                                         <th>@lang('Product name')</th>
+                                        <th></th>
                                         <th class="table-secondary">@lang('Code')</th>
                                         <th class="table-secondary">@lang('Retail price')</th>
                                         @if($customPrices == true)
@@ -224,15 +233,25 @@
                                 @enderror
 
                                 <tbody>
-                                    @foreach($productModel as $key => $subproduct)
+
+                                    @foreach($productModel->sortBy([['color.name', 'asc'], ['size.sort', 'asc']]) as $key => $subproduct)
                                         <tr>
-                                          <th scope="row">{{ $subproduct->id }}</th>
                                           <td>
                                               <span class="mb-0 text-sm mr-2">{!! '<strong>' .$subproduct->parent->name.' </strong> ('.optional($subproduct->color)->name.'  '.optional($subproduct->size)->name.') ' !!}
                                               </span>
                                               {!! optional($subproduct->color)->undefined_icon_coding !!}
                                               {!! optional($subproduct->size)->undefined_icon_coding !!}
                                           </td>
+                                          <th scope="row">
+
+                                            @if($subproduct->color->color)
+                                                <div class="box-color justify-content-md-center" style="background-color:{{ $subproduct->color->color }}; display: inline-block;"></div>
+                                            @endif
+                                            @if($subproduct->color->secondary_color)
+                                                <div class="box-color justify-content-md-center" style="background-color:{{ $subproduct->color->secondary_color }}; display: inline-block;"></div>
+                                            @endif
+
+                                          </th>
                                           <td class="table-danger">{!! $subproduct->code_subproduct !!}</td>
                                           <td class="table-info">${!! number_format((float)$subproduct->price_subproduct, 2) !!}</td>
 
@@ -315,5 +334,17 @@
                 </div>
             </div>
         </section>
+
+      @include('backend.product.modal.update-price')
+
 	</x-slot>
 </x-backend.card>
+
+
+@push('after-scripts')
+    <script type="text/javascript">
+      Livewire.on("pricesSaved", () => {
+          $("#exampleModal").modal("hide");
+      });
+    </script>
+@endpush

@@ -68,7 +68,6 @@
                                 <td class="text-left">
                                   {{-- {{ $product->id }}  --}}
                                   {!! $product->product->full_name.'<br><strong>'.$product->comment.'</strong>' !!}
-                                  {{ ' ['.$product->product->code_subproduct_clear.']' }}
                                 </td>
                                 <td>{{ $product->quantity }}</td>
 
@@ -127,7 +126,7 @@
                             <tbody>
                               @foreach($batch->batch_product->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']]) as $product)
                                 <tr>
-                                  <td>{!! $product->product->full_name !!} {{ ' ['.$product->product->code_subproduct_clear.']' }}</td>
+                                  <td>{!! $product->product->full_name !!}</td>
                                   <td>{{ $product->quantity }}</td>
                                   <td>{{ $product->quantity_received }}</td>
                                   <td>{{ $product->quantity_children }}</td>
@@ -247,7 +246,7 @@
                               @foreach($batch->batch_product->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']]) as $batch_product)
                                 <tr>
                                   <td class="text-left">
-                                    {!! $batch_product->product->full_name !!} {{ ' ['.$product->product->code_subproduct_clear.']' }}
+                                    {!! $batch_product->product->full_name !!} 
                                     <div class="small text-muted">@lang('Last Updated'): {{ $batch_product->updated_at }}</div>
                                   </td>
                                   <td> 

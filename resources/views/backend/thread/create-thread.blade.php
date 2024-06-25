@@ -5,12 +5,28 @@
 
   <x-slot name="content">
       <label>@lang('Name')</label>
-      <input wire:model.lazy="name" type="text" class="form-control" placeholder="{{ __('Name') }}" />
+      <input wire:model.defer="name" type="text" class="form-control" placeholder="{{ __('Name') }}" />
       @error('name') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
       <label class="mt-2">@lang('Code')</label>
-      <input wire:model.lazy="code" type="text" class="form-control" maxlength="4" placeholder="{{ __('Code') }}"/>
+      <input wire:model.defer="code" type="text" class="form-control" placeholder="{{ __('Code') }}"/>
       @error('code') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+
+      <label class="mt-2">@lang('Vendor')</label>
+      <x-utils.virtual-select 
+        wire:model.defer="vendor_id"
+        :options="[
+            'options' => collect($vendors)->map(function($vendor) {
+                return [
+                    'label' => $vendor->name,
+                    'value' => $vendor->id
+                ];
+            })->toArray(),
+           'selectedValue' => [],
+           'showValueAsTags' => true,
+        ]"
+      />
+      @error('vendor_id') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
   </x-slot>
 

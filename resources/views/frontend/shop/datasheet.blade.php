@@ -33,7 +33,7 @@
           <div class="d-flex justify-content-between flex-md-row flex-column pb-2">
             <div>
                 <div class="d-flex mb-1">
-                  <img class="" src="{{ asset('img/logo22.png') }}" height="50" style="margin-left:20px;">
+                  <img class="" src="{{ asset('img/logo2.svg') }}" height="50" style="margin-left:20px;">
                   <h1 class="pt-md-1 text-primary font-weight-bold ml-4 mt-1">
                     <strong>
                       {{ __(appName()) }}
@@ -90,7 +90,7 @@
               <div class="col-4">
                   @if($shop->file_name)
                     <div>
-                      <img src="{{ asset('/storage/' . $shop->file_name) }}" onerror="this.onerror=null;this.src='/img/ga/logo22.png';" width="98%" />
+                      <img src="{{ asset('/storage/' . $shop->file_name) }}" onerror="this.onerror=null;this.src='/img/ga/logo2.svg';" width="98%" />
                     </div>
                   @endif
 

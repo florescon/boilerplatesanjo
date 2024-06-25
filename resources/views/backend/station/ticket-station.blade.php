@@ -29,7 +29,7 @@
       <table width="100%">
           <tr>
             <td style="text-align: center;">
-              <img src="{{ public_path('img/logo22.png') }}" alt="" width="100"/>
+              <img src="{{ public_path('img/logo2.svg') }}" alt="" width="100"/>
             </td>
             <td align="center">
                 <h3>{{ ucfirst(optional($station->status)->name) }}</h3>

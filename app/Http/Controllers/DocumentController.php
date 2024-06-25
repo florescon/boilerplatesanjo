@@ -19,6 +19,11 @@ class DocumentController extends Controller
         return view('backend.document.index');
     }
 
+    public function print(Document $document)
+    {
+        return view('backend.document.print', compact('document'));
+    }
+
     public function download_dst(Document $document)
     {
         $headers = [

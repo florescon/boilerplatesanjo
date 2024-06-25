@@ -19,7 +19,7 @@
     <div class="tm_invoice_wrap">
       <div class="tm_invoice tm_style1 tm_type2" id="tm_download_section">
         <div class="tm_coffee_shop_img">
-          <img src="{{ asset('img/logo22.png') }}" alt="">            
+          <img src="{{ asset('img/logo2.svg') }}" alt="">            
         </div>
         <div class="tm_bars">
           <span class="tm_accent_bg"></span>

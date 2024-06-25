@@ -64,11 +64,9 @@
       @lang('Per page'): &nbsp;
 
       <select wire:model="perPage" class="form-control">
-        <option>10</option>
+        <option>8</option>
         <option>20</option>
-        <option>30</option>
         <option>40</option>
-        <option>50</option>
       </select>
     </div><!--col-->
 
@@ -224,6 +222,9 @@
               @endif
 
             </div>
+            <div class="card-footer text-center">
+              <a class="text-danger" target="_blank"  href="{{ route('admin.document.print', $document->id ) }}"> @lang('Print') </a>
+            </div>
             <div class="card-footer text-muted text-center">
               <em class="text-dark"><strong>@lang('Updated at'):</strong></em> {{ $document->updated_at }}
             </div>
@@ -238,3 +239,28 @@
 </div>
 </div>
 
+@push('after-scripts')
+  <script>
+  document.addEventListener('livewire:load', function () {
+      Livewire.on('fileDstRemoved', () => {
+          document.getElementById('file_dst').value = '';
+      });
+  });
+  </script>
+
+  <script>
+  document.addEventListener('livewire:load', function () {
+      Livewire.on('fileEmbRemoved', () => {
+          document.getElementById('file_emb').value = '';
+      });
+  });
+  </script>
+
+  <script>
+  document.addEventListener('livewire:load', function () {
+      Livewire.on('filePdfRemoved', () => {
+          document.getElementById('file_pdf').value = '';
+      });
+  });
+  </script>
+@endpush

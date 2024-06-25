@@ -30,7 +30,8 @@ class Document extends Model
         'width',
         'height',
         'threads',
-        'file_pdf'
+        'file_pdf',
+        'stitches'
     ];
 
     /**
@@ -192,5 +193,10 @@ class Document extends Model
     public function getDateForHumansCreatedAttribute()
     {
         return $this->created_at->isoFormat('D, MMM, YY');
+    }
+
+    public function getDateForHumansUpdatedAttribute()
+    {
+        return $this->created_at->isoFormat('D, MMM, YY HH::mm');
     }
 }

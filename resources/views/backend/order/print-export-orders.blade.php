@@ -25,7 +25,7 @@
       <div class="cs-invoice_in" id="download_section">
         <div class="cs-invoice_head cs-mb25">
           <div class="cs-invoice_left">
-            <div class="cs-logo cs-mb5"><img src="{{ asset('img/logo22.png') }}" width="100" alt="Logo"></div>
+            <div class="cs-logo cs-mb5"><img src="{{ asset('img/logo2.svg') }}" width="100" alt="Logo"></div>
           </div>
           <div class="cs-invoice_right cs-text_right">
             <div class="cs-logo cs-mb5"><img src="{{ asset('img/bacapro.png') }}" width="130" alt="Logo"></div>

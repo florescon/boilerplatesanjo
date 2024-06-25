@@ -29,7 +29,7 @@
       <table width="100%">
           <tr>
             <td style="text-align: center;">
-              <img src="{{ public_path('img/logo22.png') }}" alt="" width="100"/>
+              <img src="{{ public_path('img/logo2.svg') }}" alt="" width="100"/>
             </td>
             <td align="center">
                 <h3>{{ optional($batch->status)->name }}</h3>
@@ -108,7 +108,7 @@
                   @foreach($batch->batch_product->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']])  as $assign)
                   <tr>
                     <td scope="row">
-                        {!! $assign->product->full_name !!} {{ ' ['.$assign->product->code_subproduct_clear.']' }}
+                        {!! $assign->product->full_name !!} 
                         <br>
                         <strong>{{ $assign->comment }}</strong>
                     </td>

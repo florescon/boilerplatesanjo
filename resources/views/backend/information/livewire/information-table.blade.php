@@ -145,7 +145,13 @@
 
 
                   <button type="button" class="m-1 btn {{ $history ? 'btn-warning text-white' : 'btn-secondary' }}" wire:click="isHistory">@lang('History')</button>
+
+                  @if($history)
+                    <img src="{{ asset('/img/doberman-dog.gif')}}" width="35" alt="Dog">
+                  @endif
+
                 </div>
+                
                 &nbsp;
 
                 <div class="col-md-3">

@@ -59,7 +59,7 @@
             <td align="right" style=" max-width: 260px; max-height: 200px; ">
                 <div>
                 <img style="  position: absolute; margin-top: 0px; margin-right: 10px;" src="data:image/png;base64, {{ base64_encode(\QrCode::format('svg')->size(100)->generate('https://sjuniformes.com')) }} "/>
-                    <img height="50" src="{{ public_path('img/logo22.png') }}"/>
+                    <img height="50" src="{{ public_path('img/logo2.svg') }}"/>
                 </div>
 
                 <h3>@lang('Service Order') #{{ $service->id }}</h3>
@@ -145,7 +145,7 @@
                 <td align="right" style=" max-width: 260px; max-height: 200px; ">
                     <div>
                         <img style="  position: absolute; margin-top: 0px; margin-right: 10px;" src="data:image/png;base64, {{ base64_encode(\QrCode::format('svg')->size(100)->generate('https://sjuniformes.com')) }} "/>
-                        <img height="50" src="{{ public_path('img/logo22.png') }}"/>
+                        <img height="50" src="{{ public_path('img/logo2.svg') }}"/>
                     </div>
 
                     <h3>@lang('Service Order') #{{ $service->id }}</h3>

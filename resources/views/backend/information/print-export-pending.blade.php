@@ -65,7 +65,7 @@
       <table width="100%">
           <tr>
             <td width="30%" style="text-align: center;">
-              <img src="{{ public_path('img/logo22.png') }}" alt="" width="100"/>
+              <img src="{{ public_path('img/logo2.svg') }}" alt="" width="100"/>
             </td>
             <td width="70%">
                 <h1>@lang('Bill of Materials') - @lang('Global Report') </h1>

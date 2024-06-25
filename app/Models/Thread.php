@@ -22,4 +22,12 @@ class Thread extends Model
         'vendor_id',
     ];
 
+    /**
+     * Get the vendor associated with the Thread.
+     */
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class)->withTrashed();
+    }
+
 }

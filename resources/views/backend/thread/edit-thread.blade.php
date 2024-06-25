@@ -14,6 +14,23 @@
       <input wire:model.lazy="code" type="text" class="form-control"/>
       @error('code') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
+      <label class="mt-2">@lang('Vendor')</label>
+
+      <x-utils.virtual-select 
+        wire:model.defer="vendor_id"
+        :options="[
+            'options' => collect($vendors)->map(function($vendor) {
+                return [
+                    'label' => $vendor->name,
+                    'value' => $vendor->id
+                ];
+            })->toArray(),
+           'selectedValue' => [],
+           'showValueAsTags' => true,
+        ]"
+      />
+      @error('vendor_id') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+
   </x-slot>
 
   <x-slot name="footer">

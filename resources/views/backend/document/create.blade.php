@@ -18,13 +18,13 @@
 
           <div class="form-row mt-2">
             <div class="form-group col-md-6">
-              <label>@lang('Width')</label>
+              <label>@lang('Width') (mm)</label>
               <input wire:model.lazy="width" type="text" class="form-control"/>
               @error('width') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
             </div>
 
             <div class="form-group col-md-6">
-              <label>@lang('Height')</label>
+              <label>@lang('Height') (mm)</label>
               <input wire:model.lazy="height" type="text" class="form-control"/>
               @error('height') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
             </div>
@@ -33,7 +33,7 @@
           <div class="form-row">
             <div class="form-group col-md-6">
               <label class="mt-4">@lang('File DST')</label>
-              <input wire:model="file_dst" type="file" class="form-control-file"/>
+              <input type="file" class="form-control-file" id="file_dst" wire:model.lazy="file_dst" @if(!$file_dst) value="" @endif>
               @error('file_dst') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
             </div>
 
@@ -53,7 +53,7 @@
           <div class="form-row">
             <div class="form-group col-md-6">
               <label class="mt-4">@lang('File EMB')</label>
-              <input wire:model="file_emb" type="file" class="form-control-file"/>
+              <input type="file" class="form-control-file" id="file_emb" wire:model.lazy="file_emb" @if(!$file_emb) value="" @endif>
               @error('file_emb') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
             </div>
 
@@ -73,7 +73,7 @@
           <div class="form-row">
             <div class="form-group col-md-6">
               <label class="mt-4">@lang('File PDF')</label>
-              <input wire:model="file_pdf" type="file" class="form-control-file"/>
+              <input type="file" class="form-control-file" id="file_pdf" wire:model.lazy="file_pdf" @if(!$file_pdf) value="" @endif>
               @error('file_pdf') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
             </div>
 
@@ -96,7 +96,7 @@
                 <div class="col-sm-6" >
 
                     <div class="custom-file">
-                      <input type="file" wire:model="image" class="custom-file-input @error('image') is-invalid  @enderror" id="customFileLangHTML">
+                      <input type="file" wire:model.lazy="image" class="custom-file-input @error('image') is-invalid  @enderror" id="customFileLangHTML">
                       <label class="custom-file-label" for="customFileLangHTML" data-browse="Principal">@lang('Image')</label>
                     </div>
 
@@ -134,6 +134,9 @@
 
             </div><!--form-group-->
 
+          <label class="mt-4">@lang('Stitches')</label>
+          <input wire:model.lazy="stitches" type="text" class="form-control"/>
+          @error('stitches') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
           <label class="mt-4">@lang('Comment')</label>
           <input wire:model.lazy="comment" type="text" class="form-control"/>

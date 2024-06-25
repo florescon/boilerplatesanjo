@@ -42,6 +42,12 @@
                 </td>
               </tr>
               <tr>
+                <th scope="row">@lang('Stitches')</th>
+                <td>          
+                  {!! $stitches !!}
+                </td>
+              </tr>
+              <tr>
                 <th scope="row">@lang('Comment')</th>
                 <td>   
                   <x-utils.undefined :data="$comment"/>

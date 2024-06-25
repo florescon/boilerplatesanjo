@@ -11,7 +11,7 @@
 
     <x-backend.card>
         <x-slot name="header">
-            <strong style="color: red;"> @lang('Deleted threads') </strong>  
+            <strong style="color: red;"> @lang('Deleted Threads') </strong>  
         </x-slot>
 
         <x-slot name="headerActions">

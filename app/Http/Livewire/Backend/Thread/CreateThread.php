@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Backend\Thread;
 
 use App\Models\Thread;
+use App\Models\Vendor;
 use Livewire\Component;
 
 class CreateThread extends Component
@@ -10,12 +11,22 @@ class CreateThread extends Component
     public $name;
     public $code;
 
+    public $vendors;
+
+    public $vendor_id;
+
     protected $listeners = ['createmodal'];
 
     protected $rules = [
-        'name' => 'required|min:3|max:15',
-        'code' => 'required|min:3|max:50',
+        'name' => 'required|min:3|max:35',
+        'code' => 'required|min:3|max:50|unique:threads',
+        'vendor_id' => 'required|integer',
     ];
+
+    public function mount()
+    {
+        $this->vendors = Vendor::all();
+    }
 
     private function resetInputFields()
     {
@@ -26,11 +37,6 @@ class CreateThread extends Component
     public function createmodal()
     {
         $this->resetInputFields();
-    }
-
-    public function updated($propertyName)
-    {
-        $this->validateOnly($propertyName);
     }
 
     public function store()

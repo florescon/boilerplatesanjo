@@ -23,10 +23,18 @@ class PricesProduct extends Component
     public $price;
     public $nameStock;
 
+    public $getField;
+
     public bool $customCodes = false;
     public bool $customPrices = false;
 
     public bool $switchIVA = false;
+
+    public $special_price_input; // Input para actualizar el precio especial
+
+    public $unique_sizes = []; // Array para las sizes únicas
+
+    public $selected_sizes = []; // Array para las sizes seleccionadas
 
     protected $queryString = [
         'customCodes' => ['except' => FALSE],
@@ -77,6 +85,62 @@ class PricesProduct extends Component
 
         $this->nameStock = $nameStock;
 
+    }
+
+    public function setField($getField)
+    {
+        $this->getField = $getField;
+    }
+
+    public function theSpecialPrice()
+    {
+        // dd($this->selected_sizes);
+        // dd($this->{$this->getField});
+        // dd($this->getField);
+
+        $this->validate([
+            $this->getField => 'required|numeric|min:0',
+            'selected_sizes' => 'required|array|min:1',
+        ]);
+
+        $getPrice = null;
+
+        if($this->getField == 'retail_price'){
+            $getPrice ='price';
+        }
+
+
+        foreach ($this->productModel as $child) {
+            if (in_array($child->size_id, $this->selected_sizes)) {
+                if($getPrice){
+                    $child->{$getPrice} = $this->{$this->getField};
+                }
+                else{
+                    $child->{$this->getField} = $this->{$this->getField};
+                }
+                $child->save();
+            }
+        }
+
+        // Recargar el modelo principal y sus hijos para reflejar los cambios
+        $product = Product::find($this->product_id);
+        $product->load('children.size');
+        $this->productModel = $product->children;
+
+       $this->emit('swal:alert', [
+            'icon' => 'success',
+            'title'   => __('Saved'), 
+        ]);
+
+        $this->resetPrices();
+        $this->emit('pricesSaved');
+    }
+
+    public function loadAgain()
+    {
+        $product = Product::find($this->product_id);
+        $product->load('children.size');
+        $this->productModel = $product->children;
     }
 
     public function save()
@@ -234,6 +298,10 @@ class PricesProduct extends Component
                 'special_price' => $this->special_price ?? null,
             ]);
 
+            foreach ($save_cost->children as $child) {
+                $child->update(['price' => null, 'average_wholesale_price' => null, 'wholesale_price' => null, 'special_price' => null]);
+            }
+
             $this->emit('swal:alert', [
                 'icon' => 'success',
                 'title'   => __('Saved all prices'), 
@@ -243,6 +311,9 @@ class PricesProduct extends Component
             $this->initaveragewholesaleprice($save_cost);
             $this->initwholesaleprice($save_cost);
             $this->initspecialprice($save_cost);
+
+            $save_cost->load('children.size');
+            $this->productModel = $save_cost->children;
 
         }
         else{
@@ -257,6 +328,7 @@ class PricesProduct extends Component
         }
 
         $this->emit('saveAfterUpdate');
+        $this->loadAgain();
 
         $this->initproviderprice($save_cost);
     }
@@ -285,6 +357,7 @@ class PricesProduct extends Component
         ]);
 
         $this->emit('saveAfterUpdate');
+        $this->loadAgain();
 
         $this->initretailprice($save_retail);
     }
@@ -336,6 +409,7 @@ class PricesProduct extends Component
         ]);
 
         $this->emit('saveAfterUpdate');
+        $this->loadAgain();
 
         $this->initwholesaleprice($save_wholesale);
     }
@@ -362,6 +436,7 @@ class PricesProduct extends Component
         ]);
 
         $this->emit('saveAfterUpdate');
+        $this->loadAgain();
 
         $this->initspecialprice($save_special);
     }
@@ -477,12 +552,27 @@ class PricesProduct extends Component
         $this->validateOnly($propertyName);
     }
 
+    private function resetPrices()
+    {
+        $this->retail_price = '';
+        $this->average_wholesale_price = '';
+        $this->wholesale_price = '';
+        $this->special_price = '';
+        $this->cost = '';
+    }
+
     public function render()
     {
         // $model = Product::with('children.parent')->findOrFail($this->product_id);
         // $parents = $model->children->toArray();
 
-        return view('backend.product.livewire.prices');
+        $this->unique_sizes = $this->productModel->pluck('size')->unique('id')->values();
+
+        // dd($this->unique_sizes);
+
+        return view('backend.product.livewire.prices',[
+            'unique_sizes' => $this->unique_sizes,
+        ]);
     }
 }
 

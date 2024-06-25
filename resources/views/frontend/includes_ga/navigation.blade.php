@@ -5,7 +5,7 @@
                             <div class="col-12">
                                 <nav class="navbar navbar-expand-xl navbar-light">
 
-                                    <a class="navbar-brand animsition-link" href="{{ url('/') }}"><img src="{{ asset('/img/logo22.png') }}"
+                                    <a class="navbar-brand animsition-link" href="{{ url('/') }}"><img src="{{ asset('/img/logo2.svg') }}"
                                             alt="logo">
                                     </a>
 

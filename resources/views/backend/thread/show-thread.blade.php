@@ -23,6 +23,13 @@
         </tr>
 
         <tr>
+          <th scope="row">@lang('Vendor')</th>
+          <td>   
+            <x-utils.undefined :data="$vendor"/>
+          </td>
+        </tr>
+
+        <tr>
           <th scope="row">@lang('Created')</th>
           <td>   
             <x-utils.undefined :data="$created"/>

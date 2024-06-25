@@ -551,7 +551,6 @@ public function gettAllConsumptionUngrouped()
         });
     }
 
-
     /**
      * Get the product's.
      */

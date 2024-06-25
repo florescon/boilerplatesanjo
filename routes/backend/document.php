@@ -17,6 +17,9 @@ Route::group([
         });
 
     Route::group(['prefix' => '{document}'], function () {
+        Route::get('print', [DocumentController::class, 'print'])
+            ->name('print');
+
         Route::get('download_dst', [DocumentController::class, 'download_dst'])
             ->name('download_dst');
 

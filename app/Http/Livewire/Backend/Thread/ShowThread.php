@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class ShowThread extends Component
 {
-    public $name, $code, $created, $updated;
+    public $name, $code, $vendor, $created, $updated;
 
     protected $listeners = ['show'];
 
@@ -16,6 +16,7 @@ class ShowThread extends Component
         $record = Thread::withTrashed()->findOrFail($id);
         $this->name = $record->name;
         $this->code = $record->code;
+        $this->vendor = optional($record->vendor)->name;
         $this->created = $record->created_at;
         $this->updated = $record->updated_at;
     }
