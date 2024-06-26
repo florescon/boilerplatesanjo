@@ -40,7 +40,7 @@
             <p>{{ $document->comment }}</p>
           </div>
           <div class="cs-invoice_right cs-text_right">
-            <b class="cs-primary_color">@lang('Customer')</b>
+            {{-- <b class="cs-primary_color">@lang('Customer')</b> --}}
             <p>
 
             </p>
@@ -89,9 +89,18 @@
                       <td><b class="cs-primary_color cs-semi_bold" style="background: rgba(42, 209, 157, 0.1);">@lang('Stitches'):</b> {{ number_format($document->stitches, 0, '', ',') }} </td>
                     </tr>
                   @endif
+
+                  @foreach($document->doc_threads->sortBy(['thread.name', 'asc']) as $key => $getThread)
                   <tr>
-                    <td><b class="cs-primary_color cs-semi_bold"> </b> </td>
+                    <td>
+                      <b class="cs-semi_bold" style="color: blue;">
+                        {{ $key+1 }}.
+                      </b>
+                      <b class="cs-primary_color cs-semi_bold">  {{ $getThread->thread->code }} </b> {{ $getThread->thread->name }} 
+                      <em class="cs-f10">{{ $getThread->thread->vendor->short_name_or_name }}</em>
+                    </td>
                   </tr>
+                  @endforeach
                   <tr>
                     <td><b class="cs-primary_color cs-semi_bold"> </b> </td>
                   </tr>

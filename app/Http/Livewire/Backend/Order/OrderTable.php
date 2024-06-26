@@ -115,43 +115,43 @@ class OrderTable extends Component
             $this->applySearchDeletedFilter($query);
 
             $this->title = ['title' => 'Deleted orders', 'color' => 'danger'];
-            return $query->onlyTrashed();
+            return $query->withoutFlowchart()->onlyTrashed();
         }
         else{
             $this->applySearchFilter($query);
 
             if ($this->status === 'suborders') {
                 $this->title = ['title' => 'List of outputs', 'color' => 'secondary'];
-                return $query->onlySuborders()->outFromStore();
+                return $query->onlySuborders()->outFromStore()->withoutFlowchart();
             }
             if ($this->status === 'quotations') {
                 $this->title = ['title' => 'List of quotations', 'color' => '#FAFA33'];
-                return $query->onlyQuotations()->outFromStore();
+                return $query->onlyQuotations()->outFromStore()->withoutFlowchart();
             }
             if ($this->status === 'sales') {
                 $this->title = ['title' => 'List of sales', 'color' => 'success'];
-                return $query->onlySales()->outFromStore();
+                return $query->onlySales()->outFromStore()->withoutFlowchart();
             }
             if ($this->status === 'mix') {
                 $this->title = ['title' => 'List of mix', 'color' => 'warning'];
-                return $query->onlyMix()->outFromStore();
+                return $query->onlyMix()->outFromStore()->withoutFlowchart();
             }
             if ($this->status === 'all') {
                 $this->title = ['title' => 'List of all', 'color' => 'dark'];
-                return $query->onlyAll()->outFromStore();
+                return $query->onlyAll()->outFromStore()->withoutFlowchart();
             }
         }
 
         $this->title = ['title' => 'List of orders', 'color' => 'primary'];
 
-        return $query->onlyOrders()->outFromStore();
+        return $query->onlyOrders()->outFromStore()->withoutFlowchart();
     }
 
     private function applySearchFilter($orders)
     {
         if ($this->searchTerm) {
 
-            return $orders->whereHas('user', function ($query) {
+            return $orders->withoutFlowchart()->whereHas('user', function ($query) {
                 $query->whereRaw("name LIKE \"%$this->searchTerm%\"");
             })
             ->orWhereHas('departament', function ($query) {

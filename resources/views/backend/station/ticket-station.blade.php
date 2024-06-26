@@ -89,15 +89,15 @@
                 </tr>
             </table>
 
-            @if($station->comment)
+            @if($station->order->comment)
                 <table style="margin-bottom: 10px;" width="100%">
                     <tr align="center">
                         <th>
-                            @if($station->comment)
-                                {{ $station->info_customer ?? '' }}
+                            @if($station->order->comment)
+                                {{ $station->order->info_customer ?? '' }}
                                 <br>
                             @endif
-                            {{ $station->comment ?? '' }}
+                            {{ $station->order->comment ?? '' }}
                         </th>
                     </tr>
                 </table>
@@ -116,7 +116,7 @@
                   @foreach($station->product_station->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']])  as $assign)
                   <tr>
                     <td scope="row">
-                        {!! $assign->product->full_name !!} {{ ' ['.$assign->product->code_subproduct_clear.']' }}
+                        {!! $assign->product->full_name !!}
                         <br>
                         <strong>{{ $assign->comment }}</strong>
                     </td>

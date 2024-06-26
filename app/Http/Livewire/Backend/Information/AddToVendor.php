@@ -26,7 +26,7 @@ class AddToVendor extends Component
     private function getProducts()
     {
         return $productsAdditionals = Additional::with('product.color', 'product.parent', 'product.size')->where('type', $this->type)->where('branch_id', $this->branchId)->where('date_entered', null)->where('user_id', Auth::id())->get();
-    }    
+    }
 
     public function removeProduct($productId): void
     {

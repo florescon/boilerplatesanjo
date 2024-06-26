@@ -38,6 +38,15 @@ class Vendor extends Model
         return " <span class='badge badge-secondary'>".__('undefined').'</span>';
     }
 
+    public function getShortNameOrNameAttribute()
+    {
+        if($this->short_name){
+            return $this->short_name;
+        }
+
+        return $name;        
+    }
+
     /**
      * Count the number products.
      *

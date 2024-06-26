@@ -127,6 +127,18 @@ trait OrderScope
         return $query->where('flowchart', true);
     }
 
+
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeWithoutFlowchart($query)
+    {
+        return $query->where('flowchart', null)->orWhere('flowchart', 0);
+    }
+
+
     /**
      * @param $query
      *

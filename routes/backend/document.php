@@ -17,6 +17,16 @@ Route::group([
         });
 
     Route::group(['prefix' => '{document}'], function () {
+
+        Route::get('threads', [DocumentController::class, 'threads'])
+            ->name('threads')
+            ->middleware('permission:admin.access.order.modify')
+            ->breadcrumbs(function (Trail $trail, Document $document) {
+                $trail->parent('admin.document.index')
+                    ->push(__('Threads'), route('admin.document.threads', $document));
+            });
+
+
         Route::get('print', [DocumentController::class, 'print'])
             ->name('print');
 

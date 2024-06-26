@@ -21,7 +21,13 @@ class DocumentController extends Controller
 
     public function print(Document $document)
     {
+        $document->load('doc_threads');
         return view('backend.document.print', compact('document'));
+    }
+
+    public function threads(Document $document)
+    {
+        return view('backend.document.threads', compact('document'));
     }
 
     public function download_dst(Document $document)

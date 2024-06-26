@@ -174,6 +174,8 @@
                 </button>
               @endif
 
+              <a href="{{ route('admin.document.threads', $document->id) }}" target="_blank" class="text-danger ml-2 mr-2"> @lang('Threads') <i class="fas fa-external-link-alt m-1"></i></a> 
+
               @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.document.show-dst'))
                 {!! $document->card_link_dst !!}
               @endif
@@ -223,7 +225,7 @@
 
             </div>
             <div class="card-footer text-center">
-              <a class="text-danger" target="_blank"  href="{{ route('admin.document.print', $document->id ) }}"> @lang('Print') </a>
+              <a class="btn btn-outline-danger btn-sm" type="button"  target="_blank"  href="{{ route('admin.document.print', $document->id ) }}"><strong> @lang('File') <i class="fas fa-print m-1"></i> </strong></a>
             </div>
             <div class="card-footer text-muted text-center">
               <em class="text-dark"><strong>@lang('Updated at'):</strong></em> {{ $document->updated_at }}

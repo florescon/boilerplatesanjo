@@ -58,6 +58,15 @@ class Document extends Model
         'is_enabled' => 'boolean',
     ];
 
+
+    /**
+     * @return mixed
+     */
+    public function doc_threads()
+    {
+        return $this->hasMany(DocumentThread::class)->with('thread');
+    }
+
     public function scopeEnabled(Builder $query): Builder
     {
         return $query->where('is_enabled', true);
