@@ -382,7 +382,7 @@
                         </li>
                     @endif
 
-                    @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.thread.list')))
+                    @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.store.list')))
                         <li class="c-sidebar-nav-item">
                             <x-utils.link
                                 class="c-sidebar-nav-link"

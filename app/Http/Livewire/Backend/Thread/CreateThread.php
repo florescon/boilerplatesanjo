@@ -49,12 +49,14 @@ class CreateThread extends Component
         $this->emit('threadStore');
 
 
-		$this->emit('swal:alert', [
-		    'icon' => 'success',
-		    'title'   => __('Created'), 
-		]);
+		// $this->emit('swal:alert', [
+		    // 'icon' => 'success',
+		    // 'title'   => __('Created'), 
+		// ]);
 
-    	$this->emitTo('backend.thread.thread-table', 'triggerRefresh');
+    	// $this->emitTo('backend.thread.thread-table', 'triggerRefresh');
+
+        return redirect()->route('admin.thread.index');
     }
 
     public function render()

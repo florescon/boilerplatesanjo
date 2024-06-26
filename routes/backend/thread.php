@@ -10,7 +10,7 @@ Route::group([
 ], function () {
     Route::get('/', [ThreadController::class, 'index'])
         ->name('index')
-        ->middleware('permission:admin.access.thread.list')
+        ->middleware('permission:admin.access.store.list')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.dashboard')
                 ->push(__('Thread Management'), route('admin.thread.index'));
@@ -18,7 +18,7 @@ Route::group([
 
     Route::get('deleted', [ThreadController::class, 'deleted'])
         ->name('deleted')
-        ->middleware('permission:admin.access.thread.deleted')
+        ->middleware('permission:admin.access.store.list')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.thread.index')
                 ->push(__('Deleted Threads'), route('admin.thread.deleted'));

@@ -13,7 +13,7 @@
             <strong style="color: #0061f2;"> <kbd>@lang('Threads')</kbd> </strong>
         </x-slot>
 
-        @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.thread.create'))
+        @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.store.list'))
             <x-slot name="headerActions">
                 <x-utils.link
                     icon="c-icon cil-plus"

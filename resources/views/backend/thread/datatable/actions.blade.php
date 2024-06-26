@@ -3,10 +3,10 @@
   <x-actions-modal.show-icon target="showModal" emitTo="backend.thread.show-thread" function="show" :id="$thread->id" />
 
 	@if (!$thread->trashed())
-    @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.thread.modify'))
+    @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.store.list'))
   	  <x-actions-modal.edit-icon target="editThread" emitTo="backend.thread.edit-thread" function="edit" :id="$thread->id" />
     @endif
-    @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.thread.delete'))
+    @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.store.list'))
       <x-actions-modal.delete-icon function="delete" :id="$thread->id" />
     @endif
 	@else
