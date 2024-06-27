@@ -719,7 +719,7 @@
                   <tr>
                     <td>
                       {{ $product->product->code_subproduct_clear }}
-                      {!! $product->product->full_name !!}
+                      {!! $product->product->full_name_link !!}
                     </td>
                     <td class="text-center">
                       
