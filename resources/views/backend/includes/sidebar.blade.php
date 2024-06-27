@@ -631,7 +631,7 @@
                                     :active="activeClass(Route::is('admin.setting.gallery'), 'c-active')"/>
                             </li>
 
-                        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.settings.list_pages')))
+                        {{-- @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.settings.list_pages')))
                             <li class="c-sidebar-nav-item">
                                 <x-utils.link
                                     :href="route('admin.setting.pages')"
@@ -639,7 +639,7 @@
                                     :text="__('Pages')"
                                     :active="activeClass(Route::is('admin.setting.pages'), 'c-active')"/>
                             </li>
-                        @endif
+                        @endif --}}
 
                 </ul>
             </li>

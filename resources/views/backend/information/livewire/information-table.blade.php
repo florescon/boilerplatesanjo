@@ -252,7 +252,7 @@
                   #{{ optional($productStation->station)->folio }}
                 </td>
                 <td>
-                  <a target="_blank" href="{{ route('admin.order.station', [$productStation->order_id, $status->id]) }}"> #{{ $productStation->order_id }} <i class="fas fa-external-link-alt m-1"></i> </a> 
+                  <a target="_blank" href="{{ route('admin.order.station', [$productStation->order_id, $status->id]) }}"> #{{ $productStation->order->folio_or_id_clear }} <i class="fas fa-external-link-alt m-1"></i> </a> 
                   <div class="small text-muted">@lang('Order')</div>
                 </td>
                 <td class="text-center">
@@ -264,7 +264,7 @@
                 </td>
                 @if($status->to_add_users)
         				<td class="text-center">
-        					<div> {{ optional($productStation->personal)->name ?? '-- --' }} </div>
+        					<div> {{ optional($productStation->station->personal)->name ?? '-- --' }} </div>
         					<div class="small text-muted">{{ $productStation->date_for_humans }}</div>
         				</td>
                 @endif
@@ -294,7 +294,7 @@
                   @endif
                 </td>
                 <td class="text-center">
-                  @if($productStation->order)
+                  {{-- @if($productStation->order)
                     @if($productStation->order->trashed())
                       <x-utils.delete-button :text="__('')" :href="route('admin.ticket.destroy', $productStation->id)" />
                     @else
@@ -304,7 +304,7 @@
                     @endif
                   @else
                     <x-utils.delete-button :text="__('Request not found, delete ticket')" :href="route('admin.ticket.destroy', $productStation->id)" />
-                  @endif
+                  @endif --}}
                 </td>
         			</tr>
               @endforeach

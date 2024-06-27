@@ -80,6 +80,11 @@ class ProductStation extends Model
         return $this->belongsTo(Product::class)->with('parent', 'color', 'size')->withTrashed();
     }
 
+    public function order()
+    {
+        return $this->belongsTo(Order::class)->withTrashed();
+    }
+
     public function product_order()
     {
         return $this->belongsTo(ProductOrder::class)->withTrashed();

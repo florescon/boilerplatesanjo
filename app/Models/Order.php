@@ -1015,13 +1015,15 @@ class Order extends Model
 
     public function aboutOrder()
     {
+        $imageUrl = asset('img/processing.gif');
+
         switch (true) {
             case ($this->areAllProductOrdersMatched() || $this->areAllProductOrdersMatchedSendToStock()) 
                 && 
                 $this->areAllProductStationsZero():
                 return '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><g fill="none" stroke="#000" stroke-width="2" stroke-linejoin="round"><path fill="#FFF" d="M17.5 21h-11A1.5 1.5 0 0 1 5 19.5v-7c0-.83.67-1.5 1.5-1.5h11c.83 0 1.5.67 1.5 1.5v7c0 .83-.67 1.5-1.5 1.5Z"></path><path d="M8 11V7a4 4 0 1 1 8 0v4"></path><circle cx="12" cy="16" r=".25"></circle></g></svg>';
             case $this->stations()->exists():
-                return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect fill="#FF156D" stroke="#FF156D" stroke-width="15" width="30" height="30" x="25" y="85"><animate attributeName="opacity" calcMode="spline" dur="2" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.4"></animate></rect><rect fill="#FF156D" stroke="#FF156D" stroke-width="15" width="30" height="30" x="85" y="85"><animate attributeName="opacity" calcMode="spline" dur="2" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.2"></animate></rect><rect fill="#FF156D" stroke="#FF156D" stroke-width="15" width="30" height="30" x="145" y="85"><animate attributeName="opacity" calcMode="spline" dur="2" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="0"></animate></rect></svg>';
+                return '<img width="100" class="pr-4 mr-4" src="'. $imageUrl .'">';
             default:
                 return '';
         }

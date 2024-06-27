@@ -22,7 +22,7 @@ Route::group([
         ->middleware('permission:admin.access.information.view')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.information.index')
-                ->push(__('Chart'), route('admin.information.index'));
+                ->push(__('Charts'), route('admin.information.index'));
         });
 
     Route::group([

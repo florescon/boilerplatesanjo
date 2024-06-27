@@ -9,17 +9,15 @@
 
 @section('content')
     @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.dashboard.kanban')))
-    {{-- <x-backend.card> --}}
-        {{-- <x-slot name="body"> --}}
+    <x-backend.card>
+        <x-slot name="body">
 
-          {{-- <livewire:backend.dashboard.apex /> --}}
+          <livewire:backend.dashboard.quotation />
 
-          {{-- @lang('Welcome to the Dashboard') --}}
-      
-          {{-- <livewire:backend.dashboard.kanban /> --}}
+          <livewire:backend.dashboard.apex-chart />
 
-        {{-- </x-slot> --}}
+        </x-slot>
     
-    {{-- </x-backend.card> --}}
+    </x-backend.card>
     @endif
 @endsection

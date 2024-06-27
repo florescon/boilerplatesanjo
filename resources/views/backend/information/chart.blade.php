@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', __('Chart'))
+@section('title', __('Charts'))
 
 @push('after-styles')
 

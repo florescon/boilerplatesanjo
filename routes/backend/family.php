@@ -13,7 +13,7 @@ Route::group([
         ->middleware('permission:admin.access.family.list')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.dashboard')
-                ->push(__('Brand Management'), route('admin.family.index'));
+                ->push(__('Family Management'), route('admin.family.index'));
         });
 
     Route::group(['prefix' => '{family}'], function () {
