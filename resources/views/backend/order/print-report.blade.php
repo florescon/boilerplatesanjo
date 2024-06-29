@@ -306,6 +306,9 @@
                   @foreach($order->stations->slice(0, $half) as $station)
                     <li>
                       #{!! $station->id.' <strong class="text-primary">'.ucfirst(optional($station->status)->name).'</strong> '.$station->created_at !!} 
+                        <strong class="text-danger">
+                          {{$station->personal_id ? ucwords(strtolower(optional($station->personal)->name)) : '' }}
+                        </strong>
                       <h5 class="ml-4" style="display: inline!important;">
                         <br>
                         <em><strong>{{ $station->total_products_station }}</strong> Total</em>
@@ -334,6 +337,10 @@
                   @foreach($order->stations->slice($half) as $station)
                     <li>
                       #{!! $station->id.' <strong class="text-primary">'.ucfirst(optional($station->status)->name).'</strong> '.$station->created_at !!} 
+                        <strong class="text-danger">
+                          {{$station->personal_id ? ucwords(strtolower(optional($station->personal)->name)) : '' }}
+                        </strong>
+
                       <h5 class="ml-4" style="display: inline!important;">
                         <br>
                         <em> <strong>{{ $station->total_products_station }}</strong> Total</em>

@@ -7,6 +7,7 @@
         <div class="card-header">
 
             <div class="card p-3 border-0">
+              <div class="row">
                 <div class="col-sm-4">
                   <div class="c-callout b-t-1 b-r-1 b-b-1 pb-3">
                     <small class="text-muted">Actual: </small><br>
@@ -22,7 +23,13 @@
                     </select>
                   </div>
                 </div><!--/.col-->
-
+`
+                <div class="col-sm-6 mt-4">
+                  <div class="alert alert-light" role="alert">
+                    <strong> @lang('Search by'): </strong> folio, comentario, nombre del personal, comentario del pedido, orden de compra, factura y folio del pedido.
+                  </div>
+                </div><!--/.col-->
+                </div>
 
               <div class="mt-3">
                 <h5 class="heading">

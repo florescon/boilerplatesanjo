@@ -269,3 +269,10 @@ input[type=number] {
     content: "";
     background-color: rgba(0,0,0,0);
 }
+
+
+.shadow-separator-wrap{text-align:center}.shadow-separator-wrap .shadow-separator{height:20px;margin:20px auto;overflow:hidden;width:100%;max-width:700px}.shadow-separator-wrap .shadow-separator:after{border-radius:100%;box-shadow:0 0 10px #333;content:"";display:block;height:inherit;position:relative;top:100%}
+
+.has-value {
+    color: red;
+}

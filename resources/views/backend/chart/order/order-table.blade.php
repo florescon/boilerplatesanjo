@@ -162,7 +162,9 @@
 
                                                     @if (!$order->isSuborder())
                                                         <strong>Totales:
-                                                            {{ $order->total_products_by_all }}
+                                                            <p class="text-danger d-inline">
+                                                                {{ $order->total_products_by_all }}
+                                                            </p>
                                                         </strong>
                                                     @else
                                                         <strong>Totales:

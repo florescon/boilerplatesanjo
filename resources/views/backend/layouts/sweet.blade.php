@@ -1,10 +1,11 @@
 <script>
 
-const SwalModal = (icon, title, html, imageUrl) => {
+const SwalModal = (icon, title, html, imageUrl, footer) => {
     Swal.fire({
         icon,
         title,
         imageUrl,
+        footer,
         imageWidth: 100,
         imageHeight: 100,
         html,
@@ -81,7 +82,7 @@ const SwalAlert = (icon, title, timeout = 4000) => {
 window.addEventListener('DOMContentLoaded', () => { 
 
     this.livewire.on('swal:modal', data => {
-        SwalModal(data.icon, data.title, data.html, data.imageUrl)
+        SwalModal(data.icon, data.title, data.html, data.imageUrl, data.footer)
     })
 
     this.livewire.on('swal:confirm', data => {

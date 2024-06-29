@@ -23,7 +23,7 @@
         <a href="{{ route('admin.order.quotation_chart') }}" class="btn btn-link text-white btn-sm text-small">@lang('Add quotation') <i class="cil-plus"></i>
         </a>
       </div>
-      <div class="card-list bg-primary">
+      <div class="card-list bg-primary"> 
         <a href="{{ route('admin.order.quotations_chart') }}" class="btn btn-link text-white btn-sm text-small">@lang('Show all quotations')</a>
       </div>
     </div>
@@ -64,7 +64,7 @@
                   </div>
                   <div class="card-meta d-flex justify-content-between">
                     <div class="d-flex align-items-center">
-                      <span>@lang('Articles'): {{ $quotation->sum }}</span>
+                      <span>@lang('Articles'): <strong class="text-danger">{{ $quotation->sum }}</strong></span>
                     </div>
                     <span class="text-small">{{ $quotation->date }}</span>
                   </div>

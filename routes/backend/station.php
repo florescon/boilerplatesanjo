@@ -32,7 +32,23 @@ Route::group([
             ->middleware('permission:admin.access.order.modify')
             ->breadcrumbs(function (Trail $trail, Station $station) {
                 $trail->parent('admin.station.index')
-                    ->push(__('Station assignment').' '.$station->id, route('admin.order.ticket', $station));
+                    ->push(__('Ticket Station').' '.$station->id, route('admin.order.ticket', $station));
+            });
+
+        Route::get('checklist/', [StationController::class, 'checklist'])
+            ->name('checklist')
+            ->middleware('permission:admin.access.order.modify')
+            ->breadcrumbs(function (Trail $trail, Station $station) {
+                $trail->parent('admin.station.index')
+                    ->push(__('Checklist Station').' '.$station->id, route('admin.order.checklist', $station));
+            });
+
+        Route::get('checklist_ticket/', [StationController::class, 'checklist_ticket'])
+            ->name('checklist_ticket')
+            ->middleware('permission:admin.access.order.modify')
+            ->breadcrumbs(function (Trail $trail, Station $station) {
+                $trail->parent('admin.station.index')
+                    ->push(__('Ticket Consumption').' '.$station->id, route('admin.order.checklist_ticket', $station));
             });
 
         Route::delete('/', [StationController::class, 'destroy'])->name('destroy');

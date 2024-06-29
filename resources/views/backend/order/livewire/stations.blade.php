@@ -283,7 +283,9 @@
                           <h4><strong>{{ ucfirst($status->short_name) }}</strong></h4>
                           <p>{{ $station->created_at_for_humans }}</p>
                           <p>@if($station->consumption) <span class="badge badge-success">Ya consumido</span> @endif </p>
-                          <p>@if($station->product_station()->first()->not_consider) <span class="badge badge-danger">No considerado para BOM Global</span> @endif </p>
+                          @if($station->product_station()->exists())
+                            <p>@if($station->product_station()->first()->not_consider) <span class="badge badge-danger">No considerado para BOM Global</span> @endif </p>
+                          @endif
                       </div>
                       <div class="price"><strong>#{{ $station->id }}</strong> / {{ ucfirst($status->short_name) }} <span class="glyphicon glyphicon-ok"></span></div>
                       <div class="pricing-body">
@@ -295,7 +297,7 @@
                           @if($status->to_add_users)
                             <div class="form-group mb-3">
                                 <label for="user-select-{{ $station->id }}">Seleccionar Usuario</label>
-                                <select id="user-select-{{ $station->id }}" wire:change="savePersonalId({{ $station->id }}, $event.target.value)" class="form-control">
+                                <select id="user-select-{{ $station->id }}" wire:change="savePersonalId({{ $station->id }}, $event.target.value)" class="form-control" onfocus="disableKeyUpDown({{ $station->id }})">
                                     <option value="">Seleccionar</option>
                                     @foreach($users as $user)
                                         <option value="{{ $user->id }}" {{ $user->id == $station->personal_id ? 'selected' : '' }}>
@@ -350,6 +352,10 @@
                                     <a wire:click="makeConsumption({{ $station->id }})" class="list-group-item list-group-item-action">
                                       Consumir Materia Prima
                                     </a>
+                                  @else
+                                    <a href="{{ route('admin.station.checklist', $station->id) }}" target="_blank" class="list-group-item list-group-item-action"> Checklist <i class="fas fa-external-link-alt m-1"></i></a>
+
+                                    <a href="{{ route('admin.station.checklist_ticket', $station->id) }}" target="_blank" class="list-group-item list-group-item-action"> Consumido - Ticket <i class="fas fa-external-link-alt m-1"></i></a>
                                   @endif
 
                                   @if(!$station->consumption)
@@ -588,6 +594,27 @@
             @endif
           </div>
 
+          <div class="row">
+            <div class="col text-center mt-4">
+              <div class="mb-4 btn-group" role="group" aria-label="Basic example">
+                @if($previous_status)
+                  <a href="{{ route('admin.order.station', [$model->id, $previous_status->id]) }}" class="btn btn-outline-primary" data-toggle="tooltip" title="{{ $previous_status->name ?? null }}">
+                    @if($previous_status->to_add_users)<i class="c-icon  c-icon-4x cil-people"></i>@endif
+                    @lang('Previous status')
+                  </a>
+                @endif
+
+                @if($next_status)
+                  <a href="{{ route('admin.order.station', [$model->id, $next_status->id]) }}" class="btn btn-outline-primary" data-toggle="tooltip" title="{{ $next_status->name ?? null }}">
+                    @if($next_status->to_add_users)<i class="c-icon  c-icon-4x cil-people"></i>@endif
+                    @lang('Next status') 
+                    @if($next_status->finial_process) &nbsp; <i class="cil-running"></i> @endif
+                  </a>
+                @endif
+              </div>
+            </div>
+          </div>
+
 
 
     </x-slot>
@@ -595,7 +622,15 @@
 
 
 @push('after-scripts')
-
+<script>
+    function disableKeyUpDown(stationId) {
+        document.getElementById('user-select-' + stationId).addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowUp' || event.key === 'ArrowDown' || event.key === 'PageUp' || event.key === 'PageDown') {
+                event.preventDefault();
+            }
+        });
+    }
+</script>
 
 <script type="text/javascript">
     function redirect(goto) {

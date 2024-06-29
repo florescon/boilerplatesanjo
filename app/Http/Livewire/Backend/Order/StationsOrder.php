@@ -98,6 +98,21 @@ class StationsOrder extends Component
         $getStation = Station::whereId($station_id)->first();
 
         if (!empty($this->quantity) && isset($this->quantity[$station_id])) {
+
+            $result = array_filter($this->quantity, function($subArray) {
+                $filtered = array_filter($subArray, function($item) {
+                    return !empty($item['available']) && $item['available'] != "0";
+                });
+                return !empty($filtered);
+            });
+
+            if(empty($result)){
+                return $this->emit('swal:modal', [
+                    'icon' => 'info',
+                    'title' => __('Add something'),
+                ]);
+            }
+
             $quantities = $this->quantity[$station_id];
 
             foreach ($getStation->product_station as $productStation) {
@@ -844,13 +859,17 @@ class StationsOrder extends Component
         // Si hay errores, emitir todos los errores.
         if ($errors->isNotEmpty()) {
             $errorMessages = $errors->map(function ($error) {
-                return __("<b>{$error['material_name']}</b> (Código: {$error['part_number']}) <br> Cantidad Requerida: {$error['required_quantity']} {$error['unit_measurement']}, <br> Existencia: {$error['available_stock']} {$error['unit_measurement']}");
+                return __("
+                    <br>
+                    <b>{$error['material_name']}</b> (Código: {$error['part_number']}) <br> Cantidad Requerida: {$error['required_quantity']} {$error['unit_measurement']}, <br> Existencia: {$error['available_stock']} {$error['unit_measurement']}");
             })->implode('<br><br>');
 
             return $this->emit('swal:modal', [
                 'icon' => 'error',
                 'title' => __('Lack of raw materials'),
                 'html' => $errorMessages, 
+                'footer' => "<a class='text-danger' href='/admin/material' target='_blank'>Ir a materia prima <i class='fas fa-external-link-alt m-1'></i></a>",
+
             ]);
         }
 
@@ -869,6 +888,7 @@ class StationsOrder extends Component
                 foreach($product_statione->product_order->gettAllConsumptionSecond($quantity) as $key => $consumption){
 
                     $order->materials_order()->create([
+                        'station_id' => $station->id,
                         'product_order_id' => $product_statione->product_order->id,
                         'material_id' => $key,
                         'price' => $consumption['price'],

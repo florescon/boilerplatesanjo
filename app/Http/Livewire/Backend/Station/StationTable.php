@@ -124,7 +124,14 @@ class StationTable extends Component
             return $searchStation
             ->where(function (Builder $query) {
                 $query->whereHas('order', function ($quer) {
-                   $quer->whereRaw("comment LIKE \"%$this->searchTerm%\"")->orWhereRaw("folio LIKE \"%$this->searchTerm%\"");
+                   $quer->whereRaw("comment LIKE \"%$this->searchTerm%\"")
+                    ->orWhereRaw("folio LIKE \"%$this->searchTerm%\"")
+                    ->orWhere('request', 'like', '%' . $this->searchTerm . '%')
+                    ->orWhere('purchase', 'like', '%' . $this->searchTerm . '%')
+                    ->orWhere('invoice', 'like', '%' . $this->searchTerm . '%');
+                })
+                ->orWhereHas('personal', function ($quer) {
+                   $quer->whereRaw("name LIKE \"%$this->searchTerm%\"");
                 })
                 ->orWhere('id', 'like', '%' . $this->searchTerm . '%')
                 ->orWhere('comment', 'like', '%' . $this->searchTerm . '%');

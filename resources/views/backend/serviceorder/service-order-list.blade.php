@@ -171,7 +171,7 @@
                 </td>
                 <td>
                   @if($serviceOrder->image_id)
-                    <img class="card-img-top" height="60" src="{{ asset('/storage/' . $serviceOrder->image->image) }}" alt="{{ optional($serviceOrder->image)->title }}">
+                    <img class="card-img-top" style="width:100px !important;" src="{{ asset('/storage/' . $serviceOrder->image->image) }}" alt="{{ optional($serviceOrder->image)->title }}">
                   @endif
                 </td>
                 <td class="text-center">

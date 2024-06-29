@@ -14,7 +14,7 @@ class Station extends Model
 {
     use HasFactory, DateScope, SoftDeletes, CascadeSoftDeletes;
 
-    protected $cascadeDeletes = ['product_station', 'children'];
+    protected $cascadeDeletes = ['product_station', 'children', 'material_order'];
 
     protected $dates = ['deleted_at'];
 
@@ -59,6 +59,14 @@ class Station extends Model
     public function children()
     {
         return $this->hasMany(self::class, 'station_id');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function material_order()
+    {
+        return $this->hasMany(MaterialOrder::class, 'station_id');
     }
 
     /**

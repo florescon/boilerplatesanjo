@@ -14,6 +14,8 @@
 
           <livewire:backend.dashboard.quotation />
 
+            <div class="shadow-separator-wrap"><div class="shadow-separator"></div></div>
+
           <livewire:backend.dashboard.apex-chart />
 
         </x-slot>
