@@ -468,7 +468,7 @@
                                 class="c-sidebar-nav-link"
                                 :href="route('admin.image.index')"
                                 :active="activeClass(Route::is('admin.image.*'), 'c-active')"
-                                :text="__('Images')" />
+                                :text="__('Services Images')" />
                         </li>
                     @endif
                 </ul>

@@ -130,6 +130,33 @@ class Status extends Model
         return "<span class='badge badge-secondary'>".__('No').'</span>';
     }
 
+    public function getStatusActiveAttribute()
+    {
+        if($this->active){
+            return "<span class='badge badge-success'>".__('Yes').'</span>';
+        }
+
+        return "<span class='badge badge-secondary'>".__('No').'</span>';
+    }
+
+    public function getStatusSupplierAttribute()
+    {
+        if($this->supplier){
+            return "<span class='badge badge-primary'>".__('Yes').'</span>';
+        }
+
+        return "<span class='badge badge-secondary'>".__('No').'</span>';
+    }
+
+    public function getStatusMakingAttribute()
+    {
+        if($this->making){
+            return "<span class='badge badge-primary'>".__('Yes').'</span>';
+        }
+
+        return "<span class='badge badge-secondary'>".__('No').'</span>';
+    }
+
     public function getDateForHumansAttribute()
     {
         return $this->updated_at ? $this->updated_at->isoFormat('D, MMM, YY') : $this->updated_at;
@@ -318,19 +345,19 @@ class Status extends Model
     {
         switch (true) {
                 case $this->final_lot && $this->batch:
-                    return 'Final del loteado, se envia directo a conformado';
+                    return 'Final del Lote, se envia directo a Conformado';
                 case $this->supplier:
-                    return 'Pedido a proveedor se envia directo a conformado';
+                    return 'Pedido a Proveedor se envia directo a Conformado';
                 case $this->final_process && $this->process:
-                    return 'Se concluye pedido';
+                    return 'Se concluye Pedido';
                 case $this->initial_process && $this->process:
-                    return 'Proveniente de pedidos a proveedor, lotes y/o Almacén Producto Terminado';
+                    return 'Proveniente de Pedidos a Proveedor, Lotes y/o Almacén Producto Terminado';
                 case $this->initial_lot && $this->batch:
-                    return 'Se crea el lote';
+                    return 'Se crea el Lote';
                 case $this->batch:
-                    return 'Estación del loteado';
+                    return 'Estación de Loteado';
                 case $this->process:
-                    return 'Estación del proceso';
+                    return 'Estación de Proceso';
                 default:
                     return __('Good');
             }
@@ -348,34 +375,34 @@ class Status extends Model
 
         switch ($this->active) {
             case $this->batch:
-                $data[] = 'Lot';
+                $data[] = __('Lot');
 
                 if($this->initial_lot){
-                    $data[] = 'Initial lot ';
+                    $data[] = __('Initial lot ');
                 }
                 if($this->final_lot){
-                    $data[] = 'Final lot ';
+                    $data[] = __('Final lot ');
                     if($this->getFirstStatusProcess()){
-                        $data[] = 'Send auto to Initial Process';
+                        $data[] = __('Send auto to Initial Process');
                     }
                 }
 
                 return $data;
             case $this->supplier:
-                $data[] = 'Supplier ';
+                $data[] = __    ('Supplier ');
                 if($this->getFirstStatusProcess()){
-                    $data[] = 'Send auto to Initial Process';
+                    $data[] = __('Send auto to Initial Process');
                 }
 
                 return $data;
             case $this->process:
-                $data[] = 'Process';
+                $data[] = __('Process');
 
                 if($this->initial_process){
-                    $data[] = 'Initial Process ';
+                    $data[] = __('Initial Process ');
                 }
                 if($this->final_process){
-                    $data[] = 'Final process ';
+                    $data[] = __('Final Process ');
                 }
 
                 return $data;

@@ -80,7 +80,7 @@ class StationTable extends Component
     public function getRowsQueryProperty()
     {
         $query = Station::query()
-            ->with('product_station', 'order', 'status')
+            ->with('product_station', 'order', 'status', 'personal')
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?
                     $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', now()]) :
@@ -257,6 +257,12 @@ class StationTable extends Component
         $this->searchTerm = '';
         $this->resetPage();
         $this->perPage = '10';
+    }
+
+    public function clearSelectStatus()
+    {
+        $this->selectStatus = null;
+        $this->statusName = '';
     }
 
     public function updatedSelectStatus()

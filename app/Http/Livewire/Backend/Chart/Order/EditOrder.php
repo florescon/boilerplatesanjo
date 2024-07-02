@@ -16,7 +16,7 @@ use DB;
 
 class EditOrder extends Component
 {
-    public $order_id, $lates_statusId, $slug, $isComment, $comment, $isObservation, $observation, $isDiscount, $discount, $isRequest, $request, $isInfo_customer, $info_customer, $isDate, $date_entered;
+    public $order_id, $lates_statusId, $slug, $isComment, $comment, $isObservation, $observation, $isDiscount, $discount, $isRequest, $request, $isPurchase, $purchase, $isInfo_customer, $info_customer, $isDate, $date_entered;
 
     public $previousMaterialByProduct, $maerialAll;
 
@@ -45,6 +45,7 @@ class EditOrder extends Component
         $this->initobservation($order);
         $this->initdiscount($order);
         $this->initrequest($order);
+        $this->initpurchase($order);
         $this->initinfo_customer($order);
         $this->initdate($order);
 
@@ -98,6 +99,12 @@ class EditOrder extends Component
     {
         $this->request = $order->request;
         $this->isRequest = $order->request || empty($order) ? $order->request : __('Define request');
+    }
+
+    private function initpurchase(Order $order)
+    {
+        $this->purchase = $order->purchase;
+        $this->isPurchase = $order->purchase || empty($order) ? $order->purchase : __('Define purchase order');
     }
 
     private function initinfo_customer(Order $order)
@@ -192,7 +199,7 @@ class EditOrder extends Component
     public function saverequest()
     {
         $this->validate([
-            'request' => 'required|max:300',
+            'request' => 'required|max:100',
         ]);
 
         $order = Order::findOrFail($this->order_id);
@@ -202,6 +209,25 @@ class EditOrder extends Component
         $order->save();
 
         $this->initrequest($order); // re-initialize the component state with fresh data after saving
+
+        $this->emit('swal:alert', [
+           'icon' => 'success',
+            'title'   => __('Updated at'), 
+        ]);
+    }
+    public function savepurchase()
+    {
+        $this->validate([
+            'purchase' => 'required|max:100',
+        ]);
+
+        $order = Order::findOrFail($this->order_id);
+        $newPurchase = (string)Str::of($this->purchase)->trim()->substr(0, 300); // trim whitespace & more than 100 characters
+
+        $order->purchase = $newPurchase ?? null;
+        $order->save();
+
+        $this->initpurchase($order); // re-initialize the component state with fresh data after saving
 
         $this->emit('swal:alert', [
            'icon' => 'success',

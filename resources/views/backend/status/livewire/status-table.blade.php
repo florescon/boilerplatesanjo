@@ -91,7 +91,15 @@
 	              <th scope="col">
 	                  @lang('Process')
 	              </th>
-
+	              <th scope="col">
+	                  @lang('Supplier')
+	              </th>
+	              <th scope="col">
+	                  @lang('Making')
+	              </th>
+	              <th scope="col">
+	                  @lang('Active')
+	              </th>
 	              <th scope="col">
 	                  @lang('Updated')
 	              </th>
@@ -101,7 +109,7 @@
 	            @foreach($statuses as $status)
 	            <tr >
                 <td>
-                  {{ $status->name }}
+                  {{ ucfirst($status->name) }}
                 </td>
 	              <td>
 	              	{{ $status->description }}
@@ -110,7 +118,7 @@
 	              	{{ $status->level }}
 	              </td>
 	              <td>
-		              {{ $status->percentage }}
+		            	{{ $status->percentage }}%
 	              </td>
 	              <td>
 	              	{!! $status->status_add_users !!}
@@ -128,7 +136,15 @@
 	              <td>
 	              	{!! $status->status_process !!}
 	              </td>
-
+	              <td>
+	              	{!! $status->status_supplier !!}
+	              </td>
+	              <td>
+	              	{!! $status->status_making !!}
+	              </td>
+	              <td>
+	              	{!! $status->status_active !!}
+	              </td>
 	              <td>
 									{{ $status->date_for_humans }}
 	              </td>

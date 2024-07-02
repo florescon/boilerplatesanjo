@@ -9,7 +9,7 @@
             <div class="card p-3 border-0">
               <div class="row">
                 <div class="col-sm-4">
-                  <div class="c-callout b-t-1 b-r-1 b-b-1 pb-3">
+                  <div class="c-callout b-t-1 b-r-1 b-b-1 pb-5 pt-2">
                     <small class="text-muted">Actual: </small><br>
                     <select id="selectStatus" wire:model="selectStatus" class="form-control" onfocus="disableKeyUpDown()">
                         <option value="">Elegir Estación</option>
@@ -21,36 +21,30 @@
                           </option>
                         @endforeach
                     </select>
+                    
+
                   </div>
                 </div><!--/.col-->
 `
-                <div class="col-sm-6 mt-4">
+                <div class="col-sm-6 mt-3">
                   <div class="alert alert-light" role="alert">
+                    <p>
+                      <kbd>
+                        @lang('Workstation') @if($statusName) ——> {{ __(ucfirst($statusName)) }} @endif
+                      </kbd>
+
+                      @if($selectStatus)
+                        <a type="button" wire:click="clearSelectStatus" class="btn btn-danger btn-sm ml-4 text-white"> <i class="cil-x-circle"></i> </a>
+                      @endif
+
+                    </p>
                     <strong> @lang('Search by'): </strong> folio, comentario, nombre del personal, comentario del pedido, orden de compra, factura y folio del pedido.
                   </div>
                 </div><!--/.col-->
-                </div>
-
-              <div class="mt-3">
-                <h5 class="heading">
-                  <kbd>
-                    <i class="cil-view-column"></i> 
-                    @lang('Workstation') @if($statusName) ——> {{ __(ucfirst($statusName)) }} @endif
-                    @if($status == 'deleted')
-                      <span class="badge badge-danger">@lang('Deletions')</span>
-                    @endif
-                  </kbd>
-                </h5>
-                @if($status == 'deleted')
-                  <a href="{{ route('admin.store.box.history') }}">
-                    <i class="fa fa-hand-o-left" aria-hidden="true"></i>
-                   @lang('to return')
-                 </a>
-                @endif
               </div>
             </div>
 
-            <div class="page-header-subtitle mt-5 mb-2">
+            <div class="page-header-subtitle  mb-2">
               <em>
                 @lang('Filter by update date range')
               </em>

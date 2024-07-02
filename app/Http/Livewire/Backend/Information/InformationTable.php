@@ -96,7 +96,7 @@ class InformationTable extends Component
 
     public function getRowsQueryProperty()
     {
-        $query = ProductStation::query()->with('product', 'status')
+        $query = ProductStation::query()->with('product.parent', 'status', 'order', 'station.personal')
             ->where('status_id', $this->status_id)
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?
@@ -137,25 +137,6 @@ class InformationTable extends Component
     public function selectedCompanyItem($personal)
     {
         $this->personal = $personal;
-
-        // if ($customer) {
-        //     $this->customer = $customer;
-
-        //     $customerDB = User::where('id', $customer)->first();
-
-        //     $summary = Summary::updateOrCreate(
-        //         ['branch_id' => $this->branchId, 'type' => $this->type, 'user_id' => Auth::id()],
-        //         ['customer_id' => $this->customer, 'type_price' => optional($customerDB->customer)->type_price ?? User::PRICE_RETAIL]
-        //     );
-
-        //      // $this->emit('updatePrices');
-        // }
-        // else{
-        //     $this->customer = null;
-        // }
-
-        // $this->redirectLink();
-
     }
 
     private function applySearchFilter($searchProductStation)
@@ -166,8 +147,17 @@ class InformationTable extends Component
                 $query->whereHas('product.parent', function ($quer) {
                    $quer->whereRaw("name LIKE \"%$this->searchTerm%\"")->orWhereRaw("code LIKE \"%$this->searchTerm%\"");
                 })
-                ->orWhere('station_id', 'like', '%' . $this->searchTerm . '%')
-                ->orWhere('order_id', 'like', '%' . $this->searchTerm . '%');
+                ->orWhereHas('order', function($q){
+                   $q->whereRaw("comment LIKE \"%$this->searchTerm%\"")
+                    ->orWhereRaw("folio LIKE \"%$this->searchTerm%\"")
+                    ->orWhere('request', 'like', '%' . $this->searchTerm . '%')
+                    ->orWhere('purchase', 'like', '%' . $this->searchTerm . '%')
+                    ->orWhere('invoice', 'like', '%' . $this->searchTerm . '%');
+                })
+                ->orWhereHas('station.personal', function ($quer) {
+                   $quer->whereRaw("name LIKE \"%$this->searchTerm%\"");
+                })
+                ->orWhere('station_id', 'like', '%' . $this->searchTerm . '%');
             });
         }
 

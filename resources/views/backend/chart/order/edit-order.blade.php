@@ -144,15 +144,13 @@
 
                   @if($model->branch_id === 0)
                   <div class="row mt-3">
-                    <div class="col-12 col-lg-12">
-                      @if($model->isQuotation())
-                        <x-input.input-alpine nameData="isRequest" :inputText="$isRequest" :originalInput="$isRequest" wireSubmit="saverequest" modelName="request" :extraName="__('Request n.º')" maxlength="300" className="" />
-                        @error('request') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
-                      @else
-                        @if($model->request)
-                          <strong>@lang('Request number'):</strong> {{ $model->request }}
-                        @endif
-                      @endif
+                    <div class="col-6 col-lg-6">
+                      <x-input.input-alpine nameData="isRequest" :inputText="$isRequest" :originalInput="$isRequest" wireSubmit="saverequest" modelName="request" :extraName="__('Request n.º')" maxlength="300" className="" />
+                      @error('request') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                    </div>
+                    <div class="col-6 col-lg-6">
+                      <x-input.input-alpine nameData="isPurchase" :inputText="$isPurchase" :originalInput="$isPurchase" wireSubmit="savepurchase" modelName="purchase" :extraName="__('Purchase order')" maxlength="300" className="" />
+                      @error('purchase') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
                   </div>
                   @endif
