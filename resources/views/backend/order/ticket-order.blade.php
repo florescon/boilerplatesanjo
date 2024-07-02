@@ -41,7 +41,7 @@ ventas@sj-uniformes.com
             </tr>
         </table>
 
-        <table width="100%">
+        <table width="100%" style="margin-top: -30px;">
             <tr>
               <td align="left"><strong>F. Generado:</strong> {{ $order->created_at->isoFormat('D, MMM YY - h:mm a') }}</td>
             </tr>
@@ -63,6 +63,31 @@ ventas@sj-uniformes.com
                 </td>
             </tr>
         </table>
+
+        @if($order->comment)
+            <table style="margin-bottom: 10px; margin-top: -20px;" width="100%">
+                <tr align="center">
+                    <th>
+                        @if($order->comment)
+                            {{ $order->info_customer ?? '' }}
+                            <br>
+                        @endif
+                        {{ $order->comment ?? '' }}
+                    </th>
+                </tr>
+            </table>
+        @endif
+
+        @if($order->observation)
+            <table style="margin-bottom: 10px;" width="100%">
+                <tr align="center">
+                    <th>
+                        {{ $order->observation ?? '' }}
+                    </th>
+                </tr>
+            </table>
+        @endif
+
 
         <table style="margin-bottom: 10px; text-align: center;" width="100%">
             <tr>

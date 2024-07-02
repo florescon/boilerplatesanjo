@@ -74,7 +74,7 @@ class MaterialController extends Controller
     {
         $validated = $request->validate([
             'part_number' => ['min:3', 'max:30', 'regex:/^\S*$/u', Rule::unique('materials')->ignore($material->id)],
-            'name' => ['required', 'min:3', 'max:40'],
+            'name' => ['required', 'min:3', 'max:70'],
             'price' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/'],
             'acquisition_cost' => ['nullable', 'numeric', 'sometimes', 'regex:/^\d+(\.\d{1,2})?$/'],
             'unit_id' => ['numeric', Rule::requiredIf(!$material->unit_id)],

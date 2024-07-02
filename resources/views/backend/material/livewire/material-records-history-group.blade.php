@@ -105,11 +105,17 @@
                     <div class="form-check-inline text-center">
                       <label>
                         {{ $appointment->sum }}<br>
-                        @lang('Stock')
+                        @lang('Sum of movements')
                       </label>
                     </div>
                   </div>
-                  <span class="badge {{ $appointment->class_stock }}  text-white">{{ $appointment->stock }}</span>
+                  @if($appointment->records == 1)
+                    <span class="badge {{ $appointment->class_stock }}  text-white">
+                      {{ $appointment->stock }}
+                    </span>
+                  @else
+                    {{ $appointment->sum }}
+                  @endif
                 </li>
                 @if($key > 3 && !$loop->last && !in_array($day, $myDate))
                   <li class="list-group-item d-flex justify-content-center align-items-start">

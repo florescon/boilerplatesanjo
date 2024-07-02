@@ -20,6 +20,7 @@ class Thread extends Model
         'code',
         'name',
         'vendor_id',
+        'brand_id',
     ];
 
     /**
@@ -28,6 +29,14 @@ class Thread extends Model
     public function vendor()
     {
         return $this->belongsTo(Vendor::class)->withTrashed();
+    }
+
+    /**
+     * Get the brand associated with the Thread.
+     */
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class)->withTrashed();
     }
 
 }

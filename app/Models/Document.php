@@ -31,7 +31,9 @@ class Document extends Model
         'height',
         'threads',
         'file_pdf',
-        'stitches'
+        'stitches',
+        'ppm',
+        'lapse',
     ];
 
     /**

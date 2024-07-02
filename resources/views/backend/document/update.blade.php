@@ -18,40 +18,77 @@
           <input wire:model.lazy="title" type="text" class="form-control"/>
           @error('title') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
-          <label class="mt-4">@lang('Width') (mm)</label>
-          <input wire:model.lazy="width" type="text" class="form-control"/>
-          @error('width') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+          <div class="row mt-2">
+            <div class="col">
+              <label>@lang('Width') (mm)</label>
+              <input type="text" wire:model.lazy="width" class="form-control" placeholder="{{ __('Width').' (mm)' }}">
+              @error('width') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+            </div>
+            <div class="col">
+              <label>@lang('Height') (mm)</label>
+              <input type="text" wire:model.lazy="height" class="form-control" placeholder="{{ __('Height').' (mm)' }}">
+              @error('height') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+            </div>
+          </div>
 
-          <label class="mt-4">@lang('Height') (mm)</label>
-          <input wire:model.lazy="height" type="text" class="form-control"/>
-          @error('height') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+          <div class="row mt-2">
+            <div class="col">
+              <label>@lang('Stitches')</label>
+              <input type="text" wire:model.lazy="stitches" class="form-control" placeholder="{{ __('Stitches') }}">
+              @error('stitches') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+            </div>
+            <div class="col">
+              <label>@lang('PPM')</label>
+              <input type="text" wire:model.lazy="ppm" class="form-control" placeholder="{{ __('Height') }}">
+              @error('ppm') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+            </div>
+          </div>
 
-          <label class="mt-4">
-            @lang('File DST')
-            <br>
-            {!! $file_dst_label !!}
-          </label>
-          
-          <input wire:model="file_dst" type="file" class="form-control-file"/>
-          @error('file_dst') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+          <div class="row">
+            <div class="col">
+              <label class="mt-4">
+                @lang('File DST')
+                <br>
+                {!! $file_dst_label !!}
+              </label>
+            
+              <input wire:model="file_dst" type="file" class="form-control-file"/>
+              @error('file_dst') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+            </div>
+            <div class="col">
+              <label class="mt-4">
+                @lang('File EMB')
+                <br>
+                {!! $file_emb_label !!}
+              </label>
+              
+              <input wire:model="file_emb" type="file" class="form-control-file"/>
+              @error('file_emb') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+            </div>
+          </div>
 
-          <label class="mt-4">
-            @lang('File EMB')
-            <br>
-            {!! $file_emb_label !!}
-          </label>
-          
-          <input wire:model="file_emb" type="file" class="form-control-file"/>
-          @error('file_emb') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+          <div class="row">
+            <div class="col">
+              <label class="mt-4">
+                @lang('File PDF')
+                <br>
+                {!! $file_pdf_label !!}
+              </label>
 
-          <label class="mt-4">
-            @lang('File PDF')
-            <br>
-            {!! $file_pdf_label !!}
-          </label>
-          
-          <input wire:model="file_pdf" type="file" class="form-control-file"/>
-          @error('file_pdf') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+              <input wire:model="file_pdf" type="file" class="form-control-file"/>
+              @error('file_pdf') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+            </div>
+
+            <div class="col">
+              <label class="mt-4">
+                @lang('Time') 00:00
+              </label>
+
+              <input wire:model.lazy="lapse" type="text" class="form-control"/>
+              @error('lapse') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+            </div>
+
+          </div>          
 
           <label class="mt-4">
             @lang('Image')
@@ -84,10 +121,6 @@
 
           <div wire:loading wire:target="image">@lang('Uploading')...</div>
           @error('image') <span class="text-danger">{{ $message }}</span> @enderror
-
-          <label class="mt-4">@lang('Stitches')</label>
-          <input wire:model.lazy="stitches" type="text" class="form-control"/>
-          @error('stitches') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
           <label class="mt-4">@lang('Comment')</label>
           <input wire:model.lazy="comment" type="text" class="form-control"/>

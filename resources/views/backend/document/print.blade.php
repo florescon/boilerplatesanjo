@@ -90,6 +90,18 @@
                     </tr>
                   @endif
 
+                  @if($document->ppm != 0)
+                    <tr style="background: rgba(42, 209, 157, 0.1); text-align: center;">
+                      <td><b class="cs-primary_color cs-semi_bold" style="background: rgba(42, 209, 157, 0.1);">@lang('PPM'):</b> {{ number_format($document->ppm, 0, '', ',') }} </td>
+                    </tr>
+                  @endif
+
+                  @if($document->lapse)
+                    <tr style="background: rgba(42, 209, 157, 0.1); text-align: center;">
+                      <td><b class="cs-primary_color cs-semi_bold" style="background: rgba(42, 209, 157, 0.1);">@lang('Time'):</b> {{ $document->lapse }} </td>
+                    </tr>
+                  @endif
+
                   @foreach($document->doc_threads->sortBy(['thread.name', 'asc']) as $key => $getThread)
                   <tr>
                     <td>

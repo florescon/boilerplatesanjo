@@ -25,6 +25,8 @@ class CreateProductStationReceivedsStatus extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_station_receiveds_status');
+        Schema::table('product_station_receiveds', function (Blueprint $table) {
+
+        });
     }
 }

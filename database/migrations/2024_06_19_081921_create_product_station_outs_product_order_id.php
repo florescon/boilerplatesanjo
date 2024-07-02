@@ -25,6 +25,8 @@ class CreateProductStationOutsProductOrderId extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_station_outs_product_order_id');
+        Schema::table('product_station_outs', function (Blueprint $table) {
+
+        });
     }
 }

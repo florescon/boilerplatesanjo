@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductStationReceivedsProductOrder extends Migration
+class CreateThreadsBrand extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class CreateProductStationReceivedsProductOrder extends Migration
      */
     public function up()
     {
-        Schema::table('product_station_receiveds', function (Blueprint $table) {
-            $table->unsignedBigInteger('product_order_id')->nullable();
+        Schema::table('threads', function (Blueprint $table) {
+            $table->unsignedBigInteger('brand_id')->nullable();
         });
     }
 
@@ -25,7 +25,7 @@ class CreateProductStationReceivedsProductOrder extends Migration
      */
     public function down()
     {
-        Schema::table('product_station_receiveds', function (Blueprint $table) {
+        Schema::table('threads', function (Blueprint $table) {
 
         });
     }

@@ -24,6 +24,24 @@
                 </td>
               </tr>
               <tr>
+                <th scope="row">@lang('Stitches')</th>
+                <td>          
+                  {!! $stitches !!}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">@lang('PPM')</th>
+                <td>          
+                  {{ $ppm }}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">@lang('Time')</th>
+                <td>          
+                  {{ $lapse }}
+                </td>
+              </tr>
+              <tr>
                 <th scope="row">@lang('File DST')</th>
                 <td>          
                   {!! $file_dst !!}
@@ -39,12 +57,6 @@
                 <th scope="row">@lang('File PDF')</th>
                 <td>          
                   {!! $file_pdf !!}
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">@lang('Stitches')</th>
-                <td>          
-                  {!! $stitches !!}
                 </td>
               </tr>
               <tr>

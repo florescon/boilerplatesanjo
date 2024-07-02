@@ -48,6 +48,8 @@ class DocumentTable extends Component
 
     public $width, $height, $file_pdf;
 
+    public $ppm, $lapse;
+
     public $photoStatus;
 
     public $created, $updated, $deleted, $selected_id;
@@ -61,6 +63,7 @@ class DocumentTable extends Component
         'height' => 'sometimes|integer|min:1|max:500',
         'comment' => 'nullable|max:300',
         'stitches' => 'sometimes|integer|min:1|max:9999999',
+        'ppm' => 'nullable|integer|min:0|max:1200',
         'image' => 'nullable|image|max:5048',
     ];
 
@@ -163,6 +166,7 @@ class DocumentTable extends Component
             $documentModel->file_pdf = $this->file_pdf ? $filePDF : null;
             $documentModel->image = $this->image ? $imageName : null;
             $documentModel->comment = $this->comment ?? null;
+            $documentModel->ppm = $this->ppm ?? 0;
             $documentModel->width = $this->width ?? null;
             $documentModel->height = $this->height ?? null;
             $documentModel->stitches = $this->stitches ?? 0;
@@ -176,7 +180,7 @@ class DocumentTable extends Component
         else {
             $this->emit('swal:alert', [
                 'icon' => 'warning',
-                'title'   => 'No puedes crear algo en blanco :)', 
+                'title'   => 'No puedes crear alppmgo en blanco :)', 
             ]);
         }
 
@@ -200,6 +204,9 @@ class DocumentTable extends Component
         $this->file_emb = null;
         $this->file_pdf = null;
 
+        $this->ppm = $record->ppm;
+        $this->lapse = $record->lapse;
+
         $this->image = null;
         $this->comment = $record->comment;
         $this->stitches = $record->stitches;
@@ -217,6 +224,8 @@ class DocumentTable extends Component
         $this->stitches = number_format($record->stitches, 0, '', ',');        
         $this->comment = $record->comment;
         $this->width = $record->width;
+        $this->ppm = $record->ppm;
+        $this->lapse = $record->lapse;
         $this->height = $record->height;
         $this->imageShow = $record->image;
         $this->is_enabled = $record->is_enabled_document;
@@ -233,6 +242,8 @@ class DocumentTable extends Component
             'width' => 'sometimes|integer|min:1|max:500',
             'height' => 'sometimes|integer|min:1|max:500',
             'stitches' => 'sometimes|integer|min:1|max:9999999',
+            'ppm' => 'nullable|integer|min:0|max:1200',
+            'lapse' => 'nullable|date_format:i:s',
         ];
 
         if ($this->file_dst) {
@@ -265,6 +276,8 @@ class DocumentTable extends Component
                 'width' => $this->width,
                 'height' => $this->height,
                 'stitches' => $this->stitches,
+                'ppm' => $this->ppm ?? 0,
+                'lapse' => $this->lapse,
             ]);
 
             $this->resetInputFields();
@@ -290,6 +303,7 @@ class DocumentTable extends Component
         $this->height = '';
         $this->image = null;
         $this->stitches = 0;
+        $this->lapse = '';
     }
 
     public function export()

@@ -25,6 +25,8 @@ class CreateDocumentCustomer extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('document_customer');
+        Schema::table('documents', function (Blueprint $table) {
+
+        });
     }
 }

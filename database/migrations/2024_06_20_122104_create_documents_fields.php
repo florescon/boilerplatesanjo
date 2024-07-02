@@ -28,6 +28,8 @@ class CreateDocumentsFields extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('documents_fields');
+        Schema::table('documents', function (Blueprint $table) {
+
+        });
     }
 }

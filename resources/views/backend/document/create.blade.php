@@ -32,12 +32,23 @@
 
           <div class="form-row">
             <div class="form-group col-md-6">
-              <label class="mt-4">@lang('File DST')</label>
+              <label>@lang('Stitches')</label>
+              <input wire:model.lazy="stitches" type="text" class="form-control"/>
+              @error('stitches') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+            </div>
+            <div class="form-group col-md-6">
+              <label>@lang('PPM')</label>
+              <input wire:model.lazy="ppm" type="text" class="form-control"/>
+              @error('ppm') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label class="">@lang('File DST')</label>
               <input type="file" class="form-control-file" id="file_dst" wire:model.lazy="file_dst" @if(!$file_dst) value="" @endif>
               @error('file_dst') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
-            </div>
 
-            <div class="form-group col-md-6">
               @if($file_dst)
                   <div wire:loading.remove wire:target="file_dst" class="mt-4"> 
                       <div class="float-left">
@@ -48,16 +59,12 @@
                   </div>
               @endif
             </div>
-          </div>
 
-          <div class="form-row">
             <div class="form-group col-md-6">
-              <label class="mt-4">@lang('File EMB')</label>
+              <label class="">@lang('File EMB')</label>
               <input type="file" class="form-control-file" id="file_emb" wire:model.lazy="file_emb" @if(!$file_emb) value="" @endif>
               @error('file_emb') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
-            </div>
 
-            <div class="form-group col-md-6">
               @if($file_emb)
                   <div wire:loading.remove wire:target="file_emb" class="mt-4"> 
                       <div class="float-left">
@@ -75,9 +82,7 @@
               <label class="mt-4">@lang('File PDF')</label>
               <input type="file" class="form-control-file" id="file_pdf" wire:model.lazy="file_pdf" @if(!$file_pdf) value="" @endif>
               @error('file_pdf') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
-            </div>
 
-            <div class="form-group col-md-6">
               @if($file_pdf)
                   <div wire:loading.remove wire:target="file_pdf" class="mt-4"> 
                       <div class="float-left">
@@ -87,6 +92,11 @@
                       </div>
                   </div>
               @endif
+            </div>
+            <div class="form-group col-md-6">
+              <label>@lang('Time') 00:00 </label>
+              <input wire:model.lazy="lapse" type="text" class="form-control"/>
+              @error('lapse') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
             </div>
           </div>
 
@@ -133,10 +143,6 @@
                 @endif
 
             </div><!--form-group-->
-
-          <label class="mt-4">@lang('Stitches')</label>
-          <input wire:model.lazy="stitches" type="text" class="form-control"/>
-          @error('stitches') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
           <label class="mt-4">@lang('Comment')</label>
           <input wire:model.lazy="comment" type="text" class="form-control"/>

@@ -25,6 +25,8 @@ class CreateDocumentStitches extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('document_stitches');
+        Schema::table('documents', function (Blueprint $table) {
+
+        });
     }
 }

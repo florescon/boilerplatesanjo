@@ -23,9 +23,9 @@
         </tr>
 
         <tr>
-          <th scope="row">@lang('Vendor')</th>
+          <th scope="row">@lang('Brand')</th>
           <td>   
-            <x-utils.undefined :data="$vendor"/>
+            <x-utils.undefined :data="$brand"/>
           </td>
         </tr>
 

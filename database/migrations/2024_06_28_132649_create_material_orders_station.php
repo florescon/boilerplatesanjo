@@ -30,6 +30,8 @@ class CreateMaterialOrdersStation extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('material_orders_station');
+        Schema::table('material_orders', function (Blueprint $table) {
+
+        });
     }
 }

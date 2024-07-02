@@ -103,7 +103,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @foreach($groupedMaterials  as $assign)
+                  @foreach($groupedMaterials->sortBy('material')  as $assign)
                   <tr>
                     <td scope="row">
                         {!! $assign['material'] !!}

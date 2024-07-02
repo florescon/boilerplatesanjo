@@ -253,7 +253,7 @@ class OrderTable extends Component
     {
         $this->searchTerm = '';
         $this->resetPage();
-        $this->perPage = '5';
+        $this->perPage = '10';
     }
 
     public function clearAll()
@@ -262,7 +262,7 @@ class OrderTable extends Component
         $this->dateOutput = '';
         $this->searchTerm = '';
         $this->resetPage();
-        $this->perPage = '5';
+        $this->perPage = '10';
         $this->emit('clear-status-order');
     }
 

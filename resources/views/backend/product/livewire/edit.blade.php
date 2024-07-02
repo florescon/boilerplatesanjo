@@ -80,7 +80,7 @@
 				    <h5 class="card-title">
 				    	<strong>
 				    
-                  			<x-input.input-alpine nameData="isName" :inputText="$isName" :originalInput="$isName" wireSubmit="savename" modelName="name" maxlength="200" />
+                  			<x-input.input-alpine nameData="isName" :inputText="$isName" :originalInput="$isName" wireSubmit="savename" modelName="name" maxlength="200" :extraName="__('Name')" />
 
 				    	</strong>
 				    </h5>
@@ -89,7 +89,7 @@
 			      
 			      <div class="card-body">
 
-	                <x-input.input-alpine nameData="isCode" :inputText="$isCode" :originalInput="$isCode" wireSubmit="savecode" modelName="code" />
+	                <x-input.input-alpine nameData="isCode" :inputText="$isCode" :originalInput="$isCode" wireSubmit="savecode" modelName="code" :extraName="__('Code')" />
 
                     @error('code') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
@@ -214,7 +214,7 @@
 
           			<x-input.input-alpine nameData="isPriceMaking" :inputText="$isPriceMaking" :originalInput="$isPriceMaking" wireSubmit="savepricemaking" :beforeName="'$'" :extraName="__('price of confeccion service')" modelName="price_making" />
 
-          			<x-input.input-alpine nameData="isPriceMakingExtra" :inputText="$isPriceMakingExtra" :originalInput="$isPriceMakingExtra" wireSubmit="savepricemakingextra" :beforeName="'$'" :extraName="__('extra price of confeccion service')" modelName="price_making_extra" />
+          			<x-input.input-alpine nameData="isPriceMakingExtra" :inputText="$isPriceMakingExtra" :originalInput="$isPriceMakingExtra" wireSubmit="savepricemakingextra" :beforeName="'$'" :extraName="__('extra size price of confeccion service')" modelName="price_making_extra" />
 
 			        <p class="card-text mt-4"><strong>@lang('Updated at'): </strong>{{ $model->updated_at }}</p>
 			        <p class="card-text"><strong>@lang('Created at'): </strong>{{ $model->created_at }}</p>

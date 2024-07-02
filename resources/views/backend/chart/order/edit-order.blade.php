@@ -103,7 +103,7 @@
 
                   <div class="row mt-3">
                     <div class="col-6 col-lg-6">
-                      <x-input.input-alpine nameData="isDate" :inputText="$isDate" :originalInput="$isDate" wireSubmit="savedate" modelName="date_entered" inputType="date" className=""/>
+                      <x-input.input-alpine nameData="isDate" :inputText="$isDate" :originalInput="$isDate" wireSubmit="savedate" modelName="date_entered" inputType="date" className="" :extraName="__('Date')" />
 
                     </div>
                     <div class="col-6 col-lg-6">
@@ -113,21 +113,21 @@
                   <div class="row mt-3">
                     <div class="col-12 col-lg-12">
                       {{-- {{ $model->info_customer }} --}}
-                      <x-input.input-alpine nameData="isInfo_customer" :inputText="$isInfo_customer" :originalInput="$isInfo_customer" wireSubmit="saveinfocustomer" modelName="info_customer" maxlength="300" className="" />
+                      <x-input.input-alpine nameData="isInfo_customer" :inputText="$isInfo_customer" :originalInput="$isInfo_customer" wireSubmit="saveinfocustomer" modelName="info_customer" maxlength="300" className="" :extraName="__('Info customer')" />
                       @error('info_customer') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
                   </div>
                   <div class="row mt-3">
                     <div class="col-12 col-lg-12">
                       {{-- {{ $model->comment }} --}}
-                      <x-input.input-alpine nameData="isComment" :inputText="$isComment" :originalInput="$isComment" wireSubmit="savecomment" modelName="comment" maxlength="300" className="" />
+                      <x-input.input-alpine nameData="isComment" :inputText="$isComment" :originalInput="$isComment" wireSubmit="savecomment" modelName="comment" maxlength="300" className="" :extraName="__('Comment')" />
                       @error('comment') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
                   </div>
                   <div class="row mt-3">
                     <div class="col-12 col-lg-12">
                       {{-- {{ $model->comment }} --}}
-                      <x-input.input-alpine nameData="isObservation" :inputText="$isObservation" :originalInput="$isObservation" wireSubmit="saveobservation" modelName="observation" maxlength="300" className="" />
+                      <x-input.input-alpine nameData="isObservation" :inputText="$isObservation" :originalInput="$isObservation" wireSubmit="saveobservation" modelName="observation" maxlength="300" className="" :extraName="__('Observations')"  />
                       @error('observation') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
                   </div>
@@ -136,7 +136,7 @@
                     <div class="row mt-3">
                       <div class="col-12 col-lg-12">
                         {{-- {{ $model->discount }} --}}
-                        <x-input.input-alpine nameData="isDiscount" :inputText="$isDiscount" :originalInput="$isDiscount" wireSubmit="savediscount" modelName="discount" maxlength="300" className="" />
+                        <x-input.input-alpine nameData="isDiscount" :inputText="$isDiscount" :originalInput="$isDiscount" wireSubmit="savediscount" modelName="discount" maxlength="300" className="" :extraName="__('Discount')" />
                         @error('discount') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                       </div>
                     </div>
@@ -146,7 +146,7 @@
                   <div class="row mt-3">
                     <div class="col-12 col-lg-12">
                       @if($model->isQuotation())
-                        <x-input.input-alpine nameData="isRequest" :inputText="$isRequest" :originalInput="$isRequest" wireSubmit="saverequest" modelName="request" maxlength="300" className="" />
+                        <x-input.input-alpine nameData="isRequest" :inputText="$isRequest" :originalInput="$isRequest" wireSubmit="saverequest" modelName="request" :extraName="__('Request n.º')" maxlength="300" className="" />
                         @error('request') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                       @else
                         @if($model->request)

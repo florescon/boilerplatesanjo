@@ -5,18 +5,22 @@ namespace App\Http\Livewire\Backend\Thread;
 use App\Models\Thread;
 use Livewire\Component;
 use App\Models\Vendor;
+use App\Models\Brand;
 
 class EditThread extends Component
 {
     public $selected_id, $name, $code;
 
+    public $brand_id;
     public $vendor_id;
     
+    public $brands;    
+
     protected $listeners = ['edit'];
 
     public function mount()
     {
-        $this->vendors = Vendor::all();
+        $this->brands = Brand::all();
     }
 
     public function edit($id)
@@ -37,9 +41,9 @@ class EditThread extends Component
             'code' => 'required|min:3|max:50|unique:threads,code,'.$this->selected_id,
         ]);
 
-        if(!$record->vendor_id){
+        if(!$record->brand_id){
             $this->validate([
-                'vendor_id' => 'required|integer',
+                'brand_id' => 'required|integer',
             ]);
         }
 
@@ -48,7 +52,7 @@ class EditThread extends Component
             $thread->update([
                 'name' => $this->name,
                 'code' => $this->code,
-                'vendor_id' => $this->vendor_id ? $this->vendor_id : $record->vendor_id,
+                'brand_id' => $this->brand_id ? $this->brand_id : $record->brand_id,
             ]);
             // $this->resetInputFields();
         }
