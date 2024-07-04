@@ -40,6 +40,13 @@
 
         @if($station->date_entered)
             <table width="100%">
+                @if($station->service_type_id)
+                    <tr>
+                        <td align="center">
+                            <h2><strong>{{ ucwords(optional($station->service_type)->name) }}</strong></h2>
+                        </td>
+                    </tr>
+                @endif
                 <tr>
                     <td align="left">
                         <strong>Fecha:</strong> 
@@ -69,7 +76,7 @@
         <table style="margin-bottom: 25px; text-align: center;" width="100%">
             <tr>
                 @if($station->personal)
-                    <td><strong>Asignado a:</strong> {{ optional($station->personal)->name }}</td>
+                    <td><strong>Asignado a:</strong> {{ ucwords(strtolower(optional($station->personal)->name)) }}</td>
                 @endif
             </tr>
             <tr>

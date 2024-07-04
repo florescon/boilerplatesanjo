@@ -15,7 +15,7 @@
 				<div class="row align-items-center">
 					<div class="col-md-6">
 						<div class="page-header-title">
-							<h5 class="m-b-10"><i class="fas fa-store"></i> Producción - {{ ucfirst(now()->monthName).' '.now()->format('j, Y') }}</h5>
+							<h5 class="m-b-10"><i class="cil-color-fill"></i> Producción - {{ ucfirst(now()->monthName).' '.now()->format('j, Y') }}</h5>
 							<p class="m-b-0">{{ partDay() }} {{ Auth::user()->name }}</p>
 						</div>
 					</div>

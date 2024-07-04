@@ -78,6 +78,25 @@ const SwalAlert = (icon, title, timeout = 4000) => {
     })
 }
 
+const SwalInput = (title, input, inputOptions, inputPlaceholder, showCancelButton, getId, method) => {
+    Swal.fire({
+      title,
+      input,
+      inputOptions,
+      inputPlaceholder,
+      showCancelButton,
+      inputValidator: (value) => {
+        return new Promise((resolve) => {
+          if (value === "") {
+            resolve("Necesitas seleccionar algo :)");
+          } else {
+            resolve();
+            window.livewire.emit(method, getId, value);
+          }
+        });
+      }
+    })
+}
 
 window.addEventListener('DOMContentLoaded', () => { 
 
@@ -91,6 +110,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
     this.livewire.on('swal:alert', data => {
         SwalAlert(data.icon, data.title, data.timeout)
+    })
+
+    this.livewire.on('swal:input', data => {
+        SwalInput(data.title, data.input, data.inputOptions, data.inputPlaceholder, data.showCancelButton, data.getId, data.method)
     })
 
 })

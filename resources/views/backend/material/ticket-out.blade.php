@@ -124,5 +124,14 @@
         </tr>
       </table>
 
+        <table width="100%" style="margin-top:30px;">
+            <thead style="background-color: white;">
+
+                <tr align="right">
+                    <td> <em style="font-size: 80%;">{{ printed() }}</em></td>
+                </tr>
+            </thead>
+        </table>
+
     </body>
 </html>

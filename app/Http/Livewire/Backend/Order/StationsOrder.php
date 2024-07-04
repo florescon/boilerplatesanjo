@@ -10,6 +10,7 @@ use App\Models\ProductOrder;
 use App\Models\Product;
 use App\Models\Material;
 use App\Models\ProductStation;
+use App\Models\ServiceType;
 use App\Models\BatchProduct;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -56,6 +57,7 @@ class StationsOrder extends Component
         'makeOutputEmited', 
         'sendToStockEmmited', 
         'save',
+        'saveInStation',
         'saveFromSupplier',
         'saveFromInitialProcess',
         'deleteStation', 
@@ -92,8 +94,24 @@ class StationsOrder extends Component
         ]);
     }
 
-    public function saveInStation($station_id)
+    public function saveInStation($station_id, ?int $serviceType = null)
     {
+        if($this->status->not_restricted && $this->status->to_add_users && is_null($serviceType)){
+
+            $servicesType = ServiceType::select(['id', 'name'])->orderBy('name')->get();
+            $inputOptions = $servicesType->pluck('name', 'id')->toArray();
+
+            return $this->emit('swal:input', [
+                'title' => __('Select'),
+                'input' => 'select',
+                'inputOptions' => $inputOptions,
+                'getId' => $station_id,
+                'showCancelButton' => true,
+                'method' => 'saveInStation',
+                'inputPlaceholder' => __('Select a service type'),
+            ]);
+        }
+
         $orderModel = Order::with('products')->find($this->order_id);
         $getStation = Station::whereId($station_id)->first();
 
@@ -140,6 +158,7 @@ class StationsOrder extends Component
                 'last_modified_audi_id' => Auth::id(),
                 'station_id' => $station_id,
                 'active' => true,
+                'service_type_id' => $serviceType,
             ]);
 
             $orderModel->stations()->save($batch);
@@ -843,16 +862,21 @@ class StationsOrder extends Component
 
         // Verificar si el stock es menor a la cantidad requerida.
         foreach ($allMaterials as $materialId => $material) {
+            if($material['quantity'] == 0){
+                continue;
+            }
+
             $materialModel = Material::find($materialId);
 
             if (!$materialModel || $materialModel->stock < $material['quantity']) {
-                $errors->push([
-                    'material_name' => $material['material_name'],
-                    'part_number' => $material['part_number'],
-                    'required_quantity' => $material['quantity'],
-                    'unit_measurement' => $material['unit_measurement'],
-                    'available_stock' => $materialModel->stock ?? 0,
-                ]);
+
+                    $errors->push([
+                        'material_name' => $material['material_name'],
+                        'part_number' => $material['part_number'],
+                        'required_quantity' => $material['quantity'],
+                        'unit_measurement' => $material['unit_measurement'],
+                        'available_stock' => $materialModel->stock ?? 0,
+                    ]);
             }
         }
 
@@ -861,7 +885,8 @@ class StationsOrder extends Component
             $errorMessages = $errors->map(function ($error) {
                 return __("
                     <br>
-                    <b>{$error['material_name']}</b> (Código: {$error['part_number']}) <br> Cantidad Requerida: {$error['required_quantity']} {$error['unit_measurement']}, <br> Existencia: {$error['available_stock']} {$error['unit_measurement']}");
+                    <b>
+                       <a class='text-primary' href='/admin/material?search={$error['part_number']}&editStock=true' target='_blank'> {$error['material_name']}</a></b> (Código: {$error['part_number']}) <br> Cantidad Requerida: {$error['required_quantity']} {$error['unit_measurement']}, <br> Existencia: {$error['available_stock']} {$error['unit_measurement']}");
             })->implode('<br><br>');
 
             return $this->emit('swal:modal', [
@@ -1067,10 +1092,12 @@ class StationsOrder extends Component
 
         $this->emitUpdatedQuantity();
 
+        $imageUrl = asset('img/inventory.png'); // Genera la URL completa de la imagen
+
         return $this->emit('swal:confirm', [
             'icon' => 'question',
-            'title' => '¿Crear?',
-            'html' => 'Capturado: '.$this->sumValue.' productos',
+            'title' => '¿Crear y hacer uso de Inventario?',
+            'html' => '<img src="' . $imageUrl . '" alt="Logo" style="width: 200px; height: auto;"><br><br>Capturado: ' . $this->sumValue . ' productos <br>',
             'confirmText' => '¿Desea confirmar?',
             'method' => (string) $getMethod,
         ]);

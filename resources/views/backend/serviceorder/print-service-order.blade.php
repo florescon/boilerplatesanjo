@@ -78,7 +78,7 @@
       <table width="100%">
         <tr>
             <td><strong>Realizó:</strong> {{ optional($service->personal)->name }} </td>
-            <td><strong>Autorizó:</strong> {{ optional($service->authorized)->name }} </td>
+            <td width="20%"><strong>Autorizó:</strong> {{ optional($service->authorized)->name }} </td>
         </tr>
 
         <tr>
@@ -89,7 +89,7 @@
         </tr>
         <tr>
             <td><strong>Comentario:</strong> {{ $service->comment }} </td>
-            <td><strong>Dimensiones:</strong> {{ $service->dimensions }}</td>
+            <td width="20%"><strong>Dimensiones:</strong> {{ $service->dimensions }}</td>
         </tr>
 
       </table>
@@ -164,7 +164,7 @@
       <table width="100%">
         <tr>
             <td><strong>Realizó:</strong> {{ optional($service->personal)->name }} </td>
-            <td><strong>Autorizó:</strong> {{ optional($service->authorized)->name }} </td>
+            <td width="20%"><strong>Autorizó:</strong> {{ optional($service->authorized)->name }} </td>
         </tr>
 
         <tr>
@@ -175,7 +175,7 @@
         </tr>
         <tr>
             <td><strong>Comentario:</strong> {{ $service->comment }} </td>
-            <td><strong>Dimensiones:</strong> {{ $service->dimensions }}</td>
+            <td width="20%"><strong>Dimensiones:</strong> {{ $service->dimensions }}</td>
         </tr>
 
       </table>

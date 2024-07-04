@@ -130,4 +130,16 @@ class MaterialController extends Controller
         ->paginate(5);
         return response()->json(['items' => $data->toArray()['data'], 'pagination' => $data->nextPageUrl() ? true : false]);
     }
+
+    public function search(Request $request)
+    {
+        $search = $request->get('search');
+
+        $threads = Material::query()
+            ->where('name', 'like', '%' . $search . '%')
+            ->orWhere('code', 'like', '%' . $search . '%')
+            ->paginate(5);
+
+        return response()->json($threads);
+    }
 }

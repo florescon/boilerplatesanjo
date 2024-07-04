@@ -10,9 +10,6 @@
     </x-slot>
     <x-slot name="body">
 
-          <div class="alert alert-primary" role="alert">
-              @lang('Workstation') <a href="#" class="alert-link">{{ $status_name }}</a>.
-          </div>
 
           <div class="row">
             <div class="col-sm-7 mt-2">
@@ -60,7 +57,7 @@
                               @endif
                               {!! $product->isQuantityMatched() ? '<i class="cil-check" style="color: blue;"></i>' : '' !!}
                             </div>
-                            <div class="{{ $status->initial_process ? 'col-5' : 'col-6' }}">
+                            <div class="{{ ($status->initial_process || $status->supplier) ? 'col-5' : 'col-6' }}">
                               <div class="row d-flex">
                                 <p><b>{!!  $product->product->isProduct() ? '['.optional($product->product)->parent->code.'] ' : '' !!} {!! $product->product->only_name_link !!}</b></p>
                               </div>
@@ -78,7 +75,7 @@
                               @endif
                             </div>
                             {{--  --}}
-                            @if($status->initial_process)
+                            @if($status->initial_process || $status->supplier)
 
                               <div class="col-1 d-flex justify-content-end text-center {{( $product->product->stock > 0) ? 'text-info' : 'text-danger' }}">
                                   <p><b>{{ $product->product->stock }} {{( $product->product->stock > 0) ? '[E]' : '' }}</b></p>
@@ -220,8 +217,10 @@
                             <div class="col-md-12 grid-margin stretch-card">
                               <div class="card">
                                 <div class="card-body">
-                                  <h4 class="card-title">{{ ucfirst($status_name) }}</h4>
-                                  <p class="card-description">Datos necesarios</p>
+                                  <h3 class="card-title text-danger text-center">
+                                    {{ ucfirst($status_name) }}
+                                  </h3>
+                                  <p class="card-description">@lang('About it')</p>
                                   <div class="template-demo">
                                     <table class="table mb-0 table-sm">
                                       <thead>
@@ -290,13 +289,17 @@
                       <div class="price"><strong>#{{ $station->id }}</strong> / {{ ucfirst($status->short_name) }} <span class="glyphicon glyphicon-ok"></span></div>
                       <div class="pricing-body">
 
-                          {{ $station->comment }}
+                          <livewire:backend.components.edit-field :model="'\App\Models\Station'" :entity="$station" :field="'comment'" :key="'stations'.$station->id"/>
 
-                          <br><br>
+                          <br>
 
                           @if($status->to_add_users)
                             <div class="form-group mb-3">
-                                <label for="user-select-{{ $station->id }}">Seleccionar Usuario</label>
+                                @if($station->service_type_id)
+                                  <h2 class="text-center">{{ ucwords(optional($station->service_type)->name) }}</h2>
+                                @endif
+  
+                                <label class="mt-2" for="user-select-{{ $station->id }}">Seleccionar Usuario</label>
                                 <select id="user-select-{{ $station->id }}" wire:change="savePersonalId({{ $station->id }}, $event.target.value)" class="form-control" onfocus="disableKeyUpDown({{ $station->id }})">
                                     <option value="">Seleccionar</option>
                                     @foreach($users as $user)
@@ -355,7 +358,7 @@
                                   @else
                                     <a href="{{ route('admin.station.checklist', $station->id) }}" target="_blank" class="list-group-item list-group-item-action"> Checklist <i class="fas fa-external-link-alt m-1"></i></a>
 
-                                    <a href="{{ route('admin.station.checklist_ticket', $station->id) }}" target="_blank" class="list-group-item list-group-item-action"> Consumido - Ticket <i class="fas fa-external-link-alt m-1"></i></a>
+                                    <a href="{{ route('admin.station.checklist_ticket', $station->id) }}" target="_blank" class="list-group-item list-group-item-action list-group-item-success"> Consumido - Ticket <i class="fas fa-external-link-alt m-1"></i></a>
                                   @endif
 
                                   @if(!$station->consumption)
@@ -377,9 +380,9 @@
                                 @if($status->initial_lot)
                                   <a href="{{ route('admin.order.ticket_materia_station', [$order_id, $station->id]) }}" target="_blank" class="list-group-item list-group-item-action"> Ver BOM  <i class="fas fa-external-link-alt m-1"></i></a>
                                 @endif
-                                <a href="{{ route('admin.station.edit', $station->id) }}" target="_blank" class="list-group-item list-group-item-action"> Detalles <i class="fas fa-external-link-alt m-1"></i></a>
-
                                 <a href="{{ route('admin.station.ticket', $station->id) }}" target="_blank" class="list-group-item list-group-item-action"> <i class="cil-print"></i> Ticket <i class="fas fa-external-link-alt m-1"></i></a>
+
+                                <a href="{{ route('admin.station.edit', $station->id) }}" target="_blank" class="list-group-item list-group-item-action"> Detalles <i class="fas fa-external-link-alt m-1"></i></a>
 
                                 @if($status->final_process)
                                   <a wire:click="makeOutput({{ $station->id }})" class="list-group-item list-group-item-action">Dar Salida <i class="cil-arrow-thick-right"></i> </a>
@@ -409,7 +412,7 @@
             @if($status->batch && !$status->initial_lot)
               @foreach($model->lot_stations as $station)
                 <div class="col-md-4 col-sm-6">
-                    <div class="pricing-table-3 {{ $status->batch ? 'basic' : '' }} {{ !$station->active ? 'disabled' : '' }}" style="border: 4px solid blue;">
+                    <div class="pricing-table-3 {{ $status->batch ? 'basic' : '' }} {{ !$station->active ? 'disabled' : '' }}" style="border: dashed 5px green;">
                         <div class="pricing-table-header">
                             <h4><strong>@lang('Tracking')</strong></h4>
                             <p><span class="badge badge-danger">Lote</span> {{ ucfirst(optional($station->status)->name) }}</p>
@@ -497,7 +500,7 @@
             @if($status->process && !$status->initial_process)
               @foreach($model->process_stations as $station)
                 <div class="col-md-4 col-sm-6">
-                    <div class="pricing-table-3 {{ $status->process ? 'business' : '' }} {{ !$station->active ? 'disabled' : '' }}" style="border: 4px solid blue;">
+                    <div class="pricing-table-3 {{ $status->process ? 'business' : '' }} {{ !$station->active ? 'disabled' : '' }}" style="border: dashed 5px green;">
                         <div class="pricing-table-header">
                             <h4><strong>@lang('Process') {{ $station->id }}</strong></h4>
                             <p><span class="badge badge-danger">Seguimiento</span> {{ ucfirst(optional($station->status)->name) }}</p>
