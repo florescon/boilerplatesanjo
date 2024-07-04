@@ -25,6 +25,8 @@ class CreateSizeExtra extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('size_extra');
+        Schema::table('sizes', function (Blueprint $table) {
+
+        });
     }
 }

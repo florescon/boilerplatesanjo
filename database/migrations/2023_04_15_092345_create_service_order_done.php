@@ -25,6 +25,8 @@ class CreateServiceOrderDone extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('service_order_done');
+        Schema::table('service_orders', function (Blueprint $table) {
+
+        });
     }
 }

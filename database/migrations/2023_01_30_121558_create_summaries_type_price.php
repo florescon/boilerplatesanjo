@@ -26,6 +26,8 @@ class CreateSummariesTypePrice extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('summaries_type_price');
+        Schema::table('summaries', function (Blueprint $table) {
+
+        });
     }
 }

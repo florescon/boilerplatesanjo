@@ -25,6 +25,8 @@ class CreateCartsPriceiva extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('carts_priceiva');
+        Schema::table('carts', function (Blueprint $table) {
+
+        });
     }
 }

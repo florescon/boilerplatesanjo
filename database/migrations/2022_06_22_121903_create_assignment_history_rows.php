@@ -27,6 +27,8 @@ class CreateAssignmentHistoryRows extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('assignment_history_rows');
+        Schema::table('assignment_histories', function (Blueprint $table) {
+
+        });
     }
 }

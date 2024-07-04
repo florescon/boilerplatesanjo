@@ -29,6 +29,8 @@ class CreateSettingsPrices extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('settings_prices');
+        Schema::table('settings', function (Blueprint $table) {
+
+        });
     }
 }

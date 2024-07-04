@@ -25,6 +25,8 @@ class CreateCartFeedstocksChangeQuantity extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cart_feedstocks_change_quantity');
+        Schema::table('cart_feedstocks', function (Blueprint $table) {
+
+        });
     }
 }

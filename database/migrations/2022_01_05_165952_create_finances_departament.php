@@ -25,6 +25,8 @@ class CreateFinancesDepartament extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('finances_departament');
+        Schema::table('finances', function (Blueprint $table) {
+
+        });
     }
 }

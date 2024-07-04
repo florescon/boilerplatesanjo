@@ -25,6 +25,8 @@ class CreateProductsCost extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('products_cost');
+        Schema::table('products', function (Blueprint $table) {
+
+        });
     }
 }

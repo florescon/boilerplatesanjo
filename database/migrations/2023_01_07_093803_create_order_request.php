@@ -25,6 +25,8 @@ class CreateOrderRequest extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('order_request');
+        Schema::table('orders', function (Blueprint $table) {
+
+        });
     }
 }

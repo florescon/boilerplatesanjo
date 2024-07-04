@@ -25,6 +25,8 @@ class CreateOrderChangeTypeFolio extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('order_change_type_folio');
+        Schema::table('orders', function (Blueprint $table) {
+
+        });
     }
 }

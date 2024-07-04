@@ -25,6 +25,8 @@ class CreateVendorShortName extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('vendor_short_name');
+        Schema::table('vendors', function (Blueprint $table) {
+
+        });
     }
 }

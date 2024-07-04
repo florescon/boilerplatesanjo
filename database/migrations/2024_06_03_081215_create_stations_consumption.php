@@ -25,6 +25,8 @@ class CreateStationsConsumption extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('stations_consumption');
+        Schema::table('stations', function (Blueprint $table) {
+
+        });
     }
 }

@@ -34,6 +34,8 @@ class CreateProductHistoryFields extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_history_fields');
+        Schema::table('product_histories', function (Blueprint $table) {
+
+        });
     }
 }

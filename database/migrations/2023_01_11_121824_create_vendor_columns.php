@@ -32,6 +32,8 @@ class CreateVendorColumns extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('vendor_columns');
+        Schema::table('vendors', function (Blueprint $table) {
+
+        });
     }
 }

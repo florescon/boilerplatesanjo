@@ -25,6 +25,8 @@ class CreateOrderFromQuotation extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('order_from_quotation');
+        Schema::table('orders', function (Blueprint $table) {
+
+        });
     }
 }

@@ -26,6 +26,8 @@ class CreateInventoryType extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('inventory_type');
+        Schema::table('inventories', function (Blueprint $table) {
+
+        });
     }
 }

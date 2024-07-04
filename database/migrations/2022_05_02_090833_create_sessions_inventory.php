@@ -27,6 +27,8 @@ class CreateSessionsInventory extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sessions_inventory');
+        Schema::table('sessions', function (Blueprint $table) {
+
+        });
     }
 }

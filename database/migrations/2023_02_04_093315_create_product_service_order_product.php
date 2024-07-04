@@ -25,6 +25,8 @@ class CreateProductServiceOrderProduct extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_service_order_product');
+        Schema::table('product_service_orders', function (Blueprint $table) {
+
+        });
     }
 }

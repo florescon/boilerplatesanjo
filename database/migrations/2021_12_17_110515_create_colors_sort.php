@@ -25,6 +25,8 @@ class CreateColorsSort extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('colors_sort');
+        Schema::table('colors', function (Blueprint $table) {
+
+        });
     }
 }

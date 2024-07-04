@@ -25,6 +25,8 @@ class CreateOrderStock extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('order_stock');
+        Schema::table('orders', function (Blueprint $table) {
+
+        });
     }
 }

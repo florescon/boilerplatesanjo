@@ -25,6 +25,8 @@ class CreateFinancesBill extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('finances_bill');
+        Schema::table('finances', function (Blueprint $table) {
+
+        });
     }
 }

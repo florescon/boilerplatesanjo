@@ -25,6 +25,8 @@ class CreateCitiesSoftdeletes extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cities_softdeletes');
+        Schema::table('cities', function (Blueprint $table) {
+
+        });
     }
 }

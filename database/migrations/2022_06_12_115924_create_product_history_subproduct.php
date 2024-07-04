@@ -25,6 +25,8 @@ class CreateProductHistorySubproduct extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_history_subproduct');
+        Schema::table('product_histories', function (Blueprint $table) {
+
+        });
     }
 }

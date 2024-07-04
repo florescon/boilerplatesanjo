@@ -25,6 +25,8 @@ class CreateSummariesRequest extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('summaries_request');
+        Schema::table('summaries', function (Blueprint $table) {
+
+        });
     }
 }

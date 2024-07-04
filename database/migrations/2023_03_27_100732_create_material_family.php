@@ -25,6 +25,8 @@ class CreateMaterialFamily extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('material_family');
+        Schema::table('materials', function (Blueprint $table) {
+
+        });
     }
 }

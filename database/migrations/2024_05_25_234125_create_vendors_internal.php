@@ -25,6 +25,8 @@ class CreateVendorsInternal extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('vendors_internal');
+        Schema::table('vendors', function (Blueprint $table) {
+
+        });
     }
 }

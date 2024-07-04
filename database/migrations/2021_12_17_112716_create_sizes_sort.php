@@ -25,6 +25,8 @@ class CreateSizesSort extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sizes_sort');
+        Schema::table('sizes', function (Blueprint $table) {
+
+        });
     }
 }

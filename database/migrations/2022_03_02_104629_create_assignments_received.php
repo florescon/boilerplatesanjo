@@ -25,6 +25,8 @@ class CreateAssignmentsReceived extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('assignments_date_received');
+        Schema::table('assignments', function (Blueprint $table) {
+
+        });
     }
 }

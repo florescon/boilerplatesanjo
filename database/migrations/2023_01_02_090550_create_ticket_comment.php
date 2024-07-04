@@ -25,6 +25,8 @@ class CreateTicketComment extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ticket_comment');
+        Schema::table('tickets', function (Blueprint $table) {
+
+        });
     }
 }

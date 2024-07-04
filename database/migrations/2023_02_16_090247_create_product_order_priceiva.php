@@ -25,6 +25,8 @@ class CreateProductOrderPriceiva extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_order_priceiva');
+        Schema::table('product_order', function (Blueprint $table) {
+
+        });
     }
 }

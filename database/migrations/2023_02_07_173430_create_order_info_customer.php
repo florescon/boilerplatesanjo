@@ -25,6 +25,8 @@ class CreateOrderInfoCustomer extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('order_info_customer');
+        Schema::table('orders', function (Blueprint $table) {
+
+        });
     }
 }

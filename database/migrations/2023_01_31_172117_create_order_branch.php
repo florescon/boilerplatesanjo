@@ -25,6 +25,8 @@ class CreateOrderBranch extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('order_branch');
+        Schema::table('orders', function (Blueprint $table) {
+
+        });
     }
 }

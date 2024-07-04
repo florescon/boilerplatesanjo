@@ -26,6 +26,8 @@ class CreateSettingsFooter extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('settings_footer');
+        Schema::table('settings', function (Blueprint $table) {
+
+        });
     }
 }

@@ -25,6 +25,8 @@ class CreateOrderDiscount extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('order_discount');
+        Schema::table('orders', function (Blueprint $table) {
+
+        });
     }
 }

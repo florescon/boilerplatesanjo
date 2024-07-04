@@ -29,6 +29,8 @@ class CreateStatusProcess extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('status_process');
+        Schema::table('statuses', function (Blueprint $table) {
+
+        });
     }
 }

@@ -25,6 +25,8 @@ class CreateDepartamentUser extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('departament_user');
+        Schema::table('departaments', function (Blueprint $table) {
+
+        });
     }
 }

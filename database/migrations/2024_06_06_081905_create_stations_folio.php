@@ -25,6 +25,8 @@ class CreateStationsFolio extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('stations_folio');
+        Schema::table('stations', function (Blueprint $table) {
+
+        });
     }
 }

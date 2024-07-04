@@ -855,7 +855,7 @@
                     @foreach($batches as $status)
                       <a href="{{ route('admin.order.station', [$order_id, $status->id]) }}" class="list-group-item list-group-item-action" aria-current="true">
                         <div class="d-flex w-100 justify-content-between">
-                          <h5 class="mb-1">{{ $status->name }}</h5>
+                          <h5 class="mb-1">{{ ucfirst($status->name) }}</h5>
                           <small class="text-danger">
                             {{ $model->total_by_station->get($status->short_name) ?? '--' }}
                           </small>

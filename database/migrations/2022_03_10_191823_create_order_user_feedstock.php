@@ -26,6 +26,8 @@ class CreateOrderUserFeedstock extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('order_user_feedstock');
+        Schema::table('orders', function (Blueprint $table) {
+
+        });
     }
 }

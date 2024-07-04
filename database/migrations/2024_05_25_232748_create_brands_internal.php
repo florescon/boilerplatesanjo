@@ -25,6 +25,8 @@ class CreateBrandsInternal extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('brands_internal');
+        Schema::table('brands', function (Blueprint $table) {
+
+        });
     }
 }

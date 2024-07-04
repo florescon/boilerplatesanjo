@@ -25,6 +25,8 @@ class CreateMaterialVendor extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('material_vendor');
+        Schema::table('materials', function (Blueprint $table) {
+
+        });
     }
 }

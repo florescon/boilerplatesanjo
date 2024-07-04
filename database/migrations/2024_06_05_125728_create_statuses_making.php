@@ -25,6 +25,8 @@ class CreateStatusesMaking extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('statuses_making');
+        Schema::table('statuses', function (Blueprint $table) {
+
+        });
     }
 }

@@ -25,6 +25,8 @@ class CreateProductSpecialPrice extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_special_price');
+        Schema::table('products', function (Blueprint $table) {
+
+        });
     }
 }

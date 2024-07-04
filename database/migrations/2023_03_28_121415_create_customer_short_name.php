@@ -25,6 +25,8 @@ class CreateCustomerShortName extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('customer_short_name');
+        Schema::table('customers', function (Blueprint $table) {
+
+        });
     }
 }

@@ -29,6 +29,8 @@ class CreateDepartamentsInformation extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('departaments_information');
+        Schema::table('departaments', function (Blueprint $table) {
+
+        });
     }
 }

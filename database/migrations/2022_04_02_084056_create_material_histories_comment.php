@@ -25,6 +25,8 @@ class CreateMaterialHistoriesComment extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('material_histories_comment');
+        Schema::table('material_histories', function (Blueprint $table) {
+
+        });
     }
 }

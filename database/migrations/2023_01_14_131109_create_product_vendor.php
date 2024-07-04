@@ -25,6 +25,8 @@ class CreateProductVendor extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_vendor');
+        Schema::table('products', function (Blueprint $table) {
+
+        });
     }
 }

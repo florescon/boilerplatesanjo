@@ -27,6 +27,8 @@ class CreateFieldsSummaries extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fields_summaries');
+        Schema::table('summaries', function (Blueprint $table) {
+
+        });
     }
 }

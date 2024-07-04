@@ -25,6 +25,8 @@ class CreateProductStationsNotConsider extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_stations_not_consider');
+        Schema::table('product_stations', function (Blueprint $table) {
+
+        });
     }
 }

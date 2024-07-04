@@ -25,6 +25,8 @@ class CreateOrderInvoice extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('order_invoice');
+        Schema::table('orders', function (Blueprint $table) {
+
+        });
     }
 }

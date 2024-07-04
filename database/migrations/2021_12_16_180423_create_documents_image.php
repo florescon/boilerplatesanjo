@@ -25,6 +25,8 @@ class CreateDocumentsImage extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('documents_image');
+        Schema::table('documents', function (Blueprint $table) {
+
+        });
     }
 }

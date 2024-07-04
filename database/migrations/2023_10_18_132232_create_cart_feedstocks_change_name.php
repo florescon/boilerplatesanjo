@@ -26,6 +26,8 @@ class CreateCartFeedstocksChangeName extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cart_feedstocks_change_name');
+        Schema::table('cart_feedstocks', function (Blueprint $table) {
+
+        });
     }
 }
