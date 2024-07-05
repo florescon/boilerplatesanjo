@@ -81,7 +81,7 @@
 
             <div class="col">
               <label class="mt-4">
-                @lang('Time') 00:00
+                @lang('Time') i:s
               </label>
 
               <input wire:model.lazy="lapse" type="text" class="form-control" disabled/>

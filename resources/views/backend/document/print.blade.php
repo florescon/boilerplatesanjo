@@ -110,7 +110,9 @@
 
                   @if($document->lapse)
                     <tr style="background: rgba(42, 209, 157, 0.1); text-align: center;">
-                      <td><b class="cs-primary_color cs-semi_bold" style="background: rgba(42, 209, 157, 0.1);">@lang('Time'):</b> {{ $document->lapse }} </td>
+                      <td><b class="cs-primary_color cs-semi_bold" style="background: rgba(42, 209, 157, 0.1);">@lang('Time'):</b> 
+                        {{ formatTime($document->lapse) }} 
+                      </td>
                     </tr>
                   @endif
 

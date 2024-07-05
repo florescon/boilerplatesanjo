@@ -208,6 +208,6 @@ class Document extends Model
 
     public function getDateForHumansUpdatedAttribute()
     {
-        return $this->created_at->isoFormat('D, MMM, YY HH::mm');
+        return $this->updated_at->isoFormat('D, MMM, YY HH:mm');
     }
 }

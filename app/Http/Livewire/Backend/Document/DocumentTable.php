@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Response;
 use App\Exports\DocumentsExport;
 use Excel;
+use DB;
 
 class DocumentTable extends Component
 {
@@ -183,7 +184,7 @@ class DocumentTable extends Component
         else {
             $this->emit('swal:alert', [
                 'icon' => 'warning',
-                'title'   => 'No puedes crear alppmgo en blanco :)', 
+                'title'   => 'No puedes crear algo en blanco :)', 
             ]);
         }
 

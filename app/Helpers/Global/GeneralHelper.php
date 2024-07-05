@@ -284,7 +284,7 @@ if (! function_exists('printed')) {
      */
     function printed()
     {
-        $printed = now()->isoFormat('D, MMM, YY - h:mm a');
+        $printed = now()->isoFormat('D, MMM, YY - HH:mm');
 
         return __('Printed').': '.$printed;        
     }
@@ -298,7 +298,7 @@ if (! function_exists('generated')) {
      */
     function generated()
     {
-        $generated = now()->isoFormat('D, MMM, YY h:mm:ss a');
+        $generated = now()->isoFormat('D, MMM, YY HH:mm');
 
         return __('Generated').': '.$generated;        
     }
@@ -332,5 +332,28 @@ if (! function_exists('formatNumberToTime')) {
         $formattedTime = sprintf('%d:%02d:%02d', $hours, $minutes, $seconds);
 
         return $formattedTime;
+    }
+}
+
+if (! function_exists('formatTime')) {
+
+    function formatTime($time)
+    {
+        $pattern = '/^([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/';
+
+        if (preg_match($pattern, $time)) {
+            // Convertir el tiempo a una instancia de Carbon
+            $time = \Carbon\Carbon::createFromFormat('H:i:s', $time);
+
+            // Si la hora es 0, devolver solo minutos y segundos
+            if ($time->hour == 0) {
+                return $time->format('i:s');
+            }
+
+            // De lo contrario, devolver horas, minutos y segundos
+            return $time->format('H:i:s');
+        }
+
+        return $time;
     }
 }
