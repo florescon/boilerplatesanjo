@@ -20,7 +20,7 @@ Route::group([
 
         Route::get('threads', [DocumentController::class, 'threads'])
             ->name('threads')
-            ->middleware('permission:admin.access.store.list')
+            ->middleware('permission:admin.access.document.list')
             ->breadcrumbs(function (Trail $trail, Document $document) {
                 $trail->parent('admin.document.index')
                     ->push(__('Threads'), route('admin.document.threads', $document));

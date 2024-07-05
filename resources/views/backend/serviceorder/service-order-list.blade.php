@@ -195,16 +195,20 @@
         					<div class="small text-muted">{{ $serviceOrder->date_for_humans }}</div>
         				</td>
         				<td class="text-center">
-                  <span class='badge badge-primary'>{{ optional($serviceOrder->service_type)->name }}</span>
+                  <span class='text-primary'>{{ optional($serviceOrder->service_type)->name }}</span>
                   <div class="small text-muted">@lang('Total'): {{ $serviceOrder->total_products }} </div>
         				</td>
                   <td class="text-center">
                     @if($logged_in_user->hasAllAccess())
                       <div class="btn-group" role="group" aria-label="Basic example">
                         @if($serviceOrder->done)
-                          <button wire:loading.attr="disabled" href="#!" wire:click="done({{ $serviceOrder->id }})" class="badge badge-primary">@lang('Done')</button>
+                          <button wire:loading.attr="disabled" href="#!" wire:click="done({{ $serviceOrder->id }})" class="badge badge-primary">@lang('Done')
+                            <i class="cil-touch-app"></i>
+                          </button>
                         @else
-                          <button wire:loading.attr="disabled" href="#!" wire:click="done({{ $serviceOrder->id }})" class="badge badge-danger">@lang('Pending')</button>
+                          <button wire:loading.attr="disabled" href="#!" wire:click="done({{ $serviceOrder->id }})" class="badge badge-danger">@lang('Pending')
+                            <i class="cil-touch-app"></i>
+                          </button>
                         @endif
                       </div>
                     @else

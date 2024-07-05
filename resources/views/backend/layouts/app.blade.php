@@ -25,6 +25,10 @@
 
     <link rel="icon" type="image/png" href="{{ asset('/img/ga/san2.png')}}">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+
     {{-- Strawberry --}}
     {{-- <link rel="stylesheet" href="{{ asset('css_custom/strawberry.css') }}"> --}}
 
@@ -38,6 +42,11 @@
     />
     
     <style type="text/css">
+
+        body {
+          font-family: 'Karla', sans-serif !important;
+        }
+
         .text-decoration-line-through{text-decoration:line-through!important}
  
         .btn-outline-primary:hover {

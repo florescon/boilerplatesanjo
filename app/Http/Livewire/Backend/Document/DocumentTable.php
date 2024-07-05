@@ -48,7 +48,9 @@ class DocumentTable extends Component
 
     public $width, $height, $file_pdf;
 
-    public $ppm, $lapse;
+    public $ppm = 700;
+
+    public $lapse;
 
     public $photoStatus;
 
@@ -63,7 +65,7 @@ class DocumentTable extends Component
         'height' => 'sometimes|integer|min:1|max:500',
         'comment' => 'nullable|max:300',
         'stitches' => 'sometimes|integer|min:1|max:9999999',
-        'ppm' => 'nullable|integer|min:0|max:1200',
+        'ppm' => 'nullable|integer|min:400|max:1200',
         'image' => 'nullable|image|max:5048',
     ];
 
@@ -170,6 +172,7 @@ class DocumentTable extends Component
             $documentModel->width = $this->width ?? null;
             $documentModel->height = $this->height ?? null;
             $documentModel->stitches = $this->stitches ?? 0;
+            $documentModel->lapse = $this->ppm > 0 ? ( formatNumberToTime($this->stitches / $this->ppm) ) : null;
             $documentModel->save();
 
             $this->emit('swal:alert', [
@@ -242,8 +245,7 @@ class DocumentTable extends Component
             'width' => 'sometimes|integer|min:1|max:500',
             'height' => 'sometimes|integer|min:1|max:500',
             'stitches' => 'sometimes|integer|min:1|max:9999999',
-            'ppm' => 'nullable|integer|min:0|max:1200',
-            'lapse' => 'nullable|date_format:i:s',
+            'ppm' => 'nullable|integer|min:400|max:1200',
         ];
 
         if ($this->file_dst) {
@@ -277,7 +279,7 @@ class DocumentTable extends Component
                 'height' => $this->height,
                 'stitches' => $this->stitches,
                 'ppm' => $this->ppm ?? 0,
-                'lapse' => $this->lapse,
+                'lapse' => $this->ppm > 0 ? ( formatNumberToTime($this->stitches / $this->ppm) ) : null,
             ]);
 
             $this->resetInputFields();

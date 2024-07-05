@@ -15,19 +15,21 @@ class DocumentThreads extends Component
 
     public $selected_threads = [];
 
+    public $material_id = [];
+
     protected $listeners = ['emitRender' => '$refresh'];
 
     public function mount(Document $document)
     {
-        $document->load('doc_threads');
+        $document->load('doc_threads.material.vendor');
         $this->document = $document;
         $this->threads = Thread::all();
     }
 
     public function save()
     {
-        foreach($this->selected_threads as $selected){
-            $documentThread = DocumentThread::firstOrNew(['document_id' => $this->document->id,  'thread_id' => $selected]);
+        foreach($this->material_id as $selected){
+            $documentThread = DocumentThread::firstOrNew(['document_id' => $this->document->id,  'material_id' => $selected]);
             $documentThread->save();
         }
 

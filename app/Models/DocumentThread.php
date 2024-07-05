@@ -13,6 +13,7 @@ class DocumentThread extends Model
     protected $fillable = [
         'document_id', 
         'thread_id',
+        'material_id',
     ];
 
     public function document()
@@ -25,4 +26,8 @@ class DocumentThread extends Model
         return $this->belongsTo(Thread::class)->withTrashed();
     }
 
+    public function material()
+    {
+        return $this->belongsTo(Material::class)->withTrashed();
+    }
 }

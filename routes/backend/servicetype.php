@@ -12,7 +12,7 @@ Route::group([
         ->middleware('permission:admin.access.store.index')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.dashboard')
-                ->push(__('Service Type Management'), route('admin.servicetype.index'));
+                ->push(__('Service Type Management'), route('admin.access.typeservice.list'));
         });
 
     Route::get('deleted', [ServiceTypeController::class, 'deleted'])
@@ -20,6 +20,6 @@ Route::group([
         ->middleware('permission:admin.access.store.deleted')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.servicetype.index')
-                ->push(__('Deleted services type'), route('admin.servicetype.deleted'));
+                ->push(__('Deleted services type'), route('admin.access.typeservice.deleted'));
         });
 });

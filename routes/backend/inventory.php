@@ -13,7 +13,7 @@ Route::group([
 ], function () {
     Route::get('/', [SessionController::class, 'index'])
         ->name('index')
-        // ->middleware('permission:admin.access.inventory.list')
+        ->middleware('permission:admin.access.inventory.production')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.dashboard')
                 ->push(__('Inventories'), route('admin.inventory.index'));
@@ -25,7 +25,7 @@ Route::group([
     ], function () {
         Route::get('/', [SessionController::class, 'stock'])
             ->name('index')
-            ->middleware('permission:admin.access.inventory.stock')
+            ->middleware('permission:admin.access.inventory.production')
             ->breadcrumbs(function (Trail $trail) {
                 $trail->parent('admin.inventory.index')
                     ->push(__('Store inventory'), route('admin.inventory.stock.index'));
@@ -34,7 +34,7 @@ Route::group([
         Route::get('history', function () {
                 return view('backend.inventories.history-stock');
             })->name('history')
-            ->middleware('permission:admin.access.inventory.stock')
+            ->middleware('permission:admin.access.inventory.production')
             ->breadcrumbs(function (Trail $trail) {
                 $trail->parent('admin.inventory.stock.index')
                     ->push(__('Stock inventory history Management'), route('admin.inventory.stock.history'));
@@ -44,7 +44,7 @@ Route::group([
 
             Route::get('show', [InventoryController::class, 'showStock'])
                 ->name('show')
-                ->middleware('permission:admin.access.inventory.stock')
+                ->middleware('permission:admin.access.inventory.production')
                 ->breadcrumbs(function (Trail $trail, Inventory $inventory) {
                     $trail->parent('admin.inventory.stock.history')
                         ->push(__('Show stock inventory').': #'.$inventory->id, route('admin.inventory.stock.show', $inventory));
@@ -59,7 +59,7 @@ Route::group([
     ], function () {
         Route::get('/', [SessionController::class, 'feedstock'])
             ->name('index')
-            ->middleware('permission:admin.access.inventory.feedstock')
+            ->middleware('permission:admin.access.inventory.production')
             ->breadcrumbs(function (Trail $trail) {
                 $trail->parent('admin.inventory.index')
                     ->push(__('Feedstock inventory'), route('admin.inventory.feedstock.index'));

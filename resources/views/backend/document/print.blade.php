@@ -11,6 +11,16 @@
   <title>{{ $document->title }}</title>
   <link rel="stylesheet" href="{{ asset('/css_custom/ivonne.css') }}" />
   <link rel="icon" type="image/png" href="{{ asset('/img/ga/san2.png')}}">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+  <style type="text/css">
+    body {
+      font-family: 'Karla', sans-serif !important;
+    }
+  </style>
+
 </head>
 
 <body>
@@ -35,10 +45,12 @@
           </div>
         </div>
         <div class="cs-invoice_head cs-mb10">
-          <div class="cs-invoice_left">
-            <b class="cs-primary_color">@lang('Comment'):</b>
-            <p>{{ $document->comment }}</p>
-          </div>
+          @if($document->comment)
+            <div class="cs-invoice_left">
+              <b class="cs-primary_color">@lang('Comment'):</b>
+              <p>{{ $document->comment }}</p>
+            </div>
+          @endif
           <div class="cs-invoice_right cs-text_right">
             {{-- <b class="cs-primary_color">@lang('Customer')</b> --}}
             <p>
@@ -102,14 +114,16 @@
                     </tr>
                   @endif
 
-                  @foreach($document->doc_threads->sortBy(['thread.name', 'asc']) as $key => $getThread)
+                  @foreach($document->doc_threads->sortBy(['material.name', 'asc']) as $key => $getThread)
                   <tr>
                     <td>
                       <b class="cs-semi_bold" style="color: blue;">
                         {{ $key+1 }}.
                       </b>
-                      <b class="cs-primary_color cs-semi_bold">  {{ $getThread->thread->code }} </b> {{ $getThread->thread->name }} 
-                      <em class="cs-f10">{{ $getThread->thread->vendor->short_name_or_name }}</em>
+                      <b class="cs-primary_color cs-semi_bold">  {{ optional($getThread->material)->code }} </b> {{ optional($getThread->material)->name }} 
+                      @if($getThread->material_id)
+                        <em class="cs-f10">{{ $getThread->material->vendor->short_name_or_name }}</em>
+                      @endif
                     </td>
                   </tr>
                   @endforeach

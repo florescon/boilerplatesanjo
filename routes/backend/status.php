@@ -19,7 +19,7 @@ Route::group([
     Route::group(['prefix' => '{status}'], function () {
         Route::get('assignments', [StatusController::class, 'assignments'])
             ->name('assignments')
-            // ->middleware('permission:admin.access.status.assignments')
+            ->middleware('permission:admin.access.states_production.modify')
             ->breadcrumbs(function (Trail $trail, Status $status) {
                 $trail->parent('admin.status.index')
                     ->push(__('Edit'), route('admin.status.assignments', $status));

@@ -1,7 +1,7 @@
 <div class="page-content page-container" id="page-content">
     <div class="padding">
         <div class="row container d-flex justify-content-center">
-            <div class="col-lg-6 grid-margin stretch-card">
+            <div class="col-lg-9 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
                         <div class="text-right">
@@ -13,33 +13,21 @@
                         <h4 class="card-title">@lang('Threads')</h4>
                         <p class="card-description"> @lang('File') No. #PCH{{ $document->id }}. <em class="text-primary">{{ $document->title }}</em></p>
                         
-                        <div class="row">
-                            <div class="col">
+                        <div class="row justify-content-md-center">
+                            <div class="col-6">
                                 <img class="card-img-top" src="{{ asset('/storage/' . $document->image) }}" alt="Card image cap">
                             </div>
                         </div>
 
                         <div class="row mt-4">
-                            <div class="col-sm">
-                                <x-utils.virtual-select 
-                                  wire:model="selected_threads"
-                                  :options="[
-                                      'options' => collect($threads)->map(function($thread) {
-                                          return [
-                                              'label' => $thread->name.' '.$thread->code,
-                                              'value' => $thread->id
-                                          ];
-                                      })->toArray(),
-                                     'selectedValue' => [],
-                                     'multiple' => true,
-                                     'showValueAsTags' => true,
-                                  ]"
-                                />
+                            <div class="col-sm" wire:ignore>
+                              <select id="materialmultiple" multiple="multiple" class="custom-select"  aria-hidden="true" required>
+                              </select>
                             </div>
 
                             <div class="col-sm">
-                                @if($selected_threads)
-                                    <a wire:click="save">@lang('Save')</a>
+                                @if($material_id)
+                                    <h3><a wire:click="save" class="text-primary">@lang('Save')</a></h3>
                                 @endif
                             </div>
                         </div>
@@ -49,14 +37,19 @@
                             <p class="mt-2"><strong>@lang('Threads'):</strong><em> {{ $document->doc_threads->count() }}</em></p>
 
                             <ul class="list-group">
-                                @foreach($document->doc_threads->sortBy(['thread.name', 'asc']) as $getThread)
+                                @foreach($document->doc_threads->sortBy(['material.name', 'asc']) as $getThread)
                                   <li class="list-group-item list-group-item-action flex-column align-items-start ">
                                     <div class="d-flex w-100 justify-content-between">
-                                      <h5 class="mb-1">{{ $getThread->thread->code }}</h5>
+                                      <h5 class="mb-1">{!! optional($getThread->material)->full_name !!}</h5>
                                       <h3 class="text-danger" wire:click="removeThead({{ $getThread->id }})"><i class="cil-x"></i></h3>
                                     </div>
-                                    <p class="mb-1"> {{ $getThread->thread->code }}</p>
-                                    <small><strong>@lang('Vendor')</strong> {{ $getThread->thread->vendor->name }}</small>
+                                    <p class="mb-1"> {{ optional($getThread->material)->part_number }}</p>
+                                    @if($getThread->material_id)
+                                        <small>
+                                            <strong>@lang('Vendor')</strong> 
+                                            {!! optional($getThread->material)->vendor->short_name_or_name !!}
+                                        </small>
+                                    @endif
                                   </li>
                                 @endforeach
                             </ul>
@@ -75,4 +68,60 @@
             window.close();
         });
     </script>
+
+  <script>
+    $(document).ready(function() {
+      $('#materialmultiple').select2({
+        closeOnSelect: false,
+        placeholder: '@lang("Choose feedstocks")',
+        width: 'resolve',
+        theme: 'bootstrap4',
+        allowClear: true,
+        multiple: true,
+        ajax: {
+              url: '{{ route('admin.material.selectthread') }}',
+              data: function (params) {
+                  return {
+                      search: params.term,
+                      page: params.page || 1
+                  };
+              },
+              dataType: 'json',
+              processResults: function (data) {
+                  data.page = data.page || 1;
+                  return {
+                      results: data.items.map(function (item) {
+                          return {
+                            id: item.id,
+                            text:  item.part_number.fixed() + ' ' +item.name + ' ' + (item.unit_id ? item.unit.name.sup() : '') + (item.color_id  ?  '<br> Color: ' + item.color.name.bold()  : '')  + (item.size_id  ?  '<br> Talla: ' + item.size.name.bold()  : '')
+
+                          };
+                      }),
+                      pagination: {
+                          more: data.pagination
+                      }
+                  }
+              },
+              cache: true,
+              delay: 250,
+              dropdownautowidth: true
+          },
+          escapeMarkup: function(m) { return m; }
+
+        });
+
+        $('#materialmultiple').on('change', function (e) {
+          var data = $('#materialmultiple').select2("val");
+          @this.set('material_id', data);
+        });
+
+    });
+  </script>
+
+  <script type="text/javascript">
+    Livewire.on("materialReset", () => {
+      $('#materialmultiple').val([]).trigger("change");
+    });
+  </script>
+
 @endpush

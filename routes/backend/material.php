@@ -118,4 +118,6 @@ Route::group([
 
 Route::get('select2-load-material', [MaterialController::class, 'select2LoadMore'])->name('material.select');
 
+Route::get('select2-load-material-thread', [MaterialController::class, 'select2LoadMoreThread'])->name('material.selectthread');
+
 Route::get('search', [MaterialController::class, 'search'])->name('material.search');

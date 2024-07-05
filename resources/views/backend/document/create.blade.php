@@ -93,11 +93,6 @@
                   </div>
               @endif
             </div>
-            <div class="form-group col-md-6">
-              <label>@lang('Time') 00:00 </label>
-              <input wire:model.lazy="lapse" type="text" class="form-control"/>
-              @error('lapse') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
-            </div>
           </div>
 
             <div class="form-group row">

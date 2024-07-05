@@ -243,26 +243,26 @@
 
 @push('after-scripts')
   <script>
-  document.addEventListener('livewire:load', function () {
-      Livewire.on('fileDstRemoved', () => {
-          document.getElementById('file_dst').value = '';
-      });
-  });
+    document.addEventListener('livewire:load', function () {
+        Livewire.on('fileDstRemoved', () => {
+            document.getElementById('file_dst').value = '';
+        });
+    });
   </script>
 
   <script>
-  document.addEventListener('livewire:load', function () {
-      Livewire.on('fileEmbRemoved', () => {
-          document.getElementById('file_emb').value = '';
-      });
-  });
+    document.addEventListener('livewire:load', function () {
+        Livewire.on('fileEmbRemoved', () => {
+            document.getElementById('file_emb').value = '';
+        });
+    });
   </script>
 
   <script>
-  document.addEventListener('livewire:load', function () {
-      Livewire.on('filePdfRemoved', () => {
-          document.getElementById('file_pdf').value = '';
-      });
-  });
+    document.addEventListener('livewire:load', function () {
+        Livewire.on('filePdfRemoved', () => {
+            document.getElementById('file_pdf').value = '';
+        });
+    });
   </script>
 @endpush

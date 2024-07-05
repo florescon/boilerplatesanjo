@@ -9,7 +9,6 @@ Route::group([
     Route::get('/', function () {
             return view('backend.documentation.index');
         })->name('index')
-        // ->middleware('permission:admin.access.line.list')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.dashboard')
                 ->push(__('Documentation'), route('admin.documentation.index'));

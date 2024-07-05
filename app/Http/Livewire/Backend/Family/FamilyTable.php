@@ -38,9 +38,9 @@ class FamilyTable extends TableComponent
     /**
      * @var string
      */
-    public $sortField = 'updated_at';
+    public $sortField = 'name';
 
-    public $sortDirection = 'desc';
+    public $sortDirection = 'asc';
 
     /**
      * @var array
@@ -96,6 +96,11 @@ class FamilyTable extends TableComponent
                 ->format(function(Family $model) {
                     return $this->html($model->count_materials);
                 }),
+            Column::make(__('Include to embroidery'), 'add_thread')
+                ->format(function (Family $model) {
+                    return view('backend.family.datatable.to-document', ['family' => $model]);
+                })
+                ->excludeFromExport(),
             Column::make(__('Created at'), 'created_at')
                 ->searchable()
                 ->sortable(),
@@ -108,6 +113,24 @@ class FamilyTable extends TableComponent
                 })
                 ->excludeFromExport(),
         ];
+    }
+
+    public function thread(?int $id = null)
+    {
+        if($id){
+            $family = Family::withTrashed()->find($id);
+            
+            $family->update([
+                'add_thread' => $family->add_thread ? false : true,
+            ]);
+
+            sleep(1);
+        }
+
+        $this->emit('swal:alert', [
+            'icon' => 'success',
+            'title'   => __('Changed'), 
+        ]);
     }
 
     public function delete(Family $family)

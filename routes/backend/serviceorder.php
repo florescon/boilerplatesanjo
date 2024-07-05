@@ -10,7 +10,7 @@ Route::group([
 ], function () {
     Route::get('/', [ServiceOrderController::class, 'index'])
         ->name('index')
-        ->middleware('permission:admin.access.store.index')
+        ->middleware('permission:admin.access.order.print_service_order')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.dashboard')
                 ->push(__('Service Order Management'), route('admin.serviceorder.index'));
@@ -18,7 +18,7 @@ Route::group([
 
     Route::get('deleted', [ServiceOrderController::class, 'deleted'])
         ->name('deleted')
-        ->middleware('permission:admin.access.store.deleted')
+        ->middleware('permission:admin.access.order.create_service_order')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.serviceorder.index')
                 ->push(__('Deleted services orders'), route('admin.serviceorder.deleted'));

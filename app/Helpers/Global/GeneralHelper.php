@@ -315,3 +315,22 @@ if (! function_exists('number_formatted')) {
         return number_format($number, strlen(substr(strrchr($number, "."), 2, '.', '')));
     }
 }
+
+if (! function_exists('formatNumberToTime')) {
+
+    function formatNumberToTime($decimalMinutes)
+    {
+        // Convertir el número decimal a segundos
+        $totalSeconds = round($decimalMinutes * 60);
+
+        // Obtener horas, minutos y segundos
+        $hours = floor($totalSeconds / 3600);
+        $minutes = floor(($totalSeconds % 3600) / 60);
+        $seconds = $totalSeconds % 60;
+
+        // Formatear horas, minutos y segundos
+        $formattedTime = sprintf('%d:%02d:%02d', $hours, $minutes, $seconds);
+
+        return $formattedTime;
+    }
+}

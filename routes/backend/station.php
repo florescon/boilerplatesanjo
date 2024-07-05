@@ -11,7 +11,7 @@ Route::group([
 
     Route::get('/', [StationController::class, 'index'])
         ->name('index')
-        ->middleware('permission:admin.access.order.order')
+        ->middleware('permission:admin.access.station.list')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.dashboard')
                 ->push(__('Station Management'), route('admin.station.index'));

@@ -9,7 +9,7 @@ Route::group([
 ], function () {
     Route::get('/', [ImageController::class, 'index'])
         ->name('index')
-        ->middleware('permission:admin.access.store.index')
+        ->middleware('permission:admin.access.imageservice.list')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.dashboard')
                 ->push(__('Images Management'), route('admin.image.index'));
@@ -17,7 +17,7 @@ Route::group([
 
     Route::get('deleted', [ImageController::class, 'deleted'])
         ->name('deleted')
-        ->middleware('permission:admin.access.store.deleted')
+        ->middleware('permission:admin.access.imageservice.deleted')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.image.index')
                 ->push(__('Deleted Images'), route('admin.image.deleted'));

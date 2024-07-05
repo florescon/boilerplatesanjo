@@ -131,6 +131,21 @@ class MaterialController extends Controller
         return response()->json(['items' => $data->toArray()['data'], 'pagination' => $data->nextPageUrl() ? true : false]);
     }
 
+    public function select2LoadMoreThread(Request $request)
+    {
+        $search = $request->get('search');
+        $data = Material::with('unit', 'color', 'size', 'family')
+        ->whereHas('family', function ($query) {
+            $query->where('add_thread', true);
+        })
+        ->where(function ($query) use ($search) {
+            $query->where('name', 'like', '%' . $search . '%')
+                  ->orWhere('part_number', 'like', '%' . $search . '%');
+        })
+        ->paginate(5);
+        return response()->json(['items' => $data->toArray()['data'], 'pagination' => $data->nextPageUrl() ? true : false]);
+    }
+
     public function search(Request $request)
     {
         $search = $request->get('search');

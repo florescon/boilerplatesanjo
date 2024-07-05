@@ -189,6 +189,7 @@ return [
         'discount' => 'descuento',
         'width' => 'ancho',
         'height' => 'alto',
-        'stitches' => 'puntadas'
+        'stitches' => 'puntadas',
+        'lapse' => 'lapso'
     ],
 ];

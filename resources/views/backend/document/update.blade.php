@@ -84,7 +84,7 @@
                 @lang('Time') 00:00
               </label>
 
-              <input wire:model.lazy="lapse" type="text" class="form-control"/>
+              <input wire:model.lazy="lapse" type="text" class="form-control" disabled/>
               @error('lapse') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
             </div>
 

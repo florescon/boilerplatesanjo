@@ -10,6 +10,16 @@
   <!-- Site Title -->
   <title>@lang('Daily cash closing') #{{ $box->id }}</title>
   <link rel="stylesheet" href="{{ asset('/css_custom/ivonne.css') }}" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+  <style type="text/css">
+    body {
+      font-family: 'Karla', sans-serif !important;
+    }
+  </style>
+
 </head>
 
 <body>

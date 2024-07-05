@@ -92,5 +92,6 @@ class Family extends Model
     protected $fillable = [
         'name',
         'slug',
+        'add_thread',
     ];
 }
