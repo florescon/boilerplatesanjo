@@ -34,7 +34,7 @@ class StationController extends Controller
 
     public function checklist(Station $station)
     {
-        $station->load('material_order');
+        $station->load('material_order.material');
 
         $groupedMaterials = $station->material_order->groupBy('material_id')->map(function ($group) {
             return [
@@ -52,9 +52,27 @@ class StationController extends Controller
         return $pdf->stream();
     }
 
+    public function checklist_details(Station $station)
+    {
+        $station->load('material_order.material');
+
+        $groupedMaterials = $station->material_order->groupBy('material_id')->map(function ($group) {
+            return [
+                'order_id' => $group[0]->order_id,
+                'material' => $group[0]->material->full_name,
+                'price' => $group[0]->price,
+                'unit_quantity' => $group[0]->unit_quantity,
+                'created_at' => $group[0]->created_at,
+                'sum' => $group->sum('quantity').' '.$group[0]->material->unit_name_label,
+            ];
+        });
+
+        return view('backend.station.checklist-details', compact('station', 'groupedMaterials'));
+    }
+
     public function checklist_ticket(Station $station)
     {
-        $station->load('material_order');
+        $station->load('material_order.material');
 
         $groupedMaterials = $station->material_order->groupBy('material_id')->map(function ($group) {
             return [

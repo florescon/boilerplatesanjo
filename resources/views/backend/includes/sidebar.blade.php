@@ -382,7 +382,7 @@
                         </li>
                     @endif
 
-                    @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.store.list')))
+                    {{-- @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.store.list')))
                         <li class="c-sidebar-nav-item">
                             <x-utils.link
                                 class="c-sidebar-nav-link"
@@ -390,7 +390,7 @@
                                 :active="activeClass(Route::is('admin.thread.*'), 'c-active')"
                                 :text="__('Threads')" />
                         </li>
-                    @endif
+                    @endif --}}
 
                     @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.line.list')))
                         <li class="c-sidebar-nav-item">

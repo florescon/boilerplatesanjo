@@ -356,7 +356,10 @@
                                       Consumir Materia Prima
                                     </a>
                                   @else
-                                    <a href="{{ route('admin.station.checklist', $station->id) }}" target="_blank" class="list-group-item list-group-item-action"> Checklist <i class="fas fa-external-link-alt m-1"></i></a>
+
+                                    <a href="{{ route('admin.station.checklist_details', $station->id) }}" target="_blank" class="list-group-item list-group-item-action"> Detalles Checklist <i class="fas fa-external-link-alt m-1"></i></a>
+
+                                    <a href="{{ route('admin.station.checklist', $station->id) }}" target="_blank" class="list-group-item list-group-item-action"> Imprimir Checklist <i class="fas fa-external-link-alt m-1"></i></a>
 
                                     <a href="{{ route('admin.station.checklist_ticket', $station->id) }}" target="_blank" class="list-group-item list-group-item-action list-group-item-success"> Consumido - Ticket <i class="fas fa-external-link-alt m-1"></i></a>
                                   @endif
