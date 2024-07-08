@@ -57,5 +57,6 @@
 
 @section('content')
 
+  <livewire:backend.station.checklist-details :station="$station"/>
 
 @endsection

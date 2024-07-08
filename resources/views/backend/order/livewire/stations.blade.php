@@ -300,7 +300,7 @@
                                 @endif
   
                                 <label class="mt-2" for="user-select-{{ $station->id }}">Seleccionar Usuario</label>
-                                <select id="user-select-{{ $station->id }}" wire:change="savePersonalId({{ $station->id }}, $event.target.value)" class="form-control" onfocus="disableKeyUpDown({{ $station->id }})">
+                                <select id="user-select-{{ $station->id }}" wire:change="savePersonalId({{ $station->id }}, $event.target.value)" class="form-control border-primary" onfocus="disableKeyUpDown({{ $station->id }})">
                                     <option value="">Seleccionar</option>
                                     @foreach($users as $user)
                                         <option value="{{ $user->id }}" {{ $user->id == $station->personal_id ? 'selected' : '' }}>

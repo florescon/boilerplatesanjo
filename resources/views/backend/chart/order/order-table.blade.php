@@ -4,7 +4,7 @@
 
         <div class="row justify-content-center">
             <div class="col-lg-11 col-xl-12">
-                <ul class="nav nav-tabs nav-fill mt-1 no-print" role="tablist">
+                <ul class="nav nav-tabs nav-fill mt-1 no-print shadow-sm" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link {{ $status == 'all' ? 'active' : '' }}" href="{{ route('admin.order.all_chart') }}"
                             role="tab">@lang('all')</a>
@@ -19,10 +19,10 @@
                     </li>
                 </ul>
 
-                @if ($status == 'suborders')
+                @if ($status == 'quotations')
                     <div class="page-header-subtitle text-right mt-4 mb-2">
-                        <x-utils.link style="color: purple;" target="_blank" icon="c-icon cil-plus" class="card-header-action"
-                            :href="route('admin.order.createsuborder')" :text="__('Create output')" />
+                        <x-utils.link style="color: green;" target="_blank" icon="c-icon cil-plus" class="card-header-action"
+                            :href="route('admin.order.quotation_chart')" :text="__('Create quotation')" />
                     </div>
                 @endif
 

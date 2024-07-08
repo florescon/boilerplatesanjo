@@ -9,7 +9,7 @@
             <div class="card p-3 border-0">
               <div class="row">
                 <div class="col-sm-4">
-                  <div class="c-callout b-t-1 b-r-1 b-b-1 pb-5 pt-2">
+                  <div class="c-callout b-t-1 b-r-1 b-b-1 pb-5 pt-2 shadow">
                     <small class="text-muted">Actual: </small><br>
                     <select id="selectStatus" wire:model="selectStatus" class="form-control" onfocus="disableKeyUpDown()">
                         <option value="">Elegir Estación</option>
@@ -27,7 +27,7 @@
                 </div><!--/.col-->
 `
                 <div class="col-sm-6 mt-3">
-                  <div class="alert alert-light" role="alert">
+                  <div class="alert alert-light shadow-sm" role="alert">
                     <p>
                       <kbd>
                         @lang('Workstation') @if($statusName) ——> {{ __(ucfirst($statusName)) }} @endif

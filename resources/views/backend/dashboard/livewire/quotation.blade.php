@@ -9,21 +9,21 @@
       <a href="{{ route('admin.order.quotation_chart') }}" class="btn btn-round flex-shrink-0" data-toggle="tooltip" data-placement="top" title="{{ __('Create Quotation') }}">
         <i class="cil-plus"></i>
       </a>
-      <input type="text" class="form-control ml-3" wire:model.debounce.350ms="searchTerm" placeholder="{{ __('Search in quotations') }}" aria-label="Recipient's username" aria-describedby="basic-addon2">
+      <input type="text" class="form-control ml-3 shadow-sm" wire:model.debounce.350ms="searchTerm" placeholder="{{ __('Search in quotations') }}" aria-label="Recipient's username" aria-describedby="basic-addon2">
     </div>
   </div>
 
   <div class="kanban-board container-fluid mt-lg-3">
 
     <div class="kanban-col">
-      <div class="card-list text-center">
+      <div class="card-list text-center shadow-sm">
         <strong> @lang('Articles'): {{ $quotations->sum('sum') }} </strong>
       </div>
-      <div class="card-list bg-primary">
+      <div class="card-list bg-primary shadow">
         <a href="{{ route('admin.order.quotation_chart') }}" class="btn btn-link text-white btn-sm text-small">@lang('Add quotation') <i class="cil-plus"></i>
         </a>
       </div>
-      <div class="card-list bg-primary"> 
+      <div class="card-list bg-primary shadow"> 
         <a href="{{ route('admin.order.quotations_chart') }}" class="btn btn-link text-white btn-sm text-small">@lang('Show all quotations')</a>
       </div>
     </div>
@@ -31,7 +31,7 @@
     @foreach($quotations as $quotation)
 
       <div class="kanban-col">
-        <div class="card-list" style="background-color: #F5F5F5;">
+        <div class="card-list shadow-sm" style="background-color: #F5F5F5;">
           <div class="card-list-header">
             <h6>
               @lang('Quotation') 

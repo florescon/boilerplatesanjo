@@ -158,10 +158,10 @@
                         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.order.order')))
                             <li class="c-sidebar-nav-item">
                                 <x-utils.link
-                                    :href="route('admin.order.quotation_chart')"
+                                    :href="route('admin.order.quotations_chart')"
                                     class="c-sidebar-nav-link"
-                                    :text="__('Quotation')"
-                                    :active="activeClass(Route::is('admin.order.quotation_chart'), 'c-active')" />
+                                    :text="__('Quotations')"
+                                    :active="activeClass(Route::is('admin.order.quotations_chart'), 'c-active')" />
                             </li>
 
                             <li class="c-sidebar-nav-item">

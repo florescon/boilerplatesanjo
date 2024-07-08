@@ -38,16 +38,16 @@
 
     </div>
 
-    <table>
+    <table style="font-size:12px;">
         <tr>
             <td><strong>@lang('Request n.º'):</strong> {{ $station->order->request }} </td>
             <td><strong>@lang('Purchase Order'):</strong> {{ $station->order->purchase }} </td>
             <td rowspan="2" style="text-align: center;"> 
-                <strong>Lot.</strong> #{{ $station->id }}
+                <strong>Lot.</strong> <u style="color: red">#{{ $station->id }}</u>
             </td>
         </tr>   
         <tr>
-            <td><strong>@lang('Date Consumption'):</strong> {{ $groupedMaterials->first() ? $groupedMaterials->first()['created_at'] : "" }}</td>
+            <td><strong>@lang('Date Consumption'):</strong> {{ $groupedMaterials->first() ? $groupedMaterials->first()['updated_at'] : "" }}</td>
             <td><strong>@lang('Order'):</strong> #{{ $station->order->folio_or_id_clear }} </td>
         </tr>
         <tr>
@@ -55,12 +55,14 @@
         </tr>
     </table>
 
-    <table style="margin-top: 20px;">
+    <table style="margin-top: 20px; font-size:12px;">
         <tr>
             <th style="text-align: center;" >@lang('Concept')</th>
-            <th style="text-align: center;" >@lang('Quantity')</th>
+            <th style="text-align: center;" >@lang('C. Aut.')</th>
             <th style="text-align: center;" >@lang('Delivery')</th>
-            <th style="text-align: center;" >@lang('Difference')</th>
+            <th style="text-align: center;" >@lang('Recibí')</th>
+            <th style="text-align: center;" >@lang('C. Man.')</th>
+            <th style="text-align: center;" >@lang('Total')</th>
             <th style="text-align: center;" width="37" >V.º B.º</th>
         </tr>
         {{-- <tr style="font-size: 11px;">
@@ -70,11 +72,46 @@
         </tr> --}}
         @foreach($groupedMaterials->sortBy('material') as $key => $material)
             <tr>
-                <td>{!! $material['material'] !!}</td>
-                <td style="text-align: center;">{{ $material['sum'] }}</td>
-                <td  style="text-align: center;">
+                <td>
+                    {!! $material['material'] !!}
+                </td>
+                <td style="text-align: center;">
+                    {{ $material['sum'] }}
                 </td>
                 <td  style="text-align: center;">
+                    {{ $quantities[$key] }}
+                </td>
+                <td  style="text-align: center;">
+                    {{ $received[$key] }}
+                </td>
+                <td  style="text-align: center;">
+                    @php
+                        ($quantities[$key] - $material['sum_quantity'] > 0)
+                        ? $difference = $quantities[$key] - $material['sum_quantity'] 
+                        :  
+                        '-'
+                    @endphp
+
+                    @if($received[$key] && $difference )
+                        @php
+                            $toCons = $difference - $received[$key];
+                        @endphp
+
+                        @if($toCons > 0)
+                            @if($processed[$key])
+                                {{ $toCons }}
+                            @endif
+                        @else
+                            N/A
+                        @endif
+                    @endif
+                </td>
+                <td  style="text-align: center;">
+                    @if($received[$key] && $difference && $processed[$key])
+                        {{ $toCons + $material['sum_quantity'].' '.$material['unit']  }}
+                    @else
+                        {{ $material['sum_quantity'].' '.$material['unit'] }}
+                    @endif
                 </td>
                 <td  style="text-align: center;">
                     <span class="checkbox"></span>
@@ -84,7 +121,7 @@
         <!-- Agrega más filas según sea necesario -->
     </table>
 
-    <table style="margin-top: 10px;">
+    <table style="margin-top: 10px; font-size:12px;">
         <tr>
             <th>@lang('Observations')</th>
         </tr>
@@ -95,7 +132,7 @@
         </tr>
     </table>
 
-    <table style="margin-top: 10px;">
+    <table style="margin-top: 10px; font-size:12px;">
         <tr>
             <th>@lang('Checked By')</th>
             <th>@lang('Approved By')</th>

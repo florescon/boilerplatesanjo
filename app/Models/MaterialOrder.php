@@ -14,7 +14,7 @@ class MaterialOrder extends Model
     protected $table = 'material_orders';
 
     protected $fillable = [
-        'order_id', 'product_order_id', 'material_id', 'price', 'unit_quantity', 'quantity', 'audi_id', 'station_id'
+        'order_id', 'product_order_id', 'material_id', 'price', 'unit_quantity', 'quantity', 'audi_id', 'station_id', 'manual'
     ];
 
     /**
@@ -75,4 +75,13 @@ class MaterialOrder extends Model
     {
         return $this->belongsTo(User::class, 'audi_id')->withTrashed();
     }
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'manual' => 'boolean',
+    ];
 }
