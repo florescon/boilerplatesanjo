@@ -55,12 +55,18 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td class="cs-width_6"><b class="cs-primary_color">@lang('Quotation'): </b>Jennifer Richards</td>
-                    <td class="cs-width_6"><b class="cs-primary_color">@lang('Customer'): </b>#SM75692</td>
+                    @if($order->quotation)
+                      <td class="cs-width_6"><b class="cs-primary_color">@lang('Quotation'): </b>{{ $order->quotation }}</td>
+                    @endif
+                    <td class="cs-width_6"><b class="cs-primary_color">@lang('Customer'): </b>{!! $order->user_name !!}</td>
                   </tr>
                   <tr>
-                    <td class="cs-width_6"><b class="cs-primary_color">@lang('Request'): </b>05 Feb 2022</td>
-                    <td class="cs-width_6"><b class="cs-primary_color">@lang('Purchase Order'): </b>HC76SW</td>
+                    @if($order->request)
+                      <td class="cs-width_6"><b class="cs-primary_color">@lang('Request'): </b>{{ $order->request }}</td>
+                    @endif
+                    @if($order->purchase)
+                      <td class="cs-width_6"><b class="cs-primary_color">@lang('Purchase Order'): </b>{{ $order->purchase }}</td>
+                    @endif
                   </tr>
                 </tbody>
               </table>

@@ -438,7 +438,11 @@
                                 <a href="{{ route('admin.station.edit', $station->id) }}" target="_blank" class="list-group-item list-group-item-action"> Detalles <i class="fas fa-external-link-alt m-1"></i></a>
 
                                 @if($status->final_process)
-                                  <a wire:click="makeOutput({{ $station->id }})" class="list-group-item list-group-item-action">Dar Salida <i class="cil-arrow-thick-right"></i> </a>
+                                  <a wire:click="makeOutput({{ $station->id }})" class="list-group-item list-group-item-action
+                                    {{ $station->active ? 'list-group-item-danger' : 'list-group-item-primary' }}
+                                    ">Dar Salida <i class="cil-arrow-thick-right"></i> 
+                                  </a>
+                                    
                                 @endif
 
                                 @if($status->initial_process)
