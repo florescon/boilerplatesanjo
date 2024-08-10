@@ -140,13 +140,13 @@ class OrderTable extends Component
             return $query->flowchart()->onlyTrashed();
         }
         else{
-            $this->applySearchFilter($query);
 
             if ($this->status === 'suborders') {
                 $this->title = ['title' => 'List of outputs', 'color' => 'secondary'];
                 return $query->onlySuborders()->outFromStore()->flowchart();
             }
             if ($this->status === 'quotations') {
+                $this->applySearchFilter($query);
                 $this->title = ['title' => 'List of quotations', 'color' => '#FAFA33'];
                 return $query->onlyQuotations()->outFromStore()->flowchart();
             }
@@ -159,9 +159,12 @@ class OrderTable extends Component
                 return $query->onlyMix()->outFromStore()->flowchart();
             }
             if ($this->status === 'all') {
+                $this->applySearchFilter($query);
                 $this->title = ['title' => 'List of all', 'color' => 'dark'];
                 return $query->onlyAll()->outFromStore()->flowchart();
             }
+
+            $this->applySearchFilter($query);
         }
 
         $this->title = ['title' => 'List of orders', 'color' => 'primary'];
@@ -183,6 +186,7 @@ class OrderTable extends Component
             ->orWhere('info_customer', 'like', '%' . $this->searchTerm . '%')
             ->orWhere('request', 'like', '%' . $this->searchTerm . '%')
             ->orWhere('purchase', 'like', '%' . $this->searchTerm . '%')
+            ->orWhere('quotation', 'like', '%' . $this->searchTerm . '%')
             ->orWhere('invoice', 'like', '%' . $this->searchTerm . '%')
             ->orWhere('comment', 'like', '%' . $this->searchTerm . '%');
         }

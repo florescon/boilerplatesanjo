@@ -71,9 +71,12 @@ class ServiceRecordsTable extends Component
 
     public function getRowsQueryProperty()
     {
-        return ProductOrder::query()->with('product')
+        return ProductOrder::query()->with('product', 'order')
             ->whereHas('product', function($q) {
                 $q->where('type', false);
+            })
+            ->whereHas('order', function($q) {
+                $q->where('from_store', true);
             })
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?

@@ -190,6 +190,7 @@ return [
         'width' => 'ancho',
         'height' => 'alto',
         'stitches' => 'puntadas',
-        'lapse' => 'lapso'
+        'lapse' => 'lapso',
+        'price_b' => 'precio B'
     ],
 ];

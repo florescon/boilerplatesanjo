@@ -136,7 +136,7 @@ class OrderController extends Controller
         return view('backend.order.report', ['order' => $order]);
     }
 
-    public function print(Order $order, bool $breakdown = false, bool $grouped = false)
+    public function print(Order $order, bool $breakdown = false, bool $grouped = false, $emptyPrices = false)
     {
         // $selectSub = DB::table('products')->join('products', 'products.id', '=', 'products.parent_id')->whereRaw('product_order.product_id = product.id');
 
@@ -156,6 +156,7 @@ class OrderController extends Controller
                 ->join('products as b', 'a.product_id', '=', 'b.id')
                 ->where('order_id', $order->id)
                 ->where('b.type', '=', 0)
+                ->groupBy('b.id', 'a.price')
                 ;
 
         // dd($orderServices);
@@ -186,7 +187,7 @@ class OrderController extends Controller
 
         // dd($orderGroup);
 
-        return view('backend.order.print-order', compact('order', 'breakdown', 'orderGroup', 'grouped'));
+        return view('backend.order.print-order', compact('order', 'breakdown', 'orderGroup', 'grouped', 'emptyPrices'));
     }
 
     public function ticket(Order $order)
@@ -237,7 +238,7 @@ class OrderController extends Controller
         }
     }
 
-    public function print_store(Order $order, bool $breakdown = false, bool $grouped = false)
+    public function print_store(Order $order, bool $breakdown = false, bool $grouped = false, $emptyPrices = false)
     {
         if($order->from_store){
 
@@ -259,6 +260,7 @@ class OrderController extends Controller
                 ->join('products as b', 'a.product_id', '=', 'b.id')
                 ->where('order_id', $order->id)
                 ->where('b.type', '=', 0)
+                ->groupBy('b.id', 'a.price')
                 ;
 
         // dd($orderServices);
@@ -288,7 +290,7 @@ class OrderController extends Controller
             ->get();
 
         // dd($orderGroup);
-            return view('backend.order.print-order', compact('order', 'breakdown', 'orderGroup', 'grouped'));
+            return view('backend.order.print-order', compact('order', 'breakdown', 'orderGroup', 'grouped', 'emptyPrices'));
 
         }
         else{

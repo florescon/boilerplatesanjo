@@ -63,8 +63,7 @@
                                 <thead class="border-bottom border-start">
                                     <tr>
                                       <th scope="col">@lang('Action')</th>
-                                      <th scope="col">@lang('Stock')</th>
-                                      <th scope="col">@lang('Revision stock')</th>
+                                      <th scope="col">@lang('Workshop')</th>
                                       <th scope="col">@lang('Store stock')</th>
                                   </tr>
                                 </thead>
@@ -76,12 +75,6 @@
                                         <div class="custom-control custom-switch custom-control-inline">
                                             <input type="checkbox" wire:model="moveToStock" id="stock" name="stock" class="custom-control-input">
                                             <label class="custom-control-label" for="stock"></label>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="custom-control custom-switch custom-control-inline">
-                                            <input type="checkbox" wire:model="moveToRevisionStock" id="revisionstock" name="revisionstock" class="custom-control-input">
-                                            <label class="custom-control-label" for="revisionstock"></label>
                                         </div>
                                     </td>
                                     <td>
@@ -102,9 +95,8 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Product Name</th>
-                                        <th>Stock {{ '('. $model->getTotStock().')' }}</th>
-                                        <th>@lang('Revision stock') {{ '('. $model->getTotStockRev().')' }}</th>
+                                        <th>@lang('Product Name')</th>
+                                        <th>@lang('Workshop') {{ '('. $model->getTotStock().')' }}</th>
                                         <th>@lang('Store stock') {{ '('. $model->getTotStockStore().')' }}</th>
                                         <th class="table-secondary">Total</th>
                                     </tr>
@@ -119,9 +111,6 @@
                                             <td class="{{ $moveToStock ? 'table-success pulsate' : '' }}">
                                                 {{ $product['stock'] }} 
                                             </td>
-                                            <td class="{{ $moveToRevisionStock ? 'table-success pulsate' : '' }}">
-                                                {{ $product['stock_revision'] }} 
-                                            </td>
                                             <td class="{{ $moveToStoreStock ? 'table-success pulsate' : '' }}">
                                                 {{ $product['stock_store'] }} 
                                             </td>
@@ -133,31 +122,13 @@
                                             <td></td>
                                             <td >
                                                 @if($moveToStock)
-                                                    <p class="font-italic"><u>Se movera a @lang('Stock')</u></p>
-                                                @elseif($moveToRevisionStock)
-                                                    <p class="font-italic"><u>Se movera a @lang('Revision stock')</u></p>
+                                                    <p class="font-italic"><u>Se movera a @lang('Workshop')</u></p>
                                                 @elseif($moveToStoreStock)
                                                     <p class="font-italic"><u>Se movera a @lang('Store stock')</u></p>
                                                 @else
                                                     <div class="badge badge-primary text-wrap " style="width: 6rem;">
                                                       Seleccione stock de destino
                                                     </div>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if($moveToStoreStock || $moveToRevisionStock)
-                                                    <input class="form-control form-control-sm is-valid" style="background-image: none; padding-right: inherit;" wire:model="inputmove" 
-                                                    @if($moveToStoreStock)
-                                                        wire:keydown.enter="moveToStore({{ $product['id'] }})"
-                                                    @elseif($moveToRevisionStock)
-                                                        wire:keydown.enter="moveToRevision({{ $product['id'] }})"
-                                                    @endif                                                     
-                                                    type="number" min="1" placeholder="+" max="{{ $product['stock'] }}">
-
-                                                    @error('inputmove') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
-                                                @elseif($moveToStock)
-                                                    <i class="cil-arrow-top" style="color:blue"></i>
-                                                    <i class="cil-arrow-top" style="color:blue" ></i>
                                                 @endif
                                             </td>
                                             <td>

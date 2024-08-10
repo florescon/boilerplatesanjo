@@ -585,7 +585,7 @@ class StationsOrder extends Component
         }
     }
 
-    public function closeStation($station_id)
+    public function closeStation($station_id, ?int $getUniqueProductStation = null)
     {
         $getData = 'Send auto to Initial Process';
 
@@ -608,8 +608,14 @@ class StationsOrder extends Component
             ]);
         }
 
+        if (is_null($getUniqueProductStation)) {
+            $productsStation = $stationClose->product_station()->get();
+        } else {
+            $productsStation = $stationClose->product_station()->where('id', $getUniqueProductStation)->get();
+        }
+
         /* Get all Products Station */
-        $productsStation = $stationClose->product_station()->get();
+        // $productsStation = $stationClose->product_station()->get();
 
         /* Iterate all Products Station */
         foreach($productsStation as $productStation){
@@ -618,7 +624,7 @@ class StationsOrder extends Component
 
             if($productStation->metadata['open'] > 0){
                 $productStation->product_station_receiveds()->create([
-                        'order_id' => $this->order_id,
+                    'order_id' => $this->order_id,
                     'quantity' => $productStation->metadata['open'],
                     'product_order_id' => $productStation->product_order_id,
                     'status_id' => $this->status_id,
@@ -1089,6 +1095,7 @@ class StationsOrder extends Component
     public function createInfo($getMethod)
     {
         abort_if(!in_array($getMethod, ['save', 'saveFromSupplier', 'saveFromInitialProcess']), Response::HTTP_NOT_FOUND);
+        // abort_if(!in_array($getMethod, ['saveFromInitialProcess']), Response::HTTP_NOT_FOUND);
 
         $this->emitUpdatedQuantity();
 
@@ -1098,6 +1105,21 @@ class StationsOrder extends Component
             'icon' => 'question',
             'title' => '¿Crear y hacer uso de Inventario?',
             'html' => '<img src="' . $imageUrl . '" alt="Logo" style="width: 200px; height: auto;"><br><br>Capturado: ' . $this->sumValue . ' productos <br>',
+            'confirmText' => '¿Desea confirmar?',
+            'method' => (string) $getMethod,
+        ]);
+    }
+
+    public function createInfoAnother($getMethod)
+    {
+        abort_if(!in_array($getMethod, ['save', 'saveFromSupplier']), Response::HTTP_NOT_FOUND);
+
+        $this->emitUpdatedQuantity();
+
+        return $this->emit('swal:confirm', [
+            'icon' => 'question',
+            'title' => '¿Crear?',
+            'html' => 'Capturado: ' . $this->sumValue . ' productos <br>',
             'confirmText' => '¿Desea confirmar?',
             'method' => (string) $getMethod,
         ]);

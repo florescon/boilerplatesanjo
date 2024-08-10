@@ -9,17 +9,17 @@ Route::group([
 ], function () {
     Route::get('/', [ServiceTypeController::class, 'index'])
         ->name('index')
-        ->middleware('permission:admin.access.store.index')
+        ->middleware('permission:admin.access.typeservice.list')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.dashboard')
-                ->push(__('Service Type Management'), route('admin.access.typeservice.list'));
+                ->push(__('Service Type Management'), route('admin.servicetype.index'));
         });
 
     Route::get('deleted', [ServiceTypeController::class, 'deleted'])
         ->name('deleted')
-        ->middleware('permission:admin.access.store.deleted')
+        ->middleware('permission:admin.access.typeservice.deleted')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.servicetype.index')
-                ->push(__('Deleted services type'), route('admin.access.typeservice.deleted'));
+                ->push(__('Deleted services type'), route('admin.servicetype.deleted'));
         });
 });

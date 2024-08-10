@@ -90,7 +90,7 @@
                         <div class="row content-list-head no-print">
                             <div class="col-auto">
                             </div>
-                            <form class="col-lg-auto">
+                            <form class="col-sm-6">
                                 <div class="input-group input-group-round">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
@@ -171,6 +171,10 @@
                                                             {{ $order->total_products_suborder }}
                                                         </strong>
                                                     @endif
+                                                    @if ($order->quotation !== 0)
+                                                        <strong>#@lang('QUOTATION'):</strong>
+                                                        {{ $order->quotation }}
+                                                    @endif
                                                     @if ($order->purchase)
                                                         <strong>#O. DE COMPRA:</strong>
                                                         {{ $order->purchase }}
@@ -185,6 +189,7 @@
                                                     @endif
                                                 </div>
                                                 <div class="card-meta" style="">
+                                                    @if($status == '')
                                                     <div class="d-flex align-items-center">
                                                         <span class="text-center">
                                                             {!! ($order->areAllProductOrdersMatched() || $order->areAllProductOrdersMatchedSendToStock()) && $order->areAllProductStationsZero()
@@ -192,6 +197,7 @@
                                                                 : '' !!}
                                                         </span>
                                                     </div>
+                                                    @endif
                                                     <div class="dropdown card-options no-print">
                                                         <button class="btn-options" type="button"
                                                             id="task-dropdown-button-1" data-toggle="dropdown"

@@ -14,7 +14,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+  {{-- <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet"> --}}
   <style type="text/css">
     body {
       font-family: 'Karla', sans-serif !important;
@@ -96,6 +96,11 @@
           <div class="cs-invoice_right cs-text_center">
             <p><b class="cs-primary_color cs-semi_bold">@lang('Date Issued'): <br>{{ $order->date_entered_or_created }}</p></b>
           </div>
+          @if(!$order->isQuotation() && $order->quotation !== 0)
+            <div class="cs-invoice_right cs-text_center">
+                <p><b class="cs-primary_color cs-semi_bold">@lang('Quotation'): <br>{{ $order->quotation }}</p></b>
+            </div>
+          @endif
           <div class="cs-invoice_right cs-text_center">
             @if($order->request)
               <p><b class="cs-primary_color cs-semi_bold">@lang('Request number'): <br>{{ $order->request ?? '' }}</p></b>
@@ -159,8 +164,8 @@
                     <tr class="cs-focus_bg">
                       <th class="cs-width_1 cs-semi_bold cs-primary_color cs-text_center">@lang('Quantity')</th>
                       <th class="cs-width_2 cs-semi_bold cs-primary_color">@lang('Code')</th>
-                      <th class="cs-width_7 cs-semi_bold cs-primary_color">@lang('Description')</th>
-                      @if(!$order->isOutputProducts())
+                      <th class="{{ !$emptyPrices ? 'cs-width_9' : 'cs-width_7' }} cs-semi_bold cs-primary_color">@lang('Description')</th>
+                      @if(!$order->isOutputProducts() && !$emptyPrices)
                         <th class="cs-width_1 cs-semi_bold cs-primary_color">@lang('Price')</th>
                         <th class="cs-width_1 cs-semi_bold cs-primary_color cs-text_right">@lang('Total')</th>
                       @endif
@@ -173,12 +178,14 @@
                       <tr>
                         <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->quantity }}</td>
                         <td class="cs-width_2">{{ $product->product->code_subproduct_clear }}</td>
-                        <td class="cs-width_6">
+                        <td class="{{ !$emptyPrices ? 'cs-width_9' : 'cs-width_6' }}">
                           {{ $product->product->only_name }}
                           <div class="small text-muted"> {!! $product->product->only_parameters !!} </div>
                         </td>
-                        <td class="cs-width_1 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</td>
-                        <td class="cs-width_2 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</td>
+                        @if(!$emptyPrices)
+                          <td class="cs-width_1 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</td>
+                          <td class="cs-width_2 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</td>
+                        @endif
                       </tr>
                       @if($product->comment)
                         <tr>
@@ -197,12 +204,14 @@
                       <tr>
                         <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->quantity }}</td>
                         <td class="cs-width_2">{{ $product->product->code_subproduct_clear }}</td>
-                        <td class="cs-width_6">
+                        <td class="{{ !$emptyPrices ? 'cs-width_9' : 'cs-width_6' }}">
                           {{ $product->product->only_name }}
                           <div class="small text-muted"> {!! $product->product->only_parameters !!} </div>
                         </td>
-                        <td class="cs-width_1 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</td>
-                        <td class="cs-width_2 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</td>
+                        @if(!$emptyPrices)
+                          <td class="cs-width_1 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</td>
+                          <td class="cs-width_2 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</td>
+                        @endif
                       </tr>
                       @if($product->comment)
                         <tr>
@@ -220,12 +229,14 @@
                       <tr>
                         <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->quantity }}</td>
                         <td class="cs-width_2">{{ $product->product->code_subproduct_clear }}</td>
-                        <td class="cs-width_6">
+                        <td class="{{ !$emptyPrices ? 'cs-width_9' : 'cs-width_6' }}">
                           {{ $product->product->only_name }}
                           <div class="small text-muted"> {!! $product->product->only_parameters !!} </div>
                         </td>
-                        <td class="cs-width_1 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</td>
-                        <td class="cs-width_2 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</td>
+                        @if(!$emptyPrices)
+                          <td class="cs-width_1 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</td>
+                          <td class="cs-width_2 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</td>
+                        @endif
                       </tr>
                       @if($product->comment)
                         <tr>
@@ -243,12 +254,14 @@
                       <tr>
                         <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->quantity }}</td>
                         <td class="cs-width_2">{{ $product->product->code_subproduct_clear }}</td>
-                        <td class="cs-width_6">
+                        <td class="{{ !$emptyPrices ? 'cs-width_9' : 'cs-width_6' }}">
                           {{ $product->product->only_name }}
                           <div class="small text-muted"> {!! $product->product->only_parameters !!} </div>
                         </td>
-                        <td class="cs-width_1 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</td>
-                        <td class="cs-width_2 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</td>
+                        @if(!$emptyPrices)
+                          <td class="cs-width_1 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</td>
+                          <td class="cs-width_2 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</td>
+                        @endif
                       </tr>
                       @if($product->comment)
                         <tr>
@@ -322,7 +335,7 @@
                       <b class="cs-primary_color">@lang('Articles')</b><br/>
                       {{ $order->total_articles }}
                     </td>
-                    @if(!$order->isOutputProducts())
+                    @if(!$order->isOutputProducts() && !$emptyPrices)
                     <td class="cs-width_5 cs-text_right">
                       @if(!$breakdown)
                         <p class="cs-primary_color cs-bold cs-f14 cs-m0">@lang('Subtotal'):</p>

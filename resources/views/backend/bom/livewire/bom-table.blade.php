@@ -1,46 +1,57 @@
 <div class="row">
     <div class="col-md-8 no-print">
         <div class="chat-module-top">
-            <form>
-                <div class="input-group input-group-round mb-4">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <i class="cil-search mr-1"></i>
-                        </span>
-                    </div>
-                    <input type="search" wire:model.debounce.350ms="searchTerm" class="form-control filter-list-input"
-                        placeholder="{{ __('Search order or quotation') }}" aria-label="Search order or quotation">
-                </div>
-            </form>
-
-            @if (
-                $selectedtypes &&
-                    $orders->count() &&
-                    ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.bom.list')))
-                <div class="dropdown table-export mb-4">
-
-                    <button type="button" wire:click="sendMaterials" onmousedown="party.confetti(this)"
-                        class="buttonn btn btn-light mr-2"> @lang('Explode') </button>
-
-                    @error('selectedtypes')
-                        <span class="error" style="color: red;">
-                            <p>{{ $message }}</p>
-                        </span>
-                    @enderror
-
-                    {{-- <strong>@lang('Selected'):</strong>
-
-                    @foreach ($selectedtypes as $link)
-                        <span class="badge badge-dark mt-2" style="font-size: 1rem;">#{{ $link }}</span>
-                    @endforeach --}}
-
-                    <div wire:loading wire:target="exportMaatwebsite" class="text-nowrap ml-3">
-                        <strong>@lang('Processing')...</strong>
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div class="input-group input-group-round mb-4">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="cil-search mr-1"></i>
+                                </span>
+                            </div>
+                            <input type="search" wire:model.debounce.350ms="searchTerm" class="form-control filter-list-input"
+                                placeholder="{{ __('Search order or quotation') }}" aria-label="Search order or quotation">
+                        </div>
                     </div>
 
+                    <div class="col text-center">
+                        @if (
+                            $selectedtypes &&
+                            $orders->count() &&
+                            ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.bom.list'))
+                        )
+
+                                <button type="button" wire:click="sendMaterials" onmousedown="party.confetti(this)"
+                                    class="buttonn btn btn-light m-2"> @lang('Explode') </button>
+
+                                @error('selectedtypes')
+                                    <span class="error" style="color: red;">
+                                        <p>{{ $message }}</p>
+                                    </span>
+                                @enderror
+
+                                {{-- <strong>@lang('Selected'):</strong>
+
+                                @foreach ($selectedtypes as $link)
+                                    <span class="badge badge-dark mt-2" style="font-size: 1rem;">#{{ $link }}</span>
+                                @endforeach --}}
+
+                                <div wire:loading wire:target="exportMaatwebsite" class="text-nowrap ml-3">
+                                    <strong>@lang('Processing')...</strong>
+                                </div>
+
+                            <!--export-dropdown-->
+                        @endif
+
+                        @if($selectedtypes)
+                                <button type="button" wire:click="removeSelected"
+                                    class="buttonn btn btn-danger m-2"> @lang('Clear') </button>
+                        @endif
+                    </div>
                 </div>
-                <!--export-dropdown-->
-            @endif
+
+            </div>
 
             <div class="chat-module-body">
                 @foreach ($orders as $order)
@@ -65,7 +76,7 @@
                                                     value="{{ Str::limit($order->customer, 50) }}"
                                                     data-filter-by="value" />
                                                 <br>
-                                                {{ $order->comment }}
+                                                <strong>Total: <em style="color: #FF3EA5;">{{ $order->total_quantity }}</em></strong> &nbsp;&nbsp;&nbsp;&nbsp;{{ $order->comment }}
                                                 <div class="checklist-strikethrough"></div>
                                             </div>
                                         </div>
@@ -86,10 +97,11 @@
 
                 @if ($orders->hasMorePages())
                     <br>
-                    <div class="card text-center" style="background-color: rgba(245, 245, 245, 1); opacity: .8;">
+                    <div class="card text-center ml-2" style="background-color: rgba(245, 245, 245, 1); opacity: .8;">
                         <div class="card-body">
                             <button type="button" class="btn btn-primary"
-                                wire:click="$emit('load-more')">@lang('Load more')</button>
+                                wire:click="$emit('load-more')">@lang('Load more')
+                            </button> 
                         </div>
                     </div>
                 @endif
@@ -100,12 +112,13 @@
         <div class="sidebar-content">
             <div class="chat-team-sidebar text-small">
                 <div class="chat-team-sidebar-top">
+
                     <div class="media align-items-center">
                         <a href="#" class="mr-2">
                             <img alt="SJ" src="{{ asset('/img/sj.jpg') }}" class="avatar avatar-lg" />
                         </a>
                         <div class="media-body">
-                            <h5 class="mb-1">@lang('Bill of Materials')</h5>
+                            <h5 class="mb-1">@lang('Bill of Materials') {{ $orderCollection ? '💥' : '' }}</h5>
                             <p>@lang('A collection of materials for explode orders')</p>
                         </div>
                     </div>
@@ -403,4 +416,6 @@
             </div>
         </div>
     </div>
+    <p class="text-small text-secondary pl-4"><em> This section is created with Query Builder <i class="cil-smile"></i>
+</em></p>
 </div>

@@ -118,12 +118,12 @@ Route::group([
             ->name('reasign-user-departament');
             // ->middleware('permission:admin.order.end-add-stock');
 
-        Route::get('print/{breakdown?}/{grouped?}', [OrderController::class, 'print'])
+        Route::get('print/{breakdown?}/{grouped?}/{emptyPrices?}', [OrderController::class, 'print'])
             ->name('print')
             ->middleware('permission:admin.access.order.modify')
             ->breadcrumbs(function (Trail $trail, Order $order) {
                 $trail->parent('admin.order.edit', $order)
-                    ->push(__('Print order'), route('admin.order.print', [$order, $breakdown, $grouped]));
+                    ->push(__('Print order'), route('admin.order.print', [$order, $breakdown, $grouped, $emptyPrices]));
             });
 
 

@@ -9,7 +9,7 @@
       <a href="{{ route('admin.order.quotation_chart') }}" class="btn btn-round flex-shrink-0" data-toggle="tooltip" data-placement="top" title="{{ __('Create Quotation') }}">
         <i class="cil-plus"></i>
       </a>
-      <input type="text" class="form-control ml-3 shadow-sm" wire:model.debounce.350ms="searchTerm" placeholder="{{ __('Search in quotations') }}" aria-label="Recipient's username" aria-describedby="basic-addon2">
+      <input type="text" class="form-control ml-3 shadow-sm" wire:model.debounce.350ms="searchTerm" placeholder="🔍 {{ __('Search in quotations') }}" aria-label="Search" aria-describedby="basic-addon2">
     </div>
   </div>
 
@@ -20,7 +20,7 @@
         <strong> @lang('Articles'): {{ $quotations->sum('sum') }} </strong>
       </div>
       <div class="card-list bg-primary shadow">
-        <a href="{{ route('admin.order.quotation_chart') }}" class="btn btn-link text-white btn-sm text-small">@lang('Add quotation') <i class="cil-plus"></i>
+        <a href="{{ route('admin.order.quotation_chart') }}" class="btn btn-link text-white btn-sm text-small">@lang('Add quotation') ➕</i>
         </a>
       </div>
       <div class="card-list bg-primary shadow"> 

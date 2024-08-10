@@ -46,6 +46,25 @@
           </div>
         </div>
 
+            <div class="cs-table_responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th class="cs-width_6 cs-semi_bold cs-primary_color cs-focus_bg cs-f16" colspan="2">@lang('Details')</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="cs-width_6"><b class="cs-primary_color">@lang('Quotation'): </b>Jennifer Richards</td>
+                    <td class="cs-width_6"><b class="cs-primary_color">@lang('Customer'): </b>#SM75692</td>
+                  </tr>
+                  <tr>
+                    <td class="cs-width_6"><b class="cs-primary_color">@lang('Request'): </b>05 Feb 2022</td>
+                    <td class="cs-width_6"><b class="cs-primary_color">@lang('Purchase Order'): </b>HC76SW</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
         <div class="cs-invoice_head cs-mb10">
           <div class="legend">
             <b class="cs-primary_color">@lang('About it'):</b>
@@ -161,7 +180,7 @@
 
               <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title text-center h6">{{ ucfirst(\Illuminate\Support\Str::limit($status->name, 17, '...')) }}</h5>
+                  <h5 class="card-title text-center h6 text-danger">{{ ucfirst(\Illuminate\Support\Str::limit($status->name, 17, '...')) }}</h5>
                   <p class="card-text">
                     
                     <div class="d-flex">
@@ -178,11 +197,11 @@
                     <div class="d-flex">
                       <div class="col-6 text-center">
                         <a href="#" class="text-danger font-bolder mb-0">{{ $status->getAllQuantitiesByStatusOpenedDefined($order->id) }}</a>
-                        <span class="d-block text-sm font-italic">Ent.</span>
+                        <span class="d-block text-sm font-italic">Proc.</span>
                       </div>
                       <div class="col-6 text-center">
                         <a href="#" class="text-success font-bolder mb-0">{{ $status->getAllQuantitiesByStatusClosedDefined($order->id) }}</a>
-                        <span class="d-block text-sm font-italic">Sal.</span>
+                        <span class="d-block text-sm font-italic">Term.</span>
                       </div>
                     </div>
 

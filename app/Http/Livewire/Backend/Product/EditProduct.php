@@ -55,12 +55,6 @@ class EditProduct extends Component
     public $nameStock;
 
 	protected $queryString = [
-        'increaseStock' => ['except' => FALSE],
-        'subtractStock' => ['except' => FALSE],
-        'increaseStockRevision' => ['except' => FALSE],
-        'subtractStockRevision' => ['except' => FALSE],
-        'increaseStockStore' => ['except' => FALSE],
-        'subtractStockStore' => ['except' => FALSE],
         'showCodes' => ['except' => FALSE],
         'showLabels' => ['except' => FALSE],
         'showKardex' => ['except' => FALSE],
@@ -619,6 +613,28 @@ class EditProduct extends Component
         // $this->initmodel($product); // re-initialize the component state with fresh data after saving
     }
 
+    public function clearInputs()
+    {
+        if($this->inputincrease != NULL){
+            $this->inputincrease = [];
+            $this->emit('triggerDOMContentLoaded');
+        }
+
+        if($this->inputsubtract != NULL){
+            $this->inputsubtract = [];
+            $this->emit('triggerDOMContentLoadedStore');
+        }
+
+        if($this->inputincreasestore != NULL){
+            $this->inputincreasestore = [];
+            $this->emit('triggerDOMContentLoadedSubtract');
+        }
+        if($this->inputsubtractstore != NULL){
+            $this->inputsubtractstore = [];
+            $this->emit('triggerDOMContentLoadedStoreSubtract');
+        }
+    }
+
     public function clearAll()
     {
         $this->inputincrease = [];
@@ -797,30 +813,98 @@ class EditProduct extends Component
         $this->clearAll();
     }
 
-    public function updatedIncreaseStock()
+    public function updatedIncreaseStock($value)
     {
+        $this->increaseStockStore = FALSE;
+
         $this->subtractStock = FALSE;
         // $this->increaseStockRevision = FALSE;
         $this->subtractStockRevision= FALSE;
         $this->subtractStockStore= FALSE;
         $this->clearCodeAndLabels();
+
+        $this->clearInputs();
+        if ($value) {
+            $this->emit('triggerDOMContentLoaded');
+        }
     }
 
-    public function updatedSubtractStock()
+    public function updatedSubtractStock($value)
     {
+        $this->subtractStockStore = FALSE;
+
         $this->increaseStock = FALSE;
         $this->increaseStockRevision = FALSE;
         $this->increaseStockStore = FALSE;
         $this->clearCodeAndLabels();
+
+        $this->clearInputs();
+        if ($value) {
+
+            $this->emit('triggerDOMContentLoadedSubtract');
+        }
+
     }
 
-    public function updatedIncreaseStockRevision()
+    public function updatedIncreaseStockRevision($value)
     {
         $this->subtractStock = FALSE;
         $this->subtractStockRevision = FALSE;
         $this->subtractStockStore = FALSE;
         $this->clearCodeAndLabels();
+
+        $this->clearInputs();
+        if ($value) {
+
+            $this->emit('triggerDOMContentLoadedRevision');
+        }
     }
+
+
+
+    public function updated($propertyName)
+    {
+        if ($propertyName == 'increaseStock' && $this->increaseStock) {
+            if ($this->increaseStockStore || $this->subtractStock || $this->subtractStockStore) {
+                $this->increaseStock = false;
+                $this->emit('swal:alert', [
+                    'icon' => 'error',
+                    'title'   => __('Deactivate the previous selected'), 
+                ]);
+            }
+        }
+
+        if ($propertyName == 'increaseStockStore' && $this->increaseStockStore) {
+            if ($this->increaseStock || $this->subtractStock || $this->subtractStockStore) {
+                $this->increaseStockStore = false;
+                $this->emit('swal:alert', [
+                    'icon' => 'error',
+                    'title'   => __('Deactivate the previous selected'), 
+                ]);
+            }
+        }
+
+        if ($propertyName == 'subtractStock' && $this->subtractStock) {
+            if ($this->increaseStock || $this->increaseStockStore || $this->subtractStockStore) {
+                $this->subtractStock = false;
+                $this->emit('swal:alert', [
+                    'icon' => 'error',
+                    'title'   => __('Deactivate the previous selected'), 
+                ]);
+            }
+        }
+
+        if ($propertyName == 'subtractStockStore' && $this->subtractStockStore) {
+            if ($this->increaseStock || $this->increaseStockStore || $this->subtractStock) {
+                $this->subtractStockStore = false;
+                $this->emit('swal:alert', [
+                    'icon' => 'error',
+                    'title'   => __('Deactivate the previous selected'), 
+                ]);
+            }
+        }
+    }
+
 
     public function updatedSubtractStockRevision()
     {
@@ -830,20 +914,36 @@ class EditProduct extends Component
         $this->clearCodeAndLabels();
     }
 
-    public function updatedIncreaseStockStore()
+    public function updatedIncreaseStockStore($value)
     {
+        $this->increaseStock = FALSE;
+
         $this->subtractStock = FALSE;
         $this->subtractStockRevision = FALSE;
         $this->subtractStockStore = FALSE;
         $this->clearCodeAndLabels();
+
+        $this->clearInputs();
+        if ($value) {
+            $this->emit('triggerDOMContentLoadedStore');
+        }
     }
 
-    public function updatedSubtractStockStore()
+    public function updatedSubtractStockStore($value)
     {
+        $this->subtractStock = FALSE;
+
         $this->increaseStock = FALSE;
         $this->increaseStockRevision = FALSE;
         $this->increaseStockStore = FALSE;
         $this->clearCodeAndLabels();
+
+        $this->clearInputs();
+
+        if ($value) {
+            $this->emit('triggerDOMContentLoadedStoreSubtract');
+        }
+
     }
 
     private function init(Product $product)

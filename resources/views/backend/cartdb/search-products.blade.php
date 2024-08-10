@@ -124,63 +124,57 @@
                     <br>
                     {{-- {{ $yas.' '.'size' }} --}}
 
-                  @if($selectedProduct->children->count())
 
-                      @foreach($selectedProduct->children->unique('color_id')->sortBy('color.name') as $children)
-                        <tr>
+<!-- Mostrar el total -->
+<tr wire:ignore>
+    <td class="text-center" colspan="{{ $yas + 1 }}">
+        <h3><strong>Total en vista: <span class="text-danger" id="total-sum">0</span></strong></h3>
+    </td>
+</tr>
 
-                          <th scope="row">
-                              {{ optional($children->color)->name }}
+@if($selectedProduct->children->count())
+    @foreach($selectedProduct->children->unique('color_id')->sortBy('color.name') as $children)
+        <tr>
+            <th scope="row">
+                {{ optional($children->color)->name }}
 
-                              @if($children->color->color)
-                                <div class="box-color justify-content-md-center" style="background-color:{{ optional($children->color)->color }}; display: inline-block;"></div>
-                              @endif
+                @if($children->color->color)
+                    <div class="box-color justify-content-md-center" style="background-color:{{ optional($children->color)->color }}; display: inline-block;"></div>
+                @endif
 
-                              @if($children->color->secondary_color)
-                                <div class="box-color justify-content-md-center" style="background-color:{{ optional($children->color)->secondary_color }}; display: inline-block;"></div>
-                              @endif
-                            </th>
+                @if($children->color->secondary_color)
+                    <div class="box-color justify-content-md-center" style="background-color:{{ optional($children->color)->secondary_color }}; display: inline-block;"></div>
+                @endif
+            </th>
 
-                            @for ($i = 0; $i < $yas ; $i++)
-                            <td scope="row">
+            @for ($i = 0; $i < $yas ; $i++)
+                <td scope="row">
+                    @foreach($si as $sip)
+                        @if($i == $loop->index)
+                            <div class="input-group opacity-placeholder mb-3" style="{{ optional($children->color)->color ? 'border-bottom: 3px solid'.optional($children->color)->color.' !important;' : '' }}">
+                                <input class="form-control text-center opacity-placeholder input-value" style="background-image: none; min-width: 18px; color:red" 
+                                    wire:model.defer="inputformat.{{ optional($children->color)->id }}.{{ $sip['id'] }}" 
+                                    wire:keydown.enter="format" 
+                                    placeholder="{{ $sip['name'] }}" 
+                                    type="text" 
+                                    min="1" 
+                                    aria-label="Username" 
+                                    aria-describedby="basic-addon1" 
+                                    id="input-{{ optional($children->color)->id }}-{{ $sip['id'] }}">
+                            </div>
 
-                              {{-- <strong>{{ $i }}</strong> --}}
-                                
-                                {{-- {{ optional($children->color)->name }}  --}}
-
-                                @foreach($si as $sip)
-                                  @if($i == $loop->index)
-
-                                <div class="input-group opacity-placeholder mb-3" style="{{ optional($children->color)->color ? 'border-bottom:  3px solid'.optional($children->color)->color.' !important;' : '' }}">
-
-                                  {{-- <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">{{ $sip['name'] }}</span>
-                                  </div> --}}
-
-                                  {{-- <input type="text" class="form-control" placeholder="{{ optional($children->color)->name.' '. optional($children->color)->id }}" aria-label="Username" aria-describedby="basic-addon1"> --}}
-
-                                  <input class="form-control text-center opacity-placeholder" style="background-image: none; min-width: 18px; color:red" wire:model.defer="inputformat.{{ optional($children->color)->id }}.{{ $sip['id'] }}" wire:keydown.enter="format" placeholder="{{ $sip['name'] }}" type="text" min="1" aria-label="Username" aria-describedby="basic-addon1" >
-
-                                </div>
-
-                                  @error('inputformat.'. optional($children->color)->id .'.'.$sip['id'])
-                                      <span class="error" style="color: red;">
-                                          <p>{{ $message }}</p>
-                                      </span>
-                                  @enderror
-
-                                  @endif
-                                @endforeach
-                              </td>
-                            @endfor
-
-                        {{-- @foreach ($errors->get('inputformat.*') as $message)
-                          {{ $message }}
-                        @endforeach --}}
-
-                        </tr>
-                      @endforeach
-                  @endif
+                            @error('inputformat.'. optional($children->color)->id .'.'.$sip['id'])
+                                <span class="error" style="color: red;">
+                                    <p>{{ $message }}</p>
+                                </span>
+                            @enderror
+                        @endif
+                    @endforeach
+                </td>
+            @endfor
+        </tr>
+    @endforeach
+@endif
 
                   </tbody>
                 </table>
@@ -208,3 +202,35 @@
     <button type="button" wire:click="format" class="btn btn-primary">@lang('Save')</button>
   </x-slot>
 </x-utils.modal>
+
+@push('after-scripts')
+<!-- Script para sumar los valores de los inputs -->
+<script>
+    document.addEventListener('livewire:load', function () {
+        // Escuchar el evento emitido desde Livewire
+        Livewire.on('triggerDOMContentLoaded', function () {
+        const inputs = document.querySelectorAll('.input-value');
+        const totalSumElement = document.getElementById('total-sum');
+
+        function calculateTotal() {
+            let total = 0;
+            inputs.forEach(input => {
+                let value = parseFloat(input.value);
+                if (!isNaN(value)) {
+                    total += value;
+                }
+            });
+            totalSumElement.textContent = total;
+        }
+
+        inputs.forEach(input => {
+            input.addEventListener('input', calculateTotal);
+        });
+
+        // Inicializa la suma al cargar la página
+        calculateTotal();
+    });
+  });
+</script>
+
+@endpush

@@ -50,9 +50,9 @@
                 <div class="intro">
 
                     <div class="cta-container no-print">
-                        <a class="btn btn-primary btn-cta" href="{{ url('/') }}" target="_blank"><i class="fa fa-star"></i> Ver pantalla de inicio</a>
+                        <a class="btn btn-primary btn-cta" style="margin-bottom: 5px;" href="{{ url('/') }}" target="_blank"><i class="fa fa-star"></i> Ver pantalla de inicio</a>
 
-                        <a class="btn btn-info btn-cta" href="{{ route('admin.dashboard') }}" target="_blank"><i class="fa fa-dashboard"></i> Panel administración</a>
+                        <a class="btn btn-info btn-cta" style="margin-bottom: 5px;" href="{{ route('admin.dashboard') }}" target="_blank"><i class="fa fa-dashboard"></i> Panel administración</a>
 
                     </div><!--//cta-container-->
                 </div><!--//intro-->

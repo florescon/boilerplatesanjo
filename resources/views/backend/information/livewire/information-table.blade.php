@@ -24,7 +24,7 @@
                 <div class="col-sm-4">
                   <div class="c-callout b-t-1 b-r-1 b-b-1 pb-3">
                     <small class="text-muted">{{ ucfirst($status->name) }}</small><br>
-                    <strong class="h4">{{ ucfirst($status->name) }}</strong>
+                    <strong class="h4">{{ ucfirst($status->name) }} 📌</strong>
                   </div>
                 </div><!--/.col-->
 
@@ -32,7 +32,7 @@
                   <div class="c-callout b-t-1 b-r-1 b-b-1 pb-3">
                     <small class="text-muted">Actual: {{ ucfirst($status->name) }}</small><br>
                     <select id="redirectSelect" class="form-control">
-                        <option value="NoLink">Redireccionar a Estación</option>
+                        <option value="NoLink">Redireccionar a Estación 👈</option>
                         @foreach(\App\Models\Status::orderBy('level')->whereActive(true)->get() as $s)
                           <option style="color:#0071c5;" value="{{ route('admin.information.status.show', $s->id) }}">
                             <strong>
@@ -181,7 +181,7 @@
 
             <div class="col">
               <div class="input-group">
-                <input wire:model.debounce.350ms="searchTerm" class="form-control input-search-green" type="text" placeholder="{{ __('Search') }}..." />
+                <input wire:model.debounce.350ms="searchTerm" class="form-control input-search-green" type="text" placeholder="🔍 {{ __('Search') }}..." />
                 @if($searchTerm !== '')
                 <div class="input-group-append">
                   <button type="button" wire:click="clear" class="close" aria-label="Close">

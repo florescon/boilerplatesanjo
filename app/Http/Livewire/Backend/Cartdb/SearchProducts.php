@@ -73,6 +73,9 @@ class SearchProducts extends Component
                 array_shift($this->filterColor);
             };
         }
+
+        $this->emit('triggerDOMContentLoaded');
+
     }
 
     public function filterBySize($size)
@@ -155,6 +158,7 @@ class SearchProducts extends Component
 
         $this->emit('clearAll');
         $this->clearAll();
+        $this->emit('triggerDOMContentLoaded');
 
         $this->emit('cartUpdated');
     }
@@ -166,6 +170,8 @@ class SearchProducts extends Component
 
     public function selectProduct($idProduct)
     {
+        $this->clearAll();
+
         $product = Product::with('children', 'color', 'size')->findOrFail($idProduct);
 
         if ($product) {
@@ -180,6 +186,7 @@ class SearchProducts extends Component
                         'icon' => 'success',
                         'title'   => $product->full_name, 
                     ]);
+
                 }
                 else{
                     if(!$product->isProduct()){
@@ -192,10 +199,13 @@ class SearchProducts extends Component
                     }
                     else{
                         $this->MainProduct($product->id);
+
+                        $this->emit('triggerDOMContentLoaded');
                     }
                 }
             }
         }
+
 
         $this->emit('cartUpdated');
     }

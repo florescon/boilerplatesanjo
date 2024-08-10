@@ -66,6 +66,10 @@ class Product extends Model
         'stock',
         'stock_revision',
         'stock_store',
+        'price_b',
+        'average_wholesale_price_b',
+        'wholesale_price_b',
+        'special_price_b',
     ];
 
     public function getDescriptionLimitedAttribute()
@@ -253,7 +257,7 @@ class Product extends Model
     public function getFullNameBreakAttribute()
     {
         if($this->parent_id !== null){
-            return '<strong> ['. $this->parent->code .'] '.$this->parent->name.'</strong> <em><br>'.$this->size_name.' '.$this->color_name.'</em>';
+            return '<strong> '.$this->parent->name.'</strong> <em><br>'.$this->size_name.' '.$this->color_name.'</em>';
         }
         else{
             if(!$this->isProduct()){

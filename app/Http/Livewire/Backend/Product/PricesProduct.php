@@ -260,23 +260,64 @@ class PricesProduct extends Component
 
     private function initproviderprice(Product $product)
     {
-        $this->product_cost = number_format($product->cost, 2, ".", "");
+        // $this->product_cost = number_format($product->cost, 2, ".", "");
+
+        $price = trim($product->cost);
+
+        if (is_numeric($price)) {
+            $this->product_cost = number_format((float)$price, 2, ".", "");
+        } else {
+            $this->product_cost = number_format(0, 2, ".", "");
+        }
+
     }
     private function initretailprice(Product $product)
     {
-        $this->product_price = number_format($product->price, 2, ".", "");
+        $price = trim($product->price);
+
+        if (is_numeric($price)) {
+            $this->product_price = number_format((float)$price, 2, ".", "");
+        } else {
+            $this->product_price = number_format(0, 2, ".", "");
+        }
     }
     private function initaveragewholesaleprice(Product $product)
     {
-        $this->product_average_wholesale_price = number_format($product->average_wholesale_price, 2, ".", "");
+        // $this->product_average_wholesale_price = number_format($product->average_wholesale_price, 2, ".", "");
+
+        $price = trim($product->average_wholesale_price);
+
+        if (is_numeric($price)) {
+            $this->product_average_wholesale_price = number_format((float)$price, 2, ".", "");
+        } else {
+            $this->product_average_wholesale_price = number_format(0, 2, ".", "");
+        }
+
     }
     private function initwholesaleprice(Product $product)
     {
-        $this->product_wholesale_price = number_format($product->wholesale_price, 2, ".", "");
+        // $this->product_wholesale_price = number_format($product->wholesale_price, 2, ".", "");
+
+        $price = trim($product->wholesale_price);
+
+        if (is_numeric($price)) {
+            $this->product_wholesale_price = number_format((float)$price, 2, ".", "");
+        } else {
+            $this->product_wholesale_price = number_format(0, 2, ".", "");
+        }
+
     }
     private function initspecialprice(Product $product)
     {
-        $this->product_special_price = number_format($product->special_price, 2, ".", "");
+        // $this->product_special_price = number_format($product->special_price, 2, ".", "");
+
+        $price = trim($product->special_price);
+
+        if (is_numeric($price)) {
+            $this->product_special_price = number_format((float)$price, 2, ".", "");
+        } else {
+            $this->product_special_price = number_format(0, 2, ".", "");
+        }
     }
 
     public function saveCost(bool $clear = false)
@@ -284,7 +325,7 @@ class PricesProduct extends Component
         // dd($clear);
 
         $this->validate([
-            'cost' => 'regex:/^\d{1,13}(\.\d{1,4})?$/',
+            'cost' => 'min:1|regex:/^\d{1,13}(\.\d{1,4})?$/',
         ]);
         
         $save_cost = Product::find($this->product_id);
@@ -338,7 +379,7 @@ class PricesProduct extends Component
         // dd($clear);
 
         $this->validate([
-            'retail_price' => 'regex:/^\d{1,13}(\.\d{1,4})?$/',
+            'retail_price' => 'min:1|regex:/^\d{1,13}(\.\d{1,4})?$/',
         ]);
         
         $save_retail = Product::find($this->product_id);
@@ -365,7 +406,7 @@ class PricesProduct extends Component
     public function saveAverageWholesale(bool $clear = false)
     {
         $this->validate([
-            'average_wholesale_price' => 'regex:/^\d{1,13}(\.\d{1,4})?$/',
+            'average_wholesale_price' => 'min:1|regex:/^\d{1,13}(\.\d{1,4})?$/',
         ]);
         
         $save_average_wholesale = Product::find($this->product_id);
@@ -390,7 +431,7 @@ class PricesProduct extends Component
     public function saveWholesale(bool $clear = false)
     {
         $this->validate([
-            'wholesale_price' => 'regex:/^\d{1,13}(\.\d{1,2})?$/',
+            'wholesale_price' => 'min:1|regex:/^\d{1,13}(\.\d{1,2})?$/',
         ]);
         
         $save_wholesale = Product::find($this->product_id);
@@ -417,7 +458,7 @@ class PricesProduct extends Component
     public function saveSpecial(bool $clear = false)
     {
         $this->validate([
-            'special_price' => 'regex:/^\d{1,13}(\.\d{1,2})?$/',
+            'special_price' => 'min:1|regex:/^\d{1,13}(\.\d{1,2})?$/',
         ]);
         
         $save_special = Product::find($this->product_id);

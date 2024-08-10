@@ -232,6 +232,7 @@ class ProductStation extends Model
                 $productStation = self::where('status_id', $previousStatus->id)
                     ->where('order_id', $this->order_id)
                     ->where('product_id', $this->product_id)
+                    ->where('product_order_id', $this->product_order_id)
                     ->where('active', '=', 1)
                     ->sum('metadata->closed');
                     ;

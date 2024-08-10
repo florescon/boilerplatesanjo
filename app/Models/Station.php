@@ -203,6 +203,11 @@ class Station extends Model
         return $createdAt->diffForHumans($updatedAt, true);
     }
 
+    public function getDateFormattedAttribute()
+    {
+        return $this->created_at->isoFormat('DD/MM/YY');
+    }
+
     public function getElapsedForHumans()
     {
         $createdAt = Carbon::parse($this->created_at);

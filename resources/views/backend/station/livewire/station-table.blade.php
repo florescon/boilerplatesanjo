@@ -12,7 +12,7 @@
                   <div class="c-callout b-t-1 b-r-1 b-b-1 pb-5 pt-2 shadow">
                     <small class="text-muted">Actual: </small><br>
                     <select id="selectStatus" wire:model="selectStatus" class="form-control" onfocus="disableKeyUpDown()">
-                        <option value="">Elegir Estación</option>
+                        <option value="">Elegir Estación 👈</option>
                         @foreach(\App\Models\Status::orderBy('level')->whereActive(true)->get() as $s)
                           <option style="color:#0071c5;" value="{{ $s->id }}">
                             <strong>
@@ -30,7 +30,7 @@
                   <div class="alert alert-light shadow-sm" role="alert">
                     <p>
                       <kbd>
-                        @lang('Workstation') @if($statusName) ——> {{ __(ucfirst($statusName)) }} @endif
+                        @lang('Workstation') @if($statusName) ——> {{ __(ucfirst($statusName)) }} 📌 @endif
                       </kbd>
 
                       @if($selectStatus)
@@ -99,7 +99,7 @@
 
             <div class="col">
               <div class="input-group">
-                <input wire:model.debounce.350ms="searchTerm" class="form-control input-search-green" type="text" placeholder="{{ __('Search') }}..." />
+                <input wire:model.debounce.350ms="searchTerm" class="form-control input-search-green" type="text" placeholder="🔍 {{ __('Search') }}..." />
                 @if($searchTerm !== '')
                 <div class="input-group-append">
                   <button type="button" wire:click="clear" class="close" aria-label="Close">

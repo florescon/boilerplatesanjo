@@ -114,6 +114,10 @@ class ChecklistDetails extends Component
 
     public function savePreconsumption($material_id, $getSumQuantity)
     {
+        $this->validate([
+            "quantities.$material_id" => 'numeric|regex:/^[\d]{0,11}(\.[\d]{1,2})?$/|gt:0',
+        ]);
+
         if ($this->errorInput($material_id, $this->station_id)) {
             return; // Detener la ejecución si se retorna verdadero de errorInput
         }
@@ -149,7 +153,7 @@ class ChecklistDetails extends Component
     public function saveRPreconsumption($material_id, ?float $getQuantity = null, $getSumQuantity)
     {
         $this->validate([
-            "received.$material_id" => 'numeric|integer|gt:0',
+            "received.$material_id" => 'numeric|regex:/^[\d]{0,11}(\.[\d]{1,2})?$/|gt:0',
         ]);
 
         if ($this->errorInput($material_id, $this->station_id)) {

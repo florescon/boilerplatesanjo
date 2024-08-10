@@ -59,3 +59,13 @@
   <livewire:backend.material.search-feedstock/>
 
 @endsection
+
+@push('after-scripts')
+  <script>
+      document.addEventListener('DOMContentLoaded', function () {
+          window.livewire.on('redirectToTicketOut', url => {
+              window.open(url, '_blank'); // Abre la URL en una nueva pestaña
+          });
+      });
+  </script>
+@endpush

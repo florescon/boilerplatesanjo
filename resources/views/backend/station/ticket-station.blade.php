@@ -50,7 +50,7 @@
                 <tr>
                     <td align="left">
                         <strong>Fecha:</strong> 
-                        {{ $station->date_entered }}
+                        {{ $station->date_formatted }}
                     </td>
                 </tr>
             </table>
@@ -123,7 +123,7 @@
                   @foreach($station->product_station->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']])  as $assign)
                   <tr>
                     <td scope="row">
-                        {!! $assign->product->full_name !!}
+                        {!! $assign->product->full_name_break !!}
                         <br>
                         <strong>{{ $assign->comment }}</strong>
                     </td>

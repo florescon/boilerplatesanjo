@@ -5,12 +5,16 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="text-right">
-                          <button class="btn btn-danger" onclick="window.close();">
+                          <a class="btn btn-outline-primary btn-sm" type="button" target="_blank" href="{{ route('admin.document.print', $document->id ) }}">
+                            @lang('File') <i class="fas fa-print m-1"></i>
+                          </a>
+
+                          <a type="button" class="btn btn-danger btn-sm text-white" onclick="window.close();">
                             @lang('Close Tab') <i class="cil-x"></i>
-                          </button>
+                          </a>
                         </div>
 
-                        <h4 class="card-title">@lang('Threads')</h4>
+                        <h4 class="card-title">@lang('Threads') 🧵</h4>
                         <p class="card-description"> @lang('File') No. #PCH{{ $document->id }}. <em class="text-primary">{{ $document->title }}</em></p>
                         
                         <div class="row justify-content-md-center">

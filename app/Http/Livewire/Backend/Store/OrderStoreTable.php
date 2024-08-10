@@ -29,7 +29,7 @@ class OrderStoreTable extends Component
 
     public $limitPerPage = '50';
 
-    public $sortField = 'date_entered';
+    public $sortField = 'id';
     public $sortAsc = false;
 
     public $status;

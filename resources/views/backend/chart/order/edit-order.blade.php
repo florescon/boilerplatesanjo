@@ -241,6 +241,8 @@
                   </button>
                   <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                       <a class="dropdown-item" href="{{ !$from_store ? route('admin.order.ticket_order', [$order_id, true, true]) : route('admin.store.all.ticket_order', [$order_id, true, true]) }}" target="_blank">Ticket</a>
+
+                      <a class="dropdown-item" href="{{ !$from_store ? route('admin.order.print', [$order_id, true, 0, true]) : route('admin.store.all.print', [$order_id, true]) }}" target="_blank">Carta</a>
                   </div>
                 </div>
               @endif
@@ -844,7 +846,7 @@
                   {{-- {{ $model->total_graphic }} --}}
 
                   <div class="list-group">
-                    <a href="javascript:void(0)" class="list-group-item list-group-item-action" aria-current="true">
+                    <a href="javascript:void(0)" class="list-group-item list-group-item-action list-group-item-secondary" aria-current="true">
                       <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">Captura</h5>
                         <small class="text-danger">

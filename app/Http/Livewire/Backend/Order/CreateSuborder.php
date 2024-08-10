@@ -235,7 +235,12 @@ class CreateSuborder extends Component
             }
 
             if($user){
-                $price = $user->customer->type_price;
+                if($user->customer){
+                    $price = $user->customer->type_price;
+                }
+                else{
+                    $price = 'retail';
+                }
             }
 
             foreach($this->quantityy as $key => $product){

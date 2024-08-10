@@ -65,7 +65,7 @@ ventas@sj-uniformes.com
         </table>
 
         @if($order->comment)
-            <table style="margin-bottom: 10px; margin-top: -20px;" width="100%">
+            <table style="margin-bottom: 10px; margin-top: 20px;" width="100%">
                 <tr align="center">
                     <th>
                         @if($order->comment)

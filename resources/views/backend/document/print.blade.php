@@ -14,7 +14,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+  {{-- <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet"> --}}
   <style type="text/css">
     body {
       font-family: 'Karla', sans-serif !important;
@@ -84,15 +84,17 @@
         </div>
 
         <div class="cs-box2_wrap cs-mb30">
-          <div class=" cs-box cs-style2">
-            <div class="cs-table cs-style2" style="text-align: center;">
+          <div class=" cs-box cs-style3" style="    display: flex;
+    align-items: center;
+    justify-content: center;">
+            <div class="cs-table cs-style3" style="text-align: center;">
               @if($document->image)
                 <img src="{{ asset('/storage/' . $document->image) }}" width="100%">
               @endif
             </div>
           </div>
-          <div class=" cs-box cs-style2">
-            <p class="cs-primary_color cs-semi_bold cs-f18 cs-mb5">@lang('Information')</p>
+          <div class=" cs-box cs-style3">
+            <p class="cs-primary_color cs-semi_bold cs-f18 cs-mb5" style="padding: 10px;">@lang('Information') 🧵</p>
             <div class="cs-table cs-style2">
               <table>
                 <tbody>
@@ -116,27 +118,23 @@
                     </tr>
                   @endif
 
-                  @foreach($document->doc_threads->sortBy(['material.name', 'asc']) as $key => $getThread)
-                  <tr>
-                    <td>
-                      <b class="cs-semi_bold" style="color: blue;">
-                        {{ $key+1 }}.
-                      </b>
-                      <b class="cs-primary_color cs-semi_bold">  {{ optional($getThread->material)->code }} </b> {{ optional($getThread->material)->name }} 
-                      @if($getThread->material_id)
-                        <em class="cs-f10">{{ $getThread->material->vendor->short_name_or_name }}</em>
-                      @endif
-                    </td>
-                  </tr>
-                  @endforeach
-                  <tr>
-                    <td><b class="cs-primary_color cs-semi_bold"> </b> </td>
-                  </tr>
-                  <tr>
-                    <td><b class="cs-primary_color cs-semi_bold"> </b> </td>
-                  </tr>
                 </tbody>
               </table>
+
+              <ul style="list-style-type:none; margin-top: 10px;">
+                @foreach($document->doc_threads->sortBy(['material.name', 'asc']) as $key => $getThread)
+                  <li>
+                    <b class="cs-semi_bold" style="color: blue;">
+                      {{ $key+1 }}.
+                    </b>
+                    <b class="cs-primary_color cs-semi_bold">  {{ optional($getThread->material)->part_number }} </b> {{ optional($getThread->material)->name }} 
+                    @if($getThread->material_id)
+                      <em class="cs-f10">{{ $getThread->material->vendor->short_name_or_name }}</em>
+                    @endif
+                  </li>
+                @endforeach
+              </ul>
+
             </div>
           </div>
         </div>

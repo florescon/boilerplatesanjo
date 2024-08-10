@@ -1,6 +1,6 @@
 <x-backend.card>
     <x-slot name="header">
-        @lang('Show workstation') - {{ $status_name }}
+        @lang('Show workstation') - <h3 class="d-inline">{{ ucfirst($status_name ?? ' ') }}</h3>
     </x-slot>
 
     <x-slot name="headerActions">
@@ -10,11 +10,10 @@
     </x-slot>
     <x-slot name="body">
 
-
           <div class="row">
             <div class="col-sm-7 mt-2">
-              <div class="card" style="background-color: #f0f0f0;">
-                <div class="col d-flex"><span class="text-muted" id="orderno">@lang('Order') #{!! $model->folio_or_id !!}</span></div>
+              <div class="card shadow" style="background-color: #f0f0f0;">
+                <div class="col d-flex"><span class="text-muted" id="orderno">@lang('Order') <h3 class="d-inline">#{!! $model->folio_or_id !!}</h3></span></div>
                 <div class="gap">
                     <div class="col-2 d-flex mx-auto"> </div>
                 </div>
@@ -28,7 +27,7 @@
                 @if($status->initial_process)
                   <div class="mx-auto">
                     <div class="alert alert-danger mt-2 text-center mr-2 ml-2" role="alert">
-                      Las cantidades ingresadas manualmente en <strong> {{ $status_name }} </strong> provienden del <strong> Almacén </strong>
+                      Las cantidades ingresadas manualmente en <strong> {{ $status_name }} </strong> provienen del <strong> Almacén </strong>
                     </div>
                   </div>
                 @endif
@@ -150,14 +149,14 @@
                         <div class="col-1 d-flex justify-content-end"> <b> {{ $model->total_products }} </b> </div>
                         @if($status->initial_lot)
                           <div class="col-2 d-flex justify-content-center"> 
-                              <button type="button" wire:click="createInfo('save')" class="btn btn-primary btn-sm" wire:loading.attr="disabled">
+                              <button type="button" wire:click="createInfoAnother('save')" class="btn btn-{{ $quantity ? 'danger' :  'primary'}} btn-sm" wire:loading.attr="disabled">
                                 Lote &#128190;
                               </button>
                           </div>
                         @endif
                         @if($status->supplier)
                           <div class="col-2 d-flex justify-content-center"> 
-                              <button type="button" wire:click="createInfo('saveFromSupplier')" class="btn btn-primary btn-sm" wire:loading.attr="disabled">
+                              <button type="button" wire:click="createInfoAnother('saveFromSupplier')" class="btn btn-primary btn-sm" wire:loading.attr="disabled">
                               Pedido  &#128190;
                               </button>
                           </div>
@@ -183,7 +182,7 @@
 
                         <div class="row container d-flex justify-content-center">
 
-                            <select id="redirectSelect" class="mb-4">
+                            <select id="redirectSelect" class="mb-4 shadow-sm">
                                 <option value="NoLink">Redireccionar a Estación</option>
                                 @foreach(\App\Models\Status::orderBy('level')->whereActive(true)->get() as $s)
                                   <option style="color:#0071c5;" value="{{ route('admin.order.station', [$order_id, $s->id]) }}">
@@ -215,10 +214,46 @@
                             </p>
 
                             <div class="col-md-12 grid-margin stretch-card">
-                              <div class="card">
+                              <div class="card border-0">
+                                <div class="card-body">
+                                  <div class="template-demo">
+                                    <table class="table mb-0 table-sm">
+                                      <tbody>
+                                        <tr>
+                                          <td class="pl-0">@lang('Customer')</td>
+                                          <td class="pr-0 text-right text-primary"><strong>{!! $model->user_name !!}</strong></td>
+                                        </tr>
+                                        @if($model->info_customer)
+                                          <tr>
+                                            <td class="pl-0">@lang('Info customer')</td>
+                                            <td class="pr-0 text-right">{{ $model->info_customer }}</td>
+                                          </tr>
+                                        @endif
+                                        </tr>
+                                        @if($model->comment)
+                                          <tr>
+                                            <td class="pl-0">@lang('Comment')</td>
+                                            <td class="pr-0 text-right">{{ $model->comment }}</td>
+                                          </tr>
+                                        @endif
+                                        @if($model->observation)
+                                          <tr>
+                                            <td class="pl-0">@lang('Observations')</td>
+                                            <td class="pr-0 text-right">{{ $model->observation }}</td>
+                                          </tr>
+                                        @endif
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="col-md-12 grid-margin stretch-card">
+                              <div class="card shadow">
                                 <div class="card-body">
                                   <h3 class="card-title text-danger text-center">
-                                    {{ ucfirst($status_name) }}
+                                    {{ ucfirst($status_name) }} 📌
                                   </h3>
                                   <p class="card-description">@lang('About it')</p>
                                   <div class="template-demo">
@@ -239,11 +274,11 @@
                                           <td class="pr-0 text-right text-danger"> <ins><strong>{{ $model->getTotalQuantityByStationClosed($status_id) + $model->getTotalQuantityByStationOpened($status_id) }}</strong></ins> </td>
                                         </tr>
                                         <tr>
-                                          <td class="pl-0">Open</td>
+                                          <td class="pl-0">@lang('Input')</td>
                                           <td class="pr-0 text-right"><div class="badge badge-pill badge-primary"><i class="fa fa-user mr-2"></i>{{ $model->getTotalQuantityByStationOpened($status_id) }}</div></td>
                                         </tr>
                                         <tr>
-                                          <td class="pl-0">Closed</td>
+                                          <td class="pl-0">@lang('Output')</td>
                                           <td class="pr-0 text-right"><div class="badge badge-pill badge-success">{{ $model->getTotalQuantityByStationClosed($status_id) }}<i class="fa fa-user ml-2"></i></div></td>
                                         </tr>
                                       </tbody>
@@ -289,7 +324,7 @@
                       <div class="price"><strong>#{{ $station->id }}</strong> / {{ ucfirst($status->short_name) }} <span class="glyphicon glyphicon-ok"></span></div>
                       <div class="pricing-body">
 
-                          <livewire:backend.components.edit-field :model="'\App\Models\Station'" :entity="$station" :field="'comment'" :key="'stations'.$station->id"/>
+                          <livewire:backend.components.edit-field :model="'\App\Models\Station'" :entity="$station" :field="'comment'" :key="'stations'.$station->id" :text="__('Comment')"/>
 
                           <br>
 
@@ -300,11 +335,13 @@
                                 @endif
   
                                 <label class="mt-2" for="user-select-{{ $station->id }}">Seleccionar Usuario</label>
-                                <select id="user-select-{{ $station->id }}" wire:change="savePersonalId({{ $station->id }}, $event.target.value)" class="form-control border-primary" onfocus="disableKeyUpDown({{ $station->id }})">
-                                    <option value="">Seleccionar</option>
+                                <select id="user-select-{{ $station->id }}" wire:change="savePersonalId({{ $station->id }}, $event.target.value)" class="form-control border-primary" 
+                                  style=" {{ $station->personal_id ? 'color: red;' : '' }}" 
+                                  onfocus="disableKeyUpDown({{ $station->id }})">
+                                    <option value="" class="text-dark">Seleccionar</option>
                                     @foreach($users as $user)
-                                        <option value="{{ $user->id }}" {{ $user->id == $station->personal_id ? 'selected' : '' }}>
-                                            {{ ucwords(strtolower($user->name)) }}
+                                        <option class="{{ $user->id !== $station->personal_id ? 'text-dark' : '' }}" value="{{ $user->id }}" {{ $user->id == $station->personal_id ? 'selected' : '' }}>
+                                          {!! $user->id == $station->personal_id  ? '>> &nbsp;&nbsp;&nbsp;' : ''!!} {{ ucwords(strtolower($user->name)) }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -320,6 +357,13 @@
                                   <td><span class="badge badge-dark badge-pill">{{ $product_station->quantity }}</span></td>
                                   <td class="text-primary">{{ $product_station->metadata['open'] }}</td>
                                   <td class="text-success">{{ $product_station->metadata['closed'] }}</td>
+                                  <td>
+                                    @if($product_station->metadata['open'] == 0)
+                                      <button class="btn btn-dark btn-sm" disabled>Recibido</button>
+                                    @else
+                                      <button class="btn btn-success btn-sm" wire:click="closeStation({{ $station->id }}, {{ $product_station->id }})">Recibir</button>
+                                    @endif
+                                  </td>
                                 </tr>
 
                                 @if($product_station->metadata_product_station)
@@ -349,7 +393,14 @@
                           <div class="collapse show" id="collapseExample{{ $station->id }}">
                             <div class="card card-body mt-3">
                               <div class="list-group">
-                                <a wire:click="closeStation({{ $station->id }})" class="list-group-item list-group-item-action" wire:loading.attr="disabled" onclick="confirm('¿Recibir todo?') || event.stopImmediatePropagation()">Recibir Seguimiento</a>
+                                <a href="{{ route('admin.station.ticket', $station->id) }}" target="_blank" class="list-group-item list-group-item-action"> <i class="cil-print"></i> Ticket <i class="fas fa-external-link-alt m-1"></i></a>
+
+                                @if($station->total_products_station_open)
+                                  <a wire:click="closeStation({{ $station->id }})" class="list-group-item list-group-item-action" wire:loading.attr="disabled" onclick="confirm('¿Recibir todo?') || event.stopImmediatePropagation()">Recibir Seguimiento</a>
+                                @else
+                                  <a class="list-group-item list-group-item-action list-group-item-dark" wire:loading.attr="disabled">Recibido  <i class="cil-check" style="color: blue;"></i></a>
+                                @endif
+
                                 @if($status->initial_lot)
                                   @if(!$station->consumption)
                                     <a wire:click="makeConsumption({{ $station->id }})" class="list-group-item list-group-item-action">
@@ -383,7 +434,6 @@
                                 @if($status->initial_lot)
                                   <a href="{{ route('admin.order.ticket_materia_station', [$order_id, $station->id]) }}" target="_blank" class="list-group-item list-group-item-action"> Ver BOM  <i class="fas fa-external-link-alt m-1"></i></a>
                                 @endif
-                                <a href="{{ route('admin.station.ticket', $station->id) }}" target="_blank" class="list-group-item list-group-item-action"> <i class="cil-print"></i> Ticket <i class="fas fa-external-link-alt m-1"></i></a>
 
                                 <a href="{{ route('admin.station.edit', $station->id) }}" target="_blank" class="list-group-item list-group-item-action"> Detalles <i class="fas fa-external-link-alt m-1"></i></a>
 
@@ -415,7 +465,7 @@
             @if($status->batch && !$status->initial_lot)
               @foreach($model->lot_stations as $station)
                 <div class="col-md-4 col-sm-6">
-                    <div class="pricing-table-3 {{ $status->batch ? 'basic' : '' }} {{ !$station->active ? 'disabled' : '' }}" style="border: dashed 5px green;">
+                    <div class="pricing-table-3 {{ $status->batch ? 'basic' : '' }} {{ !$station->active ? 'disabled' : '' }}" style="border: dashed 4px green;">
                         <div class="pricing-table-header">
                             <h4><strong>@lang('Tracking')</strong></h4>
                             <p><span class="badge badge-danger">Lote</span> {{ ucfirst(optional($station->status)->name) }}</p>
@@ -429,19 +479,19 @@
 
                                     @foreach($station->product_station->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']]) as $product_station)
                                     <tr>
-                                      <th scope="row"> <em class="text-white bg-dark">{!! '&nbsp'.$product_station->id.'&nbsp&nbsp' !!}</em> {!! $product_station->product->full_name_link !!}</th>
+                                      <th scope="row"> {!! $product_station->product->full_name_link !!}</th>
                                       <td><span class="badge badge-dark badge-pill">{{ $product_station->quantity }}</span></td>
-                                      <td class="text-primary"> {{ $product_station->metadata['open'] }} <br>-</td>
-                                      <td class="text-success"> {{ $product_station->metadata['closed'] }} <br>-</td>
+                                      {{-- <td class="text-primary"> {{ $product_station->metadata['open'] }} <br>-</td> --}}
+                                      {{-- <td class="text-success"> {{ $product_station->metadata['closed'] }} <br>-</td> --}}
 
                                       {{-- <td class="text-primary"> {{ $product_station->getQuantitiesByStatusOpen($status_id) }} </td> --}}
                                       {{-- <td class="text-success"> {{ $product_station->getQuantitiesByStatusClosed($status_id) }} </td> --}}
 
                                       <td>
-                                          <input type="number" 
+                                          <input type="number"
+                                              style="min-width: 45px !important; color: red;" 
                                               wire:model.defer="quantity.{{ $station->id }}.{{ $product_station->id }}.available"
                                               class="form-control text-center"
-                                              style="color: red;"
                                               wire:keydown.tab="emitUpdatedInStation({{ $station->id }})"
                                               wire:keydown.escape="emitUpdatedInStation({{ $station->id }})"
                                               placeholder="{{ $product_station->getAvailableBatch($status_id, $station->id) }}"
@@ -458,7 +508,6 @@
                                     <tr>
                                       <th></th>
                                       <th class="text-center"> {{ $station->total_products_station }} </th>
-                                      <td colspan="2"></td>
                                       <td class="text-center" >
                                         <a href="javascript:void(0);" style="display: block; border-width: 2px; border-style: dashed; border-color: red;"  wire:click="emitUpdatedInStation({{ $station->id }})" class="text-dark text-center">
                                           &nbsp; {!! isset($sumValueStation[$station->id]) && $sumValueStation[$station->id] != 0 ?  '<strong class="text-danger">'. $sumValueStation[$station->id] .'</strong>' : '' !!}
@@ -466,9 +515,9 @@
                                       </td>
                                     </tr>
                                     <tr>
-                                      <td colspan="4"></td>
+                                      <td colspan="2"></td>
                                       <td class="text-center">
-                                        <button type="button" wire:click="saveInStation({{ $station->id }})" class="btn btn-primary btn-sm" wire:loading.attr="disabled">
+                                        <button type="button" wire:click="saveInStation({{ $station->id }})" class="btn btn-{{ $quantity ? 'danger' : 'primary' }} btn-sm" wire:loading.attr="disabled">
                                           &nbsp; &#128190; &nbsp;
                                         </button>
                                       </td>
@@ -515,7 +564,7 @@
                                   <tbody>
                                     @foreach($station->product_station->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']]) as $product_station)
                                     <tr>
-                                      <th scope="row"> <em class="text-white bg-dark">{!! '&nbsp'.$product_station->id.'&nbsp&nbsp' !!}</em> {!! $product_station->product->full_name_link !!}</th>
+                                      <th scope="row"> {!! $product_station->product->full_name_link !!}</th>
                                       <td><span class="badge badge-dark badge-pill">{{ $product_station->quantity }}</span></td>
                                       <td class="text-primary"> {{ $product_station->getQuantitiesByStatusOpen($status_id) }} </td>
                                       <td class="text-success"> {{ $product_station->getQuantitiesByStatusClosed($status_id) }} </td>
@@ -661,4 +710,27 @@
       $('[data-toggle="tooltip"]').tooltip();   
   });
 </script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const selects = document.querySelectorAll('.custom-select');
+
+        selects.forEach(select => {
+            select.addEventListener('change', function () {
+                if (this.value !== '') {
+                    this.style.color = 'red'; // Color del texto seleccionado
+                } else {
+                    this.style.color = 'black'; // Color por defecto
+                }
+            });
+
+            // Aplicar el color al cargar la página si hay un valor seleccionado
+            if (select.value !== '') {
+                select.style.color = 'red';
+            }
+        });
+    });
+</script>
+
 @endpush

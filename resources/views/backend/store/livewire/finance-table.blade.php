@@ -130,7 +130,9 @@
             <strong style="color: #0061f2;"> @lang('Incomes and expenses') </strong>
           @endif
           <div class="card-header-actions">
-            <em> @lang('Last request'): {{ now()->format('h:i:s') }} </em>
+            <x-utils.link class="c-subheader-nav-link pr-4 pl-4" :target="true" :href="route('admin.store.finances.chart')" :text="__('Show Chart')" />
+            <x-utils.link class="c-subheader-nav-link pr-4 pl-4" :target="true" :href="route('admin.store.finances.chart-income')" :text="__('Show Chart Incomes')" />
+            <x-utils.link class="c-subheader-nav-link pr-4 pl-4" :target="true" :href="route('admin.store.finances.chart-expense')" :text="__('Show Chart Expenses')" />
             @if(!$status == 'deleted')
               <a href="#" class="card-header-action" style="color: green;"  data-toggle="modal" wire:click="$emitTo('backend.store.finance.create-finance', 'createmodal')" data-target="#createFinance"><i class="c-icon cil-plus"></i> @lang('Create income or expense') </a>
             @else

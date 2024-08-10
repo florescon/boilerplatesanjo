@@ -356,53 +356,53 @@ class ProductOrder extends Model
 
 
 
-public function gettAllConsumptionUngrouped()
-{
-    if ($this->consumption_filter->isNotEmpty()) {
-        $groups = collect();
+// public function gettAllConsumptionUngrouped()
+// {
+//     if ($this->consumption_filter->isNotEmpty()) {
+//         $groups = collect();
 
-        $conditions = [
-            ['color_id', $this->parent->color_id],
-            ['size_id', $this->parent->size_id],
-            [null, null]
-        ];
+//         $conditions = [
+//             ['color_id', $this->parent->color_id],
+//             ['size_id', $this->parent->size_id],
+//             [null, null]
+//         ];
 
-        foreach ($conditions as $condition) {
-            $filtered = $this->consumption_filter;
+//         foreach ($conditions as $condition) {
+//             $filtered = $this->consumption_filter;
 
-            if ($condition[0] !== null) {
-                $filtered = $filtered->where('color_id', $condition[0]);
-            }
+//             if ($condition[0] !== null) {
+//                 $filtered = $filtered->where('color_id', $condition[0]);
+//             }
 
-            if ($condition[1] !== null) {
-                $filtered = $filtered->where('size_id', $condition[1]);
-            } else {
-                $filtered = $filtered->whereNull('color_id')->whereNull('size_id');
-            }
+//             if ($condition[1] !== null) {
+//                 $filtered = $filtered->where('size_id', $condition[1]);
+//             } else {
+//                 $filtered = $filtered->whereNull('color_id')->whereNull('size_id');
+//             }
 
-            foreach ($filtered as $consumption) {
-                $groups->push([
-                    'material_id' => $consumption->material_id,
-                    'material_part_number' => $consumption->material->part_number ?? null,
-                    'material_name' => $consumption->material->full_name_clear ?? null,
-                    'stock' => $consumption->material->stock,
-                    'quantity' => $consumption->quantity * $this->quantity,
-                    'unit' => $consumption->quantity,
-                    'unit_measurement' => $consumption->material->unit_measurement ?? null,
-                    'vendor' => $consumption->material->vendor->short_name ?? null,
-                    'family' => $consumption->material->family->name ?? null,
-                    'price' => $consumption->material->price ?? null,
-                ]);
-            }
-        }
+//             foreach ($filtered as $consumption) {
+//                 $groups->push([
+//                     'material_id' => $consumption->material_id,
+//                     'material_part_number' => $consumption->material->part_number ?? null,
+//                     'material_name' => $consumption->material->full_name_clear ?? null,
+//                     'stock' => $consumption->material->stock,
+//                     'quantity' => $consumption->quantity * $this->quantity,
+//                     'unit' => $consumption->quantity,
+//                     'unit_measurement' => $consumption->material->unit_measurement ?? null,
+//                     'vendor' => $consumption->material->vendor->short_name ?? null,
+//                     'family' => $consumption->material->family->name ?? null,
+//                     'price' => $consumption->material->price ?? null,
+//                 ]);
+//             }
+//         }
 
-        return $groups;
-    }
+//         return $groups;
+//     }
 
-    return 'empty';
-}
+//     return 'empty';
+// }
 
-    /*
+    
     public function gettAllConsumptionUngrouped()
     {
         if($this->consumption_filter->isNotEmpty()){
@@ -463,7 +463,7 @@ public function gettAllConsumptionUngrouped()
         }
         
         return 'empty';
-    } */
+    } 
 
     public function gettAllConsumption()
     {

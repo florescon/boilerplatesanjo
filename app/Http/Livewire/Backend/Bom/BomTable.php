@@ -64,6 +64,13 @@ class BomTable extends Component
                 ->select('id as id_user', DB::raw('name as customer'));
     }
 
+    private function productOrderSumQuery(): Builder
+    {
+        return DB::table('product_order as po')
+            ->select('po.order_id', DB::raw('SUM(po.quantity) as total_quantity'))
+            ->groupBy('po.order_id');
+    }
+
     private function status(): Builder
     {
         return $status = DB::table('statuses as e')
@@ -91,6 +98,9 @@ class BomTable extends Component
         $orders = DB::table('orders as a')
                 ->leftJoinSub($this->user(), 'user', function (JoinClause $join) {
                     $join->on('a.user_id', '=', 'user.id_user');
+                })
+                ->leftJoinSub($this->productOrderSumQuery(), 'product_order_sum', function (JoinClause $join) {
+                    $join->on('a.id', '=', 'product_order_sum.order_id');
                 })
                 ->leftJoinSub($this->lastStatusOrder(), 'status', function (JoinClause $join) {
                     $join->on('a.id', '=', 'status.order_id');
@@ -137,6 +147,11 @@ class BomTable extends Component
     private function getSelectedProducts()
     {
         return $this->selectedtypes;
+    }
+
+    public function removeSelected()
+    {
+        return $this->selectedtypes = [];
     }
 
     public function sendMaterials()

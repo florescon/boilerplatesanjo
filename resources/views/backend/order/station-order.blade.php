@@ -75,6 +75,15 @@
       background-color: #000;
       top: 12px;
     }
+
+    .selected { 
+      background-color: green; color:red; 
+    }
+
+    .selected option:checked {
+      background-color: green; color:red; 
+    }
+
   </style>
 
 @endpush

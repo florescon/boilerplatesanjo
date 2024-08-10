@@ -397,11 +397,11 @@
 						    <tr>
 						      <th scope="col">@lang('Action')</th>
 						      @if(($nameStock === 'stock') or is_null($nameStock))
-							      <th scope="col">@lang('Stock')</th>
+							      <th scope="col">@lang('Workshop')</th>
 							  @endif
-						      @if(($nameStock === 'revision_stock') or is_null($nameStock))
+						      {{-- @if(($nameStock === 'revision_stock') or is_null($nameStock))
 							      <th scope="col">@lang('S.R.I')</th>
-							  @endif
+							  @endif --}}
 						      @if(($nameStock === 'store_stock') or is_null($nameStock))
 							      <th scope="col">@lang('Store stock')</th>
 							  @endif
@@ -420,7 +420,7 @@
 									</div>
 							      </td>
 						      @endif
-						      @if(($nameStock === 'revision_stock') or is_null($nameStock))
+						      {{-- @if(($nameStock === 'revision_stock') or is_null($nameStock))
 							      <td>
 							      	<div class="custom-control custom-switch custom-control-inline">
 				                        <label class="c-switch c-switch-success">
@@ -429,7 +429,7 @@
 				                        </label>
 									</div>
 							      </td>
-						      @endif
+						      @endif --}}
 						      @if(($nameStock === 'store_stock') or is_null($nameStock))
 							      <td>
 							      	<div class="custom-control custom-switch custom-control-inline">
@@ -453,7 +453,7 @@
 									</div>
 							      </td>
 						      @endif
-						      @if(($nameStock === 'revision_stock') or is_null($nameStock))
+						      {{-- @if(($nameStock === 'revision_stock') or is_null($nameStock))
 							      <td>
 							      	<div class="custom-control custom-switch custom-control-inline">
 				                        <label class="c-switch c-switch-danger">
@@ -462,7 +462,7 @@
 				                        </label>
 									</div>
 							      </td>
-						      @endif
+						      @endif --}}
 						      @if(($nameStock === 'store_stock') or is_null($nameStock))
 							      <td>
 							      	<div class="custom-control custom-switch custom-control-inline">
@@ -568,7 +568,7 @@
 
 				@if($model->children->count())
 
-				  	@foreach($model->children->sortBy('color.name')->groupBy('color_id') as $childrens)
+				  	@foreach($model->children->sortBy('color.name')->groupBy('color_id') as $colorId => $childrens)
 				    <div class="card card-box edit-product mt-4" style="{{ optional($childrens->first()->color)->color ? 'border: '. $childrens->first()->color->color. ' 3px solid' : '' }}">
 				      <div class="card-body">
 
@@ -599,152 +599,191 @@
 						      <th scope="col">@lang('Color')</th>
 						      <th scope="col">@lang('Size_')</th>
 						      @if(($nameStock === 'stock') or is_null($nameStock))
-							      <th scope="col" class="text-center">@lang('Stock')</th>
+							      <th scope="col" class="text-center">@lang('Workshop')</th>
 						      @endif
-						      @if(($nameStock === 'revision_stock') or is_null($nameStock))
+						      {{-- @if(($nameStock === 'revision_stock') or is_null($nameStock))
 							      <th scope="col" class="text-center">@lang('Revision stock')</th>
-						      @endif
+						      @endif --}}
 						      @if(($nameStock === 'store_stock') or is_null($nameStock))
 							      <th scope="col" class="text-center">@lang('Store stock')</th>
 						      @endif
 						      @if($increaseStock == TRUE)
 							      <th scope="col">@lang('Input')</th>
 						      @endif
-						      @if($increaseStockRevision == TRUE)
+						      {{-- @if($increaseStockRevision == TRUE)
 							      <th scope="col">@lang('Input revision stock')</th>
-						      @endif
+						      @endif --}}
 						      @if($increaseStockStore == TRUE)
 							      <th scope="col">@lang('Input store stock')</th>
 						      @endif
 						      @if($subtractStock == TRUE)
 							      <th scope="col">@lang('Output')</th>
 						      @endif
-						      @if($subtractStockRevision == TRUE)
+						      {{-- @if($subtractStockRevision == TRUE)
 							      <th scope="col">@lang('Output revision stock')</th>
-						      @endif
+						      @endif --}}
 						      @if($subtractStockStore == TRUE)
 							      <th scope="col">@lang('Output store stock')</th>
 						      @endif
 						      <th>
 						      </th>
 						    </tr>
+
 						  </thead>
-						  <tbody>
+						  <tbody class="group-{{ $colorId }}">
+						        @foreach($childrens->sortBy('size.sort') as $children)
 
-					        @foreach($childrens->sortBy('size.sort') as $children)
+								    <tr>
+								      @if($showCodes)
+									      <td>{!! $children->code_subproduct !!}</td>
+									  @endif
+								      @if($showLabels)
+									      <td>
+									          <a href="{{ route('admin.product.large-barcode', $children->id) }}" target="_blank"><span class='badge badge-dark'><i class="cil-print"></i> @lang('Large')</span></a>
+									          <a href="{{ route('admin.product.short-barcode', $children->id) }}" target="_blank"><span class='badge badge-info'><i class="cil-print"></i> @lang('Short')</span></a>
+									          <a href="{{ route('admin.product.packing-barcode', $children->id) }}" target="_blank"><span class='badge badge-info'><i class="cil-print"></i> @lang('Packing')</span></a>
+									      </td>
+									  @endif
+								      @if($showKardex)
+									      <td>
+									      	<h4>
+									          <a href="{{ route('admin.product.kardex', $children->id) }}" target="_blank"><span class='badge badge-light'><i class="cil-notes"></i> @lang('Kardex')</span></a>
+									      	</h4>
+									      </td>
+									  @endif
+								      <td style="{{ $children->trashed() ? 'text-decoration: line-through;' : '' }}">{{ optional($children->color)->name}} {!! optional($children->color)->undefined_icon_coding !!}</td>
+								      <td style="{{ $children->trashed() ? 'text-decoration: line-through;' : '' }}">{{ optional($children->size)->name}} {!! optional($children->size)->undefined_icon_coding !!}</td>
+								      @if(($nameStock === 'stock') or is_null($nameStock))
+									      <td class="text-center {{ $children->color_stock($children->stock) }}">{{ $children->stock }}</td>
+									  @endif
+								      {{-- @if(($nameStock === 'revision_stock') or is_null($nameStock))
+								      	<td class="text-center {{ $children->color_stock($children->stock_revision) }}">{{ $children->stock_revision }}</td>
+									  @endif --}}
+								      @if(($nameStock === 'store_stock') or is_null($nameStock))
+									      <td class="text-center {{ $children->color_stock($children->stock_store) }}">{{ $children->stock_store }}</td>
+									  @endif
+								      @if($increaseStock == TRUE)
+									      <td style="width:100px; max-width: 100px;">
+									      	<input class="form-control form-control-sm is-valid sum-{{ $colorId }}" style="background-image: none; padding-right: inherit;" wire:model.defer="inputincrease.{{ $children->id }}.stock" wire:keydown.enter="increase" type="number" min="1" placeholder="+" required>
+									      </td>
+									  @endif
 
-							    <tr>
-							      @if($showCodes)
-								      <td>{!! $children->code_subproduct !!}</td>
-								  @endif
-							      @if($showLabels)
-								      <td>
-								          <a href="{{ route('admin.product.large-barcode', $children->id) }}" target="_blank"><span class='badge badge-dark'><i class="cil-print"></i> @lang('Large')</span></a>
-								          <a href="{{ route('admin.product.short-barcode', $children->id) }}" target="_blank"><span class='badge badge-info'><i class="cil-print"></i> @lang('Short')</span></a>
-								          <a href="{{ route('admin.product.packing-barcode', $children->id) }}" target="_blank"><span class='badge badge-info'><i class="cil-print"></i> @lang('Packing')</span></a>
-								      </td>
-								  @endif
-							      @if($showKardex)
-								      <td>
-								      	<h4>
-								          <a href="{{ route('admin.product.kardex', $children->id) }}" target="_blank"><span class='badge badge-light'><i class="cil-notes"></i> @lang('Kardex')</span></a>
-								      	</h4>
-								      </td>
-								  @endif
-							      <td style="{{ $children->trashed() ? 'text-decoration: line-through;' : '' }}">{{ optional($children->color)->name}} {!! optional($children->color)->undefined_icon_coding !!}</td>
-							      <td style="{{ $children->trashed() ? 'text-decoration: line-through;' : '' }}">{{ optional($children->size)->name}} {!! optional($children->size)->undefined_icon_coding !!}</td>
-							      @if(($nameStock === 'stock') or is_null($nameStock))
-								      <td class="text-center {{ $children->color_stock($children->stock) }}">{{ $children->stock }}</td>
-								  @endif
-							      @if(($nameStock === 'revision_stock') or is_null($nameStock))
-							      	<td class="text-center {{ $children->color_stock($children->stock_revision) }}">{{ $children->stock_revision }}</td>
-								  @endif
-							      @if(($nameStock === 'store_stock') or is_null($nameStock))
-								      <td class="text-center {{ $children->color_stock($children->stock_store) }}">{{ $children->stock_store }}</td>
-								  @endif
-							      @if($increaseStock == TRUE)
-								      <td style="width:100px; max-width: 100px;">
-								      	<input class="form-control form-control-sm is-valid" style="background-image: none; padding-right: inherit;" wire:model="inputincrease.{{ $children->id }}.stock" wire:keydown.enter="increase" type="number" min="1" placeholder="+" required>
-								      </td>
-								  @endif
+								      {{-- @if($increaseStockRevision == TRUE)
+									      <td style="width:100px; max-width: 100px;">
+									      	<input class="form-control form-control-sm is-valid sumrevision-{{ $colorId }}" style="background-image: none; padding-right: inherit;" wire:model.defer="inputincreaserevision.{{ $children->id }}.stock" wire:keydown.enter="increase" type="number" min="1" placeholder="+" required>
+									      </td>
+									  @endif --}}
 
-							      @if($increaseStockRevision == TRUE)
-								      <td style="width:100px; max-width: 100px;">
-								      	<input class="form-control form-control-sm is-valid" style="background-image: none; padding-right: inherit;" wire:model="inputincreaserevision.{{ $children->id }}.stock" wire:keydown.enter="increase" type="number" min="1" placeholder="+" required>
-								      </td>
-								  @endif
+								      @if($increaseStockStore == TRUE)
+									      <td style="width:100px; max-width: 100px;">
+									      	<input class="form-control form-control-sm is-valid sumstore-{{ $colorId }}" style="background-image: none; padding-right: inherit;" wire:model.defer="inputincreasestore.{{ $children->id }}.stock" wire:keydown.enter="increase" type="number" min="1" placeholder="+" required>
+									      </td>
+									  @endif
 
-							      @if($increaseStockStore == TRUE)
-								      <td style="width:100px; max-width: 100px;">
-								      	<input class="form-control form-control-sm is-valid" style="background-image: none; padding-right: inherit;" wire:model="inputincreasestore.{{ $children->id }}.stock" wire:keydown.enter="increase" type="number" min="1" placeholder="+" required>
-								      </td>
-								  @endif
+								      @if($subtractStock == TRUE)
+									      <td style="width:100px; max-width: 100px;">
+									      	<input class="form-control form-control-sm is-invalid sumsubtract-{{ $colorId }}" style="background-image: none; padding-right: inherit;" wire:model.defer="inputsubtract.{{ $children->id }}.stock" wire:keydown.enter="increase" type="number" min="1" placeholder="-" required>
+									      </td>
+									  @endif
 
-							      @if($subtractStock == TRUE)
-								      <td style="width:100px; max-width: 100px;">
-								      	<input class="form-control form-control-sm is-invalid" style="background-image: none; padding-right: inherit;" wire:model="inputsubtract.{{ $children->id }}.stock" wire:keydown.enter="increase" type="number" min="1" placeholder="-" required>
-								      </td>
-								  @endif
+								      {{-- @if($subtractStockRevision == TRUE)
+									      <td style="width:100px; max-width: 100px;">
+									      	<input class="form-control form-control-sm is-invalid" style="background-image: none; padding-right: inherit;" wire:model.defer="inputsubtractrevision.{{ $children->id }}.stock" wire:keydown.enter="increase" type="number" min="1" placeholder="-" required>
+									      </td>
+									  @endif --}}
 
-							      @if($subtractStockRevision == TRUE)
-								      <td style="width:100px; max-width: 100px;">
-								      	<input class="form-control form-control-sm is-invalid" style="background-image: none; padding-right: inherit;" wire:model="inputsubtractrevision.{{ $children->id }}.stock" wire:keydown.enter="increase" type="number" min="1" placeholder="-" required>
-								      </td>
-								  @endif
+								      @if($subtractStockStore == TRUE)
+									      <td style="width:100px; max-width: 100px;">
+									      	<input class="form-control form-control-sm is-invalid sumstoresubtract-{{ $colorId }}" style="background-image: none; padding-right: inherit;" wire:model.defer="inputsubtractstore.{{ $children->id }}.stock" wire:keydown.enter="increase" type="number" min="1" placeholder="-" required>
+									      </td>
+									  @endif
 
-							      @if($subtractStockStore == TRUE)
-								      <td style="width:100px; max-width: 100px;">
-								      	<input class="form-control form-control-sm is-invalid" style="background-image: none; padding-right: inherit;" wire:model="inputsubtractstore.{{ $children->id }}.stock" wire:keydown.enter="increase" type="number" min="1" placeholder="-" required>
-								      </td>
-								  @endif
+									  {{-- @if(($showSpecificConsumptions == FALSE) && is_null($nameStock))
+									  <td class="no-print">
+									  	<div x-data="{ highlightedButton: '' }" style="display:inline;">
+										    <a @click="highlightedButton='order'"  :class="{'badge-danger': highlightedButton === 'order'}" onmousedown="party.sparkles(this)" class="badge badge-primary text-white" wire:click="addToCart({{ $children->id }}, 'products')" ><i class="cil-cart"> </i> @lang('Order')</a>
+										</div>
+										<div x-data="{ highlightedButton2: '' }"  style="display:inline;">
+										    <a @click="highlightedButton2='sale'"  :class="{'badge-danger': highlightedButton2 === 'sale'}" onmousedown="party.confetti(this)" class="badge badge-success text-white" wire:click="addToCart({{ $children->id }}, 'products_sale')" ><i class="cil-cart"> </i> @lang('Sale')</a>
+										</div>
+									  </td>
+									  @endif --}}
 
-								  {{-- @if(($showSpecificConsumptions == FALSE) && is_null($nameStock))
-								  <td class="no-print">
-								  	<div x-data="{ highlightedButton: '' }" style="display:inline;">
-									    <a @click="highlightedButton='order'"  :class="{'badge-danger': highlightedButton === 'order'}" onmousedown="party.sparkles(this)" class="badge badge-primary text-white" wire:click="addToCart({{ $children->id }}, 'products')" ><i class="cil-cart"> </i> @lang('Order')</a>
-									</div>
-									<div x-data="{ highlightedButton2: '' }"  style="display:inline;">
-									    <a @click="highlightedButton2='sale'"  :class="{'badge-danger': highlightedButton2 === 'sale'}" onmousedown="party.confetti(this)" class="badge badge-success text-white" wire:click="addToCart({{ $children->id }}, 'products_sale')" ><i class="cil-cart"> </i> @lang('Sale')</a>
-									</div>
-								  </td>
-								  @endif --}}
+									  @if($showSpecificConsumptions == TRUE)
+									  <td>
+									      <x-utils.link class="badge badge-warning text-white" :href="route('admin.product.consumption_filter', $children->id)" :text="__('Punctual consumption')" :target="true"/>
+									  </td>
+									  @endif
 
-								  @if($showSpecificConsumptions == TRUE)
-								  <td>
-								      <x-utils.link class="badge badge-warning text-white" :href="route('admin.product.consumption_filter', $children->id)" :text="__('Punctual consumption')" :target="true"/>
-								  </td>
-								  @endif
+								    </tr>
+							    @endforeach
 
-							    </tr>
-						    @endforeach
-			                <tr class="font-weight-bold">
-                            	<td colspan="2"></td>
-						      	@if($showCodes)
-	                            	<td>
-	                        		</td>
-                        		@endif
-						      	@if($showLabels)
-	                            	<td>
-	                        		</td>
-                        		@endif
-						      	@if($showKardex)
-	                            	<td>
-	                        		</td>
-                        		@endif
+				                <tr class="font-weight-bold">
+	                            	<td colspan="2"></td>
+							      	@if($showCodes)
+		                            	<td>
+		                        		</td>
+	                        		@endif
+							      	@if($showLabels)
+		                            	<td>
+		                        		</td>
+	                        		@endif
+							      	@if($showKardex)
+		                            	<td>
+		                        		</td>
+	                        		@endif
 
-						        @if(($nameStock === 'stock') or is_null($nameStock))
-				                    <td class="text-center">{{ $model->getTotalByTypeStock($children->color_id, 'stock') }}</td>
-				                @endif
-						        @if(($nameStock === 'revision_stock') or is_null($nameStock))
-				                    <td class="text-center">{{ $model->getTotalByTypeStock($children->color_id, 'stock_revision') }}</td>
-				                @endif
-						        @if(($nameStock === 'store_stock') or is_null($nameStock))
-				                    <td class="text-center">{{ $model->getTotalByTypeStock($children->color_id, 'stock_store') }}</td>
-				                @endif
-			                </tr>
+							        @if(($nameStock === 'stock') or is_null($nameStock))
+					                    <td class="text-center">{{ $model->getTotalByTypeStock($children->color_id, 'stock') }}</td>
+					                @endif
+							        {{-- @if(($nameStock === 'revision_stock') or is_null($nameStock))
+					                    <td class="text-center">{{ $model->getTotalByTypeStock($children->color_id, 'stock_revision') }}</td>
+					                @endif --}}
+							        @if(($nameStock === 'store_stock') or is_null($nameStock))
+					                    <td class="text-center">{{ $model->getTotalByTypeStock($children->color_id, 'stock_store') }}</td>
+					                @endif
+					                @if($increaseStock == TRUE)
+						                <td>
+						                	<div wire:ignore>
+							                	<span id="total-{{ $colorId }}" class="total-span text-center">0</span>
+							                </div>
+							            </td>
+						            @endif
+					                {{-- @if($increaseStockRevision == TRUE)
+						                <td>
+						                	<div wire:ignore>
+							                	<span id="totalrevision-{{ $colorId }}" class="total-span">Total: 0</span>
+							                </div>
+							            </td>
+						            @endif --}}
+					                @if($increaseStockStore == TRUE)
+						                <td>
+						                	<div wire:ignore>
+							                	<span id="totalstore-{{ $colorId }}" class="total-span">0</span>
+							                </div>
+							            </td>
+						            @endif
+
+					                @if($subtractStock == TRUE)
+						                <td>
+						                	<div wire:ignore>
+							                	<span id="totalsubtract-{{ $colorId }}" class="total-span">0</span>
+							                </div>
+							            </td>
+						            @endif
+
+					                @if($subtractStockStore == TRUE)
+						                <td>
+						                	<div wire:ignore>
+							                	<span id="totalstoresubtract-{{ $colorId }}" class="total-span">0</span>
+							                </div>
+							            </td>
+						            @endif
+				                </tr>
 
 						  </tbody>
 						</table>
+
 						</div>
 				        {{-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> --}}
 
@@ -1165,6 +1204,75 @@
 	        })
 	    });
 	</script> 
+
+	<script type="text/javascript">
+	    document.addEventListener('DOMContentLoaded', function () {
+	        // Función para sumar valores y actualizar el total
+	        function sumAll(colorId, className, totalId) {
+	            var textboxes = document.querySelectorAll("." + className + "-" + colorId);
+	            var total = 0;
+	            textboxes.forEach(function(box) {
+	                var val = box.value === "" ? 0 : parseInt(box.value);
+	                total += val;
+	            });
+	            document.getElementById(totalId + "-" + colorId).innerText = total;
+	        }
+
+	        // Función para agregar event listeners a los inputs
+	        function addEventListeners(colorId, className, totalId) {
+	            var textboxes = document.querySelectorAll("." + className + "-" + colorId);
+	            textboxes.forEach(function(box) {
+	                box.addEventListener("keyup", function() {
+	                    sumAll(colorId, className, totalId);
+	                });
+	            });
+	        }
+
+	        // Escuchar eventos emitidos desde Livewire
+	        Livewire.on('triggerDOMContentLoaded', function () {
+	            document.querySelectorAll("[class^='group-']").forEach(function(group) {
+	                var colorId = group.classList[0].split('-')[1];
+	                addEventListeners(colorId, 'sum', 'total');
+	                sumAll(colorId, 'sum', 'total');
+	            });
+	        });
+
+	        Livewire.on('triggerDOMContentLoadedRevision', function () {
+	            document.querySelectorAll("[class^='group-']").forEach(function(group) {
+	                var colorId = group.classList[0].split('-')[1];
+	                addEventListeners(colorId, 'sumrevision', 'totalrevision');
+	                sumAll(colorId, 'sumrevision', 'totalrevision');
+	            });
+	        });
+
+	        Livewire.on('triggerDOMContentLoadedStore', function () {
+	            document.querySelectorAll("[class^='group-']").forEach(function(group) {
+	                var colorId = group.classList[0].split('-')[1];
+	                addEventListeners(colorId, 'sumstore', 'totalstore');
+	                sumAll(colorId, 'sumstore', 'totalstore');
+	            });
+	        });
+
+
+	        Livewire.on('triggerDOMContentLoadedSubtract', function () {
+	            document.querySelectorAll("[class^='group-']").forEach(function(group) {
+	                var colorId = group.classList[0].split('-')[1];
+	                addEventListeners(colorId, 'sumsubtract', 'totalsubtract');
+	                sumAll(colorId, 'sumsubtract', 'totalsubtract');
+	            });
+	        });
+
+	        Livewire.on('triggerDOMContentLoadedStoreSubtract', function () {
+	            document.querySelectorAll("[class^='group-']").forEach(function(group) {
+	                var colorId = group.classList[0].split('-')[1];
+	                addEventListeners(colorId, 'sumstoresubtract', 'totalstoresubtract');
+	                sumAll(colorId, 'sumstoresubtract', 'totalstoresubtract');
+	            });
+	        });
+
+	    });
+	</script>
+
     {{-- <script>
     	document.querySelector(".button").addEventListener("click", function (e) {
    			party.sparkles(this, {

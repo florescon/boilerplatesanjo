@@ -149,12 +149,12 @@ Route::group([
                         ->push(__('Edit'), route('admin.store.all.edit', $order));
                 });
 
-            Route::get('print/{breackdown?}/{grouped?}', [OrderController::class, 'print_store'])
+            Route::get('print/{breackdown?}/{grouped?}/{emptyPrices?}', [OrderController::class, 'print_store'])
                 ->name('print')
                 ->middleware('permission:admin.access.store.print')
                 ->breadcrumbs(function (Trail $trail, Order $order) {
                     $trail->parent('admin.order.edit', $order)
-                        ->push(__('Print order'), route('admin.store.all.print', [$order, $breackdown, $grouped]));
+                        ->push(__('Print order'), route('admin.store.all.print', [$order, $breackdown, $grouped, $emptyPrices]));
                 });
 
             Route::get('ticket', [OrderController::class, 'ticket_store'])
@@ -252,6 +252,33 @@ Route::group([
             ->breadcrumbs(function (Trail $trail) {
                 $trail->parent('admin.dashboard')
                     ->push(__('Finances Management'), route('admin.store.finances.index'));
+            });
+
+        Route::get('chart', function () {
+                return view('backend.store.finance.chart');
+            })->name('chart')
+            ->middleware('permission:admin.access.store.list_finance')
+            ->breadcrumbs(function (Trail $trail) {
+                $trail->parent('admin.store.finances.index')
+                    ->push(__('Finances Chart'), route('admin.store.finances.chart'));
+            });
+
+        Route::get('chart-income', function () {
+                return view('backend.store.finance.chart-income');
+            })->name('chart-income')
+            ->middleware('permission:admin.access.store.list_finance')
+            ->breadcrumbs(function (Trail $trail) {
+                $trail->parent('admin.store.finances.index')
+                    ->push(__('Finances Chart - Incomes'), route('admin.store.finances.chart-income'));
+            });
+
+        Route::get('chart-expense', function () {
+                return view('backend.store.finance.chart-expense');
+            })->name('chart-expense')
+            ->middleware('permission:admin.access.store.list_finance')
+            ->breadcrumbs(function (Trail $trail) {
+                $trail->parent('admin.store.finances.index')
+                    ->push(__('Finances Chart - Expenses'), route('admin.store.finances.chart-expense'));
             });
 
         Route::group(['prefix' => '{finances}'], function () {

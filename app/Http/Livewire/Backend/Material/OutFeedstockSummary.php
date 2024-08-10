@@ -133,7 +133,7 @@ class OutFeedstockSummary extends Component
             $this->clearSummary();
             $this->emit('clearAllProducts');
 
-            return redirect()->route('admin.material.ticket_out', $out->id);
+            $this->emit('redirectToTicketOut', route('admin.material.ticket_out', $out->id));
 
         });
     }    

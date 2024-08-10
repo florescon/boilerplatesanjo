@@ -145,7 +145,7 @@ class MaterialTable extends TableComponent
     public function columns(): array
     {
         return [
-            Column::make(__('Massive changes'))
+            Column::make(__('C.'))
                 ->format(function (Material $model) {
                     return view('backend.material.datatable.massive', ['model' => $model]);
                 })
@@ -157,18 +157,17 @@ class MaterialTable extends TableComponent
                 ->searchable()
                 ->sortable()
                 ->format(function(Material $model) {
-                    return $this->html('<strong>'.$model->stock_formatted.'</strong>');
+                    return $this->html('<strong>'.$model->stock_formatted.'</strong> '.$model->unit_name_label );
                 })
                 ->exportFormat(function(Material $model) {
                     return $model->stock_formatted;
                 })
                 ->hideIf(auth()->user()->cannot('admin.access.material.show-quantities')),
             Column::make(__('Unit'), 'unit.name')
-                ->searchable()
-                ->sortable()
-                ->format(function(Material $model) {
-                    return $this->html(!empty($model->unit_id) && isset($model->unit->id) ? '<strong>'.$model->unit->name.'</strong>' : '<span class="badge badge-pill badge-secondary"> <em>No asignada</em></span>');
-                }),
+                ->exportFormat(function(Material $model) {
+                    return $model->unit_id ? optional($model->unit)->name : '--';
+                })
+                ->exportOnly(),
             Column::make(__('Name'), 'name')
                 ->searchable()
                 ->format(function(Material $model) {
@@ -220,10 +219,10 @@ class MaterialTable extends TableComponent
                 })
                 ->excludeFromExport()
                 ->hideIf($this->editStock == true or $this->massAssginment == true),
-            Column::make(__('Updated at'), 'updated_at')
-                ->searchable()
-                ->sortable()
-                ->hideIf($this->editStock == true),
+            // Column::make(__('Updated at'), 'updated_at')
+            //     ->searchable()
+            //     ->sortable()
+            //     ->hideIf($this->editStock == true),
             // Column::make(__('Mass assignment'))
             //     ->format(function (Material $model) {
             //         return view('backend.material.datatable.mass', ['model' => $model]);

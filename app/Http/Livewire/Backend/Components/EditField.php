@@ -10,16 +10,18 @@ class EditField extends Component
     public $origName;
     public $entityId;
     public $shortId;
+    public ?string $text = '';
     public $newName; // dirty operation name state
     public $isName; // determines whether to display it in bold text
     public string $field; // this is can be column. It comes from the blade-view foreach($fields as $field)
     public string $model; // Eloquent model with full name-space
 
-    public function mount($model, $entity)
+    public function mount($model, $entity, ?string $text = '')
     {
         $this->entityId = $entity->id;
         $this->shortId = $entity->short_id;
         $this->origName = $entity->{$this->field};
+        $this->text = $text;
 
         $this->init($this->model, $entity); // initialize the component state
     }

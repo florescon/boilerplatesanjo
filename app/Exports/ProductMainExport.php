@@ -15,7 +15,7 @@ class ProductMainExport implements FromCollection, WithMapping, WithHeadings
     private $productsIDs = [];
     private $from_store;
 
-    public function __construct($productsIDs = False, $from_store){
+    public function __construct($productsIDs = False, $from_store = false){
         $this->productsIDs = $productsIDs;
         $this->from_store = $from_store;
     }

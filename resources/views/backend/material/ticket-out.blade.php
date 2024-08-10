@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>{{ optional($out->user)->name }}</title>
+        <title> #{{ $out->id }} Vale de Salida de Almacén</title>
 
         <style type="text/css">
             * {

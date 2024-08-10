@@ -173,10 +173,10 @@
                 ${{ $record->price_order_or_suborder }}
               </td>
               <td class="align-middle text-center">
-                <a href="{{ route('admin.order.edit', $record->order_or_suborder) }}"> #{!! $record->order_or_suborder_label !!}</a>
+                <a target="_blank" href="{{ route('admin.store.all.edit', $record->order_or_suborder) }}"> #{!! $record->order_or_suborder_label !!}</a>
               </td>
               <td class="align-middle text-center">
-                {!! $record->type_order_label !!}
+                {{ optional($record->order)->type_order_clear }}
               </td>
               <td class="align-middle">
                 <span class="badge badge-dot mr-4">

@@ -50,7 +50,11 @@ const SwalConfirm = (icon, title, html, confirmButtonText, method, params, callb
           `
     }).then(result => {
         if (result.value) {
-            return livewire.emit(method, ...params)
+            if (Array.isArray(params) && params.length > 1) {
+                return livewire.emit(method, ...params);
+            } else {
+                return livewire.emit(method, params);
+            }
         }
 
         if (callback) {

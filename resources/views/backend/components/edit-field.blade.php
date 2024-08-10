@@ -21,6 +21,7 @@
             x-on:click="nameData = true; $nextTick(() => focus())"
         >
             {{ $origName ?? '' }}
+            {{ $origName ? '' : $text }}
             &nbsp;<i class="cil-pencil"></i>
         </p>
     </div>

@@ -52,22 +52,6 @@
 	    @if($selected && $products->count() && ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.product.modify'))))
 	    <div class="dropdown table-export">
 	      <button class="dropdown-toggle btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	        @lang('Export revision stock')
-	      </button>
-
-	      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-	        <a class="dropdown-item" wire:click="exportMaatwebsiteCustom('csv', 'revision')">CSV</a>
-	        <a class="dropdown-item" wire:click="exportMaatwebsiteCustom('xlsx', 'revision')">Excel</a>
-	        <a class="dropdown-item" wire:click="exportMaatwebsiteCustom('xls', 'revision')">Excel ('XLS')</a>
-	        <a class="dropdown-item" wire:click="exportMaatwebsiteCustom('html', 'revision')">HTML</a>
-	        <a class="dropdown-item" wire:click="exportMaatwebsiteCustom('tsv', 'revision')">TSV</a>
-	        <a class="dropdown-item" wire:click="exportMaatwebsiteCustom('ods', 'revision')">ODS</a>
-	      </div>
-	    </div><!--export-dropdown-->
-	    @endif
-	    @if($selected && $products->count() && ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.product.modify'))))
-	    <div class="dropdown table-export">
-	      <button class="dropdown-toggle btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	        @lang('Export main stock')        
 	      </button>
 
@@ -169,7 +153,7 @@
 	              @if($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.product.modify')))
 					      <th scope="col">
 	                <a wire:click.prevent="sortBy('stock')" role="button" href="#">
-	                  @lang('Stock')
+	                  @lang('Workshop')
 	                  @include('backend.includes._sort-icon', ['field' => 'stock'])
 	                </a>
 					    	</th>

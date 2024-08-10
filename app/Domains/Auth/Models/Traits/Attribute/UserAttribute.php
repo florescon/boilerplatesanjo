@@ -143,17 +143,19 @@ trait UserAttribute
 
     public function getTypePriceLabelAttribute()
     {
-        if($this->isRetail()){
-            return __('Retail price');
-        }
-        elseif($this->isAverageWholesale()){
-            return __('Average wholesale price');
-        }
-        elseif($this->isWholesale()){
-            return __('Wholesale price');
-        }
-        elseif($this->isSpecial()){
-            return __('Special price');
+        if($this->customer){
+            if($this->isRetail()){
+                return __('Retail price');
+            }
+            elseif($this->isAverageWholesale()){
+                return __('Average wholesale price');
+            }
+            elseif($this->isWholesale()){
+                return __('Wholesale price');
+            }
+            elseif($this->isSpecial()){
+                return __('Special price');
+            }
         }
 
         return __('Retail price');

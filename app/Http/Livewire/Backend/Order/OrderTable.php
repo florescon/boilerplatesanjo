@@ -118,28 +118,35 @@ class OrderTable extends Component
             return $query->withoutFlowchart()->onlyTrashed();
         }
         else{
-            $this->applySearchFilter($query);
 
             if ($this->status === 'suborders') {
+                $this->applySearchFilter($query);
+
                 $this->title = ['title' => 'List of outputs', 'color' => 'secondary'];
                 return $query->onlySuborders()->outFromStore()->withoutFlowchart();
             }
             if ($this->status === 'quotations') {
+                $this->applySearchFilter($query);
                 $this->title = ['title' => 'List of quotations', 'color' => '#FAFA33'];
                 return $query->onlyQuotations()->outFromStore()->withoutFlowchart();
             }
             if ($this->status === 'sales') {
+                $this->applySearchFilter($query);
                 $this->title = ['title' => 'List of sales', 'color' => 'success'];
                 return $query->onlySales()->outFromStore()->withoutFlowchart();
             }
             if ($this->status === 'mix') {
+                $this->applySearchFilter($query);
                 $this->title = ['title' => 'List of mix', 'color' => 'warning'];
                 return $query->onlyMix()->outFromStore()->withoutFlowchart();
             }
             if ($this->status === 'all') {
+                $this->applySearchFilter($query);
                 $this->title = ['title' => 'List of all', 'color' => 'dark'];
                 return $query->onlyAll()->outFromStore()->withoutFlowchart();
             }
+
+            $this->applySearchFilter($query);
         }
 
         $this->title = ['title' => 'List of orders', 'color' => 'primary'];

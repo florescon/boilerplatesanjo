@@ -225,7 +225,7 @@
 
             </div>
             <div class="card-footer text-center">
-              <a class="btn btn-outline-danger btn-sm" type="button"  target="_blank"  href="{{ route('admin.document.print', $document->id ) }}"><strong> @lang('File') <i class="fas fa-print m-1"></i> </strong></a>
+              <a class="btn btn-outline-primary btn-sm" type="button" target="_blank" href="{{ route('admin.document.print', $document->id ) }}"><strong> @lang('File') <i class="fas fa-print m-1"></i> </strong></a>
             </div>
             <div class="card-footer text-muted text-center">
               <em class="text-dark"><strong>@lang('Updated at'):</strong></em> {{ $document->date_for_humans_updated }}
