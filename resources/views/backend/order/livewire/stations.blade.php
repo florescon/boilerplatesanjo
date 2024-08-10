@@ -359,9 +359,9 @@
                                   <td class="text-success">{{ $product_station->metadata['closed'] }}</td>
                                   <td>
                                     @if($product_station->metadata['open'] == 0)
-                                      <button class="btn btn-dark btn-sm" disabled>Recibido</button>
+                                      <button class="btn btn-success btn-sm" disabled>Recibido</button>
                                     @else
-                                      <button class="btn btn-success btn-sm" wire:click="closeStation({{ $station->id }}, {{ $product_station->id }})">Recibir</button>
+                                      <button class="btn btn-dark btn-sm" wire:click="closeStation({{ $station->id }}, {{ $product_station->id }})">Recibir</button>
                                     @endif
                                   </td>
                                 </tr>
@@ -398,7 +398,7 @@
                                 @if($station->total_products_station_open)
                                   <a wire:click="closeStation({{ $station->id }})" class="list-group-item list-group-item-action" wire:loading.attr="disabled" onclick="confirm('¿Recibir todo?') || event.stopImmediatePropagation()">Recibir Seguimiento</a>
                                 @else
-                                  <a class="list-group-item list-group-item-action list-group-item-dark" wire:loading.attr="disabled">Recibido  <i class="cil-check" style="color: blue;"></i></a>
+                                  <a class="list-group-item list-group-item-action list-group-item-success" wire:loading.attr="disabled">Recibido  <i class="cil-check" style="color: blue;"></i></a>
                                 @endif
 
                                 @if($status->initial_lot)
