@@ -558,7 +558,7 @@
                 <div class="col-md-4 col-sm-6">
                     <div class="pricing-table-3 {{ $status->process ? 'business' : '' }} {{ !$station->active ? 'disabled' : '' }}" style="border: dashed 5px green;">
                         <div class="pricing-table-header">
-                            <h4><strong>@lang('Process') {{ $station->id }}</strong></h4>
+                            <h4><strong>@lang('Process') #{{ $station->id }}</strong></h4>
                             <p><span class="badge badge-danger">Seguimiento</span> {{ ucfirst(optional($station->status)->name) }}</p>
                         </div>
                         <div class="price"><strong>#{{ $station->id }}</strong> / @lang('Process')</div>
@@ -568,7 +568,7 @@
                                   <tbody>
                                     @foreach($station->product_station->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']]) as $product_station)
                                     <tr>
-                                      <th scope="row"> {!! $product_station->product->full_name_link !!}</th>
+                                      <th scope="row"> {{ $product_station->id }} {!! $product_station->product->full_name_link !!}</th>
                                       <td><span class="badge badge-dark badge-pill">{{ $product_station->quantity }}</span></td>
                                       <td class="text-primary"> {{ $product_station->getQuantitiesByStatusOpen($status_id) }} </td>
                                       <td class="text-success"> {{ $product_station->getQuantitiesByStatusClosed($status_id) }} </td>
@@ -591,7 +591,7 @@
                                           <input type="number" 
                                               wire:model.defer="quantity.{{ $station->id }}.{{ $product_station->id }}.available"
                                               class="form-control text-center"
-                                              style="color: red;"
+                                              style="min-width: 45px !important; color: red;"
                                               wire:keydown.tab="emitUpdatedInStation({{ $station->id }})"
                                               wire:keydown.escape="emitUpdatedInStation({{ $station->id }})"
                                               placeholder="{{ $status->not_restricted ? $product_station->metadata['closed'] : $product_station->getAvailableInitialProcess($status_id) }}"

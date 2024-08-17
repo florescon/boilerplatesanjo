@@ -346,6 +346,25 @@ class Product extends Model
     /**
      * @return string
      */
+    public function getFullNameClearBreakAttribute()
+    {
+        if($this->parent_id !== null){
+            return $this->parent->name.', <br> '.$this->size_name_clear.' '.$this->color_name_clear;
+        }
+        else{
+            if(!$this->isProduct()){
+                return $this->name;
+            }
+            else{
+                return $this->name;
+            }
+        }
+    }
+
+
+    /**
+     * @return string
+     */
     public function getFullNameClearSortAttribute()
     {
         if($this->parent_id !== null){

@@ -357,3 +357,17 @@ if (! function_exists('formatTime')) {
         return $time;
     }
 }
+
+if (! function_exists('changeFormatStringDate')) {
+
+    function changeFormatStringDate($dateString)
+    {
+        // Crear un objeto DateTime desde la cadena de fecha
+        $date = DateTime::createFromFormat('Y-m-d', $dateString);
+
+        // Formatear la fecha al nuevo formato
+        $formattedDate = $date->format('d-m-Y');
+
+        return $formattedDate;  // Salida: 01-08-2024
+    }
+}

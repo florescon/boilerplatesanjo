@@ -732,7 +732,7 @@
                       @endif
 
                     </td>
-                    <td class="text-center" wire:ignore.self>
+                    <td class="text-center" wire:ignore>
                       <livewire:backend.cartdb.quantity-update :item="$product" :key="now()->timestamp.$product->id" :typeCart="$product->type" :setModel="'product_order'"/>
                     </td>
                     <td class="text-center">

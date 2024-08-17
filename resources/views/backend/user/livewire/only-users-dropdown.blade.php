@@ -30,7 +30,9 @@
                         results: data.items.map(function (item) {
                             return {
                                 id: item.id,
-                                text: item.name
+                                text: item.name.toLowerCase().replace(/\b\w/g, function(letter) {
+                                    return letter.toUpperCase();
+                                })
                             };
                         }),
                         pagination: {

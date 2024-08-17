@@ -2,6 +2,13 @@
 
     <x-slot name="body">
 
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <strong>¡Estás en un apartado antiguo!</strong> Ir al nuevo apartado: <a href="{{ route('admin.order.request_chart') }}"> click aquí </a>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
         <div class="row justify-content-center">
             <div class="col-lg-11 col-xl-12">
                 <ul class="nav nav-tabs nav-fill mt-1 no-print" role="tablist">

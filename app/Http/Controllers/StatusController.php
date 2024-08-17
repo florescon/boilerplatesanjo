@@ -185,6 +185,11 @@ class StatusController extends Controller
                         $query->whereBetween('created_at', [$dateInput.' 00:00:00', $dateOutput.' 23:59:59']);
                 })
                 ->get()
+                ->sortBy([
+                    ['product_station.product.parent.code', 'asc'],
+                    ['product_station.product.color.name', 'asc'],
+                    ['product_station.product.size.sort', 'asc']
+                ])
                 ->groupBy('product_station.product_id')
                 ->map(function ($group) {
                     $totalQuantity = $group->sum('quantity');
@@ -221,7 +226,11 @@ class StatusController extends Controller
                         $query->whereBetween('created_at', [$dateInput.' 00:00:00', now()]) :
                         $query->whereBetween('created_at', [$dateInput.' 00:00:00', $dateOutput.' 23:59:59']);
                 })
-                ->get();
+                ->get()
+                ->sortBy([
+                    ['product_station.product.parent.code', 'asc'],
+                ])
+                ;
  
 
             foreach($result as $product_st){
@@ -230,7 +239,7 @@ class StatusController extends Controller
                 $productsCollectionSecond->push([
                     'productParentId' => $product_st->product_station->product->parent_id ? $product_st->product_station->product->parent_id : $product_st->product_station->product->id,
                     'producColor' => $product_st->product_station->product->parent_id ? $product_st->product_station->product->color_id : null,
-                    'product_name' => $product_st->product_station->product->parent_code.' - '. $product_st->product_station->product->full_name_clear,
+                    'product_name' => $product_st->product_station->product->parent_code.' - '. $product_st->product_station->product->only_name,
                     'productQuantity' => $quantity,
                     'priceMaking' => $product_st->product_station->product->size->is_extra ? $product_st->product_station->product->parent->price_making_extra : $product_st->product_station->product->parent->price_making,
                     'productStationsId' => $product_st->product_station->station_id,

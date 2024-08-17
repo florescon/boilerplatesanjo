@@ -35,7 +35,7 @@
         >{{ $beforeName }} {{ $originalInput }}
             &nbsp;<i class="cil-pencil"></i>
         <em>
-            <a href="!#" class="badge badge-secondary">{{ $extraName }}</a>
+            <span class="badge badge-secondary">{{ $extraName }}</span>
         </em>
         </p>
     </div>

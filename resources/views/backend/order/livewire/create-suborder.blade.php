@@ -6,7 +6,7 @@
 
 <x-backend.card>
   <x-slot name="header">
-    @lang('Outputs') - @lang('Order') #{{ $order_id }}
+    @lang('Outputs')
   </x-slot>
 
   <x-slot name="headerActions">
@@ -15,6 +15,14 @@
     <x-utils.link class="card-header-action" :href="route('admin.order.suborders')" icon="fa fa-chevron-left" :text="__('Back')" />
   </x-slot>
   <x-slot name="body">
+
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <strong>¡Estás en un apartado antiguo!</strong> Ir al nuevo apartado: <a href="{{ route('admin.order.request_chart') }}"> click aquí </a>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
     <div class="row ">
       <div class="col-16 col-md-8">
 

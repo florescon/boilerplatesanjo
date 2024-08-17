@@ -20,7 +20,6 @@
 
 <body class="vertical-layout vertical-menu-modern light"
     data-menu=" vertical-menu-modern" data-layout="" style="" data-framework="laravel" 
-    {{-- data-asset-path="https://pixinvent.com/demo/vuexy-bootstrap-laravel-admin-template/demo-1/" --}}
     >
 
   <!-- BEGIN: Content-->

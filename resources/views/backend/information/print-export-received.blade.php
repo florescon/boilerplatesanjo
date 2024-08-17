@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Print Export Received</title>
+    <title>@lang('Print Received') | {{ ucfirst($status->name) }} | {{ $getPersonal ? ucwords(strtolower($getPersonal->name)) :'' }}</title>
     <style>
         body {
             font-family: DejaVu Sans, sans-serif;
@@ -68,21 +68,24 @@
                 <td colspan="{{ $making ? '5' : '2' }}">
                     <table>
                         <tr>
-                            <td class="title">
-                                <h5>{{ ucfirst($status->name) }}</h5>
+                            <td >
+                                <h2>
+                                    {{ ucfirst($status->name) }}
+                                </h2>
+                                </h3>
+                                    <strong>
+                                        {{ $getPersonal ? ucwords(strtolower($getPersonal->name)) :'' }}
+                                    </strong>
+                                </h3>
                             </td>
                             <td >
                               <img src="{{ public_path('img/logo2.svg') }}" alt="" width="100"/>
                                 <br><br>
-                                @lang('Date'): {{ now() }}            
+                                @lang('Date'): {{ now()->isoFormat('D, MMM, YY HH:mm') }}            
                             </td>
                         </tr>
                     </table>
                 </td>
-            </tr>
-
-            <tr>
-                <td colspan="{{ $making  ? '5' : '2' }}" style="text-align: center;"> {{ $getPersonal ? $getPersonal->name :'' }} </td>
             </tr>
 
 
@@ -93,18 +96,19 @@
                             <tr>
                                 <td>
                                     <strong>Rango Inicial: </strong><br>
-                                    {{ $dateInput }}<br>
+                                    {{ changeFormatStringDate($dateInput)  }}<br>
                                 </td>
                                 <td>
                                     <strong>Rango Final: </strong><br>
-                                    {{ $dateOutput }}<br>
+                                    {{ changeFormatStringDate($dateOutput) }}<br>
                                 </td>
                             </tr>
                         </table>
                     </td>
                 </tr>
+                <br>
             @endif
-            <tr class="information">
+            {{-- <tr class="information">
                 <td colspan="{{ $making ? '5' : '2' }}" style="padding-bottom: 50px;">
                     <table>
                         <tr>
@@ -120,7 +124,7 @@
                         </tr>
                     </table>
                 </td>
-            </tr>
+            </tr> --}}
             <tr class="heading">
                 <td>@lang('Description')</td>
                 @if($making)
@@ -157,18 +161,26 @@
                 @endif
             @endforeach
             <tr class="total" style="text-align: center;">
-                <td style="text-align: right;" @if($making ) colspan="2" @endif>Total:</td>
+                <td style="text-align: right;" @if($making ) colspan="2" @endif>Total de prendas:</td>
                 <td style="text-align: center;"><strong>{{ $total }}</strong></td>
                 @if($making )
-                    <td style="text-align: center;"><strong></strong></td>
+                    <td style="text-align: center;">Subtotal:</td>
                     <td style="text-align: center;"><strong>${{ number_format($totalMaking, 2, '.', '') }}</strong></td>
                 @endif
             </tr>
+            @if($making )
+                <tr class="total" style="text-align: center;">
+                    <td style="text-align: right;" @if($making ) colspan="4" @endif>IVA:</td>
+                    <td style="text-align: center;"><strong>${{ calculateIva($totalMaking) }}</strong></td>
+                </tr>
+                <tr class="total" style="text-align: center;">
+                    <td style="text-align: right;" @if($making ) colspan="4" @endif>Total:</td>
+                    <td style="text-align: center;"><strong>${{ priceIncludeIva($totalMaking) }}</strong></td>
+                </tr>
+            @endif
+
         </table>
         <br>
-        <p>
-            Nota: <em></em>
-        </p>
     </div>
 </body>
 </html>

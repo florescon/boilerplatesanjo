@@ -12,6 +12,13 @@
     <x-backend.card>
         <x-slot name="body">
 
+          <div class="alert alert-danger alert-dismissible fade show " role="alert">
+            <strong>¡Estás en un apartado antiguo!</strong> Ir al nuevo apartado: <a href="{{ route('admin.dashboard') }}"> click aquí </a>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
           <livewire:backend.dashboard.apex />
 
           {{-- @lang('Welcome to the Dashboard') --}}

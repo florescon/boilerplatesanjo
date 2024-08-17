@@ -38,12 +38,12 @@
 			<div class="main-body">
 				<div class="page-wrapper">
 
-				<div class="alert alert-danger alert-dismissible fade show" role="alert">
-				  <strong>¡Estás cotizando en un apartado antiguo!</strong> Ir al nuevo apartado: <a href="{{ route('admin.order.quotation_chart') }}"> click aquí </a>
-				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				    <span aria-hidden="true">&times;</span>
-				  </button>
-				</div>
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+					  <strong>¡Estás cotizando en un apartado antiguo!</strong> Ir al nuevo apartado: <a href="{{ route('admin.order.quotation_chart') }}"> click aquí </a>
+					  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					    <span aria-hidden="true">&times;</span>
+					  </button>
+					</div>
 
 					<div class="page-body">
 

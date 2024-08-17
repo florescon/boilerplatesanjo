@@ -6,6 +6,13 @@
       <div class="card">
         <div class="card-header">
 
+          <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+            <strong>¡Estás en un apartado antiguo!</strong> Ir al nuevo apartado: <a href="{{ route('admin.order.request_chart') }}"> click aquí </a>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
             <div class="card p-3 border-0">
               <div class="mt-3">
                 <h5 class="heading">
