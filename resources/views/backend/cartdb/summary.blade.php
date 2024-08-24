@@ -70,7 +70,7 @@
 		@endif
 
 		<div class="form-group mb-3">
-		  <label for="description" >@lang('Description') </label>
+		  <label for="description" >@lang('Comment') </label>
 		  <textarea id="description" class="form-control text-center" wire:model.lazy="description" aria-label="description" aria-describedby="basic-addon1" rows="3">
 		  </textarea>
 		</div>

@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>{{ optional($station->user)->name }}</title>
+        <title>#{{ $station->id }} {{ optional($station->user)->name }}</title>
 
         <style type="text/css">
             * {

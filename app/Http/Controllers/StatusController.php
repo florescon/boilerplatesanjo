@@ -194,7 +194,7 @@ class StatusController extends Controller
                 ->map(function ($group) {
                     $totalQuantity = $group->sum('quantity');
                     $priceMaking = $group->first()->product_station->product->size->is_extra ? $group->first()->product_station->product->parent->price_making_extra : $group->first()->product_station->product->parent->price_making;
-                    $productName = $group->first()->product_station->product->parent_code.' - '. $group->first()->product_station->product->full_name_clear; // Asumiendo que el nombre del producto está en el campo 'name'
+                    $productName = $group->first()->product_station->product->parent_code.' - '. $group->first()->product_station->product->full_name_break; // Asumiendo que el nombre del producto está en el campo 'name'
 
                     $productStationIds = $group->pluck('product_station.station_id')->unique()->values()->all();
 
@@ -239,7 +239,7 @@ class StatusController extends Controller
                 $productsCollectionSecond->push([
                     'productParentId' => $product_st->product_station->product->parent_id ? $product_st->product_station->product->parent_id : $product_st->product_station->product->id,
                     'producColor' => $product_st->product_station->product->parent_id ? $product_st->product_station->product->color_id : null,
-                    'product_name' => $product_st->product_station->product->parent_code.' - '. $product_st->product_station->product->only_name,
+                    'product_name' => $product_st->product_station->product->parent_code.' - <strong>'. $product_st->product_station->product->only_name.'</strong>',
                     'productQuantity' => $quantity,
                     'priceMaking' => $product_st->product_station->product->size->is_extra ? $product_st->product_station->product->parent->price_making_extra : $product_st->product_station->product->parent->price_making,
                     'productStationsId' => $product_st->product_station->station_id,

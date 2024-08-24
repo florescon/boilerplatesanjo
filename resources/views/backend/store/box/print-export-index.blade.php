@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="author" content="ThemeMarch">
+  <meta name="author" content="Flores">
   <!-- Site Title -->
   <title>@lang('Daily cash closing') #</title>
   <link href="{{ mix('css/backend.css') }}" rel="stylesheet">

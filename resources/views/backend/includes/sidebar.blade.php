@@ -127,7 +127,6 @@
                     :href="route('admin.information.index')"
                     :active="activeClass(Route::is('admin.information.index'), 'c-active')"
                     icon="c-sidebar-nav-icon cil-newspaper"
-                    new
                     :text="__('Information')" />
             </li>
         @endif
@@ -139,165 +138,49 @@
                     :href="route('admin.information.chart')"
                     :active="activeClass(Route::is('admin.information.chart'), 'c-active')"
                     icon="c-sidebar-nav-icon cil-chart"
-                    new
                     :text="__('Charts')" />
             </li>
         @endif
 
-        @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.order.order'))
-            <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.order.all_chart') || Route::is('admin.order.quotations_chart') || Route::is('admin.station.index') || Route::is('admin.order.quotation_chart') || Route::is('admin.order.request_chart'), 'c-open c-show') }}">
-                <x-utils.link
-                    href="#"
-                    new
-                    icon="c-sidebar-nav-icon cil-view-column"
-                    class="c-sidebar-nav-dropdown-toggle"
-                    :text="__('Production')" />
-
-                <ul class="c-sidebar-nav-dropdown-items">
-
-                        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.order.order')))
-                            <li class="c-sidebar-nav-item">
-                                <x-utils.link
-                                    :href="route('admin.order.quotations_chart')"
-                                    class="c-sidebar-nav-link"
-                                    :text="__('Quotations')"
-                                    :active="activeClass(Route::is('admin.order.quotations_chart'), 'c-active')" />
-                            </li>
-
-                            <li class="c-sidebar-nav-item">
-                                <x-utils.link
-                                    :href="route('admin.order.request_chart')"
-                                    class="c-sidebar-nav-link"
-                                    :text="__('Requests')"
-                                    :active="activeClass(Route::is('admin.order.request_chart'), 'c-active')" />
-                            </li>
-
-                            <li class="c-sidebar-nav-item">
-                                <x-utils.link
-                                    :href="route('admin.station.index')"
-                                    class="c-sidebar-nav-link"
-                                    :text="__('Workstations')"
-                                    :active="activeClass(Route::is('admin.station.index'), 'c-active')" />
-                            </li>
-
-                        @endif
-
-                </ul>
-            </li>
-        @endif
-
-        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.order.order')))
+        @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.order.quotations_chart'))
 
             <li class="c-sidebar-nav-item">
                 <x-utils.link
+                    :href="route('admin.order.quotations_chart')"
                     class="c-sidebar-nav-link"
-                    :href="route('admin.dashboard_old')"
-                    :active="activeClass(Route::is('admin.dashboard_old'), 'c-active')"
-                    icon="c-sidebar-nav-icon cil-speedometer"
-                    old
-                    :text="__('Dashboard old')" />
+                    :text="__('Quotations')"
+                    icon="c-sidebar-nav-icon cil-description"
+                    :active="activeClass(Route::is('admin.order.quotations_chart'), 'c-active')" />
             </li>
+
+        @endif
+
+        @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.order.request_chart'))
 
             <li class="c-sidebar-nav-item">
                 <x-utils.link
+                    :href="route('admin.order.request_chart')"
                     class="c-sidebar-nav-link"
-                    :href="route('admin.order.index')"
-                    :active="activeClass(Route::is('admin.order.index'), 'c-active')"
-                    icon="c-sidebar-nav-icon cil-cash"
-                    old
-                    :text="__('Orders')" />
+                    :text="__('Requests')"
+                    icon="c-sidebar-nav-icon cil-briefcase"
+                    :active="activeClass(Route::is('admin.order.request_chart'), 'c-active')" />
             </li>
+
         @endif
 
-        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.order.order')))
+        @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.station.index'))
+
             <li class="c-sidebar-nav-item">
                 <x-utils.link
+                    :href="route('admin.station.index')"
                     class="c-sidebar-nav-link"
-                    :href="route('admin.order.quotation')"
-                    :active="activeClass(Route::is('admin.order.quotation'), 'c-active')"
-                    icon="c-sidebar-nav-icon cil-center-focus"
-                    old
-                    :text="__('Quotation')" />
+                    :text="__('Workstations')"
+                    icon="c-sidebar-nav-icon cil-compress"
+                    :active="activeClass(Route::is('admin.station.index'), 'c-active')" />
             </li>
+
         @endif
 
-{{--         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.order.order')))
-            <li class="c-sidebar-nav-item">
-                <x-utils.link
-                    class="c-sidebar-nav-link"
-                    :href="route('admin.batch.index')"
-                    :active="activeClass(Route::is('admin.batch.*'), 'c-active')"
-                    icon="c-sidebar-nav-icon cil-view-column"
-                    :text="__('Batches')" />
-            </li>
-        @endif --}}
-
-        @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.order.order'))
-            <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.batch.*') || Route::is('admin.batch.conformed'), 'c-open c-show') }}">
-                <x-utils.link
-                    href="#"
-                    icon="c-sidebar-nav-icon cil-view-column"
-                    class="c-sidebar-nav-dropdown-toggle"
-                    old
-                    :text="__('Workstations')" />
-
-                <ul class="c-sidebar-nav-dropdown-items">
-
-                        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.order.order')))
-                            <li class="c-sidebar-nav-item">
-                                <x-utils.link
-                                    :href="route('admin.batch.index')"
-                                    class="c-sidebar-nav-link"
-                                    :text="__('Cutting')"
-                                    :active="activeClass(Route::is('admin.batch.*'), 'c-active')" />
-                            </li>
-
-                            <li class="c-sidebar-nav-item">
-                                <x-utils.link
-                                    :href="route('admin.batch.manufacturing')"
-                                    class="c-sidebar-nav-link"
-                                    :text="__('Manufacturing')"
-                                    :active="activeClass(Route::is('admin.batch.*'), 'c-active')" />
-                            </li>
-                            {{-- <li class="c-sidebar-nav-item">
-                                <x-utils.link
-                                    :href="route('admin.batch.conformed')"
-                                    class="c-sidebar-nav-link"
-                                    :text="__('Conformed')"
-                                    :active="activeClass(Route::is('admin.batch.*'), 'c-active')" />
-                            </li>
-                            <li class="c-sidebar-nav-item">
-                                <x-utils.link
-                                    :href="route('admin.batch.personalization')"
-                                    class="c-sidebar-nav-link"
-                                    :text="__('Personalization')"
-                                    :active="activeClass(Route::is('admin.batch.*'), 'c-active')" />
-                            </li>
-                            <li class="c-sidebar-nav-item">
-                                <x-utils.link
-                                    :href="route('admin.batch.shipment')"
-                                    class="c-sidebar-nav-link"
-                                    :text="__('Shipment')"
-                                    :active="activeClass(Route::is('admin.batch.*'), 'c-active')" />
-                            </li> --}}
-                        @endif
-
-                </ul>
-            </li>
-        @endif
-
-
-        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.order.order')))
-            <li class="c-sidebar-nav-item">
-                <x-utils.link
-                    class="c-sidebar-nav-link"
-                    :href="route('admin.ticket.index')"
-                    :active="activeClass(Route::is('admin.ticket.*'), 'c-active')"
-                    icon="c-sidebar-nav-icon cil-short-text"
-                    old
-                    :text="__('Tickets')" />
-            </li>
-        @endif
 
         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.product.modify')))
             <li class="c-sidebar-nav-item">
@@ -342,6 +225,80 @@
                     :text="__('Bom of Materials')" />
             </li>
         @endif
+
+        @if ($logged_in_user->hasAllAccess() 
+                || $logged_in_user->can('admin.dashboard_old') 
+                || $logged_in_user->can('admin.access.order.order')
+            )
+
+            <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.dashboard_old') || Route::is('admin.order.index') || Route::is('admin.order.quotation') || Route::is('admin.batch.*') || Route::is('admin.batch.conformed') || Route::is('admin.ticket.*'), 'c-open c-show') }}">
+                <x-utils.link
+                    href="#"
+                    old
+                    icon="c-sidebar-nav-icon cil-speedometer"
+                    class="c-sidebar-nav-dropdown-toggle"
+                    :text="__('Dashboard old')" />
+
+                <ul class="c-sidebar-nav-dropdown-items">
+
+                        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.order.order')))
+
+                            <li class="c-sidebar-nav-item">
+                                <x-utils.link
+                                    class="c-sidebar-nav-link"
+                                    :href="route('admin.dashboard_old')"
+                                    :active="activeClass(Route::is('admin.dashboard_old'), 'c-active')"
+                                    :text="__('Dashboard old')" />
+                            </li>
+
+                            <li class="c-sidebar-nav-item">
+                                <x-utils.link
+                                    class="c-sidebar-nav-link"
+                                    :href="route('admin.order.index')"
+                                    :active="activeClass(Route::is('admin.order.index'), 'c-active')"
+                                    :text="__('Orders')" />
+                            </li>
+
+                            <li class="c-sidebar-nav-item">
+                                <x-utils.link
+                                    class="c-sidebar-nav-link"
+                                    :href="route('admin.order.quotation')"
+                                    :active="activeClass(Route::is('admin.order.quotation'), 'c-active')"
+                                    :text="__('Quotation')" />
+                            </li>
+
+                            <li class="c-sidebar-nav-item">
+                                <x-utils.link
+                                    :href="route('admin.batch.index')"
+                                    class="c-sidebar-nav-link"
+                                    :text="__('Cutting')"
+                                    :active="activeClass(Route::is('admin.batch'), 'c-active')" />
+                            </li>
+
+                            <li class="c-sidebar-nav-item">
+                                <x-utils.link
+                                    :href="route('admin.batch.manufacturing')"
+                                    class="c-sidebar-nav-link"
+                                    :text="__('Manufacturing')"
+                                    :active="activeClass(Route::is('admin.batch.manufacturing'), 'c-active')" />
+                            </li>
+
+                            <li class="c-sidebar-nav-item">
+                                <x-utils.link
+                                    class="c-sidebar-nav-link"
+                                    :href="route('admin.ticket.index')"
+                                    :active="activeClass(Route::is('admin.ticket.*'), 'c-active')"
+                                    :text="__('Tickets')" />
+                            </li>
+
+                        @endif
+
+                </ul>
+
+            </li>
+
+        @endif
+
 
         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.color.list') || $logged_in_user->can('admin.access.size.list') || $logged_in_user->can('admin.access.cloth.list') || $logged_in_user->can('admin.access.line.list') || $logged_in_user->can('admin.access.unit.list') || $logged_in_user->can('admin.access.brand.list') || $logged_in_user->can('admin.access.family.list') || $logged_in_user->can('admin.access.model_product.list') ))
             <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.color.*')  || Route::is('admin.size.*') || Route::is('admin.cloth.*') || Route::is('admin.line.*') || Route::is('admin.unit.*') || Route::is('admin.brand.*') || Route::is('admin.image.*') ||  Route::is('admin.servicetype.*') || Route::is('admin.family.*') ||  Route::is('admin.model.*'), 'c-open c-show') }}">

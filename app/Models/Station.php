@@ -30,6 +30,7 @@ class Station extends Model
         'active',
         'consumption',
         'folio',
+        'invoice',
         'service_type_id',
     ];
 

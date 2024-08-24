@@ -276,3 +276,7 @@ input[type=number] {
 .has-value {
     color: red;
 }
+
+#changeColorPlaceholder::placeholder {
+  color: blue;
+}

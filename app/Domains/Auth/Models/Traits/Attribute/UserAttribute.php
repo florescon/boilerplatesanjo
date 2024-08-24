@@ -73,6 +73,21 @@ trait UserAttribute
         return $this->assignments->sum('quantity');
     }
 
+
+    public function getDetailsAttribute()
+    {
+        if($this->customer){
+            $phone = $this->customer->phone ? $this->customer->phone.'<br>' : '';
+            $address = $this->customer->address ? $this->customer->address.'<br>' : '';
+            $rfc = $this->customer->rfc ? $this->customer->rfc.'<br>' : '';
+
+            return $phone.' '.$address.' '.$rfc;
+        }
+
+        return '';
+    }
+
+
     public function getRealNameAttribute()
     {
         return optional($this->customer)->short_name ?? $this->name;

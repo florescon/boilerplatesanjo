@@ -276,7 +276,7 @@ class Product extends Model
     public function getFullNameLinkAttribute()
     {
         if($this->parent_id !== null){
-            return '<a tabindex="-1" target="_blank" href="'.route('admin.product.edit', $this->parent_id).'"><strong class="text-primary">'.$this->parent->name.'</strong></a> <em>'.$this->size_name.' '.$this->color_name.'</em>';
+            return '<a tabindex="-1" target="_blank" href="'.route('admin.product.edit', $this->parent_id).'"><strong class="text-primary">'.$this->parent->name.'</strong></a> <p class="font-italic">'.$this->size_name.' '.$this->color_name.'</p>';
         }
         else{
             if(!$this->isProduct()){

@@ -80,7 +80,7 @@
 
 					    @endif
 
-				      	<td wire:ignore>
+				      	<td wire:ignore.self>
                     		<livewire:backend.cartdb.quantity-update :item="$product" :key="now()->timestamp.$product->id" :typeCart="$type" />
 				      	</td>
 

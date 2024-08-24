@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddPriceBToProductsTable extends Migration
+class AddInvoiceToStationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddPriceBToProductsTable extends Migration
      */
     public function up()
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->decimal('price_b', 8, 2)->nullable();
+        Schema::table('stations', function (Blueprint $table) {
+            $table->string('invoice')->nullable();
         });
     }
 
@@ -25,7 +25,7 @@ class AddPriceBToProductsTable extends Migration
      */
     public function down()
     {
-        Schema::table('products', function (Blueprint $table) {
+        Schema::table('stations', function (Blueprint $table) {
             //
         });
     }

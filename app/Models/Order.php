@@ -146,6 +146,18 @@ class Order extends Model
         return "<span class='badge badge-primary'>".__('Internal control').'</span>';
     }
 
+    public function getUserDetailsAttribute(): string
+    {
+        if($this->user_id){
+            return $this->user->details;
+        }
+        elseif($this->departament_id){
+           return $this->departament->name;
+        }
+
+        return '';
+    }
+
     /**
      * Return the correct order status formatted.
      *

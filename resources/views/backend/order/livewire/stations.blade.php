@@ -326,6 +326,11 @@
 
                           <livewire:backend.components.edit-field :model="'\App\Models\Station'" :entity="$station" :field="'comment'" :key="'stations'.$station->id" :text="__('Comment')"/>
 
+                          @if($status->final_process)
+                          <br>
+                            <livewire:backend.components.edit-field :model="'\App\Models\Station'" :entity="$station" :field="'invoice'" :key="'stations'.$station->id" :text="__('Invoice')"/>
+                          @endif
+
                           <br>
 
                           @if($status->to_add_users)
@@ -395,6 +400,10 @@
                               <div class="list-group">
                                 <a href="{{ route('admin.station.ticket', $station->id) }}" target="_blank" class="list-group-item list-group-item-action"> <i class="cil-print"></i> Ticket <i class="fas fa-external-link-alt m-1"></i></a>
 
+                                @if($status->final_process)
+                                  <a href="{{ route('admin.station.output', $station->id) }}" target="_blank" class="list-group-item list-group-item-action"> <i class="cil-print"></i> Imprimir <i class="fas fa-external-link-alt m-1"></i></a>
+                                @endif
+
                                 @if($station->total_products_station_open)
                                   <a wire:click="closeStation({{ $station->id }})" class="list-group-item list-group-item-action" wire:loading.attr="disabled" onclick="confirm('¿Recibir todo?') || event.stopImmediatePropagation()">Recibir Seguimiento</a>
                                 @else
@@ -442,7 +451,6 @@
                                     {{ $station->active ? 'list-group-item-danger' : 'list-group-item-primary' }}
                                     ">Dar Salida <i class="cil-arrow-thick-right"></i> 
                                   </a>
-                                    
                                 @endif
 
                                 @if($status->initial_process)
@@ -496,6 +504,7 @@
                                               style="min-width: 45px !important; color: red;" 
                                               wire:model.defer="quantity.{{ $station->id }}.{{ $product_station->id }}.available"
                                               class="form-control text-center"
+                                              id="{{ $product_station->getAvailableBatch($status_id, $station->id) > 0 ? 'changeColorPlaceholder'  : ' '}}"
                                               wire:keydown.tab="emitUpdatedInStation({{ $station->id }})"
                                               wire:keydown.escape="emitUpdatedInStation({{ $station->id }})"
                                               placeholder="{{ $product_station->getAvailableBatch($status_id, $station->id) }}"
@@ -568,7 +577,7 @@
                                   <tbody>
                                     @foreach($station->product_station->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']]) as $product_station)
                                     <tr>
-                                      <th scope="row"> {{ $product_station->id }} {!! $product_station->product->full_name_link !!}</th>
+                                      <th scope="row"> {!! $product_station->product->full_name_link !!}</th>
                                       <td><span class="badge badge-dark badge-pill">{{ $product_station->quantity }}</span></td>
                                       <td class="text-primary"> {{ $product_station->getQuantitiesByStatusOpen($status_id) }} </td>
                                       <td class="text-success"> {{ $product_station->getQuantitiesByStatusClosed($status_id) }} </td>
@@ -593,6 +602,7 @@
                                               class="form-control text-center"
                                               style="min-width: 45px !important; color: red;"
                                               wire:keydown.tab="emitUpdatedInStation({{ $station->id }})"
+                                              id="{{ $product_station->getAvailableInitialProcess($status_id, $station->id) > 0 ? 'changeColorPlaceholder'  : ' '}}"
                                               wire:keydown.escape="emitUpdatedInStation({{ $station->id }})"
                                               placeholder="{{ $status->not_restricted ? $product_station->metadata['closed'] : $product_station->getAvailableInitialProcess($status_id) }}"
                                           >

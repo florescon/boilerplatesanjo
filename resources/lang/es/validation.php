@@ -191,6 +191,7 @@ return [
         'height' => 'alto',
         'stitches' => 'puntadas',
         'lapse' => 'lapso',
-        'price_b' => 'precio B'
+        'price_b' => 'precio B',
+        'observation' => 'observación'
     ],
 ];

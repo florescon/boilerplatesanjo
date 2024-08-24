@@ -676,6 +676,12 @@
 
             @endif
 
+            @if($model->isQuotation() && $model->product_quotation->count() < 1)
+              <a href="#!" class="mt-2 ml-2" data-toggle="modal" wire:click="$emitTo('backend.order.add-service', 'createmodal', {{ $order_id }}, '6', {{ $from_store }})" data-target="#addService" style="color: #ee2e31;">@lang('Add service')</a>
+
+              <a href="#!" data-toggle="modal" data-target="#searchProduct"><i class="fa fa-search mr-1 ml-1"></i> @lang('Search product')</a>
+            @endif
+
             @if($quotationExists)
 
             @if($model->product_quotation->count() >= 1)
@@ -732,7 +738,7 @@
                       @endif
 
                     </td>
-                    <td class="text-center" wire:ignore>
+                    <td class="text-center" wire:ignore.self>
                       <livewire:backend.cartdb.quantity-update :item="$product" :key="now()->timestamp.$product->id" :typeCart="$product->type" :setModel="'product_order'"/>
                     </td>
                     <td class="text-center">

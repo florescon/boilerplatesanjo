@@ -29,12 +29,12 @@ Route::group([
 
         Route::get('ticket/', [StationController::class, 'ticket'])
             ->name('ticket')
-            ->middleware('permission:admin.access.station.list')
-            ->breadcrumbs(function (Trail $trail, Station $station) {
-                $trail->parent('admin.station.index')
-                    ->push(__('Ticket Station').' '.$station->id, route('admin.order.ticket', $station));
-            });
+            ->middleware('permission:admin.access.station.list');
 
+
+        Route::get('output/', [StationController::class, 'output'])
+            ->name('output')
+            ->middleware('permission:admin.access.station.list');
 
         Route::get('checklist_details/', [StationController::class, 'checklist_details'])
             ->name('checklist_details')

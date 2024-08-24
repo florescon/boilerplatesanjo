@@ -33,6 +33,15 @@ class StationController extends Controller
         return $pdf->stream();
     }
 
+    public function output(Station $station)
+    {
+        if(!$station->status->final_process){
+            abort(401);
+        }
+
+        return view('backend.station.output-station', compact('station'));
+    }
+
     public function checklist(Station $station)
     {
         $station->load('material_order.material');

@@ -15,11 +15,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   {{-- <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet"> --}}
-  <style type="text/css">
+  
+  {{-- <style type="text/css">
     body {
       font-family: 'Karla', sans-serif !important;
     }
-  </style>
+  </style> --}}
 
 </head>
 
@@ -80,17 +81,19 @@
         <div class="cs-invoice_head">
           <div class="cs-invoice_right">
             @if($order->info_customer)
-              <p><b class="cs-primary_color cs-semi_bold">@lang('Information'):</b> <br>{{ $order->info_customer }}</p>
+              <p><b class="cs-primary_color cs-semi_bold">@lang('Info customer'):</b> <br>{{ $order->info_customer }}</p>
             @endif
           </div>
         </div>
 
-        <div class="cs-invoice_head">
-          <div class="cs-invoice_right">
-            <b class="cs-primary_color">@lang('Extra information'):</b>
-            <p class="cs-mb8">{{ $order->comment ?? '--'}}</p>
+        @if($order->comment)
+          <div class="cs-invoice_head">
+            <div class="cs-invoice_right">
+              <b class="cs-primary_color">@lang('Comment'):</b>
+              <p class="cs-mb8">{{ $order->comment ?? '--'}}</p>
+            </div>
           </div>
-        </div>
+        @endif
 
         <div class="cs-invoice_head">
           <div class="cs-invoice_right cs-text_center">
