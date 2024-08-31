@@ -90,7 +90,7 @@
                                 <input type="text" 
                                     wire:model.defer="quantity.{{ $product->id }}.available"
                                     class="form-control text-center @error('quantity.'.$product->id.'.available') is-invalid @enderror"
-                                    style="color: red;"
+                                    style="color: blue;"
                                     placeholder="{{ ($product->available_lot > 0) ? $product->available_lot : 0  }}"
                                     wire:keydown.tab="emitUpdatedQuantity"
                                     wire:keydown.escape="emitUpdatedQuantity"
@@ -103,7 +103,7 @@
                                 <input type="number" 
                                     wire:model.defer="quantityFromSupplier.{{ $product->id }}.available"
                                     class="form-control text-center @error('quantityFromSupplier.'.$product->id.'.available') is-invalid @enderror"
-                                    style="color: red;"
+                                    style="color: blue;"
                                     placeholder="{{ ($product->available_supplier > 0) ? $product->available_supplier : 0  }}"
                                     wire:keydown.tab="emitUpdatedQuantity"
                                     wire:keydown.escape="emitUpdatedQuantity"
@@ -116,7 +116,7 @@
                                 <input type="number" 
                                     wire:model.defer="quantityFromStock.{{ $product->id }}.available"
                                     class="form-control text-center @error('quantityFromStock.'.$product->id.'.available') is-invalid @enderror"
-                                    style="color: red;"
+                                    style="color: blue;"
                                     placeholder="{{ ($product->available_process > 0) ? $product->available_process : 0  }}"
                                     wire:keydown.tab="emitUpdatedQuantity"
                                     wire:keydown.escape="emitUpdatedQuantity"
@@ -260,7 +260,7 @@
                                     <table class="table mb-0 table-sm">
                                       <thead>
                                         <tr>
-                                          <th class="pl-0">Referencia</th>
+                                          <th class="pl-0">@lang('Reference')</th>
                                           <th class="text-right">Valor</th>
                                         </tr>
                                       </thead>
@@ -270,15 +270,15 @@
                                           <td class="pr-0 text-right"><div class="badge badge-pill badge-dark"><i class="fa fa-flag mr-2"></i> {{ $model->getTotalQuantityByStation($status_id) }}</div></td>
                                         </tr>
                                         <tr>
-                                          <td class="pl-0 text-danger"><ins><strong> Activo </strong></ins></td>
+                                          <td class="pl-0 text-danger"><ins><strong> @lang('Active') </strong></ins></td>
                                           <td class="pr-0 text-right text-danger"> <ins><strong>{{ $model->getTotalQuantityByStationClosed($status_id) + $model->getTotalQuantityByStationOpened($status_id) }}</strong></ins> </td>
                                         </tr>
                                         <tr>
-                                          <td class="pl-0">@lang('Input')</td>
+                                          <td class="pl-0">@lang('Process')</td>
                                           <td class="pr-0 text-right"><div class="badge badge-pill badge-primary"><i class="fa fa-user mr-2"></i>{{ $model->getTotalQuantityByStationOpened($status_id) }}</div></td>
                                         </tr>
                                         <tr>
-                                          <td class="pl-0">@lang('Output')</td>
+                                          <td class="pl-0">@lang('Finished')</td>
                                           <td class="pr-0 text-right"><div class="badge badge-pill badge-success">{{ $model->getTotalQuantityByStationClosed($status_id) }}<i class="fa fa-user ml-2"></i></div></td>
                                         </tr>
                                       </tbody>
@@ -327,8 +327,16 @@
                           <livewire:backend.components.edit-field :model="'\App\Models\Station'" :entity="$station" :field="'comment'" :key="'stations'.$station->id" :text="__('Comment')"/>
 
                           @if($status->final_process)
-                          <br>
-                            <livewire:backend.components.edit-field :model="'\App\Models\Station'" :entity="$station" :field="'invoice'" :key="'stations'.$station->id" :text="__('Invoice')"/>
+                            <br>
+                              <livewire:backend.components.edit-field :model="'\App\Models\Station'" :entity="$station" :field="'invoice'" :key="'invoice'.$station->id" :text="__('Invoice')"/>
+
+                            <br>
+
+                            <a wire:click="makeInvoiceDate({{ $station->id }})" >Fecha Factura <i class="cil-arrow-thick-right"></i> 
+
+                              {{ $station->invoice_date_format }}
+                            </a>
+                            <br>
                           @endif
 
                           <br>
@@ -401,7 +409,7 @@
                                 <a href="{{ route('admin.station.ticket', $station->id) }}" target="_blank" class="list-group-item list-group-item-action"> <i class="cil-print"></i> Ticket <i class="fas fa-external-link-alt m-1"></i></a>
 
                                 @if($status->final_process)
-                                  <a href="{{ route('admin.station.output', $station->id) }}" target="_blank" class="list-group-item list-group-item-action"> <i class="cil-print"></i> Imprimir <i class="fas fa-external-link-alt m-1"></i></a>
+                                  <a href="{{ route('admin.station.output', $station->id) }}" target="_blank" class="list-group-item list-group-item-action {{ $station->active ? '' : 'list-group-item-primary' }}"> <i class="cil-print"></i> @lang('Output') <i class="fas fa-external-link-alt m-1"></i></a>
                                 @endif
 
                                 @if($station->total_products_station_open)
@@ -501,7 +509,7 @@
 
                                       <td>
                                           <input type="number"
-                                              style="min-width: 45px !important; color: red;" 
+                                              style="min-width: 45px !important; color: blue;" 
                                               wire:model.defer="quantity.{{ $station->id }}.{{ $product_station->id }}.available"
                                               class="form-control text-center"
                                               id="{{ $product_station->getAvailableBatch($status_id, $station->id) > 0 ? 'changeColorPlaceholder'  : ' '}}"
@@ -600,7 +608,7 @@
                                           <input type="number" 
                                               wire:model.defer="quantity.{{ $station->id }}.{{ $product_station->id }}.available"
                                               class="form-control text-center"
-                                              style="min-width: 45px !important; color: red;"
+                                              style="min-width: 45px !important; color: blue;"
                                               wire:keydown.tab="emitUpdatedInStation({{ $station->id }})"
                                               id="{{ $product_station->getAvailableInitialProcess($status_id, $station->id) > 0 ? 'changeColorPlaceholder'  : ' '}}"
                                               wire:keydown.escape="emitUpdatedInStation({{ $station->id }})"

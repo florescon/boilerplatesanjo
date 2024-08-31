@@ -67,8 +67,8 @@
                                                 <tr>
                                                     <th>@lang('Qty')</th>
                                                     <th>@lang('Concept')</th>
-                                                    <th>@lang('Input')</th>
-                                                    <th>@lang('Output')</th>
+                                                    <th>@lang('Process')</th>
+                                                    <th>@lang('Finished')</th>
                                                     <th>@lang('Created at')</th>
                                                     <th>@lang('Last Updated')</th>
                                                     <th>@lang('Details')</th>

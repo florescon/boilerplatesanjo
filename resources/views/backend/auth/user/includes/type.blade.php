@@ -1,7 +1,7 @@
 @if ($user->isAdmin())
     @lang('Administrator')
 @elseif ($user->isUser())
-    @lang('User')
+    @lang('Customer')
 @else
     @lang('N/A')
 @endif

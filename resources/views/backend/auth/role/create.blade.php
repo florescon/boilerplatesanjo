@@ -22,7 +22,7 @@
 
                         <div class="col-md-10">
                             <select name="type" class="form-control" required x-on:change="userType = $event.target.value">
-                                <option value="{{ $model::TYPE_USER }}">@lang('User')</option>
+                                <option value="{{ $model::TYPE_USER }}">@lang('Customer')</option>
                                 <option value="{{ $model::TYPE_ADMIN }}">@lang('Administrator')</option>
                             </select>
                         </div>

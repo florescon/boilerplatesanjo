@@ -102,6 +102,23 @@ const SwalInput = (title, input, inputOptions, inputPlaceholder, showCancelButto
     })
 }
 
+const SwalInputdate = (title, html, showCancelButton, getId, method) => {
+    Swal.fire({
+        title,
+        html,
+        showCancelButton,
+        preConfirm: () => {
+            const dateValue = document.getElementById('invoice-date').value;
+            if (dateValue === "") {
+                Swal.showValidationMessage("Necesitas seleccionar una fecha :)");
+                return false;
+            } else {
+                window.livewire.emit(method, getId, dateValue);
+            }
+        }
+    });
+}
+
 window.addEventListener('DOMContentLoaded', () => { 
 
     this.livewire.on('swal:modal', data => {
@@ -118,6 +135,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
     this.livewire.on('swal:input', data => {
         SwalInput(data.title, data.input, data.inputOptions, data.inputPlaceholder, data.showCancelButton, data.getId, data.method)
+    })
+
+    this.livewire.on('swal:inputdate', data => {
+        SwalInputdate(data.title, data.html, data.showCancelButton, data.getId, data.method);
     })
 
 })

@@ -11,13 +11,13 @@
               <div class="row">
                 <div class="col-sm-2">
                   <div class="c-callout c-callout-primary b-t-1 b-r-1 b-b-1 pb-3">
-                    <small class="text-muted">Entrada</small><br>
+                    <small class="text-muted">@lang('Process')</small><br>
                     <strong class="h4">{{ $status->getAllQuantitiesByStatusOpened() }}</strong>
                   </div>
                 </div><!--/.col-->
                 <div class="col-sm-2">
                   <div class="c-callout c-callout-success b-t-1 b-r-1 b-b-1 pb-3">
-                    <small class="text-muted">Recibido</small><br>
+                    <small class="text-muted">@lang('Finished')</small><br>
                     <strong class="h4">{{ $status->getAllQuantitiesByStatusClosed() }}</strong>
                   </div>
                 </div><!--/.col-->

@@ -278,5 +278,5 @@ input[type=number] {
 }
 
 #changeColorPlaceholder::placeholder {
-  color: blue;
+  color: red;
 }

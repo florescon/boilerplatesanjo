@@ -27,6 +27,8 @@ class UsersTable extends TableComponent
 
     public $perPage = '10';
 
+    public $customers;
+
     /**
      * @var array
      */
@@ -38,9 +40,10 @@ class UsersTable extends TableComponent
     /**
      * @param  string  $status
      */
-    public function mount($status = 'active'): void
+    public function mount($status = 'active', ?bool $customers = false): void
     {
         $this->status = $status;
+        $this->customers = $customers;
     }
 
     /**
@@ -49,6 +52,7 @@ class UsersTable extends TableComponent
     public function query(): Builder
     {
         $query = User::with('roles', 'twoFactorAuth', 'customer')
+            ->where('type', $this->customers ? 'user' : 'admin')
             ->withCount('twoFactorAuth');
 
         if ($this->status === 'deleted') {

@@ -9,12 +9,12 @@
           <div class="card-body row text-center">
             <div class="col">
               <div class="text-value-xl">{{ $status->getAllQuantitiesByStatusOpened() }}</div>
-              <div class="text-uppercase text-muted small">Entrada</div>
+              <div class="text-uppercase text-muted small">@lang('Process')</div>
             </div>
             <div class="vr"></div>
             <div class="col">
               <div class="text-value-xl">{{ $status->getAllQuantitiesByStatusClosed() }}</div>
-              <div class="text-uppercase text-muted small">Salida</div>
+              <div class="text-uppercase text-muted small">@lang('Finished')</div>
             </div>
           </div>
           <div class="text-center p-3">

@@ -2,13 +2,13 @@
 
 @extends('backend.layouts.app')
 
-@section('title', __('Update User'))
+@section('title', __('Update'))
 
 @section('content')
     <x-forms.patch :action="route('admin.auth.user.update', $user)">
         <x-backend.card>
             <x-slot name="header">
-                @lang('Update User')
+                @lang('Update')
             </x-slot>
 
             <x-slot name="headerActions">
@@ -23,7 +23,7 @@
 
                             <div class="col-md-10">
                                 <select name="type" class="form-control" required x-on:change="userType = $event.target.value">
-                                    <option value="{{ $model::TYPE_USER }}" {{ $user->type === $model::TYPE_USER ? 'selected' : '' }}>@lang('User')</option>
+                                    <option value="{{ $model::TYPE_USER }}" {{ $user->type === $model::TYPE_USER ? 'selected' : '' }}>@lang('Customer')</option>
                                     <option value="{{ $model::TYPE_ADMIN }}" {{ $user->type === $model::TYPE_ADMIN ? 'selected' : '' }}>@lang('Administrator')</option>
                                 </select>
                             </div>
@@ -103,7 +103,7 @@
             </x-slot>
 
             <x-slot name="footer">
-                <button class="btn btn-sm btn-primary float-right" type="submit">@lang('Update User')</button>
+                <button class="btn btn-sm btn-primary float-right" type="submit">@lang('Update')</button>
             </x-slot>
         </x-backend.card>
     </x-forms.patch>

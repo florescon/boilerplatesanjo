@@ -2,13 +2,13 @@
 
 @extends('backend.layouts.app')
 
-@section('title', __('Create User'))
+@section('title', __('Create Customer'))
 
 @section('content')
     <x-forms.post :action="route('admin.auth.user.store')">
         <x-backend.card>
             <x-slot name="header">
-                @lang('Create User')
+                @lang('Create Customer')
             </x-slot>
 
             <x-slot name="headerActions">
@@ -16,19 +16,13 @@
             </x-slot>
 
             <x-slot name="body">
-                <div x-data="{userType : '{{ $model::TYPE_ADMIN }}'}">
-
-                    <div class="alert alert-danger text-center" role="alert">
-                        Estás creando un nuevo <strong>Administrador</strong>
-                    </div>
-
+                <div x-data="{userType : '{{ $model::TYPE_USER }}'}">
                     <div class="form-group row">
                         <label for="name" class="col-md-2 col-form-label">@lang('Type')<sup>*</sup></label>
 
                         <div class="col-md-10">
                             <select name="type" class="form-control" required x-on:change="userType = $event.target.value">
-                                {{-- <option value="{{ $model::TYPE_USER }}">@lang('User')</option> --}}
-                                <option value="{{ $model::TYPE_ADMIN }}">@lang('Administrator')</option>
+                                <option value="{{ $model::TYPE_USER }}">@lang('Customer')</option>
                             </select>
                         </div>
                     </div><!--form-group-->
@@ -166,7 +160,7 @@
             </x-slot>
 
             <x-slot name="footer">
-                <button class="btn btn-sm btn-primary float-right" type="submit">@lang('Create User')</button>
+                <button class="btn btn-sm btn-primary float-right" type="submit">@lang('Create Customer')</button>
             </x-slot>
         </x-backend.card>
     </x-forms.post>

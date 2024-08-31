@@ -52,7 +52,15 @@
                             <x-utils.link
                                 :href="route('admin.auth.user.index')"
                                 class="c-sidebar-nav-link"
-                                :text="__('User Management')"
+                                :text="__('Users')"
+                                :active="activeClass(Route::is('admin.auth.user.*'), 'c-active')" />
+                        </li>
+
+                        <li class="c-sidebar-nav-item">
+                            <x-utils.link
+                                :href="route('admin.auth.user.index_customer')"
+                                class="c-sidebar-nav-link"
+                                :text="__('Customers')"
                                 :active="activeClass(Route::is('admin.auth.user.*'), 'c-active')" />
                         </li>
                     @endif
@@ -62,7 +70,7 @@
                             <x-utils.link
                                 :href="route('admin.auth.role.index')"
                                 class="c-sidebar-nav-link"
-                                :text="__('Role Management')"
+                                :text="__('Roles')"
                                 :active="activeClass(Route::is('admin.auth.role.*'), 'c-active')" />
                         </li>
                     @endif

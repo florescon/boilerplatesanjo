@@ -69,11 +69,30 @@ class UserController extends Controller
     }
 
     /**
+     * @return \Illuminate\View\View
+     */
+    public function index_customer()
+    {
+        return view('backend.auth.user.index_customer');
+    }
+
+    /**
      * @return mixed
      */
     public function create()
     {
         return view('backend.auth.user.create')
+            ->withRoles($this->roleService->get())
+            ->withCategories($this->permissionService->getCategorizedPermissions())
+            ->withGeneral($this->permissionService->getUncategorizedPermissions());
+    }
+
+    /**
+     * @return mixed
+     */
+    public function create_customer()
+    {
+        return view('backend.auth.user.create_customer')
             ->withRoles($this->roleService->get())
             ->withCategories($this->permissionService->getCategorizedPermissions())
             ->withGeneral($this->permissionService->getUncategorizedPermissions());

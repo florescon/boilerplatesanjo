@@ -98,8 +98,8 @@
             </tr>
             <tr class="heading">
                 <td>@lang('Description')</td>
-                <td>Entrada</td>
-                <td>Recibido</td>
+                <td>@lang('Process')</td>
+                <td>@lang('Finished')</td>
                 <td>Total</td>
             </tr>
 

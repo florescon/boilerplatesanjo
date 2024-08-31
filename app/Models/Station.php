@@ -32,6 +32,17 @@ class Station extends Model
         'folio',
         'invoice',
         'service_type_id',
+        'invoice_date',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'date_entered' => 'date',
+        'invoice_date' => 'date',
     ];
 
     /**
@@ -207,6 +218,11 @@ class Station extends Model
     public function getDateFormattedAttribute()
     {
         return $this->created_at->isoFormat('DD/MM/YY');
+    }
+
+    public function getInvoiceDateFormatAttribute()
+    {
+        return !$this->invoice_date ? '' : $this->invoice_date->isoFormat('D, MMM, YY');
     }
 
     public function getElapsedForHumans()

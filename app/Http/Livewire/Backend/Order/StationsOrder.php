@@ -60,7 +60,8 @@ class StationsOrder extends Component
         'saveInStation',
         'saveFromSupplier',
         'saveFromInitialProcess',
-        'deleteStation', 
+        'deleteStation',
+        'saveInvoiceDate',
         'AmountReceived' => 'render'];
 
     public function mount(Order $order, Status $status)
@@ -959,6 +960,30 @@ class StationsOrder extends Component
             'method' => 'makeOutputEmited',
             'params' => $stationId,
         ]);
+    }
+
+    public function makeInvoiceDate($station_id)
+    {
+        return $this->emit('swal:inputdate', [
+            'title' => 'Fecha de Factura',
+            'html' => '<input type="date" id="invoice-date" class="swal2-input" placeholder="calendar 1">',
+            'getId' => $station_id,
+            'showCancelButton' => true,
+            'method' => 'saveInvoiceDate',
+        ]);
+
+    }
+
+    public function saveInvoiceDate($station_id, ?string $dateInput = null)
+    {
+        if($dateInput){
+            Station::whereId($station_id)->update(['invoice_date' => $dateInput]);                        
+
+           $this->emit('swal:alert', [
+                'icon' => 'success',
+                'title'   => __('Saved'), 
+            ]); 
+        }
     }
 
     public function sendToStock($stationId)

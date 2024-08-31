@@ -38,6 +38,14 @@ Route::group([
                         ->push(__('Create User'), route('admin.auth.user.create'));
                 });
 
+            Route::get('create_customer', [UserController::class, 'create_customer'])
+                ->name('create_customer')
+                ->middleware('permission:admin.access.user.exportcustomer')
+                ->breadcrumbs(function (Trail $trail) {
+                    $trail->parent('admin.auth.user.index')
+                        ->push(__('Create Customer'), route('admin.auth.user.create_customer'));
+                });
+
             Route::post('/', [UserController::class, 'store'])->middleware('permission:admin.access.user.exportcustomer')->name('store');
 
             Route::group(['prefix' => '{user}'], function () {
@@ -74,7 +82,15 @@ Route::group([
                 ->middleware('permission:admin.access.user.list|admin.access.user.deactivate|admin.access.user.clear-session|admin.access.user.impersonate|admin.access.user.change-password')
                 ->breadcrumbs(function (Trail $trail) {
                     $trail->parent('admin.dashboard')
-                        ->push(__('User Management'), route('admin.auth.user.index'));
+                        ->push(__('Users'), route('admin.auth.user.index'));
+                });
+
+            Route::get('index_customer/', [UserController::class, 'index_customer'])
+                ->name('index_customer')
+                ->middleware('permission:admin.access.user.list|admin.access.user.deactivate|admin.access.user.clear-session|admin.access.user.impersonate|admin.access.user.change-password')
+                ->breadcrumbs(function (Trail $trail) {
+                    $trail->parent('admin.dashboard')
+                        ->push(__('Customers'), route('admin.auth.user.index_customer'));
                 });
 
             Route::get('exportcustomer/', [UserController::class, 'exportCustomers'])
@@ -123,7 +139,7 @@ Route::group([
             ->name('index')
             ->breadcrumbs(function (Trail $trail) {
                 $trail->parent('admin.dashboard')
-                    ->push(__('Role Management'), route('admin.auth.role.index'));
+                    ->push(__('Roles'), route('admin.auth.role.index'));
             });
 
         Route::get('create', [RoleController::class, 'create'])

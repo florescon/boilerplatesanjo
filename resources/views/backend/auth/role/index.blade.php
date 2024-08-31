@@ -1,11 +1,11 @@
 @extends('backend.layouts.app')
 
-@section('title', __('Role Management'))
+@section('title', __('Roles'))
 
 @section('content')
     <x-backend.card>
         <x-slot name="header">
-            @lang('Role Management')
+            @lang('Roles')
         </x-slot>
 
         <x-slot name="headerActions">

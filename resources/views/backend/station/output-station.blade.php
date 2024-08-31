@@ -27,8 +27,11 @@
             <div class="cs-logo cs-mb5"><img src="{{ asset('img/logo2.svg') }}" width="100" alt="Logo"></div>
           </div>
           <div class="cs-invoice_right cs-text_center cs-f16">
-            <p style="padding-bottom: 25px;">
-              <strong>@lang('Delivery')</strong> ID:</b> #{{ $station->id }},  f.º {{ $station->folio }}
+            <p style="padding: 10px;">
+              <strong>@lang('Delivery')</strong> No. #{{ $station->folio }}
+            </p>
+            <p style="margin-top: -20px;">
+              <strong>@lang('Date'): </strong> {{ $station->date_formatted }}
             </p>
           </div>
 
@@ -67,7 +70,7 @@
             <div class="cs-list_right">@lang('Invoice'): <b class="cs-primary_color cs-semi_bold ">{{ $station->invoice ?? '--' }}</b></div>
           </li>
           <li>
-            <div class="cs-list_left">@lang('Date'): <b class="cs-primary_color cs-semi_bold ">{{ $station->date_formatted }}</b></div>
+            <div class="cs-list_left">@lang('Invoice date'): <b class="cs-primary_color cs-semi_bold ">{{ $station->invoice_date_format }}</b></div>
             <div class="cs-list_right">Expedido por: <b class="cs-primary_color cs-semi_bold ">{{ optional($station->audi)->name ?? '--'  }}</b></div>
           </li>
         </ul>
