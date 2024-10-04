@@ -9,6 +9,7 @@ class EditField extends Component
 {
     public $origName;
     public $entityId;
+    public ?bool $textDanger = false;
     public $shortId;
     public ?string $text = '';
     public $newName; // dirty operation name state

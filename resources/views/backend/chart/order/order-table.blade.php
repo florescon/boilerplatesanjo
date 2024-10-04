@@ -17,6 +17,10 @@
                         <a class="nav-link {{ $status == '' ? 'active' : '' }}" href="{{ route('admin.order.request_chart') }}"
                             role="tab">@lang('Requests')</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="{{ route('admin.station.index', ['selectStatus' => '15', 'history' => true]) }}"
+                            role="tab">@lang('Outputs')</a>
+                    </li>
                 </ul>
 
                 @if ($status == 'quotations')

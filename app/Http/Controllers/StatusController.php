@@ -395,11 +395,13 @@ class StatusController extends Controller
         return $pdf->stream();
     }
 
-    public function printexportquantities(Status $status, bool $grouped = false)
+    public function printexportquantities(Status $status, bool $grouped = false, ?bool $allStatus = false)
     {
         if($grouped){
             $result = ProductStation::query()->with('product.parent', 'status')
-                ->where('status_id', $status->id)
+                ->when(!$allStatus, function ($query) use ($status) {
+                    return $query->where('status_id', $status->id);
+                })
                 ->where('active', true)
                 ->get()
                 ->groupBy('product_id')
@@ -423,7 +425,9 @@ class StatusController extends Controller
         }
         else{
             $result = ProductStation::query()->with('product.parent', 'status')
-                ->where('status_id', $status->id)
+                ->when(!$allStatus, function ($query) use ($status) {
+                    return $query->where('status_id', $status->id);
+                })
                 ->where('active', true)
                 ->get()
                 ->groupBy(function ($productStation) {
@@ -450,7 +454,9 @@ class StatusController extends Controller
 
         $res = ProductStation::query()
             ->with('product.parent', 'status')
-            ->where('status_id', $status->id)
+            ->when(!$allStatus, function ($query) use ($status) {
+                return $query->where('status_id', $status->id);
+            })
             ->where('active', true)
             ->get();
 
@@ -458,7 +464,7 @@ class StatusController extends Controller
         $newestDate = $res->max('created_at');
 
 
-        $pdf = PDF::loadView('backend.information.print-export-quantities',compact('status', 'oldestDate', 'newestDate', 'result'))->setPaper('a4', 'portrait')
+        $pdf = PDF::loadView('backend.information.print-export-quantities',compact('status', 'oldestDate', 'newestDate', 'result', 'allStatus'))->setPaper('a4', 'portrait')
                   ->setWarnings(false);
 
         return $pdf->stream();

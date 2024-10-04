@@ -16,7 +16,7 @@
         x-show=!nameData
         class="{{ $origName }}"
     >
-        <p  class="card-text" 
+        <p  class="card-text {{ $textDanger ? 'text-danger' : '' }}" 
             x-bind:class="{ 'font-weight-bold': inputText }"
             x-on:click="nameData = true; $nextTick(() => focus())"
         >

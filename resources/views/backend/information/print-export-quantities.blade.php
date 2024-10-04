@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Print Export Quantities</title>
+    <title>{{ $allStatus ? __('In process') : ucfirst($status->name) }} {{ now() }}</title>
     <style>
         body {
             font-family: DejaVu Sans, sans-serif;
@@ -69,7 +69,7 @@
                     <table>
                         <tr>
                             <td class="title">
-                                <h5>{{ ucfirst($status->name) }}</h5>
+                                <h5>{{ $allStatus ? __('In process') : ucfirst($status->name) }}</h5>
                             </td>
                             <td >
                               <img src="{{ public_path('img/logo2.svg') }}" alt="" width="100"/>
@@ -122,13 +122,21 @@
         </table>
         <br>
         <p>
-            Nota: <em>Este es un reporte que aplica sólo en la fecha de generación, y considera sólo los valores <u>activos</u> o en proceso de la     Estación. La fecha más antigua y reciente corresponde a las cantidades en su creación.
-            @if($status->id === 4)
-                Este reporte no hace distinción si el Lote fue o no cambiado a 'no considerar' o N/A P/BOM.
-            @endif
-            @if($status->id === 14)
-                Este reporte no hace distinción si el pedido fue o no solicitado.
-            @endif
+            Nota: 
+                <em>Este es un reporte que aplica sólo en la fecha de generación, y considera sólo los valores en <u>proceso</u> o <u>terminado</u> de 
+                    @if($allStatus) 
+                        <strong>todas</strong> las Estaciones. 
+                    @else
+                        la Estación. 
+                    @endif
+                    La fecha más antigua y reciente corresponde a las cantidades en su creación.
+                @if($status->id === 4)
+                    Este reporte no hace distinción si el Lote fue o no cambiado a 'no considerar' o N/A P/BOM.
+                @endif
+                @if($status->id === 14)
+                    Este reporte no hace distinción si el pedido fue o no solicitado.
+                @endif
+            </em>
         </p>
     </div>
 </body>

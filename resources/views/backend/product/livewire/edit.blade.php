@@ -93,7 +93,7 @@
 
                     @error('code') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
-	                <x-input.input-alpine nameData="isEditing" :inputText="$isDescription" :originalInput="$origDescription" wireSubmit="savedescription" modelName="newDescription" />
+	                <x-input.input-alpine nameData="isEditing" :inputText="$isDescription" :originalInput="$origDescription" wireSubmit="savedescription" maxlength="200" modelName="newDescription" />
 
 			        <p class="card-text mt-3"><strong>@lang('Stock'): </strong>{{ $model->total_stock }}</p>
 
@@ -211,10 +211,13 @@
 			        <p class="card-text"><strong>@lang('Provider price, without IVA'): </strong>${{ $model->cost }}</p>
 
 			        <hr style="border:1px dashed #FFB03F">
+					<div class="card p-4 border">
+				        <h4>@lang('Manufacturing')</h4>
 
-          			<x-input.input-alpine nameData="isPriceMaking" :inputText="$isPriceMaking" :originalInput="$isPriceMaking" wireSubmit="savepricemaking" :beforeName="'$'" :extraName="__('price of confeccion service')" modelName="price_making" />
+	          			<x-input.input-alpine nameData="isPriceMaking" :inputText="$isPriceMaking" :originalInput="$isPriceMaking" wireSubmit="savepricemaking" :beforeName="'$'" :extraName="__('price')" modelName="price_making" />
 
-          			<x-input.input-alpine nameData="isPriceMakingExtra" :inputText="$isPriceMakingExtra" :originalInput="$isPriceMakingExtra" wireSubmit="savepricemakingextra" :beforeName="'$'" :extraName="__('extra size price of confeccion service')" modelName="price_making_extra" />
+	          			<x-input.input-alpine nameData="isPriceMakingExtra" :inputText="$isPriceMakingExtra" :originalInput="$isPriceMakingExtra" wireSubmit="savepricemakingextra" :beforeName="'$'" :extraName="__('extra size')" modelName="price_making_extra" />
+	          		</div>
 
 			        <p class="card-text mt-4"><strong>@lang('Updated at'): </strong>{{ $model->updated_at }}</p>
 			        <p class="card-text"><strong>@lang('Created at'): </strong>{{ $model->created_at }}</p>

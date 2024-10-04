@@ -51,6 +51,8 @@ class StationsOrder extends Component
 
     public $output;
 
+    public $receivePartial = [];
+
     protected $listeners = [
         'selectedCompanyItem', 
         'makeConsumptionEmited', 
@@ -81,6 +83,12 @@ class StationsOrder extends Component
 
     }
 
+    public function toggleReceivePartial($stationId)
+    {
+        // Alternar el estado de receivePartial para la estación específica
+        $this->receivePartial[$stationId] = !($this->receivePartial[$stationId] ?? false);
+    }
+    
     public function savePersonalId($stationId, $userId)
     {
         $station = Station::find($stationId);

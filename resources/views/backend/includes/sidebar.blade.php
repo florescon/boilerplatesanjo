@@ -128,28 +128,6 @@
             </li>
         @endif
 
-        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.information.view')))
-            <li class="c-sidebar-nav-item">
-                <x-utils.link
-                    class="c-sidebar-nav-link"
-                    :href="route('admin.information.index')"
-                    :active="activeClass(Route::is('admin.information.index'), 'c-active')"
-                    icon="c-sidebar-nav-icon cil-newspaper"
-                    :text="__('Information')" />
-            </li>
-        @endif
-
-        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.information.view')))
-            <li class="c-sidebar-nav-item">
-                <x-utils.link
-                    class="c-sidebar-nav-link"
-                    :href="route('admin.information.chart')"
-                    :active="activeClass(Route::is('admin.information.chart'), 'c-active')"
-                    icon="c-sidebar-nav-icon cil-chart"
-                    :text="__('Charts')" />
-            </li>
-        @endif
-
         @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.order.quotations_chart'))
 
             <li class="c-sidebar-nav-item">
@@ -176,6 +154,18 @@
 
         @endif
 
+
+        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.product.modify')))
+            <li class="c-sidebar-nav-item">
+                <x-utils.link
+                    class="c-sidebar-nav-link"
+                    :href="route('admin.product.index')"
+                    :active="activeClass(Route::is('admin.product.*'), 'c-active')"
+                    icon="c-sidebar-nav-icon cil-tag"
+                    :text="__('Products')" />
+            </li>
+        @endif
+
         @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.station.index'))
 
             <li class="c-sidebar-nav-item">
@@ -189,17 +179,28 @@
 
         @endif
 
-
-        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.product.modify')))
+        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.information.view')))
             <li class="c-sidebar-nav-item">
                 <x-utils.link
                     class="c-sidebar-nav-link"
-                    :href="route('admin.product.index')"
-                    :active="activeClass(Route::is('admin.product.*'), 'c-active')"
-                    icon="c-sidebar-nav-icon cil-tag"
-                    :text="__('Products')" />
+                    :href="route('admin.information.index')"
+                    :active="activeClass(Route::is('admin.information.index'), 'c-active')"
+                    icon="c-sidebar-nav-icon cil-newspaper"
+                    :text="__('Information')" />
             </li>
         @endif
+
+        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.information.view')))
+            <li class="c-sidebar-nav-item">
+                <x-utils.link
+                    class="c-sidebar-nav-link"
+                    :href="route('admin.information.chart')"
+                    :active="activeClass(Route::is('admin.information.chart'), 'c-active')"
+                    icon="c-sidebar-nav-icon cil-chart"
+                    :text="__('Charts')" />
+            </li>
+        @endif
+
 
         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.service.list')))
             <li class="c-sidebar-nav-item">

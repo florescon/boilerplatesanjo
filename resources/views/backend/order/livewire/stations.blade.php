@@ -36,8 +36,13 @@
                       <p><b>@lang('Summary')</b></p>
                       @if($status->initial_lot || $status->initial_process || $status->supplier)
                         <div class="row align-items-start">
-                          <div class="col-9">
+                          <div class="{{ ($status->initial_process || $status->supplier) ? 'col-7' : 'col-9' }}">
                           </div>
+                          @if($status->initial_process || $status->supplier)
+                            <div class="col-2 text-right">
+                              Exist.
+                            </div>
+                          @endif
                           <div class="col-3">
                             <div class="text-center" style="border-width: 2px; border-style: dashed; border-color: red; "> 
                               <a href="javascript:void(0);" style="display: block;" wire:click="emitUpdatedQuantity" class="text-dark">
@@ -77,7 +82,7 @@
                             @if($status->initial_process || $status->supplier)
 
                               <div class="col-1 d-flex justify-content-end text-center {{( $product->product->stock > 0) ? 'text-info' : 'text-danger' }}">
-                                  <p><b>{{ $product->product->stock }} {{( $product->product->stock > 0) ? '[E]' : '' }}</b></p>
+                                  <p><b>{{ $product->product->stock }} {{( $product->product->stock > 0) ? '' : '' }}</b></p>
                               </div>
                             @endif
 
@@ -90,7 +95,7 @@
                                 <input type="text" 
                                     wire:model.defer="quantity.{{ $product->id }}.available"
                                     class="form-control text-center @error('quantity.'.$product->id.'.available') is-invalid @enderror"
-                                    style="color: blue;"
+                                    style="min-width: 60px !important; color: blue;"
                                     placeholder="{{ ($product->available_lot > 0) ? $product->available_lot : 0  }}"
                                     wire:keydown.tab="emitUpdatedQuantity"
                                     wire:keydown.escape="emitUpdatedQuantity"
@@ -103,7 +108,7 @@
                                 <input type="number" 
                                     wire:model.defer="quantityFromSupplier.{{ $product->id }}.available"
                                     class="form-control text-center @error('quantityFromSupplier.'.$product->id.'.available') is-invalid @enderror"
-                                    style="color: blue;"
+                                    style="min-width: 60px !important; color: blue;"
                                     placeholder="{{ ($product->available_supplier > 0) ? $product->available_supplier : 0  }}"
                                     wire:keydown.tab="emitUpdatedQuantity"
                                     wire:keydown.escape="emitUpdatedQuantity"
@@ -116,7 +121,7 @@
                                 <input type="number" 
                                     wire:model.defer="quantityFromStock.{{ $product->id }}.available"
                                     class="form-control text-center @error('quantityFromStock.'.$product->id.'.available') is-invalid @enderror"
-                                    style="color: blue;"
+                                    style="min-width: 60px !important; color: blue;"
                                     placeholder="{{ ($product->available_process > 0) ? $product->available_process : 0  }}"
                                     wire:keydown.tab="emitUpdatedQuantity"
                                     wire:keydown.escape="emitUpdatedQuantity"
@@ -323,16 +328,17 @@
                       </div>
                       <div class="price"><strong>#{{ $station->id }}</strong> / {{ ucfirst($status->short_name) }} <span class="glyphicon glyphicon-ok"></span></div>
                       <div class="pricing-body">
+                        
 
-                          <livewire:backend.components.edit-field :model="'\App\Models\Station'" :entity="$station" :field="'comment'" :key="'stations'.$station->id" :text="__('Comment')"/>
+                          <livewire:backend.components.edit-field textDanger="true" :model="'\App\Models\Station'" :entity="$station" :field="'comment'" :key="'stations'.$station->id" :text="__('Comment')"/>
 
                           @if($status->final_process)
                             <br>
-                              <livewire:backend.components.edit-field :model="'\App\Models\Station'" :entity="$station" :field="'invoice'" :key="'invoice'.$station->id" :text="__('Invoice')"/>
+                              <livewire:backend.components.edit-field textDanger="true" :model="'\App\Models\Station'" :entity="$station" :field="'invoice'" :key="'invoice'.$station->id" :text="__('Invoice')"/>
 
                             <br>
 
-                            <a wire:click="makeInvoiceDate({{ $station->id }})" >Fecha Factura <i class="cil-arrow-thick-right"></i> 
+                            <a wire:click="makeInvoiceDate({{ $station->id }})" class="text-danger">Fecha Factura <i class="cil-arrow-thick-right"></i> 
 
                               {{ $station->invoice_date_format }}
                             </a>
@@ -361,6 +367,13 @@
                             </div>
                           @endif
 
+                          <div class="custom-control custom-switch pb-4 pt-4">
+                            <input type="checkbox" class="custom-control-input" id="customSwitch{{ $station->id }}" 
+                                   wire:click="toggleReceivePartial({{ $station->id }})"
+                                   @if(isset($receivePartial[$station->id]) && $receivePartial[$station->id]) checked @endif>
+                            <label class="custom-control-label" for="customSwitch{{ $station->id }}">Recibir parcialmente</label>
+                          </div>
+                          
                           <ul class="pricing-table-ul list-group">
                             <table class="table table-sm">
                               <tbody>
@@ -374,7 +387,11 @@
                                     @if($product_station->metadata['open'] == 0)
                                       <button class="btn btn-success btn-sm" disabled>Recibido</button>
                                     @else
-                                      <button class="btn btn-dark btn-sm" wire:click="closeStation({{ $station->id }}, {{ $product_station->id }})">Recibir</button>
+                                      @if(isset($receivePartial[$station->id]) && $receivePartial[$station->id])
+                                          <input type="text" class="form-control" placeholder="">
+                                      @else
+                                          <button class="btn btn-dark btn-sm" wire:click="closeStation({{ $station->id }}, {{ $product_station->id }})">Recibir</button>
+                                      @endif
                                     @endif
                                   </td>
                                 </tr>
@@ -488,7 +505,7 @@
                     <div class="pricing-table-3 {{ $status->batch ? 'basic' : '' }} {{ !$station->active ? 'disabled' : '' }}" style="border: dashed 4px green;">
                         <div class="pricing-table-header">
                             <h4><strong>@lang('Tracking')</strong></h4>
-                            <p><span class="badge badge-danger">Lote</span> {{ ucfirst(optional($station->status)->name) }}</p>
+                            <p><span class="badge badge-danger">Lote--</span> {{ ucfirst(optional($station->status)->name) }}</p>
                         </div>
                         <div class="price"><strong>#{{ $station->id }}</strong> / @lang('Tracking')</div>
                         <div class="pricing-body">
@@ -509,7 +526,7 @@
 
                                       <td>
                                           <input type="number"
-                                              style="min-width: 45px !important; color: blue;" 
+                                              style="min-width: 55px !important; color: blue;" 
                                               wire:model.defer="quantity.{{ $station->id }}.{{ $product_station->id }}.available"
                                               class="form-control text-center"
                                               id="{{ $product_station->getAvailableBatch($status_id, $station->id) > 0 ? 'changeColorPlaceholder'  : ' '}}"
@@ -608,7 +625,7 @@
                                           <input type="number" 
                                               wire:model.defer="quantity.{{ $station->id }}.{{ $product_station->id }}.available"
                                               class="form-control text-center"
-                                              style="min-width: 45px !important; color: blue;"
+                                              style="min-width: 60px !important; color: blue;"
                                               wire:keydown.tab="emitUpdatedInStation({{ $station->id }})"
                                               id="{{ $product_station->getAvailableInitialProcess($status_id, $station->id) > 0 ? 'changeColorPlaceholder'  : ' '}}"
                                               wire:keydown.escape="emitUpdatedInStation({{ $station->id }})"
@@ -673,7 +690,11 @@
 
           <div class="row">
             <div class="col text-center mt-4">
+              <h3 class="card-title text-danger text-center">
+                {{ ucfirst($status_name) }} 📌
+              </h3>
               <div class="mb-4 btn-group" role="group" aria-label="Basic example">
+
                 @if($previous_status)
                   <a href="{{ route('admin.order.station', [$model->id, $previous_status->id]) }}" class="btn btn-outline-primary" data-toggle="tooltip" title="{{ $previous_status->name ?? null }}">
                     @if($previous_status->to_add_users)<i class="c-icon  c-icon-4x cil-people"></i>@endif

@@ -306,7 +306,7 @@ class EditProduct extends Component
         // }
 
         $product = Product::findOrFail($this->product_id);
-        $newDescription = (string)Str::of($this->newDescription)->trim()->substr(0, 100); // trim whitespace & more than 100 characters
+        $newDescription = (string)Str::of($this->newDescription)->trim()->substr(0, 200); // trim whitespace & more than 100 characters
         $newDescription = $newDescription === $this->slug ? null : $newDescription; // don't save it as product name it if it's identical to the short_id
 
         $product->description = $newDescription ?? null;

@@ -28,7 +28,7 @@
           </div>
           <div class="cs-invoice_right cs-text_center cs-f16">
             <p style="padding: 10px;">
-              <strong>@lang('Delivery')</strong> No. #{{ $station->folio }}
+              <strong>@lang('Output')</strong> No. #{{ $station->folio }}
             </p>
             <p style="margin-top: -20px;">
               <strong>@lang('Date'): </strong> {{ $station->date_formatted }}

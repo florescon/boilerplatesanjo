@@ -23,6 +23,7 @@ class StationTable extends Component
     protected $queryString = [
         'searchTerm' => ['except' => ''],
         'perPage',
+        'selectStatus',
         'deleted' => ['except' => FALSE],
         'pending' => ['except' => FALSE],
         'dateInput' => ['except' => ''],
