@@ -100,6 +100,14 @@
                                                 @lang('Clear status order')
                                             </button>
                                         @endif
+
+                                        @if($dateInput && $dateOutput)
+                                            <button class="btn btn-primary btn-sm ml-4 mt-2"
+                                                wire:click="printExportOrdersForDate">
+                                                @lang('Export')
+                                            </button>
+                                        @endif
+
                                     @endif
                                 </div>
                                 <!--col-->

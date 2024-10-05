@@ -78,10 +78,10 @@
                                         <div class="ml-4 mt-2">
                                           <button type="button" class="m-1 btn {{ $history ? 'btn-warning text-white' : 'btn-secondary' }}" wire:click="isHistory">@lang('History')</button>
                                         </div>
-                                        @if ($statusOrder)
-                                            <button class="btn btn-danger btn-sm ml-4 pb-2 mt-2"
-                                                wire:click="clearFilterStatusOrder">
-                                                @lang('Clear status order')
+                                        @if($dateInput && $dateOutput && $history)
+                                            <button class="btn btn-primary btn-sm ml-4 mt-2"
+                                                wire:click="printExportOrdersForDate">
+                                                @lang('Export')
                                             </button>
                                         @endif
                                     @endif

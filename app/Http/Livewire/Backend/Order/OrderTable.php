@@ -11,6 +11,9 @@ use App\Http\Livewire\Backend\DataTable\WithCachedRows;
 use Carbon\Carbon;
 use App\Models\Status;
 use DB;
+use Symfony\Component\HttpFoundation\Response;
+use Excel;
+use App\Exports\OrderByDateExport;
 
 class OrderTable extends Component
 {
@@ -82,6 +85,14 @@ class OrderTable extends Component
         }
 
         return redirect()->route('admin.order.printexportorders', urlencode(json_encode($ordercollection)));
+    }
+
+    public function printExportOrdersForDate()
+    {   
+        $extension = 'xlsx';
+
+        abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
+        return Excel::download(new OrderByDateExport($this->dateInput, $this->dateOutput, false), 'product-list-'.Carbon::now().'.'.$extension);
     }
 
     public function getRowsQueryProperty()
