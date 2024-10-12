@@ -27,9 +27,9 @@
             <div class="cs-logo cs-mb5"><img src="{{ asset('img/logo2.svg') }}" width="100" alt="Logo"></div>
           </div>
           <div class="cs-invoice_right cs-text_center cs-f16">
-            <p style="padding: 10px;">
-              <strong>@lang('Output')</strong> No. #{{ $station->folio }}
-            </p>
+            <h4 style="padding: 10px;">
+              <strong>@lang('Output') No. #{{ $station->folio }}</strong>
+            </h4>
             <p style="margin-top: -20px;">
               <strong>@lang('Date'): </strong> {{ $station->date_formatted }}
             </p>

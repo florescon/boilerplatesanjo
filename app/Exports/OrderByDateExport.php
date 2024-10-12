@@ -18,18 +18,23 @@ class OrderByDateExport implements FromCollection, WithMapping, WithHeadings, Wi
     protected $dateInput;
     protected $dateOutput;
     protected $flowchart;
+    protected $getType;
+    protected $fromStore;
 
-    // Recibe las fechas en el constructor
-    public function __construct($dateInput, $dateOutput, $flowchart)
+    // Recibe los datos en el constructor
+    public function __construct($dateInput, $dateOutput, ?bool $flowchart = false, ?int $getType = 1, ?bool $fromStore = false)
     {
         $this->dateInput = $dateInput;
         $this->dateOutput = $dateOutput;
         $this->flowchart = $flowchart;
+        $this->getType = $getType;
+        $this->fromStore = $fromStore;
     }
 
     public function styles(Worksheet $sheet)
     {
         $sheet->getStyle('5')->getFont()->setBold(true);
+        !$this->fromStore ? $sheet->setAutoFilter('A5:J5') : $sheet->setAutoFilter('A5:H5');
     }
 
     public function startCell(): string
@@ -51,18 +56,26 @@ class OrderByDateExport implements FromCollection, WithMapping, WithHeadings, Wi
 
     public function headings(): array
     {
-        return [
-            __('Folio'),
-            __('Total'),
+       $headings = [
+            __('Created'),
+            __('Order'),
             __('Customer'),
+            __('Comment'),
+            __('Products'),
+            __('Services'),
             __('Quotation'),
             __('Request n.º'),
             __('Purchase Order'),
-            __('Created'),
-            __('Comment'),
             __('Info customer'),
             __('Observations'),
         ];
+
+        if ($this->fromStore) {
+            unset($headings[7], $headings[8]);
+        }
+
+        return $headings;
+
     }
 
     /**
@@ -70,18 +83,26 @@ class OrderByDateExport implements FromCollection, WithMapping, WithHeadings, Wi
     */
     public function map($product): array
     {
-        return [
+        $data = [
+            $product->date_for_humans,
             $product->folio,
-            $product->total_products_by_all,
             $product->user_name_clear,
+            $product->comment,
+            $product->total_products_by_all_products,
+            $product->total_products_by_all_services,
             $product->quotation,
             $product->request,
             $product->purchase,
-            $product->date_for_humans,
-            $product->comment,
             $product->info_customer,
             $product->observation,
         ];
+
+        if ($this->fromStore) {
+            unset($data[7], $data[8]);
+        }
+
+        return $data;
+
     }
 
 
@@ -90,14 +111,19 @@ class OrderByDateExport implements FromCollection, WithMapping, WithHeadings, Wi
     */
     public function collection()
     {
-        return Order::with('user', 'departament')
+        return Order::with('user', 'departament', 'products.product')
                 ->whereBetween('created_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59'])
-                ->when($this->flowchart, function ($query) {
-                    return $query->where('flowchart', true);
-                }, function ($query) {
-                    return $query->where('flowchart', false);
+                ->whereType($this->getType)
+                ->when($this->fromStore, function($query){
+                    return $query->where('from_store', true);
+                }, function($query){
+                    return $query
+                        ->when($this->flowchart, function ($querysec) {
+                            return $querysec->where('flowchart', true);
+                        }, function ($querysec) {
+                            return $querysec->where('flowchart', false);
+                        });
                 })
-                ->whereType(1)
                 ->orderBy('created_at')->get();
     }
 }

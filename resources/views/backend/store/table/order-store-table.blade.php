@@ -30,6 +30,13 @@
         </div>
         &nbsp;
 
+        @if($dateInput && $dateOutput && ($status == 'requests_store'))
+            <button class="btn btn-primary btn-sm ml-4 mr-4"
+                wire:click="printExportOrdersForDate">
+                @lang('Export')
+            </button>
+        @endif
+
         <div class="col-md-3 mb-2">
           <div class="btn-group mr-2" role="group" aria-label="First group">
             <button type="button" class="btn btn-outline-dark" wire:click="clearFilterDate"  class="btn btn-default">@lang('Clear date')</button>

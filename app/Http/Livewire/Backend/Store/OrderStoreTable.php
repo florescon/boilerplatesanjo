@@ -11,6 +11,10 @@ use App\Http\Livewire\Backend\DataTable\WithCachedRows;
 use App\Models\OrderStatusDelivery;
 use Illuminate\Database\Eloquent\Builder;
 use Carbon\Carbon;
+use DB;
+use Symfony\Component\HttpFoundation\Response;
+use Excel;
+use App\Exports\OrderByDateExport;
 
 class OrderStoreTable extends Component
 {
@@ -135,6 +139,14 @@ class OrderStoreTable extends Component
         }
 
         return null;
+    }
+
+    public function printExportOrdersForDate()
+    {   
+        $extension = 'xlsx';
+
+        abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
+        return Excel::download(new OrderByDateExport($this->dateInput, $this->dateOutput, false, 5, true), 'product-list-'.Carbon::now().'.'.$extension);
     }
 
     public function selectedStatusOrderDeliveryItem(?int $item)

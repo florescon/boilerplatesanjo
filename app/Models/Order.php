@@ -809,6 +809,20 @@ class Order extends Model
         return $this->products->sum('quantity');
     }
 
+    public function getTotalProductsByAllProductsAttribute(): int
+    {
+        return $this->products->filter(function ($productOrder) {
+            return $productOrder->product->isProduct();
+        })->sum('quantity');
+    }
+
+    public function getTotalProductsByAllServicesAttribute(): int
+    {
+        return $this->products->filter(function ($productOrder) {
+            return !$productOrder->product->isProduct();
+        })->sum('quantity');
+    }
+
     public function getTotalProductsAttribute(): int
     {
         return $this->product_order->sum('quantity');
@@ -1308,7 +1322,7 @@ class Order extends Model
 
     public function getDateForHumansAttribute()
     {
-        return $this->created_at->isoFormat('D, MMM, YYYY');
+        return $this->created_at->format('d/m/Y');
     }
 
     public function getDateEnteredOrCreatedAttribute()
