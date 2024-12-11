@@ -115,12 +115,12 @@ Route::group([
                         ->push(__('Print quantities'), route('admin.order.printexportquantitiesall', [$grouped ?? false, $allStatus ?? false]));
                 });
 
-            Route::get('printexporthistory/{grouped?}', [StatusController::class, 'printexporthistory'])
+            Route::get('printexporthistory/{grouped?}/{dateInput?}/{dateOutput?}/{personal?}', [StatusController::class, 'printexporthistory'])
                 ->name('printexporthistory')
                 ->middleware('permission:admin.access.dashboard.information')
                 ->breadcrumbs(function (Trail $trail, Status $status) {
                     $trail->parent('admin.order.index', $status)
-                        ->push(__('Print quantities'), route('admin.order.printexporthistory', [$status, $grouped ?? false]));
+                        ->push(__('Print quantities'), route('admin.order.printexporthistory', [$status, $grouped ?? false, $dateInput ?? false, $dateOutput ?? false, $personal ?? false]));
                 });
 
             Route::get('printexportreceived/{grouped?}/{dateInput?}/{dateOutput?}/{personal?}', [StatusController::class, 'printexportreceived'])

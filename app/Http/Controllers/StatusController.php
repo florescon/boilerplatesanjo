@@ -328,11 +328,38 @@ class StatusController extends Controller
         return $pdf->stream();
     }
 
-    public function printexporthistory(Status $status, bool $grouped = false)
+    public function printexporthistory(Status $status, bool $grouped = false, $dateInput = false, $dateOutput = false, $personal = false)
     {
+        $statusId = $status->id;
+
+        if($dateInput == 0){
+            $dateInput = false;
+        }
+
+        if($dateOutput == 0){
+            $dateOutput = false;
+        }
+
+        if($personal == 0){
+            $personal = false;
+        }
+
+        $getPersonal = \App\Domains\Auth\Models\User::find($personal);
+
+
         if($grouped){
             $result = ProductStation::query()->with('product.parent', 'status')
                 ->where('status_id', $status->id)
+                ->when($personal, function($querySecond) use ($statusId, $personal){
+                    $querySecond->whereHas('station', function ($queryT) use ($statusId, $personal) {
+                        $queryT->where('personal_id', $personal);
+                    });
+                })
+                ->when($dateInput, function ($query) use($dateInput, $dateOutput) {
+                    empty($dateOutput) ?
+                        $query->whereBetween('created_at', [$dateInput.' 00:00:00', now()]) :
+                        $query->whereBetween('created_at', [$dateInput.' 00:00:00', $dateOutput.' 23:59:59']);
+                })
                 ->get()
                 ->groupBy('product_id')
                 ->map(function ($group) {
@@ -357,6 +384,16 @@ class StatusController extends Controller
         else{
             $result = ProductStation::query()->with('product.parent', 'status')
                 ->where('status_id', $status->id)
+                ->when($personal, function($querySecond) use ($statusId, $personal){
+                    $querySecond->whereHas('station', function ($queryT) use ($statusId, $personal) {
+                        $queryT->where('personal_id', $personal);
+                    });
+                })
+                ->when($dateInput, function ($query) use($dateInput, $dateOutput) {
+                    empty($dateOutput) ?
+                        $query->whereBetween('created_at', [$dateInput.' 00:00:00', now()]) :
+                        $query->whereBetween('created_at', [$dateInput.' 00:00:00', $dateOutput.' 23:59:59']);
+                })
                 ->get()
                 ->groupBy(function ($productStation) {
                     return $productStation->product->parent ? $productStation->product->parent->id : $productStation->product_id;
@@ -384,16 +421,22 @@ class StatusController extends Controller
         $res = ProductStation::query()
             ->with('product.parent', 'status')
             ->where('status_id', $status->id)
+            ->when($dateInput, function ($query) use($dateInput, $dateOutput) {
+                empty($dateOutput) ?
+                    $query->whereBetween('created_at', [$dateInput.' 00:00:00', now()]) :
+                    $query->whereBetween('created_at', [$dateInput.' 00:00:00', $dateOutput.' 23:59:59']);
+            })
             ->get();
 
         $oldestDate = $res->min('created_at');
         $newestDate = $res->max('created_at');
 
-        $pdf = PDF::loadView('backend.information.print-export-history',compact('status', 'oldestDate', 'newestDate', 'result'))->setPaper('a4', 'portrait')
+        $pdf = PDF::loadView('backend.information.print-export-history',compact('status', 'oldestDate', 'newestDate', 'result', 'dateInput', 'dateOutput', 'getPersonal'))->setPaper('a4')
                   ->setWarnings(false);
 
         return $pdf->stream();
     }
+
 
     public function printexportquantities(Status $status, bool $grouped = false, ?bool $allStatus = false)
     {

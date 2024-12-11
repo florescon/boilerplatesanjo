@@ -47,7 +47,8 @@
             <b class="cs-primary_color">@lang('Customer Information'):</b>
             <p>
               {!! $station->order->user_name !!} <br>
-              {!! $station->order->user_details !!}
+              {!! $station->order->user_details !!}<br>
+              {!! $station->comment  ? '<strong>Comentario:</strong> ' . $station->comment : '' !!}<br>
             </p>
           </div>
           <div class="cs-invoice_right cs-text_right">

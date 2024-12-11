@@ -176,16 +176,16 @@
                                                         </strong>
                                                     @endif
                                                     @if ($order->quotation !== 0)
-                                                        <strong>#@lang('QUOTATION'):</strong>
-                                                        {{ $order->quotation }}
+                                                        <strong>@lang('QUOTATION'):</strong>
+                                                        #{{ $order->quotation }}
                                                     @endif
                                                     @if ($order->purchase)
-                                                        <strong>#O. DE COMPRA:</strong>
-                                                        {{ $order->purchase }}
+                                                        <strong>O. DE COMPRA:</strong>
+                                                        #{{ $order->purchase }}
                                                     @endif
                                                     @if ($order->request)
-                                                        <strong>#SOLICITUD:</strong>
-                                                        {{ $order->request }}
+                                                        <strong>SOLICITUD:</strong>
+                                                        #{{ $order->request }}
                                                     @endif
                                                     @if ($order->invoice)
                                                         <strong>FACTURA:</strong>

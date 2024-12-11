@@ -44,13 +44,13 @@
                 &nbsp;
 
                 <div class="col-md-3">
-                  <div class="btn-group" role="group" aria-label="Range date">
+                  {{-- <div class="btn-group" role="group" aria-label="Range date">
                     <button type="button" class="btn {{ $currentMonth ? 'btn-success' : 'btn-secondary' }}" wire:click="isCurrentMonth">@lang('Current month')</button>
                     <button type="button" class="btn {{ $currentWeek ? 'btn-success' : 'btn-secondary' }}" wire:click="isCurrentWeek">@lang('Current week')</button>
                     <button type="button" class="btn {{ $today ? 'btn-success' : 'btn-secondary' }}" wire:click="isToday">@lang('Today')</button>
-                  </div>
+                  </div> --}}
                   <button type="button" class="m-1 btn {{ $history ? 'btn-warning text-white' : 'btn-secondary' }}" wire:click="isHistory">@lang('History')</button>
-
+                  <a type="button" href="{{ route('admin.serviceorder.printexportserviceorder', [$dateInput ?: 0, $dateOutput ?: 0, $personal ?? 0]) }}" class="m-1 btn btn-primary" style="{{ ($history && $personal) ?  '' :  'pointer-events: none; cursor: default; color: #ccc; background-color: #6c757d;'  }}">@lang('Export')</a>
                 </div>
                 &nbsp;
 
@@ -63,6 +63,18 @@
                 &nbsp;
                 
             </div>
+
+            <div class="row justify-content-md-center mt-3">
+              <div class="col col-lg-6">
+                <livewire:backend.user.only-admins/>
+              </div>
+              <div class="col col-lg-1">
+                @if($personal)
+                  <a wire:click="clearPersonal" class="text-danger"><em> Limpiar personal</em></a>
+                @endif
+              </div>
+            </div>
+
         </div>
         <div class="card-body">
 

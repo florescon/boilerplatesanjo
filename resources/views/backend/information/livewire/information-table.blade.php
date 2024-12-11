@@ -95,9 +95,9 @@
             @endif
 
 
-            <a type="button" target="_blank" href="{{ route('admin.information.status.printexporthistory', [$status->id, true]) }}" class="btn btn-primary mb-4 mr-2" style="{{ !$history ? 'pointer-events: none; cursor: default; color: #ccc; background-color: #6c757d;': ''}}">Exportar histórico </a>
+            <a type="button" target="_blank" href="{{ route('admin.information.status.printexporthistory', [$status->id, true, $dateInput ?: 0, $dateOutput ?: 0, $personal ?? 0]) }}" class="btn btn-primary mb-4 mr-2" style="{{ !$history ? 'pointer-events: none; cursor: default; color: #ccc; background-color: #6c757d;': ''}}">Exportar histórico </a>
 
-            <a type="button" target="_blank" href="{{ route('admin.information.status.printexporthistory', [$status->id, false]) }}" class="btn btn-primary mb-4 mr-2" style="{{ !$history ? 'pointer-events: none; cursor: default; color: #ccc; background-color: #6c757d;': ''  }}">Exportar histórico, agrupado </a>
+            <a type="button" target="_blank" href="{{ route('admin.information.status.printexporthistory', [$status->id, 0, $dateInput ?: 0, $dateOutput ?: 0, $personal ?? 0]) }}" class="btn btn-primary mb-4 mr-2" style="{{ !$history ? 'pointer-events: none; cursor: default; color: #ccc; background-color: #6c757d;': ''  }}">Exportar histórico, agrupado </a>
 
             {{-- <a type="button" target="_blank" href="{{ route('admin.information.status.printexportreceived', [$status->id, true, $dateInput, $dateOutput, $personal]) }}" class="btn btn-primary mb-4 mr-2" style="{{ !$history ? 'pointer-events: none; cursor: default; color: #ccc; background-color: #6c757d;': '' }}">Exportar recibido </a> --}}
 

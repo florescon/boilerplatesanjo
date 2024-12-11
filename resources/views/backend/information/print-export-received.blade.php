@@ -74,7 +74,7 @@
                                 </h2>
                                 </h3>
                                     <strong>
-                                        {{ $getPersonal ? ucwords(strtolower($getPersonal->name)) :'' }}
+                                        {{ $getPersonal ? ucwords(strtolower($getPersonal->name)) : 'Todos' }}
                                     </strong>
                                 </h3>
                             </td>

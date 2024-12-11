@@ -48,7 +48,9 @@ class ServiceOrderList extends Component
 
     public $status;
 
-    protected $listeners = ['filter' => 'filter', 'done', 'delete', 'restore', 'triggerRefresh' => '$refresh'];
+    public $personal;
+
+    protected $listeners = ['filter' => 'filter', 'done', 'selectedCompanyItem', 'delete', 'restore', 'triggerRefresh' => '$refresh'];
 
     public $updated, $selected_id, $deleted;
 
@@ -64,6 +66,11 @@ class ServiceOrderList extends Component
         $this->sortField = $field;
     }
 
+    public function selectedCompanyItem($personal)
+    {
+        $this->personal = $personal;
+    }
+
     public function getRowsQueryProperty()
     {
         $query = ServiceOrder::query()->with('personal', 'image', 'order.user', 'service_type', 'product_service_orders', 'createdby')
@@ -72,14 +79,17 @@ class ServiceOrderList extends Component
                     $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', now()]) :
                     $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59']);
             })
+            ->when($this->personal, function($query){
+                $query->where('user_id', $this->personal);
+            })
             ->when($this->currentMonth, function ($query) {
-                    $query->currentMonth();
+                $query->currentMonth();
             })
             ->when($this->currentWeek, function ($query) {
-                    $query->currentWeek();
+                $query->currentWeek();
             })
             ->when($this->today, function ($query) {
-                    $query->today();
+                $query->today();
             })
             ->when($this->sortField, function ($query) {
                 $query->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc');
@@ -285,6 +295,12 @@ class ServiceOrderList extends Component
         $this->selectAll = false;
         $this->selectPage = false;
         $this->selected = [];
+    }
+
+    public function clearPersonal()
+    {
+        $this->personal = null;
+        $this->emit('clear-personal');
     }
 
     public function delete(int $id)

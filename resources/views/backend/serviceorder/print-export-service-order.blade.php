@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>@lang('History') - {{ ucfirst($status->name) }}</title>
+    <title>@lang('History') - {{ $getPersonal ? ucwords(strtolower($getPersonal->name)) : '' }}</title>
     <style>
         body {
             font-family: DejaVu Sans, sans-serif;
@@ -65,11 +65,11 @@
     <div class="invoice-box">
         <table cellpadding="0" cellspacing="0">
             <tr class="top">
-                <td colspan="2">
+                <td colspan="4">
                     <table>
                         <tr>
                             <td class="title">
-                                <h5>{{ ucfirst($status->name) }}</h5>
+                                <h6>Reporte Órdenes de Servicio</h6>
                             </td>
                             <td >
                               <img src="{{ public_path('img/logo2.svg') }}" alt="" width="100"/>
@@ -82,11 +82,12 @@
             </tr>
 
             <tr>
-                <td colspan="2" style="text-align: center;">{{ $getPersonal ? ucwords(strtolower($getPersonal->name)) : 'Todos' }}</td>
+                <td colspan="4" style="text-align: center;">{{ $getPersonal ? ucwords(strtolower($getPersonal->name)) : '' }}</td>
             </tr>
-            @if($dateInput && $dateOutput)
+
+            @if($dateInput)
                 <tr class="information">
-                    <td colspan="2">
+                    <td colspan="4">
                         <table>
                             <tr>
                                 <td>
@@ -95,51 +96,38 @@
                                 </td>
                                 <td>
                                     <strong>Rango Final: </strong><br>
-                                    {{ changeFormatStringDate($dateOutput) }}<br>
+                                    {{ $dateOutput ? changeFormatStringDate($dateOutput) : now()->format('d-m-Y') }}<br>
                                 </td>
                             </tr>
                         </table>
                     </td>
                 </tr>
             @endif
-            <tr class="information">
-                <td colspan="2" style="padding-bottom: 50px;">
-                    <table>
-                        <tr>
-                            <td>
-                                <strong>La fecha más antigua es: </strong><br>
-                                {{ $oldestDate }}<br>
-                            </td>
-                            <td>
-                                <strong>La fecha más reciente es: </strong><br>
-                                {{ $newestDate }}<br>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
             <tr class="heading">
-                <td>@lang('Description')</td>
-                <td style="text-align: center;">Asignado</td>
+                <td style="text-align: center;">@lang('Service Type')</td>
+                <td style="text-align: left;">@lang('Customer')</td>
+                <td style="text-align: center;">@lang('Created at')</td>
+                <td style="text-align: center;">@lang('Quantity')</td>
             </tr>
 
             @php($total = 0)
             @foreach($result as $r)
                 <tr class="item">
-                    <td width="70%">{!! $r['product_name'] !!}</td>
-                    <td  width="30%" style="text-align: center;">{{ $r['totalQuantity'] }}</td>
+                    <td width="25%" style="text-align: center;">{!! $r['service_type'] !!}</td>
+                    <td width="25%" style="text-align: left;">{!! $r['customer'] !!}</td>
+                    <td width="25%" style="text-align: center;">{!! $r['created_at'] !!}</td>
+                    <td width="25%" style="text-align: center;">{{ $r['total'] }}</td>
                 </tr>
-                @php($total += $r['totalQuantity'])
+                @php($total += $r['total'])
             @endforeach
             <tr class="total" style="text-align: center;">
+                <td colspan="2">
+                </td>
                 <td style="text-align: right;">Total:</td>
                 <td style="text-align: center;"><strong>{{ $total }}</strong></td>
             </tr>
         </table>
         <br>
-        <p>
-            Nota: <em></em>
-        </p>
     </div>
 </body>
 </html>

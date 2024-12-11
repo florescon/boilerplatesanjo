@@ -30,4 +30,12 @@
       });
     </script>
 
+    <script>
+        Livewire.on('clear-personal', clear => {
+            jQuery(document).ready(function () {
+                $("#userselect").val('').trigger('change')
+            });
+        })
+    </script>
+
 @endpush
