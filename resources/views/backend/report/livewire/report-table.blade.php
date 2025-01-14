@@ -44,7 +44,7 @@
         <div class="card">
             <article class="card-group-item">
                 <header class="card-header">
-                    <h6 class="title">@lang('Outputs') </h6>
+                    <h6 class="title">@lang('Outputs')* <br><em> desde Jul, 2024</em> </h6>
                 </header>
                 <div class="filter-content">
                     <div class="list-group list-group-flush">
