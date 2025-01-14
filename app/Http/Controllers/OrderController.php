@@ -127,8 +127,12 @@ class OrderController extends Controller
 
     public function printexportorders(?string $orders = null)
     {
-
         return view('backend.order.print-export-orders-index', ['orders' => $orders]);
+    }
+
+    public function printexportbydate(?string $dateInput = null, ?string $dateOutput = null, bool $summary = false, bool $isProduct = false, bool $isService = false)
+    {
+        return view('backend.order.print-export-by-date-index', ['dateInput' => $dateInput, 'dateOutput' => $dateOutput, 'summary' => $summary, 'isProduct' => $isProduct, 'isService' => $isService]);
     }
 
     public function report(Order $order)

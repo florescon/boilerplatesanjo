@@ -7,7 +7,9 @@
                 </li>
             @else
                 <li class="breadcrumb-item active">
-                    {{ $crumb->title() }}
+                    <mark style="background-color: #00fff7;" class="rounded-sm">
+                        <strong>&nbsp;{{ $crumb->title() }}&nbsp;</strong>
+                    </mark>
                 </li>
             @endif
         @endforeach

@@ -235,6 +235,17 @@
             </li>
         @endif
 
+        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.report.list')))
+            <li class="c-sidebar-nav-item">
+                <x-utils.link
+                    class="c-sidebar-nav-link"
+                    :href="route('admin.report.index')"
+                    :active="activeClass(Route::is('admin.report.*'), 'c-active')"
+                    icon="c-sidebar-nav-icon cil-blur-circular"
+                    :text="__('Reports')" />
+            </li>
+        @endif
+
         @if ($logged_in_user->hasAllAccess() 
                 || $logged_in_user->can('admin.dashboard_old') 
                 || $logged_in_user->can('admin.access.order.order')

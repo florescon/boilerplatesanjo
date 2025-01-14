@@ -36,6 +36,7 @@
                     </em>
                 </div>
 
+
                 <div class="row input-daterange mb-3 no-print">
                     <div class="col-md-3 mb-2">
                         <x-input.date wire:model="dateInput" id="dateInput" borderClass="{{ $title['color'] }}"

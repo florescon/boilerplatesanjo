@@ -84,7 +84,7 @@
         <tr>
             <td><strong>Archivo:</strong> {{ $service->file_text }}</td>
             @if($service->approved)
-                <td><strong>Autorizado:</strong> {{ $service->approved }}</td>
+                <td><strong>Autorizado:</strong> {{ $service->approved_for_humans }}</td>
             @endif
         </tr>
         <tr>
@@ -170,7 +170,7 @@
         <tr>
             <td><strong>Archivo:</strong> {{ $service->file_text }}</td>
             @if($service->approved)
-                <td><strong>Autorizado:</strong> {{ $service->approved }}</td>
+                <td><strong>Autorizado:</strong> {{ $service->approved_for_humans }}</td>
             @endif
         </tr>
         <tr>

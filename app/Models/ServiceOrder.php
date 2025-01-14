@@ -21,6 +21,10 @@ class ServiceOrder extends Model
         'order_id', 'user_id', 'authorized_id', 'created_id', 'image_id', 'branch_id', 'service_type_id', 'comment', 'dimensions', 'file_text', 'done', 'approved',
     ];
 
+    protected $casts = [
+        'approved' => 'datetime'
+    ];
+
     /**
      * @return mixed
      */
@@ -91,4 +95,10 @@ class ServiceOrder extends Model
     {
         return $this->created_at->isoFormat('D, MMM, YY');
     }
+
+    public function getApprovedForHumansAttribute()
+    {
+        return $this->approved ? $this->approved->isoFormat('D, MMM, YY') : '';
+    }
+
 }

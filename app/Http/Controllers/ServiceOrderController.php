@@ -21,7 +21,7 @@ class ServiceOrderController extends Controller
         return view('backend.serviceorder.index');
     }
 
-    public function printexportserviceorder($dateInput = false, $dateOutput = false, $personal = false)
+    public function printexportserviceorder($dateInput = false, $dateOutput = false, $personal = false, ?bool $grouped = false)
     {
         if($dateInput == 0){
             $dateInput = false;
@@ -56,7 +56,21 @@ class ServiceOrderController extends Controller
                 ];
             });
 
-        $pdf = PDF::loadView('backend.serviceorder.print-export-service-order',compact('result', 'dateInput', 'dateOutput', 'getPersonal'))->setPaper('a4', 'portrait')
+        if ($grouped) {
+            $result = collect($result)
+                ->groupBy('service_type')  // Agrupar por el campo 'service_type'
+                ->map(function($group) {
+                    return [
+                        'service_type' => $group->first()['service_type'],  // Obtener el nombre del 'service_type'
+                        'total' => $group->sum('total'), // Sumar el 'total' de todos los elementos del grupo
+                        'customer' => '',
+                        'created_at' => '',
+                    ];
+                })
+                ->values();  // Reindexar para obtener un array numerado
+        }
+
+        $pdf = PDF::loadView('backend.serviceorder.print-export-service-order',compact('result', 'dateInput', 'dateOutput', 'getPersonal', 'grouped'))->setPaper('a4', 'portrait')
                   ->setWarnings(false);
 
         return $pdf->stream();

@@ -89,6 +89,14 @@ Route::group([
                 ->push(__('Print orders'), route('admin.order.printexportorders', $orders ?? null));
         });
 
+    Route::get('printexportbydate/{dateInput?}/{dateOutput?}/{summary?}/{isProduct?}/{isService?}', [OrderController::class, 'printexportbydate'])
+        ->name('printexportbydate')
+        ->middleware('permission:admin.access.order.modify')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.order.index')
+                ->push(__('Print orders'), route('admin.order.printexportbydate', [$dateInput, $dateOutput, $summary ?? 0, $isProduct ?? 0, $isService ?? 0]));
+        });
+
     Route::group(['prefix' => '{order}'], function () {
         Route::get('edit', [OrderController::class, 'edit'])
             ->name('edit')

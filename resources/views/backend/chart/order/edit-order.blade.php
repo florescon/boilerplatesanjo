@@ -713,9 +713,9 @@
                     <th colspan="5" >@lang('Quotation')</th>
                   </tr>
                   <tr class="thead-dark">
-                    <th>@lang('Product')</th>
-                    <th>@lang('Price')</th>
                     <th class="text-center">@lang('Quantity')</th>
+                    <th>@lang('Product')</th>
+                    <th class="text-center">@lang('Price')</th>
                     <th class="text-center">Total</th>
                     <th></th>
                   </tr>
@@ -724,6 +724,9 @@
 
                   @foreach($model->product_quotation->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']]) as $product)
                   <tr>
+                    <td class="text-center" wire:ignore.self>
+                      <livewire:backend.cartdb.quantity-update :item="$product" :key="now()->timestamp.$product->id" :typeCart="$product->type" :setModel="'product_order'"/>
+                    </td>
                     <td>
                       {{ $product->product->code_subproduct_clear }}
                       {!! $product->product->full_name_link !!}
@@ -738,9 +741,6 @@
                         <livewire:backend.cartdb.price-without-taxes-update :item="$product" :key="now()->timestamp.$product->id" :typeCart="$product->type" :setModel="'product_order'"/>
                       @endif
 
-                    </td>
-                    <td class="text-center" wire:ignore.self>
-                      <livewire:backend.cartdb.quantity-update :item="$product" :key="now()->timestamp.$product->id" :typeCart="$product->type" :setModel="'product_order'"/>
                     </td>
                     <td class="text-center">
                       ${{ number_format((float)$product->total_by_product, 2) }}
@@ -760,11 +760,12 @@
                   </tr>
                   @endforeach
                   <tr>
-                    <td></td>
-                    <td class="text-right">Total:</td>
                     <td class="text-center">
                       {{ $model->total_products_quotation }}
                     </td>
+                    <td class="text-center">
+                    </td>
+                    <td class="text-right">Total:</td>
                     <td class="text-center">
                       ${{ number_format((float)$model->total_quotation, 2) }}
                       <div class="small text-muted"> ${{ priceWithoutIvaIncluded($model->total_quotation) }} </div>

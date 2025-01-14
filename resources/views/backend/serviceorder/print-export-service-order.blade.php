@@ -65,7 +65,7 @@
     <div class="invoice-box">
         <table cellpadding="0" cellspacing="0">
             <tr class="top">
-                <td colspan="4">
+                <td colspan="{{ !$grouped ? '4' : '2' }}">
                     <table>
                         <tr>
                             <td class="title">
@@ -74,7 +74,7 @@
                             <td >
                               <img src="{{ public_path('img/logo2.svg') }}" alt="" width="100"/>
                                 <br><br>
-                                @lang('Date'): {{ now() }}            
+                                @lang('Date'):<br> {{ now()->format('d-m-Y H:i') }}            
                             </td>
                         </tr>
                     </table>
@@ -82,12 +82,12 @@
             </tr>
 
             <tr>
-                <td colspan="4" style="text-align: center;">{{ $getPersonal ? ucwords(strtolower($getPersonal->name)) : '' }}</td>
+                <td colspan="{{ !$grouped ? '4' : '2' }}" style="text-align: center;"><h2>{{ $getPersonal ? ucwords(strtolower($getPersonal->name)) : '' }}</h2></td>
             </tr>
 
             @if($dateInput)
                 <tr class="information">
-                    <td colspan="4">
+                    <td colspan="{{ !$grouped ? '4' : '2' }}">
                         <table>
                             <tr>
                                 <td>
@@ -103,10 +103,13 @@
                     </td>
                 </tr>
             @endif
+            <br>
             <tr class="heading">
                 <td style="text-align: center;">@lang('Service Type')</td>
-                <td style="text-align: left;">@lang('Customer')</td>
-                <td style="text-align: center;">@lang('Created at')</td>
+                @if(!$grouped)
+                    <td style="text-align: left;">@lang('Customer')</td>
+                    <td style="text-align: center;">@lang('Created at')</td>
+                @endif
                 <td style="text-align: center;">@lang('Quantity')</td>
             </tr>
 
@@ -114,15 +117,19 @@
             @foreach($result as $r)
                 <tr class="item">
                     <td width="25%" style="text-align: center;">{!! $r['service_type'] !!}</td>
-                    <td width="25%" style="text-align: left;">{!! $r['customer'] !!}</td>
-                    <td width="25%" style="text-align: center;">{!! $r['created_at'] !!}</td>
+                    @if(!$grouped)
+                        <td width="25%" style="text-align: left;">{!! $r['customer'] !!}</td>
+                        <td width="25%" style="text-align: center;">{!! $r['created_at'] !!}</td>
+                    @endif
                     <td width="25%" style="text-align: center;">{{ $r['total'] }}</td>
                 </tr>
                 @php($total += $r['total'])
             @endforeach
             <tr class="total" style="text-align: center;">
-                <td colspan="2">
-                </td>
+                @if(!$grouped)
+                    <td colspan="2">
+                    </td>
+                @endif
                 <td style="text-align: right;">Total:</td>
                 <td style="text-align: center;"><strong>{{ $total }}</strong></td>
             </tr>

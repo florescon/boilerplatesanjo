@@ -50,7 +50,7 @@
                     <button type="button" class="btn {{ $today ? 'btn-success' : 'btn-secondary' }}" wire:click="isToday">@lang('Today')</button>
                   </div> --}}
                   <button type="button" class="m-1 btn {{ $history ? 'btn-warning text-white' : 'btn-secondary' }}" wire:click="isHistory">@lang('History')</button>
-                  <a type="button" href="{{ route('admin.serviceorder.printexportserviceorder', [$dateInput ?: 0, $dateOutput ?: 0, $personal ?? 0]) }}" class="m-1 btn btn-primary" style="{{ ($history && $personal) ?  '' :  'pointer-events: none; cursor: default; color: #ccc; background-color: #6c757d;'  }}">@lang('Export')</a>
+                  <br>
                 </div>
                 &nbsp;
 
@@ -73,15 +73,20 @@
                   <a wire:click="clearPersonal" class="text-danger"><em> Limpiar personal</em></a>
                 @endif
               </div>
+              <div class="col col-lg-5">
+                  <a type="button" href="{{ route('admin.serviceorder.printexportserviceorder', [$dateInput ?: 0, $dateOutput ?: 0, $personal ?? 0]) }}" target="_blank" class="m-1 btn btn-primary" style="{{ ($history && $personal && $dateInput && $dateOutput) ?  '' :  'pointer-events: none; cursor: default; color: #ccc; background-color: #6c757d;'  }}">@lang('Export')</a>
+
+                  <a type="button" href="{{ route('admin.serviceorder.printexportserviceorder', [$dateInput ?: 0, $dateOutput ?: 0, $personal ?? 0, true]) }}" target="_blank" class="m-1 btn btn-primary" style="{{ ($history && $personal && $dateInput && $dateOutput) ?  '' :  'pointer-events: none; cursor: default; color: #ccc; background-color: #6c757d;'  }}">@lang('Export Grouped')</a>
+
+              </div>
             </div>
 
         </div>
         <div class="card-body">
-
           @if($history)
-            <div class="alert alert-warning text-center" role="alert">
+            <div class="alert alert-info text-center" role="alert">
               El historial me muestra todas las órdenes de servicio pendientes y listas.
-              <img src="{{ asset('/img/tiger.gif')}}" width="50" alt="Tiger">
+              {{-- <img src="{{ asset('/img/tiger.gif')}}" width="50" alt="Tiger"> --}}
             </div>
           @endif
 
@@ -140,7 +145,7 @@
                 </th>
                 <th>
                   <a style="color:white;" wire:click.prevent="sortBy('order_id')" role="button" href="#">
-                    @lang('Request')/@lang('Sale')
+                    @lang('Request')
                     @include('backend.includes._sort-icon', ['field' => 'order_id'])
                   </a>
                 </th>
@@ -170,7 +175,6 @@
                     </ins>
                   </a>
 
-                  <div class="small text-muted">@lang('Service Order')</div>
                 </td>
                 <td>
                   <a href="{{ route('admin.store.all.edit', $serviceOrder->order_id) }}" class="card-link text-dark" target="_blank">
@@ -226,6 +230,12 @@
                     @else
                       {{ $serviceOrder->is_done_label }}
                     @endif
+
+                    @if($serviceOrder->approved)
+                      <br>
+                      {{ $serviceOrder->approved_for_humans }}
+                    @endif
+
                   </td>
                 <td class="text-center">
                   <div class="btn-group" role="group" aria-label="Basic example">

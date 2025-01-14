@@ -1,5 +1,7 @@
 <div class="form-group row" wire:ignore>
-    <label for="userselect" class="col-sm-3 col-form-label">@lang('Personal')</label>
+    @if(!$clear)
+        <label for="userselect" class="col-sm-3 col-form-label">@lang('Personal')</label>
+    @endif
     <div class="col-sm-9" >
 		<select id="userselect"  class="custom-select" style="width: 100%;" aria-hidden="true">
 		</select>

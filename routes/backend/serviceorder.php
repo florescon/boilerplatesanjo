@@ -16,12 +16,12 @@ Route::group([
                 ->push(__('Service Order Management'), route('admin.serviceorder.index'));
         });
 
-    Route::get('printexportserviceorder/{dateInput?}/{dateOutput?}/{personal?}', [ServiceOrderController::class, 'printexportserviceorder'])
+    Route::get('printexportserviceorder/{dateInput?}/{dateOutput?}/{personal?}/{grouped?}', [ServiceOrderController::class, 'printexportserviceorder'])
         ->name('printexportserviceorder')
         ->middleware('permission:admin.access.dashboard.information')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.serviceorder.index')
-                ->push(__('Print quantities'), route('admin.serviceorder.printexportserviceorder', [$dateInput ?? false, $dateOutput ?? false, $personal ?? false]));
+                ->push(__('Print quantities'), route('admin.serviceorder.printexportserviceorder', [$dateInput ?? false, $dateOutput ?? false, $personal ?? false, $grouped ?? false]));
         });
 
 

@@ -31,6 +31,9 @@ class OrderTable extends Component
 
     public $perPage = '10';
 
+    public $byYear = '2025';
+    public $byMonth = 'Enero';
+
     public $limitPerPage = '50';
 
     public $sortField = 'created_at';
@@ -102,23 +105,20 @@ class OrderTable extends Component
     {
         $lastProcessId = Order::getLastProcess()->id;
 
-        $query = Order::query()->with('product_order.product_station_received', 'product_order.product_station_out', 'user', 'products', 'product_order', 'last_status_order.status')
+        $query = Order::query()
+        ->with([
+            'product_order.product_station_received',
+            'product_order.product_station_out',
+            'user',
+            'products',
+            'product_order',
+            'last_status_order.status',
+        ])        
             // ->onlyAssignment(6)
         ->when($this->dateInput, function ($query) {
             empty($this->dateOutput) ?
             $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', now()]) :
             $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59']);
-        })
-        ->when($this->statusOrder, function ($query) {
-
-            $status = Status::findOrFail($this->statusOrder);
-
-            $this->nameStatus = $status->name ? '— '.$status->name : '';
-
-            $statusOrder = $this->statusOrder;
-            $query->whereHas('last_status_order.status', function($queryStatusOrder) use ($statusOrder){
-                $queryStatusOrder->where('id', $statusOrder);
-            });
         })
         ->when(!$this->history, function ($query) use ($lastProcessId) {
             if ($this->status != 'quotations') {
