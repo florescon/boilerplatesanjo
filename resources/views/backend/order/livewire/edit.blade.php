@@ -438,6 +438,7 @@
                   <tr>
                     <td>
                       <a href="{{ route('admin.product.consumption_filter', $product->product_id) }}" target=”_blank”> <span class="badge badge-warning"> <i class="cil-color-fill"></i> <em class="text-white">@lang('Consumption')</em> </span></a>
+                      {!! '<strong>'. $product->product->name_brand .'</strong>'  !!}
                       {{ $product->product->code_subproduct_clear }}
                       {!! $product->product->full_name_link !!}
                     </td>
@@ -538,6 +539,7 @@
                   @foreach($model->product_sale->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']]) as $product)
                   <tr >
                     <td>
+                      {!! '<strong>'. $product->product->name_brand .'</strong>'  !!}
                       {{ $product->product->code_subproduct_clear }}
                       {!! $product->product->full_name !!}
                     </td>
@@ -597,6 +599,7 @@
                   @foreach($model->product_request->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']]) as $product)
                   <tr>
                     <td>
+                      {!! '<strong>'. $product->product->name_brand .'</strong>'  !!}
                       {{ $product->product->code_subproduct_clear }}
                       {!! $product->product->full_name !!}
                     </td>

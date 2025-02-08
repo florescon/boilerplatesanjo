@@ -37,6 +37,7 @@
 			  <caption>@lang('List of products') {{ $products->count() }} @lang('records') - {{ __(ucfirst($type)) }}</caption>
 			  <thead>
 			    <tr>
+			      <th scope="col">@lang('Code')</th>
 			      <th scope="col">@lang('Name')</th>
 			      @if($type != 'output_products')
 				      <th scope="col" class="text-center">@lang('Price')</th>
@@ -57,6 +58,10 @@
 			  	@foreach($products->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']])  as $product)
 
 				    <tr>
+				      <td>
+				      	{{  optional($product->product)->parent_code }}
+				      	<div class="small text-muted"> {{  optional($product->product)->code_subproduct_clear }}</div>
+				      </td>
 				      <td>{!! optional($product->product)->full_name_link !!}</td>
 
 				      	@if($type != 'output_products')
@@ -108,7 +113,7 @@
 					  	<i class="cil-arrow-thick-left"></i>
 						<i class="cil-arrow-thick-left"></i>
 					  </th>
-				      <th class="text-left" colspan="{{ $type != 'output_products' ? '5' : '2' }}">
+				      <th class="text-left" colspan="{{ $type != 'output_products' ? '6' : '2' }}">
                     	<livewire:backend.edit-inline :cart="$product" :key="$product->id"/>
 				      </th>
 				    </tr>
@@ -124,7 +129,7 @@
 						@endif
 						<td class="text-center">{{ $totalquantities }}</td>
 					    @if($type != 'output_products')
-							<td class="text-left text-left" colspan="3">
+							<td class="text-left text-left" colspan="4">
 								${{ number_format($total, 2) }}
 								<div class="small text-muted"> ${{ priceWithoutIvaIncluded($total) }} </div>
 							</td>

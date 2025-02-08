@@ -90,8 +90,8 @@
         @if($station->status_id !== 6)
             <table style="margin-bottom: -30px; margin-top: -20px;" width="100%">
                 <tr>
-                    @if($station->user)
-                        <th class="text-center"> <h2>{{ optional($station->user)->real_name }}</h2></th>
+                    @if($station->order->user)
+                        <th class="text-center"> <h2>{{ optional($station->order->user)->real_name }}</h2></th>
                     @endif
                 </tr>
             </table>
