@@ -24,7 +24,7 @@ class OrderStoreTable extends Component
 
     protected $queryString = [
         'searchTerm' => ['except' => ''],
-        'perPage',
+        'history' => ['except' => FALSE],
     ];
 
     public $title = [];
@@ -44,6 +44,8 @@ class OrderStoreTable extends Component
 
     public $statusOrderDelivery = null;
 
+    public bool $history = false;
+
     public function sortBy($field)
     {
         if ($this->sortField === $field) {
@@ -53,6 +55,20 @@ class OrderStoreTable extends Component
         }
 
         $this->sortField = $field;
+    }
+
+    public function isHistory()
+    {
+        $this->resetPage();
+        $this->dateInput = '';
+        $this->dateOutput = '';
+
+        if($this->history){
+            $this->history = FALSE;
+        }
+        else{
+            $this->history = TRUE;
+        }
     }
 
     public function getRowsQueryProperty()
@@ -73,6 +89,13 @@ class OrderStoreTable extends Component
                 $query->whereHas('last_order_delivery', function($queryStatusOrder) use ($statusOrderDelivery){
                     $queryStatusOrder->where('type', $statusOrderDelivery);
                 });
+            })
+            ->when(!$this->history, function ($query) {
+                if ($this->status == 'requests_store' || $this->status == 'sales_store') {
+                    $query->whereHas('last_order_delivery', function($queryStatusOrder){
+                        $queryStatusOrder->where('type', 'pending');
+                    });
+                }
             })
             ->when($this->sortField, function ($query) {
                 $query->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc');
@@ -203,6 +226,12 @@ class OrderStoreTable extends Component
         $this->searchTerm = '';
         $this->resetPage();
         $this->perPage = '12';
+    }
+
+
+    public function updatedStatusOrderDelivery()
+    {
+        $this->resetPage();
     }
 
     public function updatedPerPage()

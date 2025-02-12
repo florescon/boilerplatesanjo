@@ -6,6 +6,8 @@ use Livewire\Component;
 use Symfony\Component\HttpFoundation\Response;
 use Excel;
 use App\Exports\OrderProductsByDateExport;
+use App\Exports\OrderProductsReportExport;
+use App\Exports\OrderProductsReportGroupedExport;
 use Carbon\Carbon;
 
 class ReportTable extends Component
@@ -32,6 +34,24 @@ class ReportTable extends Component
     {
         $this->personal = null;
         $this->emit('clear-personal');
+    }
+
+    public function exportOrderProductsMaatwebsite($extension, ?bool $isProduct = false, ?bool $isService = false)
+    {   
+        $extension = 'xlsx';
+
+        abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
+        return Excel::download(new OrderProductsReportExport($this->dateInput, $this->dateOutput, $isProduct, $isService), 'product-list-'.Carbon::now().'.'.$extension);
+
+    }
+
+    public function exportOrderProductsGroupedMaatwebsite($extension, ?bool $isProduct = false, ?bool $isService = false)
+    {   
+        $extension = 'xlsx';
+
+        abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
+        return Excel::download(new OrderProductsReportGroupedExport($this->dateInput, $this->dateOutput, $isProduct, $isService), 'product-list-'.Carbon::now().'.'.$extension);
+
     }
 
     public function exportMaatwebsite($extension, ?bool $isProduct = false, ?bool $isService = false)

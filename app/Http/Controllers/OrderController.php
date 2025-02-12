@@ -174,6 +174,7 @@ class OrderController extends Controller
                 e.name as size_name,
                 min(a.price) as min_price,
                 max(a.price) as max_price,
+                f.name as brand_name,
                 min(a.price) <> max(a.price) as omg,
                 sum(a.quantity) as sum,
                 sum(a.quantity * a.price) as sum_total,

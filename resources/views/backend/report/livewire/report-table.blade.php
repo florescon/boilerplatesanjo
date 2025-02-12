@@ -44,33 +44,58 @@
         <div class="card">
             <article class="card-group-item">
                 <header class="card-header">
+                    <h6 class="title">@lang('Orders')</h6>
+                </header>
+                <div class="filter-content">
+                    <a href="#!" wire:click="exportOrderProductsMaatwebsite('xlsx', '1')" class="list-group-item {{ (!$dateInput || !$dateOutput) ? 'disabled' : '' }}">@lang('Products') <span class="float-right badge badge-success round">@lang('EXCEL')</span></a>
+                    @if($details)
+                        <em class="text-center p-2 text-muted"> Descarga los <strong>productos</strong> de las órdenes en el rango especificado. En excel.</em>
+                    @endif
+                    <a href="#!" wire:click="exportOrderProductsMaatwebsite('xlsx', '0', '1')" class="list-group-item {{ (!$dateInput || !$dateOutput) ? 'disabled' : '' }}">@lang('Services') <span class="float-right badge badge-success round">@lang('EXCEL')</span></a>
+                    @if($details)
+                        <em class="text-center p-2 text-muted"> Descarga los <strong>servicios</strong> de las órdenes en el rango especificado. En excel.</em>
+                    @endif
+
+                    <a href="#!" wire:click="exportOrderProductsGroupedMaatwebsite('xlsx', '1')" class="list-group-item {{ (!$dateInput || !$dateOutput) ? 'disabled' : '' }}">@lang('Products'), agrupado <span class="float-right badge badge-success round">@lang('EXCEL')</span></a>
+                    @if($details)
+                        <em class="text-center p-2 text-muted"> Descarga los <strong>productos</strong> de las órdenes en el rango especificado. En excel, agrupado por pedido, producto y color.</em>
+                    @endif
+                    <a href="#!" wire:click="exportOrderProductsGroupedMaatwebsite('xlsx', '0', '1')" class="list-group-item {{ (!$dateInput || !$dateOutput) ? 'disabled' : '' }}">@lang('Services'), agrupado <span class="float-right badge badge-success round">@lang('EXCEL')</span></a>
+                    @if($details)
+                        <em class="text-center p-2 text-muted"> Descarga los <strong>servicios</strong> de las órdenes en el rango especificado. En excel, agrupado por pedido, producto y color.</em>
+                    @endif
+
+                </div>
+            </article> <!-- card-group-item.// -->
+            <article class="card-group-item">
+                <header class="card-header">
                     <h6 class="title">@lang('Outputs')* <br><em> desde Jul, 2024</em> </h6>
                 </header>
                 <div class="filter-content">
                     <div class="list-group list-group-flush">
                       <a href="{{ route('admin.information.status.printexporthistory', [15, true, $dateInput, $dateOutput]) }}" target="_blank" class="list-group-item {{ (!$dateInput || !$dateOutput) ? 'disabled' : '' }}">Exportar histórico <span class="float-right badge badge-danger round">@lang('PDF')</span> </a>
-	                  	@if($details)
-		                  	<em class="text-center p-2 text-muted"> Obtiene los <strong>productos</strong> (asignados) de las salidas en el rango especificado. En PDF.</em>
-	    				@endif
-	    			</div>
+                        @if($details)
+                            <em class="text-center p-2 text-muted"> Obtiene los <strong>productos</strong> (asignados) de las salidas en el rango especificado. En PDF.</em>
+                        @endif
+                    </div>
                     <div class="list-group list-group-flush">
                       <a href="{{ route('admin.information.status.printexporthistory', [15, 0, $dateInput, $dateOutput]) }}" target="_blank" class="list-group-item {{ (!$dateInput || !$dateOutput) ? 'disabled' : '' }}">Exportar histórico, agrupado <span class="float-right badge badge-info round ml-1">@lang('SUMMARY')</span> <span class="float-right badge badge-danger round">@lang('PDF')</span> </a>
-	                  	@if($details)
-		                  	<em class="text-center p-2 text-muted"> Obtiene los <strong>productos</strong> (asignados) de las salidas en el rango especificado. En PDF.</em>
-	    				@endif
-	    			</div>
+                        @if($details)
+                            <em class="text-center p-2 text-muted"> Obtiene los <strong>productos</strong> (asignados) de las salidas en el rango especificado. En PDF.</em>
+                        @endif
+                    </div>
                     <div class="list-group list-group-flush">
                       <a href="{{ route('admin.information.status.printexportreceived', [15, true, $dateInput, $dateOutput]) }}" target="_blank" class="list-group-item {{ (!$dateInput || !$dateOutput) ? 'disabled' : '' }}">Exportar recibido <span class="float-right badge badge-danger round">@lang('PDF')</span> </a>
-	                  	@if($details)
-		                  	<em class="text-center p-2 text-muted"> Obtiene los <strong>productos</strong> (recibidos) de las salidas en el rango especificado. En PDF.</em>
-	    				@endif
-	    			</div>
+                        @if($details)
+                            <em class="text-center p-2 text-muted"> Obtiene los <strong>productos</strong> (recibidos) de las salidas en el rango especificado. En PDF.</em>
+                        @endif
+                    </div>
                     <div class="list-group list-group-flush">
                       <a href="{{ route('admin.information.status.printexportreceived', [15, 0, $dateInput, $dateOutput]) }}" target="_blank" class="list-group-item {{ (!$dateInput || !$dateOutput) ? 'disabled' : '' }}">Exportar recibido, agrupado <span class="float-right badge badge-info round ml-1">@lang('SUMMARY')</span> <span class="float-right badge badge-danger round">@lang('PDF')</span> </a>
-	                  	@if($details)
-		                  	<em class="text-center p-2 text-muted"> Obtiene los <strong>productos</strong> (recibidos) de las salidas en el rango especificado. En PDF.</em>
-	    				@endif
-	    			</div>
+                        @if($details)
+                            <em class="text-center p-2 text-muted"> Obtiene los <strong>productos</strong> (recibidos) de las salidas en el rango especificado. En PDF.</em>
+                        @endif
+                    </div>
                 </div>
             </article> <!-- card-group-item.// -->
             

@@ -193,7 +193,9 @@ class StatusController extends Controller
                 ->groupBy('product_station.product_id')
                 ->map(function ($group) {
                     $totalQuantity = $group->sum('quantity');
-                    $priceMaking = $group->first()->product_station->product->size->is_extra ? $group->first()->product_station->product->parent->price_making_extra : $group->first()->product_station->product->parent->price_making;
+$priceMaking = isset($group->first()->product_station->product->parent) && isset($group->first()->product_station->product->size) && $group->first()->product_station->product->size->is_extra
+    ? $group->first()->product_station->product->parent->price_making_extra
+    : (isset($group->first()->product_station->product->parent) ? $group->first()->product_station->product->parent->price_making : 0);
                     $productName = $group->first()->product_station->product->parent_code.' - '. $group->first()->product_station->product->full_name_break; // Asumiendo que el nombre del producto está en el campo 'name'
 
                     $productStationIds = $group->pluck('product_station.station_id')->unique()->values()->all();
@@ -241,7 +243,9 @@ class StatusController extends Controller
                     'producColor' => $product_st->product_station->product->parent_id ? $product_st->product_station->product->color_id : null,
                     'product_name' => $product_st->product_station->product->parent_code.' - <strong>'. $product_st->product_station->product->only_name.'</strong>',
                     'productQuantity' => $quantity,
-                    'priceMaking' => $product_st->product_station->product->size->is_extra ? $product_st->product_station->product->parent->price_making_extra : $product_st->product_station->product->parent->price_making,
+                    'priceMaking' => isset($product_st->product_station->product->parent) && isset($product_st->product_station->product->size) && $product_st->product_station->product->size->is_extra
+                                   ? $product_st->product_station->product->parent->price_making_extra
+                                   : (isset($product_st->product_station->product->parent) ? $product_st->product_station->product->parent->price_making : 0),
                     'productStationsId' => $product_st->product_station->station_id,
                 ]);
             }

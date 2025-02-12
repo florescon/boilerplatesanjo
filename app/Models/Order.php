@@ -947,6 +947,22 @@ class Order extends Model
         }
     }
 
+
+    public function getPaymentBoolAttribute() :bool
+    {
+        if($this->orders_payments()->exists()){
+            if($this->total_payments_remaining <= 1){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
+    }
+
     public function getDetailsForBoxAttribute()
     {
         return '<em>'.__('Articles').': '.$this->total_products_by_all.'</em> -- <strong>$'.$this->total_by_all.'</strong>';        
