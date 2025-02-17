@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Livewire\Backend\DataTable\WithBulkActions;
 use App\Http\Livewire\Backend\DataTable\WithCachedRows;
 use App\Models\OrderStatusDelivery;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
 use Carbon\Carbon;
 use DB;
@@ -93,7 +94,7 @@ class OrderStoreTable extends Component
             ->when(!$this->history, function ($query) {
                 if ($this->status == 'requests_store' || $this->status == 'sales_store') {
                     $query->whereHas('last_order_delivery', function($queryStatusOrder){
-                        $queryStatusOrder->where('type', 'pending');
+                        $queryStatusOrder->where('type', 'pending')->orWhere('type', 'ready_for_delivery');
                     });
                 }
             })
@@ -256,6 +257,15 @@ class OrderStoreTable extends Component
 
     public function render()
     {
+        // $orders = Order::where('id', '<', 2919)->whereHas('last_order_delivery', function ($query) {
+        //     $query->where('type', 'pending')->orWhere('type', 'ready_for_delivery');
+        // })->get();
+
+
+        // foreach($orders as $order){
+        //     $order->orders_delivery()->create(['type' => OrderStatusDelivery::DELIVERED, 'audi_id' => Auth::id()]);
+        // }
+
         $OrderStatusDelivery = OrderStatusDelivery::values();    
 
         return view('backend.store.table.order-store-table', [

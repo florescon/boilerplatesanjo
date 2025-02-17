@@ -339,8 +339,7 @@
                 <tbody>
                   <tr class="cs-table_baseline">
                     <td class="cs-width_5">
-                      <b class="cs-primary_color">@lang('Articles')</b><br/>
-                      {{ $order->total_articles }}
+                      {!! $order->total_products_and_services_label !!}
                     </td>
                     @if(!$order->isOutputProducts() && !$emptyPrices)
                     <td class="cs-width_5 cs-text_right">
@@ -379,6 +378,11 @@
               </table>
             </div>
           </div>
+
+          @if($order->audi_id)
+            <p class="cs-mb0"><b class="cs-primary_color cs-bold">@lang('Captured by'):</b> {{ $order->audi->name }}</p>
+          @endif
+
           <div class="cs-note">
             {!! QrCode::size(80)->eye('circle')->generate(route('frontend.track.show', $order->slug)); !!}
             <div class="cs-note_right" style="margin-left: 20px;">
@@ -386,6 +390,20 @@
               <p class="cs-m0">{!! $order->isQuotation() && ($order->branch_id > 0) ? setting('footer_quotation').'<br>' :'' !!} {{ $order->branch_id > 0 ?  setting('footer') : '--' }}</p>
             </div>
           </div><!-- .cs-note -->
+
+          @if($order->from_store)
+            <div class="cs-invoice_right cs-text_center">
+              <div class="cs-note_right" style="margin-left: 20px; margin-top: 20px;">
+                <p class="cs-mb0 cs-text_center">
+                  <b class="cs-primary_color cs-bold ">
+                    ________________________________________________________
+                  </b>
+                  <br>
+                  {{ optional($order->user)->name . optional($order->departament)->name }}
+                </p>
+              </div>
+            </div><!-- .cs-note -->
+          @endif
         </div>
       </div>
       <div class="cs-invoice_btns cs-hide_print">
