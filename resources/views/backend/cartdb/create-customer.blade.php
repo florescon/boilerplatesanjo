@@ -1,3 +1,5 @@
+@inject('model', '\App\Domains\Auth\Models\User')
+
 @push('after-styles')
     <link rel="stylesheet" href="{{ asset('css_custom/search-product.css') }}">
 @endpush
@@ -39,6 +41,21 @@
         @error('address') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
       </div>
     </div>
+
+    <div class="form-group row">
+      <div class="form-group col">
+
+        <label for="inputPrice">@lang('Type price')<sup>*</sup></label>
+
+        <select name="type_price" class="form-control" wire:model.lazy="type_price">
+            <option value="{{ $model::PRICE_RETAIL }}">@lang('Retail price')</option>
+            <option value="{{ $model::PRICE_AVERAGE_WHOLESALE }}">@lang('Average wholesale price')</option>
+            <option value="{{ $model::PRICE_WHOLESALE }}">@lang('Wholesale price')</option>
+            <option value="{{ $model::PRICE_SPECIAL }}">@lang('Special price')</option>
+        </select>
+
+      </div>
+    </div><!--form-group-->
     
     <p class="text-right"><strong class="text-danger">*</strong> @lang('Required')</p>
 

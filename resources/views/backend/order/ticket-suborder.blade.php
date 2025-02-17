@@ -33,11 +33,10 @@
         <td align="center">
             <h3>{{ appName() }}</h3>
             <pre>
-sjuniformes.com
-Margarito Gonzalez Rubio #822
-Col. El Refugio, Lagos de Moreno Jal.
-ventas@sj-uniformes.com
-47 47 42 30 00
+{{ Request::server ("SERVER_NAME") }}
+{{ setting('site_address') }}
+{{ setting('site_email') }}
+{{ setting('site_whatsapp') }}
             </pre>
         </td>
     </tr>

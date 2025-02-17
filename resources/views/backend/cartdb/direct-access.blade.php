@@ -14,9 +14,9 @@
         <img alt="Navigation Side" data-toggle="modal" wire:click="createcustomer()" data-target="#createCustomer" src="{{ asset('/img/ga/create-user.png')}}" class="layout-switcher-icon" />
       </div>
 
-      <div class="layout-switcher-option ">
+      {{-- <div class="layout-switcher-option ">
         <img alt="Navigation Side" src="{{ asset('/img/ga/discount.webp')}}" class="layout-switcher-icon" />
-      </div>
+      </div> --}}
   </div>
 </div>
 

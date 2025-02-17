@@ -37,10 +37,9 @@
           <div class="cs-invoice_right cs-text_center">
             <b class="cs-primary_color cs-f16">{{ __(appName()) }}</b>
             <p>
-              Margarito González Rubio {{ $order->from_store ? '#822' : '#886-1' }}, C.P. 47470 <br/>
-              Col. El Refugio, Lagos de Moreno, Jal. MX. <br/>
-              ventas@sj-uniformes.com <br/>
-              +52 47 47 42 30 00
+              {{ setting('site_address') }} <br/>
+              {{ setting('site_email') }} <br/>
+              {{ setting('site_whatsapp') }}
             </p>
           </div>
 

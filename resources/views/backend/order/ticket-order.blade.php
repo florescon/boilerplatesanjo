@@ -31,11 +31,10 @@
                 <td align="center">
                     <h3>San Jose Uniformes</h3>
                     <pre>
-sjuniformes.com
-Margarito González Rubio {{ $order->from_store ? '#822' : '#886-1' }}
-Col. El Refugio, Lagos de Moreno Jal.
-ventas@sj-uniformes.com
-47 47 42 30 00
+{{ Request::server ("SERVER_NAME") }}
+{{ setting('site_address') }}
+{{ setting('site_email') }}
+{{ setting('site_whatsapp') }}
                     </pre>
                 </td>
             </tr>

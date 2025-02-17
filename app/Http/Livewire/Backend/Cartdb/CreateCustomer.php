@@ -20,6 +20,8 @@ class CreateCustomer extends Component
 
     public $name, $phone, $address, $rfc, $email;
 
+    public $type_price = User::PRICE_RETAIL;
+
     protected $rules = [
         'name' => 'required|min:3|max:100',
         'phone' => 'required|digits:10|numeric',
@@ -83,6 +85,7 @@ class CreateCustomer extends Component
             'phone' => $this->phone, 
             'address' => $this->address, 
             'rfc' => $this->rfc,
+            'type_price' => $this->type_price
         ]);
 
         $this->redirectLink();

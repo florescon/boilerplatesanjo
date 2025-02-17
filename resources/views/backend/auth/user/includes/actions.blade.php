@@ -16,7 +16,7 @@
     @endif
 @else
         <x-utils.view-button :href="route('admin.auth.user.show', $user)" />
-    @if ($logged_in_user->hasAllAccess())
+    @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.user'))
         <x-utils.edit-button :href="route('admin.auth.user.edit', $user)" />
     @endif
 

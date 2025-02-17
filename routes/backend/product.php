@@ -93,7 +93,7 @@ Route::group([
 
         Route::get('delete-attributes', [ProductController::class, 'deleteAttributes'])
             ->name('delete-attributes')
-            ->middleware('permission:admin.access.product.delete-attributes')
+            ->middleware('permission:admin.access.product.modify')
             ->breadcrumbs(function (Trail $trail, Product $product) {
                 $trail->parent('admin.product.edit', $product)
                     ->push(__('Delete attributes'), route('admin.product.delete-attributes', $product));

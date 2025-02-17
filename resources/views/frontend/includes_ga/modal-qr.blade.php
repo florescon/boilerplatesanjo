@@ -11,7 +11,7 @@
 							<h5 class="mb-3">QR del sitio</h5>
 						</div>
 						<div class="col-12 text-center">
-		                    {!! QrCode::size(100)->color(0, 0, 255)->generate('https://sjuniformes.com'); !!}
+		                    {!! QrCode::size(100)->color(0, 0, 255)->generate(Request::root()); !!}
 
 						</div>
 					</div>

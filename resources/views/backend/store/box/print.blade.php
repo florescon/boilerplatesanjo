@@ -35,7 +35,7 @@
             <b class="cs-primary_color">{{ __(appName()) }}</b>
             <p>
               Sucursal principal <br/>
-              Margarito González Rubio #822, C.P. 47470 <br/>
+              {{ setting('site_address') }} <br/>
             </p>          </div>
         </div>
         <div class="cs-invoice_head cs-mb10">

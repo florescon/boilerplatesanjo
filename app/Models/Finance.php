@@ -160,7 +160,7 @@ class Finance extends Model
 
     public function getDetailsAttribute(): ?string
     {
-        $order_id = $this->order_id ? '<strong>'.$this->order->type_order_clear.' #'.$this->order_id.'</strong>' : '';
+        $order_id = $this->order_id ? '<strong>'.$this->order->type_order_clear.' #'.$this->order->folio_or_id_clear.'</strong>' : '';
         
         if($order_id !== null){
             $user = $this->order ? Str::limit(optional($this->order->user)->name, 20) : '';

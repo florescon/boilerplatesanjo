@@ -54,6 +54,7 @@
 		      <td>
 		      	{{ $finance->comment ?: '--' }}
 		      	<p>
+	                {!! $finance->order->folio_or_id !!}
 	                {!! $finance->user_name !!}
 	                {!! $finance->order_track !!}
 		      	</p>
