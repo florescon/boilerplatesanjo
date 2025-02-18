@@ -19,7 +19,6 @@ class ServiceOrderList extends Component
 
     protected $queryString = [
         'searchTerm' => ['except' => ''],
-        'perPage',
         'deleted' => ['except' => FALSE],
         'pending' => ['except' => FALSE],
         'dateInput' => ['except' => ''],

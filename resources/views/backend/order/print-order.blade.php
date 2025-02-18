@@ -396,10 +396,13 @@
               <div class="cs-note_right" style="margin-left: 20px; margin-top: 20px;">
                 <p class="cs-mb0 cs-text_center">
                   <b class="cs-primary_color cs-bold ">
-                    ________________________________________________________
+                    ________________________________________________________<br>
+                    Recibo de conformidad
                   </b>
                   <br>
-                  {{ optional($order->user)->name . optional($order->departament)->name }}
+                  @if($order->user_id)
+                    <strong>{{ optional($order->user)->name . optional($order->departament)->name }}</strong>
+                  @endif
                 </p>
               </div>
             </div><!-- .cs-note -->

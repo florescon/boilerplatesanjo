@@ -25,7 +25,7 @@ class SearchProductOrder extends Component
 
     public $inputformat;
 
-    protected $listeners = ['filterByColor' => 'filterByColor', 'filterBySize' => 'filterBySize'];
+    protected $listeners = ['searchproduct', 'filterByColor' => 'filterByColor', 'filterBySize' => 'filterBySize'];
 
     protected $messages = [
         'inputformat.*.*.not_in' => 'No se permiten ceros',
@@ -76,6 +76,9 @@ class SearchProductOrder extends Component
                 array_shift($this->filterColor);
             };
         }
+
+        $this->emit('triggerDOMContentLoaded');
+
     }
 
     public function filterBySize($size)
@@ -148,6 +151,7 @@ class SearchProductOrder extends Component
 
         $this->emit('clearAll');
         $this->clearAll();
+        $this->emit('triggerDOMContentLoaded');
 
         $this->emit('cartUpdated');
     }
@@ -181,6 +185,7 @@ class SearchProductOrder extends Component
                 }
                 else{
                     $this->MainProduct($product->id);
+                    $this->emit('triggerDOMContentLoaded');
                 }
             }
         }
@@ -195,6 +200,7 @@ class SearchProductOrder extends Component
         DB::table('product_order')->insert([
             'order_id' => $this->orderId,
             'product_id' => $idProduct,
+            'quantity' => 1,
             'price' => str_replace(',', '',  $product->getPriceWithIva(User::PRICE_RETAIL)),
             'price_without_tax' => str_replace(',', '',  $product->getPriceWithoutIva(User::PRICE_RETAIL)),
             'type'=> $this->type,

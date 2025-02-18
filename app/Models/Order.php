@@ -688,7 +688,12 @@ class Order extends Model
     {   
         if($this->type){
             $order = DB::table('orders')->where('branch_id', $this->branch_id)->where('type', !$this->from_store ? 1 : 5)->latest()->first();
-            return $order->folio ?: $this->id;
+            if($order){
+                return $order->folio ?: $this->id;
+            }
+            else{
+                return $this->id;
+            }
         }
 
         return $this->id;
@@ -825,8 +830,8 @@ class Order extends Model
 
     public function getTotalProductsAndServicesLabelAttribute()
     {
-        return '<strong>Productos: </strong> '.$this->total_products_by_all_products.
-               ' <strong>Servicios: </strong> '.$this->total_products_by_all_services;
+        return '<strong>Productos: </strong> <strong class="cs-accent_color">'.$this->total_products_by_all_products.
+               '</strong><br> <strong>Servicios: </strong> <strong class="cs-accent_color">'.$this->total_products_by_all_services."</strong>";
     }
 
     public function getTotalProductsAttribute(): int

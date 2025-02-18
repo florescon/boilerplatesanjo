@@ -23,7 +23,6 @@ class FinanceTable extends Component
 
     protected $queryString = [
         'searchTerm' => ['except' => ''],
-        'perPage',
         'deleted' => ['except' => FALSE],
         'incomes' => ['except' => FALSE],
         'expenses' => ['except' => FALSE],

@@ -18,7 +18,6 @@ class BoxHistory extends Component
 
     protected $queryString = [
         'searchTerm' => ['except' => ''],
-        'perPage',
         'deleted' => ['except' => FALSE],
         'dateInput' => ['except' => ''],
         'dateOutput' => ['except' => '']

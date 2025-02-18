@@ -4,7 +4,8 @@
 
 <x-utils.modal id="searchProduct" width="modal-xl">
   <x-slot name="title">
-    @lang('Add product') - {{ __(ucfirst($type)) }}
+    @lang('Add product') 
+    {{-- - {{ __(ucfirst($type)) }} --}}
   </x-slot>
 
   <x-slot name="content">
@@ -84,6 +85,7 @@
               <img class="card-img-top" src="{{ asset('/storage/' . $selectedProduct->file_name) }}" >
               <div class="card-body">
                 <h5 class="card-title">{!!  $full_name ?? '' !!}</h5>
+                <h5 class="card-title text-center">{{   $selectedProduct->code }}</h5>
                 <p class="card-text">{{ $selectedProduct->description }}</p>
               </div>
             </div>

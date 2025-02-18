@@ -23,7 +23,6 @@ class OrderTable extends Component
 
     protected $queryString = [
         'searchTerm' => ['except' => ''],
-        'perPage',
         'history' => ['except' => FALSE],
     ];
 

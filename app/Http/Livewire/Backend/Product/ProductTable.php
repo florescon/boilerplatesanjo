@@ -26,7 +26,6 @@ class ProductTable extends Component
         'searchTerm' => ['except' => ''],
         'searchTermExactly' => ['except' => ''],
         'brandName' => ['except' => ''],
-        'perPage',
     ];
 
     public $perPage = '12';
