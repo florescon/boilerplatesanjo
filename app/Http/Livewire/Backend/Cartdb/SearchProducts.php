@@ -128,8 +128,14 @@ class SearchProducts extends Component
 
                     DB::table('carts')->insert([
                         'product_id' => $product->id,
-                        'price' => str_replace(',', '', $product->getPriceWithIva($getSummary->type_price ?? User::PRICE_RETAIL)),
-                        'price_without_tax' => str_replace(',', '', $product->getPriceWithoutIva($getSummary->type_price ?? User::PRICE_RETAIL)),
+                        
+                        'price' => str_replace(',', '', $product->getPriceWithIvaRound($getSummary->type_price ?? User::PRICE_RETAIL)),
+                        'price_without_tax' => str_replace(',', '', $product->getPriceWithoutIvaRound($getSummary->type_price ?? User::PRICE_RETAIL)),
+
+                        'price_original' => str_replace(',', '', $product->getPriceWithIva($getSummary->type_price ?? User::PRICE_RETAIL)),
+                        'price_without_tax_original' => str_replace(',', '', $product->getPriceWithoutIva($getSummary->type_price ?? User::PRICE_RETAIL)),
+
+
                         'quantity' => $quantity,
                         'type'=> $this->type,
                         'branch_id' => $this->branchId,
@@ -216,8 +222,13 @@ class SearchProducts extends Component
 
         DB::table('carts')->insert([
             'product_id' => $idProduct,
-            'price' => str_replace(',', '',  $product->getPriceWithIva(User::PRICE_RETAIL)),
-            'price_without_tax' => str_replace(',', '',  $product->getPriceWithoutIva(User::PRICE_RETAIL)),
+
+            'price' => str_replace(',', '',  $product->getPriceWithIvaRound(User::PRICE_RETAIL)),
+            'price_without_tax' => str_replace(',', '',  $product->getPriceWithoutIvaRound(User::PRICE_RETAIL)),
+
+            'price_original' => str_replace(',', '',  $product->getPriceWithIva(User::PRICE_RETAIL)),
+            'price_without_tax_original' => str_replace(',', '',  $product->getPriceWithoutIva(User::PRICE_RETAIL)),
+
             'type'=> $this->type,
             'branch_id' => $this->branchId,
             'user_id' => Auth::id(),

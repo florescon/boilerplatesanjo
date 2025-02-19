@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Backend\Order;
 
+use App\Domains\Auth\Models\User;
 use Livewire\Component;
 use App\Models\Product;
 use App\Models\Order;
@@ -11,6 +12,7 @@ class AddService extends Component
 {
     public ?int $amount = 1;
     public ?string $price = null;
+    public ?string $priceWithoutTax = null;
     public ?int $service = null;
 
     public $orderId;
@@ -41,7 +43,8 @@ class AddService extends Component
         if ($service){
             $this->service = $service;
             $getService = Product::findOrFail($service);
-            $this->price = priceIncludeIva($getService->price);
+            $this->price = str_replace(',', '',  $getService->getPriceWithIvaRound(User::PRICE_RETAIL));
+            $this->priceWithoutTax = str_replace(',', '',  $getService->getPriceWithoutIvaRound(User::PRICE_RETAIL));
         }
         else{
             $this->service = null;
@@ -60,7 +63,7 @@ class AddService extends Component
             'product_id' => $this->service,
             'quantity' => $this->amount,
             'price' =>  $this->price,
-            'price_without_tax' =>  priceWithoutIvaIncluded($this->price),
+            'price_without_tax' =>  $this->priceWithoutTax,
             'type' => $this->parameter,
         ]);
 

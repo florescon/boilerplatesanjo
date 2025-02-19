@@ -705,6 +705,32 @@ class Product extends Model
         return number_format($getPrice, 2, '.', '');
     }
 
+    public function getPriceWithIvaRound(?string $type_price = null)
+    {
+
+        $getPrice = $this->getPrice($type_price ?? User::PRICE_RETAIL);
+        
+        // Calcular el precio con IVA
+        $priceWithIva = $getPrice + ((setting('iva') / 100) * $getPrice);
+        
+        // Redondear al múltiplo de 5 más cercano
+        $priceWithIva = ceil($priceWithIva / 5) * 5;
+        return $priceWithIva;
+    }
+
+    public function getPriceWithoutIvaRound(?string $type_price = null)
+    {
+        $getPrice = $this->getPrice($type_price ?? User::PRICE_RETAIL);
+        
+        // Calcular el precio con IVA
+        $priceWithIva = $getPrice + ((setting('iva') / 100) * $getPrice);
+        
+        // Redondear al múltiplo de 5 más cercano
+        $priceWithIva = ceil($priceWithIva / 5) * 5;
+        return priceWithoutIvaIncluded($priceWithIva);
+
+    }
+
     /**
      * @return string
      */

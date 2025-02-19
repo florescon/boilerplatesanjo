@@ -57,6 +57,15 @@ class OrderTable extends Component
         'selectedtypes.max' => 'Máximo 30 registros a seleccionar.',
     ];
 
+    public $lastProcessId;
+
+    // Método de ciclo de vida de Livewire, se ejecuta cuando el componente se monta
+    public function mount()
+    {
+        // Asignar el id del último proceso a la propiedad pública
+        $this->lastProcessId = Order::getLastProcess()->id;
+    }
+
     public function sortBy($field)
     {
         if ($this->sortField === $field) {
@@ -102,7 +111,8 @@ class OrderTable extends Component
 
     public function getRowsQueryProperty()
     {
-        $lastProcessId = Order::getLastProcess()->id;
+
+        $lastProcessId = $this->lastProcessId;
 
         $query = Order::query()
         ->with([
@@ -110,7 +120,6 @@ class OrderTable extends Component
             'product_order.product_station_out',
             'user',
             'products',
-            'product_order',
             'last_status_order.status',
         ])        
             // ->onlyAssignment(6)
