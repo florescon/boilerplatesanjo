@@ -59,9 +59,10 @@ class Products extends Component
         foreach($this->getProducts() as $product){
             if($product->product->isProduct()){
 
-                $price = $product->product->getPriceWithIva($customerPrice);
+                $price = $product->product->getPriceWithIvaRound($customerPrice);
+                $priceWithoutIva = $product->product->getPriceWithoutIvaRound(User::PRICE_RETAIL);
 
-                $product->update(['price' => $price, 'price_without_tax' => priceWithoutIvaIncluded($price)]);
+                $product->update(['price' => $price, 'price_without_tax' => $priceWithoutIva]);
             }
         }
     }

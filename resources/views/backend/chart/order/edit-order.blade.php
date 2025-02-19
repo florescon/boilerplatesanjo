@@ -257,7 +257,7 @@
               @endif
 
               @if(!$model->isQuotation() and !$model->isOutputProducts())
-                <a type="button" href="{{ route('admin.order.service_orders', $order_id) }}" class="btn btn-link">@lang('Service Order') 
+                <a type="button" target="_blank" href="{{ route('admin.order.service_orders', $order_id) }}" class="btn btn-link">@lang('Service Order') 
                   @if($model->service_orders()->count())
                     <span class="badge badge-success">{{ $model->service_orders()->count() }}</span>
                   @endif

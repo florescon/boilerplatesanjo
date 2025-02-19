@@ -107,8 +107,9 @@ class Summarydb extends Component
         $deleteCustomer = DB::table('summaries')->where('id', $this->summary->id)->update(['customer_id' => null, 'type_price' => User::PRICE_RETAIL]);
 
         foreach($this->getProducts() as $product){
-            $price = $product->product->getPriceWithIva(User::PRICE_RETAIL);
-            $product->update(['price' => $price, 'price_without_tax' => priceWithoutIvaIncluded($price)]);
+            $price = $product->product->getPriceWithIvaRound(User::PRICE_RETAIL);
+            $priceWithoutIva = $product->product->getPriceWithoutIvaRound(User::PRICE_RETAIL);
+            $product->update(['price' => $price, 'price_without_tax' => $priceWithoutIva]);
         }
 
         $this->redirectLink();
