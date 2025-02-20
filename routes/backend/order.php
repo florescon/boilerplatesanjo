@@ -135,6 +135,14 @@ Route::group([
             });
 
 
+        Route::get('printgropedwithoutprice', [OrderController::class, 'printgropedwithoutprice'])
+            ->name('printgropedwithoutprice')
+            ->middleware('permission:admin.access.order.modify')
+            ->breadcrumbs(function (Trail $trail, Order $order) {
+                $trail->parent('admin.order.edit', $order)
+                    ->push(__('Print order'), route('admin.order.printgropedwithoutprice'));
+            });
+
         Route::get('report', [OrderController::class, 'report'])
             ->name('report')
             ->middleware('permission:admin.access.order.modify')

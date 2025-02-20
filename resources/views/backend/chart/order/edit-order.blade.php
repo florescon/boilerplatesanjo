@@ -243,6 +243,8 @@
                       @if(!$model->isQuotation())
 
                         <a class="dropdown-item" href="{{ !$from_store ? route('admin.order.print', [$order_id, true, 0, true]) : route('admin.store.all.print', [$order_id, true]) }}" target="_blank">Carta</a>
+
+                        <a class="dropdown-item" href="{{ route('admin.order.printgropedwithoutprice', $order_id) }}" target="_blank">Carta - Agrupado</a>
                       @endif
 
                   </div>

@@ -115,7 +115,7 @@ class ServiceOrderExport implements FromCollection, WithMapping, WithHeadings, W
             $serviceOrder->comment,                           // 'comment'
             $serviceOrder->dimensions,                           // 'dimensions'
             $serviceOrder->file_text,                           // 'file_text'
-            $serviceOrder->created_id ? optional($serviceOrder->createdby)->name : '',                           // 'user_id'
+            $serviceOrder->created_id ? optional($serviceOrder->createdby)->name : '',                           // 'created_id'
             $serviceOrder->created_at->format('d-m-Y'),   
             $serviceOrder->total_products,                             // 'total'
         ];
