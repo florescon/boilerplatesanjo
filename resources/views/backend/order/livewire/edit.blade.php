@@ -244,6 +244,8 @@
                   </button>
                   <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                       <a class="dropdown-item" href="{{ !$from_store ? route('admin.order.ticket_order', [$order_id, true, true]) : route('admin.store.all.ticket_order', [$order_id, true, true]) }}" target="_blank">Ticket</a>
+                        <a class="dropdown-item" href="{{ route('admin.order.printgropedwithoutprice', $order_id) }}" target="_blank">Carta - Agrupado</a>
+
                   </div>
                 </div>
               @endif

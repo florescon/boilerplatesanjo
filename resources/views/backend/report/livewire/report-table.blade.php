@@ -212,6 +212,23 @@
                         @endif
                     </div>
                 </div>
+                <header class="card-header">
+                    <h6 class="title">@lang('Records of feedstock') por proveedor [ENTRADAS]</h6>
+                </header>
+                <div class="filter-content">
+                    <div class="card-body">
+                        <livewire:backend.material.select-vendor />
+                    </div> <!-- card-body.// -->
+
+                    <div class="list-group list-group-flush">
+                        <a href="#!" wire:click="exportMaterialHistoryMaatwebsite('xlsx')" class="list-group-item {{ (!$dateInput || !$dateOutput || !$vendor_id) ? 'disabled' : '' }}">@lang('Records of feedstock') <span class="float-right badge badge-success round">@lang('EXCEL')</span> </a>
+
+                        @if($details)
+                            <em class="text-center p-2 text-muted"> Descarga las <strong>registros de materia prima</strong> en el rango especificado, por proveedor y agrupados. [SÓLO ENTRADAS] En Excel.</em>
+                        @endif
+                    </div>
+                </div>
+
             </article> <!-- card-group-item.// -->
         </div> <!-- card.// -->
 
@@ -219,3 +236,57 @@
 </div> <!-- row.// -->
 
 </div> 
+
+@push('after-scripts')
+    <script>
+      $(document).ready(function() {
+        $('#vendorselect').select2({
+          placeholder: '@lang("Choose vendor")',
+          // width: 'resolve',
+          theme: 'bootstrap4',
+          // allowClear: true,
+          ajax: {
+                url: '{{ route('admin.vendor.select') }}',
+                data: function (params) {
+                    return {
+                        search: params.term,
+                        page: params.page || 1
+                    };
+                },
+                dataType: 'json',
+                processResults: function (data) {
+                    data.page = data.page || 1;
+                    return {
+                        results: data.items.map(function (item) {
+                            return {
+                                id: item.id,
+                                text: item.name
+                            };
+                        }),
+                        pagination: {
+                            more: data.pagination
+                        }
+                    }
+                },
+                cache: true,
+                delay: 250,
+                dropdownautowidth: true
+            }
+          });
+
+          $('#vendorselect').on('change', function (e) {
+            var data = $('#vendorselect').select2("val");
+            Livewire.emit('postVendor', data)
+          });
+
+      });
+    </script>
+    <script>
+        Livewire.on('clear-vendor', clear => {
+            jQuery(document).ready(function () {
+                $("#vendorselect").val('').trigger('change')
+            });
+        })
+    </script>
+
+@endpush

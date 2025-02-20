@@ -9,6 +9,7 @@ use App\Exports\OrderProductsByDateExport;
 use App\Exports\OrderProductsReportExport;
 use App\Exports\OrderProductsReportGroupedExport;
 use App\Exports\ServiceOrderExport;
+use App\Exports\MaterialHistoryGroupExport;
 use Carbon\Carbon;
 
 class ReportTable extends Component
@@ -24,12 +25,18 @@ class ReportTable extends Component
 
     public $personal;
     public $service_type_id;
+    public $vendor_id;
 
-    protected $listeners = ['selectedCompanyItem', 'serviceTypeItem', 'triggerRefresh' => '$refresh'];
+    protected $listeners = ['selectedCompanyItem', 'emitVendor', 'serviceTypeItem', 'triggerRefresh' => '$refresh'];
 
     public function selectedCompanyItem($personal)
     {
         $this->personal = $personal;
+    }
+
+    public function emitVendor($vendor)
+    {
+        $this->vendor_id = $vendor;
     }
 
     public function serviceTypeItem($serviceType)
@@ -76,6 +83,15 @@ class ReportTable extends Component
 
         abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
         return Excel::download(new ServiceOrderExport($this->dateInput, $this->dateOutput, $this->service_type_id), 'product-list-'.Carbon::now().'.'.$extension);
+
+    }
+
+    public function exportMaterialHistoryMaatwebsite($extension)
+    {   
+        $extension = 'xlsx';
+
+        abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
+        return Excel::download(new MaterialHistoryGroupExport($this->dateInput, $this->dateOutput, $this->vendor_id), 'product-list-'.Carbon::now().'.'.$extension);
 
     }
 
