@@ -8,6 +8,7 @@ use Excel;
 use App\Exports\OrderProductsByDateExport;
 use App\Exports\OrderProductsReportExport;
 use App\Exports\OrderProductsReportGroupedExport;
+use App\Exports\ServiceOrderExport;
 use Carbon\Carbon;
 
 class ReportTable extends Component
@@ -22,12 +23,18 @@ class ReportTable extends Component
     ];
 
     public $personal;
+    public $service_type_id;
 
-    protected $listeners = ['selectedCompanyItem', 'triggerRefresh' => '$refresh'];
+    protected $listeners = ['selectedCompanyItem', 'serviceTypeItem', 'triggerRefresh' => '$refresh'];
 
     public function selectedCompanyItem($personal)
     {
         $this->personal = $personal;
+    }
+
+    public function serviceTypeItem($serviceType)
+    {
+        $this->service_type_id = $serviceType;
     }
 
     public function clearPersonal()
@@ -60,6 +67,15 @@ class ReportTable extends Component
 
         abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
         return Excel::download(new OrderProductsByDateExport($this->dateInput, $this->dateOutput, $isProduct, $isService), 'product-list-'.Carbon::now().'.'.$extension);
+
+    }
+
+    public function exportServiceOrdersMaatwebsite($extension)
+    {   
+        $extension = 'xlsx';
+
+        abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
+        return Excel::download(new ServiceOrderExport($this->dateInput, $this->dateOutput, $this->service_type_id), 'product-list-'.Carbon::now().'.'.$extension);
 
     }
 

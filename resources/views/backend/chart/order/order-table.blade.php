@@ -166,11 +166,7 @@
                                                     {!! $order->type_order !!}
 
                                                     @if (!$order->isSuborder())
-                                                        <strong>Totales:
-                                                            <p class="text-danger d-inline">
-                                                                {{ $order->total_products_by_all }}
-                                                            </p>
-                                                        </strong>
+                                                        {!! $order->total_products_and_services_line_label !!}
                                                     @else
                                                         <strong>Totales:
                                                             {{ $order->total_products_suborder }}

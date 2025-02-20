@@ -115,6 +115,7 @@ return [
     'uploaded' => 'El campo :attribute no se pudo actualizar.',
     'url' => 'El enlace :attribute debe tener un formato válido.',
     'uuid' => 'El campo :attribute debe ser un UUID válido.',
+    'password' => 'Verifique la contraseña',
 
     /*
     |--------------------------------------------------------------------------

@@ -834,6 +834,12 @@ class Order extends Model
                '</strong><br> <strong>Servicios: </strong> <strong class="cs-accent_color">'.$this->total_products_by_all_services."</strong>";
     }
 
+    public function getTotalProductsAndServicesLineLabelAttribute()
+    {
+        return '<strong>Productos: </strong> <strong class="text-primary">'.$this->total_products_by_all_products.
+               '</strong> <strong>Servicios: </strong> <strong class="text-primary">'.$this->total_products_by_all_services."</strong>";
+    }
+
     public function getTotalProductsAttribute(): int
     {
         return $this->product_order->sum('quantity');

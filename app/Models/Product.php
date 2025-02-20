@@ -707,27 +707,18 @@ class Product extends Model
 
     public function getPriceWithIvaRound(?string $type_price = null)
     {
-
         $getPrice = $this->getPrice($type_price ?? User::PRICE_RETAIL);
-        
-        // Calcular el precio con IVA
-        $priceWithIva = $getPrice + ((setting('iva') / 100) * $getPrice);
-        
-        // Redondear al múltiplo de 5 más cercano
-        $priceWithIva = ceil($priceWithIva / 5) * 5;
-        return $priceWithIva;
+        $priceWithIva = ceil($getPrice / 5) * 5;
+        return number_format($priceWithIva + ((setting('iva') / 100) * $priceWithIva), 2, '.', '');
+
     }
 
     public function getPriceWithoutIvaRound(?string $type_price = null)
     {
         $getPrice = $this->getPrice($type_price ?? User::PRICE_RETAIL);
-        
-        // Calcular el precio con IVA
-        $priceWithIva = $getPrice + ((setting('iva') / 100) * $getPrice);
-        
-        // Redondear al múltiplo de 5 más cercano
-        $priceWithIva = ceil($priceWithIva / 5) * 5;
-        return priceWithoutIvaIncluded($priceWithIva);
+        $priceWithIva = ceil($getPrice / 5) * 5;
+
+        return $priceWithIva;
 
     }
 

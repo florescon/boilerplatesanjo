@@ -196,6 +196,22 @@
 	    				@endif
 	    			</div>
                 </div>
+                <header class="card-header">
+                    <h6 class="title">@lang('Service Orders') por Tipo de Servicio</h6>
+                </header>
+                <div class="filter-content">
+                    <div class="card-body">
+                        <livewire:backend.service-type.select :clear="true"/>
+                    </div> <!-- card-body.// -->
+
+                    <div class="list-group list-group-flush">
+                        <a href="#!" wire:click="exportServiceOrdersMaatwebsite('xlsx')" class="list-group-item {{ (!$dateInput || !$dateOutput || !$service_type_id) ? 'disabled' : '' }}">@lang('Service Orders') <span class="float-right badge badge-success round">@lang('EXCEL')</span> </a>
+
+                        @if($details)
+                            <em class="text-center p-2 text-muted"> Descarga las <strong>órdenes de servicio</strong> en el rango especificado, por tipo de servicio. En Excel.</em>
+                        @endif
+                    </div>
+                </div>
             </article> <!-- card-group-item.// -->
         </div> <!-- card.// -->
 

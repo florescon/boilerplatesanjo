@@ -15,6 +15,7 @@ use Maatwebsite\Excel\Concerns\WithCustomStartCell;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\BeforeExport;
+use Carbon\Carbon;
 
 class OrderProductsByDateExport implements FromCollection, WithMapping, WithHeadings, WithStyles, WithDrawings, WithCustomStartCell, WithEvents
 {
@@ -52,7 +53,7 @@ class OrderProductsByDateExport implements FromCollection, WithMapping, WithHead
         $drawing->setDescription('SJU');
         $drawing->setPath(public_path('/img/logo2.png'));
         $drawing->setHeight(80);
-        $drawing->setCoordinates('A2');
+        $drawing->setCoordinates('A1');
 
         return $drawing;
     }
@@ -70,6 +71,14 @@ class OrderProductsByDateExport implements FromCollection, WithMapping, WithHead
     {
         return [
             AfterSheet::class => function (AfterSheet $event) {
+                $products = $this->isProduct ? 'Productos' : '';
+                $services = $this->isService ? 'Servicios' : '';
+                $dateInput =  $this->dateInput ? Carbon::parse($this->dateInput)->format('d/m/Y') : '';
+                $dateOutput = $this->dateOutput ?  Carbon::parse($this->dateOutput)->format('d/m/Y') : '';
+
+                $titulo = "Reporte de $products $services de: {$dateInput} a {$dateOutput}";
+                $event->sheet->setCellValue('A5', $titulo);                
+
                 // Aquí puedes agregar más personalizaciones a la hoja después de generar los datos
             },
         ];
