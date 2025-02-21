@@ -111,7 +111,6 @@ class OrderTable extends Component
 
     public function getRowsQueryProperty()
     {
-
         $lastProcessId = $this->lastProcessId;
 
         $query = Order::query()

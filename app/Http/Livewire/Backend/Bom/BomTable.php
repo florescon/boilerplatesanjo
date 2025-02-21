@@ -47,6 +47,8 @@ class BomTable extends Component
 
     public bool $history = false;
 
+    public $lastProcessId;
+
     protected $listeners = [
         'load-more' => 'loadMore',
     ];
@@ -54,6 +56,14 @@ class BomTable extends Component
     protected $messages = [
         'selectedtypes.max' => 'Máximo 25 registros.',
     ];
+
+
+    // Método de ciclo de vida de Livewire, se ejecuta cuando el componente se monta
+    public function mount()
+    {
+        // Asignar el id del último proceso a la propiedad pública
+        $this->lastProcessId = Order::getLastProcess()->id;
+    }
 
     public function loadMore()
     {
@@ -109,6 +119,8 @@ class BomTable extends Component
 
     public function getRowsQueryProperty()
     {
+        $lastProcessId = $this->lastProcessId;
+
         $orders = DB::table('orders as a')
                 ->leftJoinSub($this->user(), 'user', function (JoinClause $join) {
                     $join->on('a.user_id', '=', 'user.id_user');
@@ -116,22 +128,36 @@ class BomTable extends Component
                 ->leftJoinSub($this->productOrderSumQuery(), 'product_order_sum', function (JoinClause $join) {
                     $join->on('a.id', '=', 'product_order_sum.order_id');
                 })
-                ->leftJoinSub($this->lastStatusOrder(), 'status', function (JoinClause $join) {
-                    $join->on('a.id', '=', 'status.order_id');
-                })
-                ->leftJoinSub($this->statusOrder(), 'status_orderB', function (JoinClause $join) {
-                    $join->on('last_status_order_id', '=', 'status_orderB.id');
-                })
                 ->whereIn('a.type', $this->types)
                 ->select('*', DB::raw('a.id as id, DATE_FORMAT(a.created_at, "%d-%m-%Y") as date'))
                 ->where([
                     ['a.branch_id', '=', 0],
                     ['a.deleted_at', '=', null],
                 ])
-                ->when(!$this->history, function ($query) {
-                    $query;
-                })
-                ;
+                ->when(!$this->history, function ($query) use ($lastProcessId) {
+                    $query->where(function ($query2) use ($lastProcessId) {
+                        $query2->whereRaw("
+                            EXISTS (
+                                SELECT 1
+                                FROM product_order AS po_sub
+                                LEFT JOIN (
+                                    SELECT product_order_id, SUM(quantity) as total_received
+                                    FROM product_station_receiveds
+                                    WHERE status_id = ?
+                                    GROUP BY product_order_id
+                                ) AS psr ON po_sub.id = psr.product_order_id
+                                LEFT JOIN (
+                                    SELECT product_order_id, SUM(out_quantity) as total_out
+                                    FROM product_station_outs
+                                    GROUP BY product_order_id
+                                ) AS pso ON po_sub.id = pso.product_order_id
+                                WHERE po_sub.order_id = a.id
+                                AND (psr.total_received IS NULL OR psr.total_received < po_sub.quantity)
+                                AND (pso.total_out IS NULL OR pso.total_out < po_sub.quantity)
+                            )
+                        ", [$lastProcessId]);
+                    });
+                });
 
         $this->applySearchFilter($orders);
 

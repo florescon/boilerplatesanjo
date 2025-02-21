@@ -4,7 +4,6 @@
             <div class="container">
                 <div class="row">
                     <div class="col-5">
-
                         <div class="input-group input-group-round mb-4">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">
@@ -88,7 +87,7 @@
                                         <span data-filter-by="text">
                                             <span class="badge"
                                                 style="background-color: {{ typeOrderColor($order->type) }}">{{ __(typeOutOrder($order->type)) }}</span>
-                                            <span class="badge badge-secondary">{{ $order->name_status }}</span>
+                                            {{-- <span class="badge badge-secondary">{{ $order->name_status }}</span> --}}
                                             <br>
                                             {{ $order->created_at ?  \Carbon\Carbon::parse($order->created_at)->format('d/m/Y') : '' }}
                                         </span>
