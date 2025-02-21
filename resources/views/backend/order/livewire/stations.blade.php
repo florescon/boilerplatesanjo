@@ -427,6 +427,9 @@
 
                                 @if($status->final_process)
                                   <a href="{{ route('admin.station.output', $station->id) }}" target="_blank" class="list-group-item list-group-item-action {{ $station->active ? '' : 'list-group-item-primary' }}"> <i class="cil-print"></i> @lang('Output') <i class="fas fa-external-link-alt m-1"></i></a>
+
+                                  <a href="{{ route('admin.station.output', [$station->id, true]) }}" target="_blank" class="list-group-item list-group-item-action {{ $station->active ? '' : 'list-group-item-primary' }}"> <i class="cil-print"></i> @lang('Output') @lang('Grouped') <i class="fas fa-external-link-alt m-1"></i></a>
+
                                 @endif
 
                                 @if($station->total_products_station_open)

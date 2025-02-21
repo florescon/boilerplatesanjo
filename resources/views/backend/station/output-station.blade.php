@@ -89,6 +89,35 @@
                 <tbody>
                   @php($total = 0)
 
+            @if($grouped)
+                @foreach($orderGroup as $product)
+                  @if($product->product_name != null)
+                  <tr>
+                    <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->sum }}</td>
+                    <td class="cs-width_6">{{ $product->product_code ?? '--' }}{!! '<strong>'.$product->brand_name.'</strong>' !!} {{ $product->product_name }} - {{ $product->color_name }}</td>
+                    <td class="cs-width_3">
+                      
+                          @if($product->omg)
+                            ${{ priceWithoutIvaIncluded($product->min_price) }}
+                            -
+                          @endif
+                            ${{ priceWithoutIvaIncluded($product->max_price) }}
+
+                    </td>
+                    <td class="cs-width_2 cs-text_right cs-primary_color">${{ priceWithoutIvaIncluded($product->sum_total) }}</td>
+                  </tr>
+                  @endif
+
+                @endforeach
+
+                  @foreach($station->product_station->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']])  as $assign)
+                      @php($totalProd = $assign->product_order->price * $assign->quantity)
+
+                      @php($total += $totalProd)
+                  @endforeach
+
+            @else
+
                   @foreach($station->product_station->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']])  as $assign)
                     <tr>
                       <td class="cs-width_1 cs-text_center cs-accent_color">{{ $assign->quantity }}</td>
@@ -101,6 +130,8 @@
 
                   @php($total += $totalProd)
                   @endforeach
+          @endif
+
                   <tr class="cs-no_border cs-table_baseline">
                     <td class="cs-width_10 cs-text_right cs-primary_color cs-semi_bold" colspan="3">Subtotal:</td>
                     <td class="cs-width_2 cs-text_right cs-primary_color cs-semi_bold">${{ number_format(priceWithoutIvaIncluded($total), 2) }}</td>

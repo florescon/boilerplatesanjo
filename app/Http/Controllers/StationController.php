@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Station;
 use App\Models\StationPreconsumption;
 use PDF;
+use DB;
 
 class StationController extends Controller
 {
@@ -33,13 +34,63 @@ class StationController extends Controller
         return $pdf->stream();
     }
 
-    public function output(Station $station)
+    public function output(Station $station, bool $grouped = false)
     {
         if(!$station->status->final_process){
             abort(401);
         }
 
-        return view('backend.station.output-station', compact('station'));
+        $orderServices = DB::table('product_stations as a')
+                ->selectRaw('
+                    b.name as product_name,
+                    b.code as product_code,
+                    b.color_id as color_name,
+                    b.size_id as size_name,
+                    b.brand_id as brand_name,
+                    sum(a.quantity * z.price) as sum_total,
+                    sum(a.quantity) as sum,
+                    min(z.price) as min_price,
+                    max(z.price) as max_price,
+                    min(z.price) <> max(z.price) as omg,
+                    a.quantity as total_by_product
+                ')
+                ->join('products as b', 'a.product_id', '=', 'b.id')
+                ->join('product_order as z', 'a.product_order_id', '=', 'z.id')
+                ->where('station_id', $station->id)
+                ->where('b.type', '=', 0)
+                ->groupBy('b.id')
+                ;
+
+        $orderGroup = DB::table('product_stations as a')
+            ->selectRaw('
+                c.name as product_name,
+                c.code as product_code,
+                d.name as color_name,
+                e.name as size_name,
+                f.name as brand_name,
+                    min(z.price) as min_price,
+                    max(z.price) as max_price,
+                    min(z.price) <> max(z.price) as omg,
+                sum(a.quantity * z.price) as sum_total,
+                sum(a.quantity) as sum,
+                count(*) as total_by_product
+            ')
+            ->join('products as b', 'a.product_id', '=', 'b.id')
+            ->join('products as c', 'b.parent_id', '=', 'c.id')
+            ->join('colors as d', 'b.color_id', '=', 'd.id')
+            ->join('sizes as e', 'b.size_id', '=', 'e.id')
+            ->join('brands as f', 'c.brand_id', '=', 'f.id')  // Agregamos el join con la tabla brands
+            ->join('product_order as z', 'a.product_order_id', '=', 'z.id')
+            ->groupBy('b.parent_id', 'b.color_id', 'z.price')
+            ->where('station_id', $station->id)
+            ->orderBy('product_name')
+            ->orderBy('color_name')
+            ->union($orderServices)
+            ->get();
+
+            // dd($orderGroup);
+
+        return view('backend.station.output-station', compact('station', 'grouped', 'orderGroup'));
     }
 
     public function checklist(Station $station)

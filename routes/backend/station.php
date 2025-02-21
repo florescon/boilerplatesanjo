@@ -32,7 +32,7 @@ Route::group([
             ->middleware('permission:admin.access.station.list');
 
 
-        Route::get('output/', [StationController::class, 'output'])
+        Route::get('output/{grouped?}', [StationController::class, 'output'])
             ->name('output')
             ->middleware('permission:admin.access.station.list');
 
