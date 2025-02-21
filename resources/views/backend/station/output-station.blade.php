@@ -81,8 +81,8 @@
                 <thead>
                   <tr class="cs-focus_bg">
                     <th class="cs-width_1 cs-semi_bold cs-primary_color cs-text_center">@lang('Quantity')</th>
-                    <th class="cs-width_7 cs-semi_bold cs-primary_color">@lang('Description')</th>
-                    <th class="cs-width_2 cs-semi_bold cs-primary_color cs-text_right">@lang('Price')</th>
+                    <th class="cs-width_6 cs-semi_bold cs-primary_color">@lang('Description')</th>
+                    <th class="cs-width_3 cs-semi_bold cs-primary_color cs-text_right">@lang('Price')</th>
                     <th class="cs-width_2 cs-semi_bold cs-primary_color cs-text_right">@lang('Total')</th>
                   </tr>
                 </thead>
@@ -95,9 +95,9 @@
                   <tr>
                     <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->sum }}</td>
                     <td class="cs-width_6">{{ $product->product_code ?? '--' }}{!! '<strong>'.$product->brand_name.'</strong>' !!} {{ $product->product_name }} - {{ $product->color_name }}</td>
-                    <td class="cs-width_3">
+                    <td class="cs-width_3 cs-text_right">
                       
-                          @if($product->omg)
+                          @if($product->omg <> 0)
                             ${{ priceWithoutIvaIncluded($product->min_price) }}
                             -
                           @endif

@@ -68,9 +68,9 @@ class StationController extends Controller
                 d.name as color_name,
                 e.name as size_name,
                 f.name as brand_name,
-                    min(z.price) as min_price,
-                    max(z.price) as max_price,
-                    min(z.price) <> max(z.price) as omg,
+                min(z.price) as min_price,
+                max(z.price) as max_price,
+                min(z.price) <> max(z.price) as omg,
                 sum(a.quantity * z.price) as sum_total,
                 sum(a.quantity) as sum,
                 count(*) as total_by_product
