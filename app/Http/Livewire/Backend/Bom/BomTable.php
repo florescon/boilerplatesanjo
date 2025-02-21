@@ -45,6 +45,8 @@ class BomTable extends Component
 
     public $tab = 'members';
 
+    public bool $history = false;
+
     protected $listeners = [
         'load-more' => 'loadMore',
     ];
@@ -56,6 +58,18 @@ class BomTable extends Component
     public function loadMore()
     {
         $this->perPage = $this->perPage + 10;
+    }
+
+    public function isHistory()
+    {
+        $this->perPage = 10;
+
+        if($this->history){
+            $this->history = false;
+        }
+        else{
+            $this->history = TRUE;
+        }
     }
 
     private function user(): Builder
@@ -113,7 +127,11 @@ class BomTable extends Component
                 ->where([
                     ['a.branch_id', '=', 0],
                     ['a.deleted_at', '=', null],
-                ]);
+                ])
+                ->when(!$this->history, function ($query) {
+                    $query;
+                })
+                ;
 
         $this->applySearchFilter($orders);
 

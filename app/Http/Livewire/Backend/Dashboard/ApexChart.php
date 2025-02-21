@@ -17,16 +17,29 @@ class ApexChart extends Component
 
         $orders = Order::with('product_order.product_station_received', 'product_order.product_station_out')
                     ->where(function ($query) use ($lastProcessId) {
-                        $query->whereHas('product_order', function ($query) use ($lastProcessId) {
-                            $query
-                            ->whereDoesntHave('product_station_received', function ($query) use ($lastProcessId) {
-                                $query->havingRaw('SUM(quantity) >= product_order.quantity')->where('status_id', $lastProcessId);
-                            })
-                            ->whereDoesntHave('product_station_out', function ($query) {
-                                $query->havingRaw('SUM(out_quantity) >= product_order.quantity');
-                            })
-                            ;
+                        $query->where(function ($query) use ($lastProcessId) {
+                            $query->whereRaw("
+                                EXISTS (
+                                    SELECT 1
+                                    FROM product_order po
+                                    LEFT JOIN (
+                                        SELECT product_order_id, SUM(quantity) as total_received
+                                        FROM product_station_receiveds
+                                        WHERE status_id = ?
+                                        GROUP BY product_order_id
+                                    ) psr ON po.id = psr.product_order_id
+                                    LEFT JOIN (
+                                        SELECT product_order_id, SUM(out_quantity) as total_out
+                                        FROM product_station_outs
+                                        GROUP BY product_order_id
+                                    ) pso ON po.id = pso.product_order_id
+                                    WHERE po.order_id = orders.id
+                                    AND (psr.total_received IS NULL OR psr.total_received < po.quantity)
+                                    AND (pso.total_out IS NULL OR pso.total_out < po.quantity)
+                                )
+                            ", [$lastProcessId]);
                         });
+
                     })
                     ->onlyOrders()
                     ->outFromStore()

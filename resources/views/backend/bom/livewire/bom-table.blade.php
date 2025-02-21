@@ -3,7 +3,8 @@
         <div class="chat-module-top">
             <div class="container">
                 <div class="row">
-                    <div class="col">
+                    <div class="col-5">
+
                         <div class="input-group input-group-round mb-4">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">
@@ -14,8 +15,12 @@
                                 placeholder="{{ __('Search order or quotation') }}" aria-label="Search order or quotation">
                         </div>
                     </div>
+                    <div class="col-2">
+                  <button type="button" class="m-1 btn {{ $history ? 'btn-warning text-white' : 'btn-secondary' }}" wire:click="isHistory">@lang('History')</button>
 
-                    <div class="col text-center">
+                    </div>
+
+                    <div class="col-5 text-center">
                         @if (
                             $selectedtypes &&
                             $orders->count() &&
@@ -46,7 +51,7 @@
 
                         @if($selectedtypes)
                                 <button type="button" wire:click="removeSelected"
-                                    class="buttonn btn btn-danger m-2"> @lang('Clear') </button>
+                                    class="buttonn btn btn-danger m-2"> @lang('x') </button>
                         @endif
                     </div>
                 </div>
@@ -85,7 +90,7 @@
                                                 style="background-color: {{ typeOrderColor($order->type) }}">{{ __(typeOutOrder($order->type)) }}</span>
                                             <span class="badge badge-secondary">{{ $order->name_status }}</span>
                                             <br>
-                                            {{ $order->created_at }}
+                                            {{ $order->created_at ?  \Carbon\Carbon::parse($order->created_at)->format('d/m/Y') : '' }}
                                         </span>
                                     </div>
                                     <!--end of form group-->
@@ -416,6 +421,6 @@
             </div>
         </div>
     </div>
-    <p class="text-small text-secondary pl-4"><em> This section is created with Query Builder <i class="cil-smile"></i>
+    <p class="text-small text-secondary pl-4"><em><i class="cil-smile"></i> This section is created with Query Builder <i class="cil-smile"></i>
 </em></p>
 </div>

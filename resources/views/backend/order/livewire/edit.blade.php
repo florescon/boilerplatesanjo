@@ -617,6 +617,7 @@
                   </tr>
                   <tr>
                     <th class="text-right">
+                      Ajustar
                       <img src="{{ asset('img/icons/down-right.svg') }}" width="20" alt="Logo"> 
                     </th>
                     <th class="text-left" colspan="3">
