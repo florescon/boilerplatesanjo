@@ -362,4 +362,7 @@ Route::group([
 
 });
 
+Route::post('run_delete_old_orders', [OrderController::class, 'runDeleteOldOrders'])
+    ->name('run_delete_old_orders');
+
 Route::get('select2-service-type', [ServiceTypeController::class, 'select2LoadMore'])->name('servicetype.select');

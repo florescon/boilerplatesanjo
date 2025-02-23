@@ -17,6 +17,7 @@ use DB;
 use Carbon\Carbon;
 use App\Events\Order\OrderDeleted;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Artisan;
 
 class OrderController extends Controller
 {
@@ -703,4 +704,12 @@ class OrderController extends Controller
 
         return redirect()->route($order->from_store ? 'admin.store.all.index' : 'admin.order.index')->withFlashSuccess(__('The order/sale was successfully deleted'));
     }
+
+    public function runDeleteOldOrders()
+    {
+        Artisan::call('orders:delete-old');
+
+        return redirect()->back()->withFlashSuccess('El comando se ejecutó correctamente.');
+    }
+
 }

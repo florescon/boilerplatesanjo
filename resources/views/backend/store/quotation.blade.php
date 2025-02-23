@@ -10,6 +10,8 @@
 
 	<div class="pcoded-content">
 
+    @include('backend.order.includes.quotations-old')
+
 		<div class="page-header">
 			<div class="page-block" style="background: rgba(75,133,75,.5);">
 				<div class="row align-items-center">

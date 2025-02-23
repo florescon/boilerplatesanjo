@@ -8,6 +8,8 @@
 
 @section('content')
 
+    @include('backend.order.includes.quotations-old')
+
     <livewire:backend.store.order-store-table status="quotations_store"/>
 
 @endsection
