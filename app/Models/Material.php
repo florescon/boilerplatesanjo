@@ -137,6 +137,15 @@ class Material extends Model
     /**
      * @return string
      */
+    public function getFullNameAndCodeAttribute()
+    {
+        return '<div class="badge badge-primary text-wrap" style="margin-right:10px;"> '. $this->part_number .'</div>'.'<strong>'.$this->name.'</strong> '.$this->unit_name.' '.$this->size_name.' '.$this->color_name;
+    }
+
+
+    /**
+     * @return string
+     */
     public function getColorNameAttribute()
     {
         return $this->color_id ? '| '.$this->color->name : '';

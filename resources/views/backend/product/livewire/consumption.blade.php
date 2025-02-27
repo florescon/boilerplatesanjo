@@ -42,7 +42,7 @@
 
 			<div class="col-12 col-sm-6 col-md-8">
 				<form wire:submit.prevent="store">
-					<div class="row mb-4">
+					<div class="row mb-2">
 						<div class="col-9">
                 <div class="form-group row" wire:ignore>
                     <div class="col-sm-12" >
@@ -53,7 +53,10 @@
 						</div>
 						@if($material_id)
 							<div class="col-3">
-                <button class="btn btn-sm btn-primary" type="submit">@lang('Save feedstock product')</button>
+                <button class="btn btn-sm btn-outline-primary" type="submit">@lang('Save feedstock product') 
+                  <i class="cil-arrow-right"></i>
+                  <strong class="text-danger">{{ ($name_color || $name_size) ? $name_color.$name_size : 'General' }}</strong> 
+              </button>
 							</div>
 						@endif
 					</div>
@@ -71,18 +74,20 @@
                     </div>
                   @endif
                   <div class="badge">
-                    <h5>
+                    <h2>
                       @if($filters_c || $filters_s)
                         <span class="badge badge-pill badge-primary">Puntual</span>
                       @else
                         <span class="badge badge-pill badge-warning text-white">General</span>
                       @endif
-                    </h5>
+                    </h2>
                   </div>
 
               </div>
 
-              <h5 class="card-title {{ $name_color || $name_size ? 'text-primary font-italic typewriter' : 'text-warning' }} text-monospace font-weight-bold">{{ ($name_color || $name_size) ? __('Consumption').' '. $name_color.$name_size : __('General consumption') }}</h5>
+              <h5 class="card-title {{ $name_color || $name_size ? 'text-dark font-italic typewriter' : 'text-dark' }} text-monospace font-weight-bold">
+                {!! ($name_color || $name_size) ? __('Consumption').' <strong class="text-danger" style=" padding-left: 10px; padding-right: 10px; padding-bottom: 2px; border: 20px solid; ">'. $name_color.$name_size.'</strong>' : __('General consumption') !!}
+              </h5>
 
               <div class="float-right custom-control custom-switch custom-control-inline">
                 <input type="checkbox" wire:model="updateQuantity" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
@@ -107,7 +112,16 @@
                       @foreach($groups as $group)
                         <tr>
                           <th scope="row"></th>
-                          <th scope="row">{!! $group['material_id'] !!}</th>
+                          <th scope="row"> 
+                            {!! $group['part_number']  
+                                ? 
+                                '<div class="badge badge-dark text-wrap" >'
+                                  .$group['part_number'].
+                                '</div>'
+                                :
+                                ''
+                            !!}
+                          {!! $group['material_id'] !!}</th>
                           <td>{{ $group['quantity'] }}</td>
                         </tr>
                       @endforeach
@@ -136,7 +150,16 @@
                       @foreach($groups as $group)
                         <tr>
                           <th scope="row"></th>
-                          <th scope="row">{!! $group['material_id'] !!}</th>
+                          <th scope="row">
+                            {!! $group['part_number']  
+                                ? 
+                                '<div class="badge badge-dark text-wrap" >'
+                                  .$group['part_number'].
+                                '</div>'
+                                :
+                                ''
+                            !!}
+                          {!! $group['material_id'] !!}</th>
                           <td>{{ $group['quantity'] }}</td>
                         </tr>
                       @endforeach
@@ -181,7 +204,17 @@
                       @foreach($consumo as $yas)
                         <tr class="{{ ($yas->color_id == null xor $yas->size_id == null)  ? 'table-primary' : 'table-warning' }}">
                           <th scope="row"></th>
-                          <th scope="row" class=" {{  ($yas->color_id != null || $yas->size_id != null) ? 'font-italic' : ''  }}" > {!! $yas->material->full_name !!} @if($yas->puntual == TRUE)  <span class="badge badge-success">Puntual</span>@endif 
+                          <th scope="row" class=" {{  ($yas->color_id != null || $yas->size_id != null) ? 'font-italic' : ''  }}" > 
+                            {!! $yas->material->part_number  
+                                ? 
+                                '<div class="badge badge-dark text-wrap" >'
+                                  .$yas->material->part_number.
+                                '</div>'
+                                :
+                                ''
+                            !!}
+                            {!! $yas->material->full_name !!}
+                            @if($yas->puntual == TRUE)  <span class="badge badge-success">Puntual</span>@endif 
                           </th>
 
                           @if( (!$name_size && !$name_color) && ($updateQuantity == TRUE))

@@ -707,6 +707,10 @@ class Product extends Model
 
     public function getPriceWithIvaRound(?string $type_price = null)
     {
+        if(User::PRICE_SPECIAL === $type_price){
+            return $this->getPriceWithIva($type_price);
+        }
+
         $getPrice = $this->getPrice($type_price ?? User::PRICE_RETAIL);
         $priceWithIva = ceil($getPrice / 5) * 5;
         return number_format($priceWithIva + ((setting('iva') / 100) * $priceWithIva), 2, '.', '');
@@ -715,6 +719,10 @@ class Product extends Model
 
     public function getPriceWithoutIvaRound(?string $type_price = null)
     {
+        if(User::PRICE_SPECIAL === $type_price){
+            return $this->getPriceWithoutIva($type_price);
+        }
+
         $getPrice = $this->getPrice($type_price ?? User::PRICE_RETAIL);
         $priceWithIva = ceil($getPrice / 5) * 5;
 
