@@ -177,6 +177,9 @@
                 </a>
               </div>
               <div class="col-md-4 mb-3 text-left">
+                <x-input.input-alpine nameData="isComplementary" :inputText="$isComplementary" :originalInput="$isComplementary" wireSubmit="savecomplementary" modelName="complementary" maxlength="300" className="" :extraName="__('Complementary observations')"  />
+                @error('complementary') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+
                 {{-- @if($model->exist_user_departament)
                   <a href="{{ route('admin.order.sub', $order_id) }}" style="color:purple;">
                     <p> @lang('I want to assign suborders') <i class="cil-library"></i></p> 

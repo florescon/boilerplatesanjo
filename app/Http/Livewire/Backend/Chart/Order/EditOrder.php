@@ -16,7 +16,7 @@ use DB;
 
 class EditOrder extends Component
 {
-    public $order_id, $lates_statusId, $slug, $isComment, $comment, $isObservation, $observation, $isDiscount, $discount, $isRequest, $request, $isPurchase, $purchase, $isInfo_customer, $info_customer, $isDate, $date_entered;
+    public $order_id, $lates_statusId, $slug, $isComment, $comment, $isObservation, $observation, $isComplementary, $complementary, $isDiscount, $discount, $isRequest, $request, $isPurchase, $purchase, $isInfo_customer, $info_customer, $isDate, $date_entered;
 
     public $previousMaterialByProduct, $maerialAll;
 
@@ -43,6 +43,7 @@ class EditOrder extends Component
         $this->lates_statusId = $order->last_status_order->status_id ?? null;
         $this->initcomment($order);
         $this->initobservation($order);
+        $this->initcomplementary($order);
         $this->initdiscount($order);
         $this->initrequest($order);
         $this->initpurchase($order);
@@ -87,6 +88,12 @@ class EditOrder extends Component
     {
         $this->observation = $order->observation;
         $this->isObservation = $order->observation || empty($order) ? $order->observation : __('Define observation');
+    }
+
+    private function initcomplementary(Order $order)
+    {
+        $this->complementary = $order->complementary;
+        $this->isComplementary = $order->complementary || empty($order) ? $order->complementary : __('Define Complementary observations');
     }
 
     private function initdiscount(Order $order)
@@ -172,6 +179,26 @@ class EditOrder extends Component
         $order->save();
 
         $this->initobservation($order); // re-initialize the component state with fresh data after saving
+
+        $this->emit('swal:alert', [
+           'icon' => 'success',
+            'title'   => __('Updated at'), 
+        ]);
+    }
+
+    public function savecomplementary()
+    {
+        $this->validate([
+            'complementary' => 'required|max:300',
+        ]);
+
+        $order = Order::findOrFail($this->order_id);
+        $newComplementary = (string)Str::of($this->complementary)->trim()->substr(0, 300); // trim whitespace & more than 100 characters
+
+        $order->complementary = $newComplementary ?? null;
+        $order->save();
+
+        $this->initcomplementary($order); // re-initialize the component state with fresh data after saving
 
         $this->emit('swal:alert', [
            'icon' => 'success',

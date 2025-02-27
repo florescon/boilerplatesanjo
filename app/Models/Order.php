@@ -43,6 +43,7 @@ class Order extends Model
         'from_quotation',
         'quotation',
         'flowchart',
+        'complementary',
     ];
 
     /**

@@ -190,13 +190,21 @@
                                                     @endif
                                                 </div>
                                                 <div class="card-meta" style="">
-                                                    @if($status == '')
+                                                    @if($status == '' || $order->complementary)
+
                                                     <div class="d-flex align-items-center">
+                                                        @if($order->complementary)
+                                                            <span class="text-center text-danger"> 
+                                                            {{ $order->complementary }}
+                                                            </span>
+                                                        @endif
+                                                        @if($status)
                                                         <span class="text-center">
                                                             {!! ($order->areAllProductOrdersMatched() || $order->areAllProductOrdersMatchedSendToStock()) && $order->areAllProductStationsZero()
                                                                 ? '<i class="cil-check" style="color: blue;"></i>'
                                                                 : '' !!}
                                                         </span>
+                                                        @endif
                                                     </div>
                                                     @endif
                                                     <div class="dropdown card-options no-print">
