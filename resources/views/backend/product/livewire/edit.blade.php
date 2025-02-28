@@ -328,7 +328,7 @@
 									<span class="badge text-white {{ in_array($children->color_id, $filters) ? 'bg-primary' : 'bg-dark' }}" 
 						                  wire:click="$emit('filterByColor', {{ $children->color_id }})"
 										  style="cursor:pointer"
-									>{{ optional($children->color)->name }} 
+									>{!! optional($children->color)->name_strikethrough !!} 
 										@if(optional($children->color)->color)
 											<div class="box-color-discrete justify-content-md-center" style="background-color:{{ $children->color->color }}; display: inline-block;"></div>
 										@endif
@@ -383,7 +383,7 @@
 								<span class="badge text-white {{ in_array($children->size_id, $filtersz) ? 'bg-primary' : 'bg-dark' }}" 
 					                  wire:click="$emit('filterBySize', {{ $children->size_id }})"
 									  style="cursor:pointer"
-								>{{ optional($children->size)->name }}</span>
+								>{{ optional($children->size)->name_strikethrough }}</span>
 							@endforeach
 
 							</h5>
@@ -576,7 +576,7 @@
 				      <div class="card-body">
 
 					    <h5 class="card-title">
-					    	<strong>{{ optional($childrens->first()->color)->name }}</strong>
+					    	<strong>{!! optional($childrens->first()->color)->name_strikethrough !!}</strong>
 					    	{!! optional($childrens->first()->color)->visual_color !!}
 					    	@if($childrens->first()->color->color)
 								<div class="box-color justify-content-md-center" style="background-color:{{ $childrens->first()->color->color }}; display: inline-block;"></div>
@@ -654,8 +654,8 @@
 									      	</h4>
 									      </td>
 									  @endif
-								      <td style="{{ $children->trashed() ? 'text-decoration: line-through;' : '' }}">{{ optional($children->color)->name}} {!! optional($children->color)->undefined_icon_coding !!}</td>
-								      <td style="{{ $children->trashed() ? 'text-decoration: line-through;' : '' }}">{{ optional($children->size)->name}} {!! optional($children->size)->undefined_icon_coding !!}</td>
+								      <td style="{{ $children->trashed() ? 'text-decoration: line-through;' : '' }}">{!! optional($children->color)->name_strikethrough!!} {!! optional($children->color)->undefined_icon_coding !!}</td>
+								      <td style="{{ $children->trashed() ? 'text-decoration: line-through;' : '' }}">{!! optional($children->size)->name_strikethrough!!} {!! optional($children->size)->undefined_icon_coding !!}</td>
 								      @if(($nameStock === 'stock') or is_null($nameStock))
 									      <td class="text-center {{ $children->color_stock($children->stock) }}">{{ $children->stock }}</td>
 									  @endif

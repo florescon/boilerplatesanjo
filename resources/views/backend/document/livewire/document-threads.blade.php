@@ -93,6 +93,18 @@
               dataType: 'json',
               processResults: function (data) {
                   data.page = data.page || 1;
+
+                  // Ordenar los elementos primero por item.color.name y luego por item.name
+                  data.items.sort(function(a, b) {
+                    if (a.color && b.color && a.color.name && b.color.name) {
+                      if (a.color.name < b.color.name) return -1;
+                      if (a.color.name > b.color.name) return 1;
+                    }
+                    if (a.name < b.name) return -1;
+                    if (a.name > b.name) return 1;
+                    return 0;
+                  });
+
                   return {
                       results: data.items.map(function (item) {
                           return {

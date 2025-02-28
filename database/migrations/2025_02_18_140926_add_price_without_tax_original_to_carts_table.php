@@ -13,9 +13,11 @@ class AddPriceWithoutTaxOriginalToCartsTable extends Migration
      */
     public function up()
     {
-        Schema::table('carts', function (Blueprint $table) {
-            $table->decimal('price_without_tax_original', 8, 2)->nullable();
-        });
+        if (!Schema::hasColumn('carts', 'price_without_tax_original')) {
+            Schema::table('carts', function (Blueprint $table) {
+                $table->decimal('price_without_tax_original', 8, 2)->nullable();
+            });
+        }
     }
 
     /**

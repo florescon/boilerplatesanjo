@@ -23,7 +23,7 @@
                 <strong>@lang('Sizes'): </strong> 
                 @foreach($model->children->unique('size_id')->sortBy('size.sort') as $sizes)
                   <button type="button" style="margin-top: 3px" class="btn {{ in_array($sizes->size_id, $filters_s) ? 'btn-primary text-white' : 'btn-outline-primary' }} btn-sm" wire:click="$emit('filterBySize', {{ $sizes->size_id }})">
-                    {{ $sizes->size->name }} <span class="badge bg-danger text-white">{{ ltrim($product_general->getTotalConsumptionBySize($sizes->size_id), '0') }}</span>
+                    {!! $sizes->size->name_strikethrough !!} <span class="badge bg-danger text-white">{{ ltrim($product_general->getTotalConsumptionBySize($sizes->size_id), '0') }}</span>
                   </button>
                 @endforeach
               </li>
@@ -31,7 +31,7 @@
                 <strong>@lang('Colors'): </strong> 
                 @foreach($model->children->unique('color_id')->sortBy('color.name') as $colors)
                   <button type="button" style="margin-top: 3px" class="btn {{ in_array($colors->color_id, $filters_c) ? 'btn-primary text-white' : 'btn-outline-primary' }} btn-sm" wire:click="$emit('filterByColor', {{ $colors->color_id }})">
-                    {{ $colors->color->name }} <span class="badge bg-danger text-white">{{ ltrim($product_general->getTotalConsumptionByColor($colors->color_id), '0') }}</span>
+                    {!! $colors->color->name_strikethrough !!} <span class="badge bg-danger text-white">{{ ltrim($product_general->getTotalConsumptionByColor($colors->color_id), '0') }}</span>
                   </button>
                 @endforeach
               </li>
@@ -315,55 +315,63 @@
 </x-backend.card>
 
 @push('after-scripts')
-  <script>
-    $(document).ready(function() {
-      $('#materialmultiple').select2({
-        closeOnSelect: false,
-        placeholder: '@lang("Choose feedstocks")',
-        width: 'resolve',
-        theme: 'bootstrap4',
-        allowClear: true,
-        multiple: true,
-        ajax: {
-              url: '{{ route('admin.material.select') }}',
-              data: function (params) {
-                  return {
-                      search: params.term,
-                      page: params.page || 1
-                  };
-              },
-              dataType: 'json',
-              processResults: function (data) {
-                  data.page = data.page || 1;
-                  return {
-                      results: data.items.map(function (item) {
-                          return {
-      	                    id: item.id,
-  	                        text:  item.part_number.fixed() + ' ' +item.name + ' ' + (item.unit_id ? item.unit.name.sup() : '') + (item.color_id  ?  '<br> Color: ' + item.color.name.bold()  : '')  + (item.size_id  ?  '<br> Talla: ' + item.size.name.bold()  : '')
+<script>
+  $(document).ready(function() {
+    $('#materialmultiple').select2({
+      closeOnSelect: false,
+      placeholder: '@lang("Choose feedstocks")',
+      width: 'resolve',
+      theme: 'bootstrap4',
+      allowClear: true,
+      multiple: true,
+      ajax: {
+        url: '{{ route('admin.material.select') }}',
+        data: function (params) {
+          return {
+            search: params.term,
+            page: params.page || 1
+          };
+        },
+        dataType: 'json',
+        processResults: function (data) {
+          data.page = data.page || 1;
 
-                          };
-                      }),
-                      pagination: {
-                          more: data.pagination
-                      }
-                  }
-              },
-              cache: true,
-              delay: 250,
-              dropdownautowidth: true
-          },
-  	      escapeMarkup: function(m) { return m; }
+          // Ordenar los elementos primero por item.color.name y luego por item.name
+          data.items.sort(function(a, b) {
+            if (a.color && b.color && a.color.name && b.color.name) {
+              if (a.color.name < b.color.name) return -1;
+              if (a.color.name > b.color.name) return 1;
+            }
+            if (a.name < b.name) return -1;
+            if (a.name > b.name) return 1;
+            return 0;
+          });
 
-        });
-
-        $('#materialmultiple').on('change', function (e) {
-          var data = $('#materialmultiple').select2("val");
-          @this.set('material_id', data);
-        });
-
-
+          return {
+            results: data.items.map(function (item) {
+              return {
+                id: item.id,
+                text: item.part_number.fixed() + ' ' + item.name + ' ' + (item.unit_id ? item.unit.name.sup() : '') + (item.color_id ? '<br> Color: ' + item.color.name.bold() : '') + (item.size_id ? '<br> Talla: ' + item.size.name.bold() : '')
+              };
+            }),
+            pagination: {
+              more: data.pagination
+            }
+          };
+        },
+        cache: true,
+        delay: 250,
+        dropdownautowidth: true
+      },
+      escapeMarkup: function(m) { return m; }
     });
-  </script>
+
+    $('#materialmultiple').on('change', function (e) {
+      var data = $('#materialmultiple').select2("val");
+      @this.set('material_id', data);
+    });
+  });
+</script>
 
   <script type="text/javascript">
     Livewire.on("materialReset", () => {

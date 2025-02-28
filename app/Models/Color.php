@@ -26,6 +26,12 @@ class Color extends Model
         'slug'
     ];
 
+    // Accessor para el nombre tachado
+    public function getNameStrikethroughAttribute()
+    {
+        return $this->trashed() ? "<s>{$this->name}</s>" : $this->name;
+    }
+    
     public function subproducts(): HasMany
     {
         return $this->hasMany(Product::class, 'color_id')->with('parent')

@@ -102,6 +102,8 @@
                                                       <div role="separator" class="dropdown-divider"></div>
                                                       <a class="dropdown-item" href="#" wire:click="saveRetail(true)">@lang('Save and clear all retail price variants')</a>
                                                       <a class="dropdown-item" data-toggle="modal" wire:click="setField('average_wholesale_price')" data-target="#exampleModal">@lang('Update by sizes')</a>
+                                                      <a class="dropdown-item" data-toggle="modal" wire:click="setField('average_wholesale_price')" data-target="#exampleModalColor">@lang('Update by colors')</a>
+
                                                     </div>
                                                   </div>
                                                 </div>
@@ -336,6 +338,7 @@
         </section>
 
       @include('backend.product.modal.update-price')
+      @include('backend.product.modal.update-price-color')
 
 	</x-slot>
 </x-backend.card>
@@ -345,6 +348,14 @@
     <script type="text/javascript">
       Livewire.on("pricesSaved", () => {
           $("#exampleModal").modal("hide");
+      });
+    </script>
+@endpush
+
+@push('after-scripts')
+    <script type="text/javascript">
+      Livewire.on("pricesSaved", () => {
+          $("#exampleModalColor").modal("hide");
       });
     </script>
 @endpush

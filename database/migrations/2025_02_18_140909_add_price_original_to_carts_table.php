@@ -13,9 +13,11 @@ class AddPriceOriginalToCartsTable extends Migration
      */
     public function up()
     {
-        Schema::table('carts', function (Blueprint $table) {
-            $table->decimal('price_original', 8, 2)->nullable();
-        });
+        if (!Schema::hasColumn('carts', 'price_original')) {
+            Schema::table('carts', function (Blueprint $table) {
+                $table->decimal('price_original', 8, 2)->nullable();
+            });
+        }
     }
 
     /**

@@ -279,7 +279,7 @@ public function store()
 
             // dd($this->filters_s[0]);
 
-            $this->name_size = Size::find($this->filters_s[0])->name;
+            $this->name_size = Size::withTrashed()->find($this->filters_s[0])->name_strikethrough;
 
         }
 
@@ -300,7 +300,7 @@ public function store()
             }
 
 
-            $this->name_color = Color::find($this->filters_c[0])->name;
+            $this->name_color = Color::withTrashed()->find($this->filters_c[0])->name_strikethrough;
 
         }
 

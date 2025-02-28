@@ -33,6 +33,7 @@ class PricesProduct extends Component
     public $special_price_input; // Input para actualizar el precio especial
 
     public $unique_sizes = []; // Array para las sizes únicas
+    public $unique_colors = []; // Array para las sizes únicas
 
     public $selected_sizes = []; // Array para las sizes seleccionadas
 
@@ -93,6 +94,50 @@ class PricesProduct extends Component
     }
 
     public function theSpecialPrice()
+    {
+        // dd($this->selected_sizes);
+        // dd($this->{$this->getField});
+        // dd($this->getField);
+
+        $this->validate([
+            $this->getField => 'required|numeric|min:0',
+            'selected_sizes' => 'required|array|min:1',
+        ]);
+
+        $getPrice = null;
+
+        if($this->getField == 'retail_price'){
+            $getPrice ='price';
+        }
+
+
+        foreach ($this->productModel as $child) {
+            if (in_array($child->size_id, $this->selected_sizes)) {
+                if($getPrice){
+                    $child->{$getPrice} = $this->{$this->getField};
+                }
+                else{
+                    $child->{$this->getField} = $this->{$this->getField};
+                }
+                $child->save();
+            }
+        }
+
+        // Recargar el modelo principal y sus hijos para reflejar los cambios
+        $product = Product::find($this->product_id);
+        $product->load('children.size');
+        $this->productModel = $product->children;
+
+       $this->emit('swal:alert', [
+            'icon' => 'success',
+            'title'   => __('Saved'), 
+        ]);
+
+        $this->resetPrices();
+        $this->emit('pricesSaved');
+    }
+
+    public function theSpecialPriceColor()
     {
         // dd($this->selected_sizes);
         // dd($this->{$this->getField});
@@ -608,11 +653,13 @@ class PricesProduct extends Component
         // $parents = $model->children->toArray();
 
         $this->unique_sizes = $this->productModel->pluck('size')->unique('id')->values();
+        $this->unique_colors = $this->productModel->pluck('color')->unique('id')->values();
 
         // dd($this->unique_sizes);
 
         return view('backend.product.livewire.prices',[
             'unique_sizes' => $this->unique_sizes,
+            'unique_colors' => $this->unique_colors,
         ]);
     }
 }
