@@ -122,6 +122,9 @@ class BomTable extends Component
         $lastProcessId = $this->lastProcessId;
 
         $orders = DB::table('orders as a')
+                ->where('from_store', null)
+                ->where('from_store', null)
+                ->where('flowchart', true)
                 ->leftJoinSub($this->user(), 'user', function (JoinClause $join) {
                     $join->on('a.user_id', '=', 'user.id_user');
                 })
@@ -170,11 +173,12 @@ class BomTable extends Component
             return $order->where(function(Builder $query) {
                 $query->whereRaw("a.folio LIKE \"%$this->searchTerm%\"")
                 ->orWhereRaw("a.comment LIKE \"%$this->searchTerm%\"")
+                ->orWhereRaw("a.complementary LIKE \"%$this->searchTerm%\"")
                 ->orWhereRaw("info_customer LIKE \"%$this->searchTerm%\"")
                 ->orWhereRaw("customer LIKE \"%$this->searchTerm%\"")
                 ->orWhereRaw("request LIKE \"%$this->searchTerm%\"")
-                ->orWhereRaw("purchase LIKE \"%$this->searchTerm%\"")
-                ->orWhereRaw("name_status LIKE \"%$this->searchTerm%\"");
+                ->orWhereRaw("purchase LIKE \"%$this->searchTerm%\"");
+                // ->orWhereRaw("name_status LIKE \"%$this->searchTerm%\"");
             });
         }
 
@@ -218,6 +222,7 @@ class BomTable extends Component
                 'user' => optional($order->user)->name,
                 'type' => $order->characters_type_order,
                 'comment' => $order->comment,
+                'complementary' => $order->complementary,
             ]);
 
             foreach($order->products as $product_order){

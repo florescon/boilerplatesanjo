@@ -36,6 +36,7 @@ class PricesProduct extends Component
     public $unique_colors = []; // Array para las sizes únicas
 
     public $selected_sizes = []; // Array para las sizes seleccionadas
+    public $selected_colors = []; // Array para las sizes seleccionadas
 
     protected $queryString = [
         'customCodes' => ['except' => FALSE],
@@ -139,13 +140,13 @@ class PricesProduct extends Component
 
     public function theSpecialPriceColor()
     {
-        // dd($this->selected_sizes);
+        // dd($this->selected_colors);
         // dd($this->{$this->getField});
         // dd($this->getField);
 
         $this->validate([
             $this->getField => 'required|numeric|min:0',
-            'selected_sizes' => 'required|array|min:1',
+            'selected_colors' => 'required|array|min:1',
         ]);
 
         $getPrice = null;
@@ -156,7 +157,7 @@ class PricesProduct extends Component
 
 
         foreach ($this->productModel as $child) {
-            if (in_array($child->size_id, $this->selected_sizes)) {
+            if (in_array($child->color_id, $this->selected_colors)) {
                 if($getPrice){
                     $child->{$getPrice} = $this->{$this->getField};
                 }
@@ -169,7 +170,7 @@ class PricesProduct extends Component
 
         // Recargar el modelo principal y sus hijos para reflejar los cambios
         $product = Product::find($this->product_id);
-        $product->load('children.size');
+        $product->load('children.color');
         $this->productModel = $product->children;
 
        $this->emit('swal:alert', [

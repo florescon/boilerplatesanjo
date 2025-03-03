@@ -387,7 +387,10 @@
             {!! QrCode::size(80)->eye('circle')->generate(route('frontend.track.show', $order->slug)); !!}
             <div class="cs-note_right" style="margin-left: 20px;">
               <p class="cs-mb0"><b class="cs-primary_color cs-bold">@lang('Note'):</b></p>
-              <p class="cs-m0">{!! $order->isQuotation() && ($order->branch_id > 0) ? setting('footer_quotation').'<br>' :'' !!} {{ $order->branch_id > 0 ?  setting('footer') : '--' }}</p>
+              <p class="cs-m0">
+                {!! $order->notes ? $order->notes.'<br>' : '' !!}
+
+                {!! $order->isQuotation() && ($order->branch_id > 0) ? setting('footer_quotation').'<br>' :'' !!} {{ $order->branch_id > 0 ?  setting('footer') : '' }}</p>
             </div>
           </div><!-- .cs-note -->
 

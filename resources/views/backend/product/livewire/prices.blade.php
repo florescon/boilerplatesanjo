@@ -101,8 +101,8 @@
                                                       <a class="dropdown-item" href="#" wire:click="saveRetail">@lang('Only save')</a>
                                                       <div role="separator" class="dropdown-divider"></div>
                                                       <a class="dropdown-item" href="#" wire:click="saveRetail(true)">@lang('Save and clear all retail price variants')</a>
-                                                      <a class="dropdown-item" data-toggle="modal" wire:click="setField('average_wholesale_price')" data-target="#exampleModal">@lang('Update by sizes')</a>
-                                                      <a class="dropdown-item" data-toggle="modal" wire:click="setField('average_wholesale_price')" data-target="#exampleModalColor">@lang('Update by colors')</a>
+                                                      <a class="dropdown-item" data-toggle="modal" wire:click="setField('price')" data-target="#exampleModal">@lang('Update by sizes')</a>
+                                                      <a class="dropdown-item" data-toggle="modal" wire:click="setField('price')" data-target="#exampleModalColor">@lang('Update by colors')</a>
 
                                                     </div>
                                                   </div>
@@ -126,6 +126,7 @@
                                                       <a class="dropdown-item" wire:click="saveAverageWholesale(true)" href="#">@lang('Save and clear all average wholesale price variants')</a>
                                                       <div role="separator" class="dropdown-divider"></div>
                                                       <a class="dropdown-item" data-toggle="modal" wire:click="setField('average_wholesale_price')" data-target="#exampleModal">@lang('Update by sizes')</a>
+                                                      <a class="dropdown-item" data-toggle="modal" wire:click="setField('average_wholesale_price')" data-target="#exampleModalColor">@lang('Update by colors')</a>
                                                     </div>
                                                   </div>
                                                 </div>
@@ -148,6 +149,7 @@
                                                       <a class="dropdown-item" wire:click="saveWholesale(true)" href="#">@lang('Save and clear all wholesale price variants')</a>
                                                       <div role="separator" class="dropdown-divider"></div>
                                                       <a class="dropdown-item" data-toggle="modal" wire:click="setField('wholesale_price')" data-target="#exampleModal">@lang('Update by sizes')</a>
+                                                      <a class="dropdown-item" data-toggle="modal" wire:click="setField('wholesale_price')" data-target="#exampleModalColor">@lang('Update by colors')</a>
 
                                                     </div>
                                                   </div>
@@ -173,6 +175,7 @@
                                                           <a class="dropdown-item" wire:click="saveSpecial(true)" href="#">@lang('Save and clear all special price variants')</a>
                                                           <div role="separator" class="dropdown-divider"></div>
                                                           <a class="dropdown-item" data-toggle="modal" wire:click="setField('special_price')" data-target="#exampleModal">@lang('Update by sizes')</a>
+                                                          <a class="dropdown-item" data-toggle="modal" wire:click="setField('special_price')" data-target="#exampleModalColor">@lang('Update by colors')</a>
                                                         </div>
                                                       </div>
                                                     </div>

@@ -68,21 +68,21 @@ class ReportTable extends Component
 
     }
 
-    public function exportMaatwebsite($extension, ?bool $isProduct = false, ?bool $isService = false)
+    public function exportMaatwebsite($extension, ?bool $isProduct = false, ?bool $isService = false, ?bool $isStore = false, ?bool $isGrouped = false)
     {   
         $extension = 'xlsx';
 
         abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
-        return Excel::download(new OrderProductsByDateExport($this->dateInput, $this->dateOutput, $isProduct, $isService), 'product-list-'.Carbon::now().'.'.$extension);
+        return Excel::download(new OrderProductsByDateExport($this->dateInput, $this->dateOutput, $isProduct, $isService, $isStore, $isGrouped), 'product-list-'.Carbon::now().'.'.$extension);
 
     }
 
-    public function exportServiceOrdersMaatwebsite($extension)
+    public function exportServiceOrdersMaatwebsite($extension, ?bool $isGrouped = false)
     {   
         $extension = 'xlsx';
 
         abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
-        return Excel::download(new ServiceOrderExport($this->dateInput, $this->dateOutput, $this->service_type_id), 'product-list-'.Carbon::now().'.'.$extension);
+        return Excel::download(new ServiceOrderExport($this->dateInput, $this->dateOutput, $this->service_type_id, $isGrouped), 'product-list-'.Carbon::now().'.'.$extension);
 
     }
 

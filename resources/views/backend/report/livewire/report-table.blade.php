@@ -177,8 +177,39 @@
 
         <div class="card">
             <article class="card-group-item">
+
+                <header class="card-header"><h6 class="title">Servicios asociados a Pedidos - Tienda </h6></header>
+                <div class="filter-content">
+                    <div class="list-group list-group-flush">
+                        <a href="#!" wire:click="exportMaatwebsite('xlsx', '0', '1', '1')" class="list-group-item {{ (!$dateInput || !$dateOutput) ? 'disabled' : '' }}">@lang('Services') <span class="float-right badge badge-success round">@lang('EXCEL')</span> </a>
+                    @if($details)
+                        <em class="text-center p-2 text-muted"> Descarga los <strong>servicios</strong> de las órdenes en el rango especificado. En excel, agrupado por producto y color.</em>
+                    @endif
+                        <a href="#!" wire:click="exportMaatwebsite('xlsx', '0', '1', '1', '1')" class="list-group-item {{ (!$dateInput || !$dateOutput) ? 'disabled' : '' }}">@lang('Services')  <span class="float-right badge badge-info round ml-1">@lang('SUMMARY')</span><span class="float-right badge badge-success round">@lang('EXCEL')</span> </a>
+                    @if($details)
+                        <em class="text-center p-2 text-muted"> Descarga los <strong>servicios</strong> de las órdenes en el rango especificado. En excel, agrupado por producto y color.</em>
+                    @endif
+                    </div>  <!-- list-group .// -->
+                </div>
+
                 <header class="card-header">
-                    <h6 class="title">@lang('Service Orders') </h6>
+                    <h6 class="title">@lang('Service Orders')</h6>
+                </header>
+                <div class="filter-content">
+                    <div class="list-group list-group-flush">
+                        <a type="button" href="#!" wire:click="exportServiceOrdersMaatwebsite('xlsx')" class="list-group-item {{ (!$dateInput || !$dateOutput ) ? 'disabled' : '' }}">@lang('Service Orders') <span class="float-right badge badge-success round">@lang('Excel')</span> </a>
+                        @if($details)
+                            <em class="text-center p-2 text-muted"> Descarga las <strong>órdenes de servicio</strong> en el rango especificado. En Excel.</em>
+                        @endif
+                        <a type="button" href="#!" wire:click="exportServiceOrdersMaatwebsite('xlsx', '1')" class="list-group-item {{ (!$dateInput || !$dateOutput) ? 'disabled' : '' }}">@lang('Service Orders') <span class="float-right badge badge-info round ml-1">@lang('SUMMARY')</span> <span class="float-right badge badge-success round">@lang('Excel')</span>  </a>
+                        @if($details)
+                            <em class="text-center p-2 text-muted"> Descarga las <strong>órdenes de servicio</strong> en el rango especificado. En Excel y agrupado por personal, posteriormente por tipo de servicio.</em>
+                        @endif
+                    </div>
+                </div>
+
+                <header class="card-header">
+                    <h6 class="title">@lang('Service Orders') por Personal </h6>
                 </header>
                 <div class="filter-content">
                     <div class="card-body">

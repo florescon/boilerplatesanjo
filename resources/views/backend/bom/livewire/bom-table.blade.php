@@ -82,6 +82,7 @@
                                                 <br>
                                                 <strong>Total: <em style="color: #FF3EA5;">{{ $order->total_quantity }}</em></strong> &nbsp;&nbsp;&nbsp;&nbsp;{{ $order->comment }}
                                                 <div class="checklist-strikethrough"></div>
+                                                <strong class="text-danger">{{ $order->complementary }}</strong>
                                             </div>
                                         </div>
                                         <span data-filter-by="text">

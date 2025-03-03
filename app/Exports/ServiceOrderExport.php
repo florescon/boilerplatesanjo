@@ -25,13 +25,15 @@ class ServiceOrderExport implements FromCollection, WithMapping, WithHeadings, W
     protected $products;
 
     protected $serviceType;
+    protected $isGrouped;
 
     // Recibe los datos en el constructor
-    public function __construct($dateInput, $dateOutput, $serviceType)
+    public function __construct($dateInput, $dateOutput, ?int $serviceType = null, ?bool $isGrouped = false)
     {
         $this->dateInput = $dateInput;
         $this->dateOutput = $dateOutput;
         $this->serviceType = $serviceType;
+        $this->isGrouped = $isGrouped;
     }
 
     public function styles(Worksheet $sheet)
@@ -82,6 +84,7 @@ class ServiceOrderExport implements FromCollection, WithMapping, WithHeadings, W
             },
         ];
     }
+
     public function headings(): array
     {
        $headings = [
@@ -104,34 +107,74 @@ class ServiceOrderExport implements FromCollection, WithMapping, WithHeadings, W
     /**
     * @var Invoice $serviceOrder
     */
-    public function map($serviceOrder): array
-    {
-        // Mapear los datos de la orden de servicio a un formato adecuado para la exportación
+public function map($serviceOrder): array
+{
+    // Si está agrupado, usar los datos agrupados
+    if ($this->isGrouped) {
         return [
-            $serviceOrder->id,
-            $serviceOrder->order_id ? optional($serviceOrder->order)->folio_or_id_clear : '',                          // 'order_id'
-            $serviceOrder->user_id ? optional($serviceOrder->personal)->name : '',                           // 'user_id'
-            $serviceOrder->service_type ? optional($serviceOrder->service_type)->name : '',  // 'service_type_id', usando relación
-            $serviceOrder->comment,                           // 'comment'
-            $serviceOrder->dimensions,                           // 'dimensions'
-            $serviceOrder->file_text,                           // 'file_text'
-            $serviceOrder->created_id ? optional($serviceOrder->createdby)->name : '',                           // 'created_id'
-            $serviceOrder->created_at->format('d-m-Y'),   
-            $serviceOrder->total_products,                             // 'total'
+            '', // Folio (vacío porque no aplica en agrupación)
+            '', // Order (vacío porque no aplica en agrupación)
+            $serviceOrder['personal']->name ?? '', // User
+            $serviceOrder['service_type']->name ?? '', // Service Type
+            '', // Comment (vacío porque no aplica en agrupación)
+            '', // Dimensions (vacío porque no aplica en agrupación)
+            '', // Text (vacío porque no aplica en agrupación)
+            $serviceOrder['createdby']->name ?? '', // Created by
+            $serviceOrder['created_at']->format('d-m-Y'), // Created
+            $serviceOrder['total_products'], // Total
         ];
     }
 
+    // Si no está agrupado, usar los datos normales
+    return [
+        $serviceOrder->id,
+        $serviceOrder->order_id ? optional($serviceOrder->order)->folio_or_id_clear : '',
+        $serviceOrder->user_id ? optional($serviceOrder->personal)->name : '',
+        $serviceOrder->service_type ? optional($serviceOrder->service_type)->name : '',
+        $serviceOrder->comment,
+        $serviceOrder->dimensions,
+        $serviceOrder->file_text,
+        $serviceOrder->created_id ? optional($serviceOrder->createdby)->name : '',
+        $serviceOrder->created_at->format('d-m-Y'),
+        $serviceOrder->total_products,
+    ];
+}
     /**
     * @return \Illuminate\Support\Collection
     */
-    public function collection()
-    {
-        $orders = ServiceOrder::whereBetween('created_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59'])
-                            ->where('service_type_id', $this->serviceType)
-                            ->with('order', 'service_type', 'createdby', 'personal', 'product_service_orders')
-                            ->get();
+public function collection()
+{
+    $query = ServiceOrder::whereBetween('created_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59'])
+                        ->with('order', 'service_type', 'createdby', 'personal', 'product_service_orders');
 
-        return $orders;
-
+    // Aplicar el filtro solo si $this->serviceType no es null
+    if ($this->serviceType !== null) {
+        $query->where('service_type_id', $this->serviceType);
     }
+
+    $orders = $query->get();
+
+    // Si $isGrouped es true, agrupar los datos
+    if ($this->isGrouped) {
+        $groupedOrders = $orders->groupBy(['user_id', 'service_type_id'])
+                                ->map(function ($userGroups) {
+                                    return $userGroups->map(function ($serviceTypeGroups) {
+                                        return [
+                                            'user_id' => $serviceTypeGroups->first()->user_id,
+                                            'service_type_id' => $serviceTypeGroups->first()->service_type_id,
+                                            'total_products' => $serviceTypeGroups->sum('total_products'),
+                                            'personal' => $serviceTypeGroups->first()->personal,
+                                            'service_type' => $serviceTypeGroups->first()->service_type,
+                                            'createdby' => $serviceTypeGroups->first()->createdby,
+                                            'created_at' => $serviceTypeGroups->first()->created_at,
+                                        ];
+                                    });
+                                })
+                                ->flatten(1); // Aplanar el array para que sea una colección simple
+
+        return $groupedOrders;
+    }
+
+    return $orders;
+}
 }

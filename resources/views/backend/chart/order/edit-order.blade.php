@@ -383,6 +383,12 @@
               {!! __('Quotation'). ' <strong class="text-danger">: #'.$model->quotation.'</strong>' !!}
             </div>
           @endif
+          @if($model->isOrder())
+            <div class="card-footer text-muted text-center h5">
+                <x-input.input-alpine nameData="isNotes" :inputText="$isNotes" :originalInput="$isNotes" wireSubmit="savenotes" modelName="notes" maxlength="300" className="" :extraName="__('Notes')"  />
+                @error('notes') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+            </div>
+          @endif
         </div>
 
 

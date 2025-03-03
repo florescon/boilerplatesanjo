@@ -25,14 +25,18 @@ class OrderProductsByDateExport implements FromCollection, WithMapping, WithHead
 
     protected $isProduct;
     protected $isService;
+    protected $isStore;
+    protected $isGrouped;
 
     // Recibe los datos en el constructor
-    public function __construct($dateInput, $dateOutput, $isProduct, $isService)
+    public function __construct($dateInput, $dateOutput, ?bool $isProduct = false, ?bool $isService = false, ?bool $isStore = false, ?bool $isGrouped = false)
     {
         $this->dateInput = $dateInput;
         $this->dateOutput = $dateOutput;
         $this->isProduct = $isProduct;
         $this->isService = $isService;
+        $this->isStore = $isStore;
+        $this->isGrouped = $isGrouped;
     }
 
     public function styles(Worksheet $sheet)
@@ -85,12 +89,25 @@ class OrderProductsByDateExport implements FromCollection, WithMapping, WithHead
     }
     public function headings(): array
     {
-       $headings = [
-            __('Quantity'),
-            __('Code'),
-            __('Details'),
-            __('Name'),
-        ];
+        if($this->isGrouped){
+            $headings = [
+                __('Quantity'),
+                __('Code'),
+                __('Details'),
+                __('Name'),
+            ];
+        }
+        else{
+            $headings = [
+                __('Quantity'),
+                __('Code'),
+                __('Details'),
+                __('Name'),
+                __('Order'),
+                __('Customer'),
+                __('Date'),
+            ];
+        }
 
         return $headings;
 
@@ -99,9 +116,10 @@ class OrderProductsByDateExport implements FromCollection, WithMapping, WithHead
     /**
     * @var Invoice $product
     */
-    public function map($product): array
-    {
-        // Mapea los datos para la exportación
+public function map($product): array
+{
+    // Si está agrupado, usar los datos agrupados
+    if ($this->isGrouped) {
         return [
             $product['totalQuantity'],
             $product['productParentCode'],
@@ -110,63 +128,96 @@ class OrderProductsByDateExport implements FromCollection, WithMapping, WithHead
         ];
     }
 
+    // Si no está agrupado, usar los datos individuales
+    return [
+        $product['productQuantity'],
+        $product['productParentCode'],
+        $product['productColorName'],
+        $product['productParentName'],
+        $product['productOrder'],
+        $product['productCustomer'],
+        $product['productDate'],
+    ];
+}
+
     /**
     * @return \Illuminate\Support\Collection
     */
-    public function collection()
-    {
-        $ordercollection = collect();
-        $productsCollection = collect();
+public function collection()
+{
+    $productsCollection = collect();
 
-        $ordersJson = Order::whereBetween('created_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59'])
-                            ->onlyOrders()->outFromStore()
-                            ->with('products', 'user.customer')
-                            ->get();
+    $query = Order::whereBetween('created_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59'])
+                  ->with('products', 'user.customer');
 
-        foreach ($ordersJson as $order) {
-            foreach ($order->products as $product_order) {
-                if($this->isProduct && $product_order->product->isProduct()){
+    // Aplicar onlyFromStore() o outFromStore() según el valor de $this->isStore
+    if ($this->isStore) {
+        $query->onlyRequests()->onlyFromStore(); // Aplicar onlyFromStore() si $this->isStore es true
+    } else {
+        $query->onlyOrders()->outFromStore(); // Aplicar outFromStore() si $this->isStore es false
+    }
 
-                    $productsCollection->push([
-                        'productId' => $product_order->id,
-                        'productParentId' => $product_order->product->parent_id ?? $product_order->product_id,
-                        'productParentCode' => $product_order->product->parent_code ?? null,
-                        'productParentName' => $product_order->product->only_name ?? null,
-                        'productColor' => $product_order->product->color_id,
-                        'productColorName' => $product_order->product->color->name ?? '',
-                        'productQuantity' => $product_order->quantity,
-                    ]);
-                }
+    $ordersJson = $query->get(); // Obtener los resultados
 
-                if($this->isService && !$product_order->product->isProduct()){
+    // Recorrer las órdenes y productos para construir la colección
+    foreach ($ordersJson as $order) {
+        foreach ($order->products as $product_order) {
+            if ($this->isProduct && $product_order->product->isProduct()) {
+                $productsCollection->push([
+                    'productId' => $product_order->id,
+                    'productParentId' => $product_order->product->parent_id ?? $product_order->product_id,
+                    'productParentCode' => $product_order->product->parent_code ?? null,
+                    'productParentName' => $product_order->product->only_name ?? null,
+                    'productColor' => $product_order->product->color_id,
+                    'productColorName' => $product_order->product->color->name ?? '',
+                    'productQuantity' => $product_order->quantity,
+                    'productOrder' => $order->folio_or_id_clear,
+                    'productCustomer' => optional($order->user)->name,
+                    'productDate' => $order->date_for_humans,
+                ]);
+            }
 
-                    $productsCollection->push([
-                        'productId' => $product_order->id,
-                        'productParentId' => $product_order->product->parent_id ?? $product_order->product_id,
-                        'productParentCode' => $product_order->product->parent_code ?? null,
-                        'productParentName' => $product_order->product->only_name ?? null,
-                        'productColor' => $product_order->product->color_id,
-                        'productColorName' => $product_order->product->color->name ?? '',
-                        'productQuantity' => $product_order->quantity,
-                    ]);
-                }
+            if ($this->isService && !$product_order->product->isProduct()) {
+                $productsCollection->push([
+                    'productId' => $product_order->id,
+                    'productParentId' => $product_order->product->parent_id ?? $product_order->product_id,
+                    'productParentCode' => $product_order->product->parent_code ?? null,
+                    'productParentName' => $product_order->product->only_name ?? null,
+                    'productColor' => $product_order->product->color_id,
+                    'productColorName' => $product_order->product->color->name ?? '',
+                    'productQuantity' => $product_order->quantity,
+                    'productOrder' => $order->folio_or_id_clear,
+                    'productCustomer' => optional($order->user)->name,
+                    'productDate' => $order->date_for_humans,
+                ]);
             }
         }
+    }
 
-        $this->products = $productsCollection;
+    $this->products = $productsCollection;
 
+    // Si $isGrouped es true, agrupar los productos
+    if ($this->isGrouped) {
         $grouped = $this->products->groupBy(function ($item) {
             return $item['productParentId'] . '-' . $item['productColor']; // Combinamos ambos valores para agrupar
         })->map(function ($group) {
             return [
-                'productParentCode' => $group->first()['productParentCode'], // Obtener el nombre del primer producto del grupo
-                'productColorName' => $group->first()['productColorName'], // Obtener el nombre del color del primer producto del grupo
-                'productParentName' => $group->first()['productParentName'], // Obtener el nombre del primer producto del grupo
-                'totalQuantity' => $group->sum('productQuantity'), // Sumar la cantidad de productos en el grupo
+                'productParentCode' => $group->first()['productParentCode'],
+                'productColorName' => $group->first()['productColorName'],
+                'productParentName' => $group->first()['productParentName'],
+                'totalQuantity' => $group->sum('productQuantity'),
+
+                'productOrder' => $group->first()['productOrder'],
+                'productCustomer' => $group->first()['productCustomer'],
+                'productDate' => $group->first()['productDate'],
+
             ];
         });
 
-        return $grouped; 
+        return $grouped;
     }
 
+    // Si $isGrouped es false, devolver la colección sin agrupar
+    return $this->products;
+}
 }
