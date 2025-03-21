@@ -179,7 +179,11 @@
                   {!! optional($station->order)->user_name !!}
                 </td>
                 <td class="text-center">
-                  {{ $station->total_products_station }}
+                  @if($status != 'deleted')
+                    {{ $station->total_products_station }}
+                  @else
+                    {{ $station->total_products_station_deleted }}
+                  @endif
                 </td>
                 <td>
                   <strong>{{ optional($station->order)->comment ?? '--' }}</strong>
@@ -202,7 +206,8 @@
                 </td>
                 <td >
                   @if($station->order->trashed())
-                    <x-utils.delete-button :text="__('')" :href="route('admin.batch.destroy', $station->id)" />
+                    {{-- <x-utils.delete-button :text="__('')" :href="route('admin.batch.destroy', $station->id)" /> --}}
+                    <span class="badge badge-danger">Orden eliminada</span>
                   @else
                     {{-- <div class="btn-group" role="group" aria-label="Basic example">
                         <x-utils.view-button :href="route('admin.order.batches', [$station->order_id, $station->status_id])" />

@@ -21,7 +21,7 @@ Route::group([
         Route::get('edit', [StationController::class, 'edit'])
             ->name('edit')
             ->middleware('permission:admin.access.station.modify')
-            ->breadcrumbs(function (Trail $trail, Station $station) {
+            ->breadcrumbs(function (Trail $trail, $station) {
                 $trail->parent('admin.station.index')
                     ->push(__('Edit'), route('admin.station.edit', $station));
             });

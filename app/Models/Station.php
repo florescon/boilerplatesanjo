@@ -71,6 +71,11 @@ class Station extends Model
         return $this->hasMany(ProductStation::class)->orderBy('created_at', 'desc');
     }
 
+    public function product_station_deleted()
+    {
+        return $this->hasMany(ProductStation::class)->onlyTrashed()->orderBy('created_at', 'desc');
+    }
+
     /**
      * @return mixed
      */
@@ -183,6 +188,11 @@ class Station extends Model
         return $this->product_station->sum('quantity');
     }
 
+    public function getTotalProductsStationDeletedAttribute(): int
+    {
+        return $this->product_station_deleted->sum('quantity');
+    }
+
     public function getTotalProductsStationOpenAttribute(): int
     {
         return $this->product_station->sum('metadata.open');
@@ -191,6 +201,16 @@ class Station extends Model
     public function getTotalProductsStationClosedAttribute(): int
     {
         return $this->product_station->sum('metadata.closed');
+    }
+
+    public function getTotalProductsStationOpenDeletedAttribute(): int
+    {
+        return $this->product_station_deleted->sum('metadata.open');
+    }
+
+    public function getTotalProductsStationClosedDeletedAttribute(): int
+    {
+        return $this->product_station_deleted->sum('metadata.closed');
     }
 
     public function getCreatedAtForHumansAttribute()

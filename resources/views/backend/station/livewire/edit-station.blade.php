@@ -99,11 +99,37 @@
                                                     </tr>
                                                     @endforeach
                                                 @endforeach
+                                                @foreach($station->product_station_deleted->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']]) as $product_station_deleted)
+                                                    <tr>
+                                                        <th width="10%">{{ $product_station_deleted->quantity }}</th>
+                                                        <td width="44%" class="{{ $product_station_deleted->line_through }}">{!! $product_station_deleted->product->full_name_link !!}</td>
+                                                        <td width="5%">{{ $product_station_deleted->metadata['open'] ?? '' }}</td>
+                                                        <td width="5%">{{ $product_station_deleted->metadata['closed'] ?? '' }}</td>
+                                                        <td width="13%">{{ $product_station_deleted->created_at_for_humans }}</td>
+                                                        <td width="13%">{{ $product_station_deleted->updated_at_for_humans }}</td>
+                                                        <td width="10%">
+                                                            @if($product_station_deleted->active)
+                                                                <label class="badge badge-success">@lang('Active')</label>
+                                                            @else
+                                                                <label class="badge badge-danger">@lang('Inactive')</label>
+                                                            @endif
+                                                            <label class="badge badge-danger">Eliminado</label>
+                                                        </td>
+                                                    </tr>
+                                                    @foreach($product_station_deleted->product_station_receiveds as $product_station_received)
+                                                    <tr>
+                                                        <td></td>
+                                                        <td colspan="6"><em>{!! $product_station_received->quantity.'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp Recibido '.$product_station_deleted->created_at_for_humans !!}</em></td>
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+                                                @endforeach
+
                                                 <tr>
-                                                    <th class="text-primary"> {{ $station->total_products_station }} </th>
+                                                    <th class="text-primary"> {{ $station->trashed() ? $station->total_products_station_deleted : $station->total_products_station }} </th>
                                                     <th></th>
-                                                    <th class="text-primary"> {{ $station->total_products_station_open }} </th>
-                                                    <th class="text-primary"> {{ $station->total_products_station_closed }} </th>
+                                                    <th class="text-primary"> {{  $station->trashed() ? $station->total_products_station_open_deleted : $station->total_products_station_open }} </th>
+                                                    <th class="text-primary"> {{ $station->trashed() ? $station->total_products_station_closed_deleted : $station->total_products_station_closed }} </th>
                                                     <th colspan="3"></th>
                                                 </tr>
                                             </tbody>

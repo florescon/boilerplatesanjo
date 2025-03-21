@@ -87,7 +87,8 @@ class OrderProductsReportExport implements FromCollection, WithMapping, WithHead
        $headings = [
             __('Quantity'),
             __('Code'),
-            __('Details'),
+            __('Color'),
+            __('Size_'),
             __('Name'),
             __('Order'),
             __('Customer'),
@@ -106,7 +107,8 @@ class OrderProductsReportExport implements FromCollection, WithMapping, WithHead
         return [
             $product['productQuantity'],  // Asumí que 'totalQuantity' es 'productQuantity' directamente aquí
             $product['productParentCode'],
-            $product['productColorName'],
+            !$this->isService ? $product['productColorName'] : 'N/A',
+            !$this->isService ? $product['productSizeName'] : 'N/A',
             $product['productParentName'],
             $product['productOrder'],
             $product['productCustomer'],
@@ -137,6 +139,7 @@ class OrderProductsReportExport implements FromCollection, WithMapping, WithHead
                         'productParentName' => $product_order->product->only_name ?? null,
                         'productColor' => $product_order->product->color_id,
                         'productColorName' => $product_order->product->color->name ?? '',
+                        'productSizeName' => $product_order->product->size->name ?? '',
                         'productQuantity' => $product_order->quantity,
                         'productOrder' => $order->folio_or_id_clear,
                         'productCustomer' => $order->user_name_clear,
@@ -152,6 +155,7 @@ class OrderProductsReportExport implements FromCollection, WithMapping, WithHead
                         'productParentName' => $product_order->product->only_name ?? null,
                         'productColor' => $product_order->product->color_id,
                         'productColorName' => $product_order->product->color->name ?? '',
+                        'productSizeName' => $product_order->product->size->name ?? '',
                         'productQuantity' => $product_order->quantity,
                         'productOrder' => $order->folio_or_id_clear,
                         'productCustomer' => $order->user_name_clear,

@@ -174,7 +174,7 @@
                     class="c-sidebar-nav-link"
                     :text="__('Workstations')"
                     icon="c-sidebar-nav-icon cil-compress"
-                    :active="activeClass(Route::is('admin.station.index'), 'c-active')" />
+                    :active="activeClass(Route::is('admin.station.index', 'admin.station.deleted'), 'c-active')" />
             </li>
 
         @endif

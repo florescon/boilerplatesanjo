@@ -20,8 +20,10 @@ class StationController extends Controller
         return view('backend.station.index');
     }
 
-    public function edit(Station $station)
+    public function edit($stationId)
     {
+        $station = Station::whereId($stationId)->withTrashed()->first();
+
         $vvar =  $station->created_at->timestamp;
 
         return view('backend.station.edit-station', compact('station', 'vvar'));
