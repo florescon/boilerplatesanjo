@@ -4,6 +4,7 @@ use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\CashController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReportController;
 use App\Models\Product;
 use App\Models\Finance;
 use App\Models\Cash;
@@ -126,6 +127,22 @@ Route::group([
             });
 
         });
+    });
+
+
+
+    Route::group([
+        'prefix' => 'report',
+        'as' => 'report.',
+    ], function () {
+        Route::get('/', [ReportController::class, 'store'])
+            ->name('index')
+            ->middleware('permission:admin.access.report.show')
+            ->breadcrumbs(function (Trail $trail) {
+                $trail->parent('admin.dashboard')
+                    ->push(__('Report Store Management'), route('admin.store.report.index'));
+            });
+
     });
 
     Route::group([

@@ -25,14 +25,16 @@ class OrderProductsReportGroupedExport implements FromCollection, WithMapping, W
 
     protected $isProduct;
     protected $isService;
+    protected $isStore;
 
     // Recibe los datos en el constructor
-    public function __construct($dateInput, $dateOutput, $isProduct, $isService)
+    public function __construct($dateInput, $dateOutput, $isProduct, $isService, ?bool $isStore = false)
     {
         $this->dateInput = $dateInput;
         $this->dateOutput = $dateOutput;
         $this->isProduct = $isProduct;
         $this->isService = $isService;
+        $this->isStore = $isStore;
     }
 
     public function styles(Worksheet $sheet)
@@ -122,10 +124,16 @@ class OrderProductsReportGroupedExport implements FromCollection, WithMapping, W
         $ordercollection = collect();
         $productsCollection = collect();
 
-        $ordersJson = Order::whereBetween('created_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59'])
-                            ->onlyOrders()->outFromStore()
-                            ->with('products', 'user.customer')
-                            ->get();
+        $query = Order::whereBetween('created_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59'])
+                            ->with('products', 'user.customer');
+
+        if ($this->isStore) {
+            $query->onlyRequests()->onlyFromStore(); // Aplicar onlyFromStore() si $this->isStore es true
+        } else {
+            $query->onlyOrders()->outFromStore(); // Aplicar outFromStore() si $this->isStore es false
+        }
+
+        $ordersJson = $query->get(); // Obtener los resultados
 
         foreach ($ordersJson as $order) {
             foreach ($order->products as $product_order) {

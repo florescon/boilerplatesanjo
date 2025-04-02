@@ -15,4 +15,10 @@ class ReportController extends Controller
     {
         return view('backend.report.index');
     }
+
+    public function store()
+    {
+        return view('backend.report.store');
+    }
+
 }

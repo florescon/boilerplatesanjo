@@ -12,7 +12,7 @@ use App\Exports\ServiceOrderExport;
 use App\Exports\MaterialHistoryGroupExport;
 use Carbon\Carbon;
 
-class ReportTable extends Component
+class ReportStoreTable extends Component
 {
     public $dateInput = '';
     public $dateOutput = '';
@@ -55,7 +55,7 @@ class ReportTable extends Component
         $extension = 'xlsx';
 
         abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
-        return Excel::download(new OrderProductsReportExport($this->dateInput, $this->dateOutput, $isProduct, $isService), 'product-list-'.Carbon::now().'.'.$extension);
+        return Excel::download(new OrderProductsReportExport($this->dateInput, $this->dateOutput, $isProduct, $isService, true), 'product-list-store-'.Carbon::now().'.'.$extension);
 
     }
 
@@ -64,7 +64,7 @@ class ReportTable extends Component
         $extension = 'xlsx';
 
         abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
-        return Excel::download(new OrderProductsReportGroupedExport($this->dateInput, $this->dateOutput, $isProduct, $isService), 'product-grouped-list-'.Carbon::now().'.'.$extension);
+        return Excel::download(new OrderProductsReportGroupedExport($this->dateInput, $this->dateOutput, $isProduct, $isService, true), 'product-grouped-list-store-'.Carbon::now().'.'.$extension);
 
     }
 
@@ -73,7 +73,7 @@ class ReportTable extends Component
         $extension = 'xlsx';
 
         abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
-        return Excel::download(new OrderProductsByDateExport($this->dateInput, $this->dateOutput, $isProduct, $isService, $isStore, $isGrouped), 'product-list-'.Carbon::now().'.'.$extension);
+        return Excel::download(new OrderProductsByDateExport($this->dateInput, $this->dateOutput, $isProduct, $isService, $isStore, $isGrouped), 'product-list-store-'.Carbon::now().'.'.$extension);
 
     }
 
@@ -82,7 +82,7 @@ class ReportTable extends Component
         $extension = 'xlsx';
 
         abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
-        return Excel::download(new ServiceOrderExport($this->dateInput, $this->dateOutput, $this->service_type_id, $isGrouped), 'product-list-'.Carbon::now().'.'.$extension);
+        return Excel::download(new ServiceOrderExport($this->dateInput, $this->dateOutput, $this->service_type_id, $isGrouped), 'product-list-store-'.Carbon::now().'.'.$extension);
 
     }
 
@@ -91,12 +91,12 @@ class ReportTable extends Component
         $extension = 'xlsx';
 
         abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
-        return Excel::download(new MaterialHistoryGroupExport($this->dateInput, $this->dateOutput, $this->vendor_id), 'product-list-'.Carbon::now().'.'.$extension);
+        return Excel::download(new MaterialHistoryGroupExport($this->dateInput, $this->dateOutput, $this->vendor_id), 'product-list-store-'.Carbon::now().'.'.$extension);
 
     }
 
     public function render()
     {
-        return view('backend.report.livewire.report-table');
+        return view('backend.report.livewire.report-store-table');
     }
 }

@@ -447,6 +447,7 @@
                   @foreach($model->product_order->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']]) as $product)
                   <tr>
                     <td>
+                      {{ $product->id }}
                       <a href="{{ route('admin.product.consumption_filter', $product->product_id) }}" target=”_blank”> <span class="badge badge-warning"> <i class="cil-color-fill"></i> <em class="text-white">@lang('BOM')</em> </span></a>
                       {{ $product->product->code_subproduct_clear }}
                       {!! $product->product->full_name_link !!}

@@ -1,5 +1,5 @@
 <div class="container">
-<br>  <h2 class="text-center">@lang('Reports')</h2>
+<br>  <h2 class="text-center">@lang('Reports') - @lang('Store')</h2>
 <hr>
 
 <div class="row">
@@ -65,37 +65,6 @@
                         <em class="text-center p-2 text-muted"> Descarga los <strong>servicios</strong> de las órdenes en el rango especificado. En excel, agrupado por pedido, producto y color.</em>
                     @endif
 
-                </div>
-            </article> <!-- card-group-item.// -->
-            <article class="card-group-item">
-                <header class="card-header">
-                    <h6 class="title">@lang('Outputs')* <br><em> desde Jul, 2024</em> </h6>
-                </header>
-                <div class="filter-content">
-                    <div class="list-group list-group-flush">
-                      <a href="{{ route('admin.information.status.printexporthistory', [15, true, $dateInput, $dateOutput]) }}" target="_blank" class="list-group-item {{ (!$dateInput || !$dateOutput) ? 'disabled' : '' }}">Exportar histórico <span class="float-right badge badge-danger round">@lang('PDF')</span> </a>
-                        @if($details)
-                            <em class="text-center p-2 text-muted"> Obtiene los <strong>productos</strong> (asignados) de las salidas en el rango especificado. En PDF.</em>
-                        @endif
-                    </div>
-                    <div class="list-group list-group-flush">
-                      <a href="{{ route('admin.information.status.printexporthistory', [15, 0, $dateInput, $dateOutput]) }}" target="_blank" class="list-group-item {{ (!$dateInput || !$dateOutput) ? 'disabled' : '' }}">Exportar histórico, agrupado <span class="float-right badge badge-info round ml-1">@lang('SUMMARY')</span> <span class="float-right badge badge-danger round">@lang('PDF')</span> </a>
-                        @if($details)
-                            <em class="text-center p-2 text-muted"> Obtiene los <strong>productos</strong> (asignados) de las salidas en el rango especificado. En PDF.</em>
-                        @endif
-                    </div>
-                    <div class="list-group list-group-flush">
-                      <a href="{{ route('admin.information.status.printexportreceived', [15, true, $dateInput, $dateOutput]) }}" target="_blank" class="list-group-item {{ (!$dateInput || !$dateOutput) ? 'disabled' : '' }}">Exportar recibido <span class="float-right badge badge-danger round">@lang('PDF')</span> </a>
-                        @if($details)
-                            <em class="text-center p-2 text-muted"> Obtiene los <strong>productos</strong> (recibidos) de las salidas en el rango especificado. En PDF.</em>
-                        @endif
-                    </div>
-                    <div class="list-group list-group-flush">
-                      <a href="{{ route('admin.information.status.printexportreceived', [15, 0, $dateInput, $dateOutput]) }}" target="_blank" class="list-group-item {{ (!$dateInput || !$dateOutput) ? 'disabled' : '' }}">Exportar recibido, agrupado <span class="float-right badge badge-info round ml-1">@lang('SUMMARY')</span> <span class="float-right badge badge-danger round">@lang('PDF')</span> </a>
-                        @if($details)
-                            <em class="text-center p-2 text-muted"> Obtiene los <strong>productos</strong> (recibidos) de las salidas en el rango especificado. En PDF.</em>
-                        @endif
-                    </div>
                 </div>
             </article> <!-- card-group-item.// -->
             
@@ -178,19 +147,68 @@
         <div class="card">
             <article class="card-group-item">
 
+                <header class="card-header"><h6 class="title">Servicios asociados a Pedidos - Tienda </h6></header>
+                <div class="filter-content">
+                    <div class="list-group list-group-flush">
+                        <a href="#!" wire:click="exportMaatwebsite('xlsx', '0', '1', '1')" class="list-group-item {{ (!$dateInput || !$dateOutput) ? 'disabled' : '' }}">@lang('Services') <span class="float-right badge badge-success round">@lang('EXCEL')</span> </a>
+                    @if($details)
+                        <em class="text-center p-2 text-muted"> Descarga los <strong>servicios</strong> de las órdenes en el rango especificado. En excel, agrupado por producto y color.</em>
+                    @endif
+                        <a href="#!" wire:click="exportMaatwebsite('xlsx', '0', '1', '1', '1')" class="list-group-item {{ (!$dateInput || !$dateOutput) ? 'disabled' : '' }}">@lang('Services')  <span class="float-right badge badge-info round ml-1">@lang('SUMMARY')</span><span class="float-right badge badge-success round">@lang('EXCEL')</span> </a>
+                    @if($details)
+                        <em class="text-center p-2 text-muted"> Descarga los <strong>servicios</strong> de las órdenes en el rango especificado. En excel, agrupado por producto y color.</em>
+                    @endif
+                    </div>  <!-- list-group .// -->
+                </div>
+
                 <header class="card-header">
-                    <h6 class="title">@lang('Records of feedstock') por proveedor [ENTRADAS]</h6>
+                    <h6 class="title">@lang('Service Orders')</h6>
+                </header>
+                <div class="filter-content">
+                    <div class="list-group list-group-flush">
+                        <a type="button" href="#!" wire:click="exportServiceOrdersMaatwebsite('xlsx')" class="list-group-item {{ (!$dateInput || !$dateOutput ) ? 'disabled' : '' }}">@lang('Service Orders') <span class="float-right badge badge-success round">@lang('Excel')</span> </a>
+                        @if($details)
+                            <em class="text-center p-2 text-muted"> Descarga las <strong>órdenes de servicio</strong> en el rango especificado. En Excel.</em>
+                        @endif
+                        <a type="button" href="#!" wire:click="exportServiceOrdersMaatwebsite('xlsx', '1')" class="list-group-item {{ (!$dateInput || !$dateOutput) ? 'disabled' : '' }}">@lang('Service Orders') <span class="float-right badge badge-info round ml-1">@lang('SUMMARY')</span> <span class="float-right badge badge-success round">@lang('Excel')</span>  </a>
+                        @if($details)
+                            <em class="text-center p-2 text-muted"> Descarga las <strong>órdenes de servicio</strong> en el rango especificado. En Excel y agrupado por personal, posteriormente por tipo de servicio.</em>
+                        @endif
+                    </div>
+                </div>
+
+                <header class="card-header">
+                    <h6 class="title">@lang('Service Orders') por Personal </h6>
                 </header>
                 <div class="filter-content">
                     <div class="card-body">
-                        <livewire:backend.material.select-vendor />
+                		<livewire:backend.user.only-admins :clear="true"/>
                     </div> <!-- card-body.// -->
 
                     <div class="list-group list-group-flush">
-                        <a href="#!" wire:click="exportMaterialHistoryMaatwebsite('xlsx')" class="list-group-item {{ (!$dateInput || !$dateOutput || !$vendor_id) ? 'disabled' : '' }}">@lang('Records of feedstock') <span class="float-right badge badge-success round">@lang('EXCEL')</span> </a>
+	                  	<a type="button" href="{{ route('admin.serviceorder.printexportserviceorder', [$dateInput ?: 0, $dateOutput ?: 0, $personal ?? 0]) }}" target="_blank" class="list-group-item {{ (!$dateInput || !$dateOutput || !$personal) ? 'disabled' : '' }}">@lang('Service Orders') <span class="float-right badge badge-danger round">@lang('PDF')</span> </a>
+	                  	@if($details)
+		                  	<em class="text-center p-2 text-muted"> Descarga las <strong>órdenes de servicio</strong> en el rango especificado, por personal. En PDF.</em>
+	    				@endif
+	                  	<a type="button" href="{{ route('admin.serviceorder.printexportserviceorder', [$dateInput ?: 0, $dateOutput ?: 0, $personal ?? 0, true]) }}" target="_blank" class="list-group-item {{ (!$dateInput || !$dateOutput || !$personal) ? 'disabled' : '' }}">@lang('Service Orders') <span class="float-right badge badge-info round ml-1">@lang('SUMMARY')</span> <span class="float-right badge badge-danger round">@lang('PDF')</span>  </a>
+	                  	@if($details)
+		                  	<em class="text-center p-2 text-muted"> Descarga las <strong>órdenes de servicio</strong> en el rango especificado, por personal. En PDF y agrupado por tipo de servicio.</em>
+	    				@endif
+	    			</div>
+                </div>
+                <header class="card-header">
+                    <h6 class="title">@lang('Service Orders') por Tipo de Servicio</h6>
+                </header>
+                <div class="filter-content">
+                    <div class="card-body">
+                        <livewire:backend.service-type.select :clear="true"/>
+                    </div> <!-- card-body.// -->
+
+                    <div class="list-group list-group-flush">
+                        <a href="#!" wire:click="exportServiceOrdersMaatwebsite('xlsx')" class="list-group-item {{ (!$dateInput || !$dateOutput || !$service_type_id) ? 'disabled' : '' }}">@lang('Service Orders') <span class="float-right badge badge-success round">@lang('EXCEL')</span> </a>
 
                         @if($details)
-                            <em class="text-center p-2 text-muted"> Descarga las <strong>registros de materia prima</strong> en el rango especificado, por proveedor y agrupados. [SÓLO ENTRADAS] En Excel.</em>
+                            <em class="text-center p-2 text-muted"> Descarga las <strong>órdenes de servicio</strong> en el rango especificado, por tipo de servicio. En Excel.</em>
                         @endif
                     </div>
                 </div>
