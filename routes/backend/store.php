@@ -137,7 +137,7 @@ Route::group([
     ], function () {
         Route::get('/', [ReportController::class, 'store'])
             ->name('index')
-            ->middleware('permission:admin.access.report.show')
+            ->middleware('permission:admin.access.store.list')
             ->breadcrumbs(function (Trail $trail) {
                 $trail->parent('admin.dashboard')
                     ->push(__('Report Store Management'), route('admin.store.report.index'));

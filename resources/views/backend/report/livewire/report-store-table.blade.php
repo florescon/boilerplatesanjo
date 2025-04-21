@@ -76,67 +76,32 @@
         <p>Filtro 2</p>
 
 
-        <div class="card shadow">
+        <div class="card">
             <article class="card-group-item">
-                <header class="card-header"><h6 class="title">@lang('Orders') - @lang('Products') </h6></header>
+                <header class="card-header">
+                    <h6 class="title">@lang('Incomes and expenses')</h6>
+                </header>
                 <div class="filter-content">
-                    <div class="list-group list-group-flush">
-                      <a href="{{ route('admin.order.printexportbydate', [$dateInput, $dateOutput, 0, true, 0]) }}" target="_blank" class="list-group-item {{ (!$dateInput || !$dateOutput) ? 'disabled' : '' }}">@lang('Products') <span class="float-right badge badge-secondary round">@lang('TEXT')</span> </a>
-                  	@if($details)
-	                  	<em class="text-center p-2 text-muted"> Obtiene los <strong>productos</strong> de las órdenes en el rango especificado. En texto plano, desglosado por color y talla.</em>
-    				@endif
-                      <a href="{{ route('admin.order.printexportbydate', [$dateInput, $dateOutput, true, true, 0]) }}" target="_blank" class="list-group-item {{ (!$dateInput || !$dateOutput) ? 'disabled' : '' }}">@lang('Products')  <span class="float-right badge badge-info round ml-1">@lang('SUMMARY')</span>  <span class="float-right badge badge-secondary round">@lang('TEXT')</span> </a>
-                  	@if($details)
-	                  	<em class="text-center p-2 text-muted"> Obtiene los <strong>productos</strong> de las órdenes en el rango especificado. En texto plano y agrupado por color y talla.</em>
-    				@endif
-                      <a href="#!" wire:click="exportMaatwebsite('xlsx', '1')" class="list-group-item {{ (!$dateInput || !$dateOutput) ? 'disabled' : '' }}">@lang('Products') <span class="float-right badge badge-success round">@lang('EXCEL')</span> </a>
-                  	@if($details)
-	                  	<em class="text-center p-2 text-muted"> Descarga los <strong>productos</strong> de las órdenes en el rango especificado. En excel, agrupado por producto y color.</em>
-    				@endif
-                    </div>  <!-- list-group .// -->
-                </div>
-            </article> <!-- card-group-item.// -->
-            <article class="card-group-item">
-                <header class="card-header"><h6 class="title">@lang('Orders') - @lang('Services') </h6></header>
-                <div class="filter-content">
-                    <div class="list-group list-group-flush">
-                      <a href="{{ route('admin.order.printexportbydate', [$dateInput, $dateOutput, 0, 0, true]) }}" target="_blank" class="list-group-item {{ (!$dateInput || !$dateOutput) ? 'disabled' : '' }}">@lang('Services') <span class="float-right badge badge-secondary round">@lang('TEXT')</span> 
+                    <a href="#!" wire:click="exportFinancesMaatwebsite('xlsx')" class="list-group-item {{ (!$dateInput || !$dateOutput) ? 'disabled' : '' }}">@lang('Incomes and expenses') <span class="float-right badge badge-success round">@lang('EXCEL')</span></a>
+                    @if($details)
+                        <em class="text-center p-2 text-muted"> Descarga los <strong>Ingresos y egresos</strong> en el rango especificado. En excel.</em>
+                    @endif
+                    <a href="#!" wire:click="exportFinancesMaatwebsite('xlsx', '1')" class="list-group-item {{ (!$dateInput || !$dateOutput) ? 'disabled' : '' }}">@lang('Incomes') <span class="float-right badge badge-success round">@lang('EXCEL')</span></a>
+                    @if($details)
+                        <em class="text-center p-2 text-muted"> Descarga los <strong>Ingresos</strong> en el rango especificado. En excel.</em>
+                    @endif
 
-                      </a>
-                  	@if($details)
-	                  	<em class="text-center p-2 text-muted"> Obtiene los <strong>servicios</strong> de las órdenes en el rango especificado. En texto plano, desglosado por color y talla.</em>
-    				@endif
-                      <a href="{{ route('admin.order.printexportbydate', [$dateInput, $dateOutput, true, 0, true]) }}" target="_blank" class="list-group-item {{ (!$dateInput || !$dateOutput) ? 'disabled' : '' }}">@lang('Services')  <span class="float-right badge badge-info round ml-1">@lang('SUMMARY')</span>  <span class="float-right badge badge-secondary round">@lang('TEXT')</span> </a>
-                  	@if($details)
-	                  	<em class="text-center p-2 text-muted"> Obtiene los <strong>servicios</strong> de las órdenes en el rango especificado. En texto plano y agrupado por color y talla.</em>
-    				@endif
-                      <a href="#!" wire:click="exportMaatwebsite('xlsx', '0', '1')" class="list-group-item {{ (!$dateInput || !$dateOutput) ? 'disabled' : '' }}">@lang('Services') <span class="float-right badge badge-success round">@lang('EXCEL')</span> </a>
-                  	@if($details)
-	                  	<em class="text-center p-2 text-muted"> Descarga los <strong>servicios</strong> de las órdenes en el rango especificado. En excel, agrupado por producto y color.</em>
-    				@endif
-                    </div>  <!-- list-group .// -->
+                    <a href="#!" wire:click="exportFinancesMaatwebsite('xlsx', '0', '1')" class="list-group-item {{ (!$dateInput || !$dateOutput) ? 'disabled' : '' }}">@lang('Expenses') <span class="float-right badge badge-success round">@lang('EXCEL')</span></a>
+                    @if($details)
+                        <em class="text-center p-2 text-muted"> Descarga los <strong>Egresos</strong> en el rango especificado. En excel.</em>
+                    @endif
+
                 </div>
             </article> <!-- card-group-item.// -->
-            <article class="card-group-item">
-                <header class="card-header"><h6 class="title">@lang('Orders') - @lang('All') </h6></header>
-                <div class="filter-content">
-                    <div class="list-group list-group-flush">
-                      <a href="{{ route('admin.order.printexportbydate', [$dateInput, $dateOutput, 0, true, true]) }}" target="_blank" class="list-group-item {{ (!$dateInput || !$dateOutput) ? 'disabled' : '' }}">@lang('Products & Services') <span class="float-right badge badge-secondary round">@lang('TEXT')</span> </a>
-                  	@if($details)
-	                  	<em class="text-center p-2 text-muted"> Obtiene los <strong>productos & servicios</strong> de las órdenes en el rango especificado. En texto plano, desglosado por color y talla.</em>
-    				@endif
-                      <a href="{{ route('admin.order.printexportbydate', [$dateInput, $dateOutput, true, true, true]) }}" target="_blank" class="list-group-item {{ (!$dateInput || !$dateOutput) ? 'disabled' : '' }}">@lang('Products & Services')  <span class="float-right badge badge-info round ml-1">@lang('SUMMARY')</span>  <span class="float-right badge badge-secondary round">@lang('TEXT')</span> </a>
-                  	@if($details)
-	                  	<em class="text-center p-2 text-muted"> Obtiene los <strong>productos & servicios</strong> de las órdenes en el rango especificado. En texto plano y agrupado por color y talla.</em>
-    				@endif
-                      <a href="#!" wire:click="exportMaatwebsite('xlsx', '1', '1')" class="list-group-item {{ (!$dateInput || !$dateOutput) ? 'disabled' : '' }}">@lang('Products & Services') <span class="float-right badge badge-success round">@lang('EXCEL')</span> </a>
-                  	@if($details)
-	                  	<em class="text-center p-2 text-muted"> Descarga los <strong>productos & servicios</strong> de las órdenes en el rango especificado. En excel, agrupado por producto y color.</em>
-    				@endif
-                    </div>  <!-- list-group .// -->
-                </div>
-            </article> <!-- card-group-item.// -->
+            
         </div> <!-- card.// -->
+
+
 
     </aside> <!-- col.// -->
 

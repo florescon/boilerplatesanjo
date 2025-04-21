@@ -158,6 +158,48 @@ class Finance extends Model
         return "<span class='badge badge-secondary'>".__('undefined').'</span>';
     }
 
+    /**
+     * @return bool
+     */
+    public function isCashPaymentMethod(): bool
+    {
+        return $this->payment_method_id === 1 ? true : false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTransferPaymentMethod(): bool
+    {
+        return $this->payment_method_id === 5 ? true : false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isOtherPaymentMethod(): bool
+    {
+        return $this->payment_method_id !== 5 || $this->payment_method_id !== 1;
+    }
+
+    public function getCustomerOrderAttribute(): ?string
+    {
+        if($this->order_id !== null){
+            return $this->order ? Str::limit(optional($this->order->user)->name, 20) : '--';
+        }
+        return '--';
+    }
+
+
+    public function getQuantityAdvanceAttribute()
+    {
+        if($this->order_id){
+           return $this->order->total_by_all > $this->amount ? '$'.$this->amount : '';
+        }
+
+        return '';
+    }
+
     public function getDetailsAttribute(): ?string
     {
         $order_id = $this->order_id ? '<strong>'.$this->order->type_order_clear.' #'.$this->order->folio_or_id_clear.'</strong>' : '';

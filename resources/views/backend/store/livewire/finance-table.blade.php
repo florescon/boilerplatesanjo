@@ -229,12 +229,8 @@
               </button>
 
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" wire:click="exportMaatwebsite('csv')">CSV</a>
                 <a class="dropdown-item" wire:click="exportMaatwebsite('xlsx')">Excel</a>
                 <a class="dropdown-item" wire:click="exportMaatwebsite('xls')">Excel ('XLS')</a>
-                <a class="dropdown-item" wire:click="exportMaatwebsite('html')">HTML</a>
-                <a class="dropdown-item" wire:click="exportMaatwebsite('tsv')">TSV</a>
-                <a class="dropdown-item" wire:click="exportMaatwebsite('ods')">ODS</a>
               </div>
             </div><!--export-dropdown-->
             @endif

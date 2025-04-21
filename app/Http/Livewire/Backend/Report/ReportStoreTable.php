@@ -10,6 +10,7 @@ use App\Exports\OrderProductsReportExport;
 use App\Exports\OrderProductsReportGroupedExport;
 use App\Exports\ServiceOrderExport;
 use App\Exports\MaterialHistoryGroupExport;
+use App\Exports\FinancesExport;
 use Carbon\Carbon;
 
 class ReportStoreTable extends Component
@@ -83,6 +84,15 @@ class ReportStoreTable extends Component
 
         abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
         return Excel::download(new ServiceOrderExport($this->dateInput, $this->dateOutput, $this->service_type_id, $isGrouped), 'product-list-store-'.Carbon::now().'.'.$extension);
+
+    }
+
+    public function exportFinancesMaatwebsite($extension, ?bool $onlyIncomes = false, ?bool $onlyExpenses = false)
+    {   
+        $extension = 'xlsx';
+
+        abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
+        return Excel::download(new FinancesExport(false, $this->dateInput, $this->dateOutput, $onlyIncomes, $onlyExpenses), 'incomes_and_expenses-'.Carbon::now().'.'.$extension);
 
     }
 

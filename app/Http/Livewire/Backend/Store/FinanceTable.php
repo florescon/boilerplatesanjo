@@ -103,7 +103,7 @@ class FinanceTable extends Component
     public function exportMaatwebsite($extension)
     {   
         abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
-        return Excel::download(new FinancesExport($this->getSelectedProducts()), 'product-list-'.Carbon::now().'.'.$extension);
+        return Excel::download(new FinancesExport($this->getSelectedProducts()), 'finance-list-'.Carbon::now().'.'.$extension);
     }
 
     public function getRowsQueryProperty()
