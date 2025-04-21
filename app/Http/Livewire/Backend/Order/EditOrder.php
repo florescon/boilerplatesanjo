@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Events\Order\OrderProductionStatusUpdated;
 use App\Events\Order\OrderStatusUpdated;
+use App\Domains\Auth\Models\User;
 use DB;
 
 class EditOrder extends Component
@@ -25,6 +26,8 @@ class EditOrder extends Component
     public $last_order_delivery_formatted;
 
     public $from_store = null;
+
+    public ?int $seller_id = null;
 
     public bool $showPriceWithoutTax = false;
 
@@ -76,6 +79,17 @@ class EditOrder extends Component
         return redirect()->route($this->from_store ? 'admin.store.all.edit' : 'admin.order.edit', $this->order_id);
     }
 
+
+    public function updatedSellerId($value)
+    {
+        $order = Order::findOrFail($this->order_id);
+
+        $order->update(['seller_id' => $value]);   
+
+        session()->flash('message', __('The seller was successfully changed.'));
+
+        return redirect()->route($this->from_store ? 'admin.store.all.edit' : 'admin.order.edit', $this->order_id);
+    }
     private function initcomment(Order $order)
     {
         $this->comment = $order->comment;
@@ -380,11 +394,14 @@ class EditOrder extends Component
 
         $OrderStatusDelivery = OrderStatusDelivery::values();    
 
+        $usersToSell = User::with('customer')->admins()->orderBy('name')
+                ->get()->toArray();
+
         if(!$model->isSuborder()){
-            return view('backend.order.livewire.edit')->with(compact('model', 'orderExists', 'saleExists', 'requestExists', 'quotationExists', 'productsOutputExists', 'statuses', 'batches', 'process', 'OrderStatusDelivery'));
+            return view('backend.order.livewire.edit')->with(compact('model', 'orderExists', 'saleExists', 'requestExists', 'quotationExists', 'productsOutputExists', 'statuses', 'batches', 'process', 'OrderStatusDelivery', 'usersToSell'));
         }
         else{
-            return view('backend.order.suborder')->with(compact('model', 'orderExists', 'saleExists', 'requestExists', 'quotationExists', 'productsOutputExists', 'statuses', 'batches', 'process', 'OrderStatusDelivery'));           
+            return view('backend.order.suborder')->with(compact('model', 'orderExists', 'saleExists', 'requestExists', 'quotationExists', 'productsOutputExists', 'statuses', 'batches', 'process', 'OrderStatusDelivery', 'usersToSell'));           
         }
     }
 }

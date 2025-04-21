@@ -31,6 +31,7 @@ class Order extends Model
         'user_departament_changed_at',
         'feedstock_changed_at',
         'user_id',
+        'seller_id',
         'departament_id',
         'comment',
         'request',
@@ -125,6 +126,14 @@ class Order extends Model
     public function audi()
     {
         return $this->belongsTo(User::class, 'audi_id')->withTrashed();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function seller()
+    {
+        return $this->belongsTo(User::class, 'seller_id')->withTrashed();
     }
 
     /**

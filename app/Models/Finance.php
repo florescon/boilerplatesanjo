@@ -190,11 +190,16 @@ class Finance extends Model
         return '--';
     }
 
-
     public function getQuantityAdvanceAttribute()
     {
-        if($this->order_id){
-           return $this->order->total_by_all > $this->amount ? '$'.$this->amount : '';
+        if ($this->order_id) {
+            $epsilon = 0.001; // margen de error para números flotantes
+
+            if (($this->order->total_by_all - $this->amount) > $epsilon) {
+                return '$' . $this->amount;
+            }
+
+            return '';
         }
 
         return '';

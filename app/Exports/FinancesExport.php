@@ -46,6 +46,7 @@ class FinancesExport implements FromCollection, WithMapping, WithHeadings
             __('Payment method'),
             __('Invoice'),
             __('Captured'),
+            __('Seller',)
         ];
     }
 
@@ -69,6 +70,7 @@ class FinancesExport implements FromCollection, WithMapping, WithHeadings
             $finance->payment_method,
             $finance->is_invoice,
             $finance->audi_id ? optional($finance->audi)->name : '--',
+            $finance->order->seller_id ? optional($finance->order->seller)->name : '--',
         ];
     }
 

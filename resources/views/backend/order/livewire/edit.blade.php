@@ -375,6 +375,31 @@
           <div class="card-footer text-muted text-center">
             @lang('Created'): {{ $model->date_diff_for_humans }} - {{ __('Captured').': '. optional($model->audi)->name }}
           </div>
+          <div class="card-footer text-muted text-center">
+
+            @if($model->seller_id)
+              @lang('Seller'): {{ optional($model->seller)->name }}
+            @else
+              @if ($model->audi_id == auth()->id())
+                  <button 
+                      type="button" 
+                      class="btn btn-primary mt-2" 
+                      wire:click="$set('seller_id', {{ auth()->id() }})">
+                      Asignarme como vendedor
+                  </button>
+              @endif
+
+            @endif
+
+            <select class="form-control text-center mt-2" style="border: 2px solid #003092; border-style: dashed;" wire:model.debounce.800ms="seller_id">
+              <option value="" hidden> {{ $model->seller_id ? __('Change seller') :  __('Select seller') }} </option>
+              @foreach($usersToSell as $key => $user)
+                <option value="{{ $user['id'] }}">{{ ucwords(strtolower($user['name'])) }}</option>
+              @endforeach
+            </select>
+
+
+          </div>
           @if($model->quotation && $model->isOrder())
             <div class="card-footer text-muted text-center h5">
               {!! __('Quotation'). ' <strong class="text-danger">: #'.$model->quotation.'</strong>' !!}

@@ -9,6 +9,10 @@
 
 		@if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.access.material.modify'))
 			@if($model->id)
+				<a type="button" target="_blank" href="{{ route('admin.material.kardex', $model->id) }}" class="mr-2">
+					Kardex
+				</a>
+
 				<a type="button" target="_blank" href="{{ route('admin.material.edit', $model->id) }}" class="mr-2">
 				  <i class='far fa-edit'></i>
 				</a>
