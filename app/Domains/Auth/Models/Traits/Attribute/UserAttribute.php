@@ -175,4 +175,15 @@ trait UserAttribute
 
         return __('Retail price');
     }
+
+    public function getInitialsAttribute()
+    {
+        return collect(explode(' ', $this->name)) // separa las palabras
+            ->filter() // elimina elementos vacíos por si acaso
+            ->map(function ($word) {
+                return strtoupper(substr($word, 0, 1)) . '.'; // toma la primera letra y agrega un punto
+            })
+            ->implode(''); // junta todo en un solo string, sin espacios
+    }
+
 }
