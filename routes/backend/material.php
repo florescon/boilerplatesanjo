@@ -88,7 +88,7 @@ Route::group([
             ->middleware('permission:admin.access.material.modify')
             ->breadcrumbs(function (Trail $trail, Material $material) {
                 $trail->parent('admin.material.index')
-                    ->push(__('Edit feedstock'), route('admin.material.kardex', $material));
+                    ->push(__('[Kardex]'.' '. $material->name.' - '.$material->part_number), route('admin.material.kardex', $material));
             });
 
         Route::get('print', [MaterialController::class, 'print'])

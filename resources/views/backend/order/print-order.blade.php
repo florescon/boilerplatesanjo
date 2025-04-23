@@ -383,6 +383,46 @@
             <p class="cs-mb0"><b class="cs-primary_color cs-bold">@lang('Captured by'):</b> {{ $order->audi->name }}</p>
           @endif
 
+
+
+          @if($order->orders_payments()->count())
+          <br>
+          <div class="cs-table cs-style2">
+              <div>
+                  <div class="cs-table_responsive">
+                      <table>
+                          <thead>
+                              <tr class="cs-focus_bg">
+                                  <th class="cs-width_3 cs-semi_bold cs-primary_color">@lang('Payment method')</th>
+                                  <th class="cs-width_2 cs-semi_bold cs-primary_color">@lang('Amount')</th>
+                                  <th class="cs-width_4 cs-semi_bold cs-primary_color cs-text_center">@lang('Comment')</th>
+                                  <th class="cs-width_3 cs-semi_bold cs-primary_color cs-text_right ">@lang('Created at')</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              @foreach($order->orders_payments()->get() as $record)
+                              <tr>
+                                  <td>{{ $record->payment_method }}</td>
+                                  <td>${{ $record->amount }}</td>
+                                  <td class="cs-text_center">{{ $record->comment }}</td>
+                                  <td class="cs-text_right cs-primary_color">{{ $record->created_at }}0</td>
+                              </tr>
+                              @endforeach
+
+                                    <tr class="cs-focus_bg">
+                                        <td class="cs-bold cs-primary_color cs-text_center">Total:</td>
+                                        <td class="cs-bold cs-primary_color">${{ number_format((float)$order->total_payments, 2) }}</td>
+                                        <td>Pendiente -> <strong style="color:red;">${{  number_format((float)$order->total_payments_remaining, 2) }}</strong></td>
+                                        <td class="cs-bold cs-primary_color cs-text_center"></td>
+                                    </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+          @endif
+
+
           <div class="cs-note">
             {!! QrCode::size(80)->eye('circle')->generate(route('frontend.track.show', $order->slug)); !!}
             <div class="cs-note_right" style="margin-left: 20px;">

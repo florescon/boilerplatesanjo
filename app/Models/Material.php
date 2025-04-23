@@ -102,6 +102,11 @@ class Material extends Model
         return $this->hasMany(MaterialHistory::class);
     }
 
+    public function material_orders()
+    {
+        return $this->hasMany(MaterialOrder::class);
+    }
+
     /**
      * @return string
      */
@@ -206,6 +211,98 @@ class Material extends Model
     {
         return $this->name.$this->size_name_clear.$this->color_name_clear;
     }
+
+    public function kardexRecords()
+    {
+        $materialHistory = $this->history()
+            ->with('audi')
+            ->get()
+            ->map(function ($item) {
+                $stock = (float) $item->stock;
+                $input = $stock > 0 ? $stock : 0;
+                $output = $stock < 0 ? abs($stock) : 0;
+                $balance = $item->old_stock + $item->stock;
+
+                return [
+                    'user' => optional($item->audi)->initials,
+                    'date' => Carbon::parse($item->created_at)->toDateString(),
+                    'details' => $item->comment,
+                    'cost' => $item->price,
+                    'input' => $input,
+                    'output' => $output,
+                    'instanceof' => true,
+                    'balance' => $balance,
+                ];
+            });
+
+        $materialOrder = $this->material_orders()
+            ->with('audi', 'order.user')
+            ->get()
+            ->groupBy(function ($item) {
+                return Carbon::parse($item->created_at)->toDateString();
+            })
+            ->flatMap(function ($itemsByDate, $date) {
+                return $itemsByDate->groupBy('order_id')->map(function ($itemsByOrder) use ($date) {
+                    $first = $itemsByOrder->first();
+                    $totalQuantity = $itemsByOrder->sum('quantity');
+                    $avgCost = $itemsByOrder->avg('price');
+
+                    return [
+                        'user' => optional($first->audi)->initials,
+                        'date' => $date,
+                        'details' => optional($first->order)->user_name_clear,
+                        'cost' => $avgCost,
+                        'input' => 0,
+                        'output' => $totalQuantity,
+                        'instanceof' => false,
+                        'balance' => $first->quantity_old != 0 ? $first->quantity_old + $totalQuantity : '--',
+                    ];
+                });
+            })
+            ->values();
+
+        return collect($materialHistory)
+            ->merge($materialOrder)
+            ->sortByDesc('date')
+            ->groupBy('date')
+            ->map(function ($items, $date) {
+                return [
+                    'date' => $date,
+                    'records_count' => $items->count(),
+                    'items' => $items,
+                ];
+            });
+    }
+
+
+    public function getTotalInput($startDate = null, $endDate = null)
+    {
+        $start = $startDate ? Carbon::parse($startDate)->startOfDay() : now()->startOfMonth();
+        $end = $endDate ? Carbon::parse($endDate)->endOfDay() : now()->endOfMonth();
+
+        return $this->history()
+            ->whereBetween('created_at', [$start, $end])
+            ->where('stock', '>', 0)
+            ->sum('stock');
+    }
+
+    public function getTotalOutput($startDate = null, $endDate = null)
+    {
+        $start = $startDate ? Carbon::parse($startDate)->startOfDay() : now()->startOfMonth();
+        $end = $endDate ? Carbon::parse($endDate)->endOfDay() : now()->endOfMonth();
+
+        $historyOut = $this->history()
+            ->whereBetween('created_at', [$start, $end])
+            ->where('stock', '<', 0)
+            ->sum('stock');
+
+        $orderOut = $this->material_orders()
+            ->whereBetween('created_at', [$start, $end])
+            ->sum('quantity');
+
+        return abs($historyOut) + $orderOut;
+    }
+
 
     public function getNameAttribute($value)
     {

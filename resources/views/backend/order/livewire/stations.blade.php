@@ -90,7 +90,7 @@
                                 <p><b> {{ $product->quantity }}</b></p>
                             </div>
 
-                            @if($status->initial_lot && ($product->product && $product->product->parent && $product->product->parent->brand->is_internal))
+                            @if($status->initial_lot && ($product->product && $product->product->parent && optional($product->product->parent->brand)->is_internal))
                               <div class="col-2 d-flex justify-content-end">
                                 <input type="text" 
                                     wire:model.defer="quantity.{{ $product->id }}.available"

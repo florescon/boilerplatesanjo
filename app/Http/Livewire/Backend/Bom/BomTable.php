@@ -341,8 +341,6 @@ class BomTable extends Component
 
     public function exportProductsCustom($extension, ?string $sort = '')
     {   
-     
-
         abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
         return Excel::download(new ProductsBomExport($this->productsCollection), 'bom-products-'.Carbon::now().'.'.$extension);
     }

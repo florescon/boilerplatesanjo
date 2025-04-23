@@ -64,7 +64,8 @@
                   </div>
                   <div class="card-meta d-flex justify-content-between">
                     <div class="d-flex align-items-center">
-                      <span>@lang('Articles'): <strong class="text-danger">{{ $quotation->sum }}</strong></span>
+                      @php($appOrder = \App\Models\Order::whereId($quotation->id)->first())
+                      <span>{!! $appOrder->total_products_and_services_label !!}</span>
                     </div>
                     <span class="text-small">{{ $quotation->date }}</span>
                   </div>
