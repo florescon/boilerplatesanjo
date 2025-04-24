@@ -514,7 +514,7 @@
                   <tr>
                     <td></td>
                     <td class="text-right">Total:</td>
-                    <td class="text-center">{{ $model->total_products }}</td>
+                    <td class="text-center">{!! $model->total_products_and_services_label !!}</td>
                     <td class="text-center">
                       ${{ number_format((float)$model->total_order, 2) }}
                       <div class="small text-muted"> ${{ priceWithoutIvaIncluded($model->total_order) }} </div>
@@ -574,7 +574,7 @@
                   <tr>
                     <td></td>
                     <td class="text-right">Total:</td>
-                    <td class="text-center">{{ $model->total_products_sale }}</td>
+                    <td class="text-center">{!! $model->total_products_and_services_label !!}</td>
                     <td class="text-center">
                       ${{ number_format((float)$model->total_sale, 2) }}
                       <div class="small text-muted"> ${{ priceWithoutIvaIncluded($model->total_sale) }} </div>
@@ -633,7 +633,7 @@
                   <tr>
                     <td></td>
                     <td class="text-right">Total:</td>
-                    <td class="text-center">{{ $model->total_products_request }}</td>
+                    <td class="text-center">{!! $model->total_products_and_services_label !!}</td>
                     <td class="text-center">
                       ${{ number_format((float)$model->total_request, 2) }}
                       <div class="small text-muted"> ${{ priceWithoutIvaIncluded($model->total_request) }} </div>
@@ -773,7 +773,7 @@
                   @endforeach
                   <tr>
                     <td class="text-center">
-                      {{ $model->total_products_quotation }}
+                      {!! $model->total_products_and_services_label !!}
                     </td>
                     <td class="text-center">
                     </td>

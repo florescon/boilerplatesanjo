@@ -37,7 +37,7 @@ class KardexMaterial extends Component
     public function exportMaatwebsiteCustom($extension)
     {   
         abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
-        return Excel::download(new KardexMaterialExport($this->material, $this->dateInput, $this->dateOutput), 'kardex-material-'.Carbon::now().'.'.$extension);
+        return Excel::download(new KardexMaterialExport($this->material, $this->dateInput, $this->dateOutput), 'kardex-'.$this->material->part_number.'-'.Carbon::now().'.'.$extension);
     }
 
     public function render()

@@ -408,13 +408,12 @@
                                   <td class="cs-text_right cs-primary_color">{{ $record->created_at }}0</td>
                               </tr>
                               @endforeach
-
-                                    <tr class="cs-focus_bg">
-                                        <td class="cs-bold cs-primary_color cs-text_center">Total:</td>
-                                        <td class="cs-bold cs-primary_color">${{ number_format((float)$order->total_payments, 2) }}</td>
-                                        <td>Pendiente -> <strong style="color:red;">${{  number_format((float)$order->total_payments_remaining, 2) }}</strong></td>
-                                        <td class="cs-bold cs-primary_color cs-text_center"></td>
-                                    </tr>
+                                <tr class="cs-focus_bg">
+                                    <td class="cs-bold cs-primary_color cs-text_center">Total:</td>
+                                    <td class="cs-bold cs-primary_color">${{ number_format((float)$order->total_payments, 2) }}</td>
+                                    <td>Pendiente -> <strong style="color:red;">${{  number_format((float)$order->total_payments_remaining, 2) }}</strong></td>
+                                    <td class="cs-bold cs-primary_color cs-text_center"></td>
+                                </tr>
                           </tbody>
                       </table>
                   </div>
