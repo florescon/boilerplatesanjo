@@ -18,6 +18,8 @@ class ModalStockMaterial extends Component
 
     public $comment;
 
+    public $invoice;
+
     public $material_id;
 
     public bool $checkboxInput = false;
@@ -29,6 +31,7 @@ class ModalStockMaterial extends Component
         'stock' => 'required|numeric|gt:0',
         'price' => 'nullable|sometimes|numeric',
         'comment' => 'nullable|sometimes',
+        'invoice' => 'nullable|sometimes',
     ];
 
     public function modalUpdateStock(Material $material)
@@ -47,6 +50,7 @@ class ModalStockMaterial extends Component
         $this->price = '';
         $this->stock = '';
         $this->comment = '';
+        $this->invoice = '';
         $this->checkboxOutput = false;
         $this->checkboxInput = false;
     }
@@ -89,6 +93,7 @@ class ModalStockMaterial extends Component
                     'price' => empty($this->price) ? $this->old_price : $this->price,
                     'audi_id' => Auth::id(),
                     'comment' => $this->comment ?? null,
+                    'invoice' => $this->invoice ?? null,
                 ]);
 
                 $this->resetInputStockFields();

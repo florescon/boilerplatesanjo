@@ -133,6 +133,7 @@
               <th scope="col">
                   @lang('Feedstock')
               </th>
+              <th scope="col" class="text-center">@lang('Invoice')</th>
 
               <th scope="col" class="text-center">@lang('Comment')</th>
 
@@ -167,6 +168,9 @@
               @endif
               <td>
                 <em>{{ $record->material->part_number ?? null }}</em> <strong>{!! $record->material->full_name !!}</strong>
+              </td>
+              <td class="text-center">
+                <em>{!! $record->invoice ? $record->invoice : '<span class="badge badge-secondary">'.__('undefined').'</span>' !!}</em>
               </td>
               <td class="text-center">
                 <em>{!! $record->comment ? ucfirst($record->comment) : '<span class="badge badge-secondary">'.__('undefined').'</span>' !!}</em>

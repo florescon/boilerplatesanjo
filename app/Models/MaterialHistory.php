@@ -46,6 +46,6 @@ class MaterialHistory extends Model
      * @var array
      */
     protected $fillable = [
-        'material_id', 'old_stock', 'stock', 'old_price', 'price', 'audi_id', 'comment',
+        'material_id', 'old_stock', 'stock', 'old_price', 'price', 'audi_id', 'comment', 'invoice'
     ];
 }

@@ -528,6 +528,93 @@ class Order extends Model
     }
 
     /**
+     * Obtiene los productos agrupados por nombre base y tallas
+     * 
+     * @return array
+     */
+    public function getProductsGroupedBySize(): array
+    {
+        $products = $this->products->load('product.size');
+        
+        // Obtener todas las tallas únicas presentes en el pedido
+        $uniqueSizes = $products->filter(fn($item) => $item->product->size_id)
+            ->pluck('product.size_id')
+            ->unique()
+            ->sort()
+            ->values();
+        
+        // Mapear nombres de tallas si están disponibles
+        $sizeNames = $products->filter(fn($item) => $item->product->size)
+            ->mapWithKeys(fn($item) => [
+                $item->product->size_id => $item->product->size->name ?? $item->product->size_id
+            ]);
+        
+        // Agrupar productos por nombre base
+        $grouped = [];
+        foreach ($products as $item) {
+            $fullName = $item->product->full_name_clear_sort;
+            $baseName = preg_replace('/\s\d+$/', '', $fullName);
+            
+            if (!isset($grouped[$baseName])) {
+                $grouped[$baseName] = [
+                    'name' => $baseName,
+                    'items' => collect(),
+                    'no_size' => null
+                ];
+            }
+            
+            if ($item->product->size_id) {
+                $grouped[$baseName]['items'][$item->product->size_id] = $item;
+            } else {
+                $grouped[$baseName]['no_size'] = $item;
+            }
+        }
+        
+        return [
+            'groupedProducts' => $grouped,
+            'uniqueSizes' => $uniqueSizes,
+            'sizeNames' => $sizeNames
+        ];
+    }
+    
+    /**
+     * Genera los datos necesarios para la vista de la tabla de tallas
+     * 
+     * @return array
+     */
+    public function getSizeTableData(): array
+    {
+        $data = $this->getProductsGroupedBySize();
+        
+        return [
+            'headers' => $data['uniqueSizes']->map(fn($size) => [
+                'id' => $size,
+                'name' => $data['sizeNames'][$size] ?? $size
+            ]),
+            'rows' => collect($data['groupedProducts'])->map(function($product) use ($data) {
+                $row = [
+                    'name' => $product['name'],
+                    'sizes' => [],
+                    'no_size' => null
+                ];
+                
+                foreach ($data['uniqueSizes'] as $size) {
+                    $row['sizes'][$size] = $product['items'][$size] ?? null;
+                }
+                
+                if ($product['no_size']) {
+                    $row['no_size'] = [
+                        'quantity' => $product['no_size']->quantity,
+                        'price' => $product['no_size']->price
+                    ];
+                }
+                
+                return $row;
+            })->values()->toArray()
+        ];
+    }
+
+    /**
      * @return mixed
      */
     public function product_sale()

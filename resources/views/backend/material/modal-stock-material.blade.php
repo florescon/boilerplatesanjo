@@ -4,7 +4,6 @@
   </x-slot>
 
   <x-slot name="content">
-    
 
     <table class="table">
       <tbody>
@@ -79,6 +78,13 @@
           </td>
           <td>
             <input type="number" step="any" wire:model.lazy="stock" class="form-control @error('stock') is-invalid @enderror" id="stock" placeholder="{{ $checkboxOutput ? __('Output') : __('Input') }}">
+          </td>
+        </tr>
+
+        <tr>
+          <th scope="row">@lang('Invoice')</th>
+          <td colspan="2">
+            <input type="text" wire:model.lazy="invoice" class="form-control @error('invoice') is-invalid @enderror" id="invoice" placeholder="@lang('Invoice')">
           </td>
         </tr>
 
