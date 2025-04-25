@@ -112,6 +112,11 @@ class Color extends Model
         return !$this->color ? "<span class='badge badge-light font-italic'>".__('undefined color').'</span>' : '';
     }
 
+    public function getNameAndVisualColorAttribute()
+    {
+        return $this->color.' '.$this->visual_color;         
+    }
+
     public function getUndefinedCodingAttribute(): ?string
     {
         if($this->short_name == null){

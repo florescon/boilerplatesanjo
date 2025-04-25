@@ -534,21 +534,25 @@ class Order extends Model
      */
     public function getProductsGroupedBySize(): array
     {
-        $products = $this->products->load('product.size');
-        
+        // $products = $this->products->load('product.parent.size');
+        $products = $this->products()->with('product.parent.size')->get();
+            
         // Obtener todas las tallas únicas presentes en el pedido
+ 
+        // dd($products->toArray());
+
+
         $uniqueSizes = $products->filter(fn($item) => $item->product->size_id)
-            ->pluck('product.size_id')
-            ->unique()
-            ->sort()
+            ->map(fn($item) => [
+                'id' => $item->product->size_id,
+                'sort' => $item->product->size->sort,
+                'name' => $item->product->size->name
+            ])
+            ->unique('id')
+            ->sortBy('sort')
             ->values();
-        
-        // Mapear nombres de tallas si están disponibles
-        $sizeNames = $products->filter(fn($item) => $item->product->size)
-            ->mapWithKeys(fn($item) => [
-                $item->product->size_id => $item->product->size->name ?? $item->product->size_id
-            ]);
-        
+
+
         // Agrupar productos por nombre base
         $grouped = [];
         foreach ($products as $item) {
@@ -558,6 +562,7 @@ class Order extends Model
             if (!isset($grouped[$baseName])) {
                 $grouped[$baseName] = [
                     'name' => $baseName,
+                    'general_code' => $item->product->parent_id ? $item->product->parent->code : $item->product->code,
                     'items' => collect(),
                     'no_size' => null
                 ];
@@ -573,37 +578,161 @@ class Order extends Model
         return [
             'groupedProducts' => $grouped,
             'uniqueSizes' => $uniqueSizes,
-            'sizeNames' => $sizeNames
         ];
+
     }
     
+public function getSizeTableData(): array
+{
+    $data = $this->getProductsGroupedBySize();
+    
+    return [
+        'headers' => $data['uniqueSizes']->map(fn($size) => [
+            'id' => $size['id'],
+            'name' => $size['name'],
+            'sort' => $size['sort']
+        ]),
+        'rows' => collect($data['groupedProducts'])->map(function($product) use ($data) {
+            $row = [
+                'name' => $product['name'],
+                'general_code' => $product['general_code'],
+                'sizes' => [],
+                'no_size' => null
+            ];
+            
+            foreach ($data['uniqueSizes'] as $size) {
+                $row['sizes'][$size['id']] = $product['items'][$size['id']] ?? null;
+            }
+            
+            if ($product['no_size']) {
+                $row['no_size'] = [
+                    'quantity' => $product['no_size']->quantity,
+                    'price' => $product['no_size']->price
+                ];
+            }
+            
+            return $row;
+        })->values()->toArray()
+    ];
+}
+
+
     /**
-     * Genera los datos necesarios para la vista de la tabla de tallas
+     * Obtiene los productos agrupados por nombre base y tallas
      * 
      * @return array
      */
-    public function getSizeTableData(): array
+    public function getProductsGroupedByParentAndSize(): array
     {
-        $data = $this->getProductsGroupedBySize();
-        
-        return [
+        // $products = $this->products->load('product.parent.size');
+        $products = $this->products()->with('product.parent.size')->get();
+            
+        // Obtener todas las tallas únicas presentes en el pedido
+ 
+        // dd($products->toArray());
+
+        // Agrupar por parent_id primero
+        $groupedByParent = $products->groupBy(function($item) {
+            return $item->product->parent_id ?? 'no_parent';
+        });
+
+
+        $result = [];
+
+        foreach ($groupedByParent as $parentId => $parentProducts) {
+            // Obtener tallas únicas para este parent
+            $uniqueSizes = $parentProducts->filter(fn($item) => $item->product->size_id)
+                ->map(fn($item) => [
+                    'id' => $item->product->size_id,
+                    'sort' => $item->product->size->sort ?? $item->product->parent->size->sort ?? 0,
+                    'name' => $item->product->size->name ?? $item->product->parent->size->name ?? $item->product->size_id
+                ])
+                ->unique('id')
+                ->sortBy('sort')
+                ->values();
+
+            // Agrupar productos por nombre base para este parent
+            $groupedProducts = [];
+            foreach ($parentProducts as $item) {
+                $fullName = $item->product->full_name_clear_sort;
+                $baseName = preg_replace('/\s\d+$/', '', $fullName);
+
+                $onlyName = $item->product->only_name;
+                $baseNameOnly = preg_replace('/\s\d+$/', '', $onlyName);
+                
+                if (!isset($groupedProducts[$baseName])) {
+                    $groupedProducts[$baseName] = [
+                        'name' => $baseNameOnly,
+                        'color' =>  $item->product->parent_id ? $item->product->color_name_clear : '',
+                        'general_code' => $item->product->parent_id ? $item->product->parent->code : $item->product->name,
+                        'items' => collect(),
+                        'no_size' => null
+                    ];
+                }
+                
+                if ($item->product->size_id) {
+                    $groupedProducts[$baseName]['items'][$item->product->size_id] = $item;
+                } else {
+                    $groupedProducts[$baseName]['no_size'] = $item;
+                }
+            }
+
+            $parentName = $parentId === 'no_parent' 
+                ? 'Servicios' 
+                : ($parentProducts->first()->product->parent->name ?? 'Parent '.$parentId);
+
+            $parentCode = $parentId === 'no_parent' 
+                ? '' 
+                : ($parentProducts->first()->product->parent->code ?? 'Parent '.$parentId);
+
+            $result[$parentId] = [
+                'parent_name' => $parentName,
+                'parent_code' => $parentCode,
+                'uniqueSizes' => $uniqueSizes,
+                'groupedProducts' => $groupedProducts
+            ];
+        }
+
+        return $result;
+
+    
+
+    }
+    
+public function getSizeTableGroupedData(): array
+{
+    $groupedData = $this->getProductsGroupedByParentAndSize();
+    
+    $sortedGroups = collect($groupedData)->sortBy(function($group) {
+        return strtolower($group['parent_name']);
+    });
+
+    $tables = [];
+    
+    foreach ($sortedGroups as $parentId => $data) {
+        $tables[$parentId] = [
+            'parent_name' => $data['parent_name'],
             'headers' => $data['uniqueSizes']->map(fn($size) => [
-                'id' => $size,
-                'name' => $data['sizeNames'][$size] ?? $size
+                'id' => $size['id'],
+                'name' => $size['name'],
+                'sort' => $size['sort']
             ]),
             'rows' => collect($data['groupedProducts'])->map(function($product) use ($data) {
                 $row = [
                     'name' => $product['name'],
+                    'color' => $product['color'],
+                    'general_code' => $product['general_code'],
                     'sizes' => [],
                     'no_size' => null
                 ];
                 
                 foreach ($data['uniqueSizes'] as $size) {
-                    $row['sizes'][$size] = $product['items'][$size] ?? null;
+                    $row['sizes'][$size['id']] = $product['items'][$size['id']] ?? null;
                 }
                 
                 if ($product['no_size']) {
                     $row['no_size'] = [
+                        'color' => 'N/A',
                         'quantity' => $product['no_size']->quantity,
                         'price' => $product['no_size']->price
                     ];
@@ -613,6 +742,113 @@ class Order extends Model
             })->values()->toArray()
         ];
     }
+    
+    return $tables;
+}
+
+
+public function getSizeTablesData(): array
+{
+    $groupedData = $this->getProductsGroupedByParentAndSize();
+    
+    $sortedGroups = collect($groupedData)->sortBy(function($group) {
+        return strtolower($group['parent_name']);
+    });
+    
+    $tables = [];
+    
+    foreach ($sortedGroups as $parentId => $data) {
+        $sortedRows = collect($data['groupedProducts'])->sortBy(function($product) {
+            return strtolower($product['name']);
+        })->values();
+        
+        $sizeTotals = [];
+        foreach ($data['uniqueSizes'] as $size) {
+            $sizeTotals[$size['id']] = [
+                'quantity' => 0,
+                'amount' => 0
+            ];
+        }
+        $noSizeTotal = ['quantity' => 0, 'amount' => 0];
+        $grandTotal = 0; // Inicializar gran total
+        $rowQuantity = 0;
+        
+        $preparedRows = $sortedRows->map(function($product) use ($data, &$sizeTotals, &$noSizeTotal, &$grandTotal, &$rowQuantity) {
+            $row = [
+                'name' => $product['name'],
+                'general_code' => $product['general_code'],
+                'color_product' => $product['color'] ?: 'N/A',
+                'sizes' => [],
+                'no_size' => null,
+                'row_total' => 0,
+                'row_quantity' => 0
+            ];
+            
+            foreach ($data['uniqueSizes'] as $size) {
+                if (isset($product['items'][$size['id']])) {
+                    $item = $product['items'][$size['id']];
+                    $quantity = $item->quantity;
+                    $amount = $quantity * $item->price;
+                    
+                    $row['sizes'][$size['id']] = [
+                        'quantity' => $quantity,
+                        'amount' => $amount,
+                        'only_display' => $quantity,
+                        'display' => "{$quantity} &nbsp; <small class='font-italic text-primary'>".number_format($item->price, 2)."</small>"
+                    ];
+                    
+                    $sizeTotals[$size['id']]['quantity'] += $quantity;
+                    $sizeTotals[$size['id']]['amount'] += $amount;
+                    $row['row_total'] += $amount;
+                    $row['row_quantity'] += $quantity;
+                }
+            }
+            
+            if ($product['no_size']) {
+                $quantity = $product['no_size']->quantity;
+                $amount = $quantity * $product['no_size']->price;
+                
+                $row['no_size'] = [
+                    'quantity' => $quantity,
+                    'amount' => $amount,
+                    'only_display' => $quantity,
+                    'display' => "{$quantity} &nbsp; <small class='font-italic text-primary'> ".number_format($product['no_size']->price, 2)."</small>"
+                ];
+                
+                $noSizeTotal['quantity'] += $quantity;
+                $noSizeTotal['amount'] += $amount;
+                $row['row_total'] += $amount;
+                $row['row_quantity'] += $quantity;
+
+            }
+            
+            $row['row_total_display'] = number_format($row['row_total'], 2);
+            $grandTotal += $row['row_total']; // Sumar al gran total solo una vez
+            $rowQuantity += $row['row_quantity'];
+            
+            return $row;
+        });
+        
+        $tables[$parentId] = [
+            'parent_name' => $data['parent_name'],
+            'parent_code' => $data['parent_code'],
+            'headers' => $data['uniqueSizes']->map(fn($size) => [
+                'id' => $size['id'],
+                'name' => $size['name'],
+                'sort' => $size['sort']
+            ]),
+            'rows' => $preparedRows->toArray(),
+            'totals' => [
+                'size_totals' => $sizeTotals,
+                'no_size_total' => $noSizeTotal,
+                'grand_total' => $grandTotal,
+                'row_quantity' => $rowQuantity,
+            ]
+        ];
+    }
+    
+    return $tables;
+}
 
     /**
      * @return mixed

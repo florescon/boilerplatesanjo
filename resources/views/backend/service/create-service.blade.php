@@ -15,7 +15,7 @@
 
     <div class="form-group row justify-content-center">
       <div class="col-md-10">
-        <input type="text" name="code" wire:model="code" class="form-control" placeholder="{{ __('Code') }}" value="{{ old('code') }}" maxlength="100" />
+        <input type="text" name="code" wire:model="code" class="form-control" placeholder="{{ __('Code') }}" value="{{ old('code') }}" maxlength="100" required />
 
         @error('code') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
       </div>

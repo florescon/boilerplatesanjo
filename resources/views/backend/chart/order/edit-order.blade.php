@@ -1,6 +1,11 @@
 @push('after-styles')
-  <style type="text/css">
-  </style>
+<style>
+    .text-right { text-align: right; }
+    .font-weight-bold { font-weight: bold; }
+    .table-active { background-color: rgba(0,0,0,.05); }
+    .product-group { margin-bottom: 2rem; }
+    .product-group h4 { color: #333; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; }
+</style>
 @endpush
 
 <x-backend.card>
@@ -25,6 +30,7 @@
     <x-utils.link class="card-header-action" :href="$model->from_store ? route('admin.store.all.index') : route('admin.order.index')" icon="fa fa-chevron-left" :text="__('Back')" />
   </x-slot>
   <x-slot name="body">
+
 
     @if(!$model->approved)
       <div class="alert alert-danger" role="alert">
@@ -257,6 +263,8 @@
                 <a type="button" href="{{ !$from_store ? route('admin.order.print', [$order_id, 0, true]) : route('admin.store.all.print', [$order_id, 0, true]) }}" class="btn btn-secondary" target="_blank">Imprimir productos agrupados</a>
               @endif
 
+            </div>
+            <div class="text-center mt-2">
               @if(!$from_store && $model->materials_order()->exists())
                 <a type="button" href="{{ route('admin.order.ticket_materia', $order_id) }}" class="btn btn-warning text-white" target="_blank">@lang('Feedstock')</a>
               @endif
@@ -270,6 +278,11 @@
               @endif
             </div>
 
+            <div class="text-center mt-2">
+        
+                <a type="button" href="{{ route('admin.order.newformat', $order_id) }}" class="btn btn-secondary" target="_blank">Nuevo Formato</a>
+
+            </div>
    {{--          @if(!$model->isQuotation())
               <a href="{{ !$from_store ? route('admin.order.ticket_order', $order_id) : route('admin.store.all.ticket_order', $order_id) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>
                 <ins>
@@ -394,6 +407,14 @@
 
         <div class="card card-edit card-product_not_hover card-flyer-without-hover">
           <div class="card-body">
+{{--  --}}
+
+             @if($model->quotation)
+              <h3 class="text-center">
+                <span class="badge badge-primary" wire:click="updatePrices" style="cursor:pointer;">@lang('Update prices')</span>
+              </h3>
+            @endif
+
             @if($orderExists)
 
             <div class="row justify-content-md-center">

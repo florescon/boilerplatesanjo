@@ -16,11 +16,6 @@
 
             <div class="row">
               <div class="col">
-                <div>
-                  <input type="number" class="form-control" wire:model.defer="{{ $getField }}" id="{{ $getField }}" min="0" placeholder="{{ __('Price') }}">
-                </div>
-              </div>
-              <div class="col">
 
                 <x-utils.virtual-select 
                   wire:model.defer="selected_sizes"
@@ -37,6 +32,11 @@
                   ]"
                 />
 
+              </div>
+              <div class="col">
+                <div>
+                  <input type="number" class="form-control" wire:model.defer="{{ $getField }}" id="{{ $getField }}" min="0" placeholder="{{ __('Price') }}">
+                </div>
               </div>
             </div>
 

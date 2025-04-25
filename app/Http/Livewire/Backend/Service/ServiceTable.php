@@ -121,7 +121,7 @@ class ServiceTable extends Component
         $this->validate([
             'selected_id' => ['required', 'numeric'],
             'name' => ['required', 'min:3'],
-            'code' => ['nullable', 'min:3', 'max:15', 'regex:/^\S*$/u', Rule::unique('products')->ignore($this->selected_id)],
+            'code' => ['required', 'min:3', 'max:15', 'regex:/^\S*$/u', Rule::unique('products')->ignore($this->selected_id)],
             'price' => ['required', 'numeric'],
         ]);
 

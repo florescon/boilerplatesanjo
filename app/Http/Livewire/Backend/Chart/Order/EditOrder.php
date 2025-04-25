@@ -420,6 +420,25 @@ class EditOrder extends Component
         return $this->redirectRoute($this->from_store ? 'admin.store.all.edit' : 'admin.order.edit', $this->order_id);
     }
 
+
+    public function updatePrices(?int $getCustomer = null)
+    {
+        $order = Order::whereId($this->order_id)->first();
+
+        $customerPrice = optional($order->user->customer)->type_price ?? 'retail';
+
+        foreach($order->product_quotation as $product){
+
+            if($product->product->isProduct()){
+
+                $price = $product->product->getPriceWithIvaRound($customerPrice);
+                $priceWithoutIva = $product->product->getPriceWithoutIvaRound($customerPrice);
+
+                $product->update(['price' => $price, 'price_without_tax' => $priceWithoutIva]);
+            }
+        }
+    }
+
     public function removeProduct($productId): void
     {
         $delete = DB::table('product_order')->where('id', $productId)->delete();
@@ -461,8 +480,12 @@ class EditOrder extends Component
 
         $OrderStatusDelivery = OrderStatusDelivery::values();    
 
+        $tablesData = $model->getSizeTablesData();
+
+        // dd($tableData);
+        
         if(!$model->isSuborder()){
-            return view('backend.chart.order.edit-order')->with(compact('model', 'orderExists', 'saleExists', 'requestExists', 'quotationExists', 'productsOutputExists', 'statuses', 'batches', 'supplier', 'process', 'OrderStatusDelivery'));
+            return view('backend.chart.order.edit-order')->with(compact('tablesData', 'model', 'orderExists', 'saleExists', 'requestExists', 'quotationExists', 'productsOutputExists', 'statuses', 'batches', 'supplier', 'process', 'OrderStatusDelivery'));
         }
         else{
             return view('backend.order.suborder')->with(compact('model', 'orderExists', 'saleExists', 'requestExists', 'quotationExists', 'productsOutputExists', 'statuses', 'supplier', 'batches', 'process', 'OrderStatusDelivery'));           

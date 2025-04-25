@@ -186,6 +186,14 @@ class Product extends Model
     /**
      * @return string
      */
+    public function getColorNameAndVisualColorAttribute()
+    {
+        return $this->color_id ? $this->color->name . ' ' . $this->color->visual_color : '';
+    }
+
+    /**
+     * @return string
+     */
     public function getFirstCharacterNameAttribute()
     {
         return $this->name ? substr($this->name, 0, 3) : '';
@@ -377,6 +385,24 @@ class Product extends Model
     {
         if($this->parent_id !== null){
             return $this->parent->name.' '.$this->color_name_clear.' '.$this->size_sort;
+        }
+        else{
+            if(!$this->isProduct()){
+                return $this->name;
+            }
+            else{
+                return $this->name;
+            }
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getOnlyNameClearSortAttribute()
+    {
+        if($this->parent_id !== null){
+            return $this->parent->name;
         }
         else{
             if(!$this->isProduct()){

@@ -48,7 +48,6 @@
             <p>
               {!! $station->order->user_name !!} <br>
               {!! $station->order->user_details !!}<br>
-              {!! $station->comment  ? '<strong>Comentario:</strong> ' . $station->comment : '' !!}<br>
             </p>
           </div>
           <div class="cs-invoice_right cs-text_right">
@@ -60,6 +59,13 @@
             </p>
           </div>
         </div>
+        @if($station->comment)
+          <div class="cs-invoice_head cs-mb10">
+            <p>
+              Comentario: <b class="cs-primary_color">{{ $station->comment }}</b>
+            </p>
+          </div>
+        @endif
         <ul class="cs-list cs-style2">
           <li>
             <div class="cs-list_left">@lang('Quotation'): <b class="cs-primary_color cs-semi_bold "> #{{ $station->order->quotation ?? '--'  }}</b></div>

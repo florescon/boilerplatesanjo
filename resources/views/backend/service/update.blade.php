@@ -19,7 +19,7 @@
           @error('name') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
           <label>@lang('Code')</label>
-          <input wire:model.lazy="code" type="text" class="form-control"/>
+          <input wire:model.lazy="code" type="text" class="form-control" required />
           @error('code') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
 
           <label>@lang('Price')</label>
