@@ -72,6 +72,9 @@ class PrintNewFormatOrder extends Component
             ->union($orderServices)
             ->get();
 
+
+        // dd($this->order->products->toArray());
+
         $tablesData = $this->order->getSizeTablesData();
 
         return view('backend.order.livewire.print-new-format-order', [

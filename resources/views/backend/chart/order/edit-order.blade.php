@@ -409,7 +409,235 @@
           <div class="card-body">
 {{--  --}}
 
-             @if($model->quotation)
+@if(!$model->isQuotation())
+
+<div class="d-flex justify-content-between align-items-center mb-4 p-3 bg-light rounded">
+  <!-- Left side - File generated info -->
+  <div class="legend">
+    <p class="mb-0 text-primary font-weight-bold" style="font-size: 16px;">
+      <span class="text-primary">@lang('Last request'):</span> 
+      {{ now()->isoFormat('D, MMM, YY - h:mm a') }}
+    </p>
+  </div>
+  
+  <!-- Right side - Action buttons -->
+  <div class="btn-group" role="group">
+    <!-- Prices Toggle Button -->
+    <button wire:click="$toggle('prices')" 
+            class="btn btn-sm {{ $prices ? 'btn-primary' : 'btn-outline-primary' }}">
+      @if(!$prices)
+        @lang('Prices')
+      @else
+        @lang('Without prices')
+      @endif
+    </button>
+
+    <!-- General Toggle Button -->
+    <button wire:click="$toggle('general')" 
+            class="btn btn-sm {{ $general ? 'btn-primary' : 'btn-outline-primary' }}">
+      @if(!$general)
+        @lang('General')
+      @else
+        @lang('Sin General')
+      @endif
+    </button>
+
+    <!-- Details Toggle Button -->
+    <button wire:click="$toggle('details')" 
+            class="btn btn-sm {{ $details ? 'btn-primary' : 'btn-outline-primary' }}">
+      @if(!$details)
+        @lang('Detalles')
+      @else
+        @lang('Sin Detalles')
+      @endif
+    </button>
+  </div>
+</div>
+  @if($general)
+<div class="container-fluid" style="margin-top: 20px;">
+  <h4 class="text-primary font-weight-semi-bold mb-4" style="font-size: 18px;">@lang('General')</h4>
+  
+  <div class="card border rounded">
+    <div class="table-responsive">
+      <table class="table table-hover mb-0">
+        <thead class="bg-light">
+          <tr>
+            <th class="text-center font-weight-semi-bold text-primary" style="width: 5%;">@lang('Quantity')</th>
+            <th class="font-weight-semi-bold text-primary" style="width: 10%;">@lang('Code')</th>
+            <th class="font-weight-semi-bold text-primary" style="width: 60%;">@lang('Description')</th>
+            @if($prices)
+            <th class="font-weight-semi-bold text-primary" style="width: 10%;">@lang('Price')</th>
+            <th class="text-right font-weight-semi-bold text-primary" style="width: 15%;">@lang('Total')</th>
+            @endif
+          </tr>
+        </thead>
+        <tbody>
+          @foreach($orderGroup as $product)
+            @if($product->product_name != null && $product->sum != null)
+            <tr>
+              <td class="text-center text-accent">{{ $product->sum }}</td>
+              <td>{{ $product->product_code ?? '--' }}</td>
+              <td><strong class="text-primary">{{ $product->brand_name }}</strong> {{ $product->product_name }} - {{ $product->color_name }}</td>
+              @if($prices)
+              <td class="text-center text-primary">
+                @if($product->omg)
+                  ${{ priceWithoutIvaIncluded($product->min_price) }}
+                  -
+                @endif
+                ${{ priceWithoutIvaIncluded($product->max_price) }}
+              </td>
+              <td class="text-right text-primary">${{ priceWithoutIvaIncluded($product->sum_total) }}</td>
+              @endif
+            </tr>
+            @endif
+          @endforeach
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <div class="mt-4">
+    <div class="table-responsive">
+      <table class="table">
+        <tbody>
+          <tr>
+            <td style="width: 50%;">
+              {!! $order->total_products_and_services_label !!}
+            </td>
+            @if($prices)
+            <td class="text-right" style="width: 40%;">
+              <p class="text-primary font-weight-bold mb-1" style="font-size: 19px;">@lang('Subtotal'):</p>
+              @if($order->discount)
+                <p class="text-primary font-weight-bold mb-1" style="font-size: 19px;">@lang('Discount'):</p>
+              @endif
+              <p class="mb-1 font-weight-semi-bold text-primary" style="font-size: 19px;">IVA:</p>
+              <p class="text-primary font-weight-bold mb-0" style="font-size: 19px;">@lang('Total'):</p>
+            </td>
+            <td class="text-right" style="width: 10%;">
+              <p class="text-primary font-weight-bold mb-1 text-right" style="font-size: 19px;">${{ count($order->product_suborder) ? '--' : number_format($order->subtotal_by_all, 2) }}</p>
+              @if($order->discount)
+                <p class="mb-1 font-weight-semi-bold text-primary text-right" style="font-size: 19px;">
+                  @if(!$breakdown)
+                    ${{ number_format($order->calculate_discount_all, 2)}}
+                  @else
+                    %{{ $order->discount }}
+                  @endif
+                </p>
+              @endif
+              <p class="mb-1 font-weight-semi-bold text-primary text-right" style="font-size: 19px;">${{ count($order->product_suborder) ? '--' : calculateIva($order->subtotal_less_discount) }}</p>
+              <p class="text-primary font-weight-bold mb-0 text-right" style="font-size: 19px;">${{ number_format(count($order->product_suborder) ? $total : $order->total_by_all_with_discount, 2) }}</p>
+            </td>
+            @endif
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+  @endif
+
+
+@if($details)
+<div class="container-fluid mt-3">
+  <h4 class="text-primary font-weight-semi-bold mb-4" style="font-size: 18px;">@lang('Details')</h4>
+  
+  @foreach($tablesData as $parentId => $tableData)
+      <div class="product-group">
+        <h5 class=""> 
+          <strong class="text-primary">{{ $tableData['parent_code'] }}</strong> 
+          {{ $tableData['parent_name'] }}
+        </h5>
+        
+        <div class="table-responsive">
+          <table class="table table-bordered table-sm table-hover">
+            <thead class="thead-light">
+              <tr>
+                @if($tableData['rows'][0]['no_size'])
+                <th class="align-middle">Código</th>
+                @endif
+                <th class="align-middle" style="width: 250px;">Color</th>
+                @foreach($tableData['headers'] as $header)
+                  <th class="text-center align-middle">{{ $header['name'] }}</th>
+                @endforeach
+                @if($tableData['rows'][0]['no_size'])
+                  <th class="align-middle"></th>
+                @endif
+                <th class="text-center align-middle">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach($tableData['rows'] as $row)
+                <tr>
+                  @if($row['no_size'])
+                    <td>{{ $row['general_code'] }}</td>
+                  @endif
+                  <td>{{ $row['color_product'] ?: 'N/A' }}</td>
+                  
+                  @foreach($tableData['headers'] as $header)
+                    <td class="text-center">
+                      @if(isset($row['sizes'][$header['id']]))
+                        {!! $prices ? $row['sizes'][$header['id']]['display'] : $row['sizes'][$header['id']]['only_display'] !!}
+                      @endif
+                    </td>
+                  @endforeach
+                  
+                  @if($row['no_size'])
+                  <td class="text-center">
+                    {!! $prices ? $row['no_size']['display'] : $row['no_size']['only_display'] !!}
+                  </td>
+                  @endif
+                  <td class="text-center font-weight-bold">
+                    <div>{{ $row['row_quantity'] }}</div>
+                    @if($prices)
+                    <div class="text-primary font-italic small">
+                      {{ $row['row_total_display'] }}
+                    </div>
+                    @endif
+                  </td>
+                </tr>
+              @endforeach
+              
+              <!-- Totals row -->
+              <tr class="bg-light">
+                @if($tableData['rows'][0]['no_size'])
+                  <td class="font-weight-bold"></td>
+                @endif
+                <td class="font-weight-bold"></td>
+                
+                @foreach($tableData['headers'] as $header)
+                  <td class="text-center font-weight-bold text-dark">
+                    @if(isset($tableData['totals']['size_totals'][$header['id']]))
+                      {{ $tableData['totals']['size_totals'][$header['id']]['quantity'] }}
+                    @endif
+                  </td>
+                @endforeach
+
+                @if($row['no_size'])                    
+                <td class="text-center font-weight-bold text-dark">
+                  @if($tableData['totals']['no_size_total']['quantity'] > 0)
+                    {{ $tableData['totals']['no_size_total']['quantity'] }}
+                  @endif
+                </td>
+                @endif
+                <td class="text-center font-weight-bold text-danger">
+                  <div>{{ $tableData['totals']['row_quantity'] }}</div>
+                  @if($prices)
+                    <div class="font-italic small">
+                      {{ number_format($tableData['totals']['grand_total'], 2) }}
+                    </div>
+                  @endif
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+  @endforeach
+</div>
+@endif
+
+@endif
+             @if($model->isQuotation())
               <h3 class="text-center">
                 <span class="badge badge-primary" wire:click="updatePrices" style="cursor:pointer;">@lang('Update prices')</span>
               </h3>
@@ -419,7 +647,7 @@
 
             <div class="row justify-content-md-center">
               @if($model->materials_order()->doesntExist())
-              <div class="col-sm-6">
+{{--               <div class="col-sm-6">
                 <div class="card">
                   <div class="card-body">
                     <div class="custom-control custom-switch custom-control-inline">
@@ -431,7 +659,7 @@
                   </div>
                 </div>
               </div>
-              @else
+ --}}              @else
               <div class="col-sm-6">
                 <div class="card border-warning">
                   <div class="card-body">
@@ -452,263 +680,11 @@
                 <caption>
                   <a href="#!" class="mt-2 ml-2" data-toggle="modal" wire:click="$emitTo('backend.order.add-service', 'createmodal', {{ $order_id }}, 1, {{ $from_store }})" data-target="#addService" style="color: #ee2e31;">@lang('Add service')</a>
                 </caption>
-                <thead style="background-color: #321fdb; border-color: #321fdb; color: white;">
-                  <tr class="text-center">
-                    <th colspan="4">@lang('Request')</th>
-                  </tr>
-                  <tr class="thead-dark">
-                    <th >@lang('Product')</th>
-                    <th>@lang('Price')</th>
-                    <th class="text-center">@lang('Quantity')</th>
-                    <th class="text-center">Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-
-                  @foreach($model->product_order->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']]) as $product)
-                  <tr>
-                    <td>
-                      {{ $product->id }}
-                      <a href="{{ route('admin.product.consumption_filter', $product->product_id) }}" target=”_blank”> <span class="badge badge-warning"> <i class="cil-color-fill"></i> <em class="text-white">@lang('BOM')</em> </span></a>
-                      {{ $product->product->code_subproduct_clear }}
-                      {!! $product->product->full_name_link !!}
-                    </td>
-                    <td class="text-center">
-                      ${{ $product->price }}
-                      <div class="small text-muted"> ${{ priceWithoutIvaIncluded($product->price) }} </div>
-                    </td>
-                    <td class="text-center">{{ $product->quantity }}</td>
-                    <td class="text-center">
-                      ${{ number_format((float)$product->total_by_product, 2) }}
-                      <div class="small text-muted"> ${{ priceWithoutIvaIncluded($product->total_by_product) }} </div>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <th class="text-right">
-                      <img src="{{ asset('img/icons/down-right.svg') }}" width="20" alt="Logo"> 
-                    </th>
-                    <th class="text-left" colspan="3">
-                      <livewire:backend.components.edit-field :model="'\App\Models\ProductOrder'" :entity="$product" :field="'comment'" :key="'comments'.$product->id"/>
-                    </th>
-                  </tr>
-
-                    {{-- @json($product->gettAllConsumption()) --}}
-                    @if($previousMaterialByProduct)
-
-                      @if($product->gettAllConsumption() != 'empty')
-                          <tr class="table-warning text-right font-italic font-weight-bold">
-                            <td colspan="2">
-                              Materia prima
-                            </td>
-                            <td>
-                              Consumo Unitario
-                            </td>
-                            <td>
-                              Total
-                            </td>
-                          </tr>
-
-                        @foreach($product->gettAllConsumption() as $key => $consumption)
-                          <tr class="table-warning text-right font-italic">
-                            <td colspan="2">
-                              {{ $consumption['material'] }}
-                            </td>
-                            <td>
-                                {{ rtrim(rtrim(sprintf('%.8F', $consumption['unit']), '0'), ".") }}
-                            </td>
-                            <td>
-                                {{ rtrim(rtrim(sprintf('%.8F', $consumption['quantity']), '0'), ".") }}
-                            </td>
-                          </tr>
-                        @endforeach
-                      @else
-                        <tr class="table-danger text-center font-italic">
-                            <td colspan="4">
-                              <p>Sin materia prima definida, aún.</p>
-                            </td>
-                        </tr>
-                      @endif
-                    @endif
-
-                  @endforeach
-                  <tr>
-                    <td></td>
-                    <td class="text-right">Total:</td>
-                    <td class="text-center">{!! $model->total_products_and_services_label !!}</td>
-                    <td class="text-center">
-                      ${{ number_format((float)$model->total_order, 2) }}
-                      <div class="small text-muted"> ${{ priceWithoutIvaIncluded($model->total_order) }} </div>
-                    </td>
-                  </tr>
-
-                </tbody>
               </table>
             </div>
 
             @endif
 
-            @if($saleExists)
-            <div class="table-responsive">
-              <table class="table table-striped table-bordered table-hover">
-                <caption>
-                  <a href="#!" class="mt-2 ml-2" data-toggle="modal" wire:click="$emitTo('backend.order.add-service', 'createmodal', {{ $order_id }}, '2', {{ $from_store }})" data-target="#addService" style="color: #ee2e31;">@lang('Add service')</a>
-                </caption>
-                <thead style="background-color: #248f48; border-color: #218543; color: white;">
-                  <tr class="text-center">
-                    <th colspan="4" >@lang('Sale')</th>
-                  </tr>
-                  <tr class="thead-dark">
-                    <th>@lang('Product')</th>
-                    <th>@lang('Price')</th>
-                    <th class="text-center">@lang('Quantity')</th>
-                    <th class="text-center">Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-
-                  @foreach($model->product_sale->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']]) as $product)
-                  <tr >
-                    <td>
-                      {{ $product->product->code_subproduct_clear }}
-                      {!! $product->product->full_name !!}
-                    </td>
-                    <td class="text-center">
-                      ${{ $product->price }}
-                      <div class="small text-muted"> ${{ priceWithoutIvaIncluded($product->price) }} </div>
-                    </td>
-                    <td class="text-center">{{ $product->quantity }}</td>
-                    <td class="text-center">
-                      ${{ number_format((float)$product->total_by_product, 2) }}
-                      <div class="small text-muted"> ${{ priceWithoutIvaIncluded($product->total_by_product) }} </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th class="text-right">
-                      <img src="{{ asset('img/icons/down-right.svg') }}" width="20" alt="Logo"> 
-                    </th>
-                    <th class="text-left" colspan="3">
-                      <livewire:backend.components.edit-field :model="'\App\Models\ProductOrder'" :entity="$product" :field="'comment'" :key="'comments'.$product->id"/>
-                    </th>
-                  </tr>
-                  @endforeach
-                  <tr>
-                    <td></td>
-                    <td class="text-right">Total:</td>
-                    <td class="text-center">{!! $model->total_products_and_services_label !!}</td>
-                    <td class="text-center">
-                      ${{ number_format((float)$model->total_sale, 2) }}
-                      <div class="small text-muted"> ${{ priceWithoutIvaIncluded($model->total_sale) }} </div>
-                    </td>
-                  </tr>
-
-                </tbody>
-              </table>
-            </div>
-            @endif
-
-            @if($requestExists)
-            <div class="table-responsive">
-              <table class="table table-striped table-bordered table-hover">
-                <caption>
-                  <a href="#!" class="mt-2 ml-2" data-toggle="modal" wire:click="$emitTo('backend.order.add-service', 'createmodal', {{ $order_id }}, '5', {{ $from_store }})" data-target="#addService" style="color: #ee2e31;">@lang('Add service')</a>
-                </caption>
-                <thead style="background-color: coral; border-color: #218543; color: white;">
-                  <tr class="text-center">
-                    <th colspan="4" >@lang('Request')</th>
-                  </tr>
-                  <tr class="thead-dark">
-                    <th>@lang('Product')</th>
-                    <th>@lang('Price')</th>
-                    <th class="text-center">@lang('Quantity')</th>
-                    <th class="text-center">Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-
-                  @foreach($model->product_request->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']]) as $product)
-                  <tr>
-                    <td>
-                      {{ $product->product->code_subproduct_clear }}
-                      {!! $product->product->full_name !!}
-                    </td>
-                    <td class="text-center">
-                      ${{ $product->price }}
-                      <div class="small text-muted"> ${{ priceWithoutIvaIncluded($product->price) }} </div>
-                    </td>
-                    <td class="text-center">{{ $product->quantity }}</td>
-                    <td class="text-center">
-                      ${{ number_format((float)$product->total_by_product, 2) }}
-                      <div class="small text-muted"> ${{ priceWithoutIvaIncluded($product->total_by_product) }} </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th class="text-right">
-                      <img src="{{ asset('img/icons/down-right.svg') }}" width="20" alt="Logo"> 
-                    </th>
-                    <th class="text-left" colspan="3">
-                      <livewire:backend.components.edit-field :model="'\App\Models\ProductOrder'" :entity="$product" :field="'comment'" :key="'comments'.$product->id"/>
-                    </th>
-                  </tr>
-                  @endforeach
-                  <tr>
-                    <td></td>
-                    <td class="text-right">Total:</td>
-                    <td class="text-center">{!! $model->total_products_and_services_label !!}</td>
-                    <td class="text-center">
-                      ${{ number_format((float)$model->total_request, 2) }}
-                      <div class="small text-muted"> ${{ priceWithoutIvaIncluded($model->total_request) }} </div>
-                    </td>
-                  </tr>
-
-                </tbody>
-              </table>
-            </div>
-            @endif
-
-            @if($productsOutputExists)
-
-            <div class="table-responsive">
-              <table class="table table-striped table-bordered table-hover">
-
-                <thead style="background-color: #86FFCF; border-color: #FAFA33; color: dark;">
-                  <tr class="text-center">
-                    <th colspan="2" >@lang('Output Products')</th>
-                  </tr>
-                  <tr class="thead-dark">
-                    <th>@lang('Product')</th>
-                    <th class="text-center">@lang('Quantity')</th>
-                  </tr>
-                </thead>
-                <tbody>
-
-                  @foreach($model->product_output->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']]) as $product)
-                    <tr>
-                      <td>
-                        {{ $product->product->code_subproduct_clear }}
-                        {!! $product->product->full_name !!}
-                      </td>
-
-                      <td class="text-center">
-                        {{ $product->quantity }}
-                      </td>
-
-                    </tr>
-                    <tr>
-                      <th class="text-right">
-                        <img src="{{ asset('img/icons/down-right.svg') }}" width="20" alt="Logo"> 
-                      </th>
-                      <th class="text-left" colspan="3">
-                        <livewire:backend.components.edit-field :model="'\App\Models\ProductOrder'" :entity="$product" :field="'comment'" :key="'comments'.$product->id"/>
-                      </th>
-                    </tr>
-                  @endforeach
-
-                </tbody>
-              </table>
-            </div>
-
-            @endif
 
             @if($model->isQuotation() && $model->product_quotation->count() < 1)
               <a href="#!" class="mt-2 ml-2" data-toggle="modal" wire:click="$emitTo('backend.order.add-service', 'createmodal', {{ $order_id }}, '6', {{ $from_store }})" data-target="#addService" style="color: #ee2e31;">@lang('Add service')</a>

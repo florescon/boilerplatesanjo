@@ -185,7 +185,7 @@
           </div>
           <div class="cs-table cs-style2">
             <div class="cs-table_responsive">
-              <table>
+              <table class="table">
                 <tbody>
                   <tr class="cs-table_baseline">
                     <td class="cs-width_5">
@@ -193,17 +193,17 @@
                     </td>
                     @if($prices)
                     <td class="cs-width_5 cs-text_right">
-                      <p class="cs-primary_color cs-bold cs-f14 cs-m0">@lang('Subtotal'):</p>
+                      <p class="cs-primary_color cs-bold cs-f19 cs-m0">@lang('Subtotal'):</p>
                       @if($order->discount)
-                        <p class="cs-primary_color cs-bold cs-f14 cs-m0">@lang('Discount'):</p>
+                        <p class="cs-primary_color cs-bold cs-f19 cs-m0">@lang('Discount'):</p>
                       @endif
-                      <p class="cs-mb5 cs-mb5 cs-f14 cs-primary_color cs-semi_bold">IVA:</p>
-                      <p class="cs-primary_color cs-bold cs-f14 cs-m0">@lang('Total'):</p>
+                      <p class="cs-mb5 cs-mb5 cs-f19 cs-primary_color cs-semi_bold">IVA:</p>
+                      <p class="cs-primary_color cs-bold cs-f19 cs-m0">@lang('Total'):</p>
                     </td>
-                    <td class="cs-width_2 cs-text_rightcs-f14">
-                        <p class="cs-primary_color cs-bold cs-f14 cs-m0 cs-text_right">${{ count($order->product_suborder) ? '--' : number_format($order->subtotal_by_all, 2)  }}</p>
+                    <td class="cs-width_2 cs-text_rightcs-f19">
+                        <p class="cs-primary_color cs-bold cs-f19 cs-m0 cs-text_right">${{ count($order->product_suborder) ? '--' : number_format($order->subtotal_by_all, 2)  }}</p>
                       @if($order->discount)
-                        <p class="cs-mb5 cs-mb5 cs-text_right cs-f14 cs-primary_color cs-semi_bold">
+                        <p class="cs-mb5 cs-mb5 cs-text_right cs-f19 cs-primary_color cs-semi_bold">
                           @if(!$breakdown)
                             ${{ number_format($order->calculate_discount_all, 2)}}
                           @else
@@ -211,8 +211,8 @@
                           @endif
                         </p>
                       @endif
-                        <p class="cs-mb5 cs-mb5 cs-text_right cs-f14 cs-primary_color cs-semi_bold">${{ count($order->product_suborder) ? '--' : calculateIva($order->subtotal_less_discount) }}</p>
-                      <p class="cs-primary_color cs-bold cs-f14 cs-m0 cs-text_right">${{ number_format(count($order->product_suborder) ? $total : $order->total_by_all_with_discount, 2) }}</p>
+                        <p class="cs-mb5 cs-mb5 cs-text_right cs-f19 cs-primary_color cs-semi_bold">${{ count($order->product_suborder) ? '--' : calculateIva($order->subtotal_less_discount) }}</p>
+                      <p class="cs-primary_color cs-bold cs-f19 cs-m0 cs-text_right">${{ number_format(count($order->product_suborder) ? $total : $order->total_by_all_with_discount, 2) }}</p>
                     </td>
                     @endif
                   </tr>
@@ -241,7 +241,7 @@
                               @if($tableData['rows'][0]['no_size'])
                               <th>Código</th>
                               @endif
-                              <th>Color</th>
+                              <th style="width: 250px !important;">Color</th>
                               @foreach($tableData['headers'] as $header)
                                   <th class="text-center">{{ $header['name'] }}</th>
                               @endforeach
@@ -255,7 +255,7 @@
                           @foreach($tableData['rows'] as $row)
                               <tr>
                                   @if($row['no_size'])
-                                    <td>{{ $row['general_code'] }}</td>
+                                    <td style="width: 250px !important;">{{ $row['general_code'] }}</td>
                                   @endif
                                   <td>{{ $row['color_product'] ?: 'N/A' }}</td>
                                   
@@ -268,7 +268,7 @@
                                   @endforeach
                                   
                                   @if($row['no_size'])
-                                  <td class="text-right">
+                                  <td class="text-center">
                                       {!! $prices ? $row['no_size']['display'] : $row['no_size']['only_display'] !!}
                                   </td>
                                   @endif
@@ -304,7 +304,7 @@
                               @endforeach
 
                               @if($row['no_size'])                    
-                              <td class="text-right font-weight-bold">
+                              <td class="text-center font-weight-bold">
                                   @if($tableData['totals']['no_size_total']['quantity'] > 0)
                                       {{ $tableData['totals']['no_size_total']['quantity'] }} 
 
@@ -348,17 +348,17 @@
                     </td>
                     @if($prices)
                     <td class="cs-width_5 cs-text_right">
-                      <p class="cs-primary_color cs-bold cs-f14 cs-m0">@lang('Subtotal'):</p>
+                      <p class="cs-primary_color cs-bold cs-f19 cs-m0">@lang('Subtotal'):</p>
                       @if($order->discount)
-                        <p class="cs-primary_color cs-bold cs-f14 cs-m0">@lang('Discount'):</p>
+                        <p class="cs-primary_color cs-bold cs-f19 cs-m0">@lang('Discount'):</p>
                       @endif
-                      <p class="cs-mb5 cs-mb5 cs-f14 cs-primary_color cs-semi_bold">IVA:</p>
-                      <p class="cs-primary_color cs-bold cs-f14 cs-m0">@lang('Total'):</p>
+                      <p class="cs-mb5 cs-mb5 cs-f19 cs-primary_color cs-semi_bold">IVA:</p>
+                      <p class="cs-primary_color cs-bold cs-f19 cs-m0">@lang('Total'):</p>
                     </td>
-                    <td class="cs-width_2 cs-text_rightcs-f14">
-                        <p class="cs-primary_color cs-bold cs-f14 cs-m0 cs-text_right">${{ count($order->product_suborder) ? '--' : number_format($order->subtotal_by_all, 2)  }}</p>
+                    <td class="cs-width_2 cs-text_rightcs-f19">
+                        <p class="cs-primary_color cs-bold cs-f19 cs-m0 cs-text_right">${{ count($order->product_suborder) ? '--' : number_format($order->subtotal_by_all, 2)  }}</p>
                       @if($order->discount)
-                        <p class="cs-mb5 cs-mb5 cs-text_right cs-f14 cs-primary_color cs-semi_bold">
+                        <p class="cs-mb5 cs-mb5 cs-text_right cs-f19 cs-primary_color cs-semi_bold">
                           @if(!$breakdown)
                             ${{ number_format($order->calculate_discount_all, 2)}}
                           @else
@@ -366,8 +366,8 @@
                           @endif
                         </p>
                       @endif
-                        <p class="cs-mb5 cs-mb5 cs-text_right cs-f14 cs-primary_color cs-semi_bold">${{ count($order->product_suborder) ? '--' : calculateIva($order->subtotal_less_discount) }}</p>
-                      <p class="cs-primary_color cs-bold cs-f14 cs-m0 cs-text_right">${{ number_format(count($order->product_suborder) ? $total : $order->total_by_all_with_discount, 2) }}</p>
+                        <p class="cs-mb5 cs-mb5 cs-text_right cs-f19 cs-primary_color cs-semi_bold">${{ count($order->product_suborder) ? '--' : calculateIva($order->subtotal_less_discount) }}</p>
+                      <p class="cs-primary_color cs-bold cs-f19 cs-m0 cs-text_right">${{ number_format(count($order->product_suborder) ? $total : $order->total_by_all_with_discount, 2) }}</p>
                     </td>
                     @endif
                   </tr>

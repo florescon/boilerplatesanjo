@@ -622,83 +622,89 @@ public function getSizeTableData(): array
      * 
      * @return array
      */
-    public function getProductsGroupedByParentAndSize(): array
-    {
-        // $products = $this->products->load('product.parent.size');
-        $products = $this->products()->with('product.parent.size')->get();
+public function getProductsGroupedByParentAndSize(): array
+{
+    $products = $this->products()->with('product.parent.size')->get();
+        
+    // Agrupar por parent_id primero
+    $groupedByParent = $products->groupBy(function($item) {
+        return $item->product->parent_id ?? 'no_parent';
+    });
+
+    $result = [];
+
+    foreach ($groupedByParent as $parentId => $parentProducts) {
+        // Obtener tallas únicas para este parent
+        $uniqueSizes = $parentProducts->filter(fn($item) => $item->product->size_id)
+            ->map(fn($item) => [
+                'id' => $item->product->size_id,
+                'sort' => $item->product->size->sort ?? $item->product->parent->size->sort ?? 0,
+                'name' => $item->product->size->name ?? $item->product->parent->size->name ?? $item->product->size_id
+            ])
+            ->unique('id')
+            ->sortBy('sort')
+            ->values();
+
+        // Agrupar productos por nombre base para este parent
+        $groupedProducts = [];
+        foreach ($parentProducts as $item) {
+            $fullName = $item->product->full_name_clear_sort;
+            $baseName = preg_replace('/\s\d+$/', '', $fullName);
+
+            $onlyName = $item->product->only_name;
+            $baseNameOnly = preg_replace('/\s\d+$/', '', $onlyName);
             
-        // Obtener todas las tallas únicas presentes en el pedido
- 
-        // dd($products->toArray());
-
-        // Agrupar por parent_id primero
-        $groupedByParent = $products->groupBy(function($item) {
-            return $item->product->parent_id ?? 'no_parent';
-        });
-
-
-        $result = [];
-
-        foreach ($groupedByParent as $parentId => $parentProducts) {
-            // Obtener tallas únicas para este parent
-            $uniqueSizes = $parentProducts->filter(fn($item) => $item->product->size_id)
-                ->map(fn($item) => [
-                    'id' => $item->product->size_id,
-                    'sort' => $item->product->size->sort ?? $item->product->parent->size->sort ?? 0,
-                    'name' => $item->product->size->name ?? $item->product->parent->size->name ?? $item->product->size_id
-                ])
-                ->unique('id')
-                ->sortBy('sort')
-                ->values();
-
-            // Agrupar productos por nombre base para este parent
-            $groupedProducts = [];
-            foreach ($parentProducts as $item) {
-                $fullName = $item->product->full_name_clear_sort;
-                $baseName = preg_replace('/\s\d+$/', '', $fullName);
-
-                $onlyName = $item->product->only_name;
-                $baseNameOnly = preg_replace('/\s\d+$/', '', $onlyName);
+            if (!isset($groupedProducts[$baseName])) {
+                $groupedProducts[$baseName] = [
+                    'name' => $baseNameOnly,
+                    'color' => $item->product->parent_id ? $item->product->color_name_clear : '',
+                    'general_code' => $item->product->parent_id ? $item->product->parent->code : $item->product->name,
+                    'items' => collect(),
+                    'no_size' => null
+                ];
+            }
+            
+            if ($item->product->size_id) {
+                $sizeId = $item->product->size_id;
                 
-                if (!isset($groupedProducts[$baseName])) {
-                    $groupedProducts[$baseName] = [
-                        'name' => $baseNameOnly,
-                        'color' =>  $item->product->parent_id ? $item->product->color_name_clear : '',
-                        'general_code' => $item->product->parent_id ? $item->product->parent->code : $item->product->name,
-                        'items' => collect(),
-                        'no_size' => null
-                    ];
+                // Si ya existe un producto con este size_id, sumamos las cantidades
+                if (isset($groupedProducts[$baseName]['items'][$sizeId])) {
+                    $existingItem = $groupedProducts[$baseName]['items'][$sizeId];
+                    $existingItem->quantity += $item->quantity;
+                    $groupedProducts[$baseName]['items'][$sizeId] = $existingItem;
+                } else {
+                    $groupedProducts[$baseName]['items'][$sizeId] = $item;
                 }
-                
-                if ($item->product->size_id) {
-                    $groupedProducts[$baseName]['items'][$item->product->size_id] = $item;
+            } else {
+                // Para productos sin talla, también sumamos las cantidades si ya existe
+                if ($groupedProducts[$baseName]['no_size']) {
+                    $existingItem = $groupedProducts[$baseName]['no_size'];
+                    $existingItem->quantity += $item->quantity;
+                    $groupedProducts[$baseName]['no_size'] = $existingItem;
                 } else {
                     $groupedProducts[$baseName]['no_size'] = $item;
                 }
             }
-
-            $parentName = $parentId === 'no_parent' 
-                ? 'Servicios' 
-                : ($parentProducts->first()->product->parent->name ?? 'Parent '.$parentId);
-
-            $parentCode = $parentId === 'no_parent' 
-                ? '' 
-                : ($parentProducts->first()->product->parent->code ?? 'Parent '.$parentId);
-
-            $result[$parentId] = [
-                'parent_name' => $parentName,
-                'parent_code' => $parentCode,
-                'uniqueSizes' => $uniqueSizes,
-                'groupedProducts' => $groupedProducts
-            ];
         }
 
-        return $result;
+        $parentName = $parentId === 'no_parent' 
+            ? 'Servicios' 
+            : ($parentProducts->first()->product->parent->name ?? 'Parent '.$parentId);
 
-    
+        $parentCode = $parentId === 'no_parent' 
+            ? '' 
+            : ($parentProducts->first()->product->parent->code ?? 'Parent '.$parentId);
 
+        $result[$parentId] = [
+            'parent_name' => $parentName,
+            'parent_code' => $parentCode,
+            'uniqueSizes' => $uniqueSizes,
+            'groupedProducts' => $groupedProducts
+        ];
     }
-    
+
+    return $result;
+}    
 public function getSizeTableGroupedData(): array
 {
     $groupedData = $this->getProductsGroupedByParentAndSize();

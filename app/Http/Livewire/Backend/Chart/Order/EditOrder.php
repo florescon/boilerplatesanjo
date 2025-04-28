@@ -26,11 +26,23 @@ class EditOrder extends Component
 
     public $from_store = null;
 
+    public bool $width = false;
+    public bool $prices = false;
+    public bool $breakdown = false;
+    public bool $general = false;
+    public bool $details = true;
+
+    public Order $order;
+
     public bool $showPriceWithoutTax = false;
 
     protected $queryString = [
         'previousMaterialByProduct' => ['except' => FALSE],
         'maerialAll' => ['except' => FALSE],
+        'prices' => ['except' => FALSE],
+        'breakdown' => ['except' => FALSE],
+        'general' => ['except' => FALSE],
+        'details' => ['except' => FALSE],
     ];
 
     protected $listeners = ['updateStatus' => '$refresh', 'cartUpdated' => '$refresh', 'paymentStore' => 'render', 'serviceStore' => 'render'];
@@ -437,6 +449,12 @@ class EditOrder extends Component
                 $product->update(['price' => $price, 'price_without_tax' => $priceWithoutIva]);
             }
         }
+
+        $this->emit('swal:alert', [
+            'icon' => 'success',
+            'title'   => __('Updated'), 
+        ]);
+
     }
 
     public function removeProduct($productId): void
@@ -484,8 +502,54 @@ class EditOrder extends Component
 
         // dd($tableData);
         
+        $orderServices = DB::table('product_order as a')
+                ->selectRaw('
+                    b.name as product_name,
+                    b.code as product_code,
+                    b.color_id as color_name,
+                    b.size_id as size_name,
+                    b.brand_id as brand_name,
+                    min(a.price) as min_price,
+                    max(a.price) as max_price,
+                    min(a.price) <> max(a.price) as omg,
+                    sum(a.quantity) as sum,
+                    sum(a.quantity * a.price) as sum_total,
+                    a.quantity as total_by_product
+                ')
+                ->join('products as b', 'a.product_id', '=', 'b.id')
+                ->where('order_id', $this->order->id)
+                ->where('b.type', '=', 0)
+                ->groupBy('b.id', 'a.price')
+                ;
+
+        $orderGroup = DB::table('product_order as a')
+            ->selectRaw('
+                c.name as product_name,
+                c.code as product_code,
+                d.name as color_name,
+                e.name as size_name,
+                min(a.price) as min_price,
+                max(a.price) as max_price,
+                f.name as brand_name,
+                min(a.price) <> max(a.price) as omg,
+                sum(a.quantity) as sum,
+                sum(a.quantity * a.price) as sum_total,
+                count(*) as total_by_product
+            ')
+            ->join('products as b', 'a.product_id', '=', 'b.id')
+            ->join('products as c', 'b.parent_id', '=', 'c.id')
+            ->join('colors as d', 'b.color_id', '=', 'd.id')
+            ->join('sizes as e', 'b.size_id', '=', 'e.id')
+            ->join('brands as f', 'c.brand_id', '=', 'f.id')  // Agregamos el join con la tabla brands
+            ->groupBy('b.parent_id', 'b.color_id', 'a.price')
+            ->where('order_id', $this->order->id)
+            ->orderBy('product_name')
+            ->orderBy('color_name')
+            ->union($orderServices)
+            ->get();
+
         if(!$model->isSuborder()){
-            return view('backend.chart.order.edit-order')->with(compact('tablesData', 'model', 'orderExists', 'saleExists', 'requestExists', 'quotationExists', 'productsOutputExists', 'statuses', 'batches', 'supplier', 'process', 'OrderStatusDelivery'));
+            return view('backend.chart.order.edit-order')->with(compact('tablesData', 'orderGroup', 'model', 'orderExists', 'saleExists', 'requestExists', 'quotationExists', 'productsOutputExists', 'statuses', 'batches', 'supplier', 'process', 'OrderStatusDelivery'));
         }
         else{
             return view('backend.order.suborder')->with(compact('model', 'orderExists', 'saleExists', 'requestExists', 'quotationExists', 'productsOutputExists', 'statuses', 'supplier', 'batches', 'process', 'OrderStatusDelivery'));           
