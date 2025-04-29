@@ -29,10 +29,10 @@ class PrintNewFormatOrder extends Component
         $orderServices = DB::table('product_order as a')
                 ->selectRaw('
                     b.name as product_name,
-                    b.code as product_code,
-                    b.color_id as color_name,
-                    b.size_id as size_name,
-                    b.brand_id as brand_name,
+                    null as product_code,
+                    null as color_name,
+                    null as size_name,
+                    null as brand_name,
                     min(a.price) as min_price,
                     max(a.price) as max_price,
                     min(a.price) <> max(a.price) as omg,
@@ -52,9 +52,9 @@ class PrintNewFormatOrder extends Component
                 c.code as product_code,
                 d.name as color_name,
                 e.name as size_name,
+                f.name as brand_name,
                 min(a.price) as min_price,
                 max(a.price) as max_price,
-                f.name as brand_name,
                 min(a.price) <> max(a.price) as omg,
                 sum(a.quantity) as sum,
                 sum(a.quantity * a.price) as sum_total,
@@ -73,7 +73,12 @@ class PrintNewFormatOrder extends Component
             ->get();
 
 
+        // dd($orderGroup);
+
         // dd($this->order->products->toArray());
+
+
+        // dd($this->order->getProductsGroupedByParentAndSize());
 
         $tablesData = $this->order->getSizeTablesData();
 

@@ -174,6 +174,15 @@ Route::group([
                         ->push(__('Print order'), route('admin.store.all.print', [$order, $breackdown, $grouped, $emptyPrices]));
                 });
 
+            Route::get('newformat', [OrderController::class, 'newformat'])
+                ->name('newformat')
+                ->middleware('permission:admin.access.store.order.modify_store')
+                ->breadcrumbs(function (Trail $trail, Order $order) {
+                    $trail->parent('admin.order.edit', $order)
+                        ->push(__('Print order'), route('admin.store.all.newformat', $order));
+                });
+
+
             Route::get('ticket', [OrderController::class, 'ticket_store'])
                 ->name('ticket')
                 ->middleware('permission:admin.access.store.print')

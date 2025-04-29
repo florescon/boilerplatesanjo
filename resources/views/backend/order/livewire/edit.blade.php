@@ -258,6 +258,9 @@
                 <a type="button" href="{{ route('admin.order.ticket_materia', $order_id) }}" class="btn btn-warning text-white" target="_blank">@lang('Feedstock')</a>
               @endif
 
+
+            </div>
+            <div class="text-center mt-2">
               @if(!$model->isQuotation() and !$model->isOutputProducts())
                 <a type="button" href="{{ route('admin.order.service_orders', $order_id) }}" class="btn btn-link">@lang('Service Order') 
                   @if($model->service_orders()->count())
@@ -265,6 +268,8 @@
                   @endif
                 </a>
               @endif
+
+              <a type="button" href="{{ route('admin.store.all.newformat', $order_id) }}" class="btn btn-secondary" target="_blank">Nuevo Formato</a>
             </div>
 
    {{--          @if(!$model->isQuotation())

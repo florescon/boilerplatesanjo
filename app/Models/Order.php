@@ -660,7 +660,8 @@ public function getProductsGroupedByParentAndSize(): array
                     'color' => $item->product->parent_id ? $item->product->color_name_clear : '',
                     'general_code' => $item->product->parent_id ? $item->product->parent->code : $item->product->name,
                     'items' => collect(),
-                    'no_size' => null
+                    'no_size' => null,
+                    'no_size_items' => collect() // Nueva colección para almacenar todos los items sin talla
                 ];
             }
             
@@ -676,14 +677,8 @@ public function getProductsGroupedByParentAndSize(): array
                     $groupedProducts[$baseName]['items'][$sizeId] = $item;
                 }
             } else {
-                // Para productos sin talla, también sumamos las cantidades si ya existe
-                if ($groupedProducts[$baseName]['no_size']) {
-                    $existingItem = $groupedProducts[$baseName]['no_size'];
-                    $existingItem->quantity += $item->quantity;
-                    $groupedProducts[$baseName]['no_size'] = $existingItem;
-                } else {
-                    $groupedProducts[$baseName]['no_size'] = $item;
-                }
+                // Almacenar todos los items sin talla en la colección
+                $groupedProducts[$baseName]['no_size_items']->push($item);
             }
         }
 
@@ -704,7 +699,9 @@ public function getProductsGroupedByParentAndSize(): array
     }
 
     return $result;
-}    
+}
+
+
 public function getSizeTableGroupedData(): array
 {
     $groupedData = $this->getProductsGroupedByParentAndSize();
@@ -753,6 +750,7 @@ public function getSizeTableGroupedData(): array
 }
 
 
+
 public function getSizeTablesData(): array
 {
     $groupedData = $this->getProductsGroupedByParentAndSize();
@@ -776,7 +774,7 @@ public function getSizeTablesData(): array
             ];
         }
         $noSizeTotal = ['quantity' => 0, 'amount' => 0];
-        $grandTotal = 0; // Inicializar gran total
+        $grandTotal = 0;
         $rowQuantity = 0;
         
         $preparedRows = $sortedRows->map(function($product) use ($data, &$sizeTotals, &$noSizeTotal, &$grandTotal, &$rowQuantity) {
@@ -790,6 +788,7 @@ public function getSizeTablesData(): array
                 'row_quantity' => 0
             ];
             
+            // Procesar productos con talla
             foreach ($data['uniqueSizes'] as $size) {
                 if (isset($product['items'][$size['id']])) {
                     $item = $product['items'][$size['id']];
@@ -800,7 +799,7 @@ public function getSizeTablesData(): array
                         'quantity' => $quantity,
                         'amount' => $amount,
                         'only_display' => $quantity,
-                        'display' => "{$quantity} &nbsp; <small class='font-italic text-primary'>".number_format($item->price, 2)."</small>"
+                        'display' => "{$quantity} &nbsp; <small class='font-italic text-primary'>".priceWithoutIvaIncluded($item->price)."</small>"
                     ];
                     
                     $sizeTotals[$size['id']]['quantity'] += $quantity;
@@ -810,26 +809,37 @@ public function getSizeTablesData(): array
                 }
             }
             
-            if ($product['no_size']) {
-                $quantity = $product['no_size']->quantity;
-                $amount = $quantity * $product['no_size']->price;
+            // Procesar productos sin talla (ahora manejamos múltiples items)
+            if ($product['no_size_items']->isNotEmpty()) {
+                $quantity = 0;
+                $amount = 0;
+                $displayParts = [];
+                
+                foreach ($product['no_size_items'] as $item) {
+                    $itemQuantity = $item->quantity;
+                    $itemAmount = $itemQuantity * $item->price;
+                    
+                    $quantity += $itemQuantity;
+                    $amount += $itemAmount;
+                    
+                    $displayParts[] = "{$itemQuantity} &nbsp; <small class='font-italic text-primary'>".priceWithoutIvaIncluded($item->price)."</small>";
+                }
                 
                 $row['no_size'] = [
                     'quantity' => $quantity,
                     'amount' => $amount,
                     'only_display' => $quantity,
-                    'display' => "{$quantity} &nbsp; <small class='font-italic text-primary'> ".number_format($product['no_size']->price, 2)."</small>"
+                    'display' => implode(' + ', $displayParts)
                 ];
                 
                 $noSizeTotal['quantity'] += $quantity;
                 $noSizeTotal['amount'] += $amount;
                 $row['row_total'] += $amount;
                 $row['row_quantity'] += $quantity;
-
             }
             
-            $row['row_total_display'] = number_format($row['row_total'], 2);
-            $grandTotal += $row['row_total']; // Sumar al gran total solo una vez
+            $row['row_total_display'] = priceWithoutIvaIncluded($row['row_total']);
+            $grandTotal += $row['row_total'];
             $rowQuantity += $row['row_quantity'];
             
             return $row;
@@ -847,7 +857,7 @@ public function getSizeTablesData(): array
             'totals' => [
                 'size_totals' => $sizeTotals,
                 'no_size_total' => $noSizeTotal,
-                'grand_total' => $grandTotal,
+                'grand_total' => priceWithoutIvaIncluded($grandTotal),
                 'row_quantity' => $rowQuantity,
             ]
         ];
@@ -855,7 +865,6 @@ public function getSizeTablesData(): array
     
     return $tables;
 }
-
     /**
      * @return mixed
      */
