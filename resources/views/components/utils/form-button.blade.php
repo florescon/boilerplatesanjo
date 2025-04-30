@@ -10,7 +10,7 @@
 
 @if ($permission)
     @if ($logged_in_user->can($permission))
-        <form method="POST" action="{{ $action }}" name="{{ $name }}" class="{{ $formClass }}">
+        <form method="POST" action="{{ $action }}" name="{{ $name }}" class="{{ $formClass }} mt-1">
             @csrf
             @method($method)
 
@@ -20,11 +20,11 @@
         </form>
     @endif
 @else
-    <form method="POST" action="{{ $action }}" name="{{ $name }}" class="{{ $formClass }}">
+    <form method="POST" action="{{ $action }}" name="{{ $name }}" class="{{ $formClass }} mt-1">
         @csrf
         @method($method)
 
-        <button type="submit" class="{{ $buttonClass }}">
+        <button type="submit" class="{{ $buttonClass }} mt-1">
             @if ($icon)<i class="{{ $icon }}"></i> @endif{{ $slot }}
         </button>
     </form>

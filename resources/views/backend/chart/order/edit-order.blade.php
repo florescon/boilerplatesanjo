@@ -453,7 +453,16 @@
     </button>
   </div>
 </div>
-  @if($general)
+
+<table class="table table-hover mb-0 text-center">
+  <thead class="bg-dark">
+      <td style="width: 50%;">
+        {!! $order->total_products_and_services_label !!}
+      </td>
+    </thead>
+</table>
+
+@if($general)
 <div class="container-fluid" style="margin-top: 20px;">
   <h4 class="text-primary font-weight-semi-bold mb-4" style="font-size: 18px;">@lang('General')</h4>
   
@@ -501,9 +510,6 @@
       <table class="table">
         <tbody>
           <tr>
-            <td style="width: 50%;">
-              {!! $order->total_products_and_services_label !!}
-            </td>
             @if($prices)
             <td class="text-right" style="width: 40%;">
               <p class="text-primary font-weight-bold mb-1" style="font-size: 19px;">@lang('Subtotal'):</p>
@@ -534,7 +540,7 @@
     </div>
   </div>
 </div>
-  @endif
+@endif
 
 
 @if($details)
@@ -569,9 +575,9 @@
               @foreach($tableData['rows'] as $row)
                 <tr>
                   @if($row['no_size'])
-                    <td>{{ $row['general_code'] }}</td>
+                    <td style="width: 35%">{{ $row['general_code'] }}</td>
                   @endif
-                  <td>{{ $row['color_product'] ?: 'N/A' }}</td>
+                  <td style="width: 10%">{{ $row['color_product'] ?: 'N/A' }}</td>
                   
                   @foreach($tableData['headers'] as $header)
                     <td class="text-center">
@@ -623,7 +629,7 @@
                   <div>{{ $tableData['totals']['row_quantity'] }}</div>
                   @if($prices)
                     <div class="font-italic small">
-                      {{ number_format($tableData['totals']['grand_total'], 2) }}
+                      {{ $tableData['totals']['grand_total'] }}
                     </div>
                   @endif
                 </td>

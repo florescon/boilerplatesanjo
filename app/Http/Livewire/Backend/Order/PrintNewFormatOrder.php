@@ -72,11 +72,9 @@ class PrintNewFormatOrder extends Component
             ->union($orderServices)
             ->get();
 
-
         // dd($orderGroup);
 
         // dd($this->order->products->toArray());
-
 
         // dd($this->order->getProductsGroupedByParentAndSize());
 

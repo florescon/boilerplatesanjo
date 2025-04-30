@@ -1,6 +1,6 @@
 <div class="cs-container" style="{{ $width ? 'max-width: 2080px;' : '' }}">
     <div class="cs-invoice cs-style1">
-      <div class="cs-invoice_btns cs-hide_print">   
+      <div class="cs-invoice_btns cs-hide_print mb-2">   
 
         <a href="{{ route('admin.dashboard') }}" class="cs-invoice_btn cs-color1" style="margin-right: 10px;">
           <span>&nbsp; @lang('Home')</span>
@@ -21,13 +21,25 @@
       </div>
 
       <div class="cs-invoice_in" id="download_section">
-        <div class="cs-invoice_head cs-mb25">
-          <div class="cs-invoice_left">
+        <div class="cs-invoice_head cs-type1 cs-mb10">
+
+          <div class="cs-invoice_left" style="padding-bottom: 25px;">
             <div class="cs-logo cs-mb5"><img src="{{ asset('img/logo2.svg') }}" width="100" alt="Logo"></div>
+            <p class="cs-invoice_number cs-primary_color cs-mb0 cs-f16"><b class="cs-primary_color">{{ $order->type_order_clear }} No:</b> #{{ $order->characters_type_order }}{!! $order->folio_or_id !!}</p>
           </div>
-          <div class="cs-invoice_right cs-text_right">
+          <div class="cs-invoice_right cs-text_center">
+            <b class="cs-primary_color cs-f16">{{ __(appName()) }}</b>
+            <p>
+              {{ setting('site_address') }} <br/>
+              {{ setting('site_email') }} <br/>
+              {{ setting('site_whatsapp') }}
+            </p>
+          </div>
+
+          <div class="cs-invoice_right cs-text_right" style="padding-bottom: 25px;">
             <div class="cs-logo cs-mb5"><img src="{{ asset('img/bacapro.png') }}" width="130" alt="Logo"></div>
           </div>
+
         </div>
 
         @if(!$width)
@@ -322,7 +334,7 @@
                                   &nbsp;
                                   @if($prices)
                                     <small class="font-italic">
-                                      {{ number_format($tableData['totals']['grand_total'], 2) }}
+                                      {{ $tableData['totals']['grand_total'] }}
                                     </small>
                                   @endif
                               </td>
