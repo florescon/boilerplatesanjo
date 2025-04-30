@@ -534,13 +534,9 @@ class Order extends Model
      */
     public function getProductsGroupedBySize(): array
     {
-        // $products = $this->products->load('product.parent.size');
         $products = $this->products()->with('product.parent.size')->get();
             
-        // Obtener todas las tallas únicas presentes en el pedido
- 
         // dd($products->toArray());
-
 
         $uniqueSizes = $products->filter(fn($item) => $item->product->size_id)
             ->map(fn($item) => [
@@ -551,6 +547,8 @@ class Order extends Model
             ->unique('id')
             ->sortBy('sort')
             ->values();
+
+        // dd($uniqueSizes);
 
 
         // Agrupar productos por nombre base

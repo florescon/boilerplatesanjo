@@ -266,6 +266,17 @@ Route::group([
                     ->push(__('Workstations').' - '.$status->name, route('admin.order.station', [$order, $status]));
             });
 
+
+        Route::get('work/{status}', [OrderController::class, 'work'])
+            ->name('work')
+            ->middleware('permission:admin.access.order.modify')
+            ->breadcrumbs(function (Trail $trail, Order $order, Status $status) {
+                $trail->parent('admin.order.edit_chart', $order)
+                    ->push(__('Workstations').' - '.$status->name, route('admin.order.work', [$order, $status]));
+            });
+
+
+
         Route::get('process/{status}', [OrderController::class, 'process'])
             ->name('process')
             ->middleware('permission:admin.access.order.modify')

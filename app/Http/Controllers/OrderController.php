@@ -630,6 +630,11 @@ class OrderController extends Controller
         return view('backend.order.station-order', compact('order', 'status'));
     }
 
+    public function work(Order $order, Status $status)
+    {
+        return view('backend.order.work-order', compact('order', 'status'));
+    }
+
     public function process(Order $order, Status $status)
     {
         if($status->process == false){

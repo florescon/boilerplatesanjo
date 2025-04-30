@@ -29,6 +29,15 @@ class StationController extends Controller
         return view('backend.station.edit-station', compact('station', 'vvar'));
     }
 
+    public function newcapture($stationId)
+    {
+        $station = Station::whereId($stationId)->withTrashed()->first();
+
+        $vvar =  $station->created_at->timestamp;
+
+        return view('backend.newcapture.edit', compact('station', 'vvar'));
+    }
+
     public function ticket(Station $station)
     {
         $pdf = PDF::loadView('backend.station.ticket-station',compact('station'))->setPaper([0, -16, 2085.98, 296.85], 'landscape');

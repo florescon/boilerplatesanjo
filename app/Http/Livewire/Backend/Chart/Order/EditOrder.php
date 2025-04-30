@@ -500,7 +500,11 @@ class EditOrder extends Component
 
         $tablesData = $model->getSizeTablesData();
 
-        // dd($tableData);
+        // dd($tablesData);
+
+        // dd($model->products->toArray())
+        // dd($model->getProductsGroupedByParentSizeColor());
+        // dd($model->getProductsColorSizeMatrix()->toArray());
         
         $orderServices = DB::table('product_order as a')
                 ->selectRaw('

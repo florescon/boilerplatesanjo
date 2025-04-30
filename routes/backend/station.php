@@ -60,6 +60,17 @@ Route::group([
                     ->push(__('Ticket Consumption').' '.$station->id, route('admin.order.checklist_ticket', $station));
             });
 
+
+
+        Route::get('newcapture', [StationController::class, 'newcapture'])
+            ->name('newcapture')
+            ->middleware('permission:admin.access.station.modify')
+            ->breadcrumbs(function (Trail $trail, $station) {
+                $trail->parent('admin.station.index')
+                    ->push(__('Edit'), route('admin.station.newcapture', $station));
+            });
+
+
         Route::delete('/', [StationController::class, 'destroy'])->name('destroy');
     });
 
