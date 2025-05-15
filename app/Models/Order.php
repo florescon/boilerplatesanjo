@@ -615,15 +615,258 @@ public function getSizeTableData(): array
 }
 
 
+public function getAvailable(?array $statusCollection = null)
+{
+    // dd($statusCollection);
+
+    //obtener los productos originales del pedido
+    $products = $this->products()->with('product.parent.size')->get();
+    $productIds = $products->pluck('product_id')->toArray();
+
+
+    // dd($productIds);
+
+        //obtener los productos y cantidades
+        // $productQuantities = $products->groupBy('product_id')->map(function ($group) {
+        //     return $group->sum('quantity');
+        // });
+    $activeSums = collect();
+
+    //obtener los productos activos
+    if(!empty($statusCollection) && $statusCollection['is_principal']){
+        $activeSums = DB::table('production_batch_items')
+            ->join('production_batches', 'production_batches.id', '=', 'production_batch_items.batch_id')
+            ->where('production_batches.order_id', $this->id)
+            ->where('production_batch_items.status_id', '<>', $statusCollection['id'] ?? null) //verificar esto 
+            ->where('production_batch_items.is_principal', true)
+            ->where('production_batch_items.with_previous', null)
+            ->whereIn('production_batch_items.product_id', $productIds)
+            ->groupBy('production_batch_items.product_id')
+            ->select(
+                'production_batch_items.product_id', 'production_batch_items.is_principal',
+                DB::raw('SUM(production_batch_items.input_quantity) as total_active')
+            )
+            ->pluck('total_active', 'product_id');
+        // dd($activeSums);
+    }
+    //obtener los productos activos de la estacion previa, cuando la estacion NO es principal
+    elseif(!empty($statusCollection) && !$statusCollection['is_principal']){
+        // dd($statusCollection['previous_status']);
+        $activeSums = DB::table('production_batch_items')
+            ->rightJoin('production_batches', function($join) use ($productIds) {
+                $join->on('production_batches.id', '=', 'production_batch_items.batch_id')
+                     ->whereIn('production_batch_items.product_id', $productIds);
+            })
+            ->where('production_batches.order_id', $this->id)
+            ->where('production_batch_items.status_id', $statusCollection['previous_status'])
+            ->groupBy('production_batch_items.product_id')
+            ->select(
+                'production_batch_items.product_id',
+                DB::raw('COALESCE(SUM(production_batch_items.active), 0) as total_active'),
+                DB::raw('COALESCE(SUM(production_batch_items.input_quantity), 0) as total_input'),
+                DB::raw('COALESCE(SUM(production_batch_items.output_quantity), 0) as total_output'),
+                DB::raw('CASE 
+                    WHEN SUM(production_batch_items.output_quantity) = SUM(production_batch_items.input_quantity) AND SUM(production_batch_items.active) = 0 THEN 0
+                    WHEN SUM(production_batch_items.output_quantity) IS NULL THEN 0
+                    ELSE ABS(COALESCE(SUM(production_batch_items.input_quantity), 0) - COALESCE(SUM(production_batch_items.output_quantity), 0) - COALESCE(SUM(production_batch_items.active), 0))
+                END as total_available')
+            )
+            ->get()
+            ->keyBy('product_id');
+
+        // Asegúrate de que todos los productos tengan una entrada
+        foreach ($productIds as $id) {
+            if (!isset($activeSums[$id])) {
+                $activeSums[$id] = (object) [
+                    'product_id' => $id,
+                    'total_active' => 0,
+                    'total_input' => 0,
+                    'total_output' => 0,
+                    'total_available' => 0
+                ];
+            }
+        }
+
+            // dd($activeSums);
+    }
+    else{
+        $activeSums = collect();
+    }
+
+    // dd($activeSums);
+
+    //obtener los productos asignados en la estacion
+    $inputSums = DB::table('production_batch_items')
+        ->join('production_batches', 'production_batches.id', '=', 'production_batch_items.batch_id')
+        ->where('production_batches.order_id', $this->id)
+        ->where('production_batch_items.with_previous', null)
+        ->where('production_batch_items.status_id', $statusCollection['id'] ?? null)
+        ->whereIn('production_batch_items.product_id', $productIds)
+        ->groupBy('production_batch_items.product_id')
+        ->select(
+            'production_batch_items.product_id',
+            DB::raw('SUM(production_batch_items.input_quantity) as total_input')
+        )
+        ->pluck('total_input', 'product_id');
+
+    // dd($inputSums);
+
+
+    $isPrincipal = $statusCollection['is_principal'] ?? null;
+
+
+    //obtener el total (originales - productos activos)
+    $totalByProduct = $products->groupBy('product_id')->map(function ($group) use ($activeSums, $inputSums, $isPrincipal) {
+        // $getActive = (int) $activeSums->get($group->first()->product_id);
+        // dd($isPrincipal);
+        // dd($activeSums);
+        // dd(isset($activeSums[$group->first()->product_id]));
+        $getActive = (!$isPrincipal && isset($activeSums->get($group->first()->product_id, 0)->total_available)) ? 
+                 (int) $activeSums->get($group->first()->product_id, 0)->total_available :
+                 (int) $activeSums->get($group->first()->product_id);
+
+        // dd($getActive);
+
+        $getInput = (int) $inputSums->get($group->first()->product_id);
+
+        // dd($getInput);
+        return (object) [
+            'product_id' => $group->first()->product_id,
+            'active' => 
+                // $group->sum('quantity') - $getInput - $getActive, // Puedes cambiarlo según lógica de negocio
+                (!$isPrincipal && isset($activeSums->get($group->first()->product_id, 0)->total_available))
+                ?
+
+                abs(
+                    $getInput > 0 
+                    ? 
+                        $activeSums->get($group->first()->product_id, 0)->total_available
+                    :   
+                        ($getInput - $activeSums->get($group->first()->product_id, 0)->total_available)
+                    )
+                :
+                $group->sum('quantity') - $getInput - $getActive,
+        ];
+    });
+
+    // status obtenido o null
+    $getIdStatus = $statusCollection['id'] ?? null;
+
+    //obtener los productos batch de la misma station
+    $batchItems = DB::table('production_batch_items')
+        ->join('production_batches', 'production_batches.id', '=', 'production_batch_items.batch_id')
+        ->where('production_batches.order_id', $this->id)
+        ->whereIn('production_batch_items.product_id', $productIds)
+        ->when($getIdStatus !== null, function ($query) use ($getIdStatus) {
+            $query->where('production_batch_items.status_id', $getIdStatus);
+        })
+        ->select(
+            'production_batch_items.product_id',
+            'production_batch_items.input_quantity',
+            'production_batch_items.output_quantity',
+            'production_batch_items.active',
+            'production_batch_items.status_id'
+        )
+        ->get();
+
+        // dd($batchItems);
+
+
+    // agrupar los productos batch
+    $groupedProducts = $batchItems
+        ->groupBy('product_id')
+        ->map(function ($items) use ($activeSums) {
+            $available = $items->sum(function ($item) {
+                // Si output = input, disponible = 0 (proceso terminado)
+                if (($item->output_quantity == $item->input_quantity) && $item->active == 0) {
+                    return 0;
+                }
+                // Disponible = input - output - active (mínimo 0)
+                // return abs($item->input_quantity - $item->output_quantity - $item->active);
+                return abs($item->input_quantity);
+            });
+
+            $productId = $items->first()->product_id;
+            $active = $activeSums->get($productId, 0);
+
+            return (object) [
+                'product_id' => $items->first()->product_id,
+                // 'active' => $available ?? 1,
+                'active' => $active,
+                'available' => $available ?? 1,
+            ];
+        });
+
+    //validar si existen o no los product batch agrupados, sino considerar el total
+    if(!$groupedProducts->count()){
+        $groupedProducts =  $totalByProduct;
+    }
+    else {
+        $groupedProducts = $totalByProduct->map(function ($item) use ($groupedProducts) {
+            $productId = $item->product_id;
+            $usedActive = $groupedProducts->has($productId) ? $groupedProducts[$productId]->active : 0;
+            $available = max(0, $item->active ); // Asegurar que no sea negativo
+            
+            return (object) [
+                'product_id' => $productId,
+                'active' => $available,
+            ];
+        });
+    }
+
+    return $groupedProducts;
+}
     /**
      * Obtiene los productos agrupados por nombre base y tallas
      * 
      * @return array
      */
-public function getProductsGroupedByParentAndSize(): array
+public function getProductsGroupedByParentAndSize(?array $statusCollection = null): array
 {
     $products = $this->products()->with('product.parent.size')->get();
         
+    $productIds = $products->pluck('product_id')->toArray();
+    
+    // $activeValues = DB::table('production_batch_items')
+    //     ->join('production_batches', 'production_batches.id', '=', 'production_batch_items.batch_id')
+    //     ->where('production_batches.order_id', $this->id)
+    //     ->whereIn('production_batch_items.product_id', $productIds)
+    //     ->when($getStatus !== null, function ($query) use ($getStatus) {
+    //         $query->where('production_batch_items.status_id', $getStatus);
+    //     })
+    //     ->select(
+    //         'production_batch_items.product_id', 
+    //         'production_batch_items.active', 
+    //         'production_batch_items.status_id'
+    //     )
+    //     ->get()
+    //     ->groupBy('product_id')
+    //     ->map(function ($group) {
+    //         return (object) [
+    //             'product_id' => $group->first()->product_id,
+    //             'active' => $group->sum('active'),
+    //         ];
+    //     });
+
+
+    $activeValues = $this->getAvailable($statusCollection);
+
+    // dd($activeValues);
+    $parentIds = $products->pluck('product.parent_id')->filter()->unique()->values();
+
+    $allPossibleSizes = [];
+    if ($parentIds->isNotEmpty()) {
+        $allPossibleSizes = DB::table('products')
+            ->join('sizes', 'sizes.id', '=', 'products.size_id')
+            ->whereIn('products.parent_id', $parentIds)
+            ->select('products.parent_id', 'products.size_id', 'sizes.sort', 'sizes.name')
+            ->distinct()
+            ->orderBy('sizes.sort')
+            ->get()
+            ->groupBy('parent_id');
+    }
+
+    // 4
     // Agrupar por parent_id primero
     $groupedByParent = $products->groupBy(function($item) {
         return $item->product->parent_id ?? 'no_parent';
@@ -632,13 +875,28 @@ public function getProductsGroupedByParentAndSize(): array
     $result = [];
 
     foreach ($groupedByParent as $parentId => $parentProducts) {
+
         // Obtener tallas únicas para este parent
-        $uniqueSizes = $parentProducts->filter(fn($item) => $item->product->size_id)
+        $currentSizes = $parentProducts->filter(fn($item) => $item->product->size_id)
             ->map(fn($item) => [
                 'id' => $item->product->size_id,
                 'sort' => $item->product->size->sort ?? $item->product->parent->size->sort ?? 0,
-                'name' => $item->product->size->name ?? $item->product->parent->size->name ?? $item->product->size_id
+                'name' => $item->product->size->name ?? $item->product->parent->size->name ?? 'N/A',
+                'active' => $item->active ?? 0
             ])
+            ->unique('id');
+
+        // Tallas posibles para este parent (desde datos precargados)
+        $possibleSizes = collect($allPossibleSizes[$parentId] ?? [])
+            ->map(fn($size) => [
+                'id' => $size->size_id,
+                'sort' => $size->sort,
+                'name' => $size->name,
+                'active' => 0
+            ]);
+
+        // Combinar y ordenar
+        $uniqueSizes = $currentSizes->merge($possibleSizes)
             ->unique('id')
             ->sortBy('sort')
             ->values();
@@ -656,6 +914,7 @@ public function getProductsGroupedByParentAndSize(): array
                 $groupedProducts[$baseName] = [
                     'name' => $baseNameOnly,
                     'color' => $item->product->parent_id ? $item->product->color_name_clear : '',
+                    'color_id' => $item->product->parent_id ? $item->product->color_id : '',
                     'general_code' => $item->product->parent_id ? $item->product->parent->code : $item->product->name,
                     'items' => collect(),
                     'no_size' => null,
@@ -665,6 +924,10 @@ public function getProductsGroupedByParentAndSize(): array
             
             if ($item->product->size_id) {
                 $sizeId = $item->product->size_id;
+                $item->active = 0;
+
+                // Obtener el valor active para este item
+                $active = $activeValues[$item->product_id]->active ?? 0;
                 
                 // Si ya existe un producto con este size_id, sumamos las cantidades
                 if (isset($groupedProducts[$baseName]['items'][$sizeId])) {
@@ -672,7 +935,16 @@ public function getProductsGroupedByParentAndSize(): array
                     $existingItem->quantity += $item->quantity;
                     $groupedProducts[$baseName]['items'][$sizeId] = $existingItem;
                 } else {
+                    $item->active = $active; // Asignar el valor active al item
                     $groupedProducts[$baseName]['items'][$sizeId] = $item;
+                }
+                
+                // Asegurar que el array sizes tenga el valor active
+                if (!isset($groupedProducts[$baseName]['sizes'][$sizeId])) {
+                    $groupedProducts[$baseName]['sizes'][$sizeId] = [
+                        'active' => $active,
+                        // otros campos que necesites
+                    ];
                 }
             } else {
                 // Almacenar todos los items sin talla en la colección
@@ -688,6 +960,7 @@ public function getProductsGroupedByParentAndSize(): array
             ? '' 
             : ($parentProducts->first()->product->parent->code ?? 'Parent '.$parentId);
 
+// dd($groupedProducts);
         $result[$parentId] = [
             'parent_name' => $parentName,
             'parent_code' => $parentCode,
@@ -695,6 +968,7 @@ public function getProductsGroupedByParentAndSize(): array
             'groupedProducts' => $groupedProducts
         ];
     }
+    // dd($result);
 
     return $result;
 }
@@ -749,10 +1023,13 @@ public function getSizeTableGroupedData(): array
 
 
 
-public function getSizeTablesData(): array
+public function getSizeTablesData(?array $statusCollection = null): array
 {
-    $groupedData = $this->getProductsGroupedByParentAndSize();
+
+    $groupedData = $this->getProductsGroupedByParentAndSize($statusCollection);
     
+    // dd($groupedData);
+
     $sortedGroups = collect($groupedData)->sortBy(function($group) {
         return strtolower($group['parent_name']);
     });
@@ -778,23 +1055,27 @@ public function getSizeTablesData(): array
         $preparedRows = $sortedRows->map(function($product) use ($data, &$sizeTotals, &$noSizeTotal, &$grandTotal, &$rowQuantity) {
             $row = [
                 'name' => $product['name'],
+                // 'product_id' => $product['product_id'],
                 'general_code' => $product['general_code'],
                 'color_product' => $product['color'] ?: 'N/A',
+                'color_id' => $product['color_id'] ?: 'N/A',
                 'sizes' => [],
                 'no_size' => null,
                 'row_total' => 0,
                 'row_quantity' => 0
             ];
-            
+        
             // Procesar productos con talla
             foreach ($data['uniqueSizes'] as $size) {
                 if (isset($product['items'][$size['id']])) {
                     $item = $product['items'][$size['id']];
                     $quantity = $item->quantity;
+                    $active = $item->active;
                     $amount = $quantity * $item->price;
                     
                     $row['sizes'][$size['id']] = [
                         'quantity' => $quantity,
+                        'active' => $active,
                         'amount' => $amount,
                         'only_display' => $quantity,
                         'display' => "{$quantity} &nbsp; <small class='font-italic text-primary'>".priceWithoutIvaIncluded($item->price)."</small>"
@@ -843,6 +1124,8 @@ public function getSizeTablesData(): array
             return $row;
         });
         
+        // dd($preparedRows);
+
         $tables[$parentId] = [
             'parent_name' => $data['parent_name'],
             'parent_code' => $data['parent_code'],
@@ -1718,4 +2001,200 @@ public function getSizeTablesData(): array
     {
         return $this->created_at->diffForHumans();
     }
+
+    public function productionBatches()
+    {
+        return $this->hasMany(ProductionBatch::class);
+    }
+    
+    
+    /**
+     * Obtiene los batches de producción filtrados por status_id y product_id
+     *
+     * @param int $status_id
+     * @param int $product_id
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getBatchForStatus(int $status_id, int $product_id)
+    {
+        return $this->productionBatches()
+            ->where('status_id', $status_id)
+            ->where('product_id', $product_id)
+            ->get();
+    }
+
+
+    public function getTotalBatchProduction(int $status_id, int $product_id, int $batch_id)
+    {
+        $totals = DB::table('production_batch_items')
+            ->where('batch_id', $batch_id)
+            ->sum('input_quantity');
+
+        return $totals;
+    }
+
+    public function getTotalBatchActiveProduction(int $status_id, int $product_id, int $batch_id)
+    {
+        $totals = DB::table('production_batch_items')
+            ->where('batch_id', $batch_id)
+            ->sum('active');
+
+        return $totals;
+    }
+
+    public function getTotalBatchByProductProduction(int $status_id, int $product_id)
+    {
+        return $this->getBatchForStatus($status_id, $product_id)->sum(function($batches) {
+          return $batches->items->sum('input_quantity');
+        });
+    }
+
+    // Método para crear un nuevo lote basado en los productos de la orden
+    public function createProductionBatch(array $data)
+    {
+        // dd($data['production_batch_items']);
+        // dd($data);
+
+        return DB::transaction(function () use ($data) {
+
+            if(empty($data['production_batch_items'])){
+                return false;
+            }
+
+            $batch = $this->productionBatches()->create([
+                'product_id' => $data['parent_id'],
+                'status_id' => $data['status_id'],
+                'with_previous' => $data['with_previous'] ?? null,
+                'is_principal' => $data['is_principal'],
+                'notes' => $data['notes'] ?? null,
+            ]);
+            
+            // Agregar items al lote basado en los productos de la orden
+            foreach ($data['production_batch_items'] as $production_batch_item) {
+                $batch->items()->create([
+                    'product_id' => $production_batch_item['product_id'],
+                    'status_id' => $data['status_id'],
+                    'input_quantity' => $production_batch_item['quantity'], // Se establecerá cuando se reciba
+                    'active' => $production_batch_item['quantity'],
+                    'is_principal' => $data['is_principal'],
+                    'output_quantity' => 0, // Se actualizará en cada estación
+                    'status' => 'pending',
+                    'with_previous' => $data['with_previous'] ?? null,
+                    'current_station' => 'recepcion'
+                ]);
+
+
+                if (!is_null($data['prev_status']) && $data['is_principal'] === false) {
+                    $quantityToDecrement = $production_batch_item['quantity'];
+                    $productId = $production_batch_item['product_id'];
+
+                    // Obtener lotes anteriores
+                    $previousBatches = DB::table('production_batches')
+                        ->where('order_id', $this->id)
+                        ->where('status_id', $data['prev_status'])
+                        ->pluck('id');
+
+                    if ($previousBatches->isNotEmpty() && empty($data['with_previous'])) {
+                        // Obtener items disponibles ordenados por active (para distribuir la cantidad)
+                        $availableItems = DB::table('production_batch_items')
+                            ->whereIn('batch_id', $previousBatches)
+                            ->where('product_id', $productId)
+                            ->where('active', '>', 0)
+                            ->orderBy('active', 'desc')
+                            ->get(['id', 'active']);
+
+                        // Distribuir la cantidad a decrementar
+                        foreach ($availableItems as $item) {
+                            if ($quantityToDecrement <= 0) break;
+
+                            // dd($quantityToDecrement);
+                            $decrementAmount = min($item->active, $quantityToDecrement);
+                            
+                            DB::table('production_batch_items')
+                                ->where('id', $item->id)
+                                ->decrement('active', $decrementAmount);
+                            
+                            $quantityToDecrement -= $decrementAmount;
+                        }
+
+                        // Si no hay suficiente cantidad disponible
+                        if ($quantityToDecrement > 0) {
+                            throw new \Exception("No hay suficiente cantidad disponible en los lotes anteriores para el producto {$productId}. Faltan {$quantityToDecrement} unidades.");
+                        }
+                    }
+                }
+
+
+            }
+            
+            return $batch->load('items');
+        });
+    }
+
+    public function calculateStatusQuantities()
+    {
+        // Obtener los product_ids únicos del pedido con sus cantidades totales
+        $orderProducts = \DB::table('product_order')
+            ->join('products', 'product_order.product_id', '=', 'products.id')
+            ->where('order_id', $this->id)
+            ->whereNotNull('products.parent_id')
+            ->select('product_id', \DB::raw('SUM(quantity) as total_quantity'))
+            ->groupBy('product_id')
+            ->get()
+            ->pluck('total_quantity', 'product_id'); // [product_id => total_quantity]
+        
+        $orderServices = \DB::table('product_order')
+            ->join('products', 'product_order.product_id', '=', 'products.id')
+            ->where('order_id', $this->id)
+            ->whereNull('products.parent_id')  // Solo productos hijos (servicios)
+            ->select(\DB::raw('SUM(quantity) as total_services'))
+            ->value('total_services') ?? 0;  // Obtenemos directamente el valor
+
+        $result = [
+            'Captura' => 0,
+            'Proceso' => 0,
+            'Procesando' => 0,
+            'Terminado' => 0,
+            'Services' => $orderServices
+        ];
+
+        // dd($orderProducts);
+
+        foreach ($orderProducts as $productId => $orderQuantity) {
+            // Obtener todos los batch items para este producto en esta orden
+            $batchItems = \DB::table('production_batch_items')
+                ->join('production_batches', 'production_batch_items.batch_id', '=', 'production_batches.id')
+                ->where('production_batches.order_id', $this->id)
+                ->where('production_batch_items.product_id', $productId)
+                ->select('production_batch_items.*')
+                ->get();
+
+            // Calcular cantidades
+            $totalAssigned = $batchItems->where('is_principal', true)->sum('input_quantity');
+            
+            // Proceso: suma de input_quantity donde is_principal = true y status_id != 15
+            $totalInProcess = $batchItems
+                ->where('is_principal', true)
+                ->sum('input_quantity');
+
+            // Terminado: suma de (input_quantity - active) donde status_id = 15
+            $totalFinished = $batchItems
+                ->where('status_id', 15)
+                ->sum(function ($item) {
+                    return $item->input_quantity - $item->active;
+                });
+
+            // Captura = cantidad no asignada (total del pedido - total asignado)
+            $result['Captura'] += max(0, $orderQuantity - $totalAssigned);
+                        
+            // Terminado = cantidad terminada
+            $result['Terminado'] += $totalFinished;
+
+            // Proceso = cantidad en proceso (principal) no terminada
+            $result['Proceso'] += $totalInProcess - $totalFinished;
+        }
+
+        return $result;
+    }
+
 }

@@ -340,11 +340,26 @@ class Status extends Model
         return $first_status_process;
     }
 
+    public function getCalloutClassAttribute(): string
+    {
+        switch (true) {
+                case $this->supplier:
+                    return 'bd-callout bd-callout-warning';
+                case $this->process:
+                    return 'bd-callout bd-callout-danger';
+                case $this->batch:
+                    return 'bd-callout bd-callout-primary';
+                default:
+                    return 'bd-callout bd-callout-default';
+            }
+
+        return 'bd-callout bd-callout-default';
+    }
 
     public function getDataLogicAttribute(): string
     {
         switch (true) {
-                case $this->final_lot && $this->batch:
+                case $this->process && $this->batch:
                     return 'Final del Lote, se envia directo a Conformado';
                 case $this->supplier:
                     return 'Pedido a Proveedor se envia directo a Conformado';
@@ -367,6 +382,61 @@ class Status extends Model
 
     public function isNextAutomatic(){
         return $this->getNextStatus()->automatic;
+    }
+
+    /**
+     * Obtiene una colección de valores basada en condiciones específicas
+     * 
+     * @return array
+     */
+    public function getStatusCollection()
+    {
+        if (!$this->active) {
+            return [];
+        }
+
+        $collection = [
+            'id' => $this->id,
+            'is_principal' => $this->initial_lot || $this->initial_process || $this->supplier,
+            'is_batch' => $this->batch,
+            'is_process' => $this->process,
+            'initial_lot' => $this->initial_lot,
+            'final_lot' => $this->final_lot,
+            'final_process' => $this->final_process,
+            'supplier' => $this->supplier,
+            'to_add_users' => $this->to_add_users,
+        ];
+
+        // Si es initial_process o supplier, previous_status es null
+        if ($this->initial_process || $this->supplier) {
+            $collection['previous_status'] = null;
+        } else {
+            // Obtener status anterior (level menor y no es principal)
+            $previousStatus = DB::table('statuses')->where('active', true)
+                ->where('level', '<', $this->level)
+                ->where(function($query) {
+                    $query->where('batch', true)
+                          ->orWhere('process', true);
+                })
+                ->orderBy('level', 'desc')
+                ->first();
+
+            $collection['previous_status'] = $previousStatus ? $previousStatus->id : null;
+        }
+
+        // Obtener siguiente status (level mayor y no es principal)
+        $nextStatus = DB::table('statuses')->where('active', true)
+            ->where('level', '>', $this->level)
+            ->where(function($query) {
+                $query->where('batch', true)
+                      ->orWhere('process', true);
+            })
+            ->orderBy('level', 'asc')
+            ->first();
+
+        $collection['next_status'] = $nextStatus ? $nextStatus->id : null;
+
+        return $collection;
     }
 
     public function getDataStatus()

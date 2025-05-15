@@ -842,6 +842,40 @@ class Product extends Model
         return $this->pictures->where('color_id', $byID)->count();
     }
 
+    public function uniqueSizeIds()
+    {
+        return $this->children()
+            ->join('sizes', 'sizes.id', '=', 'products.size_id')
+            ->select('products.size_id')
+            ->distinct()
+            ->orderBy('sizes.sort')
+            ->pluck('size_id');
+    }
+
+    public function childrenWithUniqueSizes()
+    {
+        return $this->children()
+            ->with('size') // Solo cargar la relación necesaria
+            ->has('size') // Solo productos con talla
+            ->get()
+            ->unique('size_id')
+            ->sortBy(function($product) {
+                return $product->size->sort;
+            });
+    }
+
+    public function childrenWithUniqueColors()
+    {
+        return $this->children
+            ->unique('color_id')
+            ->sortBy(function($product) {
+                return optional($product->color)->name;
+            })
+            ->filter(function($product) {
+                return !is_null($product->color);
+            });
+    }
+
     public function getTotalStockAttribute()
     {
         if($this->isChildren()){

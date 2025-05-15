@@ -64,7 +64,8 @@ class StationsOrder extends Component
         'saveFromInitialProcess',
         'deleteStation',
         'saveInvoiceDate',
-        'AmountReceived' => 'render'];
+        'AmountReceived' => 'render'
+    ];
 
     public function mount(Order $order, Status $status)
     {

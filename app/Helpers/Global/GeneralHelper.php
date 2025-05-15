@@ -371,3 +371,231 @@ if (! function_exists('changeFormatStringDate')) {
         return $formattedDate;  // Salida: 01-08-2024
     }
 }
+
+if (! function_exists('getProductsTableData')) {
+
+    function getProductsTableData($relationData): array
+    {
+        $products = $relationData;
+            
+        $productIds = $products->pluck('product_id')->toArray();
+        
+        // $activeValues = $this->getAvailable($relationData);
+
+        // Agrupar por parent_id primero
+        $groupedByParent = $products->groupBy(function($item) {
+            return $item->product->parent_id ?? 'no_parent';
+        });
+
+        $result = [];
+
+
+        foreach ($groupedByParent as $parentId => $parentProducts) {
+            // Obtener tallas únicas para este parent
+            $uniqueSizes = $parentProducts->filter(fn($item) => $item->product->size_id)
+                ->map(fn($item) => [
+                    'id' => $item->product->size_id,
+                    'sort' => $item->product->size->sort ?? $item->product->parent->size->sort ?? 0,
+                    'name' => $item->product->size->name ?? $item->product->parent->size->name ?? $item->product->size_id,
+                    // 'active' => $activeValues[$item->product_id]->active ?? 0 // Agregar active desde la consulta DB
+                ])
+                ->unique('id')
+                ->sortBy('sort')
+                ->values();
+
+            // Agrupar productos por nombre base para este parent
+            $groupedProducts = [];
+            foreach ($parentProducts as $item) {
+                $fullName = $item->product->full_name_clear_sort;
+                $baseName = preg_replace('/\s\d+$/', '', $fullName);
+
+                $onlyName = $item->product->only_name;
+                $baseNameOnly = preg_replace('/\s\d+$/', '', $onlyName);
+                
+                if (!isset($groupedProducts[$baseName])) {
+                    $groupedProducts[$baseName] = [
+                        'name' => $baseNameOnly,
+                        'color' => $item->product->parent_id ? $item->product->color_name_clear : '',
+                        'color_id' => $item->product->parent_id ? $item->product->color_id : '',
+                        'general_code' => $item->product->parent_id ? $item->product->parent->code : $item->product->name,
+                        'items' => collect(),
+                        'no_size' => null,
+                        'no_size_items' => collect() // Nueva colección para almacenar todos los items sin talla
+                    ];
+                }
+                
+                if ($item->product->size_id) {
+                    $sizeId = $item->product->size_id;
+                    // $item->active = 0;
+
+                    // Obtener el valor active para este item
+                    // $active = $activeValues[$item->product_id]->active ?? 0;
+                    
+                    // Si ya existe un producto con este size_id, sumamos las cantidades
+                    if (isset($groupedProducts[$baseName]['items'][$sizeId])) {
+                        $existingItem = $groupedProducts[$baseName]['items'][$sizeId];
+                        $existingItem->input_quantity += $item->input_quantity;
+                        $groupedProducts[$baseName]['items'][$sizeId] = $existingItem;
+                    } else {
+                        // $item->active = $active; // Asignar el valor active al item
+                        $groupedProducts[$baseName]['items'][$sizeId] = $item;
+                    }
+                    
+                    // Asegurar que el array sizes tenga el valor active
+                    if (!isset($groupedProducts[$baseName]['sizes'][$sizeId])) {
+                        $groupedProducts[$baseName]['sizes'][$sizeId] = [
+                            // 'active' => $active,
+                            // otros campos que necesites
+                        ];
+                    }
+                } else {
+                    // Almacenar todos los items sin talla en la colección
+                    $groupedProducts[$baseName]['no_size_items']->push($item);
+                }
+            }
+
+            $parentName = $parentId === 'no_parent' 
+                ? 'Servicios' 
+                : ($parentProducts->first()->product->parent->name ?? 'Parent '.$parentId);
+
+            $parentCode = $parentId === 'no_parent' 
+                ? '' 
+                : ($parentProducts->first()->product->parent->code ?? 'Parent '.$parentId);
+
+            // dd($groupedProducts);
+            $result[$parentId] = [
+                'parent_name' => $parentName,
+                'parent_code' => $parentCode,
+                'uniqueSizes' => $uniqueSizes,
+                'groupedProducts' => $groupedProducts
+            ];
+        }
+        return $result;
+    }
+}
+
+if (! function_exists('getTableData')) {
+
+    function getTableData($relationData): array
+    {
+
+        $groupedData = getProductsTableData($relationData);
+        
+        $sortedGroups = collect($groupedData)->sortBy(function($group) {
+            return strtolower($group['parent_name']);
+        });
+        
+        $tables = [];
+        
+        foreach ($sortedGroups as $parentId => $data) {
+            $sortedRows = collect($data['groupedProducts'])->sortBy(function($product) {
+                return strtolower($product['name']);
+            })->values();
+            
+            $sizeTotals = [];
+            foreach ($data['uniqueSizes'] as $size) {
+                $sizeTotals[$size['id']] = [
+                    'quantity' => 0,
+                    'amount' => 0
+                ];
+            }
+            $noSizeTotal = ['quantity' => 0, 'amount' => 0];
+            $grandTotal = 0;
+            $rowQuantity = 0;
+            
+            $preparedRows = $sortedRows->map(function($product) use ($data, &$sizeTotals, &$noSizeTotal, &$grandTotal, &$rowQuantity) {
+                $row = [
+                    'name' => $product['name'],
+                    // 'product_id' => $product['product_id'],
+                    'general_code' => $product['general_code'],
+                    'color_product' => $product['color'] ?: 'N/A',
+                    'color_id' => $product['color_id'] ?: 'N/A',
+                    'sizes' => [],
+                    'no_size' => null,
+                    'row_total' => 0,
+                    'row_quantity' => 0
+                ];
+            
+                // Procesar productos con talla
+                foreach ($data['uniqueSizes'] as $size) {
+                    if (isset($product['items'][$size['id']])) {
+                        $item = $product['items'][$size['id']];
+                        $quantity = $item->input_quantity;
+                        $active = $item->active;
+                        $amount = $quantity * $item->price;
+                        
+                        $row['sizes'][$size['id']] = [
+                            'quantity' => $quantity,
+                            'active' => $active,
+                            'amount' => $amount,
+                            'only_display' => $quantity,
+                            'display' => "{$quantity} &nbsp; <small class='font-italic text-primary'>".priceWithoutIvaIncluded($item->price)."</small>"
+                        ];
+                        
+                        $sizeTotals[$size['id']]['quantity'] += $quantity;
+                        $sizeTotals[$size['id']]['amount'] += $amount;
+                        $row['row_total'] += $amount;
+                        $row['row_quantity'] += $quantity;
+                    }
+                }
+                
+                // Procesar productos sin talla (ahora manejamos múltiples items)
+                if ($product['no_size_items']->isNotEmpty()) {
+                    $quantity = 0;
+                    $amount = 0;
+                    $displayParts = [];
+                    
+                    foreach ($product['no_size_items'] as $item) {
+                        $itemQuantity = $item->input_quantity;
+                        $itemAmount = $itemQuantity * $item->price;
+                        
+                        $quantity += $itemQuantity;
+                        $amount += $itemAmount;
+                        
+                        $displayParts[] = "{$itemQuantity} &nbsp; <small class='font-italic text-primary'>".priceWithoutIvaIncluded($item->price)."</small>";
+                    }
+                    
+                    $row['no_size'] = [
+                        'quantity' => $quantity,
+                        'amount' => $amount,
+                        'only_display' => $quantity,
+                        'display' => implode(' + ', $displayParts)
+                    ];
+                    
+                    $noSizeTotal['quantity'] += $quantity;
+                    $noSizeTotal['amount'] += $amount;
+                    $row['row_total'] += $amount;
+                    $row['row_quantity'] += $quantity;
+                }
+                
+                $row['row_total_display'] = priceWithoutIvaIncluded($row['row_total']);
+                $grandTotal += $row['row_total'];
+                $rowQuantity += $row['row_quantity'];
+                
+                return $row;
+            });
+            
+            // dd($preparedRows);
+
+            $tables[$parentId] = [
+                'parent_name' => $data['parent_name'],
+                'parent_code' => $data['parent_code'],
+                'headers' => $data['uniqueSizes']->map(fn($size) => [
+                    'id' => $size['id'],
+                    'name' => $size['name'],
+                    'sort' => $size['sort']
+                ]),
+                'rows' => $preparedRows->toArray(),
+                'totals' => [
+                    'size_totals' => $sizeTotals,
+                    'no_size_total' => $noSizeTotal,
+                    'grand_total' => priceWithoutIvaIncluded($grandTotal),
+                    'row_quantity' => $rowQuantity,
+                ]
+            ];
+        }
+        
+        return $tables;
+    }
+
+}

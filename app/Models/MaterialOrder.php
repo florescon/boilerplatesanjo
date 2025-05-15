@@ -14,7 +14,7 @@ class MaterialOrder extends Model
     protected $table = 'material_orders';
 
     protected $fillable = [
-        'order_id', 'product_order_id', 'material_id', 'price', 'unit_quantity', 'quantity', 'audi_id', 'station_id', 'manual'
+        'order_id', 'product_order_id', 'material_id', 'price', 'unit_quantity', 'quantity', 'audi_id', 'station_id', 'production_batch_id', 'manual'
     ];
 
     /**
@@ -61,6 +61,11 @@ class MaterialOrder extends Model
     public function station()
     {
         return $this->belongsTo(Station::class)->withTrashed();
+    }
+
+    public function production_batch()
+    {
+        return $this->belongsTo(ProductionBatch::class)->withTrashed();
     }
 
     public function getTotalByMaterialAttribute()

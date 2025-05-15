@@ -145,15 +145,30 @@
 
             <li class="c-sidebar-nav-item">
                 <x-utils.link
+                    :href="route('admin.order.request_chart_work')"
+                    class="c-sidebar-nav-link"
+                    new
+                    :text="__('Requests')"
+                    icon="c-sidebar-nav-icon cil-briefcase"
+                    :active="activeClass(Route::is('admin.order.request_chart_work'), 'c-active')" />
+            </li>
+
+        @endif
+
+
+        @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.order.request_chart'))
+
+            <li class="c-sidebar-nav-item">
+                <x-utils.link
                     :href="route('admin.order.request_chart')"
                     class="c-sidebar-nav-link"
                     :text="__('Requests')"
+                    old
                     icon="c-sidebar-nav-icon cil-briefcase"
                     :active="activeClass(Route::is('admin.order.request_chart'), 'c-active')" />
             </li>
 
         @endif
-
 
         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.product.modify')))
             <li class="c-sidebar-nav-item">

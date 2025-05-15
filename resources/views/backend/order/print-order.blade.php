@@ -140,7 +140,7 @@
                       <tr>
                         <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->sum }}</td>
                         <td class="cs-width_2">{{ $product->product_code ?? '--' }}</td>
-                        <td class="cs-width_6"> {!! '<strong>'.$product->brand_name.'</strong>' !!} {{ $product->product_name }} - {{ $product->color_name }}</td>
+                        <td class="cs-width_6">  {{ $product->product_name }} - {{ $product->color_name }} {!! '<strong>'.$product->brand_name.'</strong>' !!}</td>
                         <td class="cs-width_1 cs-text_center cs-primary_color">
                           @if($product->omg)
                             ${{ priceWithoutIvaIncluded($product->min_price) }}
@@ -181,9 +181,10 @@
                         <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->quantity }}</td>
                         <td class="cs-width_2">{{ $product->product->code_subproduct_clear }}</td>
                         <td class="{{ !$emptyPrices ? 'cs-width_9' : 'cs-width_6' }}">
-                          {!! '<strong>'. $product->product->name_brand .'</strong>'  !!}
+                          
                           {{ $product->product->only_name }}
                           <div class="small text-muted"> {!! $product->product->only_parameters !!} </div>
+                          {!! '<strong>'. $product->product->name_brand .'</strong>'  !!}
                         </td>
                         @if(!$emptyPrices)
                           <td class="cs-width_1 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</td>
@@ -208,9 +209,10 @@
                         <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->quantity }}</td>
                         <td class="cs-width_2">{{ $product->product->code_subproduct_clear }}</td>
                         <td class="{{ !$emptyPrices ? 'cs-width_9' : 'cs-width_6' }}">
-                          {!! '<strong>'. $product->product->name_brand .'</strong>'  !!}
                           {{ $product->product->only_name }}
                           <div class="small text-muted"> {!! $product->product->only_parameters !!} </div>
+                          {!! '<strong>'. $product->product->name_brand .'</strong>'  !!}
+
                         </td>
                         @if(!$emptyPrices)
                           <td class="cs-width_1 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</td>
@@ -234,9 +236,9 @@
                         <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->quantity }}</td>
                         <td class="cs-width_2">{{ $product->product->code_subproduct_clear }}</td>
                         <td class="{{ !$emptyPrices ? 'cs-width_9' : 'cs-width_6' }}">
-                          {!! '<strong>'. $product->product->name_brand .'</strong>'  !!}
                           {{ $product->product->only_name }}
                           <div class="small text-muted"> {!! $product->product->only_parameters !!} </div>
+                          {!! '<strong>'. $product->product->name_brand .'</strong>'  !!}
                         </td>
                         @if(!$emptyPrices)
                           <td class="cs-width_1 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</td>
@@ -260,9 +262,9 @@
                         <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->quantity }}</td>
                         <td class="cs-width_2">{{ $product->product->code_subproduct_clear }}</td>
                         <td class="{{ !$emptyPrices ? 'cs-width_9' : 'cs-width_6' }}">
-                          {!! '<strong>'. $product->product->name_brand .'</strong>'  !!}
                           {{ $product->product->only_name }}
                           <div class="small text-muted"> {!! $product->product->only_parameters !!} </div>
+                          {!! '<strong>'. $product->product->name_brand .'</strong>'  !!}
                         </td>
                         @if(!$emptyPrices)
                           <td class="cs-width_1 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</td>
@@ -286,8 +288,9 @@
                         <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->quantity }}</td>
                         <td class="cs-width_2">{{ $product->product->code_subproduct_clear }}</td>
                         <td class="cs-width_6">
-                          {!! '<strong>'. $product->product->name_brand .'</strong>'  !!} {{ $product->product->only_name }}
+                           {{ $product->product->only_name }}
                           <div class="small text-muted"> {!! $product->product->only_parameters !!} </div>
+                          {!! '<strong>'. $product->product->name_brand .'</strong>'  !!}
                         </td>
                         <td class="cs-width_1 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($product->price) : $product->price }}</td>
                         <td class="cs-width_2 cs-text_right cs-primary_color">${{ !$breakdown ? priceWithoutIvaIncluded($totalprod = $product->price * $product->quantity) : $totalprod = $product->price * $product->quantity }}</td>
@@ -309,9 +312,9 @@
                         <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->quantity }}</td>
                         <td class="cs-width_2">{{ $product->product->code_subproduct_clear }}</td>
                         <td class="cs-width_6">
-                          {!! '<strong>'. $product->product->name_brand .'</strong>'  !!}
                           {{ $product->product->only_name }}
                           <div class="small text-muted"> {!! $product->product->only_parameters !!} </div>
+                          {!! '<strong>'. $product->product->name_brand .'</strong>'  !!}
                         </td>
                       </tr>
                       @if($product->comment)

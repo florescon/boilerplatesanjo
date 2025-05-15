@@ -10,6 +10,8 @@ use App\Models\ServiceOrder;
 use App\Models\Ticket;
 use App\Models\Station;
 use App\Models\Batch;
+use App\Models\ProductOrder;
+use App\Models\ProductionBatch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use PDF;
@@ -483,6 +485,106 @@ class OrderController extends Controller
     }
 
 
+    public function ticket_materia_prod(Order $order, ProductionBatch $station)
+    {
+        $consumptionCollect = collect();
+        $ordercollection = collect();
+        $productsCollection = collect();
+
+            $ordercollection->push([
+                'id' => $order->id,
+                'folio' => $order->folio,
+                'user' => optional($order->user)->name,
+                'type' => $order->characters_type_order,
+                'comment' => $order->comment,
+            ]);
+
+            foreach($station->items as $product_statione){
+
+                $productOrder = ProductOrder::where('product_id', $product_statione->product_id)->where('order_id', $station->order_id)->first();
+
+                $quantity = $product_statione->input_quantity;
+
+                if($productOrder->gettAllConsumptionSecond($quantity) != 'empty'){
+                    foreach($productOrder->gettAllConsumptionSecond($quantity) as $key => $consumption){
+                        $consumptionCollect->push([
+                            'order' => $order->id,
+                            'product_order_id' => $productOrder->id, 
+                            'material_name' => $consumption['material'],
+                            'part_number' => $consumption['part_number'],
+                            'material_id' => $key,
+                            'unit' => $consumption['unit'],
+                            'unit_measurement' => $consumption['unit_measurement'],
+                            'vendor' => $consumption['vendor'],
+                            'family' => $consumption['family'],
+                            'quantity' => $consumption['quantity'],
+                            'stock' => $consumption['stock'],
+                        ]);
+                    }
+                }
+            }
+
+        $materials = $consumptionCollect->groupBy('material_id')->map(function ($row) {
+            return [
+                'order' => $row[0]['order'],
+                'product_order_id' => $row[0]['product_order_id'], 
+                'material_name' => $row[0]['material_name'],
+                'part_number' => $row[0]['part_number'],
+                'material_id' => $row[0]['material_id'],
+                'unit' => $row[0]['unit'],
+                'unit_measurement' => $row[0]['unit_measurement'],
+                'vendor' => $row[0]['vendor'],
+                'family' => $row[0]['family'],
+                'quantity' => $row->sum('quantity'),
+                'stock' => $row[0]['stock'],
+            ];
+        });
+
+
+        $allMaterials = $materials->map(function ($product) {
+            return [
+                'order'            => $product['order'],
+                'material_name' => $product['material_name'],
+                'part_number'         => $product['part_number'],
+                'unit_measurement' => $product['unit_measurement'],
+                'quantity' => $product['quantity'],
+                ];
+        });
+
+        $pdf = PDF::loadView('backend.order.ticket-materia-prod',compact('order', 'station', 'allMaterials'))->setPaper([0, 0, 1585.98, 296.85], 'landscape');
+
+        return $pdf->stream();
+    }
+
+    public function ticket_prod(Order $order, ProductionBatch $station)
+    {
+        $pdf = PDF::loadView('backend.order.ticket-prod',compact('order', 'station'))->setPaper([0, 0, 1585.98, 296.85], 'landscape');
+
+        return $pdf->stream();
+    }
+
+    public function checklist_prod(Order $order, ProductionBatch $station)
+    {
+        $station->load('material_order.material');
+
+        
+        $groupedMaterials = $station->material_order->groupBy('material_id')->map(function ($group) {
+            return [
+                'order_id' => $group[0]->order_id,
+                'material' => $group[0]->material->full_name,
+                'price' => $group[0]->price,
+                'unit_quantity' => $group[0]->unit_quantity,
+                'sum' => $group->sum('quantity').' '.$group[0]->material->unit_name_label,
+            ];
+        });
+
+        // dd($groupedMaterials);
+
+        $pdf = PDF::loadView('backend.station.checklist-ticket-prod',compact('station', 'groupedMaterials'))->setPaper([0, -16, 2085.98, 296.85], 'landscape');
+
+        return $pdf->stream();
+    }
+
     public function short_ticket_materia(Order $order)
     {
         $order->load(['materials_order' => function($query){
@@ -635,6 +737,15 @@ class OrderController extends Controller
         return view('backend.order.work-order', compact('order', 'status'));
     }
 
+    public function production_batch(Order $order, ProductionBatch $productionBatch)
+    {
+        return view('backend.order.production-batch',
+        [
+            'productionBatch' => $productionBatch,
+        ]
+    );
+    }
+
     public function process(Order $order, Status $status)
     {
         if($status->process == false){
@@ -656,6 +767,11 @@ class OrderController extends Controller
     public function flowchart_request()
     {
         return view('backend.flowchart.requests');
+    }
+
+    public function flowchart_request_work()
+    {
+        return view('backend.flowchart.requests_work');
     }
 
     public function chart()

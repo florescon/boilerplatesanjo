@@ -21,13 +21,7 @@
           margin-left: 0.3rem;
         }
     </style>
-<style>
-    /* Estilo para el placeholder */
-    input::placeholder {
-        color: red !important;
-        opacity: 1; /* Asegura que se muestre completamente opaco */
-    }
-</style>
+
   <style>
     .scrolling-wrapper {
       overflow-x: auto;
@@ -96,44 +90,10 @@
 
 @section('content')
     
-  <livewire:backend.order.work-order :order="$order" :status="$status"/>
+  <livewire:backend.order.prod-batch :productionBatch="$productionBatch"/>
 
 @endsection
 
 
 @push('after-scripts')
-  <script type="text/javascript">
-      function redirect(goto) {
-        var conf = confirm("¿Redireccionar?");
-        if (conf && goto != '') {
-          window.location = goto;
-        }
-      }
-
-    var selectEl = document.getElementById('redirectSelect');
-
-    selectEl.onchange = function() {
-      if (this.value.startsWith('http')) {
-        var goto = this.value;
-        redirect(goto);
-      }
-    };
-  </script>
-
-  <script type="text/javascript">
-    function calculateGroupTotal(parentId) {
-        const inputs = document.querySelectorAll(`input[data-parent-id="${parentId}"]`);
-        let groupTotal = 0;
-
-        inputs.forEach(input => {
-            const value = parseInt(input.value);
-            if (!isNaN(value)) {  // Solo suma si es un número válido
-                groupTotal += value;
-            }
-        });
-
-        document.getElementById(`total-${parentId}`).textContent = groupTotal;
-        Livewire.emit('updateGroupTotal', { parentId, total: groupTotal });
-    }    
-  </script>
 @endpush

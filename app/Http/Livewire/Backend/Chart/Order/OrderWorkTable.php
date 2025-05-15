@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Excel;
 use App\Exports\OrderByDateExport;
 
-class OrderTable extends Component
+class OrderWorkTable extends Component
 {
     use Withpagination, WithBulkActions, WithCachedRows;
 
@@ -122,12 +122,35 @@ class OrderTable extends Component
             'last_status_order.status',
         ])        
             // ->onlyAssignment(6)
-        ->doesntHave('productionBatches') // <- Solo órdenes con al menos una estación
-        ->when($this->dateInput, function ($query) {
-            empty($this->dateOutput) ?
-            $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', now()]) :
-            $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59']);
+
+        ->doesntHave('stations') // <- Solo órdenes con al menos una estación
+        ->when($this->dateInput || !$this->dateInput, function ($query) {
+            $minAllowedDate = '2025-04-01 00:00:00'; // Fecha mínima (posterior al 14/05/2025)
+            
+            // Caso 1: Si hay dateInput, usamos la mayor entre dateInput y minAllowedDate
+            if ($this->dateInput) {
+                $startDate = max(
+                    Carbon::parse($this->dateInput)->startOfDay(),
+                    Carbon::parse($minAllowedDate)
+                )->toDateTimeString();
+            } 
+            // Caso 2: Si NO hay dateInput, forzamos minAllowedDate
+            else {
+                $startDate = $minAllowedDate;
+            }
+
+            // Lógica para endDate (igual que antes)
+            $endDate = $this->dateOutput 
+                ? Carbon::parse($this->dateOutput)->endOfDay()->toDateTimeString()
+                : null;
+
+            $query->where('created_at', '>=', $startDate);
+            
+            if ($endDate) {
+                $query->where('created_at', '<=', $endDate);
+            }
         })
+
         ->when(!$this->history, function ($query) use ($lastProcessId) {
             if ($this->status != 'quotations') {
                 $query->where(function ($query) use ($lastProcessId) {
@@ -222,7 +245,7 @@ class OrderTable extends Component
 
         return $orders;
     }
-    
+
     public function selectedStatusOrderItem(?int $item)
     {
         if ($item){
@@ -325,4 +348,5 @@ class OrderTable extends Component
         return view('backend.chart.order.order-table', [
           'orders' => $this->rows,
       ]);
-    }}
+    }
+}

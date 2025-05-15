@@ -17,7 +17,7 @@ class CreateFeedstock extends Component
 
     protected $rules = [
         'part_number' => 'min:3|max:30|required|unique:materials',
-        'name' => 'required|min:3|max:40',
+        'name' => 'required|min:3|max:60',
         'price' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/',
         'acquisition_cost' => 'nullable|numeric|sometimes|regex:/^\d+(\.\d{1,2})?$/',
         'unit_id' => 'required|numeric',

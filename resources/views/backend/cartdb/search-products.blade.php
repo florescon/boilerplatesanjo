@@ -154,7 +154,7 @@
                     @foreach($si as $sip)
                         @if($i == $loop->index)
                             <div class="input-group opacity-placeholder mb-3" style="{{ optional($children->color)->color ? 'border-bottom: 3px solid'.optional($children->color)->color.' !important;' : '' }}">
-                                <input class="form-control text-center opacity-placeholder input-value" style="background-image: none; min-width: 18px; color:red" 
+                                <input class="form-control text-center text-primary opacity-placeholder input-value" style="background-image: none; min-width: 18px; color:red" 
                                     wire:model.defer="inputformat.{{ optional($children->color)->id }}.{{ $sip['id'] }}" 
                                     wire:keydown.enter="format" 
                                     placeholder="{{ $sip['name'] }}" 

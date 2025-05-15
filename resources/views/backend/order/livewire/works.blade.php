@@ -16,44 +16,125 @@
 		    </main>
 		    
 		    <!-- Sidebar flotante -->
-		    <aside class="position-fixed bg-light border-left" style="right: 4%; top: 19%; width: 17%; height: calc({{ $floatButton ? '64vh' : '10vh' }}); overflow-y: auto; box-shadow: -2px 0 10px rgba(0,0,0,0.1);">
+		    <aside class="position-fixed bg-light border-left" style="right: 3%; top: 19%; width: 20%; height: calc({{ $floatButton ? '73vh' : '10vh' }}); overflow-y: auto; box-shadow: -2px 0 10px rgba(0,0,0,0.1);">
 
 
 		      <div class="p-3">
 
-	            <button wire:click="$toggle('floatButton')" class="form-control">
+	            {{-- <button wire:click="$toggle('floatButton')" class="btn btn-outline-primary btn-sm btn-lg btn-block mb-3">
 	              @if(!$floatButton)
-	              	Maximizar
+	              	<i class="cil-fullscreen"></i>
 	              @else
-	                Minimizar
+	                <i class="cil-fullscreen-exit"></i>
 	              @endif
-	            </button>
+	            </button> --}}
 
-		        <h5 class="mt-4">Menú Flotante</h5>
+                <select id="redirectSelect" class="form-control mb-4 shadow-sm">
+                    <option value="NoLink">Redireccionar</option>
+                    @foreach(\App\Models\Status::orderBy('level')->whereActive(true)->get() as $s)
+                      <option style="color:#0071c5;" value="{{ route('admin.order.work', [$order->id, $s->id]) }}">
+                        <strong>
+                          {{ ucfirst($s->name) }}
+                        </strong>
+                      </option>
+                    @endforeach
+                </select>
+
+			  	<div class="row">
+				    <div class="col-sm text-right">
+			            @if($previous_status)
+			              <a href="{{ route('admin.order.work', [$order->id, $previous_status->id]) }}" class="btn btn-outline-primary" data-toggle="tooltip" title="{{ $previous_status->name ?? null }}">
+			               <i class="cil-chevron-left"></i>
+			              </a>
+			            @endif
+				    </div>
+				    <div class="col-sm text-left">
+				        @if($next_status)
+				          <a href="{{ route('admin.order.work', [$order->id, $next_status->id]) }}" class="btn btn-outline-primary" data-toggle="tooltip" title="{{ $next_status->name ?? null }}">
+				            <i class="cil-chevron-right"></i>
+				            @if($next_status->finial_process) &nbsp; <i class="cil-running"></i> @endif
+				          </a>
+				        @endif
+				    </div>
+				</div>                	
+
+		        <h5 class="mt-4">@lang('Order') #{!! $order->folio_or_id !!}</h5>
 		          <!-- Más items... -->
 
-		        <ul class="nav flex-column">
+                <table class="table mb-0 table-sm table-hover">
+                  <tbody>
+                    <tr>
+                      <td class="pl-0">@lang('Customer')</td>
+                      <td class="pr-0 text-right text-primary"><strong>{!! $order->user_name !!}</strong></td>
+                    </tr>
+                    @if($order->info_customer)
+                      <tr>
+                        <td class="pl-0">@lang('Info customer')</td>
+                        <td class="pr-0 text-right">{{ $order->info_customer }}</td>
+                      </tr>
+                    @endif
+                    </tr>
+                    @if($order->comment)
+                      <tr>
+                        <td class="pr-0 text-right" colspan="2">{{ $order->comment }}</td>
+                      </tr>
+                    @endif
+                    @if($order->observation)
+                      <tr>
+                        <td class="pl-0">@lang('Observations')</td>
+                        <td class="pr-0 text-right">{{ $order->observation }}</td>
+                      </tr>
+                    @endif
+                  </tbody>
+                </table>
 
-		          <li class="nav-item">
-		            <a class="nav-link active" href="#">Activo: </a>
-		          </li>
-		          <li class="nav-item">
-		            <a class="nav-link" href="#">Pendiente: </a>
-		          </li>
-		          <!-- Más items... -->
-		        </ul>
+                <table class="table mb-0 table-sm mt-4">
+                  <thead>
+                    <tr class="bg-dark">
+                      <th class="pl-0 pl-2">@lang('Reference')</th>
+                      <th class="text-right">@lang('Value')</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="pl-0 pl-2">Captura</td>
+                      <td class="pr-0 text-right pr-3">{{ $calculateStatusQuantities['Captura'] }}</td>
+                    </tr>
+                    <tr>
+                      <td class="pl-0 pl-2"><ins><strong> En Proceso </strong></ins></td>
+                      <td class="pr-0 text-right text-danger pr-3"> {{ $calculateStatusQuantities['Proceso'] }}<ins><strong>
+                          
+
+                      </strong></ins> </td>
+                    </tr>
+                    <tr>
+                      <td class="pl-0 pl-2">Terminado</td>
+                      <td class="pr-0 text-right pr-3">{{ $calculateStatusQuantities['Terminado'] }}</td>
+                    </tr>
+                    <tr class="table-dark">
+                      <td class="pl-0 pl-2">Servicios</td>
+                      <td class="pr-0 text-right pr-3">{{ $calculateStatusQuantities['Services'] }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+
 		      </div>
 		    </aside>
 		  </div>
 		</div>
 
       	<div class="row">
-	        <div class="col-sm-9 mt-2">
+	        <div class="col-sm-9 ">
 
-				<div class="container-fluid mt-3">
+				<div class="container-fluid ">
 
-@foreach($order->getSizeTablesData() as $parentId => $tableData)
-    <div class="product-group shadow-sm p-3 mt-2">
+@foreach($order->getSizeTablesData($status->getStatusCollection()) as $parentId => $tableData)
+	<br>
+    <div class="product-group shadow 
+		{{ $status->callout_class }}
+    "
+    data-parent-id="{{ $parentId }}"
+    >
         <h5 class=""> 
             <strong class="text-primary">{{ $tableData['parent_code'] }}</strong> 
             {{ $tableData['parent_name'] }}
@@ -61,21 +142,42 @@
 
 
         @if(is_int($parentId))
-        <div class="text-right">
-            <button 
-                wire:click="saveByParent('{{ $parentId }}')" 
-                wire:loading.attr="disabled"
-                class="btn btn-sm btn-primary mb-2"
-            >
-                <span wire:loading.remove wire:target="saveByParent('{{ $parentId }}')">
-                    <i class="fas fa-save"></i> Guardar {{ $tableData['parent_code'] }}
-                </span>
-                <span wire:loading wire:target="saveByParent('{{ $parentId }}')">
-                    <span class="spinner-border spinner-border-sm" role="status"></span>
-                    Guardando...
-                </span>
-            </button>
+        <div class="row">
+            <div class="text-right col">
+                @if(count($tableData['rows']) < 2 && $getStatusCollection['is_principal'] && $getStatusCollection['is_batch'])
+                        <button 
+                            wire:click="messageAlert('saveAll', '{{ $parentId }}')" 
+                            wire:loading.attr="disabled"
+                            class="btn btn-sm btn-danger mb-2"
+                        >
+                            <span wire:loading.remove wire:target="messageAlert('saveAll', '{{ $parentId }}')">
+                                <i class="fas fa-save"></i> Guardar todo {{ $tableData['parent_code'] }}
+                            </span>
+                            <span wire:loading wire:target="messageAlert('saveAll', '{{ $parentId }}')">
+                                <span class="spinner-border spinner-border-sm" role="status"></span>
+                                Guardando...
+                            </span>
+                        </button>
+                @endif
+            </div>
+            <div class="text-right col" wire:ignore>
+                <button 
+                    wire:click="messageAlert('save', '{{ $parentId }}')" 
+                    wire:loading.attr="disabled"
+                    class="btn btn-sm btn-primary mb-2"
+                >
+                    <span wire:loading.remove wire:target="messageAlert('save', '{{ $parentId }}')">
+                        <i class="fas fa-save"></i> Guardar captura <h5 class="d-inline"><span class="badge badge-light text-dark" id="total-{{ $parentId }}">0</span></h5>
+
+                    </span>
+                    <span wire:loading wire:target="messageAlert('save', '{{ $parentId }}')">
+                        <span class="spinner-border spinner-border-sm" role="status"></span>
+                        Guardando...
+                    </span>
+                </button>
+            </div>
         </div>
+
         @endif
         
         <div class="table-responsive">
@@ -101,20 +203,36 @@
                             @if($row['no_size'])
                                 <td style="width: 35%">{{ $row['general_code'] }}</td>
                             @endif
-                            <td style="width: 10%">{{ $row['color_product'] ?: 'N/A' }}</td>
+                            <td style="width: 10%">{{ $row['color_product'] ?: 'N/A' }}
+						        <!-- Agrega este campo oculto para capturar el color_id -->
+						        @if(is_int($parentId))
+							        <div wire:ignore>
+							        	<input
+							        		type="hidden" 
+										    wire:model.lazy="colorIds.{{ $parentId }}.{{ $rowIndex }}"
+										    value="{{ $row['color_id'] }}"
+										>
+								    </div>
+								@endif
+                            </td>
+
+                            {{-- @json($row) --}}
                             
             @foreach($tableData['headers'] as $header)
                 <td class="text-center">
                     @if(isset($row['sizes'][$header['id']]))
-                        {!! $row['sizes'][$header['id']]['only_display'] !!}
+                        {!! $row['sizes'][$header['id']]['quantity'] !!}
                         
                         <div class="d-inline-block position-relative">
                             <input 
-                                type="number" 
+                                type="number"
+                                placeholder="{{ $row['sizes'][$header['id']]['active'] }}"
                                 class="form-control text-center form-control-sm @error('quantities.'.$parentId.'.'.$rowIndex.'.'.$header['id']) is-invalid @enderror" 
-                                style="width: 60px;"
+                                style="width: 60px; color: blue;"
                                 wire:model.lazy="quantities.{{ $parentId }}.{{ $rowIndex }}.{{ $header['id'] }}"
-                                min="0"
+                                oninput="calculateGroupTotal('{{ $parentId }}')"
+                                data-parent-id="{{ $parentId }}"
+                                min="1"
                                 max="{{ $row['sizes'][$header['id']]['quantity'] ?? 0 }}"
                                 step="1"
                                 data-size="{{ $header['id'] }}"
@@ -130,7 +248,7 @@
                             
                             @if($row['no_size'])
                             <td class="text-center">
-                                {!! $row['no_size']['only_display'] !!}
+                                {!! $row['no_size']['quantity'] !!}
                             </td>
                             @endif
                             <td class="text-center font-weight-bold">
@@ -167,11 +285,30 @@
                     </tr>
                 </tbody>
             </table>
+            <br>
         </div>
+
+
+        @if(is_int($parentId) && $order->getBatchForStatus($status->id, $parentId))
+			<ul class="list-group list-group-flush">
+		        @foreach($order->getBatchForStatus($status->id, $parentId) as $pp)
+				  <a href="{{ route('admin.order.production_batch', [$this->order->id, $pp->id]) }}" target="_blank" class="list-group-item d-flex justify-content-between align-items-center {{ $pp->allItemsAreInactiveAndBalanced() ? 'list-group-item-success' : 'list-group-item-danger' }} list-group-item-action">
+					Folio #{{ $pp->folio ?? $pp->id }} &nbsp;&nbsp;&nbsp;	 
+                    <span class="badge badge-secondary badge-pill"> Activo: <strong class="text-danger"> {{ $order->getTotalBatchActiveProduction($status->id, $parentId, $pp->id) }} </strong></span>
+                    @if($pp->allItemsAreBalanced())
+                        <span class="badge badge-primary">Total recibido</span>
+                    @endif  
+					<span class="badge badge-primary badge-pill">{{ $order->getTotalBatchProduction($status->id, $parentId, $pp->id) }}</span>
+
+				  </a>
+				@endforeach
+			</ul>
+		@endif
+
     </div>
 @endforeach
-</div>
-</div>
-</div>
-</x-slot>
+				</div>
+			</div>
+		</div>
+	</x-slot>
 </x-backend.card>

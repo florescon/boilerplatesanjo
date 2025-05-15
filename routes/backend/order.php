@@ -7,6 +7,7 @@ use App\Models\Status;
 use App\Models\Station;
 use App\Models\Ticket;
 use App\Models\Batch;
+use App\Models\ProductionBatch;
 use Tabuna\Breadcrumbs\Trail;
 
 Route::group([
@@ -201,6 +202,32 @@ Route::group([
                     ->push(__('Ticket order'), route('admin.order.ticket_materia_station', [$order, $station]));
             });
 
+
+        Route::get('ticket_prod/{station}', [OrderController::class, 'ticket_prod'])
+            ->name('ticket_prod')
+            ->middleware('permission:admin.access.order.modify')
+            ->breadcrumbs(function (Trail $trail, Order $order, ProductionBatch $station) {
+                $trail->parent('admin.order.edit', $order)
+                    ->push(__('Ticket order'), route('admin.order.ticket_prod', [$order, $station]));
+            });
+
+        Route::get('ticket_materia_prod/{station}', [OrderController::class, 'ticket_materia_prod'])
+            ->name('ticket_materia_prod')
+            ->middleware('permission:admin.access.order.modify')
+            ->breadcrumbs(function (Trail $trail, Order $order, ProductionBatch $station) {
+                $trail->parent('admin.order.edit', $order)
+                    ->push(__('Ticket order'), route('admin.order.ticket_materia_prod', [$order, $station]));
+            });
+
+        Route::get('checklist_prod/{station}', [OrderController::class, 'checklist_prod'])
+            ->name('checklist_prod')
+            ->middleware('permission:admin.access.station.list')
+            ->breadcrumbs(function (Trail $trail, ProductionBatch $station) {
+                $trail->parent('admin.station.index')
+                    ->push(__('Ticket Consumption').' '.$station->id, route('admin.order.checklist_prod', $station));
+            });
+
+
         Route::get('short_ticket_materia', [OrderController::class, 'short_ticket_materia'])
             ->name('short_ticket_materia')
             ->middleware('permission:admin.access.order.modify')
@@ -273,6 +300,14 @@ Route::group([
             ->breadcrumbs(function (Trail $trail, Order $order, Status $status) {
                 $trail->parent('admin.order.edit_chart', $order)
                     ->push(__('Workstations').' - '.$status->name, route('admin.order.work', [$order, $status]));
+            });
+
+        Route::get('production_batch/{productionBatch}', [OrderController::class, 'production_batch'])
+            ->name('production_batch')
+            ->middleware('permission:admin.access.order.modify')
+            ->breadcrumbs(function (Trail $trail, Order $order, ProductionBatch $productionBatch) {
+                $trail->parent('admin.order.edit_chart', $order)
+                    ->push(__('Folio Station').': #'.$productionBatch->id, route('admin.order.production_batch', [$order, $productionBatch]));
             });
 
 
@@ -377,6 +412,14 @@ Route::group([
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.dashboard')
                 ->push(__('Requests Management'), route('admin.order.request_chart'));
+        });
+
+    Route::get('request_chart_work', [OrderController::class, 'flowchart_request_work'])
+        ->name('request_chart_work')
+        ->middleware('permission:admin.access.order.order')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.dashboard')
+                ->push(__('Requests Management'), route('admin.order.request_chart_work'));
         });
 
 });

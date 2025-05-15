@@ -551,7 +551,7 @@
   @foreach($tablesData as $parentId => $tableData)
       <div class="product-group">
         <h5 class=""> 
-          <strong class="text-primary">{{ $tableData['parent_code'] }}</strong> 
+          <strong class="text-primary"><a target="_blank" href="{{ route('admin.product.edit', $parentId) }}"> {{ $tableData['parent_code'] }}</a></strong> 
           {{ $tableData['parent_name'] }}
         </h5>
         
@@ -879,7 +879,7 @@
                       </div>
                     </a>
                     @foreach($batches as $status)
-                      <a href="{{ route('admin.order.station', [$order_id, $status->id]) }}" class="list-group-item list-group-item-action" aria-current="true">
+                      <a href="{{ $model->stations()->exists() ? route('admin.order.station', [$order_id, $status->id]) : route('admin.order.work', [$order_id, $supplier->id]) }}" class="list-group-item list-group-item-action" aria-current="true">
                         <div class="d-flex w-100 justify-content-between">
                           <h5 class="mb-1">{{ ucfirst($status->name) }}</h5>
                           <small class="text-danger">
@@ -903,7 +903,7 @@
                   </h5>
 
                   <div class="list-group">
-                    <a href="{{ route('admin.order.station', [$order_id, $supplier->id]) }}" class="list-group-item list-group-item-action" aria-current="true">
+                    <a href="{{  $model->stations()->exists() ? route('admin.order.station', [$order_id, $supplier->id]) : route('admin.order.work', [$order_id, $supplier->id]) }}" class="list-group-item list-group-item-action" aria-current="true">
                       <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">{{ $supplier->name }}</h5>
                         <small class="text-danger">
@@ -927,7 +927,7 @@
 
                   <div class="list-group">
                     @foreach($process as $status)
-                        <a href="{{ route('admin.order.station', [$order_id, $status->id]) }}" class="list-group-item list-group-item-action" aria-current="true">
+                        <a href="{{ $model->stations()->exists() ? route('admin.order.station', [$order_id, $status->id]) : route('admin.order.work', [$order_id, $status->id]) }}" class="list-group-item list-group-item-action" aria-current="true">
                           <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1">{{ $status->name }}</h5>
                             <small class="text-danger">

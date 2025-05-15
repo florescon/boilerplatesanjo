@@ -69,8 +69,11 @@ $submit-color-darker: #00824A;
   }
 }
 
-
 /* Input style */
+input::placeholder {
+    color: red !important;
+    opacity: 1; /* Asegura que se muestre completamente opaco */
+}
 
 .form__answer input[type="radio"] {
   opacity: 0;

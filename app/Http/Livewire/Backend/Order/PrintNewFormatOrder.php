@@ -13,7 +13,7 @@ class PrintNewFormatOrder extends Component
     public bool $width = false;
     public bool $prices = false;
     public bool $breakdown = false;
-    public bool $general = true;
+    public bool $general = false;
     public bool $details = true;
 
     protected $queryString = [

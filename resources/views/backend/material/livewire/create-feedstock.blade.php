@@ -35,30 +35,40 @@
                         </div>
                 </div><!--form-group-->
 
-                <div class="form-group row" wire:ignore>
+                <div class="form-group row">
                     <label for="unitselect" class="col-md-2 col-form-label">@lang('Unit of measurement')</label>
 
-                    <div class="col-md-5">
+                    <div class="col-md-5" wire:ignore>
                         <select id="unitselect" class="custom-select" style="width: 100%;" aria-hidden="true">
                         </select>
                     </div>
+                    <div class="col-md-5">
+                        @error('unit_id') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                    </div>
                 </div><!--form-group-->
-                <div class="form-group row" wire:ignore>
+                <div class="form-group row">
                     <label for="colorselect" class="col-md-2 col-form-label">@lang('Color')</label>
 
-                    <div class="col-md-5">
+                    <div class="col-md-5" wire:ignore>
                         <select id="colorselect" class="custom-select" style="width: 100%;" aria-hidden="true">
                         </select>
+                    </div>
+                    <div class="col-md-5">
+                        @error('color_id') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
                 </div><!--form-group-->
 
 
-                <div class="form-group row" wire:ignore>
+                <div class="form-group row">
                     <label for="sizeselect" class="col-md-2 col-form-label">@lang('Size_')</label>
 
-                    <div class="col-md-5">
+                    <div class="col-md-5" wire:ignore>
                         <select id="sizeselect" class="custom-select" style="width: 100%;" aria-hidden="true">
                         </select>
+                    </div>
+
+                    <div class="col-md-5">
+                        @error('size_id') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                     </div>
                 </div><!--form-group-->
 

@@ -6,6 +6,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
  * Class AppServiceProvider.
@@ -30,6 +31,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Paginator::useBootstrap();
+
+        Relation::morphMap([
+            'batch' => App\Models\ProductionBatch::class,
+            'station' => App\Models\ProductionStationLog::class,
+        ]);
 
         Builder::macro('toCsv', function () {
             $results = $this->get();
