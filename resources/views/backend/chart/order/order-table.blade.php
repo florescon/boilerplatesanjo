@@ -5,10 +5,10 @@
         <div class="row justify-content-center">
             <div class="col-lg-11 col-xl-12">
                 <ul class="nav nav-tabs nav-fill mt-1 no-print shadow-sm" role="tablist">
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link {{ $status == 'all' ? 'active' : '' }}" href="{{ route('admin.order.all_chart') }}"
                             role="tab">@lang('all')</a>
-                    </li>
+                    </li> --}}
                     <li class="nav-item">
                         <a class="nav-link {{ $status == 'quotations' ? 'active' : '' }}"
                             href="{{ route('admin.order.quotations_chart') }}" role="tab">@lang('Quotations')</a>

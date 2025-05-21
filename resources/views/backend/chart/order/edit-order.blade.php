@@ -879,7 +879,7 @@
                       </div>
                     </a>
                     @foreach($batches as $status)
-                      <a href="{{ $model->stations()->exists() ? route('admin.order.station', [$order_id, $status->id]) : route('admin.order.work', [$order_id, $supplier->id]) }}" class="list-group-item list-group-item-action" aria-current="true">
+                      <a href="{{ $model->stations()->exists() ? route('admin.order.station', [$order_id, $status->id]) : route('admin.order.work', [$order_id, $status->id]) }}" class="list-group-item list-group-item-action" aria-current="true">
                         <div class="d-flex w-100 justify-content-between">
                           <h5 class="mb-1">{{ ucfirst($status->name) }}</h5>
                           <small class="text-danger">

@@ -70,27 +70,27 @@
         </div>
       </div>
 
-      @if($getStatusCollection['initial_lot'])
         <div class="col-10">
           <div class="row justify-content-center shadow p-4">
+              @if($getStatusCollection['initial_lot'])
+                <div class="col-4 align-self-center text-center">
+                  @if(!$productionBatch->consumption)
+                    <button wire:click="makeConsumption({{ $productionBatch->id }})" class="list-group-item list-group-item-primary list-group-item-action">
+                        Comsumir Materia Prima
+                    </button>
+                  @else
+                    <a href="{{ route('admin.order.checklist_prod', [$order->id, $productionBatch->id]) }}" target="_blank" class="list-group-item list-group-item-action list-group-item-success"> Material Consumido  <i class="fas fa-external-link-alt m-1"></i></a>
+                  @endif
+                </div>
+                <div class="col-4 align-self-center text-center">
+                  <a href="{{ route('admin.order.ticket_materia_prod', [$order->id, $productionBatch->id]) }}" target="_blank" class="list-group-item list-group-item-action"> Ver BOM  <i class="fas fa-external-link-alt m-1"></i></a>
+                </div>
+              @endif
               <div class="col-4 align-self-center text-center">
-                @if(!$productionBatch->consumption)
-                  <button wire:click="makeConsumption({{ $productionBatch->id }})" class="list-group-item list-group-item-primary list-group-item-action">
-                      Comsumir Materia Prima
-                  </button>
-                @else
-                  <a href="{{ route('admin.order.checklist_prod', [$order->id, $productionBatch->id]) }}" target="_blank" class="list-group-item list-group-item-action"> Ver Consumido  <i class="fas fa-external-link-alt m-1"></i></a>
-                @endif
-              </div>
-              <div class="col-4 align-self-center text-center">
-                <a href="{{ route('admin.order.ticket_materia_prod', [$order->id, $productionBatch->id]) }}" target="_blank" class="list-group-item list-group-item-action"> Ver BOM  <i class="fas fa-external-link-alt m-1"></i></a>
-              </div>
-              <div class="col-4 align-self-center text-center">
-                <a href="{{ route('admin.order.ticket_prod', [$order->id, $productionBatch->id]) }}" target="_blank" class="list-group-item list-group-item-action"> Ticket  <i class="fas fa-external-link-alt m-1"></i></a>
+                <a href="{{ route('admin.order.ticket_prod', [$order->id, $productionBatch->id]) }}" target="_blank" class="list-group-item list-group-item-action"> Imprimir Ticket {{ ucfirst($status->name) }}  <i class="fas fa-external-link-alt m-1"></i></a>
               </div>
           </div>
         </div>
-      @endif
 
       <div class="col-md-12 text-center">
 

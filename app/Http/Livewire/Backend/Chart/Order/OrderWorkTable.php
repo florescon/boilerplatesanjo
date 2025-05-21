@@ -122,7 +122,6 @@ class OrderWorkTable extends Component
             'last_status_order.status',
         ])        
             // ->onlyAssignment(6)
-
         ->doesntHave('stations') // <- Solo órdenes con al menos una estación
         ->when($this->dateInput || !$this->dateInput, function ($query) {
             $minAllowedDate = '2025-04-01 00:00:00'; // Fecha mínima (posterior al 14/05/2025)

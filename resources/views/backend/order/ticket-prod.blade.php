@@ -72,7 +72,7 @@
         </tr>
       </thead>
       <tbody>
-        @foreach($station->items as $product)
+        @foreach($station->items->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']]) as $product)
         <tr>
           <td scope="row">{!! $product->product->full_name !!}</tf>
           <td align="center">{{ $product->input_quantity }}</td>

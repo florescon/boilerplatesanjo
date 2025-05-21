@@ -120,13 +120,20 @@ class OrderTable extends Component
             'user',
             'products',
             'last_status_order.status',
-        ])        
+        ])
             // ->onlyAssignment(6)
+        ->when($this->status != 'quotations', function ($query) {
+            $query->has('stations');
+        })
         ->doesntHave('productionBatches') // <- Solo órdenes con al menos una estación
         ->when($this->dateInput, function ($query) {
             empty($this->dateOutput) ?
             $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', now()]) :
             $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', $this->dateOutput.' 23:59:59']);
+        })
+        ->when(!$this->history, function ($query) {
+            // Excluir los IDs específicos cuando history es false
+            $query->whereNotIn('id', ['3141', '3073', '2233']);
         })
         ->when(!$this->history, function ($query) use ($lastProcessId) {
             if ($this->status != 'quotations') {

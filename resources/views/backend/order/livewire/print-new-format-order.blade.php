@@ -25,11 +25,11 @@
 
           <div class="cs-invoice_left" style="padding-bottom: 25px;">
             <div class="cs-logo cs-mb5"><img src="{{ asset('img/logo2.svg') }}" width="100" alt="Logo"></div>
-            <p class="cs-invoice_number cs-primary_color cs-mb0 cs-f16"><b class="cs-primary_color">{{ $order->type_order_clear }} No:</b> #{{ $order->characters_type_order }}{!! $order->folio_or_id !!}</p>
+            <p class="cs-invoice_number cs-primary_color cs-mb0 cs-f18"><b class="cs-primary_color">{{ $order->type_order_clear }} No:</b> #{{ $order->characters_type_order }}{!! $order->folio_or_id !!}</p>
           </div>
           <div class="cs-invoice_right cs-text_center">
-            <b class="cs-primary_color cs-f16">{{ __(appName()) }}</b>
-            <p>
+            <b class="cs-primary_color cs-f18">{{ __(appName()) }}</b>
+            <p class="cs-f18">
               {{ setting('site_address') }} <br/>
               {{ setting('site_email') }} <br/>
               {{ setting('site_whatsapp') }}
@@ -82,7 +82,7 @@
         </div>
 
         <div class="cs-style1 cs-f18 cs-primary_color cs-mb10 cs-semi_bold">@lang('Customer Information')</div>
-        <ul class="cs-grid_row cs-col_3 cs-mb5">
+        <ul class="cs-grid_row cs-col_3 cs-f18 cs-mb5">
           <li>
             <p class="cs-mb10"><b class="cs-primary_color">@lang('Customer'):</b> <br><span class="cs-primary_color">{{ optional($order->user)->name . optional($order->departament)->name }}</span></p>
           </li>
@@ -109,7 +109,7 @@
 
         </ul>
 
-        <div class="cs-invoice_head">
+        <div class="cs-invoice_head cs-f18">
           <div class="cs-invoice_right">
             @if($order->info_customer)
               <p><b class="cs-primary_color cs-semi_bold">@lang('Info customer'):</b> <br>{{ $order->info_customer }}</p>
@@ -118,7 +118,7 @@
         </div>
 
         @if($order->comment)
-          <div class="cs-invoice_head">
+          <div class="cs-invoice_head cs-f18">
             <div class="cs-invoice_right">
               <b class="cs-primary_color">@lang('Comment'):</b>
               <p class="cs-mb8">{{ $order->comment ?? '--'}}</p>
@@ -126,7 +126,7 @@
           </div>
         @endif
 
-        <div class="cs-invoice_head">
+        <div class="cs-invoice_head cs-f18">
           <div class="cs-invoice_right cs-text_center">
             <p><b class="cs-primary_color cs-semi_bold">@lang('Date Issued'): <br>{{ $order->date_entered_or_created }}</p></b>
           </div>
@@ -350,7 +350,7 @@
         <div style="page-break-inside:avoid;">
 
           @if(!$general)
-          <div class="cs-table cs-style2">
+          <div class="cs-table cs-style2 cs-f18">
             <div class="cs-table_responsive">
               <table>
                 <tbody>
@@ -389,7 +389,7 @@
           </div>
           @endif
 
-          <div class="cs-note">
+          <div class="cs-note cs-f18">
             <div class="cs-note_right" style="margin-left: 20px;">
               <p class="cs-mb0"><b class="cs-primary_color cs-bold">@lang('Note'): --  </b></p>
             </div>

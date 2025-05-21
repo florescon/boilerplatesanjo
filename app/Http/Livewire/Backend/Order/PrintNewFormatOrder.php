@@ -10,7 +10,7 @@ class PrintNewFormatOrder extends Component
 {
     public Order $order;    
 
-    public bool $width = false;
+    public bool $width = TRUE;
     public bool $prices = false;
     public bool $breakdown = false;
     public bool $general = false;
