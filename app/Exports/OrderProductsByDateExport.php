@@ -101,7 +101,8 @@ class OrderProductsByDateExport implements FromCollection, WithMapping, WithHead
             $headings = [
                 __('Quantity'),
                 __('Code'),
-                __('Details'),
+                __('Color'),
+                __('Size_'),
                 __('Name'),
                 __('Order'),
                 __('Customer'),
@@ -133,6 +134,7 @@ public function map($product): array
         $product['productQuantity'],
         $product['productParentCode'],
         $product['productColorName'],
+        $product['productSizeName'],
         $product['productParentName'],
         $product['productOrder'],
         $product['productCustomer'],
@@ -170,6 +172,7 @@ public function collection()
                     'productParentName' => $product_order->product->only_name ?? null,
                     'productColor' => $product_order->product->color_id,
                     'productColorName' => $product_order->product->color->name ?? '',
+                    'productSizeName' => $product_order->product->size->name ?? '',
                     'productQuantity' => $product_order->quantity,
                     'productOrder' => $order->folio_or_id_clear,
                     'productCustomer' => optional($order->user)->name,
@@ -185,6 +188,7 @@ public function collection()
                     'productParentName' => $product_order->product->only_name ?? null,
                     'productColor' => $product_order->product->color_id,
                     'productColorName' => $product_order->product->color->name ?? '',
+                    'productSizeName' => $product_order->product->size->name ?? '',
                     'productQuantity' => $product_order->quantity,
                     'productOrder' => $order->folio_or_id_clear,
                     'productCustomer' => optional($order->user)->name,
@@ -204,6 +208,7 @@ public function collection()
             return [
                 'productParentCode' => $group->first()['productParentCode'],
                 'productColorName' => $group->first()['productColorName'],
+                'productSizeName' => $group->first()['productSizeName'],
                 'productParentName' => $group->first()['productParentName'],
                 'totalQuantity' => $group->sum('productQuantity'),
 

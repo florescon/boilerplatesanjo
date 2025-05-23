@@ -403,6 +403,8 @@ class Status extends Model
             'initial_lot' => $this->initial_lot,
             'final_lot' => $this->final_lot,
             'final_process' => $this->final_process,
+            'initial_process' => $this->initial_process,
+            'not_restricted' => $this->not_restricted,
             'supplier' => $this->supplier,
             'to_add_users' => $this->to_add_users,
         ];

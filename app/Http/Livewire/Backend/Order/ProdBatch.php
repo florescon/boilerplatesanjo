@@ -14,6 +14,7 @@ class ProdBatch extends Component
 {
     public ProductionBatch $productionBatch;
     public array $receivedQuantities = [];
+    public array $sendQuantities = [];
     public bool $selectAll = false;
     public $getStatusCollection;
     public $order;
@@ -22,8 +23,15 @@ class ProdBatch extends Component
     public $users;
     public $date_entered;
 
+    public $buttonDisabled = false;
+
+    public $next_status, $previous_status;
+
+    public bool $showSentToStock = false;
+
     protected $listeners = [
-        'makeConsumptionEmited', 
+        'makeConsumptionEmited', 'receiveAll',
+        'enableButton' => 'enableButton'
     ];
 
     public function mount()
@@ -40,8 +48,32 @@ class ProdBatch extends Component
             $this->receivedQuantities[$item->id] = 0;
         }
 
+        $this->loadInitialData($this->status);
+
         $this->date_entered = optional($this->productionBatch->date_entered)->format('Y-m-d');
 
+    }
+
+    protected function loadInitialData($status)
+    {
+        $this->next_status = Status::where('level', '>', $status->level)
+            ->whereActive(true)
+            ->oldest('level')
+            ->first();
+            
+        $this->previous_status = Status::where('level', '<', $status->level)
+            ->whereActive(true)
+            ->latest('level')
+            ->first();
+    }
+
+    public function enableButton()
+    {
+        sleep(3); // Espera 3 segundos (no recomendado para producción)
+        $this->buttonDisabled = false;
+        
+        // Mejor alternativa para producción:
+        // Usar un dispatch browser event con setTimeout en el frontend
     }
 
     public function savePersonalId($stationId, $userId)
@@ -98,13 +130,20 @@ class ProdBatch extends Component
                 'title'   => __('Consumption required'), 
             ]);
 
-            abort(403, __('Consumption required') . ' :(');
+            return false;
+
+            // abort(403, __('Consumption required') . ' :(');
         }
+
+        return true;
     }
 
-    public function receiveAll()
+    public function receiveAll($stationId)
     {
-        $this->requiredConsumption();
+
+        if(!$this->requiredConsumption()) {
+            return;
+        }
 
         $dataToSave = [];
 
@@ -129,16 +168,25 @@ class ProdBatch extends Component
         // dd($dataToSave);
 
         if($this->getStatusCollection['final_lot'] || $this->getStatusCollection['supplier']){
+
+             if(!isset($dataToSave[0])){
+                $this->emit('swal:alert', [
+                    'icon' => 'error',
+                    'title'   => __('Nada por recibir'), 
+                ]);
+                return false;
+            }
+
             $batch = $this->order->createProductionBatch([
                 'status_id' => 11, 
                 'parent_id' => $dataToSave[0]['parent_id'], 
                 'production_batch_items' => $dataToSave, 
                 'prev_status' => $this->getStatusCollection['previous_status'], 
-                'is_principal' => $this->getStatusCollection['is_principal'], 
-                'with_previous' => ($this->getStatusCollection['final_lot'] || $this->getStatusCollection['supplier']) ]);
+                'is_principal' => false, 
+                'with_previous' => $this->getStatusCollection['id'] ]);
         }
 
-        if($this->getStatusCollection['final_process']){
+        if($this->getStatusCollection['final_lot'] || $this->getStatusCollection['final_process'] || $this->getStatusCollection['supplier']){
             foreach ($this->productionBatch->items as $item) {
                 $item->active = 0;
                 $item->save();
@@ -147,11 +195,18 @@ class ProdBatch extends Component
 
         $this->reset(['receivedQuantities', 'selectAll']);
         $this->productionBatch->refresh();
+
+        return $this->emit('swal:modal', [
+            'icon' => 'success',
+            'title' => __('Cantidades recibidas'),
+        ]);
     }
 
     public function receiveSelected()
     {
         $this->requiredConsumption();
+
+        $this->buttonDisabled = true;
 
         $dataToSave = [];
 
@@ -186,18 +241,104 @@ class ProdBatch extends Component
 
         if($this->getStatusCollection['final_lot'] || $this->getStatusCollection['supplier']){
             
+            if(!isset($dataToSave[0])){
+                $this->emit('swal:alert', [
+                    'icon' => 'error',
+                    'title'   => __('Nada por recibir'), 
+                ]);
+                return false;
+            }
+
             $batch = $this->order->createProductionBatch([
                 'status_id' => 11, 
                 'parent_id' => $dataToSave[0]['parent_id'], 
                 'production_batch_items' => $dataToSave, 
                 'prev_status' => $this->getStatusCollection['previous_status'], 
-                'is_principal' => $this->getStatusCollection['is_principal'], 
-                'with_previous' => ($this->getStatusCollection['final_lot'] || $this->getStatusCollection['supplier']) ]);
+                'is_principal' => false, 
+                'with_previous' => $this->getStatusCollection['id'] ]);
         }
 
         $this->reset(['receivedQuantities', 'selectAll']);
         $this->productionBatch->refresh();
+
+        $this->emit('swal:alert', [
+           'icon' => 'success',
+            'title'   => __('Recibido'), 
+        ]);
+    
     }
+
+
+    public function sendToStock()
+    {
+        $this->buttonDisabled = true;
+
+        $dataToSave = [];
+
+        foreach ($this->productionBatch->items as $item) {
+            $maxAllowed = $item->active;
+            $quantityToAdd = $this->sendQuantities[$item->id] ?? 0;
+
+            // Validar que la cantidad no exceda el máximo permitido
+            if ($quantityToAdd > 0 && $quantityToAdd <= $maxAllowed) {
+
+
+                if($this->getStatusCollection['initial_process']){
+
+                    $dataToSave[] = [
+                        'parent_id' => $item->product->parent_id,
+                        'color_id' => $item->product->color_id,
+                        'size_id' => $item->product->size_id,
+                        'quantity' => $quantityToAdd,                        
+                        'product_id' => $item->product_id,
+                    ];
+                }
+
+                $item->active -= $quantityToAdd;
+
+                $item->save();
+            }
+        }
+
+        if($this->getStatusCollection['initial_process']){
+            
+            if(!isset($dataToSave[0])){
+                $this->emit('swal:alert', [
+                    'icon' => 'error',
+                    'title'   => __('Verifique cantidades'), 
+                ]);
+                return false;
+            }
+
+            $batch = $this->order->createProductionBatch([
+                'status_id' => 15,
+                'sendToStock' => true,
+                'parent_id' => $dataToSave[0]['parent_id'], 
+                'production_batch_items' => $dataToSave, 
+                'is_principal' => false,
+                'prev_status' => $this->getStatusCollection['previous_status'], 
+                'initial_process' => $this->getStatusCollection['initial_process'],
+                'with_previous' => $this->getStatusCollection['id'] 
+            ]);
+
+            foreach ($batch->items as $item) {
+                $item->output_quantity = $item->input_quantity;
+                $item->active = 0;
+                $item->save();
+            }
+
+        }
+
+        $this->reset(['sendQuantities', 'selectAll']);
+        $this->productionBatch->refresh();
+
+        $this->emit('swal:alert', [
+           'icon' => 'success',
+            'title'   => __('Enviado a stock'), 
+        ]);
+    
+    }
+
 
     public function getRemainingQuantity($item)
     {
@@ -350,6 +491,7 @@ class ProdBatch extends Component
             'title' => __('Materials consumption processed successfully'),
         ]);
     }
+
     public function makeConsumption($stationId)
     {
         return $this->emit('swal:confirm', [
@@ -362,6 +504,18 @@ class ProdBatch extends Component
         ]);
     }
 
+
+    public function makeReceiveAll($stationId)
+    {
+        return $this->emit('swal:confirm', [
+            'icon' => 'question',
+            'title' => 'Se recibirán todos los productos',
+            'html' => 'Todos los productos de este folio',
+            'confirmText' => '¿Desea confirmar?',
+            'method' => 'receiveAll',
+            'params' => $stationId,
+        ]);
+    }
 
     public function render()
     {

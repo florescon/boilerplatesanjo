@@ -17,6 +17,7 @@ use App\Models\OrdersDelivery;
 use App\Models\ProductStation;
 use Carbon\Carbon;
 use DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Collection;
 
 class Order extends Model
@@ -391,8 +392,95 @@ class Order extends Model
             'diferencia' => '#49e82b',
         ];
 
+        // dd($collection);
+
         return ['collection' => $collection, 'collectionExtra' => $collectionExtra, 'colors' => $colors];
     }
+
+public function getTotalGraphicWorkAttribute()
+{
+    $orderId = $this->id;
+
+    $statuses = $this->getStatuses();
+    $statusesRestricted = $this->getStatuses(true);
+
+    $selects = $statuses->map(function($status, $key) {
+        return "SUM(CASE WHEN production_batch_items.status_id = $status THEN production_batch_items.active ELSE 0 END) as $key";
+    })->implode(', ');
+
+    $selectsExtra = $statusesRestricted->map(function($status, $key) {
+        return "SUM(CASE WHEN production_batch_items.status_id = $status THEN production_batch_items.active ELSE 0 END) as $key";
+    })->implode(', ');
+
+    $totals = DB::table('production_batch_items')
+        ->join('production_batches', 'production_batches.id', '=', 'production_batch_items.batch_id')
+        ->where('production_batches.order_id', $this->id)
+        ->whereRaw("active > 0")
+        ->selectRaw($selects)
+        ->first();
+
+    $totalsExtra = DB::table('production_batch_items')
+        ->join('production_batches', 'production_batches.id', '=', 'production_batch_items.batch_id')
+        ->where('production_batches.order_id', $this->id)
+        ->whereRaw("active > 0")
+        ->selectRaw($selectsExtra)
+        ->first();
+
+    $sumTotals = array_sum((array)$totals);
+
+    // Obtener la suma de 'out'
+    $outTotal = 0; // You need to define this variable - I added initialization
+    $difference = $this->total_products_by_all_products - $sumTotals;
+
+    $collection = collect($totals)->filter();
+    $collectionExtra = collect($totalsExtra)->filter();
+
+    if($difference < 0){
+        $anotherDifference = $difference;
+        $difference = 0;
+        $collectionExtra->prepend(abs($anotherDifference), 'diferencia');
+    }
+
+    $collection->prepend($difference, 'captura');
+    // $collection->put('salida', $outTotal);
+
+    // Mapa de colores
+    $colors = [
+        'captura' => '#EEEEEE',
+        'salida' => '#8e5ea2',
+        'corte' => '#3ABEF9',
+        'confeccion' => '#3572EF',
+        'personalizacion' => '#E1AFD1',
+        'proveedor' => '#FFFF80',
+        'conformado' => '#FFE6E6',
+        'embarque' => '#AD88C6',
+        'calidad' => '#050C9C',
+        'entrega' => '#7469B6',
+        'diferencia' => '#49e82b',
+    ];
+
+    return ['collection' => $collection, 'collectionExtra' => $collectionExtra, 'colors' => $colors];
+}
+
+    public function getTotalByStationWorkAttribute()
+    {
+        $totals = DB::table('production_batch_items')
+            ->join('production_batches', 'production_batches.id', '=', 'production_batch_items.batch_id')
+            ->where('production_batches.order_id', $this->id);
+
+            foreach ($this->getStatusesStation() as $key => $status) {
+                $totals->selectRaw("SUM(CASE WHEN production_batch_items.status_id = $status THEN production_batch_items.active END) as $key");
+            }
+
+            $related = $totals->first();
+
+
+            $collection = collect($related);
+
+            // return $collection->filter();
+            return $collection;
+    }
+
 
     public function getTotalByStationAttribute()
     {
@@ -1351,12 +1439,79 @@ public function getSizeTablesData(?array $statusCollection = null): array
 
     public function previousOrder()
     {
-        return self::where('id', '<', $this->id)->where('type', 1)->orderBy('id','desc')->first();
+        return self::where('folio', '<', $this->folio)
+            ->where('type', 1)
+            ->doesntHave('stations')
+            ->whereDate('created_at', '>=', '2025-04-01 00:00:00')
+            ->where(function($query) {
+                $query->whereDoesntHave('productionBatches.items')
+                    ->orWhere(function($q) {
+                        $q->whereHas('productionBatches.items', function($subQ) {
+                            $subQ->select(DB::raw('batch_id, SUM(input_quantity) as total_input'))
+                                ->where('is_principal', true)
+                                ->whereNull('with_previous')
+                                ->groupBy('batch_id')
+                                ->having('total_input', '!=', DB::raw('(SELECT SUM(quantity) FROM product_order WHERE order_id = production_batches.order_id)'));
+                        });
+                    })
+                    ->orWhereHas('productionBatches.items', function($subQ) {
+                        $subQ->where('is_principal', true)
+                            ->whereNull('with_previous')
+                            ->where('active', '!=', 0);
+                    });
+            })
+            ->orderBy('folio', 'desc')
+            ->first();
     }
 
     public function nextOrder()
     {
-        return self::where('id', '>', $this->id)->where('type', 1)->orderBy('id','asc')->first();
+        return self::where('folio', '>', $this->folio)
+            ->where('type', 1)
+            ->doesntHave('stations')
+            ->whereDate('created_at', '>=', '2025-04-01 00:00:00')
+            ->where(function($query) {
+                $query->whereDoesntHave('productionBatches.items')
+                    ->orWhere(function($q) {
+                        $q->whereHas('productionBatches.items', function($subQ) {
+                            $subQ->select(DB::raw('batch_id, SUM(input_quantity) as total_input'))
+                                ->where('is_principal', true)
+                                ->whereNull('with_previous')
+                                ->groupBy('batch_id')
+                                ->having('total_input', '!=', DB::raw('(SELECT SUM(quantity) FROM product_order WHERE order_id = production_batches.order_id)'));
+                        });
+                    })
+                    ->orWhereHas('productionBatches.items', function($subQ) {
+                        $subQ->where('is_principal', true)
+                            ->whereNull('with_previous')
+                            ->where('active', '!=', 0);
+                    });
+            })
+            ->orderBy('folio', 'asc')
+            ->first();
+    }    
+
+
+    public function validateAllExists(): bool
+    {
+        // Sumar todas las input_quantity que cumplan las condiciones
+        $sumInputQuantity = DB::table('production_batch_items')
+                ->join('production_batches', 'production_batches.id', '=', 'production_batch_items.batch_id')
+                ->where('production_batches.order_id', $this->id)
+                ->where('production_batch_items.is_principal', true)
+                ->whereNull('production_batch_items.with_previous')
+                ->sum('production_batch_items.input_quantity');
+
+        // Verificar que todos los active sean 0
+        $allActiveZero = DB::table('production_batch_items')
+                ->join('production_batches', 'production_batches.id', '=', 'production_batch_items.batch_id')
+                ->where('production_batches.order_id', $this->id)
+                ->where('production_batch_items.is_principal', true)
+                ->whereNull('production_batch_items.with_previous')
+                ->where('production_batch_items.active', '!=', 0)
+                ->doesntExist();
+
+        return $sumInputQuantity == $this->total_products_by_all_products && $allActiveZero;
     }
 
     public function getLastStatusOrderIdAttribute()
@@ -2053,13 +2208,39 @@ public function getSizeTablesData(?array $statusCollection = null): array
     public function createProductionBatch(array $data)
     {
         // dd($data['production_batch_items']);
-        // dd($data);
 
         return DB::transaction(function () use ($data) {
 
             if(empty($data['production_batch_items'])){
                 return false;
             }
+
+            if(!empty($data['initial_process']) && empty($data['sendToStock'])){
+                // dd('s');
+                $errors = [];
+
+                foreach ($data['production_batch_items'] as $production_batch_item) {
+                    $decProduct = Product::whereId($production_batch_item['product_id'])->first();
+                    
+                    if($decProduct->type == true && $decProduct->stock < $production_batch_item['quantity']){
+
+                        $errors[] = "No hay suficiente stock para el producto {$decProduct->full_name}. Stock actual: {$decProduct->stock}, cantidad requerida: {$production_batch_item['quantity']}";
+
+                        // throw new \Exception("No hay suficiente stock para el producto {$decProduct->name}. Stock actual: {$decProduct->stock}, cantidad requerida: {$production_batch_item['quantity']}");
+                    }
+                }
+
+                if(!empty($errors)) {
+                    return [
+                        'success' => false,
+                        'message' => implode('<br>', $errors) // Une los errores con saltos de línea
+                        // O si prefieres como array:
+                        // 'messages' => $errors
+                    ];
+                }
+            }
+
+            // dd('s');
 
             $batch = $this->productionBatches()->create([
                 'product_id' => $data['parent_id'],
@@ -2083,6 +2264,43 @@ public function getSizeTablesData(?array $statusCollection = null): array
                     'current_station' => 'recepcion'
                 ]);
 
+                if(!empty($data['initial_process']) && empty($data['sendToStock'])){
+                    $decProduct = Product::whereId($production_batch_item['product_id'])->first(); 
+
+                    if($decProduct->type == true){
+                        $oldStock = $decProduct->stock;
+                        
+                        $decProduct->history_subproduct()->create([
+                            'product_id' => $production_batch_item['product_id'] ?? null,
+                            'old_stock' => $oldStock,
+                            'stock' => $oldStock - abs($production_batch_item['quantity']),
+                            'type_stock' => 'stock',
+                            'is_output' => true,
+                            'audi_id' => Auth::id(),
+                        ]);
+
+                        $decProduct->decrement('stock', abs($production_batch_item['quantity']));
+                    }
+                }
+
+                if(!empty($data['sendToStock'])){
+                    $increProduct = Product::whereId($production_batch_item['product_id'])->first(); 
+
+                    if($increProduct->type == true){
+                        $oldStock = $increProduct->stock;
+                        
+                        $increProduct->history_subproduct()->create([
+                            'product_id' => $production_batch_item['product_id'] ?? null,
+                            'old_stock' => $oldStock,
+                            'stock' => $oldStock - abs($production_batch_item['quantity']),
+                            'type_stock' => 'stock',
+                            'is_output' => false,
+                            'audi_id' => Auth::id(),
+                        ]);
+
+                        $increProduct->increment('stock', abs($production_batch_item['quantity']));
+                    }
+                }
 
                 if (!is_null($data['prev_status']) && $data['is_principal'] === false) {
                     $quantityToDecrement = $production_batch_item['quantity'];
@@ -2123,7 +2341,6 @@ public function getSizeTablesData(?array $statusCollection = null): array
                         }
                     }
                 }
-
 
             }
             
@@ -2175,6 +2392,7 @@ public function getSizeTablesData(?array $statusCollection = null): array
             // Proceso: suma de input_quantity donde is_principal = true y status_id != 15
             $totalInProcess = $batchItems
                 ->where('is_principal', true)
+                ->where('with_previous', NULL)
                 ->sum('input_quantity');
 
             // Terminado: suma de (input_quantity - active) donde status_id = 15

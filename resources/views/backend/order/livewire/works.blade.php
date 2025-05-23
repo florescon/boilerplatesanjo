@@ -1,6 +1,6 @@
 <x-backend.card>
     <x-slot name="header">
-        @lang('Show workstation') - <h3 class="d-inline">{{ ucfirst($status->name ?? ' ') }}</h3>
+        @lang('Workstation') - <h3 class="d-inline">{{ ucfirst($status->name ?? ' ') }}</h3>
     </x-slot>
 
     <x-slot name="headerActions">
@@ -29,8 +29,18 @@
 	              @endif
 	            </button> --}}
 
+                <button class="btn btn-primary btn-sm btn-lg btn-block mb-3">
+                    {{ ucfirst($status->name ?? ' ') }}
+                </button>
+
+                @if($order->validateAllExists() == false)
+                    <p class="text-center text-danger"> Pedido no concluido </p>
+                @else
+                    <p class="text-center text-primary"> Pedido concluido 🙏</p>
+                @endif
+
                 <select id="redirectSelect" class="form-control mb-4 shadow-sm">
-                    <option value="NoLink">Redireccionar</option>
+                    <option value="NoLink">Seleccionar Estación</option>
                     @foreach(\App\Models\Status::orderBy('level')->whereActive(true)->get() as $s)
                       <option style="color:#0071c5;" value="{{ route('admin.order.work', [$order->id, $s->id]) }}">
                         <strong>

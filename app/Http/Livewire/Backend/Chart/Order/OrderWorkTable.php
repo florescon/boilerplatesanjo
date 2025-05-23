@@ -150,32 +150,35 @@ class OrderWorkTable extends Component
             }
         })
 
-        ->when(!$this->history, function ($query) use ($lastProcessId) {
-            if ($this->status != 'quotations') {
-                $query->where(function ($query) use ($lastProcessId) {
-                    $query->whereRaw("
-                        EXISTS (
-                            SELECT 1
-                            FROM product_order po
-                            LEFT JOIN (
-                                SELECT product_order_id, SUM(quantity) as total_received
-                                FROM product_station_receiveds
-                                WHERE status_id = ?
-                                GROUP BY product_order_id
-                            ) psr ON po.id = psr.product_order_id
-                            LEFT JOIN (
-                                SELECT product_order_id, SUM(out_quantity) as total_out
-                                FROM product_station_outs
-                                GROUP BY product_order_id
-                            ) pso ON po.id = pso.product_order_id
-                            WHERE po.order_id = orders.id
-                            AND (psr.total_received IS NULL OR psr.total_received < po.quantity)
-                            AND (pso.total_out IS NULL OR pso.total_out < po.quantity)
-                        )
-                    ", [$lastProcessId]);
-                });
-            }
+        ->when($this->history === false, function ($query) {
+            // Subconsulta para identificar órdenes que NO cumplen validateAllExists()
+            $query->where(function($q) {
+                $q->whereRaw("(
+                    SELECT COALESCE(SUM(pbi.input_quantity), 0) 
+                    FROM production_batch_items pbi
+                    JOIN production_batches pb ON pb.id = pbi.batch_id
+                    WHERE pb.order_id = orders.id
+                    AND pbi.is_principal = 1
+                    AND pbi.with_previous IS NULL
+                ) != (
+                    SELECT COALESCE(SUM(po.quantity), 0)
+                    FROM product_order po
+                    JOIN products p ON p.id = po.product_id
+                    WHERE po.order_id = orders.id
+                    AND p.type = 1
+                )")
+                ->orWhereRaw("EXISTS (
+                    SELECT 1 
+                    FROM production_batch_items pbi
+                    JOIN production_batches pb ON pb.id = pbi.batch_id
+                    WHERE pb.order_id = orders.id
+                    AND pbi.is_principal = 1
+                    AND pbi.with_previous IS NULL
+                    AND pbi.active != 0
+                )");
+            });
         })
+
         // ->when(!$this->dateInput, function ($query) {
         //     $query->whereYear('created_at', now()->year);
         // })

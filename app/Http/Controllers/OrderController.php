@@ -822,6 +822,10 @@ class OrderController extends Controller
 
     public function destroy(Order $order)
     {
+        if($order->stations()->exists()){
+            abort(403, __('Tiene datos asociados') . ' :(');
+        }
+
         if($order->id){
             $order->delete();
         }

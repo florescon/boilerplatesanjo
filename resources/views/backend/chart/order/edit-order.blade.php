@@ -16,7 +16,7 @@
 
   <x-slot name="headerActions">
 
-    @if($model->isOrder() && !$model->isFromStore())
+    @if($model->isOrder() && !$model->isFromStore() && !$model->stations()->exists())
 
       @if($model->previousOrder())
         <x-utils.link class="card-header-action" :href="route('admin.order.edit', $model->previousOrder())" icon="cil-chevron-double-left" :text="__('Previous')" />
@@ -848,23 +848,36 @@
               )
             <div class="col-md-12" wire:ignore>
               <div class="main-card mb-3 card card-edit">
-                <p class="card-text text-center pt-4"><strong>@lang('Total'):</strong> <strong class="text-danger">{{ $model->total_products }}</strong> </p>
+                <p class="card-text text-center pt-4">{!! $model->total_products_and_services_label !!} </p>
+                
                 <div>
-                  <canvas id="doughnut-chart" width="800" height="550"></canvas>
+                  @if($model->stations()->exists())
 
-                  <div class="text-center p-4">
-                    @foreach($model->total_graphic_new['collectionExtra'] as $key => $value)
-                      <li class="list-group-item list-group-item-secondary"> {!! ucfirst($key) .': <strong class="text-danger">'.$value.'</strong>' !!}</li>
-                    @endforeach
-                  </div>
+                    <canvas id="doughnut-chart" width="800" height="550"></canvas>
+
+                    <div class="text-center p-4">
+                      @foreach($model->total_graphic_new['collectionExtra'] as $key => $value)
+                        <li class="list-group-item list-group-item-secondary"> {!! ucfirst($key) .': <strong class="text-danger">'.$value.'</strong>' !!}</li>
+                      @endforeach
+                    </div>
+
+                  @else
+
+                    <canvas id="doughnut-chart-work" width="800" height="550"></canvas>
+
+                    <div class="text-center p-4">
+                      @foreach($model->total_graphic_work['collectionExtra'] as $key => $value)
+                        <li class="list-group-item list-group-item-secondary"> {!! ucfirst($key) .': <strong class="text-danger">'.$value.'</strong>' !!}</li>
+                      @endforeach
+                    </div>
+
+
+                  @endif
                 </div>
                 
                 <div class="card-body border-dashed conic">
                   <h5 class="card-title">
                     @lang('Batches')
-                    @if($model->batches_main->count() > 0)
-                      <span class="badge badge-primary">{{ $model->batches_main->count() }}</span>
-                    @endif
                   </h5>
 
                   {{-- {{ $model->total_graphic }} --}}
@@ -874,7 +887,11 @@
                       <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">Captura</h5>
                         <small class="text-danger">
-                          {{ $model->total_graphic_new['collection']->get('captura') }}
+                          @if($model->stations()->exists())
+                            {{ $model->total_graphic_new['collection']->get('captura') }}
+                          @else
+                            {{ $model->total_graphic_work['collection']->get('captura') }}
+                          @endif
                         </small>
                       </div>
                     </a>
@@ -883,7 +900,15 @@
                         <div class="d-flex w-100 justify-content-between">
                           <h5 class="mb-1">{{ ucfirst($status->name) }}</h5>
                           <small class="text-danger">
+                          @if($model->stations()->exists())
+
                             {{ $model->total_by_station->get($status->short_name) ?? '--' }}
+                          
+                          @else
+
+                            {{ $model->total_by_station_work->get($status->short_name) ?? '--' }}
+
+                          @endif
                           </small>
                         </div>
                         <p class="mb-1">{{ $status->description }}</p>
@@ -907,7 +932,15 @@
                       <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">{{ $supplier->name }}</h5>
                         <small class="text-danger">
+                        @if($model->stations()->exists())
+
                           {{ $model->total_graphic_new['collection']->get($supplier->short_name) ?? '--' }}
+
+                        @else
+
+                          {{ $model->total_graphic_work['collection']->get($supplier->short_name) ?? '--' }}
+
+                        @endif
                         </small>
                       </div>
                       <p class="mb-1">{{ $supplier->description }}</p>
@@ -931,7 +964,11 @@
                           <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1">{{ $status->name }}</h5>
                             <small class="text-danger">
+                            @if($model->stations()->exists())  
                               {{ $model->total_graphic_new['collection']->get($status->short_name) ?? '--' }}
+                            @else
+                              {{ $model->total_graphic_work['collection']->get($status->short_name) ?? '--' }}
+                            @endif
                             </small>
                           </div>
                           <p class="mb-1">{{ $status->description }}</p>
@@ -954,7 +991,9 @@
 
   <x-slot name="footer">
     @if(($model->type != '7'))
-      <x-utils.delete-button :text="__('Delete').' '.$model->type_order_clear" :href="route('admin.order.destroy', $order_id)" />
+      @if(!$model->productionBatches()->exists())
+          <x-utils.delete-button :text="__('Delete').' '.$model->type_order_clear" :href="route('admin.order.destroy', $order_id)" />
+      @endif
     @endif
     <footer class="blockquote-footer float-right">
       Mies Van der Rohe <cite title="Source Title">Less is more</cite>
@@ -981,6 +1020,36 @@
   var backgroundColors = labels.map(label => colors[label] || '#000000'); // Default to black if no color is found
 
   new Chart(document.getElementById("doughnut-chart"), {
+      type: 'doughnut',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: "Estaciones",
+            backgroundColor: backgroundColors,
+            data: values
+          }
+        ]
+      },
+      options: {
+        title: {
+          display: true,
+          text: 'Avance'
+        }
+      }
+  });
+  </script>
+
+
+  <script>
+  var labels =  {!! json_encode($model->total_graphic_work['collection']->keys()) !!};
+  var values =  {!! json_encode($model->total_graphic_work['collection']->values()) !!};
+  var colors = {!! json_encode($model->total_graphic_work['colors']) !!};
+
+  // Map labels to their corresponding colors
+  var backgroundColors = labels.map(label => colors[label] || '#000000'); // Default to black if no color is found
+
+  new Chart(document.getElementById("doughnut-chart-work"), {
       type: 'doughnut',
       data: {
         labels: labels,

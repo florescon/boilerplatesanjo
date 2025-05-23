@@ -209,7 +209,7 @@ class WorkOrder extends Component
             ];
         })->toArray();
 
-        $batch = $this->order->createProductionBatch(['status_id' => $this->status->id, 'parent_id' => $getID, 'production_batch_items' => $structuredArray, 'prev_status' => $getStatusCollection['previous_status'], 'is_principal' => $getStatusCollection['is_principal']]);
+        $batch = $this->order->createProductionBatch(['status_id' => $this->status->id, 'parent_id' => $getID, 'production_batch_items' => $structuredArray, 'prev_status' => $getStatusCollection['previous_status'], 'initial_process' => $getStatusCollection['initial_process'], 'is_principal' => $getStatusCollection['is_principal']]);
 
         $this->emit('swal:alert', [
             'icon' => 'success',
@@ -253,7 +253,16 @@ class WorkOrder extends Component
             }
             
 
-            $batch = $this->order->createProductionBatch(['status_id' => $this->status->id, 'parent_id' => $getID, 'production_batch_items' => $dataToSave, 'prev_status' => $getStatusCollection['previous_status'], 'is_principal' => $getStatusCollection['is_principal']]);
+            $batch = $this->order->createProductionBatch(['status_id' => $this->status->id, 'parent_id' => $getID, 'production_batch_items' => $dataToSave, 'prev_status' => $getStatusCollection['previous_status'], 'initial_process' => $getStatusCollection['initial_process'], 'is_principal' => $getStatusCollection['is_principal']]);
+
+            if(isset($batch['success']) && !$batch['success']) {
+                $this->emit('swal:modal', [
+                    'icon' => 'error',
+                    'title' => 'Error',
+                    'html' => $batch['message']
+                ]);
+                return;
+            }
 
             $this->emit('swal:alert', [
                 'icon' => 'success',

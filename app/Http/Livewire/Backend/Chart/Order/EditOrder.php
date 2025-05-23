@@ -502,6 +502,8 @@ class EditOrder extends Component
 
         // dd($tablesData);
 
+
+        // dd($model->total_graphic_work);
         // dd($model->products->toArray())
         // dd($model->getProductsGroupedByParentSizeColor());
         // dd($model->getProductsColorSizeMatrix()->toArray());

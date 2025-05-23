@@ -14,7 +14,16 @@
         <div class="col-sm mt-3 text-center">
 
           <p>
-            <a class="btn btn-outline-primary" href="javascript:void(0);" onclick="window.close();" role="button"> Cerrar &nbsp;&nbsp; <i class="cil-x-circle"></i></a>
+            <a class="btn btn-primary" href="{{ route('admin.order.work', [$order->id, $status->id]) }}" role="button"> Ir a {{ ucfirst($status->name) }} </a>
+
+              @if($next_status)
+                <a href="{{ route('admin.order.work', [$order->id, $next_status->id]) }}" class="btn btn-outline-primary ml-3" data-toggle="tooltip" title="{{ $next_status->name ?? null }}">
+                  <i class="cil-chevron-right"></i>
+                  @if($next_status->finial_process) &nbsp; <i class="cil-running"></i> @endif
+                </a>
+              @endif
+
+            <a class="btn btn-outline-primary ml-5" href="javascript:void(0);" onclick="window.close();" role="button"> Cerrar &nbsp;&nbsp; <i class="cil-x-circle"></i></a>
           </p>
           <p class="p-4">
             Fecha creado: {{ $order->date_for_humans }}
@@ -58,7 +67,7 @@
             <label class="mt-2">Fecha Ingresada</label>
             <input
                 type="date"
-                wire:model.live="date_entered"
+                wire:model.live.debounce.2.5s="date_entered"
                 id="date_entered"
                 class="form-control text-center"
             >
@@ -75,8 +84,8 @@
               @if($getStatusCollection['initial_lot'])
                 <div class="col-4 align-self-center text-center">
                   @if(!$productionBatch->consumption)
-                    <button wire:click="makeConsumption({{ $productionBatch->id }})" class="list-group-item list-group-item-primary list-group-item-action">
-                        Comsumir Materia Prima
+                    <button wire:click="makeConsumption({{ $productionBatch->id }})" class="list-group-item list-group-item list-group-item-action">
+                        Consumir Materia Prima
                     </button>
                   @else
                     <a href="{{ route('admin.order.checklist_prod', [$order->id, $productionBatch->id]) }}" target="_blank" class="list-group-item list-group-item-action list-group-item-success"> Material Consumido  <i class="fas fa-external-link-alt m-1"></i></a>
@@ -89,13 +98,29 @@
               <div class="col-4 align-self-center text-center">
                 <a href="{{ route('admin.order.ticket_prod', [$order->id, $productionBatch->id]) }}" target="_blank" class="list-group-item list-group-item-action"> Imprimir Ticket {{ ucfirst($status->name) }}  <i class="fas fa-external-link-alt m-1"></i></a>
               </div>
+
+              @if($getStatusCollection['initial_process'])
+                <div class="col-4 align-self-center text-center">
+                  <div class="row justify-content-md-center custom-control custom-switch custom-control-inline">
+                    <em class=" mt-2"> @lang('Capture to send a finished product')</em>
+                      <div class="col-md-2 mt-2">
+                        <div class="form-check">
+                          <label class="c-switch c-switch-label c-switch-primary">
+                            <input type="checkbox" wire:model="showSentToStock" class="c-switch-input">
+                            <span class="c-switch-slider" data-checked="OK" data-unchecked="NO"></span>
+                          </label>
+                        </div>
+                      </div>
+                  </div>
+                </div>              
+              @endif
           </div>
         </div>
 
       <div class="col-md-12 text-center">
 
-        <h2 class="p-4">
-          <button wire:click="receiveAll" class="btn btn-primary">
+        <h2 class="p-4 text-center">
+          <button wire:click="makeReceiveAll({{ $productionBatch->id }})" class="btn btn-primary">
               Recibir todo
           </button>
         </h2>
@@ -109,7 +134,13 @@
               <th scope="col">Entrada</th>
               <th scope="col">Salida</th>
               <th scope="col">Por recibir</th>
-              <th scope="col">Cantidad a recibir</th>
+              <th scope="col">
+              @if(!$showSentToStock)
+                Cantidad a recibir
+              @else
+                Enviar a Producto Terminado
+              @endif
+              </th>
               <th scope="col">Activo</th>
             </tr>
           </thead>
@@ -122,13 +153,23 @@
                     <td>{{ $item->output_quantity }}</td>
                     <td>{{ $this->getRemainingQuantity($item) }}</td>
                     <td>
+                      @if(!$showSentToStock)
                         <input 
                             type="number"
-                            wire:model="receivedQuantities.{{ $item->id }}" 
+                            wire:model.defer="receivedQuantities.{{ $item->id }}" 
                             min="0" 
                             max="{{ $this->getRemainingQuantity($item) }}"
                             class="form-control"
                         >
+                      @else
+                        <input 
+                            type="number"
+                            wire:model.defer="sendQuantities.{{ $item->id }}" 
+                            min="0" 
+                            max="{{ $this->getRemainingQuantity($item) }}"
+                            class="form-control"
+                        >
+                      @endif
                     </td>
                     <td>{{ $item->active }}</td>
                 </tr>
@@ -137,11 +178,28 @@
         </table>
 
         </p>
-        <p>
-          <button wire:click="receiveSelected" class="btn btn-secondary">
-              Recibir lo capturado &raquo;
-          </button>
-        </p>
+        <div class="text-right">
+
+          @if(!$showSentToStock)
+            <button 
+                wire:click="receiveSelected"
+                wire:loading.attr="disabled"
+                @if($buttonDisabled) disabled @endif
+                onclick="setTimeout(() => { this.disabled = false }, 3000)"
+                class="btn btn-primary">
+                Recibir lo capturado &raquo;
+            </button>
+          @else
+            <button 
+                wire:click="sendToStock"
+                wire:loading.attr="disabled"
+                @if($buttonDisabled) disabled @endif
+                onclick="setTimeout(() => { this.disabled = false }, 3000)"
+                class="btn btn-primary">
+                Enviar &raquo;
+            </button>
+          @endif
+        </div>
       </div>
     </div>
 
