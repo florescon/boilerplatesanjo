@@ -1,11 +1,5 @@
-<x-backend.card>
-    <x-slot name="header">
+<div>
         @lang('Workstation') - <h3 class="d-inline">{{ ucfirst($status->name ?? ' ') }}</h3>
-    </x-slot>
-
-    <x-slot name="headerActions">
-    </x-slot>
-    <x-slot name="body">
 
 		<div class="container-fluid">
 
@@ -16,7 +10,7 @@
 		    </main>
 		    
 		    <!-- Sidebar flotante -->
-		    <aside class="position-fixed bg-light border-left" style="right: 3%; top: 19%; width: 20%; height: calc({{ $floatButton ? '73vh' : '10vh' }}); overflow-y: auto; box-shadow: -2px 0 10px rgba(0,0,0,0.1);">
+		    <aside class="position-fixed bg-light border-left" style="right: 0%; top: 19%; width: 18%; height: calc({{ $floatButton ? '73vh' : '10vh' }}); overflow-y: auto; box-shadow: -2px 0 10px rgba(0,0,0,0.1);">
 
 
 		      <div class="p-3">
@@ -133,16 +127,16 @@
 		  </div>
 		</div>
 
-      	<div class="row">
-	        <div class="col-sm-9 ">
+      	<div class="row" >
+	        <div class="col-sm-10 " style="margin-left: -30px;">
 
 				<div class="container-fluid ">
 
 @foreach($order->getSizeTablesData($status->getStatusCollection()) as $parentId => $tableData)
 	<br>
-    <div class="product-group shadow 
+    <div class="product-group shadow bg-white 
 		{{ $status->callout_class }}
-    "
+    " 
     data-parent-id="{{ $parentId }}"
     >
         <h5 class=""> 
@@ -153,7 +147,7 @@
 
         @if(is_int($parentId))
         <div class="row">
-            <div class="text-right col">
+            <div class="text-left col">
                 @if(count($tableData['rows']) < 2 && $getStatusCollection['is_principal'] && $getStatusCollection['is_batch'])
                         <button 
                             wire:click="messageAlert('saveAll', '{{ $parentId }}')" 
@@ -161,7 +155,8 @@
                             class="btn btn-sm btn-danger mb-2"
                         >
                             <span wire:loading.remove wire:target="messageAlert('saveAll', '{{ $parentId }}')">
-                                <i class="fas fa-save"></i> Guardar todo {{ $tableData['parent_code'] }}
+                                <i class="fas fa-save"></i> Crear ticket 
+                                {{-- {{ $tableData['parent_code'] }} --}}
                             </span>
                             <span wire:loading wire:target="messageAlert('saveAll', '{{ $parentId }}')">
                                 <span class="spinner-border spinner-border-sm" role="status"></span>
@@ -213,7 +208,8 @@
                             @if($row['no_size'])
                                 <td style="width: 35%">{{ $row['general_code'] }}</td>
                             @endif
-                            <td style="width: 10%">{{ $row['color_product'] ?: 'N/A' }}
+                            <td style="width: 10%">
+                                {{ $row['color_product'] ?: 'N/A' }}
 						        <!-- Agrega este campo oculto para capturar el color_id -->
 						        @if(is_int($parentId))
 							        <div wire:ignore>
@@ -232,13 +228,13 @@
                 <td class="text-center">
                     @if(isset($row['sizes'][$header['id']]))
                         {!! $row['sizes'][$header['id']]['quantity'] !!}
-                        
+                        <br>
                         <div class="d-inline-block position-relative">
                             <input 
                                 type="number"
                                 placeholder="{{ $row['sizes'][$header['id']]['active'] }}"
                                 class="form-control text-center form-control-sm @error('quantities.'.$parentId.'.'.$rowIndex.'.'.$header['id']) is-invalid @enderror" 
-                                style="width: 60px; color: blue;"
+                                style="width: 45px; color: blue;"
                                 wire:model.lazy="quantities.{{ $parentId }}.{{ $rowIndex }}.{{ $header['id'] }}"
                                 oninput="calculateGroupTotal('{{ $parentId }}')"
                                 data-parent-id="{{ $parentId }}"
@@ -302,7 +298,7 @@
         @if(is_int($parentId) && $order->getBatchForStatus($status->id, $parentId))
 			<ul class="list-group list-group-flush">
 		        @foreach($order->getBatchForStatus($status->id, $parentId) as $pp)
-				  <a href="{{ route('admin.order.production_batch', [$this->order->id, $pp->id]) }}" target="_blank" class="list-group-item d-flex justify-content-between align-items-center {{ $pp->allItemsAreInactiveAndBalanced() ? 'list-group-item-success' : 'list-group-item-danger' }} list-group-item-action">
+				  <a href="{{ route('admin.order.production_batch', [$this->order->id, $pp->id]) }}" class="list-group-item d-flex justify-content-between align-items-center {{ $pp->allItemsAreInactiveAndBalanced() ? 'list-group-item-success' : 'list-group-item-danger' }} list-group-item-action">
 					Folio #{{ $pp->folio ?? $pp->id }} &nbsp;&nbsp;&nbsp;	 
                     <span class="badge badge-secondary badge-pill"> Activo: <strong class="text-danger"> {{ $order->getTotalBatchActiveProduction($status->id, $parentId, $pp->id) }} </strong></span>
                     @if($pp->allItemsAreBalanced())
@@ -320,5 +316,4 @@
 				</div>
 			</div>
 		</div>
-	</x-slot>
-</x-backend.card>
+</div>

@@ -553,7 +553,7 @@ class Product extends Model
 
     public function getCodeSubproductAttribute()
     {
-        if(!$this->hasCodeSubproduct() && $this->isProduct()){
+        if($this->parent_id && $this->isProduct()){
             return $this->parent->code." <span class='badge badge-secondary'>".__('General').'</span>';
         }
 
@@ -562,7 +562,7 @@ class Product extends Model
 
     public function getCodeSubproductClearAttribute()
     {
-        if(!$this->hasCodeSubproduct() && $this->isProduct()){
+        if($this->parent_id && $this->isProduct()){
             return $this->parent->code;
         }
 
@@ -579,7 +579,7 @@ class Product extends Model
 
     public function getCodeLabelAttribute()
     {
-        if(!$this->hasCodeSubproduct() && $this->isProduct()){
+        if($this->parent_id && $this->isProduct()){
             return $this->parent->code;
         }
 

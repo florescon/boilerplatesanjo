@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ServiceTypeController;
+use App\Http\Controllers\ProductionBatchController;
 use App\Models\Order;
 use App\Models\Status;
 use App\Models\Station;
@@ -218,6 +219,10 @@ Route::group([
                 $trail->parent('admin.order.edit', $order)
                     ->push(__('Ticket order'), route('admin.order.ticket_materia_prod', [$order, $station]));
             });
+
+        Route::get('output/{grouped?}', [ProductionBatchController::class, 'output'])
+            ->name('output')
+            ->middleware('permission:admin.access.station.list');
 
         Route::get('checklist_prod/{station}', [OrderController::class, 'checklist_prod'])
             ->name('checklist_prod')

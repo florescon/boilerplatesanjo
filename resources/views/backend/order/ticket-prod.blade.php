@@ -94,6 +94,26 @@
 
   <br>
 
+
+    <table width="100%" style="margin-top:30px;">
+        <thead style="background-color: white;">
+
+            @if($station->notes)
+            <tr align="center">
+                <th>{{ $station->notes ?? '' }}
+                    <br><br><br>
+                </th>
+            </tr>
+            @endif
+
+            <tr align="center">
+                <th>__________________________________</th>
+            </tr>
+
+        </thead>
+    </table>
+
+
     <table width="100%" style="margin-top:30px;">
         <thead style="background-color: white;">
 

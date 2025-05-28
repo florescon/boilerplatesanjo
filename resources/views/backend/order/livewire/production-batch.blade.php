@@ -9,7 +9,7 @@
           <h3 class="display-4">Orden #{{ $order->folio }}</h3>
           <h3 class="display-5">@lang('Customer'): {{   $order->user_name_clear }}</h3>
           <h3 class="display-5">{{ $order->comment }}</h3>
-          <h3 class="display-5 text-primary">{{ ucfirst($status->name) }} Folio: #{{ $productionBatch->folio ?: $productionBatch->id }}</h3>
+          <h1 class=" text-primary">{{ ucfirst($status->name) }}</h1>
         </div>
         <div class="col-sm mt-3 text-center">
 
@@ -26,7 +26,9 @@
             <a class="btn btn-outline-primary ml-5" href="javascript:void(0);" onclick="window.close();" role="button"> Cerrar &nbsp;&nbsp; <i class="cil-x-circle"></i></a>
           </p>
           <p class="p-4">
-            Fecha creado: {{ $order->date_for_humans }}
+            <h1 class="custom-control-inline">Folio: #{{ $productionBatch->folio ?: $productionBatch->id }}</h1>
+
+            <h4 class="custom-control-inline">Creado: {{ $order->date_for_humans }}</h4>
           </p>
         </div>
       </div>
@@ -64,7 +66,7 @@
       @endif
       <div class="col-4 align-self-center text-center shadow m-4">
         <div class="form-group mb-3">
-            <label class="mt-2">Fecha Ingresada</label>
+            <label class="mt-2">Fecha</label>
             <input
                 type="date"
                 wire:model.live.debounce.2.5s="date_entered"
@@ -76,6 +78,13 @@
                     {{ session('message') }}
                 </div>
             @endif
+        </div>
+
+
+      </div>
+      <div class="col-4 align-self-center text-center shadow m-4 p-2">
+        <div class="form-group mb-3">
+            <x-input.input-alpine nameData="isNote" maxlength="256" :inputText="$isNote" :originalInput="$isNote" wireSubmit="savenote" modelName="notes" :extraName="__('Comment')" />
         </div>
       </div>
 
@@ -98,6 +107,25 @@
               <div class="col-4 align-self-center text-center">
                 <a href="{{ route('admin.order.ticket_prod', [$order->id, $productionBatch->id]) }}" target="_blank" class="list-group-item list-group-item-action"> Imprimir Ticket {{ ucfirst($status->name) }}  <i class="fas fa-external-link-alt m-1"></i></a>
               </div>
+
+              @if($getStatusCollection['final_process'])
+              <div class="col-4 align-self-center text-center">
+                <livewire:backend.components.edit-field textDanger="true" :model="'\App\Models\ProductionBatch'" :entity="$productionBatch" :field="'invoice'" :key="'invoice'.$productionBatch->id" :text="__('Invoice')"/>
+              </div>
+
+              <div class="col-4 align-self-center text-center">
+                <a wire:click="makeInvoiceDate({{ $productionBatch->id }})" class="text-danger">Fecha Factura <i class="cil-arrow-thick-right"></i> 
+                  {{ $productionBatch->invoice_date_format }}
+                </a>
+              </div>
+
+              {{-- <div class="col-4 align-self-center text-center p-4">
+                <a href="{{ route('admin.order.output', $productionBatch->id) }}" target="_blank" class=""> <i class="cil-print"></i> @lang('Output') <i class="fas fa-external-link-alt m-1"></i></a>
+              </div>
+              <div class="col-4 align-self-center text-center p-4">
+                <a href="{{ route('admin.order.output', [$productionBatch->id, true]) }}" target="_blank" class=""> <i class="cil-print"></i> @lang('Output') @lang('Grouped') <i class="fas fa-external-link-alt m-1"></i></a>
+              </div> --}}              
+              @endif
 
               @if($getStatusCollection['initial_process'])
                 <div class="col-4 align-self-center text-center">
@@ -136,7 +164,7 @@
               <th scope="col">Por recibir</th>
               <th scope="col">
               @if(!$showSentToStock)
-                Cantidad a recibir
+                Recepción Parcial
               @else
                 Enviar a Producto Terminado
               @endif
@@ -148,7 +176,7 @@
             @foreach($productionBatch->items as $key => $item)
                 <tr>
                     <th>{{ $key + 1 }}</th>
-                    <th scope="row">{{ $item->product->full_name_clear }}</th>
+                    <th scope="row">{!! $item->product->full_name_break !!}</th>
                     <td>{{ $item->input_quantity }}</td>
                     <td>{{ $item->output_quantity }}</td>
                     <td>{{ $this->getRemainingQuantity($item) }}</td>
@@ -159,7 +187,7 @@
                             wire:model.defer="receivedQuantities.{{ $item->id }}" 
                             min="0" 
                             max="{{ $this->getRemainingQuantity($item) }}"
-                            class="form-control"
+                            class="form-control text-center"
                         >
                       @else
                         <input 
@@ -167,7 +195,7 @@
                             wire:model.defer="sendQuantities.{{ $item->id }}" 
                             min="0" 
                             max="{{ $this->getRemainingQuantity($item) }}"
-                            class="form-control"
+                            class="form-control text-center"
                         >
                       @endif
                     </td>

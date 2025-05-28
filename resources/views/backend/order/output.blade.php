@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="Flores">
   <!-- Site Title -->
-  <title>#{{ $station->id }}</title>
+  <title>#{{ $productionBatch->id }}</title>
   <link rel="stylesheet" href="{{ asset('/css_custom/ivonne.css') }}" />
   <link rel="icon" type="image/png" href="{{ asset('/img/ga/san2.png')}}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,10 +28,10 @@
           </div>
           <div class="cs-invoice_right cs-text_center cs-f16">
             <h4 style="padding: 10px;">
-              <strong>@lang('Output') No. #{{ $station->folio }}</strong>
+              <strong>@lang('Output') No. #{{ $productionBatch->folio }}</strong>
             </h4>
             <p style="margin-top: -20px;">
-              <strong>@lang('Date'): </strong> {{ $station->date_formatted }}
+              <strong>@lang('Date'): </strong> {{ $productionBatch->date_formatted }}
             </p>
           </div>
 
@@ -46,8 +46,8 @@
           <div class="cs-invoice_left">
             <b class="cs-primary_color">@lang('Customer Information'):</b>
             <p>
-              {!! $station->order->user_name !!} <br>
-              {!! $station->order->user_details !!}<br>
+              {!! $productionBatch->order->user_name !!} <br>
+              {!! $productionBatch->order->user_details !!}<br>
             </p>
           </div>
           <div class="cs-invoice_right cs-text_right">
@@ -59,25 +59,25 @@
             </p>
           </div>
         </div>
-        @if($station->comment)
+        @if($productionBatch->comment)
           <div class="cs-invoice_head cs-mb10">
             <p>
-              Comentario: <b class="cs-primary_color">{{ $station->comment }}</b>
+              Comentario: <b class="cs-primary_color">{{ $productionBatch->comment }}</b>
             </p>
           </div>
         @endif
         <ul class="cs-list cs-style2">
           <li>
-            <div class="cs-list_left">@lang('Quotation'): <b class="cs-primary_color cs-semi_bold "> #{{ $station->order->quotation ?? '--'  }}</b></div>
-            <div class="cs-list_right">@lang('Request number'): <b class="cs-primary_color cs-semi_bold ">{{ $station->order->request ?? '--'  }}</b></div>
+            <div class="cs-list_left">@lang('Quotation'): <b class="cs-primary_color cs-semi_bold "> #{{ $productionBatch->order->quotation ?? '--'  }}</b></div>
+            <div class="cs-list_right">@lang('Request number'): <b class="cs-primary_color cs-semi_bold ">{{ $productionBatch->order->request ?? '--'  }}</b></div>
           </li>
           <li>
-            <div class="cs-list_left">@lang('Purchase Order'): <b class="cs-primary_color cs-semi_bold ">{{ $station->order->purchase ?? '--'  }}</b></div>
-            <div class="cs-list_right">@lang('Invoice'): <b class="cs-primary_color cs-semi_bold ">{{ $station->invoice ?? '--' }}</b></div>
+            <div class="cs-list_left">@lang('Purchase Order'): <b class="cs-primary_color cs-semi_bold ">{{ $productionBatch->order->purchase ?? '--'  }}</b></div>
+            <div class="cs-list_right">@lang('Invoice'): <b class="cs-primary_color cs-semi_bold ">{{ $productionBatch->invoice ?? '--' }}</b></div>
           </li>
           <li>
-            <div class="cs-list_left">@lang('Invoice date'): <b class="cs-primary_color cs-semi_bold ">{{ $station->invoice_date_format }}</b></div>
-            <div class="cs-list_right">Expedido por: <b class="cs-primary_color cs-semi_bold ">{{ optional($station->audi)->name ?? '--'  }}</b></div>
+            <div class="cs-list_left">@lang('Invoice date'): <b class="cs-primary_color cs-semi_bold ">{{ $productionBatch->invoice_date_format }}</b></div>
+            <div class="cs-list_right">Expedido por: <b class="cs-primary_color cs-semi_bold ">{{ optional($productionBatch->audi)->name ?? '--'  }}</b></div>
           </li>
         </ul>
         <div class="cs-table cs-style2">
@@ -116,23 +116,23 @@
 
                 @endforeach
 
-                  @foreach($station->product_station->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']])  as $assign)
-                      @php($totalProd = $assign->product_order->price * $assign->quantity)
+                  @foreach($productionBatch->items->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']])  as $assign)
+                      @php($totalProd = $assign->product_order->price * $assign->output_quantity)
 
                       @php($total += $totalProd)
                   @endforeach
 
             @else
 
-                  @foreach($station->product_station->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']])  as $assign)
+                  @foreach($productionBatch->items->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']])  as $assign)
                     <tr>
-                      <td class="cs-width_1 cs-text_center cs-accent_color">{{ $assign->quantity }}</td>
+                      <td class="cs-width_1 cs-text_center cs-accent_color">{{ $assign->output_quantity }}</td>
                       <td class="cs-width_7">{!! $assign->product->full_name_break !!}</td>
                       <td class="cs-width_2 cs-text_right cs-primary_color">${{ number_format(priceWithoutIvaIncluded($assign->product_order->price), 2) }}</td>
-                      <td class="cs-width_2 cs-text_right cs-primary_color">${{ number_format(priceWithoutIvaIncluded($assign->product_order->price * $assign->quantity), 2) }}</td>
+                      <td class="cs-width_2 cs-text_right cs-primary_color">${{ number_format(priceWithoutIvaIncluded($assign->product_order->price * $assign->output_quantity), 2) }}</td>
                     </tr>
 
-                  @php($totalProd = $assign->product_order->price * $assign->quantity)
+                  @php($totalProd = $assign->product_order->price * $assign->output_quantity)
 
                   @php($total += $totalProd)
                   @endforeach
@@ -147,7 +147,7 @@
                     <td class="cs-width_2 cs-text_right cs-primary_color cs-semi_bold">${{ number_format(ivaPrice($total), 2) }}</td>
                   </tr>
                   <tr class="cs-focus_bg cs-no_border">
-                    <td class="cs-width_1"><b class="cs-primary_color">@lang('Articles'):</b> <br>{{ $station->total_products_station }}</td>
+                    <td class="cs-width_1"><b class="cs-primary_color">@lang('Articles'):</b> <br>{{ $productionBatch->total_products_station }}</td>
                     <td class="cs-width_7 cs-text_right cs-primary_color cs-bold cs-f16"></td>
                     <td class="cs-width_2 cs-text_right cs-primary_color cs-bold cs-f16">Total</td>
                     <td class="cs-width_2 cs-text_right cs-primary_color cs-bold cs-f16">${{ number_format($total, 2) }}</td>

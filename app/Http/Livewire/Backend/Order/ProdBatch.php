@@ -23,6 +23,9 @@ class ProdBatch extends Component
     public $users;
     public $date_entered;
 
+    public $notes;
+    public $isNote;
+
     public $buttonDisabled = false;
 
     public $next_status, $previous_status;
@@ -31,7 +34,9 @@ class ProdBatch extends Component
 
     protected $listeners = [
         'makeConsumptionEmited', 'receiveAll',
-        'enableButton' => 'enableButton'
+        'saveInvoiceDate',
+        'enableButton' => 'enableButton',
+        'renderview' => 'render'
     ];
 
     public function mount()
@@ -39,6 +44,9 @@ class ProdBatch extends Component
         $idStatus = $this->productionBatch->status_id;
         $this->status = Status::find($idStatus);
         $this->users = User::admins()->select(['id', 'name'])->orderBy('name')->get();
+
+        $this->isNote = $this->productionBatch->notes;
+        $this->initnote($this->productionBatch);
 
         $this->order = Order::find($this->productionBatch->order_id);
         $this->getStatusCollection = $this->status->getStatusCollection();
@@ -52,6 +60,31 @@ class ProdBatch extends Component
 
         $this->date_entered = optional($this->productionBatch->date_entered)->format('Y-m-d');
 
+    }
+
+    private function initnote(ProductionBatch $product)
+    {
+        $this->notes = $product->notes;
+        $this->isNote = $product->notes ?? false;
+    }
+
+    public function savenote()
+    {
+        $this->validate([
+            'notes' => ['min:1', 'max:256'],
+        ]);
+
+        $product = ProductionBatch::findOrFail($this->productionBatch->id);
+
+        $product->notes = $this->notes ?? null;
+        $product->save();
+
+        $this->initnote($product); // re-initialize the component state with fresh data after saving
+
+        $this->emit('swal:alert', [
+           'icon' => 'success',
+            'title'   => __('Updated at'), 
+        ]);
     }
 
     protected function loadInitialData($status)
@@ -504,6 +537,34 @@ class ProdBatch extends Component
         ]);
     }
 
+
+    public function makeInvoiceDate($station_id)
+    {
+        return $this->emit('swal:inputdate', [
+            'title' => 'Fecha de Factura',
+            'html' => '<input type="date" id="invoice-date" class="swal2-input" placeholder="calendar 1">',
+            'getId' => $station_id,
+            'showCancelButton' => true,
+            'method' => 'saveInvoiceDate',
+        ]);
+
+    }
+
+    public function saveInvoiceDate($station_id, ?string $dateInput = null)
+    {
+        if($dateInput){
+            $productionBatch = ProductionBatch::findOrFail($station_id);
+            $productionBatch->invoice_date = $dateInput;
+            $productionBatch->save();
+
+           $this->emit('swal:alert', [
+                'icon' => 'success',
+                'title'   => __('Saved'), 
+            ]); 
+
+           $this->emit('renderview');
+        }
+    }
 
     public function makeReceiveAll($stationId)
     {

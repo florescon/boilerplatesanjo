@@ -408,6 +408,7 @@ public function getTotalGraphicWorkAttribute()
         return "SUM(CASE WHEN production_batch_items.status_id = $status THEN production_batch_items.active ELSE 0 END) as $key";
     })->implode(', ');
 
+
     $selectsExtra = $statusesRestricted->map(function($status, $key) {
         return "SUM(CASE WHEN production_batch_items.status_id = $status THEN production_batch_items.active ELSE 0 END) as $key";
     })->implode(', ');
@@ -418,6 +419,14 @@ public function getTotalGraphicWorkAttribute()
         ->whereRaw("active > 0")
         ->selectRaw($selects)
         ->first();
+
+    $totalInputQuantity = DB::table('production_batch_items')
+        ->join('production_batches', 'production_batches.id', '=', 'production_batch_items.batch_id')
+        ->where('production_batches.order_id', $this->id)
+        ->where('production_batches.is_principal', true)
+        ->where('production_batches.with_previous', null)
+        ->where('production_batch_items.input_quantity', '>', 0)
+        ->sum('production_batch_items.input_quantity');
 
     $totalsExtra = DB::table('production_batch_items')
         ->join('production_batches', 'production_batches.id', '=', 'production_batch_items.batch_id')
@@ -430,7 +439,7 @@ public function getTotalGraphicWorkAttribute()
 
     // Obtener la suma de 'out'
     $outTotal = 0; // You need to define this variable - I added initialization
-    $difference = $this->total_products_by_all_products - $sumTotals;
+    $difference = $this->total_products_by_all_products - $totalInputQuantity;
 
     $collection = collect($totals)->filter();
     $collectionExtra = collect($totalsExtra)->filter();

@@ -25,7 +25,9 @@ class ProductionBatch extends Model
         'personal_id', 
         'with_previous',
         'date_entered', 
-        'status_id'
+        'status_id',
+        'invoice',
+        'invoice_date',
     ];
     
     /**
@@ -39,6 +41,7 @@ class ProductionBatch extends Model
         'is_principal' => 'boolean',
         'consumption' => 'boolean',
         'date_entered' => 'date',
+        'invoice_date' => 'date',
     ];
 
 
@@ -53,7 +56,47 @@ class ProductionBatch extends Model
             if (empty($batch->folio)) {
                 $batch->folio = $batch->getLastFolioSkipAttribute();
             }
+
+
+            // Actualiza todos con los mismos invoice e invoice_date
+            if ($batch->status_id == 15) {
+                self::syncInvoiceData($batch);
+            }
+
         });
+
+        static::saved(function ($batch) {
+            // Actualiza todos con los mismos invoice e invoice_date
+            if ($batch->status_id == 15) {
+                self::syncInvoiceData($batch);
+            }
+        });
+    }
+
+
+    private static function syncInvoiceData(ProductionBatch $batch)
+    {
+
+        if (!$batch->order_id || !$batch->created_at) {
+            return;
+        }
+
+                // Busca todos los registros con mismo order_id y misma fecha (sin incluir el actual)
+                $relatedBatches = static::where('order_id', $batch->order_id)
+                    ->where('status_id', 15)
+                    ->whereDate('created_at', $batch->created_at->format('Y-m-d'))
+                    ->where('id', '!=', $batch->id)
+                    ->get();
+
+                // Actualiza todos con los mismos invoice e invoice_date
+                if ($relatedBatches->isNotEmpty()) {
+                    static::whereIn('id', $relatedBatches->pluck('id'))
+                        ->update([
+                            'invoice' => $batch->invoice,
+                            'invoice_date' => $batch->invoice_date,
+                        ]);
+                }
+
     }
 
 
@@ -147,7 +190,12 @@ class ProductionBatch extends Model
         }
     }
 
-   public function getDateForHumansAttribute()
+    public function getInvoiceDateFormatAttribute()
+    {
+        return !$this->invoice_date ? '' : $this->invoice_date->isoFormat('D, MMM, YY');
+    }
+
+    public function getDateForHumansAttribute()
     {
         return $this->created_at ? $this->created_at->isoFormat('D, MMM, YY') : '';
     }
