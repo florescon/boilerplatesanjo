@@ -213,7 +213,8 @@ class ProdBatch extends Component
             $batch = $this->order->createProductionBatch([
                 'status_id' => 11, 
                 'parent_id' => $dataToSave[0]['parent_id'], 
-                'production_batch_items' => $dataToSave, 
+                'production_batch_items' => $dataToSave,
+                'not_restricted' => $this->getStatusCollection['not_restricted'],
                 'prev_status' => $this->getStatusCollection['previous_status'], 
                 'is_principal' => false, 
                 'with_previous' => $this->getStatusCollection['id'] ]);
@@ -235,8 +236,34 @@ class ProdBatch extends Component
         ]);
     }
 
+    private function verifyIfEmptyReceive()
+    {
+        $allEmptyOrZero = true;
+        foreach ($this->receivedQuantities as $value) {
+            if ($value !== "" && $value !== 0 && $value !== "0") {
+                $allEmptyOrZero = false;
+                break;
+            }
+        }
+        
+        if ($allEmptyOrZero) {
+            $this->emit('swal:alert', [
+                'icon' => 'error',
+                'title' => __('No emita datos vacios'), 
+            ]);
+            return true; // Cambiado a `true` para indicar que está vacío/cero
+        }
+
+        return false; // No está vacío/cero
+    }
+
+
     public function receiveSelected()
     {
+
+        if ($this->verifyIfEmptyReceive()) {
+            return false; // Detiene la ejecución si está vacío/cero
+        }
         $this->requiredConsumption();
 
         $this->buttonDisabled = true;
@@ -286,6 +313,7 @@ class ProdBatch extends Component
                 'status_id' => 11, 
                 'parent_id' => $dataToSave[0]['parent_id'], 
                 'production_batch_items' => $dataToSave, 
+                'not_restricted' => $this->getStatusCollection['not_restricted'],
                 'prev_status' => $this->getStatusCollection['previous_status'], 
                 'is_principal' => false, 
                 'with_previous' => $this->getStatusCollection['id'] ]);
@@ -349,6 +377,7 @@ class ProdBatch extends Component
                 'parent_id' => $dataToSave[0]['parent_id'], 
                 'production_batch_items' => $dataToSave, 
                 'is_principal' => false,
+                'not_restricted' => $this->getStatusCollection['not_restricted'],
                 'prev_status' => $this->getStatusCollection['previous_status'], 
                 'initial_process' => $this->getStatusCollection['initial_process'],
                 'with_previous' => $this->getStatusCollection['id'] 

@@ -64,6 +64,41 @@
       </tr>
   </table>
 
+  @if($station->status_id !== 6)
+      <table style="margin-bottom: -30px; margin-top: -20px;" width="100%">
+          <tr>
+              @if($station->order->user)
+                  <th class="text-center"> <h2>{{ optional($station->order->user)->real_name }}</h2></th>
+              @endif
+          </tr>
+      </table>
+
+      @if($station->order->comment)
+          <table style="margin-bottom: 10px;" width="100%">
+              <tr align="center">
+                  <th>
+                      @if($station->order->comment)
+                          {{ $station->order->info_customer ?? '' }}
+                          <br>
+                      @endif
+                      {{ $station->order->comment ?? '' }}
+                  </th>
+              </tr>
+          </table>
+      @endif
+
+      @if($station->order->complementary)
+          <table style="margin-bottom: 10px;" width="100%">
+              <tr align="center">
+                  <th>
+                      {{ $station->order->complementary ?? '' }}
+                  </th>
+              </tr>
+          </table>
+      @endif
+
+  @endif
+
     <table width="100%">
       <thead style="background-color: gray;">
         <tr align="center">

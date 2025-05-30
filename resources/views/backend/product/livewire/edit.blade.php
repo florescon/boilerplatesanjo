@@ -56,7 +56,7 @@
 								</div>
 						    </li>
 						  </ul>
-
+							@error('photo') <span class="error p-2" style="color: red;"><p>{{ $message }}</p></span> @enderror
 	                    @else
 	                        @lang('Something went wrong while uploading the file.')
 	                    @endif

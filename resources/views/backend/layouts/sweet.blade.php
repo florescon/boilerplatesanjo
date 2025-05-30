@@ -42,7 +42,6 @@ const SwalConfirm = (icon, title, html, confirmButtonText, method, params, callb
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText,
-        reverseButtons: true,
         backdrop: `
             rgba(0,0,123,0.4)
             left top

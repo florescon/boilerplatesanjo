@@ -484,7 +484,7 @@ class EditProduct extends Component
     public function savePhoto()
     {
         $this->validate([
-            'photo' => 'image|max:4096', // 4MB Max
+            'photo' => 'image|max:3072', // 4MB Max
         ]);
 
         $date = date("Y-m-d");

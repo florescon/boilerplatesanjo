@@ -77,6 +77,18 @@
                         <td class="pr-0 text-right">{{ $order->info_customer }}</td>
                       </tr>
                     @endif
+                    @if($order->request)
+                      <tr>
+                        <td class="pl-0">@lang('Request n.º')</td>
+                        <td class="pr-0 text-right">{{ $order->request }}</td>
+                      </tr>
+                    @endif
+                    @if($order->purchase)
+                      <tr>
+                        <td class="pl-0">@lang('Purchase O.')</td>
+                        <td class="pr-0 text-right">{{ $order->purchase }}</td>
+                      </tr>
+                    @endif
                     </tr>
                     @if($order->comment)
                       <tr>
@@ -87,6 +99,12 @@
                       <tr>
                         <td class="pl-0">@lang('Observations')</td>
                         <td class="pr-0 text-right">{{ $order->observation }}</td>
+                      </tr>
+                    @endif
+                    @if($order->complementary)
+                      <tr>
+                        <td class="pl-0">@lang('Complementary observations')</td>
+                        <td class="pr-0 text-right">{{ $order->complementary }}</td>
                       </tr>
                     @endif
                   </tbody>
@@ -140,10 +158,10 @@
     data-parent-id="{{ $parentId }}"
     >
         <h5 class=""> 
-            <strong class="text-primary">{{ $tableData['parent_code'] }}</strong> 
-            {{ $tableData['parent_name'] }}
+            <a href="{{ route('admin.product.edit',  $parentId) }}" target="_blank"><strong class="text-primary">{{ $tableData['parent_code'] }}</strong> 
+                {{ $tableData['parent_name'] }}
+            </a>
         </h5>
-
 
         @if(is_int($parentId))
         <div class="row">
@@ -165,22 +183,26 @@
                         </button>
                 @endif
             </div>
-            <div class="text-right col" wire:ignore>
-                <button 
-                    wire:click="messageAlert('save', '{{ $parentId }}')" 
-                    wire:loading.attr="disabled"
-                    class="btn btn-sm btn-primary mb-2"
-                >
-                    <span wire:loading.remove wire:target="messageAlert('save', '{{ $parentId }}')">
-                        <i class="fas fa-save"></i> Guardar captura <h5 class="d-inline"><span class="badge badge-light text-dark" id="total-{{ $parentId }}">0</span></h5>
-
-                    </span>
-                    <span wire:loading wire:target="messageAlert('save', '{{ $parentId }}')">
-                        <span class="spinner-border spinner-border-sm" role="status"></span>
-                        Guardando...
-                    </span>
-                </button>
-            </div>
+            @if(($changesByParent[$parentId] ?? false))
+                <div class="text-right col" wire:ignore>
+                    <button 
+                        wire:click="messageAlert('save', '{{ $parentId }}')" 
+                        wire:loading.attr="disabled"
+                        class="btn btn-sm btn-primary mb-2"
+                    >
+                        <span wire:loading.remove wire:target="messageAlert('save', '{{ $parentId }}')">
+                            <i class="fas fa-save"></i> Guardar captura 
+                            <h5 class="d-inline">
+                                <span class="badge badge-light text-dark" id="total-{{ $parentId }}">0</span>
+                            </h5>
+                        </span>
+                        <span wire:loading wire:target="messageAlert('save', '{{ $parentId }}')">
+                            <span class="spinner-border spinner-border-sm" role="status"></span>
+                            Guardando...
+                        </span>
+                    </button>
+                </div>
+            @endif
         </div>
 
         @endif
@@ -233,9 +255,10 @@
                             <input 
                                 type="number"
                                 placeholder="{{ $row['sizes'][$header['id']]['active'] }}"
-                                class="form-control text-center form-control-sm @error('quantities.'.$parentId.'.'.$rowIndex.'.'.$header['id']) is-invalid @enderror" 
+                                class="{{ $row['sizes'][$header['id']]['active'] == 0 ? 'placeholder-zero' : '' }}  form-control text-center form-control-sm @error('quantities.'.$parentId.'.'.$rowIndex.'.'.$header['id']) is-invalid @enderror" 
                                 style="width: 45px; color: blue;"
                                 wire:model.lazy="quantities.{{ $parentId }}.{{ $rowIndex }}.{{ $header['id'] }}"
+                                wire:change="updateGroupTotal('{{ $parentId }}')"
                                 oninput="calculateGroupTotal('{{ $parentId }}')"
                                 data-parent-id="{{ $parentId }}"
                                 min="1"
@@ -244,9 +267,9 @@
                                 data-size="{{ $header['id'] }}"
                                 data-color="{{ $row['color_product'] }}"
                             >
-                            @error('quantities.'.$parentId.'.'.$rowIndex.'.'.$header['id'])
+                            {{-- @error('quantities.'.$parentId.'.'.$rowIndex.'.'.$header['id'])
                                 <div class="invalid-tooltip">{{ $message }}</div>
-                            @enderror
+                            @enderror --}}
                         </div>
                     @endif
                 </td>
@@ -295,21 +318,31 @@
         </div>
 
 
-        @if(is_int($parentId) && $order->getBatchForStatus($status->id, $parentId))
-			<ul class="list-group list-group-flush">
-		        @foreach($order->getBatchForStatus($status->id, $parentId) as $pp)
-				  <a href="{{ route('admin.order.production_batch', [$this->order->id, $pp->id]) }}" class="list-group-item d-flex justify-content-between align-items-center {{ $pp->allItemsAreInactiveAndBalanced() ? 'list-group-item-success' : 'list-group-item-danger' }} list-group-item-action">
-					Folio #{{ $pp->folio ?? $pp->id }} &nbsp;&nbsp;&nbsp;	 
-                    <span class="badge badge-secondary badge-pill"> Activo: <strong class="text-danger"> {{ $order->getTotalBatchActiveProduction($status->id, $parentId, $pp->id) }} </strong></span>
-                    @if($pp->allItemsAreBalanced())
-                        <span class="badge badge-primary">Total recibido</span>
-                    @endif  
-					<span class="badge badge-primary badge-pill">{{ $order->getTotalBatchProduction($status->id, $parentId, $pp->id) }}</span>
-
-				  </a>
-				@endforeach
-			</ul>
-		@endif
+@if(is_int($parentId) && $order->getBatchForStatus($status->id, $parentId))
+    <ul class="list-group list-group-flush">
+        @foreach($order->getBatchForStatus($status->id, $parentId) as $pp)
+            <a href="{{ route('admin.order.production_batch', [$this->order->id, $pp->id]) }}" class="list-group-item d-flex justify-content-between align-items-center {{ $pp->allItemsAreInactiveAndBalanced() ? 'list-group-item-success' : 'list-group-item-danger' }} list-group-item-action">
+                <div class="row w-100">
+                    <div class="col-4">  <!-- 33% width -->
+                        Folio #{{ $pp->folio ?? $pp->id }}
+                        <span class="badge badge-secondary badge-pill">{{ optional($pp->personal)->name }}</span>
+                    </div>
+                    <div class="col-5 text-right">  <!-- 33% width -->
+                         <span class="badge badge-secondary badge-pill"><h5> Activo: <strong class="text-danger"> {{ $order->getTotalBatchActiveProduction($status->id, $parentId, $pp->id) }} </strong></h5></span>
+                    </div>
+                    <div class="col-3 text-right">  <!-- 33% width -->
+                        <h5>
+                            @if($pp->allItemsAreBalanced())
+                                <span class="badge badge-success ml-4">Total recibido</span>
+                            @endif
+                            <span class="badge badge-primary badge-pill">{{ $order->getTotalBatchProduction($status->id, $parentId, $pp->id) }}</span>
+                        </h5>
+                    </div>
+                </div>
+            </a>
+        @endforeach
+    </ul>
+@endif
 
     </div>
 @endforeach

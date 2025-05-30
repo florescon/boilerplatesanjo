@@ -27,6 +27,10 @@
         color: red !important;
         opacity: 1; /* Asegura que se muestre completamente opaco */
     }
+
+    input.placeholder-zero::placeholder {
+        color: gray !important;
+    }
 </style>
   <style>
     .scrolling-wrapper {
@@ -120,20 +124,21 @@
     };
   </script>
 
-  <script type="text/javascript">
-    function calculateGroupTotal(parentId) {
-        const inputs = document.querySelectorAll(`input[data-parent-id="${parentId}"]`);
-        let groupTotal = 0;
+<script>
+  document.addEventListener('livewire:load', function() {
+      Livewire.on('groupTotalUpdated', (parentId, total) => {
+          document.getElementById(`total-${parentId}`).textContent = total;
+      });
+  });
+</script>
 
-        inputs.forEach(input => {
-            const value = parseInt(input.value);
-            if (!isNaN(value)) {  // Solo suma si es un número válido
-                groupTotal += value;
-            }
-        });
-
-        document.getElementById(`total-${parentId}`).textContent = groupTotal;
-        Livewire.emit('updateGroupTotal', { parentId, total: groupTotal });
-    }    
+  <script>
+    $(document).ready(function() {
+    $('input[type="number"]').each(function() {
+        if($(this).attr('placeholder') === '0') {
+            $(this).addClass('placeholder-zero');
+        }
+      });
+    });
   </script>
 @endpush

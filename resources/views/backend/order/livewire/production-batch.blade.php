@@ -23,7 +23,7 @@
                 </a>
               @endif
 
-            <a class="btn btn-outline-primary ml-5" href="javascript:void(0);" onclick="window.close();" role="button"> Cerrar &nbsp;&nbsp; <i class="cil-x-circle"></i></a>
+            {{-- <a class="btn btn-outline-primary ml-5" href="javascript:void(0);" onclick="window.close();" role="button"> Cerrar &nbsp;&nbsp; <i class="cil-x-circle"></i></a> --}}
           </p>
           <p class="p-4">
             <h1 class="custom-control-inline">Folio: #{{ $productionBatch->folio ?: $productionBatch->id }}</h1>
@@ -45,7 +45,7 @@
         <div class="form-check mb-3 justify-content-center text-center">
 
             <div class="form-group mb-3">
-                <label class="mt-2" for="user-select-{{ $productionBatch->id }}">Seleccionar Usuario</label>
+                <label class="mt-2" for="user-select-{{ $productionBatch->id }}">Seleccionar Personal</label>
                 <select id="user-select-{{ $productionBatch->id }}" wire:change="savePersonalId({{ $productionBatch->id }}, $event.target.value)" class="form-control border-primary" 
                   style=" {{ $productionBatch->personal_id ? 'color: red;' : '' }}" 
                   onfocus="disableKeyUpDown({{ $productionBatch->id }})">
@@ -159,9 +159,9 @@
             <tr>
               <th scope="col">#</th>
               <th scope="col">Producto</th>
-              <th scope="col">Entrada</th>
-              <th scope="col">Salida</th>
-              <th scope="col">Por recibir</th>
+              <th scope="col">Asignado</th>
+              <th scope="col">Recibido</th>
+              <th scope="col">Proceso</th>
               <th scope="col">
               @if(!$showSentToStock)
                 Recepción Parcial

@@ -133,7 +133,7 @@ class OrderTable extends Component
         })
         ->when(!$this->history, function ($query) {
             // Excluir los IDs específicos cuando history es false
-            $query->whereNotIn('id', ['3141', '3073', '2233']);
+            $query->whereNotIn('id', ['3141', '3073', '2233', '3105']);
         })
         ->when(!$this->history, function ($query) use ($lastProcessId) {
             if ($this->status != 'quotations') {

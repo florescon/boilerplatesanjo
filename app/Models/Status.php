@@ -416,6 +416,7 @@ class Status extends Model
             // Obtener status anterior (level menor y no es principal)
             $previousStatus = DB::table('statuses')->where('active', true)
                 ->where('level', '<', $this->level)
+                ->where('not_restricted', false) // Excluir registros donde not_restricted = true
                 ->where(function($query) {
                     $query->where('batch', true)
                           ->orWhere('process', true);
@@ -429,6 +430,7 @@ class Status extends Model
         // Obtener siguiente status (level mayor y no es principal)
         $nextStatus = DB::table('statuses')->where('active', true)
             ->where('level', '>', $this->level)
+            ->where('not_restricted', false) // Excluir registros donde not_restricted = true
             ->where(function($query) {
                 $query->where('batch', true)
                       ->orWhere('process', true);

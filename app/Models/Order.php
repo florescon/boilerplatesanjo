@@ -1630,7 +1630,7 @@ public function getSizeTablesData(?array $statusCollection = null): array
     public function getTotalProductsAndServicesLineLabelAttribute()
     {
         return '<strong>Productos: </strong> <strong class="text-primary">'.$this->total_products_by_all_products.
-               '</strong> <strong>Servicios: </strong> <strong class="text-primary">'.$this->total_products_by_all_services."</strong>";
+               '</strong> <strong style="margin-left:40px;">Servicios: </strong> <strong class="text-primary">'.$this->total_products_by_all_services."</strong>";
     }
 
     public function getTotalProductsAttribute(): int
@@ -2311,7 +2311,7 @@ public function getSizeTablesData(?array $statusCollection = null): array
                     }
                 }
 
-                if (!is_null($data['prev_status']) && $data['is_principal'] === false) {
+                if (!is_null($data['prev_status']) && !$data['not_restricted'] && $data['is_principal'] === false) {
                     $quantityToDecrement = $production_batch_item['quantity'];
                     $productId = $production_batch_item['product_id'];
 

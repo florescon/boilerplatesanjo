@@ -56,6 +56,7 @@
                   <i class="cil-external-link"></i>
                 </span>
               </a>
+
             </div>
           @endif
           <div class="card-body">
@@ -841,15 +842,16 @@
 
       @if($orderExists || $requestExists)
         <div class="col-12 col-md-4">
-          <div class="row d-flex justify-content-center mt-70 mb-70">
+          <div class="row d-flex justify-content-center mt-70 mb-70 sticky-top">
 
             @if(!$model->from_store 
               && ($model->id > 977)
               )
             <div class="col-md-12" wire:ignore>
               <div class="main-card mb-3 card card-edit">
-                <p class="card-text text-center pt-4">{!! $model->total_products_and_services_label !!} </p>
-                
+
+                <p class="card-text text-center pt-4">{!! $model->total_products_and_services_line_label !!} </p>
+
                 <div>
                   @if($model->stations()->exists())
 
@@ -863,7 +865,7 @@
 
                   @else
 
-                    <canvas id="doughnut-chart-work" width="800" height="550"></canvas>
+                    <canvas id="doughnut-chart-work" width="500" height="250"></canvas>
 
                     <div class="text-center p-4">
                       @foreach($model->total_graphic_work['collectionExtra'] as $key => $value)
@@ -874,14 +876,15 @@
 
                   @endif
                 </div>
-                
-                <div class="card-body border-dashed conic">
-                  <h5 class="card-title">
-                    @lang('Batches')
-                  </h5>
 
+                
                   {{-- {{ $model->total_graphic }} --}}
 
+              </div>
+
+            </div>
+
+                <div class="card-body border-dashed conic ">
                   <div class="list-group">
                     <a href="javascript:void(0)" class="list-group-item list-group-item-action list-group-item-secondary" aria-current="true">
                       <div class="d-flex w-100 justify-content-between">
@@ -911,21 +914,9 @@
                           @endif
                           </small>
                         </div>
-                        <p class="mb-1">{{ $status->description }}</p>
-                        <small>Última actualización: </small>
                       </a>
                     @endforeach
                   </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-12">
-              <div class="main-card mb-3 card card-edit">
-                <div class="card-body conic2">
-                  <h5 class="card-title">
-                    @lang('Vendor')
-                  </h5>
 
                   <div class="list-group">
                     <a href="{{  $model->stations()->exists() ? route('admin.order.station', [$order_id, $supplier->id]) : route('admin.order.work', [$order_id, $supplier->id]) }}" class="list-group-item list-group-item-action" aria-current="true">
@@ -943,20 +934,9 @@
                         @endif
                         </small>
                       </div>
-                      <p class="mb-1">{{ $supplier->description }}</p>
-                      <small>Último creado: </small>
                     </a>
                   </div>
-                </div>
-              </div>
-            </div>
 
-            <div class="col-md-12">
-              <div class="main-card mb-3 card card-edit">
-                <div class="card-body conic2">
-                  <h5 class="card-title">
-                    @lang('Process')
-                  </h5>
 
                   <div class="list-group">
                     @foreach($process as $status)
@@ -971,14 +951,10 @@
                             @endif
                             </small>
                           </div>
-                          <p class="mb-1">{{ $status->description }}</p>
-                          <small>Último creado: </small>
                         </a>
                     @endforeach
                   </div>
                 </div>
-              </div>
-            </div>
             @endif
 
           </div>
@@ -1034,7 +1010,6 @@
       options: {
         title: {
           display: true,
-          text: 'Avance'
         }
       }
   });
@@ -1064,7 +1039,6 @@
       options: {
         title: {
           display: true,
-          text: 'Avance'
         }
       }
   });

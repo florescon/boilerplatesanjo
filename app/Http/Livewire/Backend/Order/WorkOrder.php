@@ -34,12 +34,13 @@ class WorkOrder extends Component
 
     public $calculateStatusQuantities; // Variable para almacenar el cálculo
 
+    public $changesByParent = [];
+
     protected $queryString = [
         'floatButton' => ['except' => FALSE],
     ];
 
     protected $listeners = ['quantitiesUpdated' => 'handleQuantitiesUpdate', 'save', 'saveAll', 'initializeQuantities',
-        'updateGroupTotal' => 'setGroupTotal'
     ];
 
     public function mount($order, $status)
@@ -61,6 +62,22 @@ class WorkOrder extends Component
 
     }
 
+
+
+public function updateGroupTotal($parentId)
+{
+    $total = 0;
+    
+    if (isset($this->quantities[$parentId])) {
+        foreach ($this->quantities[$parentId] as $row) {
+            foreach ($row as $value) {
+                $total += is_numeric($value) ? $value : 0;
+            }
+        }
+    }
+    
+    $this->emit('groupTotalUpdated', $parentId, $total);
+}
     public function calculateStatusQuantities()
     {
         $this->calculateStatusQuantities = $this->order->calculateStatusQuantities();
@@ -117,6 +134,10 @@ class WorkOrder extends Component
         // Parsear la clave multidimensional (ej: "quantities.1.0.2")
         $keys = explode('.', $keyPath);
 
+        $parentId = $keys[0];
+        $this->changesByParent[$parentId] = $this->checkParentChanges($parentId);
+
+
 
         if (count($keys) === 3) {
             $parentId = $keys[0];
@@ -165,6 +186,20 @@ class WorkOrder extends Component
         }
     }
 
+private function checkParentChanges($parentId)
+{
+    if (!isset($this->quantities[$parentId])) return false;
+    
+    foreach ($this->quantities[$parentId] as $rowIndex => $sizes) {
+        foreach ($sizes as $sizeId => $value) {
+            if (!empty($value) && $value != 0) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
     public function saveAll(int $getID)
     {
         $getStatusCollection = $this->status->getStatusCollection();
@@ -209,7 +244,7 @@ class WorkOrder extends Component
             ];
         })->toArray();
 
-        $batch = $this->order->createProductionBatch(['status_id' => $this->status->id, 'parent_id' => $getID, 'production_batch_items' => $structuredArray, 'prev_status' => $getStatusCollection['previous_status'], 'initial_process' => $getStatusCollection['initial_process'], 'is_principal' => $getStatusCollection['is_principal']]);
+        $batch = $this->order->createProductionBatch(['status_id' => $this->status->id, 'parent_id' => $getID, 'production_batch_items' => $structuredArray, 'prev_status' => $getStatusCollection['previous_status'], 'initial_process' => $getStatusCollection['initial_process'], 'is_principal' => $getStatusCollection['is_principal'], 'not_restricted' => $getStatusCollection['not_restricted']]);
 
         $this->emit('swal:alert', [
             'icon' => 'success',
@@ -253,7 +288,7 @@ class WorkOrder extends Component
             }
             
 
-            $batch = $this->order->createProductionBatch(['status_id' => $this->status->id, 'parent_id' => $getID, 'production_batch_items' => $dataToSave, 'prev_status' => $getStatusCollection['previous_status'], 'initial_process' => $getStatusCollection['initial_process'], 'is_principal' => $getStatusCollection['is_principal']]);
+            $batch = $this->order->createProductionBatch(['status_id' => $this->status->id, 'parent_id' => $getID, 'production_batch_items' => $dataToSave, 'prev_status' => $getStatusCollection['previous_status'], 'initial_process' => $getStatusCollection['initial_process'], 'is_principal' => $getStatusCollection['is_principal'], 'not_restricted' => $getStatusCollection['not_restricted']]);
 
             if(isset($batch['success']) && !$batch['success']) {
                 $this->emit('swal:modal', [
