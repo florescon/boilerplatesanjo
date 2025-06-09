@@ -11,6 +11,7 @@ use App\Exports\OrderProductsReportGroupedExport;
 use App\Exports\ServiceOrderExport;
 use App\Exports\MaterialHistoryGroupExport;
 use Carbon\Carbon;
+use App\Exports\OrderByDateExport;
 
 class ReportTable extends Component
 {
@@ -93,6 +94,14 @@ class ReportTable extends Component
         abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
         return Excel::download(new MaterialHistoryGroupExport($this->dateInput, $this->dateOutput, $this->vendor_id), 'product-list-'.Carbon::now().'.'.$extension);
 
+    }
+
+    public function printExportOrdersForDate()
+    {   
+        $extension = 'xlsx';
+
+        abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
+        return Excel::download(new OrderByDateExport($this->dateInput, $this->dateOutput, true), 'order-list-'.Carbon::now().'.'.$extension);
     }
 
     public function render()

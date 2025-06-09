@@ -40,7 +40,13 @@
                 Docs
             </a>
         </li>
-
+        <li class="c-header-nav-item px-3">
+            <a class="header-nav-link" href="javascript:window.print()">
+              <i class="cil-print"></i>
+              <span>@lang('Print')</span>
+            </a>
+        </li>
+        
         {{-- @livewire('backend.header.header-cart') --}}
 
         <li class="c-header-nav-item dropdown">

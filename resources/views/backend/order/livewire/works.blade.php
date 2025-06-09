@@ -183,26 +183,6 @@
                         </button>
                 @endif
             </div>
-            @if(($changesByParent[$parentId] ?? false))
-                <div class="text-right col" wire:ignore>
-                    <button 
-                        wire:click="messageAlert('save', '{{ $parentId }}')" 
-                        wire:loading.attr="disabled"
-                        class="btn btn-sm btn-primary mb-2"
-                    >
-                        <span wire:loading.remove wire:target="messageAlert('save', '{{ $parentId }}')">
-                            <i class="fas fa-save"></i> Guardar captura 
-                            <h5 class="d-inline">
-                                <span class="badge badge-light text-dark" id="total-{{ $parentId }}">0</span>
-                            </h5>
-                        </span>
-                        <span wire:loading wire:target="messageAlert('save', '{{ $parentId }}')">
-                            <span class="spinner-border spinner-border-sm" role="status"></span>
-                            Guardando...
-                        </span>
-                    </button>
-                </div>
-            @endif
         </div>
 
         @endif
@@ -315,6 +295,27 @@
                 </tbody>
             </table>
             <br>
+            @if(($changesByParent[$parentId] ?? false))
+                <div class="text-right col" wire:ignore>
+                    <button 
+                        wire:click="messageAlert('save', '{{ $parentId }}')" 
+                        wire:loading.attr="disabled"
+                        class="btn btn-sm btn-primary btn-hover"
+                    >
+                        <span wire:loading.remove wire:target="messageAlert('save', '{{ $parentId }}')">
+                            <i class="fas fa-save"></i> Guardar captura 
+                            <h5 class="d-inline">
+                                <span class="badge badge-light text-dark" id="total-{{ $parentId }}">0</span>
+                            </h5>
+                        </span>
+                        <span wire:loading wire:target="messageAlert('save', '{{ $parentId }}')">
+                            <span class="spinner-border spinner-border-sm" role="status"></span>
+                            Guardando...
+                        </span>
+                    </button>
+                </div>
+            @endif
+
         </div>
 
 

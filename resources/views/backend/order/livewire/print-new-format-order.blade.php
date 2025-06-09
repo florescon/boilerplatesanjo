@@ -391,7 +391,9 @@
 
           <div class="cs-note cs-f18">
             <div class="cs-note_right" style="margin-left: 20px;">
-              <p class="cs-mb0"><b class="cs-primary_color cs-bold">@lang('Note'): --  </b></p>
+              <p class="cs-mb0"><b class="cs-primary_color cs-bold">@lang('Note'): 
+                {!! $order->isQuotation() && ($order->branch_id == 0) ? setting('footer_quotation_production').'<br>' :'' !!}
+              </b></p>
             </div>
           </div><!-- .cs-note -->
         </div>

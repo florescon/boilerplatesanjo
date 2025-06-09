@@ -187,7 +187,7 @@
                             wire:model.defer="receivedQuantities.{{ $item->id }}" 
                             min="0" 
                             max="{{ $this->getRemainingQuantity($item) }}"
-                            class="form-control text-center"
+                            class="form-control text-center quantity-input"
                         >
                       @else
                         <input 
@@ -195,7 +195,7 @@
                             wire:model.defer="sendQuantities.{{ $item->id }}" 
                             min="0" 
                             max="{{ $this->getRemainingQuantity($item) }}"
-                            class="form-control text-center"
+                            class="form-control text-center quantity-input"
                         >
                       @endif
                     </td>
@@ -208,6 +208,9 @@
         </p>
         <div class="text-right">
 
+          <div class="pr-4 d-inline">
+            <strong>Total: </strong><h3 class="d-inline"><span id="total-sum" class="text-danger">0</span></h3>
+          </div>
           @if(!$showSentToStock)
             <button 
                 wire:click="receiveSelected"

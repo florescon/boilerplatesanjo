@@ -118,6 +118,7 @@ class OrderWorkTable extends Component
             'product_order.product_station_received',
             'product_order.product_station_out',
             'user',
+            'productionBatches',
             'products',
             'last_status_order.status',
         ])        
@@ -172,8 +173,6 @@ class OrderWorkTable extends Component
                     FROM production_batch_items pbi
                     JOIN production_batches pb ON pb.id = pbi.batch_id
                     WHERE pb.order_id = orders.id
-                    AND pbi.is_principal = 1
-                    AND pbi.with_previous IS NULL
                     AND pbi.active != 0
                 )");
             });

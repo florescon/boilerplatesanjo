@@ -46,6 +46,7 @@ class Order extends Model
         'quotation',
         'flowchart',
         'complementary',
+        'note_deletes',
     ];
 
     /**
@@ -1501,6 +1502,22 @@ public function getSizeTablesData(?array $statusCollection = null): array
     }    
 
 
+    /**
+     * Verifica si todos los items de producción asociados a esta orden tienen active = 0
+     * 
+     * @return bool
+     */
+    public function validateAllZero(): bool
+    {
+        $count = DB::table('production_batch_items')
+            ->join('production_batches', 'production_batches.id', '=', 'production_batch_items.batch_id')
+            ->where('production_batches.order_id', $this->id)
+            ->where('production_batch_items.active', '!=', 0)
+            ->count();
+
+        return $count === 0;
+    }
+
     public function validateAllExists(): bool
     {
         // Sumar todas las input_quantity que cumplan las condiciones
@@ -1515,8 +1532,6 @@ public function getSizeTablesData(?array $statusCollection = null): array
         $allActiveZero = DB::table('production_batch_items')
                 ->join('production_batches', 'production_batches.id', '=', 'production_batch_items.batch_id')
                 ->where('production_batches.order_id', $this->id)
-                ->where('production_batch_items.is_principal', true)
-                ->whereNull('production_batch_items.with_previous')
                 ->where('production_batch_items.active', '!=', 0)
                 ->doesntExist();
 

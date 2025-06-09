@@ -44,6 +44,19 @@
         <div class="card">
             <article class="card-group-item">
                 <header class="card-header">
+                    <h6 class="title">@lang('List Orders')</h6>
+                </header>
+                <div class="filter-content">
+                    <a href="#!" wire:click="printExportOrdersForDate" class="list-group-item {{ (!$dateInput || !$dateOutput) ? 'disabled' : '' }}">@lang('Orders') <span class="float-right badge badge-success round">@lang('EXCEL')</span></a>
+                    @if($details)
+                        <em class="text-center p-2 text-muted"> Descarga las <strong>órdenes</strong> en el rango especificado. En excel.</em>
+                    @endif
+                </div>
+            </article> <!-- card-group-item.// -->
+
+
+            <article class="card-group-item">
+                <header class="card-header">
                     <h6 class="title">@lang('Orders')</h6>
                 </header>
                 <div class="filter-content">

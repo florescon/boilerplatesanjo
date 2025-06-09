@@ -96,4 +96,36 @@
 
 
 @push('after-scripts')
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Selecciona todos los inputs de cantidad
+    const quantityInputs = document.querySelectorAll('.quantity-input');
+    
+    // Función para calcular el total
+    function calculateTotal() {
+        let total = 0;
+        quantityInputs.forEach(input => {
+            const value = parseFloat(input.value) || 0;
+            total += value;
+        });
+        document.getElementById('total-sum').textContent = total;
+    }
+    
+    // Agrega el evento input a cada campo
+    quantityInputs.forEach(input => {
+        input.addEventListener('input', function() {
+            // Validar que no supere el máximo
+            const max = parseFloat(this.dataset.max) || Infinity;
+            if (parseFloat(this.value) > max) {
+                this.value = max;
+            }
+            calculateTotal();
+        });
+    });
+    
+    // Calcula el total inicial
+    calculateTotal();
+});
+</script>
 @endpush

@@ -5,6 +5,14 @@
 @push('after-styles')
     <link rel="stylesheet" href="{{ asset('css_custom/chart.css') }}">
     <style type="text/css">
+        .btn-hover:focus {
+            background-color: purple;
+        }
+
+        .btn-hover:hover {
+            background-color: purple;
+        }
+
         .button {
           padding: 12px 20px;
           font-size: 1rem;

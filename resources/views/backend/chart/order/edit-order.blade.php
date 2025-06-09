@@ -281,7 +281,8 @@
 
             <div class="text-center mt-2">
         
-                <a type="button" href="{{ route('admin.order.newformat', $order_id) }}" class="btn btn-secondary" target="_blank">Nuevo Formato</a>
+                <a type="button" href="{{ route('admin.order.newformat', $order_id) }}" class="btn btn-primary" target="_blank">Nuevo Formato</a>
+                <a href="{{ route('admin.bom.ticket_bom', urlencode(json_encode(array($order_id)))) }}" class="btn btn-secondary ml-2" target="_blank"><i class="cil-print"></i> Ticket BOM </a>
 
             </div>
    {{--          @if(!$model->isQuotation())
@@ -967,7 +968,7 @@
 
   <x-slot name="footer">
     @if(($model->type != '7'))
-      @if(!$model->productionBatches()->exists())
+      @if(!$model->productionBatches()->exists() && !$model->stations()->exists())
           <x-utils.delete-button :text="__('Delete').' '.$model->type_order_clear" :href="route('admin.order.destroy', $order_id)" />
       @endif
     @endif

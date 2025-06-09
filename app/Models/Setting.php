@@ -29,5 +29,6 @@ class Setting extends Model
         'special_price_percentage',
         'footer',
         'footer_quotation',
+        'footer_quotation_production',
     ];
 }

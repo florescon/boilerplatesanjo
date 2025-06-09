@@ -432,7 +432,11 @@
               <p class="cs-m0">
                 {!! $order->notes ? $order->notes.'<br>' : '' !!}
 
-                {!! $order->isQuotation() && ($order->branch_id > 0) ? setting('footer_quotation').'<br>' :'' !!} {{ $order->branch_id > 0 ?  setting('footer') : '' }}</p>
+                {!! $order->isQuotation() && ($order->branch_id > 0) ? setting('footer_quotation').'<br>' :'' !!} {{ $order->branch_id > 0 ?  setting('footer') : '' }}
+
+
+                {!! $order->isQuotation() && ($order->branch_id == 0) ? setting('footer_quotation_production').'<br>' :'' !!}
+              </p>
             </div>
           </div><!-- .cs-note -->
 

@@ -193,18 +193,28 @@
                                                     @if($status == '' || $order->complementary)
 
                                                     <div class="d-flex align-items-center">
-                                                        @if($order->complementary)
-                                                            <span class="text-center text-danger"> 
-                                                            {{ $order->complementary }}
-                                                            </span>
-                                                        @endif
-                                                        @if($status)
+
+                                                        @php
+                                                            $lastBatch = $order->productionBatches
+                                                                ->where('status_id', 15)
+                                                                ->sortByDesc('created_at')
+                                                                ->first();
+                                                        @endphp
+
+                                                        @if($lastBatch)
                                                         <span class="text-center">
-                                                            {!! ($order->areAllProductOrdersMatched() || $order->areAllProductOrdersMatchedSendToStock()) && $order->areAllProductStationsZero()
+                                                            Últ. Salida
+                                                            <br> 
+                                                            <span class="text-center text-danger mr-2">
+                                                                {{ $lastBatch->date_for_humans }}
+                                                            </span>
+                                                        </span>
+                                                        @endif
+                                                        <span class="text-center">
+                                                            {!! $order->validateAllExists() 
                                                                 ? '<i class="cil-check" style="color: blue;"></i>'
                                                                 : '' !!}
                                                         </span>
-                                                        @endif
                                                     </div>
                                                     @endif
                                                     <div class="dropdown card-options no-print">

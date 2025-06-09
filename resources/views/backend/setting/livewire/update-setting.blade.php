@@ -87,6 +87,11 @@
                                     <textarea rows="4" wire:model.defer="state.footer_quotation" type="text" class="form-control" id="footerQuotation" placeholder="{{__('Enter footer quotation') }}"></textarea>
                                     @error('state.footer_quotation') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                                 </div>                                
+                                <div class="form-group">
+                                    <label for="footerQuotationProduction">@lang('Footer quotation Production')</label>
+                                    <textarea rows="4" wire:model.defer="state.footer_quotation_production" type="text" class="form-control" id="footerQuotationProduction" placeholder="{{__('Enter footer quotation for Production') }}"></textarea>
+                                    @error('state.footer_quotation_production') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
+                                </div>                                
                             </div>
                             <!-- /.card-body -->
 

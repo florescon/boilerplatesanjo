@@ -24,6 +24,7 @@ class UpdateSetting extends Component
         'state.special_price_percentage' => 'required|integer|min:0|max:50',
         'state.footer' => 'required|max:500',
         'state.footer_quotation' => 'required|max:500',
+        'state.footer_quotation_production' => 'required|max:500',
         // 'state.round' => 'required|min:0|max:1',
     ];
 
@@ -41,6 +42,7 @@ class UpdateSetting extends Component
         'state.special_price_percentage' => 'Porcentaje precio especial',
         'state.footer' => 'Pie de página de impresiones',
         'state.footer_quotation' => 'Pie de página de cotizaciones',
+        'state.footer_quotation_production' => 'Pie de página de cotizaciones',
         // 'state.round' => 'Redondeo',
     ]; 
 
