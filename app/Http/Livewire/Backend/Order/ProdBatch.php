@@ -8,6 +8,7 @@ use App\Models\Status;
 use App\Models\Order;
 use App\Models\ProductOrder;
 use App\Models\Material;
+use App\Models\ServiceType;
 use App\Domains\Auth\Models\User;
 
 class ProdBatch extends Component
@@ -31,6 +32,9 @@ class ProdBatch extends Component
     public $next_status, $previous_status;
 
     public bool $showSentToStock = false;
+
+    public $selectedServiceType;
+    public $inputOptions = [];
 
     protected $listeners = [
         'makeConsumptionEmited', 'receiveAll',
@@ -60,6 +64,25 @@ class ProdBatch extends Component
 
         $this->date_entered = optional($this->productionBatch->date_entered)->format('Y-m-d');
 
+        $this->selectedServiceType = $this->productionBatch->service_type_id;
+
+        // Cargar las opciones del select
+        $this->inputOptions = ServiceType::orderBy('name')
+                                        ->pluck('name', 'id')
+                                        ->toArray();
+    }
+
+    public function updatedSelectedServiceType($value)
+    {
+        // Actualizar el modelo cuando cambia la selección
+        $this->productionBatch->update([
+            'service_type_id' => $value
+        ]);
+        
+        $this->emit('swal:alert', [
+            'icon' => 'success',
+            'title' => __('Saved'),
+        ]);
     }
 
     private function initnote(ProductionBatch $product)
@@ -264,6 +287,11 @@ class ProdBatch extends Component
         if ($this->verifyIfEmptyReceive()) {
             return false; // Detiene la ejecución si está vacío/cero
         }
+        
+        if(!$this->getErrorNotRestricted()) {
+            return false;
+        }
+
         $this->requiredConsumption();
 
         $this->buttonDisabled = true;
@@ -595,8 +623,25 @@ class ProdBatch extends Component
         }
     }
 
+    private function getErrorNotRestricted()
+    {
+        if($this->getStatusCollection['not_restricted'] && !$this->productionBatch->service_type_id){
+            $this->emit('swal:alert', [
+               'icon' => 'error',
+                'title'   => __('Seleccione tipo de servicio'), 
+            ]);
+
+            return false;
+        }
+        return true;
+    }
+
     public function makeReceiveAll($stationId)
     {
+        if (!$this->getErrorNotRestricted()) {
+            return false; // Detiene la ejecución si está vacío/cero
+        }
+
         return $this->emit('swal:confirm', [
             'icon' => 'question',
             'title' => 'Se recibirán todos los productos',

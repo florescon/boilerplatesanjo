@@ -28,6 +28,7 @@ class ProductionBatch extends Model
         'status_id',
         'invoice',
         'invoice_date',
+        'service_type_id',
     ];
     
     /**
@@ -175,6 +176,11 @@ class ProductionBatch extends Model
     public function status()
     {
         return $this->belongsTo(Status::class)->withTrashed();
+    }
+
+    public function service_type()
+    {
+        return $this->belongsTo(ServiceType::class)->withTrashed();
     }
 
     public function getTypeStatusAttribute()

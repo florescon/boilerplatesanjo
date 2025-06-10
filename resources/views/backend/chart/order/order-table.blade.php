@@ -168,24 +168,24 @@
                                                     @if (!$order->isSuborder())
                                                         {!! $order->total_products_and_services_line_label !!}
                                                     @else
-                                                        <strong>Totales:
+                                                        <strong class="pl-4">Totales:
                                                             {{ $order->total_products_suborder }}
                                                         </strong>
                                                     @endif
                                                     @if ($order->quotation !== 0)
-                                                        <strong>@lang('QUOTATION'):</strong>
+                                                        <strong class="pl-2">@lang('QUOTATION'):</strong>
                                                         #{{ $order->quotation }}
                                                     @endif
                                                     @if ($order->purchase)
-                                                        <strong>O. DE COMPRA:</strong>
+                                                        <strong class="pl-2">O. DE COMPRA:</strong>
                                                         #{{ $order->purchase }}
                                                     @endif
                                                     @if ($order->request)
-                                                        <strong>SOLICITUD:</strong>
+                                                        <strong class="pl-2">SOLICITUD:</strong>
                                                         #{{ $order->request }}
                                                     @endif
                                                     @if ($order->invoice)
-                                                        <strong>FACTURA:</strong>
+                                                        <strong class="pl-2">FACTURA:</strong>
                                                         {{ $order->invoice }}
                                                     @endif
                                                 </div>
@@ -193,6 +193,12 @@
                                                     @if($status == '' || $order->complementary)
 
                                                     <div class="d-flex align-items-center">
+
+                                                        @if($order->complementary)
+                                                            <span class="text-center text-danger pr-2"> 
+                                                            {{ $order->complementary }}
+                                                            </span>
+                                                        @endif
 
                                                         @php
                                                             $lastBatch = $order->productionBatches
@@ -205,7 +211,7 @@
                                                         <span class="text-center">
                                                             Últ. Salida
                                                             <br> 
-                                                            <span class="text-center text-danger mr-2">
+                                                            <span class="text-center text-primary mr-2">
                                                                 {{ $lastBatch->date_for_humans }}
                                                             </span>
                                                         </span>
@@ -216,6 +222,7 @@
                                                                 : '' !!}
                                                         </span>
                                                     </div>
+
                                                     @endif
                                                     <div class="dropdown card-options no-print">
                                                         <button class="btn-options" type="button"

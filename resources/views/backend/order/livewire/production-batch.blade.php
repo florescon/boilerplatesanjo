@@ -69,15 +69,10 @@
             <label class="mt-2">Fecha</label>
             <input
                 type="date"
-                wire:model.live.debounce.2.5s="date_entered"
+                wire:model.live.debounce.1s="date_entered"
                 id="date_entered"
                 class="form-control text-center"
             >
-            @if (session('message'))
-                <div class="alert alert-success">
-                    {{ session('message') }}
-                </div>
-            @endif
         </div>
 
 
@@ -87,6 +82,25 @@
             <x-input.input-alpine nameData="isNote" maxlength="256" :inputText="$isNote" :originalInput="$isNote" wireSubmit="savenote" modelName="notes" :extraName="__('Comment')" />
         </div>
       </div>
+
+
+      @if($getStatusCollection['not_restricted'])
+        <div class="col-4 align-self-center text-center shadow m-4 p-2">
+
+          <label for="service_type_id">Tipo de Servicio</label>
+          <select 
+              id="service_type_id" 
+              wire:model="selectedServiceType"
+              class="form-control"
+          >
+              <option value="">Seleccione un tipo de servicio</option>
+              @foreach($inputOptions as $id => $name)
+                  <option value="{{ $id }}">{{ $name }}</option>
+              @endforeach
+          </select>
+          
+        </div>
+      @endif
 
         <div class="col-10">
           <div class="row justify-content-center shadow p-4">
@@ -148,8 +162,8 @@
       <div class="col-md-12 text-center">
 
         <h2 class="p-4 text-center">
-          <button wire:click="makeReceiveAll({{ $productionBatch->id }})" class="btn btn-primary">
-              Recibir todo
+          <button wire:click="makeReceiveAll({{ $productionBatch->id }})" class="btn btn-primary" style="{{ $productionBatch->allItemsAreBalanced() ? 'background-color: purple' : '' }}" @if($productionBatch->allItemsAreBalanced()) disabled @endif>
+              {{ $productionBatch->allItemsAreBalanced() ? 'Recibido' : 'Recibir todo' }}
           </button>
         </h2>
         <p>
@@ -217,8 +231,12 @@
                 wire:loading.attr="disabled"
                 @if($buttonDisabled) disabled @endif
                 onclick="setTimeout(() => { this.disabled = false }, 3000)"
-                class="btn btn-primary">
-                Recibir lo capturado &raquo;
+                class="btn btn-primary"
+                @if($productionBatch->allItemsAreBalanced()) disabled @endif
+                style="{{  $productionBatch->allItemsAreBalanced() ? 'background-color: purple' : '' }}" 
+                >
+                {{ $productionBatch->allItemsAreBalanced() ? 'Ya se ha recibido todo' : 'Recibir lo capturado ' }}
+                &raquo;
             </button>
           @else
             <button 

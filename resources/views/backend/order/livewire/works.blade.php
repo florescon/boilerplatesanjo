@@ -300,7 +300,7 @@
                     <button 
                         wire:click="messageAlert('save', '{{ $parentId }}')" 
                         wire:loading.attr="disabled"
-                        class="btn btn-sm btn-primary btn-hover"
+                        class="btn btn-sm btn-primary btn-hover mb-2"
                     >
                         <span wire:loading.remove wire:target="messageAlert('save', '{{ $parentId }}')">
                             <i class="fas fa-save"></i> Guardar captura 

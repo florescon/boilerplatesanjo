@@ -1645,7 +1645,7 @@ public function getSizeTablesData(?array $statusCollection = null): array
     public function getTotalProductsAndServicesLineLabelAttribute()
     {
         return '<strong>Productos: </strong> <strong class="text-primary">'.$this->total_products_by_all_products.
-               '</strong> <strong style="margin-left:40px;">Servicios: </strong> <strong class="text-primary">'.$this->total_products_by_all_services."</strong>";
+               '</strong> <strong style="margin-left:20px;">Servicios: </strong> <strong class="text-primary">'.$this->total_products_by_all_services."</strong>";
     }
 
     public function getTotalProductsAttribute(): int

@@ -33,6 +33,9 @@
         <td align="center">
             <h3>{{ appName() }}</h3>
             <h3>{{ ucfirst(optional($station->status)->name) }}</h3>
+            @if($station->service_type_id)
+              <h3>{{ optional($station->service_type)->name }}</h3>
+            @endif
         </td>
     </tr>
   </table>
