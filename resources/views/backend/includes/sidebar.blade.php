@@ -181,13 +181,24 @@
             </li>
         @endif
 
-        @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.station.index'))
+        @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.station.index') || $logged_in_user->can('admin.station.index_production'))
+
+            <li class="c-sidebar-nav-item">
+                <x-utils.link
+                    :href="route('admin.station.index_production')"
+                    class="c-sidebar-nav-link"
+                    :text="__('Workstations')"
+                    new
+                    icon="c-sidebar-nav-icon cil-compress"
+                    :active="activeClass(Route::is('admin.station.index_production', 'admin.station.deleted'), 'c-active')" />
+            </li>
 
             <li class="c-sidebar-nav-item">
                 <x-utils.link
                     :href="route('admin.station.index')"
                     class="c-sidebar-nav-link"
                     :text="__('Workstations')"
+                    old
                     icon="c-sidebar-nav-icon cil-compress"
                     :active="activeClass(Route::is('admin.station.index', 'admin.station.deleted'), 'c-active')" />
             </li>

@@ -1,5 +1,7 @@
 <div>
-        @lang('Workstation') - <h3 class="d-inline">{{ ucfirst($status->name ?? ' ') }}</h3>
+        @lang('Workstation') - <h3 class="d-inline">{{ ucfirst($status->name ?? ' ') }}.</h3>
+
+        
 
 		<div class="container-fluid">
 
@@ -23,9 +25,11 @@
 	              @endif
 	            </button> --}}
 
-                <button class="btn btn-primary btn-sm btn-lg btn-block mb-3">
-                    {{ ucfirst($status->name ?? ' ') }}
-                </button>
+                <div class="alert text-center" role="alert">
+                    
+                    <a href="#" class="cd-nav-link cd-signalize-border text-center">{{ ucfirst($status->name ?? ' ') }}.</a>
+
+                </div>
 
                 @if($order->validateAllExists() == false)
                     <p class="text-center text-danger"> Pedido no concluido </p>
@@ -62,14 +66,14 @@
 				    </div>
 				</div>                	
 
-		        <h5 class="mt-4">@lang('Order') #{!! $order->folio_or_id !!}</h5>
+		        <p class="mt-4 h3"><a href="{{ route('admin.order.edit',  $order->id) }}">@lang('Order') #{!! $order->folio_or_id !!} </a></p>
 		          <!-- Más items... -->
 
                 <table class="table mb-0 table-sm table-hover">
                   <tbody>
                     <tr>
                       <td class="pl-0">@lang('Customer')</td>
-                      <td class="pr-0 text-right text-primary"><strong>{!! $order->user_name !!}</strong></td>
+                      <td class="pr-0 text-right text-primary"><strong class="h3">{!! $order->user_name !!}</strong></td>
                     </tr>
                     @if($order->info_customer)
                       <tr>
@@ -92,7 +96,7 @@
                     </tr>
                     @if($order->comment)
                       <tr>
-                        <td class="pr-0 text-right" colspan="2">{{ $order->comment }}</td>
+                        <td class="pr-0 text-right h4" colspan="2">{{ $order->comment }}</td>
                       </tr>
                     @endif
                     @if($order->observation)
@@ -295,12 +299,12 @@
                 </tbody>
             </table>
             <br>
-            @if(($changesByParent[$parentId] ?? false))
+            {{-- @if(($changesByParent[$parentId] ?? false)) --}}
                 <div class="text-right col" wire:ignore>
                     <button 
                         wire:click="messageAlert('save', '{{ $parentId }}')" 
                         wire:loading.attr="disabled"
-                        class="btn btn-sm btn-primary btn-hover mb-2"
+                        class="btn btn-sm btn-primary btn-hover "
                     >
                         <span wire:loading.remove wire:target="messageAlert('save', '{{ $parentId }}')">
                             <i class="fas fa-save"></i> Guardar captura 
@@ -314,13 +318,13 @@
                         </span>
                     </button>
                 </div>
-            @endif
+            {{-- @endif --}}
 
         </div>
 
 
 @if(is_int($parentId) && $order->getBatchForStatus($status->id, $parentId))
-    <ul class="list-group list-group-flush">
+    <ul class="list-group list-group-flush mt-2">
         @foreach($order->getBatchForStatus($status->id, $parentId) as $pp)
             <a href="{{ route('admin.order.production_batch', [$this->order->id, $pp->id]) }}" class="list-group-item d-flex justify-content-between align-items-center {{ $pp->allItemsAreInactiveAndBalanced() ? 'list-group-item-success' : 'list-group-item-danger' }} list-group-item-action">
                 <div class="row w-100">

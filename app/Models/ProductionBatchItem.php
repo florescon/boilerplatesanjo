@@ -70,6 +70,25 @@ class ProductionBatchItem extends Model
         return $this->belongsTo(Product::class, 'product_id')->withTrashed();
     }
     
+
+    public function productOrder()
+    {
+        return $this->hasOne(ProductOrder::class, 'order_id', 'order_id_virtual')
+                   ->where('product_id', $this->product_id);
+    }
+
+    // Accesor para order_id virtual (obtenido a través del batch)
+    public function getOrderIdVirtualAttribute()
+    {
+        return $this->batch->order_id ?? null;
+    }
+
+    // Accesor para el precio
+    public function getPriceAttribute()
+    {
+        return $this->productOrder->price ?? null;
+    }
+    
     public function logs()
     {
         return $this->hasMany(ProductionItemLog::class, 'batch_item_id');

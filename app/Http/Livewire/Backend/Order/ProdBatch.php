@@ -57,7 +57,7 @@ class ProdBatch extends Component
 
         // Inicializar el array con las cantidades recibidas para cada item
         foreach ($this->productionBatch->items as $item) {
-            $this->receivedQuantities[$item->id] = 0;
+            $this->receivedQuantities[$item->id] = '';
         }
 
         $this->loadInitialData($this->status);
@@ -243,7 +243,7 @@ class ProdBatch extends Component
                 'with_previous' => $this->getStatusCollection['id'] ]);
         }
 
-        if($this->getStatusCollection['final_lot'] || $this->getStatusCollection['final_process'] || $this->getStatusCollection['supplier']){
+        if($this->getStatusCollection['final_lot'] || $this->getStatusCollection['final_process'] || $this->getStatusCollection['supplier'] || $this->getStatusCollection['not_restricted']){
             foreach ($this->productionBatch->items as $item) {
                 $item->active = 0;
                 $item->save();
@@ -320,7 +320,7 @@ class ProdBatch extends Component
 
                 $item->output_quantity += $quantityToAdd;
 
-                if($this->getStatusCollection['final_lot'] || $this->getStatusCollection['supplier'] || $this->getStatusCollection['final_process']){
+                if($this->getStatusCollection['final_lot'] || $this->getStatusCollection['supplier'] || $this->getStatusCollection['final_process'] || $this->getStatusCollection['not_restricted']){
                     $item->active -= $quantityToAdd;
                 }
                 $item->save();

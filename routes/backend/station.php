@@ -17,6 +17,15 @@ Route::group([
                 ->push(__('Station Management'), route('admin.station.index'));
         });
 
+    Route::get('index_production', [StationController::class, 'index_production'])
+        ->name('index_production')
+        ->middleware('permission:admin.access.station.list')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.dashboard')
+                ->push(__('Station Management'), route('admin.station.index_production'));
+        });
+
+
     Route::group(['prefix' => '{station}'], function () {
         Route::get('edit', [StationController::class, 'edit'])
             ->name('edit')

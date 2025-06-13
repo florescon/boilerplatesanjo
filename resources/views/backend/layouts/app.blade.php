@@ -42,6 +42,9 @@
     />
     
     <style type="text/css">
+
+.cd-nav-link.cd-signalize-border{display:inline-block;padding:0 10px;font-size:14px;font-weight:700;line-height:32px;color:#321fdb;text-align:center;text-transform:uppercase;border:2px solid #321fdb;border-radius:4px}.cd-header-nav .cd-nav-link.cd-signalize-border:hover{color:#fff;background:#321fdb}
+
 .bd-callout {
 padding: 1.25rem;
 margin-top: 1.25rem;

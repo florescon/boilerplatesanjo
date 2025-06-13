@@ -948,7 +948,11 @@
                             @if($model->stations()->exists())  
                               {{ $model->total_graphic_new['collection']->get($status->short_name) ?? '--' }}
                             @else
-                              {{ $model->total_graphic_work['collection']->get($status->short_name) ?? '--' }}
+                              @if(!$status->not_restricted)
+                                {{ $model->total_graphic_work['collection']->get($status->short_name) ?? '--' }}
+                              @else
+                                N/A
+                              @endif
                             @endif
                             </small>
                           </div>

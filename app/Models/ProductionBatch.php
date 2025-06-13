@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Traits\Scope\DateScope;
 use Illuminate\Database\Eloquent\Model;
 use App\Domains\Auth\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -11,7 +12,7 @@ use Carbon\Carbon;
 
 class ProductionBatch extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, DateScope;
 
     protected $fillable = [
         'order_id', 
@@ -100,6 +101,37 @@ class ProductionBatch extends Model
 
     }
 
+    public function getMoreOutput()
+    {
+        if (!$this->order_id || !$this->created_at) {
+            return;
+        }
+
+        // Busca todos los registros con mismo order_id y misma fecha (sin incluir el actual)
+        $relatedBatches = static::where('order_id', $this->order_id)
+            ->where('status_id', 15)
+            ->whereDate('created_at', $this->created_at->format('Y-m-d'))
+            ->get();
+
+        // Actualiza todos con los mismos invoice e invoice_date
+        if ($relatedBatches->isNotEmpty()) {
+            return $relatedBatches;
+        }
+    }
+
+    public function firstFolioMoreOutput()
+    {
+        $relatedBatches = $this->getMoreOutput();
+        
+        if($relatedBatches && $relatedBatches->count() > 1) {
+            // Obtenemos el primer lote (excluyendo el actual si es necesario)
+            $firstBatch = $relatedBatches->sortBy('created_at')->first();
+            return $firstBatch->folio;
+        }
+        
+        // Si no hay múltiples lotes, retornamos el ID del lote actual
+        return $this->folio;
+    }
 
     public function order()
     {
@@ -128,7 +160,38 @@ class ProductionBatch extends Model
     {
         return $this->items->sum('input_quantity');
     }
-    
+
+    public function getTotalProductsProdOutputAttribute(): int
+    {
+        $relatedBatches = $this->getMoreOutput();
+        $batchIds = [$this->id];
+        
+        if($relatedBatches && $relatedBatches->count() > 1) {
+            // Si hay lotes relacionados, los incluimos en el cálculo
+            $batchIds = $relatedBatches->pluck('id')->toArray();
+            array_push($batchIds, $this->id);
+            
+            // Sumamos las cantidades de todos los lotes relacionados
+            return ProductionBatchItem::whereIn('batch_id', $batchIds)
+                ->sum('input_quantity');
+        }
+
+        // Caso normal: solo el lote actual
+        return $this->items->sum('input_quantity');
+    }
+
+    public function getTotalProductsProdActiveAttribute(): int
+    {
+        return $this->items->sum('active');
+    }
+
+    public function getTotalProductsProdDiferrenceAttribute()
+    {
+        return $this->items->sum(function($parent) {
+          return $parent->input_quantity - $parent->output_quantity;
+        });
+    }
+
      public function getLastFolioSkipAttribute()
     {   
         $lastStation = self::where('status_id', $this->status_id)

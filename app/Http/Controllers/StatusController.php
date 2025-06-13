@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ProductStation;
+use App\Models\ProductionBatchItem;
 use App\Models\ProductStationReceived;
 use App\Models\Status;
 use App\Models\Station;
 use App\Models\Additional;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Domains\Auth\Models\User;
 use DB;
 use PDF;
 
@@ -331,6 +333,65 @@ $priceMaking = isset($group->first()->product_station->product->parent) && isset
 
         return $pdf->stream();
     }
+
+
+
+public function printexportreceivedproduction(Status $status, bool $grouped = false, $dateInput = false, $dateOutput = false, $personal = false)
+{
+    if(!$dateOutput || !$dateInput) {
+        return response("<script>window.close();</script>")->header('Content-Type', 'text/html');
+    }
+
+    $making = $status->making;
+
+    // Construir la consulta base
+    $query = ProductionBatchItem::with(['batch', 'product'])
+        ->where('status_id', $status->id)
+        ->whereBetween('created_at', [$dateInput.' 00:00:00', $dateOutput.' 23:59:59']);
+
+    // Filtrar por personal si es necesario
+    if ($personal) {
+        $query->whereHas('batch', function($q) use ($personal) {
+            $q->where('personal_id', $personal);
+        });
+    }
+
+    // Obtener y agrupar los resultados
+    if ($grouped) {
+        // Agrupar por producto y sumar cantidades
+        $result = $query->get()->groupBy('product_id')->map(function($items) {
+            return (object) [
+                'product' => $items->first()->product,
+                'total_quantity' => $items->sum('quantity'),
+                'items' => $items,
+                'first_item' => $items->first() // Para acceder a otros datos si es necesario
+            ];
+        });
+    } else {
+        $result = $query->get();
+    }
+
+    // Obtener fechas extremas
+    $oldestDate = $query->oldest('created_at')->value('created_at');
+    $newestDate = $query->latest('created_at')->value('created_at');
+
+    $getPersonal = $personal ? User::find($personal) : null;
+
+    $pdf = PDF::loadView('backend.information.print-export-received-production', compact(
+        'status', 
+        'oldestDate', 
+        'newestDate', 
+        'result', 
+        'making', 
+        'grouped', 
+        'dateInput', 
+        'dateOutput', 
+        'getPersonal'
+    ))->setPaper('a4', 'portrait')
+      ->setWarnings(false);
+
+    return $pdf->stream();
+}
 
     public function printexporthistory(Status $status, bool $grouped = false, $dateInput = false, $dateOutput = false, $personal = false)
     {

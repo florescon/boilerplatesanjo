@@ -1,13 +1,5 @@
 <div class="animated fadeIn">
 
-  <div class="alert alert-danger alert-dismissible fade show " role="alert">
-    <strong>¡Estás en un apartado antiguo!</strong> Ir al nuevo apartado: <a href="{{ route('admin.station.index_production') }}"> click aquí </a>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-
-
   <!-- /.row-->
   <div class="row">
     <div class="col-lg-12">
@@ -51,6 +43,23 @@
                 </div><!--/.col-->
               </div>
             </div>
+
+              <div class="row justify-content-md-center">
+                <div class="col col-lg-6">
+                  <livewire:backend.user.only-admins/>
+                </div>
+                <div class="col col-lg-1">
+                  @if($personal)
+                    <a wire:click="clearPersonal" class="text-danger"><em> Limpiar personal</em></a>
+                  @endif
+                </div>
+              </div>
+
+
+
+              <a type="button" target="_blank" href="{{ route('admin.information.status.printexportreceivedproduction', [$selectStatus ?? 6, true, $dateInput ?: 0, $dateOutput ?: 0, $personal ?? 0]) }}" class="btn btn-primary mb-4 mr-2" style="{{ !$personal  ? 'pointer-events: none; cursor: default; color: #ccc; background-color: #6c757d;': ''}}">Exportar histórico </a>
+
+              <a type="button" target="_blank" href="{{ route('admin.information.status.printexportreceivedproduction', [$selectStatus ?? 6, 0, $dateInput ?: 0, $dateOutput ?: 0, $personal ?? 0]) }}" class="btn btn-primary mb-4 mr-2" style="{{ !$personal ? 'pointer-events: none; cursor: default; color: #ccc; background-color: #6c757d;': ''  }}">Exportar histórico, agrupado </a>
 
             <div class="page-header-subtitle  mb-2">
               <em>
@@ -143,13 +152,10 @@
         			<tr>
         				<th>
                   <a style="color:white;" wire:click.prevent="sortBy('id')" role="button" href="#">
-                    ID
+                    f.º
                     @include('backend.includes._sort-icon', ['field' => 'id'])
                   </a>
                 </th>
-                <tH>
-                  f.º
-                </tH>
                 <th>
                   <a style="color:white;" wire:click.prevent="sortBy('order_id')" role="button" href="#">
                     @lang('Order')
@@ -159,7 +165,7 @@
                 <th class="text-center">@lang('Customer')</th>
                 <th class="text-center">@lang('Total')</th>
                 <th class="text-center">@lang('Comment')</th>
-                <th class="text-center">@lang('User')</th>
+                <th class="text-center">@lang('Personal')</th>
                 <th class="text-center">@lang('Details')</th>
         				<th class="text-center">@lang('Status')</th>
                 <th></th>
@@ -169,19 +175,14 @@
               @foreach($stations as $station)
         			<tr>
                 <td>
-                  <a href="{{ route('admin.station.edit', $station->id) }}" target="_blank"><strong> #{{ $station->id }} <i class="fas fa-external-link-alt m-1"></i></strong> </a>
+                  <a href=" {{ route('admin.order.production_batch', [$station->order_id, $station->id]) }}" target="_blank"><strong> #{{ $station->folio ?? $station->id }} <i class="fas fa-external-link-alt m-1"></i></strong> </a>
 
-                  <div class="small text-muted">@lang('Folio')</div>
                 </td>
                 <td>
-                  #{{ $station->folio }}
-                </td>
-                <td>
-                  <a target="_blank" href="{{ route('admin.order.station', [$station->order_id, $station->status_id]) }}"> 
+                  <a target="_blank" href="{{ route('admin.order.work', [$station->order_id, $station->status_id]) }}"> 
                     #{!! $station->order->folio_or_id !!}
                     <i class="fas fa-external-link-alt m-1"></i>
                   </a> 
-                  <div class="small text-muted">@lang('Order')</div>
                 </td>
                 <td class="text-center">
                   {!! optional($station->order)->user_name !!}
@@ -195,18 +196,22 @@
                 </td>
                 <td>
                   <strong>{{ optional($station->order)->comment ?? '--' }}</strong>
-                  <div class="small text-muted">{{ $station->comment ?? '--' }}</div>
+                  <div class="small text-muted">{{ $station->notes ?? '--' }}</div>
                 </td>
         				<td class="text-center">
-                  <div> {{ optional($station->personal)->name ?? __('undefined') }} </div>
+                  <div> {{ optional($station->personal)->name ?? '--' }} </div>
         					<div class="small text-muted">{{ $station->date_for_humans }}</div>
         				</td>
         				<td class="text-center">
                   <span class='badge badge-primary'>{{ $station->status->name }}</span>
+                  @if($station->allItemsAreBalanced())
+                    <br>
+                    <span class="badge" style="background-color: purple; color: white;"> Total Recibido </span>
+                  @endif
         				</td>
                 <td class="text-center">
-                  @if($station->active)
-                    <span class="badge badge-success">@lang('Active')</span>
+                  @if($station->total_products_prod_active > 0)
+                    {{ $station->total_products_prod_active }}<br><span class="badge badge-success">@lang('Active')</span>
                   @else
                     <span class="badge badge-danger">@lang('Inactive')</span>
                   @endif

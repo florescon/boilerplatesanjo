@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Ticket</title>
+<title>#{{ $station->folio ?? $station->id }} {{ ucfirst(optional($station->status)->name) }}</title>
 
 <style type="text/css">
     * {
@@ -44,7 +44,7 @@
       <table width="100%">
           <tr>
               <td><strong>@lang('Order'):</strong><u style="font-size: 140%;"> #{!! optional($station->order)->folio_or_id !!}</u></td>
-              <td><strong>@lang('Batch'):</strong><u style="font-size: 140%;"> #{{ $station->folio ?? $station->id }}</u></td>
+              <td><strong>@lang('Folio'):</strong><u style="font-size: 140%;"> #{{ $station->folio ?? $station->id }}</u></td>
           </tr>
       </table>
   @endif
@@ -121,7 +121,7 @@
       <tfoot>
           <tr>
               <td align="right"></td>
-              <td align="center" class="gray">
+              <td align="center" style="background-color: #000; color: white;">
                 <strong>
                   {{ $station->total_products_prod }}
                 </strong>

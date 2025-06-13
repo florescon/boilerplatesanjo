@@ -28,10 +28,10 @@
           </div>
           <div class="cs-invoice_right cs-text_center cs-f16">
             <h4 style="padding: 10px;">
-              <strong>@lang('Output') No. #{{ $productionBatch->folio }}</strong>
+              <strong>@lang('Output') No. #{{ $productionBatch->firstFolioMoreOutput() }}</strong>
             </h4>
             <p style="margin-top: -20px;">
-              <strong>@lang('Date'): </strong> {{ $productionBatch->date_formatted }}
+              <strong>@lang('Date'): </strong> {{ $productionBatch->date_for_humans }}
             </p>
           </div>
 
@@ -59,10 +59,10 @@
             </p>
           </div>
         </div>
-        @if($productionBatch->comment)
+        @if($productionBatch->notes)
           <div class="cs-invoice_head cs-mb10">
             <p>
-              Comentario: <b class="cs-primary_color">{{ $productionBatch->comment }}</b>
+              Comentario: <b class="cs-primary_color">{{ $productionBatch->notes }}</b>
             </p>
           </div>
         @endif
@@ -94,10 +94,12 @@
                 </thead>
                 <tbody>
                   @php($total = 0)
+                  @php($sum = 0)
 
             @if($grouped)
                 @foreach($orderGroup as $product)
                   @if($product->product_name != null)
+
                   <tr>
                     <td class="cs-width_1 cs-text_center cs-accent_color">{{ $product->sum }}</td>
                     <td class="cs-width_6">{{ $product->product_code ?? '--' }}{!! '<strong> '.$product->brand_name.'</strong>' !!} {{ $product->product_name }} - {{ $product->color_name }}</td>
@@ -110,26 +112,30 @@
                             ${{ priceWithoutIvaIncluded($product->max_price) }}
 
                     </td>
+                    @php($toSum = $product->sum_total)
+
+                    @php($sum += $toSum)
+                    
                     <td class="cs-width_2 cs-text_right cs-primary_color">${{ priceWithoutIvaIncluded($product->sum_total) }}</td>
                   </tr>
                   @endif
 
                 @endforeach
 
-                  @foreach($productionBatch->items->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']])  as $assign)
-                      @php($totalProd = $assign->product_order->price * $assign->output_quantity)
+{{--                   @foreach($productionBatch->items->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']])  as $assignUngrouped)
+                      @php($totalProd = $assignUngrouped->productOrder->price * $assignUngrouped->output_quantity)
 
                       @php($total += $totalProd)
                   @endforeach
-
+ --}}
             @else
 
                   @foreach($productionBatch->items->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']])  as $assign)
                     <tr>
                       <td class="cs-width_1 cs-text_center cs-accent_color">{{ $assign->output_quantity }}</td>
                       <td class="cs-width_7">{!! $assign->product->full_name_break !!}</td>
-                      <td class="cs-width_2 cs-text_right cs-primary_color">${{ number_format(priceWithoutIvaIncluded($assign->product_order->price), 2) }}</td>
-                      <td class="cs-width_2 cs-text_right cs-primary_color">${{ number_format(priceWithoutIvaIncluded($assign->product_order->price * $assign->output_quantity), 2) }}</td>
+                      <td class="cs-width_2 cs-text_right cs-primary_color">${{ number_format(priceWithoutIvaIncluded($assign->price), 2) }}</td>
+                      <td class="cs-width_2 cs-text_right cs-primary_color">${{ number_format(priceWithoutIvaIncluded($assign->price * $assign->output_quantity), 2) }}</td>
                     </tr>
 
                   @php($totalProd = $assign->product_order->price * $assign->output_quantity)
@@ -140,17 +146,17 @@
 
                   <tr class="cs-no_border cs-table_baseline">
                     <td class="cs-width_10 cs-text_right cs-primary_color cs-semi_bold" colspan="3">Subtotal:</td>
-                    <td class="cs-width_2 cs-text_right cs-primary_color cs-semi_bold">${{ number_format(priceWithoutIvaIncluded($total), 2) }}</td>
+                    <td class="cs-width_2 cs-text_right cs-primary_color cs-semi_bold">${{ number_format(priceWithoutIvaIncluded($sum), 2) }}</td>
                   </tr>
                   <tr class="cs-no_border cs-table_baseline">
                     <td class="cs-width_10 cs-text_right cs-primary_color cs-semi_bold" colspan="3">IVA:</td>
-                    <td class="cs-width_2 cs-text_right cs-primary_color cs-semi_bold">${{ number_format(ivaPrice($total), 2) }}</td>
+                    <td class="cs-width_2 cs-text_right cs-primary_color cs-semi_bold">${{ number_format(ivaPrice($sum), 2) }}</td>
                   </tr>
                   <tr class="cs-focus_bg cs-no_border">
-                    <td class="cs-width_1"><b class="cs-primary_color">@lang('Articles'):</b> <br>{{ $productionBatch->total_products_station }}</td>
+                    <td class="cs-width_1"><b class="cs-primary_color">@lang('Articles'):</b> <br>{{ $productionBatch->total_products_prod_output }}</td>
                     <td class="cs-width_7 cs-text_right cs-primary_color cs-bold cs-f16"></td>
                     <td class="cs-width_2 cs-text_right cs-primary_color cs-bold cs-f16">Total</td>
-                    <td class="cs-width_2 cs-text_right cs-primary_color cs-bold cs-f16">${{ number_format($total, 2) }}</td>
+                    <td class="cs-width_2 cs-text_right cs-primary_color cs-bold cs-f16">${{ number_format($sum, 2) }}</td>
                   </tr>
                 </tbody>
               </table>

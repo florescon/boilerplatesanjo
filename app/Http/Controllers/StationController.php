@@ -20,6 +20,11 @@ class StationController extends Controller
         return view('backend.station.index');
     }
 
+    public function index_production()
+    {
+        return view('backend.station_production.index');
+    }
+
     public function edit($stationId)
     {
         $station = Station::whereId($stationId)->withTrashed()->first();

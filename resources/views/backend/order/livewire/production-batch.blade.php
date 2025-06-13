@@ -133,50 +133,27 @@
                 </a>
               </div>
 
-              {{-- <div class="col-4 align-self-center text-center p-4">
-                <a href="{{ route('admin.order.output', $productionBatch->id) }}" target="_blank" class=""> <i class="cil-print"></i> @lang('Output') <i class="fas fa-external-link-alt m-1"></i></a>
-              </div>
               <div class="col-4 align-self-center text-center p-4">
-                <a href="{{ route('admin.order.output', [$productionBatch->id, true]) }}" target="_blank" class=""> <i class="cil-print"></i> @lang('Output') @lang('Grouped') <i class="fas fa-external-link-alt m-1"></i></a>
-              </div> --}}              
+                <a href="{{ route('admin.order.output', [$productionBatch->id, true]) }}" target="_blank" class=""> <i class="cil-print"></i> @lang('Output') <i class="fas fa-external-link-alt m-1"></i></a>
+              </div>              
               @endif
 
-              @if($getStatusCollection['initial_process'])
-                <div class="col-4 align-self-center text-center">
-                  <div class="row justify-content-md-center custom-control custom-switch custom-control-inline">
-                    <em class=" mt-2"> @lang('Capture to send a finished product')</em>
-                      <div class="col-md-2 mt-2">
-                        <div class="form-check">
-                          <label class="c-switch c-switch-label c-switch-primary">
-                            <input type="checkbox" wire:model="showSentToStock" class="c-switch-input">
-                            <span class="c-switch-slider" data-checked="OK" data-unchecked="NO"></span>
-                          </label>
-                        </div>
-                      </div>
-                  </div>
-                </div>              
-              @endif
           </div>
         </div>
 
-      <div class="col-md-12 text-center">
+      <div class="col-md-12 text-center mt-3">
 
-        <h2 class="p-4 text-center">
-          <button wire:click="makeReceiveAll({{ $productionBatch->id }})" class="btn btn-primary" style="{{ $productionBatch->allItemsAreBalanced() ? 'background-color: purple' : '' }}" @if($productionBatch->allItemsAreBalanced()) disabled @endif>
-              {{ $productionBatch->allItemsAreBalanced() ? 'Recibido' : 'Recibir todo' }}
-          </button>
-        </h2>
         <p>
 
-        <table class="table">
-          <thead>
+        <table class="table table-hover table-sm">
+          <thead class="thead-dark">
             <tr>
               <th scope="col">#</th>
               <th scope="col">Producto</th>
               <th scope="col">Asignado</th>
               <th scope="col">Recibido</th>
               <th scope="col">Proceso</th>
-              <th scope="col">
+              <th scope="col" style="width: 150px !important;">
               @if(!$showSentToStock)
                 Recepción Parcial
               @else
@@ -216,39 +193,81 @@
                     <td>{{ $item->active }}</td>
                 </tr>
             @endforeach
+            <tr class="table-dark h5">
+              <th colspan="2">Totales</th>
+              <td scope="row"><strong>{{ $productionBatch->total_products_prod }}</strong></td>
+              <td scope="row"><strong>{{ $productionBatch->total_products_prod_output }}</strong></td>
+              <td scope="row"><strong>{{ $productionBatch->total_products_prod_diferrence }}</strong></td>
+              <td scope="row"><h3 class="d-inline"><span id="total-sum" class="text-danger">0</span></h3></td>
+              <td scope="row"><strong>{{ $productionBatch->total_products_prod_active }}</strong></td>
+            </tr>
           </tbody>
         </table>
 
         </p>
-        <div class="text-right">
 
-          <div class="pr-4 d-inline">
-            <strong>Total: </strong><h3 class="d-inline"><span id="total-sum" class="text-danger">0</span></h3>
-          </div>
-          @if(!$showSentToStock)
-            <button 
-                wire:click="receiveSelected"
-                wire:loading.attr="disabled"
-                @if($buttonDisabled) disabled @endif
-                onclick="setTimeout(() => { this.disabled = false }, 3000)"
-                class="btn btn-primary"
-                @if($productionBatch->allItemsAreBalanced()) disabled @endif
-                style="{{  $productionBatch->allItemsAreBalanced() ? 'background-color: purple' : '' }}" 
-                >
-                {{ $productionBatch->allItemsAreBalanced() ? 'Ya se ha recibido todo' : 'Recibir lo capturado ' }}
-                &raquo;
-            </button>
+  <div class="row">
+    <div class="col-8">
+
+              @if($getStatusCollection['initial_process'])
+                  <div class="row justify-content-md-center custom-control custom-switch custom-control-inline">
+                    <em class="mt-2 text-danger h3"> @lang('Capture to send a finished product')</em>
+                      <div class="col-md-2 mt-2">
+                        <div class="form-check">
+                          <label class="c-switch c-switch-label c-switch-danger m-2" style="transform: scale(1.8);">
+                            <input type="checkbox" wire:model="showSentToStock" class="c-switch-input">
+                            <span class="c-switch-slider" data-checked="OK" data-unchecked="NO"></span>
+                          </label>
+                        </div>
+                      </div>
+                  </div>
+              @endif
+    </div>
+    <div class="col">
+      <h2 class=" text-center">
+        <button wire:click="makeReceiveAll({{ $productionBatch->id }})" class="btn btn-primary" style="{{ $productionBatch->allItemsAreBalanced() ? 'background-color: purple' : '' }}" @if($productionBatch->allItemsAreBalanced()) disabled @endif>
+          @if($getStatusCollection['final_process'] ?? false)
+            {{ $productionBatch->allItemsAreBalanced() ? 'Salida Efectuada' : 'Salida Todo' }}
           @else
-            <button 
-                wire:click="sendToStock"
-                wire:loading.attr="disabled"
-                @if($buttonDisabled) disabled @endif
-                onclick="setTimeout(() => { this.disabled = false }, 3000)"
-                class="btn btn-primary">
-                Enviar &raquo;
-            </button>
+            {{ $productionBatch->allItemsAreBalanced() ? 'Recibido' : 'Recibir todo' }}
           @endif
-        </div>
+        </button>
+      </h2>
+    </div>
+
+    <div class="col">
+      @if(!$showSentToStock)
+        <button 
+            wire:click="receiveSelected"
+            wire:loading.attr="disabled"
+            @if($buttonDisabled) disabled @endif
+            onclick="setTimeout(() => { this.disabled = false }, 3000)"
+            class="btn btn-outline-primary"
+            @if($productionBatch->allItemsAreBalanced()) disabled @endif
+            style="{{  $productionBatch->allItemsAreBalanced() ? 'background-color: purple; color: white;' : '' }}" 
+            >
+
+            @if($getStatusCollection['final_process'] ?? false)
+              {{ $productionBatch->allItemsAreBalanced() ? 'Se ha dado salida a todo' : 'Dar Salida' }}
+            @else
+              {{ $productionBatch->allItemsAreBalanced() ? 'Ya se ha recibido todo' : 'Recibir lo capturado' }}
+            @endif
+
+            &raquo;
+        </button>
+      @else
+        <button 
+            wire:click="sendToStock"
+            wire:loading.attr="disabled"
+            @if($buttonDisabled) disabled @endif
+            onclick="setTimeout(() => { this.disabled = false }, 3000)"
+            class="btn btn-danger">
+            Enviar &raquo;
+        </button>
+      @endif
+    </div>
+  </div>
+
       </div>
     </div>
 

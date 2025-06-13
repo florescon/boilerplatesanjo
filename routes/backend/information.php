@@ -131,6 +131,17 @@ Route::group([
                         ->push(__('Print quantities received'), route('admin.order.printexportreceived', [$status, $grouped ?? false, $dateInput ?? false, $dateOutput ?? false, $personal ?? false]));
                 });
 
+
+
+            Route::get('printexportreceivedproduction/{grouped?}/{dateInput?}/{dateOutput?}/{personal?}', [StatusController::class, 'printexportreceivedproduction'])
+                ->name('printexportreceivedproduction')
+                ->middleware('permission:admin.access.dashboard.information')
+                ->breadcrumbs(function (Trail $trail, Status $status) {
+                    $trail->parent('admin.order.index', $status)
+                        ->push(__('Print quantities received'), route('admin.order.printexportreceivedproduction', [$status, $grouped ?? false, $dateInput ?? false, $dateOutput ?? false, $personal ?? false]));
+                });
+
+
         });
 
     });
