@@ -91,6 +91,8 @@
 4.  Las órdenes/pedidos son los únicos permitidos para visualización de los consumos previos.
 </code>
               </pre>
+
+
             </div><!--//code-block-->
 
             <div class="row">
@@ -123,6 +125,34 @@
 </code>
               </pre>
             </div><!--//code-block-->
+
+            <p>
+              Crear un nuevo Producto, es posible en Productos > Crear. Para la creación de un Producto, los campos Nombre, Codigo, Colores, Tallas y Precio neto de compra, son obligatorios. Campos como Precio Menudeo, Precio Medio Mayoreo, Precio Mayoreo y Precio Especial serán datos que si bien son ingresables en los mismos, su omisión implica que serán llenados de manera automática. El parámetro para definir el precio será por el porcentaje asignado a la configuración para cada precio, esto se encuentra en Configuraciones > Configuraciones Generales.
+            </p>
+            <div class="screenshot-holder">
+              <a href="{{ asset('docs/img/documentation/new-product.png') }}" data-title="Nuevo Producto" data-toggle="lightbox" class="hoverZoomLink"><img class="img-responsive" src="{{ asset('docs/img/documentation/new-product.png') }}" alt="screenshot"></a>
+              <a class="mask hoverZoomLink" href="{{ asset('docs/img/documentation/new-product.png') }}" data-title="Nuevo Producto" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+            </div>
+
+            <p>
+              Editar los precios de un Producto, encontrado en Productos > Seleccionar Producto > Precios y códigos. Para la edición de los Precios, es necesario seleccionar el checkbox 'Precios', ello nos permite modificar las variantes de precios que tengamos del producto seleccionado. Precio de Proveedor, Precio Menudeo, Precio Medio Mayoreo, Precio Mayoreo, Precio Especial, son precios modificables, todos ellos sin IVA. El primer campo es Precio de Proveedor, el cual automaticamente me llena el resto de campos dependiendo de los valores en porcentaje asignados en Configuraciones > Configuraciones Generales. Idealmente hay que llenar solamente el Precio de Proveedor para posteriormente guardar con 'Guardar precio proveedor y todos los precios', aunque no es obligatorio, puesto que es posible ingresar los diferentes campos y solamente guardar el valor que se necesite.
+            </p>
+
+
+            <div class="screenshot-holder">
+              <a href="{{ asset('docs/img/documentation/edit-product.png') }}" data-title="Editar Precios Producto" data-toggle="lightbox" class="hoverZoomLink"><img class="img-responsive" src="{{ asset('docs/img/documentation/edit-product.png') }}" alt="screenshot"></a>
+              <a class="mask hoverZoomLink" href="{{ asset('docs/img/documentation/edit-product.png') }}" data-title="Editar Precios Producto" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+            </div>
+            
+            <p>
+              Cada tipo de precio exceptuando el Precio de Proveedor se permite actualizar por tallas y colores.
+            </p>
+
+            <div class="screenshot-holder">
+              <a href="{{ asset('docs/img/documentation/edit-price.png') }}" data-title="Editar Precios" data-toggle="lightbox" class="hoverZoomLink"><img class="img-responsive" src="{{ asset('docs/img/documentation/edit-price.png') }}" alt="screenshot"></a>
+              <a class="mask hoverZoomLink" href="{{ asset('docs/img/documentation/edit-price.png') }}" data-title="Editar Precios" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+            </div>
+
 
           </div>
         </section>
@@ -168,6 +198,27 @@
           </div>
         </section>
 
+
+        <section id="pre-invoice" class="doc-section">
+          <h2 class="section-title">@lang('Prefactura confección')</h2>
+          <div class="section-block">
+
+            <p>
+              La prefactura de Confección se generará dentro de la sección Estaciones. Seleccionar la Estación 'Confección' para enlistar lo relaccionado a esa estación, este valor junto con elegir Personal y Rango de Fecha me habilitán los botones de 'Exportar histórico' y 'Exportar histórico, agrupado'
+            </p>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-sm-12">
+                <div class="screenshot-holder">
+                  <a href="{{ asset('docs/img/documentation/preinvoice.png') }}" data-title="Prefactura" data-toggle="lightbox" class="hoverZoomLink"><img class="img-responsive" src="{{ asset('docs/img/documentation/preinvoice.png') }}" alt="screenshot"></a>
+                  <a class="mask hoverZoomLink" href="{{ asset('docs/img/documentation/preinvoice.png') }}" data-title="Prefactura" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
         <section id="bom" class="doc-section">
           <h2 class="section-title">@lang('Bom of Materials')</h2>
           <div class="section-block">
@@ -198,6 +249,27 @@
               </pre>
             </div><!--//code-block-->
 
+          </div>
+        </section>
+
+        <section id="provider" class="doc-section">
+          <h3>
+            <ul><li>@lang('Vendors')</li></ul>
+          </h3>
+          <div class="section-block">
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-sm-12">
+                <p>
+                  Crear un nuevo Proveedor esta dentro de los 'Parámetros', es ingresando a Parámetros > Proveedores > Crear Proveedor.
+                  En el que los campos Nombre, Nombre Corto, Email, Y Ciudad son obligatorios.
+
+                </p>
+                <div class="screenshot-holder">
+                  <a href="{{ asset('docs/img/documentation/new-provider.png') }}" data-title="Nuevo Proveedor" data-toggle="lightbox" class="hoverZoomLink"><img class="img-responsive" src="{{ asset('docs/img/documentation/new-provider.png') }}" alt="screenshot"></a>
+                  <a class="mask hoverZoomLink" href="{{ asset('docs/img/documentation/new-provider.png') }}" data-title="Nuevo Proveedor" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -323,9 +395,15 @@
                 <li><a class="scrollto" href="#orders">Órdenes</a></li>
                 <li><a class="scrollto" href="#products">Productos</a></li>
                 <li><a class="scrollto" href="#services">Servicios</a></li>
+                <li><a class="scrollto" href="#pre-invoice">Prefactura Confección</a></li>
                 <li><a class="scrollto" href="#feedstocks">Materias Primas</a></li>
                 <li><a class="scrollto" href="#bom">Explosión de materiales</a></li>
-                <li><a class="scrollto" href="#parameters">Parámetros</a></li>
+                <li>
+                  <a class="scrollto" href="#parameters">Parámetros</a>
+                  <ul>
+                    <li><a class="scrollto" href="#provider">Proveedores</a></li>
+                  </ul>
+                </li>
                 <li>
                   <a class="scrollto" href="#store">Tienda</a>
                   <ul>

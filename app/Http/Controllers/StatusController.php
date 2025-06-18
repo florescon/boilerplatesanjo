@@ -345,9 +345,9 @@ public function printexportreceivedproduction(Status $status, bool $grouped = fa
     $making = $status->making;
 
     // Construir la consulta base
-    $query = ProductionBatchItem::with(['batch', 'product'])
-        ->where('status_id', $status->id)
-        ->whereBetween('created_at', [$dateInput.' 00:00:00', $dateOutput.' 23:59:59']);
+    $query = ProductionBatchItem::with(['batch', 'product.parent', 'product.size', 'product.color'])
+        ->where('output_quantity', '>', 0)
+        ->whereBetween('updated_at', [$dateInput.' 00:00:00', $dateOutput.' 23:59:59']);
 
     // Filtrar por personal si es necesario
     if ($personal) {
@@ -356,20 +356,70 @@ public function printexportreceivedproduction(Status $status, bool $grouped = fa
         });
     }
 
+    // dd($grouped);
+
     // Obtener y agrupar los resultados
     if ($grouped) {
         // Agrupar por producto y sumar cantidades
-        $result = $query->get()->groupBy('product_id')->map(function($items) {
+        $result = $query
+        ->get()
+        ->sortBy([
+            ['product.parent.code', 'asc'],
+            ['product.color.name', 'asc'],
+            ['product.size.sort', 'asc']
+        ])
+        ->groupBy('product_id')
+        ->map(function($items) {
+                $firstItem = $items->first();
+                $isExtra = $firstItem->product->size->is_extra;
+                $price = $isExtra ? $firstItem->product->parent->price_making_extra : $firstItem->product->parent->price_making;
+
             return (object) [
                 'product' => $items->first()->product,
-                'total_quantity' => $items->sum('quantity'),
+                'total_quantity' => $items->sum('output_quantity'),
                 'items' => $items,
-                'first_item' => $items->first() // Para acceder a otros datos si es necesario
+                'price' => $price,
+                'is_extra' => $isExtra,
+                'first_item' => $items->first(), // Para acceder a otros datos si es necesario
+                'total_price' => $items->sum(function ($item) use ($price) {
+                    return $item->output_quantity * $price;
+                }),
             ];
         });
     } else {
-        $result = $query->get();
+
+
+        $result = $query
+            ->get()
+            ->sortBy([
+                ['product.parent.code', 'asc'],
+                ['product.color.name', 'asc'],
+                ['product.size.sort', 'asc']
+            ])
+            ->groupBy([
+                function ($item) {
+                    return $item->product->parent_id .' - '. $item->product->color_id . '-' . $item->product->size->is_extra;
+                }
+            ])
+            ->map(function ($items) {
+                $firstItem = $items->first();
+                $isExtra = $firstItem->product->size->is_extra;
+                $price = $isExtra ? $firstItem->product->parent->price_making_extra : $firstItem->product->parent->price_making;
+                
+                return (object) [
+                    'product' => $firstItem->product,
+                    'total_quantity' => $items->sum('output_quantity'),
+                    'price' => $price,
+                    'is_extra' => $isExtra,
+                    'total_price' => $items->sum(function ($item) use ($price) {
+                        return $item->output_quantity * $price;
+                    }),
+                ];
+            })
+            ->values();
     }
+
+    // dd($result->toArray());
 
     // Obtener fechas extremas
     $oldestDate = $query->oldest('created_at')->value('created_at');
