@@ -38,13 +38,14 @@ class ServiceOrderExport implements FromCollection, WithMapping, WithHeadings, W
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->getStyle('8')->getFont()->setBold(true);
-        $sheet->setAutoFilter('A8:I8');
+      $sheet->getStyle('5')->getFont()->setBold(true);
+      $sheet->getStyle('2')->getFont()->setBold(true);
+      $sheet->setAutoFilter('A5:I5');
     }
 
     public function startCell(): string
     {
-        return 'A8';
+        return 'A5';
     }
 
     public function drawings()
@@ -53,7 +54,7 @@ class ServiceOrderExport implements FromCollection, WithMapping, WithHeadings, W
         $drawing->setName('Logo');
         $drawing->setDescription('SJU');
         $drawing->setPath(public_path('/img/logo2.png'));
-        $drawing->setHeight(80);
+        $drawing->setHeight(70);
         $drawing->setCoordinates('A1');
 
         return $drawing;
@@ -78,7 +79,7 @@ class ServiceOrderExport implements FromCollection, WithMapping, WithHeadings, W
                 $dateOutput = $this->dateOutput ?  Carbon::parse($this->dateOutput)->format('d/m/Y') : '';
 
                 $titulo = "Reporte de Ordenes de Servicio - $serviceName de: {$dateInput} a {$dateOutput}";
-                $event->sheet->setCellValue('A5', $titulo);                
+                $event->sheet->setCellValue('C2', $titulo);                
 
                 // Aquí puedes agregar más personalizaciones a la hoja después de generar los datos
             },

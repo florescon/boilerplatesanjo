@@ -188,6 +188,11 @@ class StationController extends Controller
         return view('backend.station.deleted');
     }
 
+    public function deleted_production()
+    {
+        return view('backend.station_production.deleted');
+    }
+
     public function destroy(Station $station)
     {
         if($station->id){

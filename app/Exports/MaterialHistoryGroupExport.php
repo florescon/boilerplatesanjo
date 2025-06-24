@@ -35,13 +35,14 @@ class MaterialHistoryGroupExport implements FromCollection, WithMapping, WithHea
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->getStyle('8')->getFont()->setBold(true);
-        $sheet->setAutoFilter('A8:F8');
+        $sheet->getStyle('2')->getFont()->setBold(true);
+        $sheet->getStyle('5')->getFont()->setBold(true);
+        $sheet->setAutoFilter('A5:F5');
     }
 
     public function startCell(): string
     {
-        return 'A8';
+        return 'A5';
     }
 
     public function drawings()
@@ -50,7 +51,7 @@ class MaterialHistoryGroupExport implements FromCollection, WithMapping, WithHea
         $drawing->setName('Logo');
         $drawing->setDescription('SJU');
         $drawing->setPath(public_path('/img/logo2.png'));
-        $drawing->setHeight(80);
+        $drawing->setHeight(70);
         $drawing->setCoordinates('A1');
 
         return $drawing;
@@ -73,7 +74,7 @@ class MaterialHistoryGroupExport implements FromCollection, WithMapping, WithHea
                 $dateOutput = $this->dateOutput ?  Carbon::parse($this->dateOutput)->format('d/m/Y') : '';
 
                 $titulo = "Reporte de Registros de Materia Prima, agrupados por proveedor [ENTRADAS], - $this->vendor_id de: {$dateInput} a {$dateOutput}";
-                $event->sheet->setCellValue('A5', $titulo);                
+                $event->sheet->setCellValue('C2', $titulo);                
 
                 // Aquí puedes agregar más personalizaciones a la hoja después de generar los datos
             },

@@ -78,7 +78,7 @@
                                 </div> --}}
 
                                 <div class="form-group">
-                                    <label for="footer">@lang('Footer')</label>
+                                    <label for="footer">@lang('Footer production')</label>
                                     <textarea rows="4" wire:model.defer="state.footer" type="text" class="form-control" id="footer" placeholder="{{__('Enter footer') }}"></textarea>
                                     @error('state.footer') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                                 </div>

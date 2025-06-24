@@ -6,10 +6,12 @@ use Livewire\Component;
 use App\Models\ProductionBatch;
 use App\Models\Status;
 use App\Models\Order;
+use App\Models\ProductionBatchItemHistory;
 use App\Models\ProductOrder;
 use App\Models\Material;
 use App\Models\ServiceType;
 use App\Domains\Auth\Models\User;
+use DB;
 
 class ProdBatch extends Component
 {
@@ -39,6 +41,7 @@ class ProdBatch extends Component
     protected $listeners = [
         'makeConsumptionEmited', 'receiveAll',
         'saveInvoiceDate',
+        'deleteBatch',
         'enableButton' => 'enableButton',
         'renderview' => 'render'
     ];
@@ -194,6 +197,16 @@ class ProdBatch extends Component
         return true;
     }
 
+    private function receiveHistory($item, $quantity)
+    {
+        return ProductionBatchItemHistory::create([
+            'production_batch_item_id' => $item->id,
+            'batch_id' => $item->batch_id,
+            'product_id' => $item->product_id,
+            'receive' => $quantity,
+        ]);
+    }
+
     public function receiveAll($stationId)
     {
 
@@ -219,6 +232,10 @@ class ProdBatch extends Component
                 $item->output_quantity += $maxQuantity;
                 $item->save();
             }
+
+
+            $this->receiveHistory($item, $maxQuantity);
+
         }
 
         // dd($dataToSave);
@@ -283,6 +300,9 @@ class ProdBatch extends Component
 
     public function receiveSelected()
     {
+        if(!$this->requiredConsumption()) {
+            return;
+        }
 
         if ($this->verifyIfEmptyReceive()) {
             return false; // Detiene la ejecución si está vacío/cero
@@ -291,8 +311,6 @@ class ProdBatch extends Component
         if(!$this->getErrorNotRestricted()) {
             return false;
         }
-
-        $this->requiredConsumption();
 
         $this->buttonDisabled = true;
 
@@ -324,6 +342,9 @@ class ProdBatch extends Component
                     $item->active -= $quantityToAdd;
                 }
                 $item->save();
+
+                $this->receiveHistory($item, $quantityToAdd);
+
             }
         }
 
@@ -650,6 +671,80 @@ class ProdBatch extends Component
             'method' => 'receiveAll',
             'params' => $stationId,
         ]);
+    }
+
+
+    public function makeDelete()
+    {
+        if (!$this->getErrorNotRestricted()) {
+            return false; // Detiene la ejecución si está vacío/cero
+        }
+
+        return $this->emit('swal:confirm', [
+            'icon' => 'question',
+            'title' => 'Se eliminara el folio',
+            'html' => 'Todos los productos de este folio seran eliminados',
+            'confirmText' => '¿Desea confirmar?',
+            'method' => 'deleteBatch',
+            'params' => $this->productionBatch->id,
+        ]);
+    }
+
+
+    public function deleteBatch($getId)
+    {
+        if(!$this->productionBatch->receiveSomething()) {
+            return false;
+        }
+
+        $order_id = $this->productionBatch->order_id;
+        $status_id = $this->productionBatch->status_id;
+
+        // Incrementar el valor de 'active' del anterior 'status'
+        if ($this->previous_status) {
+            $previousBatches = DB::table('production_batches')
+                ->where('order_id', $order_id)
+                ->where('status_id', $this->previous_status->id)
+                ->pluck('id');
+
+            if ($previousBatches->isNotEmpty()) {
+                foreach($this->productionBatch->items()->get() as $item) {
+                    $quantityToDistribute = $item->input_quantity;
+                    
+                    // Obtener todos los items anteriores del mismo producto
+                    $previousItems = DB::table('production_batch_items')
+                        ->whereIn('batch_id', $previousBatches)
+                        ->where('product_id', $item->product_id)
+                        ->orderBy('batch_id', 'asc') // Opcional: definir un orden
+                        ->get();
+                    
+                    foreach ($previousItems as $previousItem) {
+                        if ($quantityToDistribute <= 0) break;
+                        
+                        // Calcular cuánto podemos agregar a este item sin exceder input_quantity
+                        $availableSpace = $previousItem->input_quantity - $previousItem->active;
+                        $amountToAdd = min($availableSpace, $quantityToDistribute);
+                        
+                        if ($amountToAdd > 0) {
+                            DB::table('production_batch_items')
+                                ->where('id', $previousItem->id)
+                                ->update([
+                                    'active' => $previousItem->active + $amountToAdd
+                                ]);
+                            
+                            $quantityToDistribute -= $amountToAdd;
+                        }
+                    }
+                    
+                    // Si después de distribuir todavía queda cantidad, podrías manejarlo aquí
+                    // Por ejemplo, crear un nuevo lote o registrar la diferencia
+                }
+            }
+        }
+
+        $this->productionBatch->delete();
+
+        return redirect()->route('admin.order.work', [$order_id, $status_id]);
     }
 
     public function render()

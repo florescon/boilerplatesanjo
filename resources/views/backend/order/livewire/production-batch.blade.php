@@ -119,7 +119,7 @@
                 </div>
               @endif
               <div class="col-4 align-self-center text-center">
-                <a href="{{ route('admin.order.ticket_prod', [$order->id, $productionBatch->id]) }}" target="_blank" class="list-group-item list-group-item-action"> Imprimir Ticket {{ ucfirst($status->name) }}  <i class="fas fa-external-link-alt m-1"></i></a>
+                <a href="{{ route('admin.order.ticket_prod', [$order->id, $productionBatch->id]) }}" target="_blank" class="list-group-item list-group-item-action list-group-item-info"> Imprimir Ticket {{ ucfirst($status->name) }}  <i class="fas fa-external-link-alt m-1"></i></a>
               </div>
 
               @if($getStatusCollection['final_process'])
@@ -164,7 +164,7 @@
             </tr>
           </thead>
           <tbody>
-            @foreach($productionBatch->items as $key => $item)
+            @foreach($productionBatch->items->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']]) as $key => $item)
                 <tr>
                     <th>{{ $key + 1 }}</th>
                     <th scope="row">{!! $item->product->full_name_break !!}</th>
@@ -205,26 +205,35 @@
         </table>
 
         </p>
-
   <div class="row">
-    <div class="col-8">
-
-              @if($getStatusCollection['initial_process'])
-                  <div class="row justify-content-md-center custom-control custom-switch custom-control-inline">
-                    <em class="mt-2 text-danger h3"> @lang('Capture to send a finished product')</em>
-                      <div class="col-md-2 mt-2">
-                        <div class="form-check">
-                          <label class="c-switch c-switch-label c-switch-danger m-2" style="transform: scale(1.8);">
-                            <input type="checkbox" wire:model="showSentToStock" class="c-switch-input">
-                            <span class="c-switch-slider" data-checked="OK" data-unchecked="NO"></span>
-                          </label>
-                        </div>
-                      </div>
+    <div class="col-2">
+      @if(!$getStatusCollection['is_process'])
+        @if($getStatusCollection['to_add_users'])
+          <button wire:click="makeDelete" class="btn btn-danger" @if(!$productionBatch->receiveSomething()) disabled @endif>
+            Eliminar
+          <span wire:loading wire:target="makeDelete">...</span>
+          </button>
+        @endif
+      @endif
+    </div>
+    <div class="col-6">
+        @if($getStatusCollection['initial_process'])
+            <div class="row justify-content-md-center custom-control custom-switch custom-control-inline">
+              <em class="mt-2 text-danger h3"> @lang('Capture to send a finished product')</em>
+                <div class="col-md-2 mt-2">
+                  <div class="form-check">
+                    <label class="c-switch c-switch-label c-switch-danger m-2" style="transform: scale(1.8);">
+                      <input type="checkbox" wire:model="showSentToStock" class="c-switch-input">
+                      <span class="c-switch-slider" data-checked="OK" data-unchecked="NO"></span>
+                    </label>
                   </div>
-              @endif
+                </div>
+            </div>
+        @endif
     </div>
     <div class="col">
       <h2 class=" text-center">
+        @if(!$showSentToStock)
         <button wire:click="makeReceiveAll({{ $productionBatch->id }})" class="btn btn-primary" style="{{ $productionBatch->allItemsAreBalanced() ? 'background-color: purple' : '' }}" @if($productionBatch->allItemsAreBalanced()) disabled @endif>
           @if($getStatusCollection['final_process'] ?? false)
             {{ $productionBatch->allItemsAreBalanced() ? 'Salida Efectuada' : 'Salida Todo' }}
@@ -232,6 +241,7 @@
             {{ $productionBatch->allItemsAreBalanced() ? 'Recibido' : 'Recibir todo' }}
           @endif
         </button>
+        @endif
       </h2>
     </div>
 

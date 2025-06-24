@@ -8,7 +8,14 @@
 
 @section('content')
 
-    <livewire:backend.station.station-production-table/>
+      <div class="alert alert-danger alert-dismissible fade show " role="alert">
+        <strong>¡Estaciones eliminadas!</strong> <p class="d-inline text-primary">Eliga 'Historial'</p> </a>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+    <livewire:backend.station.station-production-table status="deleted"/>
 
 @endsection
 

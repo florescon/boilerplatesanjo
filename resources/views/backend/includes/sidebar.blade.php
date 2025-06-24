@@ -190,7 +190,7 @@
                     :text="__('Workstations')"
                     new
                     icon="c-sidebar-nav-icon cil-compress"
-                    :active="activeClass(Route::is('admin.station.index_production', 'admin.station.deleted'), 'c-active')" />
+                    :active="activeClass(Route::is('admin.station.index_production', 'admin.station.deleted_production'), 'c-active')" />
             </li>
 
             <li class="c-sidebar-nav-item">

@@ -144,7 +144,7 @@ class StationProductionTable extends Component
             return $searchStation
             ->where(function (Builder $query) {
                 $query->whereHas('order', function ($quer) {
-                   $quer->whereRaw("comment LIKE \"%$this->searchTerm%\"")
+                   $quer->whereRaw("notes LIKE \"%$this->searchTerm%\"")
                     ->orWhereRaw("folio LIKE \"%$this->searchTerm%\"")
                     ->orWhere('request', 'like', '%' . $this->searchTerm . '%')
                     ->orWhere('purchase', 'like', '%' . $this->searchTerm . '%')
@@ -156,7 +156,7 @@ class StationProductionTable extends Component
                 ->orWhereHas('personal', function ($quer) {
                    $quer->whereRaw("name LIKE \"%$this->searchTerm%\"");
                 })
-                ->orWhere('id', 'like', '%' . $this->searchTerm . '%')
+                ->orWhere('folio', 'like', '%' . $this->searchTerm . '%')
                 ->orWhere('notes', 'like', '%' . $this->searchTerm . '%');
             });
         }
@@ -171,7 +171,7 @@ class StationProductionTable extends Component
             return $searchStation->onlyTrashed()
                     ->where(function (Builder $query) {
                 $query->whereHas('order', function ($quer) {
-                   $quer->whereRaw("comment LIKE \"%$this->searchTerm%\"")
+                   $quer->whereRaw("notes LIKE \"%$this->searchTerm%\"")
                     ->orWhereRaw("folio LIKE \"%$this->searchTerm%\"")
                     ->orWhere('request', 'like', '%' . $this->searchTerm . '%')
                     ->orWhere('purchase', 'like', '%' . $this->searchTerm . '%')
@@ -180,8 +180,8 @@ class StationProductionTable extends Component
                 ->orWhereHas('personal', function ($quer) {
                    $quer->whereRaw("name LIKE \"%$this->searchTerm%\"");
                 })
-                ->orWhere('id', 'like', '%' . $this->searchTerm . '%')
-                ->orWhere('comment', 'like', '%' . $this->searchTerm . '%');
+                ->orWhere('folio', 'like', '%' . $this->searchTerm . '%')
+                ->orWhere('notes', 'like', '%' . $this->searchTerm . '%');
             });
         }
 

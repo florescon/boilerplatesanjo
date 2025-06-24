@@ -41,13 +41,14 @@ class OrderProductsByDateExport implements FromCollection, WithMapping, WithHead
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->getStyle('8')->getFont()->setBold(true);
-        $sheet->setAutoFilter('A8:D8');
+        $sheet->getStyle('5')->getFont()->setBold(true);
+        $sheet->getStyle('2')->getFont()->setBold(true);
+        $sheet->setAutoFilter('A5:D5');
     }
 
     public function startCell(): string
     {
-        return 'A8';
+        return 'A5';
     }
 
     public function drawings()
@@ -56,7 +57,7 @@ class OrderProductsByDateExport implements FromCollection, WithMapping, WithHead
         $drawing->setName('Logo');
         $drawing->setDescription('SJU');
         $drawing->setPath(public_path('/img/logo2.png'));
-        $drawing->setHeight(80);
+        $drawing->setHeight(70);
         $drawing->setCoordinates('A1');
 
         return $drawing;
@@ -81,7 +82,7 @@ class OrderProductsByDateExport implements FromCollection, WithMapping, WithHead
                 $dateOutput = $this->dateOutput ?  Carbon::parse($this->dateOutput)->format('d/m/Y') : '';
 
                 $titulo = "Reporte de $products $services de: {$dateInput} a {$dateOutput}";
-                $event->sheet->setCellValue('A5', $titulo);                
+                $event->sheet->setCellValue('C2', $titulo);                
 
                 // Aquí puedes agregar más personalizaciones a la hoja después de generar los datos
             },
@@ -91,19 +92,19 @@ class OrderProductsByDateExport implements FromCollection, WithMapping, WithHead
     {
         if($this->isGrouped){
             $headings = [
-                __('Quantity'),
                 __('Code'),
+                __('Quantity'),
                 __('Details'),
                 __('Name'),
             ];
         }
         else{
             $headings = [
-                __('Quantity'),
                 __('Code'),
-                __('Color'),
-                __('Size_'),
+                __('Quantity'),
                 __('Name'),
+                __('Size_'),
+                __('Color'),
                 __('Order'),
                 __('Customer'),
                 __('Date'),
@@ -122,8 +123,8 @@ public function map($product): array
     // Si está agrupado, usar los datos agrupados
     if ($this->isGrouped) {
         return [
-            $product['totalQuantity'],
             $product['productParentCode'],
+            $product['totalQuantity'],
             $product['productColorName'],
             $product['productParentName'],
         ];
@@ -131,11 +132,11 @@ public function map($product): array
 
     // Si no está agrupado, usar los datos individuales
     return [
-        $product['productQuantity'],
         $product['productParentCode'],
-        $product['productColorName'],
-        $product['productSizeName'],
+        $product['productQuantity'],
         $product['productParentName'],
+        $product['productSizeName'],
+        $product['productColorName'],
         $product['productOrder'],
         $product['productCustomer'],
         $product['productDate'],
@@ -173,6 +174,7 @@ public function collection()
                     'productColor' => $product_order->product->color_id,
                     'productColorName' => $product_order->product->color->name ?? '',
                     'productSizeName' => $product_order->product->size->name ?? '',
+                    'productSizeSort' => $product_order->product->size->sort ?? '',
                     'productQuantity' => $product_order->quantity,
                     'productOrder' => $order->folio_or_id_clear,
                     'productCustomer' => optional($order->user)->name,
@@ -189,6 +191,7 @@ public function collection()
                     'productColor' => $product_order->product->color_id,
                     'productColorName' => $product_order->product->color->name ?? '',
                     'productSizeName' => $product_order->product->size->name ?? '',
+                    'productSizeSort' => $product_order->product->size->sort ?? '',
                     'productQuantity' => $product_order->quantity,
                     'productOrder' => $order->folio_or_id_clear,
                     'productCustomer' => optional($order->user)->name,
@@ -220,6 +223,14 @@ public function collection()
         });
 
         return $grouped;
+    }
+    else{
+    // Después de construir la colección $productsCollection, aplicamos el ordenamiento
+        $this->products = $productsCollection->sortBy([
+            ['productParentName', 'asc'],
+            ['productColor', 'asc'],
+            ['productSizeSort', 'asc'],
+        ]);        
     }
 
     // Si $isGrouped es false, devolver la colección sin agrupar

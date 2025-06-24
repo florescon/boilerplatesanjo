@@ -90,4 +90,13 @@ Route::group([
             $trail->parent('admin.station.index')
                 ->push(__('Deleted stations'), route('admin.station.deleted'));
         });
+
+
+    Route::get('deleted_production', [StationController::class, 'deleted_production'])
+        ->name('deleted_production')
+        ->middleware('permission:admin.access.station.deleted')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.station.index_production')
+                ->push(__('Deleted stations'), route('admin.station.deleted'));
+        });
 });

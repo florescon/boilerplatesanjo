@@ -39,13 +39,14 @@ class OrderProductsReportGroupedExport implements FromCollection, WithMapping, W
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->getStyle('8')->getFont()->setBold(true);
-        $sheet->setAutoFilter('A8:F8');
+        $sheet->getStyle('5')->getFont()->setBold(true);
+        $sheet->getStyle('2')->getFont()->setBold(true);
+        $sheet->setAutoFilter('A5:F5');
     }
 
     public function startCell(): string
     {
-        return 'A8';
+        return 'A5';
     }
 
     public function drawings()
@@ -54,7 +55,7 @@ class OrderProductsReportGroupedExport implements FromCollection, WithMapping, W
         $drawing->setName('Logo');
         $drawing->setDescription('SJU');
         $drawing->setPath(public_path('/img/logo2.png'));
-        $drawing->setHeight(80);
+        $drawing->setHeight(70);
         $drawing->setCoordinates('A1');
 
         return $drawing;
@@ -79,7 +80,7 @@ class OrderProductsReportGroupedExport implements FromCollection, WithMapping, W
                 $dateOutput = $this->dateOutput ?  Carbon::parse($this->dateOutput)->format('d/m/Y') : '';
 
                 $titulo = "Reporte de $products $services agrupados, de: {$dateInput} a {$dateOutput}";
-                $event->sheet->setCellValue('A5', $titulo);                
+                $event->sheet->setCellValue('C2', $titulo);                
 
                 // Aquí puedes agregar más personalizaciones a la hoja después de generar los datos
             },
@@ -88,10 +89,10 @@ class OrderProductsReportGroupedExport implements FromCollection, WithMapping, W
     public function headings(): array
     {
        $headings = [
-            __('Quantity'),
             __('Code'),
-            __('Details'),
+            __('Quantity'),
             __('Name'),
+            __('Details'),
             __('Order'),
             __('Customer'),
         ];
@@ -107,10 +108,10 @@ class OrderProductsReportGroupedExport implements FromCollection, WithMapping, W
     {
         // Mapea los datos para la exportación
         return [
-            $product['totalQuantity'],
             $product['productParentCode'],
-            $product['productColorName'],
+            $product['totalQuantity'],
             $product['productParentName'],
+            $product['productColorName'],
             $product['productOrder'],
             $product['productCustomer'],
         ];

@@ -88,7 +88,12 @@ class ProductionBatchItem extends Model
     {
         return $this->productOrder->price ?? null;
     }
-    
+
+    public function history()
+    {
+        return $this->hasMany(ProductionBatchItemHistory::class);
+    }
+
     public function logs()
     {
         return $this->hasMany(ProductionItemLog::class, 'batch_item_id');

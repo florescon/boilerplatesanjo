@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Dyrynda\Database\Support\CascadeSoftDeletes;
 use App\Models\Traits\Scope\DateScope;
 use Illuminate\Database\Eloquent\Model;
 use App\Domains\Auth\Models\User;
@@ -12,7 +13,7 @@ use Carbon\Carbon;
 
 class ProductionBatch extends Model
 {
-    use HasFactory, SoftDeletes, DateScope;
+    use HasFactory, SoftDeletes, CascadeSoftDeletes, DateScope;
 
     protected $fillable = [
         'order_id', 
@@ -46,6 +47,7 @@ class ProductionBatch extends Model
         'invoice_date' => 'date',
     ];
 
+    protected $cascadeDeletes = ['items'];
 
     protected static function booted()
     {
@@ -215,11 +217,22 @@ class ProductionBatch extends Model
 
     public function allItemsAreBalanced(): bool
     {
+        if(!$this->items()->exists()){
+            return false;
+        }
+
         $allBalanced = $this->items()->whereColumn('input_quantity', '!=', 'output_quantity')->doesntExist();
         
         return $allBalanced ?? false;
     }
     
+
+    public function receiveSomething(): bool
+    {
+        $allBalanced = $this->items()->where('output_quantity', '!=', 0)->doesntExist();
+        
+        return $allBalanced ?? false;
+    }
 
     public function stations()
     {
