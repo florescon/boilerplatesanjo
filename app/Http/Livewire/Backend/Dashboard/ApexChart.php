@@ -15,38 +15,45 @@ class ApexChart extends Component
     {
         $lastProcessId = Order::getLastProcess()->id;
 
-        $orders = Order::with('product_order.product_station_received', 'product_order.product_station_out')
-                    ->where(function ($query) use ($lastProcessId) {
-                        $query->where(function ($query) use ($lastProcessId) {
-                            $query->whereRaw("
-                                EXISTS (
-                                    SELECT 1
-                                    FROM product_order po
-                                    LEFT JOIN (
-                                        SELECT product_order_id, SUM(quantity) as total_received
-                                        FROM product_station_receiveds
-                                        WHERE status_id = ?
-                                        GROUP BY product_order_id
-                                    ) psr ON po.id = psr.product_order_id
-                                    LEFT JOIN (
-                                        SELECT product_order_id, SUM(out_quantity) as total_out
-                                        FROM product_station_outs
-                                        GROUP BY product_order_id
-                                    ) pso ON po.id = pso.product_order_id
-                                    WHERE po.order_id = orders.id
-                                    AND (psr.total_received IS NULL OR psr.total_received < po.quantity)
-                                    AND (pso.total_out IS NULL OR pso.total_out < po.quantity)
-                                )
-                            ", [$lastProcessId]);
-                        });
-
-                    })
-                    ->onlyOrders()
-                    ->outFromStore()
-                    ->flowchart()
-                    ->orderBy('id', 'desc')
-                    ->limit(10)
-                    ->get();
+        $orders = Order::query()
+            ->with([
+                'product_order.product_station_received',
+                'product_order.product_station_out',
+                'user',
+                'productionBatches',
+                'products',
+                'last_status_order.status',
+            ])        
+            ->doesntHave('stations') // <- Solo órdenes con al menos una estación
+            ->where(function($q) {
+                $q->whereRaw("(
+                    SELECT COALESCE(SUM(pbi.input_quantity), 0) 
+                    FROM production_batch_items pbi
+                    JOIN production_batches pb ON pb.id = pbi.batch_id
+                    WHERE pb.order_id = orders.id
+                    AND pbi.is_principal = 1
+                    AND pbi.with_previous IS NULL
+                ) != (
+                    SELECT COALESCE(SUM(po.quantity), 0)
+                    FROM product_order po
+                    JOIN products p ON p.id = po.product_id
+                    WHERE po.order_id = orders.id
+                    AND p.type = 1
+                )")
+                ->orWhereRaw("EXISTS (
+                    SELECT 1 
+                    FROM production_batch_items pbi
+                    JOIN production_batches pb ON pb.id = pbi.batch_id
+                    WHERE pb.order_id = orders.id
+                    AND pbi.active != 0
+                )");
+            })
+            ->onlyOrders()
+            ->outFromStore()
+            ->flowchart()
+            ->orderBy('folio', 'desc')
+            ->limit(10)
+            ->get();
 
 
         $ordercollection = collect();
@@ -55,7 +62,7 @@ class ApexChart extends Component
 
         foreach($orders as $order){
 
-            $coll[] = $order->total_graphic_new['collection'];
+            $coll[] = $order->total_graphic_work['collection'];
 
             $ordercollection->push(
                  ['#'.$order->folio_or_id_clear.' —— '.optional($order->user)->real_name, $order->comment],
@@ -68,7 +75,7 @@ class ApexChart extends Component
 
         $statuses = Status::orderBy('level')->where('active', TRUE)->get();
         $s = $statuses->pluck('short_name');
-        $s->push('captura');
+        $s->prepend('captura');
 
         $this->series = $s->map(function ($label) use ($coll) {
             return [

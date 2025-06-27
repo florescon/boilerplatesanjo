@@ -45,7 +45,7 @@
       colors: ['#fff']
     },
     colors: [
-      "#3ABEF9",
+      "#EEEEEE",
       "#3572EF",
       "#050C9C",
       "#FFFF80",
@@ -53,7 +53,7 @@
       "#E1AFD1",
       "#AD88C6",
       "#7469B6",
-      "#EEEEEE",
+      "#3ABEF9",
     ],    
     title: {
       text: 'Pedidos en proceso'

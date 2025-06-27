@@ -7,7 +7,7 @@
 @section('title', __('Quotations'))
 
 @section('breadcrumb-links')
-    @include('backend.order.includes.breadcrumb-links')
+    @include('backend.order.includes.breadcrumb-links-work')
 @endsection
 
 @section('content')

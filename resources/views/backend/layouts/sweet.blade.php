@@ -91,7 +91,7 @@ const SwalInput = (title, input, inputOptions, inputPlaceholder, showCancelButto
       inputValidator: (value) => {
         return new Promise((resolve) => {
           if (value === "") {
-            resolve("Necesitas seleccionar algo :)");
+            resolve("Necesitas ingresar la información");
           } else {
             resolve();
             window.livewire.emit(method, getId, value);

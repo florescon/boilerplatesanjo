@@ -144,7 +144,7 @@ class StationProductionTable extends Component
             return $searchStation
             ->where(function (Builder $query) {
                 $query->whereHas('order', function ($quer) {
-                   $quer->whereRaw("notes LIKE \"%$this->searchTerm%\"")
+                   $quer->whereRaw("comment LIKE \"%$this->searchTerm%\"")
                     ->orWhereRaw("folio LIKE \"%$this->searchTerm%\"")
                     ->orWhere('request', 'like', '%' . $this->searchTerm . '%')
                     ->orWhere('purchase', 'like', '%' . $this->searchTerm . '%')
@@ -171,7 +171,7 @@ class StationProductionTable extends Component
             return $searchStation->onlyTrashed()
                     ->where(function (Builder $query) {
                 $query->whereHas('order', function ($quer) {
-                   $quer->whereRaw("notes LIKE \"%$this->searchTerm%\"")
+                   $quer->whereRaw("comment LIKE \"%$this->searchTerm%\"")
                     ->orWhereRaw("folio LIKE \"%$this->searchTerm%\"")
                     ->orWhere('request', 'like', '%' . $this->searchTerm . '%')
                     ->orWhere('purchase', 'like', '%' . $this->searchTerm . '%')

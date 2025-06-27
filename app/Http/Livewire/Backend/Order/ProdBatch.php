@@ -289,7 +289,7 @@ class ProdBatch extends Component
         if ($allEmptyOrZero) {
             $this->emit('swal:alert', [
                 'icon' => 'error',
-                'title' => __('No emita datos vacios'), 
+                'title' => __('No emita datos vacíos'), 
             ]);
             return true; // Cambiado a `true` para indicar que está vacío/cero
         }
@@ -385,6 +385,37 @@ class ProdBatch extends Component
 
         $dataToSave = [];
 
+        foreach ($this->productionBatch->items as $item) {
+            $quantityToAdd = $this->sendQuantities[$item->id] ?? 0;
+            
+            // Validar que la cantidad no exceda el máximo permitido (item->active)
+            if ($quantityToAdd > $item->active) {
+                $validationErrors[] = __(
+                    "La cantidad para el producto :product excede el máximo permitido (:max)",
+                    ['product' => $item->product->name, 'max' => $item->active]
+                );
+            }
+            
+            // Validar que la cantidad no exceda output_quantity si es necesario
+            if (isset($item->output_quantity) && $quantityToAdd > $item->output_quantity) {
+                $validationErrors[] = __(
+                    "La cantidad para el producto :product excede la cantidad definida en proceso (:output). Debe recibir",
+                    ['product' => $item->product->full_name_clear, 'output' => $item->output_quantity]
+                );
+            }
+        }
+        
+        // Si hay errores, mostrarlos y abortar
+        if (!empty($validationErrors)) {
+            $this->buttonDisabled = false;
+            $this->emit('swal:modal', [
+                'icon' => 'error',
+                'title' => __('Errores de validación'),
+                'html' => implode('<br>', $validationErrors),
+            ]);
+            return false;
+        }
+    
         foreach ($this->productionBatch->items as $item) {
             $maxAllowed = $item->active;
             $quantityToAdd = $this->sendQuantities[$item->id] ?? 0;

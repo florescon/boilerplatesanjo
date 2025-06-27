@@ -28,7 +28,7 @@
           <p class="p-4">
             <h1 class="custom-control-inline">Folio: #{{ $productionBatch->folio ?: $productionBatch->id }}</h1>
 
-            <h4 class="custom-control-inline">Creado: {{ $order->date_for_humans }}</h4>
+            <h4 class="custom-control-inline">Creado: {{ $productionBatch->date_for_humans }}</h4>
           </p>
         </div>
       </div>
@@ -149,6 +149,7 @@
           <thead class="thead-dark">
             <tr>
               <th scope="col">#</th>
+              <th scope="col">@lang('Code')</th>
               <th scope="col">Producto</th>
               <th scope="col">Asignado</th>
               <th scope="col">Recibido</th>
@@ -167,7 +168,8 @@
             @foreach($productionBatch->items->sortBy([['product.parent.name', 'asc'], ['product.color.name', 'asc'], ['product.size.sort', 'asc']]) as $key => $item)
                 <tr>
                     <th>{{ $key + 1 }}</th>
-                    <th scope="row">{!! $item->product->full_name_break !!}</th>
+                    <th>{{ $item->product->parent_code }}</th>
+                    <th scope="row">{!! $item->product->full_name_link !!}</th>
                     <td>{{ $item->input_quantity }}</td>
                     <td>{{ $item->output_quantity }}</td>
                     <td>{{ $this->getRemainingQuantity($item) }}</td>
@@ -194,7 +196,7 @@
                 </tr>
             @endforeach
             <tr class="table-dark h5">
-              <th colspan="2">Totales</th>
+              <th colspan="3">Totales</th>
               <td scope="row"><strong>{{ $productionBatch->total_products_prod }}</strong></td>
               <td scope="row"><strong>{{ $productionBatch->total_products_prod_output }}</strong></td>
               <td scope="row"><strong>{{ $productionBatch->total_products_prod_diferrence }}</strong></td>
@@ -219,7 +221,7 @@
     <div class="col-6">
         @if($getStatusCollection['initial_process'])
             <div class="row justify-content-md-center custom-control custom-switch custom-control-inline">
-              <em class="mt-2 text-danger h3"> @lang('Capture to send a finished product')</em>
+              <em class="mt-2 text-danger h3"> @lang('Send to PT')</em>
                 <div class="col-md-2 mt-2">
                   <div class="form-check">
                     <label class="c-switch c-switch-label c-switch-danger m-2" style="transform: scale(1.8);">

@@ -269,9 +269,21 @@ class OrderWorkTable extends Component
     private function applySearchDeletedFilter($orders)
     {
         if ($this->searchTerm) {
-            return $orders->whereRaw("id LIKE \"%$this->searchTerm%\"")
-            ->orWhereRaw("slug LIKE \"%$this->searchTerm%\"");
-
+            return $orders->where(function($query) {
+                $query->whereHas('user', function ($q) {
+                    $q->whereRaw("name LIKE \"%$this->searchTerm%\"");
+                })
+                ->orWhereHas('departament', function ($q) {
+                    $q->whereRaw("name LIKE \"%$this->searchTerm%\"");
+                })
+                ->orWhere('folio', 'like', '%' . $this->searchTerm . '%')
+                ->orWhere('info_customer', 'like', '%' . $this->searchTerm . '%')
+                ->orWhere('request', 'like', '%' . $this->searchTerm . '%')
+                ->orWhere('purchase', 'like', '%' . $this->searchTerm . '%')
+                ->orWhere('quotation', 'like', '%' . $this->searchTerm . '%')
+                ->orWhere('invoice', 'like', '%' . $this->searchTerm . '%')
+                ->orWhere('comment', 'like', '%' . $this->searchTerm . '%');
+            });
         }
 
         return null;

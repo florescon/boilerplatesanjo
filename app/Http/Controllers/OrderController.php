@@ -820,6 +820,11 @@ class OrderController extends Controller
         return view('backend.order.deleted');
     }
 
+    public function deleted_work()
+    {
+        return view('backend.order.deleted_work');
+    }
+
     public function destroy(Order $order)
     {
         if($order->stations()->exists()){

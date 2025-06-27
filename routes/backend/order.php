@@ -80,7 +80,15 @@ Route::group([
         ->middleware('permission:admin.access.order.deleted')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent('admin.order.index')
-                ->push(__('Deleted products'), route('admin.order.deleted'));
+                ->push(__('Deleted orders'), route('admin.order.deleted'));
+        });
+
+    Route::get('deleted_work', [OrderController::class, 'deleted_work'])
+        ->name('deleted_work')
+        ->middleware('permission:admin.access.order.deleted')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.order.request_chart_work')
+                ->push(__('Deleted orders'), route('admin.order.deleted_work'));
         });
 
     Route::get('printexportorders/{orders?}', [OrderController::class, 'printexportorders'])

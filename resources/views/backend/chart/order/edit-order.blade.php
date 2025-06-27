@@ -973,7 +973,12 @@
   <x-slot name="footer">
     @if(($model->type != '7'))
       @if(!$model->productionBatches()->exists() && !$model->stations()->exists())
-          <x-utils.delete-button :text="__('Delete').' '.$model->type_order_clear" :href="route('admin.order.destroy', $order_id)" />
+        {{-- <x-utils.delete-button :text="__('Delete').' '.$model->type_order_clear" :href="route('admin.order.destroy', $order_id)" /> --}}
+
+        <button wire:click="makeDeleteOrder" class="btn btn-danger btn-sm text-white" wire:loading.attr="disabled">
+          <i class="fas fa-trash"></i>
+          Eliminar <span wire:loading wire:target="makeDeleteOrder">...</span>
+        </button>
       @endif
     @endif
     <footer class="blockquote-footer float-right">

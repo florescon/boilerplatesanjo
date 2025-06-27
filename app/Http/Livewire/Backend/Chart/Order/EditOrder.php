@@ -7,12 +7,16 @@ use App\Models\Order;
 use App\Models\Status;
 use App\Models\StatusOrder;
 use App\Models\Product;
+use App\Models\ServiceType;
+
 use App\Models\OrderStatusDelivery;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Events\Order\OrderProductionStatusUpdated;
 use App\Events\Order\OrderStatusUpdated;
 use DB;
+use App\Events\Order\OrderDeleted;
+use Illuminate\Support\Facades\Validator;
 
 class EditOrder extends Component
 {
@@ -45,7 +49,7 @@ class EditOrder extends Component
         'details' => ['except' => FALSE],
     ];
 
-    protected $listeners = ['updateStatus' => '$refresh', 'cartUpdated' => '$refresh', 'paymentStore' => 'render', 'serviceStore' => 'render'];
+    protected $listeners = ['updateStatus' => '$refresh', 'cartUpdated' => '$refresh', 'paymentStore' => 'render', 'deleteOrder', 'serviceStore' => 'render'];
 
     public function mount(Order $order)
     {
@@ -465,6 +469,68 @@ class EditOrder extends Component
             'icon' => 'success',
             'title'   => __('Deleted'), 
         ]);
+    }
+
+    public function makeDeleteOrder()
+    {
+        return $this->emit('swal:input', [
+            'title' => __('Define the reason for the deletion'),
+            'input' => 'text',
+            'getId' => $this->order_id,
+            'showCancelButton' => true,
+            'method' => 'deleteOrder',
+            'inputPlaceholder' => __('Enter the reason'), // Cambiado para que sea más claro
+        ]);
+    }
+
+
+    public function deleteOrder($order_id, $comment = null)
+    {
+        $order = Order::findOrFail($order_id);
+
+        if($order->stations()->exists()){
+            abort(403, __('Tiene datos asociados') . ' :(');
+        }
+
+
+      // Validar el comentario
+        $validator = Validator::make(
+            ['comment' => $comment],
+            [
+                'comment' => 'required|min:6|max:200',
+            ],
+            [
+                'comment.required' => __('El comentario es obligatorio.'),
+                'comment.min' => __('El comentario debe tener al menos :min caracteres.'),
+                'comment.max' => __('El comentario no debe exceder :max caracteres.'),
+            ]
+        );
+
+        if ($validator->fails()) {
+            $validationErrors = $validator->errors()->all();
+            
+            $this->emit('swal:modal', [
+                'icon' => 'error',
+                'title' => __('Errores de validación'),
+                'html' => implode('<br>', $validationErrors),
+            ]);
+            
+            return false;
+        }
+
+        // Actualizar el comentario antes de eliminar
+        if($comment) {
+            $order->update(['note_deletes' => $comment]);
+        }
+
+        // Eliminar la orden
+        $order->delete();
+
+        event(new OrderDeleted($order));
+
+        session()->flash('message', __('The order/sale was successfully deleted'));
+
+        return redirect()->route($order->from_store ? 'admin.store.all.index' : 'admin.order.request_chart_work');
     }
 
     public function renderButton()
