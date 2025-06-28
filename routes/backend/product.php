@@ -24,6 +24,32 @@ Route::group([
                 ->push(__('List of products'), route('admin.product.list'));
         });
 
+
+    Route::get('out', [ProductController::class, 'out'])
+        ->name('out')
+        ->middleware('permission:admin.access.product.list')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.product.index')
+                ->push(__('Finished product release form'), route('admin.product.out'));
+        });
+
+    Route::get('out_history', function () {
+            return view('backend.product.out-history');
+        })->name('out_history')
+        ->middleware('permission:admin.access.product.list')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.product.out')
+                ->push(__('Warehouse relaese form Management'), route('admin.product.out_history'));
+        });
+
+    Route::get('ticket_out/{out}', [ProductController::class, 'ticket_out'])
+        ->name('ticket_out')
+        ->middleware('permission:admin.access.product.list')
+        ->breadcrumbs(function (Trail $trail, Ticket $out) {
+            $trail->parent('backend.product.out_history')
+                ->push(__('Ticket assignment').' '.$out->id, route('admin.product.ticket_out', $out));
+        });
+
     Route::get('records', [ProductController::class, 'recordsProduct'])
         ->name('records')
         ->middleware('permission:admin.access.product.list')

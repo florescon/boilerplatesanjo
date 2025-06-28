@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Http\Livewire\Backend\Material;
+namespace App\Http\Livewire\Backend\Product;
 
 use Livewire\Component;
 use DB;
 use Illuminate\Support\Facades\Auth;
-use App\Models\SummaryFeedstock;
+use App\Models\SummaryProduct;
 use App\Domains\Auth\Models\User;
-use App\Models\CartFeedstock;
+use App\Models\CartProduct;
 use App\Models\OrderStatusDelivery;
 use App\Models\Out;
-use App\Models\Material;
+use App\Models\Product;
 use Carbon\Carbon;
 
-class OutFeedstockSummary extends Component
+class OutProductSummary extends Component
 {
     public ?string $type = '';
 
@@ -32,7 +32,7 @@ class OutFeedstockSummary extends Component
     public function mount()
     {
         $this->branchId = 0;
-        $this->summary = SummaryFeedstock::where('user_id', Auth::id())->first() ?? null;
+        $this->summary = SummaryProduct::where('user_id', Auth::id())->first() ?? null;
         $this->description = $this->summary->description ?? '';
         $this->customer = $this->summary->customer_id ?? null;
         $this->type_price = $this->summary->customer->customer->type_price ?? 'retail';
@@ -48,7 +48,7 @@ class OutFeedstockSummary extends Component
 
             $customerDB = User::where('id', $customer)->first();
 
-            $summary = SummaryFeedstock::updateOrCreate(
+            $summary = SummaryProduct::updateOrCreate(
                 ['user_id' => Auth::id()],
                 ['customer_id' => $this->customer]
             );
@@ -64,12 +64,12 @@ class OutFeedstockSummary extends Component
 
     public function redirectLink()
     {
-        return redirect()->route('admin.material.out');
+        return redirect()->route('admin.product.out');
     }
 
     private function getProducts()
     {
-        return $products = CartFeedstock::with('material.color', 'material.unit', 'material.size')->where('user_id', Auth::id())->get();
+        return $products = CartProduct::with('product')->where('user_id', Auth::id())->get();
     }
 
     private function clearSummary()
@@ -79,14 +79,14 @@ class OutFeedstockSummary extends Component
 
     public function clearUser()
     {
-        $deleteCustomer = DB::table('summary_feedstocks')->where('id', $this->summary->id)->update(['customer_id' => null]);
+        $deleteCustomer = DB::table('summary_products')->where('id', $this->summary->id)->update(['customer_id' => null]);
 
         $this->redirectLink();
     }
 
     public function updatedDescription()
     {
-        $summary = SummaryFeedstock::updateOrCreate(
+        $summary = SummaryProduct::updateOrCreate(
             ['user_id' => Auth::id()],
             ['description' => $this->description]
         );
@@ -97,10 +97,10 @@ class OutFeedstockSummary extends Component
         $getProducts = $this->getProducts();
 
         foreach ($getProducts as $product) {
-            if ($product->material->stock < $product->quantity) {
+            if ($product->product->stock < $product->quantity) {
                 return $this->emit('swal:modal', [
                     'icon' => 'error',
-                    'title' => __('Una o más materias primas no cuenta con la suficiente existencia'),
+                    'title' => __('Una o más productos no cuenta con la suficiente existencia'),
                 ]);
             }
         }
@@ -110,40 +110,40 @@ class OutFeedstockSummary extends Component
             $out = new Out();
             $out->customer_id = $this->customer ?? null;
             $out->description = $this->description;
-            $out->type = 'out';
+            $out->type = 'out_product';
             $out->user_id = Auth::id();
             $out->save();
 
-            foreach($this->getProducts() as $material){
+            foreach($this->getProducts() as $product){
 
-                $materialDecrement = Material::withTrashed()->find($material->material_id);
+                $productDecrement = Product::withTrashed()->find($product->product_id);
                 
-                if($material->quantity > 0){
-                    $materialDecrement->decrement('stock', abs($material->quantity));
+                if($product->quantity > 0){
+                    $productDecrement->decrement('stock', abs($product->quantity));
                 }
 
                 $out->feedstocks()->create([
-                    'material_id' => $material->material_id,
-                    'quantity' => $material->quantity,
-                    'price' =>  $material->price,
-                    'comment' => $material->comment,
-                    'type' => $material->type,
+                    'product_id' => $product->product_id,
+                    'quantity' => $product->quantity,
+                    'price' =>  $product->price,
+                    'comment' => $product->comment,
+                    'type' => $product->type,
                 ]);
             }
 
             $this->clearSummary();
             $this->emit('clearAllProducts');
 
-            $this->emit('redirectToTicketOut', route('admin.material.ticket_out', $out->id));
+            $this->emit('redirectToTicketOut', route('admin.product.ticket_out', $out->id));
 
         });
     }    
 
     public function render()
     {
-        $countProducts = DB::table('cart_feedstocks')->where('user_id', Auth::id())->count();
+        $countProducts = DB::table('cart_products')->where('user_id', Auth::id())->count();
 
-        return view('backend.material.livewire.out-feedstock-summary', [
+        return view('backend.product.livewire.out-product-summary', [
             'countProducts' => $countProducts,
         ]);
     }

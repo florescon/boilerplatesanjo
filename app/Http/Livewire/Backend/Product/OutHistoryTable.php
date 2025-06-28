@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Backend\Material;
+namespace App\Http\Livewire\Backend\Product;
 
 use Livewire\Component;
 use App\Models\Out;
@@ -61,7 +61,7 @@ class OutHistoryTable extends Component
     public function getRowsQueryProperty()
     {
         $query = Out::query()->with('feedstocks')
-            ->where('type', 'out')
+            ->where('type', 'out_product')
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?
                     $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', now()]) :
@@ -250,7 +250,7 @@ class OutHistoryTable extends Component
     public function render()
     {
         $date = Carbon::now()->startOfMonth();
-        return view('backend.material.livewire.out-history-table', [
+        return view('backend.product.livewire.out-history-table', [
             'tickets' => $this->rows,
             'date' => $date,
         ]);

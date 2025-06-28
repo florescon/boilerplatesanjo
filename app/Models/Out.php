@@ -13,6 +13,7 @@ class Out extends Model
 
     protected $fillable = [
         'user_id',
+        'folio',
         'customer_id',
         'description',
         'type',
@@ -40,6 +41,25 @@ class Out extends Model
     public function customer()
     {
         return $this->belongsTo(User::class, 'customer_id')->withTrashed();
+    }
+
+    protected static function booted()
+    {
+        static::created(function ($out) {
+            $out->update(['folio' => $out->last_out_by_type_skip]);
+        });
+    }
+
+    public function getLastOutByTypeSkipAttribute()
+    {   
+        $getType = $this->type;
+
+        $lastOrder = self::where('type', $getType)
+            ->orderBy('folio', 'desc')
+            ->first();
+
+        // Return the next consecutive number
+        return $lastOrder ? $lastOrder->folio + 1 : 1;
     }
 
     public function getTotalOutAttribute(): int

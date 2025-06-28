@@ -12,6 +12,7 @@ class OutProduct extends Model
     protected $fillable = [
         'out_id',
         'material_id',
+        'product_id',
         'quantity',
         'price',
         'comment',
@@ -32,6 +33,14 @@ class OutProduct extends Model
     public function material()
     {
         return $this->belongsTo(Material::class)->withTrashed();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function product()
+    {
+        return $this->belongsTo(Product::class)->withTrashed();
     }
 
     public function getTotalByProductAttribute()

@@ -19,6 +19,14 @@
 
         <x-slot name="headerActions">
             <x-utils.link
+                    style="color: red;"
+                    icon="cil-arrow-thick-from-left"
+                    class="card-header-action"
+                    :href="route('admin.product.out')"
+                    :text="__('Vale de Salida PT')"
+            />
+
+            <x-utils.link
                     style="color: blue;"
                     icon="cil-tags"
                     class="card-header-action"
