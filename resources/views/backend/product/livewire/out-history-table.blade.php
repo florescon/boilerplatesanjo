@@ -129,7 +129,7 @@
               <tr>
                 <td>
                   <strong>#{{ $ticket->id }}</strong>
-                  <div class="small text-muted">@lang('Warehouse relaese form')</div>
+                  <div class="small text-muted">@lang('Finished product release form')</div>
                 </td>
                 <td class="text-center">
                   <strong>{{ $ticket->description ?: '--' }}</strong>
