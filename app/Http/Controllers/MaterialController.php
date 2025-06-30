@@ -132,7 +132,7 @@ class MaterialController extends Controller
         $search = $request->get('search');
         $data = Material::with('unit', 'color', 'size')
         ->where('name', 'like', '%' . $search . '%')->orWhere('part_number', 'like', '%' . $search . '%')->orderBy('name')
-        ->paginate(5);
+        ->paginate(10);
         return response()->json(['items' => $data->toArray()['data'], 'pagination' => $data->nextPageUrl() ? true : false]);
     }
 
@@ -147,7 +147,7 @@ class MaterialController extends Controller
             $query->where('name', 'like', '%' . $search . '%')
                   ->orWhere('part_number', 'like', '%' . $search . '%');
         })
-        ->paginate(5);
+        ->paginate(10);
         return response()->json(['items' => $data->toArray()['data'], 'pagination' => $data->nextPageUrl() ? true : false]);
     }
 
@@ -158,7 +158,7 @@ class MaterialController extends Controller
         $threads = Material::query()
             ->where('name', 'like', '%' . $search . '%')
             ->orWhere('code', 'like', '%' . $search . '%')
-            ->paginate(5);
+            ->paginate(10);
 
         return response()->json($threads);
     }

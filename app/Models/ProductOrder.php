@@ -413,7 +413,7 @@ class ProductOrder extends Model
 
             // $grouped = $this->consumption_filter;
 
-            foreach ($this->consumption_filter->where('color_id', $this->parent->color_id) as $consumption) {
+            foreach ($this->consumption_filter->where('color_id', $this->parent->color_id)->where('secondary_puntual', false) as $consumption) {
                 $groups0->push([
                     'material_id' => $consumption->material_id,
                     'material_part_number' => $consumption->material->part_number ?? null,
@@ -499,12 +499,22 @@ class ProductOrder extends Model
         foreach ($this->consumption_filter as $consumption) {
             $groupKey = null;
 
-            if ($consumption->color_id === $this->parent->color_id) {
-                $groupKey = 'color';
+            if (($consumption->color_id === $this->parent->color_id)) {
+
+                if($consumption->secondary_puntual === FALSE){
+                    $groupKey = 'color';
+                }
+
             } elseif ($consumption->size_id === $this->parent->size_id) {
                 $groupKey = 'size';
             } elseif (is_null($consumption->color_id) && is_null($consumption->size_id)) {
                 $groupKey = 'none';
+            }
+
+            if($consumption->secondary_puntual === TRUE){
+                if (($consumption->size_id === $this->parent->size_id)) {
+                    $groupKey = 'color';
+                }
             }
 
             if ($groupKey) {

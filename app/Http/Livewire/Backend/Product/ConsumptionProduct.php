@@ -19,6 +19,23 @@ class ConsumptionProduct extends Component
     public $filters_c = [];
     public $filters_s = [];
 
+    public $selected_id;
+    public $name;
+    public $getQ;
+    public $getUnit;
+
+    public $product_id_selected;
+    public $material_id_selected;
+    public $color_id_selected;
+    public $sizes;
+
+    public $consumptions = [];
+
+    protected $rules = [
+        'consumptions.*.quantity' => 'required|numeric|min:0|not_in:0',
+    ];
+
+
     protected $queryString = [
         'updateQuantity' => ['except' => FALSE],
     ];
@@ -29,6 +46,32 @@ class ConsumptionProduct extends Component
     {
         $this->product_id = $product->id;
         $this->product_general = $product;
+
+        $this->sizes = $product->children->unique('size_id')->sortBy('size.sort');
+
+    }
+
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName, [
+            'consumptions.*.quantity' => [
+                'numeric',
+                'min:0',
+                function ($attribute, $value, $fail) {
+                    $sizeId = explode('.', $attribute)[1];
+                    if ($value > $this->getQ) {
+                        $fail('El valor no puede ser mayor a '.$this->getQ);
+                    }
+                }
+            ]
+        ]);
+    }
+
+    private function resetInputs()
+    {
+        foreach ($this->consumptions as $sizeId => $consumption) {
+            $this->consumptions[$sizeId]['quantity'] = '';
+        }
     }
 
     public function quantities(int $product_id): void
@@ -220,6 +263,84 @@ public function store()
     //         ->findOrFail($product->id);
     // }
 
+
+    public function secondary($id)
+    {
+        $record = Consumption::findOrFail($id);
+        $this->selected_id = $id;
+        $this->product_id_selected = $record->product_id;
+        $this->material_id_selected = $record->material_id;
+        $this->color_id_selected = $record->color_id;
+        $this->name = $record->material->name;
+        $this->getQ = $record->quantity;
+        $this->getUnit = $record->material_id ? $record->material->unit_name_label : '';
+
+        $this->loadExistingConsumptions($id);
+
+        // dd($color_id);
+    }
+
+
+    protected function loadExistingConsumptions($id)
+    {
+
+        foreach ($this->sizes as $size) {
+            $existing = Consumption::where([
+                'product_id' => $this->product_id_selected,
+                'material_id' => $this->material_id_selected,
+                'color_id' => $this->color_id_selected,
+                'size_id' => $size->size_id,
+            ])->first();
+
+            $this->consumptions[$size->size_id] = [
+                'quantity' => $existing ? $existing->quantity : '',
+                'size_id' => $size->size_id,
+                'exists' => (bool)$existing
+            ];
+        }
+    }
+
+    public function updateSecondary()
+    {
+        $validatedData = $this->validate([
+            'consumptions.*.quantity' => [
+                'numeric',
+                'min:0',
+                function ($attribute, $value, $fail) {
+                    if ($value > $this->getQ) {
+                        $fail('El valor no puede ser mayor a '.$this->getQ);
+                    }
+                }
+            ]
+        ]);
+
+        foreach ($this->consumptions as $sizeId => $consumption) {
+            if (!empty($consumption['quantity'])) {
+                Consumption::updateOrCreate(
+                    [
+                        'product_id' => $this->product_id_selected,
+                        'material_id' => $this->material_id_selected,
+                        'color_id' => $this->color_id_selected,
+                        'size_id' => $sizeId,
+                    ],
+                    [
+                        'quantity' => $consumption['quantity'],
+                        'puntual' => true,
+                        'secondary_puntual' => true,
+                    ]
+                );
+            }
+        }
+        $this->emit('serviceUpdate');
+
+        $this->emit('swal:alert', [
+            'icon' => 'success',
+            'title'   => __('Updated'), 
+        ]);
+
+        $this->resetInputs();
+    }
+
     public function filterBySize($size)
     {
         if (in_array($size, $this->filters_s)) {
@@ -309,9 +430,10 @@ public function store()
 
     public function delete(Consumption $consumption)
     {
+        $product_general = Product::find($consumption->product_id);
         if($consumption)
-            $consumption->delete();
-
+            $product_general->consumption()->where('material_id', $consumption->material_id)->delete();
+   
        $this->emit('swal:alert', [
             'icon' => 'success',
             'title'   => __('Deleted'), 
@@ -347,6 +469,10 @@ public function store()
                 ->findOrFail($this->product_id);
 
         $grouped = $model->consumption->groupBy('material_id');
+
+        $grouped = $model->consumption
+            ->where('secondary_puntual', false)  // o ->where('secondary_puntual', '!=', false)
+            ->groupBy('material_id');
 
         $groups = new Collection;
         foreach($grouped as $key => $item) {

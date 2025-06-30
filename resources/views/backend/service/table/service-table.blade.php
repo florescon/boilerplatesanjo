@@ -77,7 +77,7 @@
                     </h5>
                   </div>
                 @endif
-                <span class="text-success font-weight-bold">@lang('Records')</span>
+                {{-- <span class="text-success font-weight-bold">@lang('Records')</span> --}}
               </div>
             </div>
           </div>

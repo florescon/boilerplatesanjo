@@ -5,11 +5,14 @@
  	</x-slot>
 
   <x-slot name="headerActions">
-      <x-utils.link class="card-header-action btn btn-primary text-white" :href="url()->previous()" :text="__('Go to edit product')" />
+      <x-utils.link class="card-header-action btn btn-primary text-white" :href="route('admin.product.edit', $model->id)" :text="__('Go to edit product')" />
       <x-utils.link class="card-header-action" :href="route('admin.product.index')" :text="__('Back')" />
 	</x-slot>
 
   <x-slot name="body">
+
+    @include('backend.product.modal.update-consumption')
+
 		<div class="row ">
 			<div class="col-12 col-md-4">
         <div class="card card-custom card-product_not_hover bg-white border-white border-0">
@@ -202,9 +205,21 @@
                     @foreach($grouped as $key => $consumo)
 
                       @foreach($consumo as $yas)
+
+                      @if($yas->secondary_puntual)
+                       @break 
+                      @endif
+
                         <tr class="{{ ($yas->color_id == null xor $yas->size_id == null)  ? 'table-primary' : 'table-warning' }}">
                           <th scope="row"></th>
                           <th scope="row" class=" {{  ($yas->color_id != null || $yas->size_id != null) ? 'font-italic' : ''  }}" > 
+
+                            @if($yas->quantity > 0)
+                              @if($yas->color_id == null xor $yas->size_id == null)
+                                <button href="#!" type="button" data-toggle="modal" class="btn btn-dark text-white btn-sm d-inline pulsingButton" data-target="#updateModal" wire:click="secondary({{ $yas->id }})">Por Tallas</button>
+                              @endif
+                            @endif
+
                             {!! $yas->material->part_number  
                                 ? 
                                 '<div class="badge badge-dark text-wrap" >'
@@ -214,7 +229,9 @@
                                 ''
                             !!}
                             {!! $yas->material->full_name !!}
-                            @if($yas->puntual == TRUE)  <span class="badge badge-success">Puntual</span>@endif 
+                            @if($yas->puntual == TRUE)  
+                              <span class="badge badge-success">Puntual</span>
+                            @endif 
                           </th>
 
                           @if( (!$name_size && !$name_color) && ($updateQuantity == TRUE))

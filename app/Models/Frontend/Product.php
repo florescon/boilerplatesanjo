@@ -238,11 +238,11 @@ class Product extends Model
 
     public function getTotalConsumptionBySize($byID)
     {
-        return $this->consumption()->where('size_id', $byID)->count();
+        return $this->consumption()->where('size_id', $byID)->where('secondary_puntual', false)->count();
     }
     public function getTotalConsumptionByColor($byID)
     {
-        return $this->consumption()->where('color_id', $byID)->count();
+        return $this->consumption()->where('color_id', $byID)->where('secondary_puntual', false)->count();
     }
 
     public function getTotalStock()

@@ -7,3 +7,13 @@
     <livewire:backend.product.consumption-product :product="$product"/>
 
 @endsection
+
+@push('after-scripts')
+
+    <script type="text/javascript">
+      Livewire.on("serviceUpdate", () => {
+          $("#updateModal").modal("hide");
+      });
+    </script>
+
+@endpush

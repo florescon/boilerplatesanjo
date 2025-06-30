@@ -27,6 +27,7 @@ class Order extends Model
     protected $cascadeDeletes = ['product_order', 'product_sale', 'product_quotation', 'product_output', 'suborders', 'product_suborder', 'batches', 'materials_order', 'service_orders', 'stations'];
 
     protected $fillable = [
+        'parent_order_id',
         'date_entered', 
         'cash_id',
         'user_departament_changed_at',
@@ -39,6 +40,8 @@ class Order extends Model
         'purchase',
         'invoice',
         'branch_id',
+        'audi_id',
+        'approved',
         'type',
         'created_at',
         'folio',
@@ -1615,6 +1618,11 @@ public function getSizeTablesData(?array $statusCollection = null): array
     public function service_orders()
     {
         return $this->hasMany(ServiceOrder::class);
+    }
+
+    public function order_children()
+    {
+        return $this->hasMany(self::class, 'parent_order_id');
     }
 
     public function getTotalProductsByAllAttribute(): int

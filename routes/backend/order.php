@@ -383,6 +383,15 @@ Route::group([
                     ->push(__('Service Orders'), route('admin.order.service_orders', $order));
             });
 
+
+        Route::get('children_orders', [OrderController::class, 'children_orders'])
+            ->name('children_orders')
+            ->middleware('permission:admin.access.order.create_service_order')
+            ->breadcrumbs(function (Trail $trail, Order $order) {
+                $trail->parent('admin.order.edit', $order)
+                    ->push(__('Production order'), route('admin.order.children_orders', $order));
+            });
+
         Route::get('edit_chart', [OrderController::class, 'edit_chart'])
             ->name('edit_chart')
             ->middleware('permission:admin.access.order.modify')

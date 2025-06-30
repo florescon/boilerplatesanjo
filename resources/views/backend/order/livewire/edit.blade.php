@@ -267,6 +267,14 @@
                     <span class="badge badge-success">{{ $model->service_orders()->count() }}</span>
                   @endif
                 </a>
+
+                <a type="button" href="{{ route('admin.order.children_orders', $order_id) }}" class="btn btn-link">Crear Orden Produccion 
+                  @if($model->order_children()->count())
+                    <span class="badge badge-success">{{ $model->order_children()->count() }}</span>
+                  @endif
+                </a>
+
+
               @endif
 
               <a type="button" href="{{ route('admin.store.all.newformat', $order_id) }}" class="btn btn-secondary" target="_blank">Nuevo Formato</a>

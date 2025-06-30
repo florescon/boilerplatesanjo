@@ -23,6 +23,7 @@ class Consumption extends Model
         'color_id',
         'size_id',
         'puntual',
+        'secondary_puntual',
     ];
 
     /**
@@ -32,6 +33,17 @@ class Consumption extends Model
      */
     protected $appends = [
         'quantity_formatted',
+    ];
+
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'puntual' => 'boolean',
+        'secondary_puntual' => 'boolean',
     ];
 
     /**

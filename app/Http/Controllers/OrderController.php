@@ -637,6 +637,19 @@ class OrderController extends Controller
         ]);
     }
 
+    public function children_orders(Order $order)
+    {
+        $products = $order->products()->orderBy('created_at', 'desc')->paginate('10');
+
+        $service_orders = $order->order_children()->orderBy('created_at', 'desc')->paginate('10');
+        
+        return view('backend.order.children_orders', [
+            'products' => $products,
+            'service_orders' => $service_orders,
+            'order' => $order,
+        ]);
+    }
+
     public function records_payment(Order $order)
     {
         $records_payment = $order->orders_payments()->orderBy('created_at', 'desc')->paginate('10')->fragment('payment');
