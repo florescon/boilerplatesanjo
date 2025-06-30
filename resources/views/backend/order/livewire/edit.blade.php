@@ -274,7 +274,6 @@
                   @endif
                 </a>
 
-
               @endif
 
               <a type="button" href="{{ route('admin.store.all.newformat', $order_id) }}" class="btn btn-secondary" target="_blank">Nuevo Formato</a>
