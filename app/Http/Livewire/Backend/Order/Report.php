@@ -23,7 +23,7 @@ class Report extends Component
 
     public function render()
     {
-        $order = Order::with('products.product', 'stations.product_station.product', 'stations.product_station.product_station_receiveds')->find($this->order_id);
+        $order = Order::with('products.product', 'user', 'stations.product_station.product', 'stations.product_station.product_station_receiveds')->find($this->order_id);
 
         $ordercollection = collect();
 

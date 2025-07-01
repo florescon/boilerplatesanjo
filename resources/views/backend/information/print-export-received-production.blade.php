@@ -56,7 +56,7 @@
             <td style="width: 50%; text-align: center;">
                 <p style="margin: 0;"><strong>Fecha de generación:</strong> {{ now()->format('d/m/Y H:i') }}</p>
                 @if($getPersonal)
-                    <p style="margin: 0;"><strong>Personal:</strong> {{ $getPersonal->name }}</p>
+                    <p style="margin: 0;"><strong>Personal:</strong> {{ ucwords(strtolower($getPersonal->name)) }}</p>
                 @endif
             </td>
         </tr>

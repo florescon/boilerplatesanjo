@@ -15,4 +15,19 @@ class ProductionBatchItemHistory extends Model
         'product_id', 
         'receive',
     ];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    public function batch()
+    {
+        return $this->belongsTo(ProductionBatch::class, 'batch_id');
+    }
+
+    public function production_batch_item()
+    {
+        return $this->belongsTo(ProductionBatchItem::class);
+    }
 }

@@ -141,7 +141,7 @@ public function registerEvents(): array
     */
     public function collection()
     {
-        $orders = Order::with('products.product')
+        $orders = Order::with('products.product', 'user')
             ->doesntHave('stations') // <- Solo órdenes con al menos una estación
             ->where(function($q) {
                         $q->whereRaw("(

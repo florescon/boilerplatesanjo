@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\ProductStation;
 use App\Models\ProductionBatchItem;
+use App\Models\ProductionBatchItemHistory;
 use App\Models\ProductStationReceived;
 use App\Models\Status;
 use App\Models\Station;
@@ -344,82 +345,84 @@ public function printexportreceivedproduction(Status $status, bool $grouped = fa
 
     $making = $status->making;
 
-    // Construir la consulta base
-    $query = ProductionBatchItem::with(['batch', 'product.parent', 'product.size', 'product.color'])
-        ->where('output_quantity', '>', 0)
-        ->whereBetween('updated_at', [$dateInput.' 00:00:00', $dateOutput.' 23:59:59']);
+    $query = ProductionBatchItemHistory::with([
+            'production_batch_item.batch',
+            'production_batch_item.product.parent',
+            'production_batch_item.product.size',
+            'production_batch_item.product.color'
+        ])
+        ->where('receive', '>', 0)
+        ->whereBetween('created_at', [$dateInput.' 00:00:00', $dateOutput.' 23:59:59']);
 
     // Filtrar por personal si es necesario
     if ($personal) {
-        $query->whereHas('batch', function($q) use ($personal) {
+        $query->whereHas('production_batch_item.batch', function($q) use ($personal) {
             $q->where('personal_id', $personal);
         });
     }
-
     // dd($grouped);
 
     // Obtener y agrupar los resultados
     if ($grouped) {
         // Agrupar por producto y sumar cantidades
         $result = $query
-        ->get()
-        ->sortBy([
-            ['product.parent.code', 'asc'],
-            ['product.color.name', 'asc'],
-            ['product.size.sort', 'asc']
-        ])
-        ->groupBy('product_id')
-        ->map(function($items) {
+            ->get()
+            ->sortBy([
+                ['production_batch_item.product.parent.code', 'asc'],
+                ['production_batch_item.product.color.name', 'asc'],
+                ['production_batch_item.product.size.sort', 'asc']
+            ])
+            ->groupBy('production_batch_item.product_id')
+            ->map(function($items) {
                 $firstItem = $items->first();
-                $isExtra = $firstItem->product->size->is_extra;
-                $price = $isExtra ? $firstItem->product->parent->price_making_extra : $firstItem->product->parent->price_making;
+                $product = $firstItem->production_batch_item->product;
+                $isExtra = $product->size->is_extra;
+                $price = $isExtra ? $product->parent->price_making_extra : $product->parent->price_making;
 
-            return (object) [
-                'product' => $items->first()->product,
-                'total_quantity' => $items->sum('output_quantity'),
-                'items' => $items,
-                'price' => $price,
-                'is_extra' => $isExtra,
-                'first_item' => $items->first(), // Para acceder a otros datos si es necesario
-                'total_price' => $items->sum(function ($item) use ($price) {
-                    return $item->output_quantity * $price;
-                }),
-            ];
-        });
+                return (object) [
+                    'product' => $product,
+                    'total_quantity' => $items->sum('receive'),
+                    'items' => $items,
+                    'price' => $price,
+                    'is_extra' => $isExtra,
+                    'first_item' => $items->first(),
+                    'total_price' => $items->sum(function ($item) use ($price) {
+                        return $item->receive * $price;
+                    }),
+                ];
+            });
     } else {
-
-
         $result = $query
             ->get()
             ->sortBy([
-                ['product.parent.code', 'asc'],
-                ['product.color.name', 'asc'],
-                ['product.size.sort', 'asc']
+                ['production_batch_item.product.parent.code', 'asc'],
+                ['production_batch_item.product.color.name', 'asc'],
+                ['production_batch_item.product.size.sort', 'asc']
             ])
             ->groupBy([
                 function ($item) {
-                    return $item->product->parent_id .' - '. $item->product->color_id . '-' . $item->product->size->is_extra;
+                    $product = $item->production_batch_item->product;
+                    return $product->parent_id .' - '. $product->color_id . '-' . $product->size->is_extra;
                 }
             ])
             ->map(function ($items) {
                 $firstItem = $items->first();
-                $isExtra = $firstItem->product->size->is_extra;
-                $price = $isExtra ? $firstItem->product->parent->price_making_extra : $firstItem->product->parent->price_making;
+                $product = $firstItem->production_batch_item->product;
+                $isExtra = $product->size->is_extra;
+                $price = $isExtra ? $product->parent->price_making_extra : $product->parent->price_making;
                 
                 return (object) [
-                    'product' => $firstItem->product,
-                    'total_quantity' => $items->sum('output_quantity'),
+                    'product' => $product,
+                    'total_quantity' => $items->sum('receive'),
                     'price' => $price,
                     'is_extra' => $isExtra,
                     'total_price' => $items->sum(function ($item) use ($price) {
-                        return $item->output_quantity * $price;
+                        return $item->receive * $price;
                     }),
                 ];
             })
             ->values();
     }
-
-    // dd($result->toArray());
 
     // Obtener fechas extremas
     $oldestDate = $query->oldest('created_at')->value('created_at');
@@ -441,6 +444,7 @@ public function printexportreceivedproduction(Status $status, bool $grouped = fa
       ->setWarnings(false);
 
     return $pdf->stream();
+
 }
 
     public function printexporthistory(Status $status, bool $grouped = false, $dateInput = false, $dateOutput = false, $personal = false)
