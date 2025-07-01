@@ -205,7 +205,7 @@
 
         @endif
 
-        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.information.view')))
+        {{-- @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.information.view')))
             <li class="c-sidebar-nav-item">
                 <x-utils.link
                     class="c-sidebar-nav-link"
@@ -214,7 +214,7 @@
                     icon="c-sidebar-nav-icon cil-newspaper"
                     :text="__('Information')" />
             </li>
-        @endif
+        @endif --}}
 
         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.information.view')))
             <li class="c-sidebar-nav-item">

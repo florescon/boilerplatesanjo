@@ -85,6 +85,7 @@ class OrderProductsReportExport implements FromCollection, WithMapping, WithHead
             },
         ];
     }
+
     public function headings(): array
     {
        $headings = [

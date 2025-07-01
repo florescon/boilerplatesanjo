@@ -13,6 +13,7 @@ use App\Models\Status;
 use DB;
 use Symfony\Component\HttpFoundation\Response;
 use Excel;
+use App\Exports\OrderProcessExport;
 use App\Exports\OrderByDateExport;
 
 class OrderWorkTable extends Component
@@ -264,6 +265,12 @@ class OrderWorkTable extends Component
         $this->nameStatus = null;
         $this->resetPage();
         $this->emit('clear-status-order');
+    }
+
+    public function exportMaatwebsite($extension)
+    {   
+        abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
+        return Excel::download(new OrderProcessExport, 'order-process-'.Carbon::now().'.'.$extension);
     }
 
     private function applySearchDeletedFilter($orders)

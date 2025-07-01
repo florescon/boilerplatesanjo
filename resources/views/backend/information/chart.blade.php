@@ -54,7 +54,7 @@
 	            </div>
 	   
 	            <div class="text-center p-4">
-	            	@foreach($order->total_graphic_new['collectionExtra'] as $key => $value)
+	            	@foreach($order->total_graphic_work['collectionExtra'] as $key => $value)
 	                	<li class="list-group-item list-group-item-secondary" style="background-color: ;">{!! ucfirst($key) .': <strong class="text-danger">'.$value.'</strong>' !!}</li>
 	              @endforeach
 	            </div>
@@ -79,9 +79,9 @@
 
   <script>
     @foreach ($orders as $order)
-      var labels{{ $order->id }} =  {!! json_encode($order->total_graphic_new['collection']->keys()) !!};
-      var values{{ $order->id }} =  {!! json_encode($order->total_graphic_new['collection']->values()) !!};
-      var colors{{ $order->id }} = {!! json_encode($order->total_graphic_new['colors']) !!};
+      var labels{{ $order->id }} =  {!! json_encode($order->total_graphic_work['collection']->keys()) !!};
+      var values{{ $order->id }} =  {!! json_encode($order->total_graphic_work['collection']->values()) !!};
+      var colors{{ $order->id }} = {!! json_encode($order->total_graphic_work['colors']) !!};
 
       // Map labels to their corresponding colors
       var backgroundColors{{ $order->id }} = labels{{ $order->id }}.map(label => colors{{ $order->id }}[label] || '#000000'); // Default to black if no color is found

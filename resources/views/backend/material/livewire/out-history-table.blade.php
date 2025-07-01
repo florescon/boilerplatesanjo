@@ -128,7 +128,7 @@
               @foreach($tickets as $ticket)
               <tr>
                 <td>
-                  <strong>#{{ $ticket->id }}</strong>
+                  <strong>#{{ $ticket->folio }}</strong>
                   <div class="small text-muted">@lang('Warehouse relaese form')</div>
                 </td>
                 <td class="text-center">

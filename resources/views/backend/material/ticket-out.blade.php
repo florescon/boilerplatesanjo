@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title> #{{ $out->id }} Vale de Salida de Almacén</title>
+        <title> #{{ $out->folio }} Vale de Salida de Almacén</title>
 
         <style type="text/css">
             * {
@@ -43,7 +43,7 @@
                 <td style="text-align: center;">
                     <h2 style="margin-top: -20px;">
                         <strong>
-                        </strong> #{!! $out->id !!}
+                        </strong> #{!! $out->folio !!}
                     </h2>
                 </td>
             </tr>

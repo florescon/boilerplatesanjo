@@ -110,7 +110,7 @@
 
 
           <table class="table table-responsive-sm table-hover table-outline mb-0 shadow">
-            <thead class="" style="background-color: #FDFD96;">
+            <thead class="" style="background-color: #cfbcdf;">
               <tr>
                 <th>
                   <a style="color:white;" wire:click.prevent="sortBy('id')" role="button" href="#">
@@ -128,7 +128,7 @@
               @foreach($tickets as $ticket)
               <tr>
                 <td>
-                  <strong>#{{ $ticket->id }}</strong>
+                  <strong>#{{ $ticket->folio }}</strong>
                   <div class="small text-muted">@lang('Finished product release form')</div>
                 </td>
                 <td class="text-center">

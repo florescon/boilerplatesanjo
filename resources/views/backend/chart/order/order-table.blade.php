@@ -50,6 +50,10 @@
                     &nbsp;
 
                     <div class="col-md-5 mb-2 text-right">
+                    <div wire:ignore class="d-inline mr-4 ">
+                        <h1 class="d-inline"><a wire:click="exportMaatwebsite('xlsx')"><span class="badge bg-light text-primary mb-2" data-toggle="tooltip" data-placement="top" data-html="true" title="<em>Totales en: </em> <b>Captura</b>">{{ \App\Models\Order::getTotalCaptureProducts() }}</span></a></h1>
+                    </div>
+
                         <div class="btn-group" role="group" aria-label="First group">
                             <button type="button" class="btn btn-outline-{{ $title['color'] }}"
                                 wire:click="clearFilterDate" class="btn btn-default">@lang('Clear date')</button>

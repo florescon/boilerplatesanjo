@@ -330,6 +330,67 @@ class Order extends Model
             return $collection;
     }
 
+    public static function getTotalCaptureProducts(): int
+    {
+        // Obtener todos los pedidos que cumplen con los scopes
+        $orders = self::with('products.product')
+            ->doesntHave('stations') // <- Solo órdenes con al menos una estación
+            ->where(function($q) {
+                        $q->whereRaw("(
+                            SELECT COALESCE(SUM(pbi.input_quantity), 0) 
+                            FROM production_batch_items pbi
+                            JOIN production_batches pb ON pb.id = pbi.batch_id
+                            WHERE pb.order_id = orders.id
+                            AND pbi.is_principal = 1
+                            AND pbi.with_previous IS NULL
+                        ) != (
+                            SELECT COALESCE(SUM(po.quantity), 0)
+                            FROM product_order po
+                            JOIN products p ON p.id = po.product_id
+                            WHERE po.order_id = orders.id
+                            AND p.type = 1
+                        )")
+                        ->orWhereRaw("EXISTS (
+                            SELECT 1 
+                            FROM production_batch_items pbi
+                            JOIN production_batches pb ON pb.id = pbi.batch_id
+                            WHERE pb.order_id = orders.id
+                            AND pbi.active != 0
+                        )");
+                    })
+            ->onlyOrders()
+            ->outFromStore()
+            ->flowchart()
+            ->get();
+
+
+        if ($orders->isEmpty()) {
+            return 0;
+        }
+
+        // Calcular el total de productos esperados (sumando las cantidades de productos)
+        $totalProducts = $orders->sum(function($order) {
+            return $order->getTotalProductsByAllProductsAttribute();
+        });
+
+        // Obtener los IDs de los pedidos
+        $orderIds = $orders->pluck('id');
+
+        // Calcular el total de productos ya capturados (input_quantity)
+        $totalInputQuantity = DB::table('production_batch_items')
+            ->join('production_batches', 'production_batches.id', '=', 'production_batch_items.batch_id')
+            ->whereIn('production_batches.order_id', $orderIds)
+            ->where('production_batches.is_principal', true)
+            ->where('production_batches.with_previous', null)
+            ->where('production_batch_items.input_quantity', '>', 0)
+            ->sum('production_batch_items.input_quantity');
+
+        // Calcular la diferencia (lo que falta por capturar)
+        $difference = $totalProducts - $totalInputQuantity;
+
+        // Devolver el máximo entre la diferencia y 0
+        return max($difference, 0);
+    }
 
 
     public function getTotalGraphicNewAttribute()
@@ -2208,6 +2269,20 @@ public function getSizeTablesData(?array $statusCollection = null): array
             ->where('status_id', $status_id)
             ->where('product_id', $product_id)
             ->get();
+    }
+
+    public function getBatchForOnlyStatus(int $status_id)
+    {
+        return $this->productionBatches()
+            ->where('status_id', $status_id)
+            ->get();
+    }
+
+    public function getTotalBatchOnlyStatusProduction(int $status_id)
+    {
+        return $this->getBatchForOnlyStatus($status_id)->sum(function($batches) {
+          return $batches->items->sum('input_quantity');
+        });
     }
 
 
