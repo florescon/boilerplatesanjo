@@ -885,11 +885,11 @@
 
             </div>
 
-                <div class="card-body border-dashed conic ">
+                <div class="card-body border-dashed conic " style="margin-top: -10px;">
                   <div class="list-group">
                     <a href="javascript:void(0)" class="list-group-item list-group-item-action list-group-item-secondary" aria-current="true">
                       <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">Captura</h5>
+                        <h6 class="mb-1">Captura</h6>
                         <small class="text-danger">
                           @if($model->stations()->exists())
                             {{ $model->total_graphic_new['collection']->get('captura') }}
@@ -902,7 +902,7 @@
                     @foreach($batches as $status)
                       <a href="{{ $model->stations()->exists() ? route('admin.order.station', [$order_id, $status->id]) : route('admin.order.work', [$order_id, $status->id]) }}" class="list-group-item list-group-item-action" aria-current="true">
                         <div class="d-flex w-100 justify-content-between">
-                          <h5 class="mb-1">{{ ucfirst($status->name) }}</h5>
+                          <h6 class="mb-1">{{ ucfirst($status->name) }}</h6>
                           <small class="text-danger">
                           @if($model->stations()->exists())
 
@@ -922,7 +922,7 @@
                   <div class="list-group">
                     <a href="{{  $model->stations()->exists() ? route('admin.order.station', [$order_id, $supplier->id]) : route('admin.order.work', [$order_id, $supplier->id]) }}" class="list-group-item list-group-item-action" aria-current="true">
                       <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">{{ $supplier->name }}</h5>
+                        <h6 class="mb-1">{{ $supplier->name }}</h6>
                         <small class="text-danger">
                         @if($model->stations()->exists())
 
@@ -943,7 +943,7 @@
                     @foreach($process as $status)
                         <a href="{{ $model->stations()->exists() ? route('admin.order.station', [$order_id, $status->id]) : route('admin.order.work', [$order_id, $status->id]) }}" class="list-group-item list-group-item-action" aria-current="true">
                           <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">{{ $status->name }}</h5>
+                            <h6 class="mb-1">{{ $status->name }}</h6>
                             <small class="text-danger">
                             @if($model->stations()->exists())  
                               {{ $model->total_graphic_new['collection']->get($status->short_name) ?? '--' }}

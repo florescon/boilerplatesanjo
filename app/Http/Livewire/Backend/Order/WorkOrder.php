@@ -246,11 +246,109 @@ private function checkParentChanges($parentId)
 
         $batch = $this->order->createProductionBatch(['status_id' => $this->status->id, 'parent_id' => $getID, 'production_batch_items' => $structuredArray, 'prev_status' => $getStatusCollection['previous_status'], 'initial_process' => $getStatusCollection['initial_process'], 'is_principal' => $getStatusCollection['is_principal'], 'not_restricted' => $getStatusCollection['not_restricted']]);
 
+
+        return redirect()->route('admin.order.production_batch', [$this->order->id, $batch->id]);
+
         $this->emit('swal:alert', [
             'icon' => 'success',
             'title'   => __('Created'), 
         ]);
     }
+
+ public function saveOutput()
+{
+    $getStatusCollection = $this->status->getStatusCollection();
+    $dataToSave = []; // Acumulador fuera de los bucles
+    $parentIds = []; // Para rastrear todos los parent_ids
+
+    // Validar si hay cantidades primero
+    if(empty($this->quantities)) {
+        $this->emit('swal:alert', [
+            'icon' => 'warning',
+            'title' => 'Agrega cantidades'
+        ]);
+        return;
+    }
+
+    // Recorrer todos los quantities
+    foreach($this->quantities as $getID => $rows) {
+
+        $parentIds[] = $getID; // Registrar parent_id
+
+        foreach($rows as $rowIndex => $sizes) {
+            foreach($sizes as $sizeId => $quantity) {
+                if (!is_int($quantity) || $quantity <= 0) {
+                    continue;
+                }
+
+                $getProduct = DB::table('products')
+                    ->where('parent_id', $getID)
+                    ->where('size_id', $sizeId)
+                    ->where('color_id', $this->colorIds[$getID][$rowIndex] ?? null)
+                    ->first();
+
+                if (!$getProduct) {
+                    $this->emit('swal:modal', [
+                        'icon' => 'error',
+                        'title' => 'Error',
+                        'html' => "Producto no encontrado (Parent: $getID, Size: $sizeId)"
+                    ]);
+                    return;
+                }
+
+                // Acumular todos los datos para guardar
+                $dataToSave[] = [
+                    'parent_id' => $getID,
+                    'color_id' => $this->colorIds[$getID][$rowIndex] ?? null,
+                    'size_id' => $sizeId,
+                    'quantity' => $quantity,
+                    'product_id' => $getProduct->id
+                ];
+            }
+        }
+    }
+
+    // Verificar que hay datos para guardar
+    if(empty($dataToSave)) {
+        $this->emit('swal:alert', [
+            'icon' => 'warning',
+            'title' => 'No hay cantidades válidas para guardar'
+        ]);
+        return;
+    }
+
+    // dd($dataToSave);
+
+    // $mainParentId = count(array_unique($parentIds)) === 1 ? $parentIds[0] : null;
+    $mainParentId = $parentIds[0] ?? 1;
+
+    // Crear un único batch con todos los items acumulados
+    $batch = $this->order->createProductionBatchOutput([
+        'status_id' => $this->status->id,
+        'parent_id' => $mainParentId, // Puede ser null si hay múltiples
+        'production_batch_items' => $dataToSave,
+        'prev_status' => $getStatusCollection['previous_status'],
+        'initial_process' => $getStatusCollection['initial_process'],
+        'is_principal' => $getStatusCollection['is_principal'],
+        'not_restricted' => $getStatusCollection['not_restricted']
+    ]);
+
+    if(isset($batch['success']) && !$batch['success']) {
+        $this->emit('swal:modal', [
+            'icon' => 'error',
+            'title' => 'Error',
+            'html' => $batch['message']
+        ]);
+        return;
+    }
+
+    $this->resetInput();
+    $this->initializeQuantities();
+    $this->emitStatusQuantities();
+
+    return redirect()->route('admin.order.production_batch', [$this->order->id, $batch->id]);
+}
+
 
     public function save(int $getID)
     {
@@ -298,7 +396,6 @@ private function checkParentChanges($parentId)
                 ]);
                 return;
             }
-
             $this->emit('swal:alert', [
                 'icon' => 'success',
                 'title'   => __('Created'), 
@@ -308,6 +405,8 @@ private function checkParentChanges($parentId)
             // $this->emitUpdatedQuantity();
             $this->initializeQuantities();
             $this->emitStatusQuantities();
+
+            return redirect()->route('admin.order.production_batch', [$this->order->id, $batch->id]);
         }
         else{
             $this->emit('swal:alert', [
@@ -342,6 +441,13 @@ private function checkParentChanges($parentId)
     public function render()
     {
         $getStatusCollection = $this->status->getStatusCollection();
+
+
+        if($this->status_id == 15){
+            return view('backend.order.livewire.works-output')->with([
+                'getStatusCollection' => $getStatusCollection,
+            ]);
+        }
 
         return view('backend.order.livewire.works')->with([
             'getStatusCollection' => $getStatusCollection,

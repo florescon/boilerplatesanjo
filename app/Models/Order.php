@@ -2311,6 +2311,82 @@ public function getSizeTablesData(?array $statusCollection = null): array
         });
     }
 
+
+    public function createProductionBatchOutput(array $data)
+    {
+        return DB::transaction(function () use ($data) {
+
+            // dd($data['parent_id']);
+
+            if(empty($data['production_batch_items'])){
+                return false;
+            }
+
+            $batch = $this->productionBatches()->create([
+                'product_id' => $data['parent_id'],
+                'status_id' => $data['status_id'],
+                'with_previous' => $data['with_previous'] ?? null,
+                'is_principal' => $data['is_principal'],
+                'notes' => $data['notes'] ?? null,
+            ]);
+
+            foreach ($data['production_batch_items'] as $production_batch_item) {
+                $batch->items()->create([
+                    'product_id' => $production_batch_item['product_id'],
+                    'status_id' => $data['status_id'],
+                    'input_quantity' => $production_batch_item['quantity'], // Se establecerá cuando se reciba
+                    'active' => $production_batch_item['quantity'],
+                    'is_principal' => $data['is_principal'],
+                    'output_quantity' => 0, // Se actualizará en cada estación
+                    'status' => 'pending',
+                    'with_previous' => $data['with_previous'] ?? null,
+                    'current_station' => 'recepcion'
+                ]);
+                if (!is_null($data['prev_status']) && !$data['not_restricted'] && $data['is_principal'] === false) {
+                    $quantityToDecrement = $production_batch_item['quantity'];
+                    $productId = $production_batch_item['product_id'];
+
+                    // Obtener lotes anteriores
+                    $previousBatches = DB::table('production_batches')
+                        ->where('order_id', $this->id)
+                        ->where('status_id', $data['prev_status'])
+                        ->pluck('id');
+
+                    if ($previousBatches->isNotEmpty() && empty($data['with_previous'])) {
+                        // Obtener items disponibles ordenados por active (para distribuir la cantidad)
+                        $availableItems = DB::table('production_batch_items')
+                            ->whereIn('batch_id', $previousBatches)
+                            ->where('product_id', $productId)
+                            ->where('active', '>', 0)
+                            ->orderBy('active', 'desc')
+                            ->get(['id', 'active']);
+
+                        // Distribuir la cantidad a decrementar
+                        foreach ($availableItems as $item) {
+                            if ($quantityToDecrement <= 0) break;
+
+                            // dd($quantityToDecrement);
+                            $decrementAmount = min($item->active, $quantityToDecrement);
+                            
+                            DB::table('production_batch_items')
+                                ->where('id', $item->id)
+                                ->decrement('active', $decrementAmount);
+                            
+                            $quantityToDecrement -= $decrementAmount;
+                        }
+
+                        // Si no hay suficiente cantidad disponible
+                        if ($quantityToDecrement > 0) {
+                            throw new \Exception("No hay suficiente cantidad disponible en los lotes anteriores para el producto {$productId}. Faltan {$quantityToDecrement} unidades.");
+                        }
+                    }
+                }
+            }
+            return $batch->load('items');
+        });
+    }
+
+
     // Método para crear un nuevo lote basado en los productos de la orden
     public function createProductionBatch(array $data)
     {

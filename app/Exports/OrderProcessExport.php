@@ -64,7 +64,7 @@ public function registerEvents(): array
             $event->sheet->setCellValue('C1', 'Fecha creado: ' . $fechaHora);
             
             $titulo = "Reporte de Pedidos en Captura y Proceso";
-            $sub = "Nota: Los valores corresponden a Captura y Proceso de cada Estación, a excepción de 'Entrega', que es el valor asignado en esa Estación.";
+            $sub = "Nota: Los valores corresponden a Captura y Proceso de cada Estación, a excepción de 'Salida', que es el valor asignado en esa Estación.";
             $event->sheet->setCellValue('C2', $titulo);                
             $event->sheet->setCellValue('C3', $sub);                
             // Aquí puedes agregar más personalizaciones a la hoja después de generar los datos
@@ -89,7 +89,7 @@ public function registerEvents(): array
             __('Conformado'),
             __('Personalizacion'),
             __('Embarque'),
-            __('Entrega'),
+            __('Output'),
             __('Quotation'),
             __('Request n.º'),
             __('Purchase Order'),

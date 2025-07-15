@@ -36,7 +36,7 @@ class EditOrder extends Component
         'maerialAll' => ['except' => FALSE],
     ];
 
-    protected $listeners = ['updateStatus' => '$refresh', 'cartUpdated' => '$refresh', 'paymentStore' => 'render', 'serviceStore' => 'render'];
+    protected $listeners = ['searchproduct', 'updateStatus' => '$refresh', 'cartUpdated' => '$refresh', 'paymentStore' => 'render', 'serviceStore' => 'render'];
 
     public function mount(Order $order)
     {
@@ -61,6 +61,12 @@ class EditOrder extends Component
         'order_status_delivery' => 'required|min:2',
     ];
 
+    public function searchproduct()
+    {
+        // Lógica para buscar productos aquí
+        // Por ejemplo:
+        // $this->products = Product::search($this->searchTerm)->get();
+    }
     public function updatedOrderStatusDelivery($value)
     {
         $this->validate();

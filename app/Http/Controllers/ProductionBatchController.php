@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\ProductionBatch;
 use DB;
+use Carbon\Carbon;
 
 class ProductionBatchController extends Controller
 {
@@ -19,13 +20,17 @@ class ProductionBatchController extends Controller
         // Obtener todos los lotes relacionados
         $relatedBatches = $productionBatch->getMoreOutput();
         $batchIds = [$productionBatch->id];
-        
-        if($relatedBatches && $relatedBatches->count() > 1){
-            // Si hay lotes relacionados, los incluimos en la consulta
-            $batchIds = $relatedBatches->pluck('id')->toArray();
-            array_push($batchIds, $productionBatch->id);
-        }
 
+        $fechaLimite = Carbon::parse('2025-07-15 16:00:00');
+
+        if ($productionBatch->created_at->lt($fechaLimite)) {
+        
+            if($relatedBatches && $relatedBatches->count() > 1){
+                // Si hay lotes relacionados, los incluimos en la consulta
+                $batchIds = $relatedBatches->pluck('id')->toArray();
+                array_push($batchIds, $productionBatch->id);
+            }
+        }
         $orderServices = DB::table('production_batch_items as a')
                 ->selectRaw('
                     b.name as product_name,

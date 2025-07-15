@@ -43,6 +43,12 @@ class SearchProductOrder extends Component
         $this->reset_search();
     }
 
+    public function searchproduct()
+    {
+        // Lógica para buscar productos aquí
+        // Por ejemplo:
+        // $this->products = Product::search($this->searchTerm)->get();
+    }
     public function updatedQuery()
     {
         $this->products = Product::with('parent', 'brand', 'color', 'size')

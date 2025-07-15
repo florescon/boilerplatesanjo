@@ -11,5 +11,4 @@
 
     <livewire:backend.order.edit-order :order="$order"/>
 
-
 @endsection

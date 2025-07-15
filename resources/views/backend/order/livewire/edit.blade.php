@@ -621,6 +621,10 @@
               <table class="table table-striped table-bordered table-hover">
                 <caption>
                   <a href="#!" class="mt-2 ml-2" data-toggle="modal" wire:click="$emitTo('backend.order.add-service', 'createmodal', {{ $order_id }}, '5', {{ $from_store }})" data-target="#addService" style="color: #ee2e31;">@lang('Add service')</a>
+
+
+                    <a href="#!" data-toggle="modal" wire:click="searchproduct()" data-target="#searchProduct"><i class="fa fa-search mr-1 ml-1"></i> @lang('Add product')</a>
+
                 </caption>
                 <thead style="background-color: coral; border-color: #218543; color: white;">
                   <tr class="text-center">
@@ -748,7 +752,6 @@
                 </caption>
                 <thead style="background-color: #86FFCF; border-color: #FAFA33; color: dark;">
                   <tr class="text-center">
-                    <th colspan="5" >@lang('Quotation')</th>
                   </tr>
                   <tr class="thead-dark">
                     <th>@lang('Product')</th>
@@ -1013,7 +1016,7 @@
 
 </x-backend.card>
 
-<livewire:backend.cartdb.search-product-order :typeSearch="6" branchIdSearch="0" orderId="{{ $order_id }}"/>
+<livewire:backend.cartdb.search-product-order :typeSearch="6" branchIdSearch="1" orderId="{{ $order_id }}"/>
 
 <livewire:backend.order.create-payment />
 <livewire:backend.order.add-service />
