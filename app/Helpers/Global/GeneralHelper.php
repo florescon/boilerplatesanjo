@@ -94,6 +94,22 @@ if (! function_exists('priceIncludeIva')) {
     }
 }
 
+if (! function_exists('priceIncludeIvaFormat')) {
+    /**
+     * 
+     *
+     * @return string
+     */
+    function priceIncludeIvaFormat($price)
+    {
+        if(is_numeric($price)){
+
+            return number_format($price + ((setting('iva') / 100) * $price), 2);
+
+        }
+    }
+}
+
 if (! function_exists('priceWithoutIvaIncluded')) {
     /**
      * 
@@ -154,6 +170,21 @@ if (! function_exists('calculateIva')) {
         $iva = setting('iva') / 100;
 
         return number_format($price * $iva, 2, '.', '');
+    }
+}
+
+
+if (! function_exists('calculateIvaFormat')) {
+    /**
+     * 
+     *
+     * @return string
+     */
+    function calculateIvaFormat($price)
+    {
+        $iva = setting('iva') / 100;
+
+        return number_format($price * $iva, 2);
     }
 }
 

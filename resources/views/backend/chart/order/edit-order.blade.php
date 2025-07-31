@@ -179,9 +179,9 @@
                 <div wire:loading wire:target="updateStatus" class="loading"></div>
               </div>
               <div class="col-md-4 mb-3">
-                <a href="{{ route('admin.order.advanced', $order_id) }}" style="color:#1ab394;">
+                {{-- <a href="{{ route('admin.order.advanced', $order_id) }}" style="color:#1ab394;">
                   <p> @lang('Advanced options') </p>
-                </a>
+                </a> --}}
               </div>
               <div class="col-md-4 mb-3 text-left">
                 <x-input.input-alpine nameData="isComplementary" :inputText="$isComplementary" :originalInput="$isComplementary" wireSubmit="savecomplementary" modelName="complementary" maxlength="300" className="" :extraName="__('Complementary observations')"  />
@@ -284,6 +284,11 @@
                 <a type="button" href="{{ route('admin.order.newformat', $order_id) }}" class="btn btn-primary" target="_blank">Nuevo Formato</a>
                 <a href="{{ route('admin.bom.ticket_bom', urlencode(json_encode(array($order_id)))) }}" class="btn btn-secondary ml-2" target="_blank"><i class="cil-print"></i> Ticket BOM </a>
 
+                @if(!$model->productionBatches()->exists() && !$model->stations()->exists())
+                  <a href="{{ route('admin.order.advanced', $order_id) }}" style="color:#1ab394;" class="btn btn-white ml-2 pulsingButton" >
+                  <strong>@lang('Edit request')</strong>
+                @endif
+                </a>
             </div>
    {{--          @if(!$model->isQuotation())
               <a href="{{ !$from_store ? route('admin.order.ticket_order', $order_id) : route('admin.store.all.ticket_order', $order_id) }}" class="card-link text-dark" target="_blank"><i class="cil-print"></i>

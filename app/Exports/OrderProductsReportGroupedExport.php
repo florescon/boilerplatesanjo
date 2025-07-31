@@ -95,6 +95,7 @@ class OrderProductsReportGroupedExport implements FromCollection, WithMapping, W
             __('Details'),
             __('Order'),
             __('Customer'),
+            __('Provider'),
         ];
 
         return $headings;
@@ -114,6 +115,7 @@ class OrderProductsReportGroupedExport implements FromCollection, WithMapping, W
             $product['productColorName'],
             $product['productOrder'],
             $product['productCustomer'],
+            $product['productProvider'],
         ];
     }
 
@@ -150,6 +152,7 @@ class OrderProductsReportGroupedExport implements FromCollection, WithMapping, W
                         'productQuantity' => $product_order->quantity,
                         'productOrder' => $order->folio_or_id_clear,
                         'productCustomer' => $order->user_name_clear,
+                        'productProvider' => $product_order->product->parent->vendor_id ? $product_order->product->parent->vendor->name : null,
                     ]);
                 }
 
@@ -165,6 +168,7 @@ class OrderProductsReportGroupedExport implements FromCollection, WithMapping, W
                         'productQuantity' => $product_order->quantity,
                         'productOrder' => $order->folio_or_id_clear,
                         'productCustomer' => $order->user_name_clear,
+                        'productProvider' => null,
                     ]);
                 }
             }
@@ -182,6 +186,7 @@ class OrderProductsReportGroupedExport implements FromCollection, WithMapping, W
                 'totalQuantity' => $group->sum('productQuantity'), // Sumar la cantidad de productos en el grupo
                 'productOrder' => $group->first()['productOrder'],
                 'productCustomer' => $group->first()['productCustomer'],
+                'productProvider' => $group->first()['productProvider'],
             ];
         });
 

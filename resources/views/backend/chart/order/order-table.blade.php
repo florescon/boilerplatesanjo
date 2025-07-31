@@ -75,7 +75,6 @@
                                     <select wire:model="perPage" class="form-control ml-4 ">
                                         <option>5</option>
                                         <option>10</option>
-                                        <option>25</option>
                                         <option>50</option>
                                     </select>
 
@@ -158,8 +157,8 @@
                                                             {!! $order->user_name !!} {!! Str::limit($order->info_customer, 100) ?? '' !!} </h6>
                                                     </a>
                                                     @if ($order->comment)
-                                                        <em class="text-small"
-                                                            style="">{!! Str::limit($order->comment, 100) !!}</em>
+                                                        <em class="text-small text-primary"
+                                                            style=""><strong>{!! Str::limit($order->comment, 100) !!}</strong></em>
                                                     @endif
                                                     &nbsp;
                                                         <span class="badge badge-pill badge-secondary">

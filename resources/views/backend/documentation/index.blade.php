@@ -85,7 +85,7 @@
                             <div class="icon-holder">
                                 <span aria-hidden="true" class="icon icon_lifesaver"></span>
                             </div><!--//icon-holder-->
-                            <h3 class="title">FAQs</h3>
+                            <h3 class="title">Manual</h3>
                             <p class="intro">Sabemos que ibas a consultar algo de esto.</p>
                             <a class="link" href="{{ route('admin.documentation.faqs') }}"><span></span></a>
                         </div><!--//item-inner-->

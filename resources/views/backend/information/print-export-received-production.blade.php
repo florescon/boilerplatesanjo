@@ -26,6 +26,16 @@
         .bg-subtotal {
             background-color: #f8f9fa;
         }
+
+        .sin-borde {
+            border: none !important;
+        }
+        .sin-borde-derecho {
+            border-right: none !important;
+        }
+        .sin-borde-izquierdo {
+            border-left: none !important;
+        }
     </style>
 </head>
 <body>
@@ -55,8 +65,8 @@
             </td>
             <td style="width: 50%; text-align: center;">
                 <p style="margin: 0;"><strong>Fecha de generación:</strong> {{ now()->format('d/m/Y H:i') }}</p>
-                @if($getPersonal)
-                    <p style="margin: 0;"><strong>Personal:</strong> {{ ucwords(strtolower($getPersonal->name)) }}</p>
+                @if($getPersonal && $grouped)
+                    <p style="margin: 0;"> <h4 class="d-inline">{{ ucwords(strtolower($getPersonal->name)) }}</h4></p>
                 @endif
             </td>
         </tr>
@@ -76,8 +86,8 @@
                         <th >@lang('Color')</th>
                         <th >Talla</th>
                         <th >Producto</th>
-                        <th >Precio</th>
                         <th >Cantidad</th>
+                        <th style="width: 50px;">Precio</th>
                         <th> Total</th>
                     </tr>
                 </thead>
@@ -94,6 +104,7 @@
                                     <span class="badge badge-primary">Tallas Extra</span>
                                 @endif
                             </td>
+                            <td class="text-center font-weight-bold">{{ $group->total_quantity }}</td>
                             <td>
                                 <p>$
                                     {{ 
@@ -105,7 +116,6 @@
                                     }}
                                 </p>
                             </td>
-                            <td class="text-center font-weight-bold">{{ $group->total_quantity }}</td>
                             <td class="text-center"> {{ number_format($group->total_price, 2) }} </td>
                         </tr>
                         <!-- Detalles desplegables -->
@@ -135,10 +145,21 @@
                         </tr>
                     @endforeach
                     <!-- Total general -->
-                    <tr class="table-active font-weight-bold">
-                        <td colspan="6" class="text-right">TOTAL GENERAL</td>
-                        <td class="text-center"> {{ $result->sum('total_quantity') }} </td>
-                        <td class="text-right">{{ number_format($result->sum('total_price'), 2) }}</td>
+                    <tr class="font-weight-bold">
+                        <td colspan="5"></td>
+                        <td class="text-center table-active">{{ $result->sum('total_quantity') }}</td>
+                        <td style="background-color: #212529; color: white;">Subtotal</td>
+                        <td class="text-center table-active">{{ number_format($result->sum('total_price'), 2) }}</td>
+                    </tr>
+                    <tr class=" font-weight-bold">
+                        <td colspan="6"></td>
+                        <td style="background-color: #212529; color: white;">IVA</td>
+                        <td class="table-active text-center">{{ calculateIvaFormat($result->sum('total_price')) }}</td>
+                    </tr>
+                    <tr class=" font-weight-bold">
+                        <td colspan="6"></td>
+                        <td style="background-color: #212529; color: white;">Total</td>
+                        <td class="table-active text-center">{{ priceIncludeIvaFormat($result->sum('total_price')) }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -150,8 +171,8 @@
                         <th >@lang('Code')</th>
                         <th >@lang('Color')</th>
                         <th >Producto</th>
-                        <th >Precio</th>
                         <th class="text-center">Cantidad</th>
+                        <th >Precio</th>
                         <th class="text-center">Total</th>
                     </tr>
                 </thead>
@@ -167,26 +188,50 @@
                                     <span class="badge badge-primary">Tallas Extra</span>
                                 @endif
                             </td>
-                            <td width="6%">{{ $group->price }}</td>
                             <td class="text-center" width="6%">
                                 {{ $group->total_quantity }}
                             </td>
+                            <td width="6%">{{ $group->price }}</td>
                             <td class="text-center font-weight-bold" width="10%">{{ number_format($group->total_price, 2) }}</td>
                         </tr>
                         <!-- Detalles desplegables -->
                     @endforeach
                     <!-- Total general -->
-                    <tr class="table-active font-weight-bold">
-                        <td colspan="3"></td>
-                        <td colspan="2" class="text-right">TOTAL GENERAL</td>
-                        <td class="text-center">{{ $result->sum('total_quantity') }}</td>
-                        <td class="text-center">{{ number_format($result->sum('total_price'), 2) }}</td>
+                    <tr class="font-weight-bold">
+                        <td colspan="4"></td>
+                        <td class="text-center table-active">{{ $result->sum('total_quantity') }}</td>
+                        <td style="background-color: #212529; color: white;">Subtotal</td>
+                        <td class="text-center table-active">{{ number_format($result->sum('total_price'), 2) }}</td>
+                    </tr>
+                    <tr class=" font-weight-bold">
+                        <td colspan="5"></td>
+                        <td style="background-color: #212529; color: white;">IVA</td>
+                        <td class="table-active text-center">{{ calculateIvaFormat($result->sum('total_price')) }}</td>
+                    </tr>
+                    <tr class=" font-weight-bold">
+                        <td colspan="5"></td>
+                        <td style="background-color: #212529; color: white;">Total</td>
+                        <td class="table-active text-center">{{ priceIncludeIvaFormat($result->sum('total_price')) }}</td>
                     </tr>
                 </tbody>
             </table>
             <!-- Vista no agrupada (igual que antes) -->
             <!-- ... mantén el código original para la vista no agrupada ... -->
         @endif
+
+<table cellpadding="5" cellspacing="0" style="width: 100%; ">
+    <tbody>
+        <tr>
+            <td style="width: 50%;">
+            </td>
+            <td style="width: 50%; text-align: center;">
+                @if($getPersonal)
+                    <p style="margin: 0;"> <h4 class="d-inline">{{ ucwords(strtolower($getPersonal->name)) }}</h4></p>
+                @endif
+            </td>
+        </tr>
+    </tbody>
+</table>
 
         <!-- Resumen y firmas -->
         <div class="row signature-section">

@@ -36,7 +36,7 @@
         </a>
 
         <li class="c-header-nav-item px-3">
-            <a class="c-header-nav-link" href="{{ route('admin.documentation.index') }}">
+            <a class="c-header-nav-link" href="{{ route('admin.documentation.index') }}" target="_blank">
                 Docs
             </a>
         </li>

@@ -681,6 +681,12 @@ public function getTotalGraphicWorkAttribute()
         return $this->hasMany(ProductOrder::class)->with('product.parent', 'product.color', 'product.size');
     }
 
+
+    public function products_without_quotation()
+    {
+        return $this->hasMany(ProductOrder::class)->with('product.parent', 'product.color', 'product.size')->where('type', '<>', 6);
+    }
+
     /**
      * @return mixed
      */
@@ -1879,6 +1885,13 @@ public function getSizeTablesData(?array $statusCollection = null): array
     public function getTotalRequestAttribute()
     {
         return $this->product_request->sum(function($parent) {
+          return $parent->quantity * $parent->price;
+        });
+    }
+
+    public function getTotalWithoutQuotationAttribute()
+    {
+        return $this->products_without_quotation->sum(function($parent) {
           return $parent->quantity * $parent->price;
         });
     }

@@ -47,7 +47,7 @@ class SearchFeedstock extends Component
             })
             ->orWhere('part_number', 'like', '%' . $this->query . '%')
             ->orWhere('name', 'like', '%' . $this->query . '%')
-            ->get()->take(15)
+            ->get()->take(50)
             ->toArray();
 
        $this->selectedProduct = null;

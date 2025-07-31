@@ -40,7 +40,7 @@
     @endif
 
     <div class="row ">
-      <div class="col-12 col-sm-12 {{ $orderExists || $requestExists ? 'col-md-8' : 'col-md-12' }}">
+      <div class="col-12 col-sm-12 {{ $orderExists || $requestExists ? 'col-md-12' : 'col-md-12' }}">
         <div class="card card-product_not_hover card-flyer-without-hover">
           @if($slug)
             <div class="card-header">
@@ -175,9 +175,9 @@
                 <div wire:loading wire:target="updateStatus" class="loading"></div>
               </div>
               <div class="col-md-4 mb-3">
-                <a href="{{ route('admin.order.advanced', $order_id) }}" style="color:#1ab394;">
+                {{-- <a href="{{ route('admin.order.advanced', $order_id) }}" style="color:#1ab394;">
                   <p> @lang('Advanced options') </p>
-                </a>
+                </a> --}}
               </div>
               <div class="col-md-4 mb-3 text-left">
                 {{-- @if($model->exist_user_departament)
@@ -619,6 +619,8 @@
             @if($requestExists)
             <div class="table-responsive">
               <table class="table table-striped table-bordered table-hover">
+
+                @if($model->orders_delivery->count() <= 1)
                 <caption>
                   <a href="#!" class="mt-2 ml-2" data-toggle="modal" wire:click="$emitTo('backend.order.add-service', 'createmodal', {{ $order_id }}, '5', {{ $from_store }})" data-target="#addService" style="color: #ee2e31;">@lang('Add service')</a>
 
@@ -626,6 +628,7 @@
                     <a href="#!" data-toggle="modal" wire:click="searchproduct()" data-target="#searchProduct"><i class="fa fa-search mr-1 ml-1"></i> @lang('Add product')</a>
 
                 </caption>
+                @endif
                 <thead style="background-color: coral; border-color: #218543; color: white;">
                   <tr class="text-center">
                     <th colspan="4" >@lang('Request')</th>
@@ -862,144 +865,6 @@
           </div>
         </div>
       </div>
-
-      @if($orderExists || $requestExists)
-        <div class="col-12 col-md-4">
-          <div class="row d-flex justify-content-center mt-70 mb-70">
-
-            @if(!$model->from_store 
-              && ($model->id > 977)
-              )
-            <div class="col-md-12" wire:ignore>
-              <div class="main-card mb-3 card card-edit">
-                <div>
-                  <canvas id="doughnut-chart" width="800" height="550"></canvas>
-                </div>
-                
-                <div class="card-body border-dashed conic">
-                  <h5 class="card-title">
-                    @lang('Batches')
-                    @if($model->batches_main->count() > 0)
-                      <span class="badge badge-primary">{{ $model->batches_main->count() }}</span>
-                    @endif
-                  </h5>
-
-                  {{-- {{ $model->total_graphic }} --}}
-
-                  <div class="list-group">
-                    <a href="javascript:void(0)" class="list-group-item list-group-item-action" aria-current="true">
-                      <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">Captura</h5>
-                        <small class="text-danger">
-                          {{ $model->total_graphic->get('captura') }}
-                        </small>
-                      </div>
-                    </a>
-                    @foreach($batches as $status)
-                      <a href="{{ route('admin.order.batches', [$order_id, $status->id]) }}" class="list-group-item list-group-item-action" aria-current="true">
-                        <div class="d-flex w-100 justify-content-between">
-                          <h5 class="mb-1">{{ $status->name }}</h5>
-                          <small class="text-danger">
-                            {{ $model->total_graphic->get($status->short_name) ?? '--' }}
-                          </small>
-                        </div>
-                        <p class="mb-1">{{ $status->description }}</p>
-                        <small>Última actualización: </small>
-                      </a>
-                    @endforeach
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-12">
-              <div class="main-card mb-3 card card-edit">
-                <div class="card-body conic2">
-                  <h5 class="card-title">
-                    @lang('Process')
-                  </h5>
-
-                  <div class="list-group">
-                    @foreach($process as $status)
-                        <a href="{{ route('admin.order.process', [$order_id, $status->id]) }}" class="list-group-item list-group-item-action" aria-current="true">
-                          <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">{{ $status->name }}</h5>
-                            <small class="text-danger">
-                              {{ $model->total_graphic->get($status->short_name) ?? '--' }}
-                            </small>
-                          </div>
-                          <p class="mb-1">{{ $status->description }}</p>
-                          <small>Último creado: </small>
-                        </a>
-                    @endforeach
-                  </div>
-                </div>
-              </div>
-            </div>
-            @endif
-
-            <div class="col-md-12">
-              <div class="main-card mb-3 card card-edit">
-                <div class="card-body">
-                  <h5 class="card-title">@lang('Order production status')
-                    <span class='badge badge-primary'>{{ $model->last_status_order->status->name ?? '' }}</span>
-                  </h5>
-                  <div wire:loading wire:target="updateStatus" class="loading">@lang('Wait 1 second')</div>
-                  <div class="vertical-timeline vertical-timeline--animate vertical-timeline--one-column">
-
-                    @foreach($statuses as $status)
-                    <div class="vertical-timeline-item vertical-timeline-element">
-                      <div> <span wire:click="updateStatus({{ $status->id }})" class="vertical-timeline-element-icon bounce-in"> <i  wire:loading.class.remove="badge-dot-xl badge-dot-xl2" class="badge badge-dot
-                        {{ $status->id == $lates_statusId ? 'badge-dot-xl2' : 'badge-dot-xl' }}
-                        badge-primary"> </i> </span>
-                        <div class="vertical-timeline-element-content bounce-in" style="{{ $status->id == $lates_statusId ? 'font-size: medium;' : '' }}">
-                          <p class="timeline-title  {{ $status->id == $lates_statusId ? 'text-primary' : 'text-info' }}">{{ $status->name }}</p>
-                          <p>{{ $status->description }}</p> 
-                          @if($status->to_add_users)
-                            <a href="{{ route('admin.order.assignments', [$order_id, $status->id]) }}">
-                              <span class="vertical-timeline-element-date badge text-primary">
-                                <i class="c-icon c-icon-4x cil-people"></i><i class="cil-plus"></i>
-                              </span>
-                            </a>
-                          @endif
-                        </div>
-                      </div>
-                    </div>
-                    @endforeach
-                  </div>
-                </div>
-
-                @if($model->last_status_order)
-                  @if($model->last_status_order->status->level === $model->last_status()->level)
-                    @if(!$model->to_stock)
-                      <div class="card-body text-center">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sendFinalProduct">@lang('Send to finished product')</button>
-
-                        @include('backend.order.modal.send-final-product')
-                      </div>
-                    @else
-                      <div class="card-body text-center">
-                        <a href="#" class="card-link">@lang('Sent to finished product') <i class="cil-check"></i> <i class="cil-check"></i></a>
-                      </div>
-                    @endif
-                  @endif
-                @endif
-
-                <div class="card-body text-center">
-                  <a href="{{ route('admin.order.records', $order_id) }}" class="card-link">@lang('View status records')</a>
-                </div>
-                <div class="card-body text-center">
-                  <livewire:backend.order.to-customer 
-                    :model="$model"
-                    field="to_customer"
-                    key="{{ $model->id }}" 
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      @endif
 
     </div>
 
