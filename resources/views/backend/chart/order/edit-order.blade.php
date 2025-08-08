@@ -144,6 +144,7 @@
                       <div class="col-12 col-lg-12">
                         {{-- {{ $model->discount }} --}}
                         <x-input.input-alpine nameData="isDiscount" :inputText="$isDiscount" :originalInput="$isDiscount" wireSubmit="savediscount" modelName="discount" maxlength="300" className="" :extraName="__('Discount')" />
+                        <em class="d-inline"> % Disponible para editar 7 días desde capturada la cotización. </em>
                         @error('discount') <span class="error" style="color: red;"><p>{{ $message }}</p></span> @enderror
                       </div>
                     </div>
@@ -284,7 +285,7 @@
                 <a type="button" href="{{ route('admin.order.newformat', $order_id) }}" class="btn btn-primary" target="_blank">Nuevo Formato</a>
                 <a href="{{ route('admin.bom.ticket_bom', urlencode(json_encode(array($order_id)))) }}" class="btn btn-secondary ml-2" target="_blank"><i class="cil-print"></i> Ticket BOM </a>
 
-                @if(!$model->productionBatches()->exists() && !$model->stations()->exists())
+                @if(!$model->productionBatches()->exists() && !$model->stations()->exists() && !$model->isQuotation())
                   <a href="{{ route('admin.order.advanced', $order_id) }}" style="color:#1ab394;" class="btn btn-white ml-2 pulsingButton" >
                   <strong>@lang('Edit request')</strong>
                 @endif

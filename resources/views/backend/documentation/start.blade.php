@@ -251,24 +251,25 @@
                   </span></span><span class="line"><span class="cl">│       └── editar rol/
                   </span></span><span class="line"><span class="cl">├── departamentos/
                   </span></span><span class="line"><span class="cl">│   └── crear departamento/
-                  </span></span><span class="line"><span class="cl">├── listado órdenes/
-                  </span></span><span class="line"><span class="cl">│   ├── agrupar y exportar órdenes/
-                  </span></span><span class="line"><span class="cl">│   └── editar orden/
+                  </span></span><span class="line"><span class="cl">│   └── editar departamento/
+                  </span></span><span class="line"><span class="cl">├── cotizaciones/
+                  </span></span><span class="line"><span class="cl">├── pedidos/
+                  </span></span><span class="line"><span class="cl">│   ├── agrupar y exportar pedidos/
+                  </span></span><span class="line"><span class="cl">│   └── editar pedido/
                   </span></span><span class="line"><span class="cl">│       ├── orden de servicio/
                   </span></span><span class="line"><span class="cl">│       ├── ver registros de pagos/
                   </span></span><span class="line"><span class="cl">│       ├── ver registros de entrega/
                   </span></span><span class="line"><span class="cl">│       ├── impresión ticket/
                   </span></span><span class="line"><span class="cl">│       ├── impresión carta/
-                  </span></span><span class="line"><span class="cl">│       ├── estaciones de lote/
-                  </span></span><span class="line"><span class="cl">│       ├── estaciones de proceso/
-                  </span></span><span class="line"><span class="cl">│       ├── consumo puntual/
-                  </span></span><span class="line"><span class="cl">│       ├── seguimiento de pedido/
-                  </span></span><span class="line"><span class="cl">│       └── opciones avanzadas/
-                  </span></span><span class="line"><span class="cl">├── captura orden/
-                  </span></span><span class="line"><span class="cl">├── lotes/
-                  </span></span><span class="line"><span class="cl">│   └── ver lote/
+                  </span></span><span class="line"><span class="cl">│       ├── impresión nuevo formato/
+                  </span></span><span class="line"><span class="cl">│       ├── editar pedido/
+                  </span></span><span class="line"><span class="cl">│       ├── estaciones del pedido/
+                  </span></span><span class="line"><span class="cl">│       └── consumo puntual/
                   </span></span><span class="line"><span class="cl">├── productos/
                   </span></span><span class="line"><span class="cl">│   ├── crear producto/
+                  </span></span><span class="line"><span class="cl">│   ├── vale de salida PT/
+                  </span></span><span class="line"><span class="cl">│   ├── exportar existencias/
+                  </span></span><span class="line"><span class="cl">│   ├── exportar precios/
                   </span></span><span class="line"><span class="cl">│   └── editar producto/
                   </span></span><span class="line"><span class="cl">│       ├── modificar consumo/
                   </span></span><span class="line"><span class="cl">│       ├── información avanzada/
@@ -279,12 +280,23 @@
                   </span></span><span class="line"><span class="cl">│       ├── kardex/
                   </span></span><span class="line"><span class="cl">│       ├── impresión de etiquetas/
                   </span></span><span class="line"><span class="cl">│       └── lista de productos particulares/
+                  </span></span><span class="line"><span class="cl">├── estaciones/
+                  </span></span><span class="line"><span class="cl">│   └── ver estacion/
+                  </span></span><span class="line"><span class="cl">│   └── exportar reporte confección/
+                  </span></span><span class="line"><span class="cl">├── gráficas/
                   </span></span><span class="line"><span class="cl">├── servicios/
+                  </span></span><span class="line"><span class="cl">│   └── crear servicio/
+                  </span></span><span class="line"><span class="cl">│   └── editar servicio/
                   </span></span><span class="line"><span class="cl">├── materias primas/
                   </span></span><span class="line"><span class="cl">│   ├── crear materia prima/
                   </span></span><span class="line"><span class="cl">│   ├── editar materia prima/
                   </span></span><span class="line"><span class="cl">│   └── impresión de etiqueta/
+                  </span></span><span class="line"><span class="cl">│   └── cambios masivos/
+                  </span></span><span class="line"><span class="cl">│   └── vale de salida de almacén de M.P./
+                  </span></span><span class="line"><span class="cl">│   └── exportar/
                   </span></span><span class="line"><span class="cl">├── explosión de materiales/
+                  </span></span><span class="line"><span class="cl">│   └── exportar explosión de materiales/
+                  </span></span><span class="line"><span class="cl">├── reportes/
                   </span></span><span class="line"><span class="cl">├── parámetros/
                   </span></span><span class="line"><span class="cl">│   ├── colores/
                   </span></span><span class="line"><span class="cl">│   ├── tallas/
@@ -318,6 +330,9 @@
                   </span></span><span class="line"><span class="cl">│   ├── imágenes del producto/
                   </span></span><span class="line"><span class="cl">│   ├── galería/
                   </span></span><span class="line"><span class="cl">│   └── páginas/
+                  </span></span><span class="line"><span class="cl">├── ponchados/
+                  </span></span><span class="line"><span class="cl">│   └── crear ponchado/
+                  </span></span><span class="line"><span class="cl">│   └── editar ponchado/
                   </span></span><span class="line"><span class="cl">└── inventarios/
                   </span></span><span class="line"><span class="cl">    ├── producto terminado/
                   </span></span><span class="line"><span class="cl">    ├── materia prima/

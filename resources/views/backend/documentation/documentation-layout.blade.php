@@ -54,7 +54,7 @@
                     </h1>
                 </div><!--//branding-->
                 <ol class="breadcrumb">
-                    <li><a href="{{ route('admin.documentation.index') }}">Home</a></li>
+                    <li><a href="{{ route('admin.documentation.index') }}">Inicio</a></li>
                     <li class="active"> @yield('title')</li>
                 </ol>
             </div><!--//container-->
@@ -63,7 +63,7 @@
             <div class="container">
                 <div id="doc-header" class="doc-header text-center">
                     <h1 class="doc-title"><span aria-hidden="true" class="icon icon_gift"></span> @yield('title') </h1>
-                    <div class="meta"><i class="fa fa-clock-o"></i> Last updated: June 26th, 2023</div>
+                    <div class="meta"><i class="fa fa-clock-o"></i> Last updated: August 05th, 2025</div>
                 </div><!--//doc-header-->
 
                 @yield('content')

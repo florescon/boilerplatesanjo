@@ -252,7 +252,7 @@ class EditOrder extends Component
     public function savediscount()
     {
         $this->validate([
-            'discount' => 'integer|min:0|max:100',
+            'discount' => ['numeric', 'min:0', 'max:100', 'regex:/^\d+(\.\d{1})?$/'],
         ]);
 
         $order = Order::findOrFail($this->order_id);
@@ -266,6 +266,7 @@ class EditOrder extends Component
             'title'   => __('Updated at'), 
         ]);
     }
+
     public function saverequest()
     {
         $this->validate([

@@ -1806,7 +1806,7 @@ public function getSizeTablesData(?array $statusCollection = null): array
 
     public function filterByDiscount(): bool
     {
-        $limit = $this->created_at->addHours(1);
+        $limit = $this->created_at->addDays(7);
         $now = Carbon::now();
 
         switch ($this->type) {

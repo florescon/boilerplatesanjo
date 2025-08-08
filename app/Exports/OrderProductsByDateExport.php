@@ -43,7 +43,7 @@ class OrderProductsByDateExport implements FromCollection, WithMapping, WithHead
     {
         $sheet->getStyle('5')->getFont()->setBold(true);
         $sheet->getStyle('2')->getFont()->setBold(true);
-        $sheet->setAutoFilter('A5:D5');
+        $sheet->setAutoFilter('A5:I5');
     }
 
     public function startCell(): string
@@ -96,6 +96,7 @@ class OrderProductsByDateExport implements FromCollection, WithMapping, WithHead
                 __('Quantity'),
                 __('Details'),
                 __('Name'),
+                __('Provider'),
             ];
         }
         else{
@@ -107,6 +108,7 @@ class OrderProductsByDateExport implements FromCollection, WithMapping, WithHead
                 __('Color'),
                 __('Order'),
                 __('Customer'),
+                __('Provider'),
                 __('Date'),
             ];
         }
@@ -127,6 +129,7 @@ public function map($product): array
             $product['totalQuantity'],
             $product['productColorName'],
             $product['productParentName'],
+            $product['productProvider'],
         ];
     }
 
@@ -139,6 +142,7 @@ public function map($product): array
         $product['productColorName'],
         $product['productOrder'],
         $product['productCustomer'],
+        $product['productProvider'],
         $product['productDate'],
     ];
 }
@@ -179,6 +183,7 @@ public function collection()
                     'productOrder' => $order->folio_or_id_clear,
                     'productCustomer' => optional($order->user)->name,
                     'productDate' => $order->date_for_humans,
+                    'productProvider' => $product_order->product->parent->vendor_id ? $product_order->product->parent->vendor->short_name_label : null,
                 ]);
             }
 
@@ -196,6 +201,7 @@ public function collection()
                     'productOrder' => $order->folio_or_id_clear,
                     'productCustomer' => optional($order->user)->name,
                     'productDate' => $order->date_for_humans,
+                    'productProvider' => null,
                 ]);
             }
         }

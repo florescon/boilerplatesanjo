@@ -34,7 +34,7 @@ class OrderByDateExport implements FromCollection, WithMapping, WithHeadings, Wi
     public function styles(Worksheet $sheet)
     {
         $sheet->getStyle('5')->getFont()->setBold(true);
-        !$this->fromStore ? $sheet->setAutoFilter('A5:J5') : $sheet->setAutoFilter('A5:H5');
+        !$this->fromStore ? $sheet->setAutoFilter('A5:K5') : $sheet->setAutoFilter('A5:H5');
     }
 
     public function startCell(): string

@@ -303,6 +303,14 @@ class Material extends Model
         return abs($historyOut) + $orderOut;
     }
 
+    public function getShortNameOrNameAttribute()
+    {
+        if($this->short_name){
+            return $this->short_name;
+        }
+
+        return $name;        
+    }
 
     public function getNameAttribute($value)
     {

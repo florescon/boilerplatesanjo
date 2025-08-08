@@ -12,66 +12,111 @@
           <div class="section-block">
 
 
-            <div class="code-block">
-
-
-<pre>
-<code class="language-php">
-
-
-</code>
-              </pre>
-            </div><!--//code-block-->
-
           </div>
         </section>
 
 <section id="create-user" class="doc-section">
   <h2 class="section-title">Crear Usuario</h2>
   <div class="section-block">
+    <div class="row">
+      <div class="col-md-6 col-sm-12 col-sm-12">
+        <h3>1. Click en Usuarios</h3>
+        <div class="screenshot-holder">
+          <a href="{{ asset('/man/create-user-1.webp') }}" data-title="1. Click en Usuarios" data-toggle="lightbox" class="hoverZoomLink"><img class="img-responsive" src="{{ asset('/man/create-user-1.webp') }}" style="border-radius: 8px; border: 1px solid #F4F2F7;" alt="1. Click en Usuarios"></a>
+          <a class="mask hoverZoomLink" href="{{ asset('/man/create-user-1.webp') }}" data-title="1. Click en Usuarios" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+        </div>
+      </div>
 
-<div><h3>1. Click en Usuarios</h3>
-<img src="https://images.tango.us/workflows/b17b8e8c-f0f7-413e-b6ec-75cafdbad72e/steps/2cd1ddb4-f0fd-4478-801d-eda4389b5e50/d9199c62-36d9-4ac0-9021-d8d515d9fd87.png?fm=png&crop=focalpoint&fit=crop&fp-x=0.1047&fp-y=0.2639&fp-z=1.9898&w=1200&border=2%2CF4F2F7&border-radius=8%2C8%2C8%2C8&border-radius-inner=8%2C8%2C8%2C8&blend-align=bottom&blend-mode=normal&blend-x=0&blend-w=1200&blend64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmstdjIucG5n&mark-x=8&mark-y=354&m64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL2JsYW5rLnBuZz9tYXNrPWNvcm5lcnMmYm9yZGVyPTYlMkNGRjc0NDImdz00ODQmaD0xMDImZml0PWNyb3AmY29ybmVyLXJhZGl1cz0xMA%3D%3D" style="border-radius: 8px; border: 1px solid #F4F2F7;" width="600" alt="Click en Usuarios" />
-</div>
+      <div class="col-md-6 col-sm-12 col-sm-12">
+        <h3>2. Click en Crear usuario</h3>
+        <div class="screenshot-holder">
+          <a href="{{ asset('/man/create-user-2.webp') }}" data-title="2. Click en Crear usuario" data-toggle="lightbox" class="hoverZoomLink"><img class="img-responsive" src="{{ asset('/man/create-user-2.webp') }}" style="border-radius: 8px; border: 1px solid #F4F2F7;" alt="2. Click en Crear usuario"></a>
+          <a class="mask hoverZoomLink" href="{{ asset('/man/create-user-2.webp') }}" data-title="2. Click en Crear usuario" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-12 col-sm-12">
+        <h3>3. Ingresar los campos requeridos</h3>
+        <div class="screenshot-holder">
+          <a href="{{ asset('/man/create-user-3.webp') }}" data-title="3. Ingresar los campos requeridos" data-toggle="lightbox" class="hoverZoomLink"><img class="img-responsive" src="{{ asset('/man/create-user-3.webp') }}" style="border-radius: 8px; border: 1px solid #F4F2F7;" alt="3. Ingresar los campos requeridos"></a>
+          <a class="mask hoverZoomLink" href="{{ asset('/man/create-user-3.webp') }}" data-title="3. Ingresar los campos requeridos" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-12 col-sm-12">
+        <h3>4. Seleccionar Rol y/o Privilegios</h3>
+        <div class="screenshot-holder">
+          <a href="{{ asset('/man/create-user-4.webp') }}" data-title="4. Seleccionar Rol y/o Privilegios" data-toggle="lightbox" class="hoverZoomLink"><img class="img-responsive" src="{{ asset('/man/create-user-4.webp') }}" style="border-radius: 8px; border: 1px solid #F4F2F7;" alt="4. Seleccionar Rol y/o Privilegios"></a>
+          <a class="mask hoverZoomLink" href="{{ asset('/man/create-user-4.webp') }}" data-title="4. Seleccionar Rol y/o Privilegios" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+        </div>
+      </div>
 
-<div><h3>2. Click en Crear usuario</h3>
-<img src="https://images.tango.us/workflows/b17b8e8c-f0f7-413e-b6ec-75cafdbad72e/steps/a55ff74c-a4f3-4cc3-9779-d8a4efd4ea7e/7486dc81-f079-4ad9-95ea-4c8a7b4b8d69.png?fm=png&crop=focalpoint&fit=crop&fp-x=0.8966&fp-y=0.2008&fp-z=3.0508&w=1200&border=2%2CF4F2F7&border-radius=8%2C8%2C8%2C8&border-radius-inner=8%2C8%2C8%2C8&blend-align=bottom&blend-mode=normal&blend-x=0&blend-w=1200&blend64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmstdjIucG5n&mark-x=652&mark-y=370&m64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL2JsYW5rLnBuZz9tYXNrPWNvcm5lcnMmYm9yZGVyPTYlMkNGRjc0NDImdz0zNDAmaD02OSZmaXQ9Y3JvcCZjb3JuZXItcmFkaXVzPTEw" style="border-radius: 8px; border: 1px solid #F4F2F7;" width="600" alt="Click en Crear usuario" />
-</div>
-
-<div><h3>3. Ingresar los campos requeridos</h3>
-<img src="https://images.tango.us/workflows/b17b8e8c-f0f7-413e-b6ec-75cafdbad72e/steps/e48398be-d9cb-42d5-be0f-75ac8331cafa/7c769b12-4fa1-4be4-a15c-a24c5c6083ca.png?fm=png&crop=focalpoint&fit=crop&fp-x=0.6515&fp-y=0.4021&fp-z=1.5688&w=1200&border=2%2CF4F2F7&border-radius=8%2C8%2C8%2C8&border-radius-inner=8%2C8%2C8%2C8&blend-align=bottom&blend-mode=normal&blend-x=0&blend-w=1200&blend64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmstdjIucG5n&mark-x=56&mark-y=373&m64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL2JsYW5rLnBuZz9tYXNrPWNvcm5lcnMmYm9yZGVyPTYlMkNGRjc0NDImdz0xMDg4Jmg9NjImZml0PWNyb3AmY29ybmVyLXJhZGl1cz0xMA%3D%3D" style="border-radius: 8px; border: 1px solid #F4F2F7;" width="600" alt="Ingresar los campos requeridos" />
-</div>
-
-<div><h3>4. Seleccionar Rol y/o Privilegios</h3>
-<img src="https://images.tango.us/workflows/b17b8e8c-f0f7-413e-b6ec-75cafdbad72e/steps/06efc2eb-a302-493e-a70e-73a2a979c487/39980db5-8096-40be-9e18-5399c66fdea1.png?fm=png&crop=focalpoint&fit=crop&w=1200&border=2%2CF4F2F7&border-radius=8%2C8%2C8%2C8&border-radius-inner=8%2C8%2C8%2C8&blend-align=bottom&blend-mode=normal&blend-x=0&blend-w=1200&blend64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmstdjIucG5n" style="border-radius: 8px; border: 1px solid #F4F2F7;" width="600" alt="Seleccionar Rol y/o Privilegios" />
-</div>
-
-<div><h3>5. Click en Crear usuario</h3>
-<img src="https://images.tango.us/workflows/b17b8e8c-f0f7-413e-b6ec-75cafdbad72e/steps/b5dfff65-049b-40b3-b272-cd49b0f3af84/e7c2dd75-2ff3-45df-a706-c74f3bb26591.png?fm=png&crop=focalpoint&fit=crop&fp-x=0.9009&fp-y=0.8074&fp-z=4.0000&w=1200&border=2%2CF4F2F7&border-radius=8%2C8%2C8%2C8&border-radius-inner=8%2C8%2C8%2C8&blend-align=bottom&blend-mode=normal&blend-x=0&blend-w=1200&blend64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmstdjIucG5n&mark-x=538&mark-y=337&m64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL2JsYW5rLnBuZz9tYXNrPWNvcm5lcnMmYm9yZGVyPTYlMkNGRjc0NDImdz0zNzImaD0xMzUmZml0PWNyb3AmY29ybmVyLXJhZGl1cz0xMA%3D%3D" style="border-radius: 8px; border: 1px solid #F4F2F7;" width="600" alt="Click en Crear usuario" />
-</div>
-
-    <div class="code-block">
-      <pre><code class="language-php"></code></pre>
+      <div class="col-md-6 col-sm-12 col-sm-12">
+        <h3>5. Click en Crear usuario</h3>
+        <div class="screenshot-holder">
+          <a href="{{ asset('/man/create-user-5.webp') }}" data-title="5. Click en Crear usuario" data-toggle="lightbox" class="hoverZoomLink"><img class="img-responsive" src="{{ asset('/man/create-user-5.webp') }}" style="border-radius: 8px; border: 1px solid #F4F2F7;" alt="5. Click en Crear usuario"></a>
+          <a class="mask hoverZoomLink" href="{{ asset('/man/create-user-5.webp') }}" data-title="5. Click en Crear usuario" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-
+<br>
 <section id="clients" class="doc-section">
   <h2 class="section-title">Clientes</h2>
   <div class="section-block">
-    <div class="code-block">
-      <pre><code class="language-php"></code></pre>
-    </div>
+
+
   </div>
 </section>
 
 <section id="create-client" class="doc-section">
   <h2 class="section-title">Crear Cliente</h2>
   <div class="section-block">
-    <div class="code-block">
-      <pre><code class="language-php"></code></pre>
+
+    <div class="row">
+      <div class="col-md-6 col-sm-12 col-sm-12">
+        <h3>1. Click en Acceso</h3>
+        <div class="screenshot-holder">
+          <a href="{{ asset('/man/create-client-1.webp') }}" data-title="1. Click en Acceso" data-toggle="lightbox" class="hoverZoomLink"><img class="img-responsive" src="{{ asset('/man/create-client-1.webp') }}" style="border-radius: 8px; border: 1px solid #F4F2F7;" alt="1. Click en Acceso"></a>
+          <a class="mask hoverZoomLink" href="{{ asset('/man/create-client-1.webp') }}" data-title="1. Click en Acceso" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-sm-12 col-sm-12">
+        <h3>2. Click en Clientes</h3>
+        <div class="screenshot-holder">
+          <a href="{{ asset('/man/create-client-2.webp') }}" data-title="2. Click en Clientes" data-toggle="lightbox" class="hoverZoomLink"><img class="img-responsive" src="{{ asset('/man/create-client-2.webp') }}" style="border-radius: 8px; border: 1px solid #F4F2F7;" alt="2. Click en Clientes"></a>
+          <a class="mask hoverZoomLink" href="{{ asset('/man/create-client-2.webp') }}" data-title="2. Click en Clientes" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-sm-12 col-sm-12">
+        <h3>3. Click en Crear cliente</h3>
+        <div class="screenshot-holder">
+          <a href="{{ asset('/man/create-client-3.webp') }}" data-title="3. Click en Crear cliente" data-toggle="lightbox" class="hoverZoomLink"><img class="img-responsive" src="{{ asset('/man/create-client-3.webp') }}" style="border-radius: 8px; border: 1px solid #F4F2F7;" alt="3. Click on Crear cliente"></a>
+          <a class="mask hoverZoomLink" href="{{ asset('/man/create-client-3.webp') }}" data-title="3. Click en Crear cliente" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-sm-12 col-sm-12">
+        <h3>4. Ingresar los campos requeridos</h3>
+        <div class="screenshot-holder">
+          <a href="{{ asset('/man/create-client-4.webp') }}" data-title="4. Ingresar los campos requeridos" data-toggle="lightbox" class="hoverZoomLink"><img class="img-responsive" src="{{ asset('/man/create-client-4.webp') }}" style="border-radius: 8px; border: 1px solid #F4F2F7;" alt="4. Ingresar los campos requeridos"></a>
+          <a class="mask hoverZoomLink" href="{{ asset('/man/create-client-4.webp') }}" data-title="4. Ingresar los campos requeridos" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-sm-12 col-sm-12">
+        <h3>5. Click en Crear cliente</h3>
+        <div class="screenshot-holder">
+          <a href="{{ asset('/man/create-client-5.webp') }}" data-title="5. Click en Crear cliente" data-toggle="lightbox" class="hoverZoomLink"><img class="img-responsive" src="{{ asset('/man/create-client-5.webp') }}" style="border-radius: 8px; border: 1px solid #F4F2F7;" alt="5. Click en Crear cliente"></a>
+          <a class="mask hoverZoomLink" href="{{ asset('/man/create-client-5.webp') }}" data-title="5. Click en Crear cliente" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+        </div>
+      </div>
+
     </div>
+
+
   </div>
 </section>
 
@@ -394,7 +439,7 @@
 <img src="https://images.tango.us/workflows/0d295718-3458-41b6-81c6-f2075622a318/steps/5b027f64-2e59-4d61-a297-06c220fd43fd/7abc7442-a1a0-4e25-927d-2c8e0d454e14.png?fm=png&crop=focalpoint&fit=crop&fp-x=0.1047&fp-y=0.4684&fp-z=1.9898&w=1200&border=2%2CF4F2F7&border-radius=8%2C8%2C8%2C8&border-radius-inner=8%2C8%2C8%2C8&blend-align=bottom&blend-mode=normal&blend-x=0&blend-w=1200&blend64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmstdjIucG5n&mark-x=8&mark-y=354&m64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL2JsYW5rLnBuZz9tYXNrPWNvcm5lcnMmYm9yZGVyPTYlMkNGRjc0NDImdz00ODQmaD0xMDImZml0PWNyb3AmY29ybmVyLXJhZGl1cz0xMA%3D%3D" style="border-radius: 8px; border: 1px solid #F4F2F7;" width="600" alt="Click en Proveedores" />
 </div>
 
-<div><h3>3. Click on Crear proveedor</h3>
+<div><h3>3. Click en Crear proveedor</h3>
 <img src="https://images.tango.us/workflows/0d295718-3458-41b6-81c6-f2075622a318/steps/67209fbd-947f-4f45-881b-9e5512555b09/890e5f87-8609-4b7a-aed5-70f8857ccbe3.png?fm=png&crop=focalpoint&fit=crop&fp-x=0.8902&fp-y=0.2008&fp-z=3.0508&w=1200&border=2%2CF4F2F7&border-radius=8%2C8%2C8%2C8&border-radius-inner=8%2C8%2C8%2C8&blend-align=bottom&blend-mode=normal&blend-x=0&blend-w=1200&blend64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL21hZGUtd2l0aC10YW5nby13YXRlcm1hcmstdjIucG5n&mark-x=608&mark-y=370&m64=aHR0cHM6Ly9pbWFnZXMudGFuZ28udXMvc3RhdGljL2JsYW5rLnBuZz9tYXNrPWNvcm5lcnMmYm9yZGVyPTYlMkNGRjc0NDImdz0zODAmaD02OSZmaXQ9Y3JvcCZjb3JuZXItcmFkaXVzPTEw" style="border-radius: 8px; border: 1px solid #F4F2F7;" width="600" alt="Click on Crear proveedor" />
 </div>
 

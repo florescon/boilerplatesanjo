@@ -41,7 +41,7 @@ class OrderProductsReportExport implements FromCollection, WithMapping, WithHead
     {
         $sheet->getStyle('5')->getFont()->setBold(true);
         $sheet->getStyle('2')->getFont()->setBold(true);
-        $sheet->setAutoFilter('A5:F5');
+        $sheet->setAutoFilter('A5:G5');
     }
 
     public function startCell(): string

@@ -41,7 +41,7 @@ class OrderProductsReportGroupedExport implements FromCollection, WithMapping, W
     {
         $sheet->getStyle('5')->getFont()->setBold(true);
         $sheet->getStyle('2')->getFont()->setBold(true);
-        $sheet->setAutoFilter('A5:F5');
+        $sheet->setAutoFilter('A5:G5');
     }
 
     public function startCell(): string
@@ -152,7 +152,7 @@ class OrderProductsReportGroupedExport implements FromCollection, WithMapping, W
                         'productQuantity' => $product_order->quantity,
                         'productOrder' => $order->folio_or_id_clear,
                         'productCustomer' => $order->user_name_clear,
-                        'productProvider' => $product_order->product->parent->vendor_id ? $product_order->product->parent->vendor->name : null,
+                        'productProvider' => $product_order->product->parent->vendor_id ? $product_order->product->parent->vendor->short_name_label : null,
                     ]);
                 }
 

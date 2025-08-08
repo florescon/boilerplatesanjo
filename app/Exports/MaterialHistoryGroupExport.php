@@ -114,7 +114,7 @@ class MaterialHistoryGroupExport implements FromCollection, WithMapping, WithHea
             $material->part_number,               // Nombre
             $material->full_name_clear,               // Nombre
             $material->description,
-            $vendor->name,                 // vendor_id
+            $vendor->short_name_label,                 // vendor_id
             $totalQuantity,              // Total de cantidad, por ejemplo
             count($group),               // Número de registros para este vendor
         ];
