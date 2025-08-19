@@ -123,17 +123,70 @@
 <section id="roles" class="doc-section">
   <h2 class="section-title">Roles</h2>
   <div class="section-block">
-    <div class="code-block">
-      <pre><code class="language-php"></code></pre>
-    </div>
   </div>
 </section>
 
 <section id="create-role" class="doc-section">
   <h2 class="section-title">Crear Rol</h2>
   <div class="section-block">
-    <div class="code-block">
-      <pre><code class="language-php"></code></pre>
+    <div class="row">
+
+<div class="col-md-6 col-sm-12 col-sm-12">
+  <h3>1. Click en Acceso</h3>
+  <div class="screenshot-holder">
+    <a href="{{ asset('/man/create-role-1.webp') }}" data-title="1. Click en Acceso" data-toggle="lightbox" class="hoverZoomLink"><img class="img-responsive" src="{{ asset('/man/create-role-1.webp') }}" style="border-radius: 8px; border: 1px solid #F4F2F7;" alt="1. Click en Acceso"></a>
+    <a class="mask hoverZoomLink" href="{{ asset('/man/create-role-1.webp') }}" data-title="1. Click en Acceso" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+  </div>
+</div>
+
+<div class="col-md-6 col-sm-12 col-sm-12">
+  <h3>2. Click en Roles</h3>
+  <div class="screenshot-holder">
+    <a href="{{ asset('/man/create-role-2.webp') }}" data-title="2. Click en Roles" data-toggle="lightbox" class="hoverZoomLink"><img class="img-responsive" src="{{ asset('/man/create-role-2.webp') }}" style="border-radius: 8px; border: 1px solid #F4F2F7;" alt="2. Click en Roles"></a>
+    <a class="mask hoverZoomLink" href="{{ asset('/man/create-role-2.webp') }}" data-title="2. Click en Roles" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+  </div>
+</div>
+
+<div class="col-md-6 col-sm-12 col-sm-12">
+  <h3>3. Click en Crear rol</h3>
+  <div class="screenshot-holder">
+    <a href="{{ asset('/man/create-role-3.webp') }}" data-title="3. Click en Crear rol" data-toggle="lightbox" class="hoverZoomLink"><img class="img-responsive" src="{{ asset('/man/create-role-3.webp') }}" style="border-radius: 8px; border: 1px solid #F4F2F7;" alt="3. Click en Crear rol"></a>
+    <a class="mask hoverZoomLink" href="{{ asset('/man/create-role-3.webp') }}" data-title="3. Click en Crear rol" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+  </div>
+</div>
+
+<div class="col-md-6 col-sm-12 col-sm-12">
+  <h3>4. Seleccione el Tipo de Rol</h3>
+  <div class="screenshot-holder">
+    <a href="{{ asset('/man/create-role-4.webp') }}" data-title="4. Seleccione el Tipo de Rol" data-toggle="lightbox" class="hoverZoomLink"><img class="img-responsive" src="{{ asset('/man/create-role-4.webp') }}" style="border-radius: 8px; border: 1px solid #F4F2F7;" alt="4. Seleccione el Tipo de Rol"></a>
+    <a class="mask hoverZoomLink" href="{{ asset('/man/create-role-4.webp') }}" data-title="4. Seleccione el Tipo de Rol" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+  </div>
+</div>
+
+<div class="col-md-6 col-sm-12 col-sm-12">
+  <h3>5. Escribir el nombre</h3>
+  <div class="screenshot-holder">
+    <a href="{{ asset('/man/create-role-5.webp') }}" data-title="5. Escribir el nombre" data-toggle="lightbox" class="hoverZoomLink"><img class="img-responsive" src="{{ asset('/man/create-role-5.webp') }}" style="border-radius: 8px; border: 1px solid #F4F2F7;" alt="5. Escribir el nombre"></a>
+    <a class="mask hoverZoomLink" href="{{ asset('/man/create-role-5.webp') }}" data-title="5. Escribir el nombre" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+  </div>
+</div>
+
+<div class="col-md-6 col-sm-12 col-sm-12">
+  <h3>6. Seleccionar los permisos</h3>
+  <div class="screenshot-holder">
+    <a href="{{ asset('/man/create-role-6.webp') }}" data-title="6. Seleccionar los permisos" data-toggle="lightbox" class="hoverZoomLink"><img class="img-responsive" src="{{ asset('/man/create-role-6.webp') }}" style="border-radius: 8px; border: 1px solid #F4F2F7;" alt="6. Seleccionar los permisos"></a>
+    <a class="mask hoverZoomLink" href="{{ asset('/man/create-role-6.webp') }}" data-title="6. Seleccionar los permisos" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+  </div>
+</div>
+
+<div class="col-md-6 col-sm-12 col-sm-12">
+  <h3>7. Click en Crear rol</h3>
+  <div class="screenshot-holder">
+    <a href="{{ asset('/man/create-role-7.webp') }}" data-title="7. Click en Crear rol" data-toggle="lightbox" class="hoverZoomLink"><img class="img-responsive" src="{{ asset('/man/create-role-7.webp') }}" style="border-radius: 8px; border: 1px solid #F4F2F7;" alt="7. Click en Crear rol"></a>
+    <a class="mask hoverZoomLink" href="{{ asset('/man/create-role-7.webp') }}" data-title="7. Click en Crear rol" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+  </div>
+</div>
+</div>
     </div>
   </div>
 </section>
@@ -150,8 +203,51 @@
 <section id="create-department" class="doc-section">
   <h2 class="section-title">Crear Departamento</h2>
   <div class="section-block">
-    <div class="code-block">
-      <pre><code class="language-php"></code></pre>
+    <div class="row">
+
+
+
+<div class="col-md-6 col-sm-12 col-sm-12">
+  <h3>1. Click on Departamentos</h3>
+  <div class="screenshot-holder">
+    <a href="{{ asset('/man/create-department-1.webp') }}" data-title="1. Click on Departamentos" data-toggle="lightbox" class="hoverZoomLink"><img class="img-responsive" src="{{ asset('/man/create-department-1.webp') }}" style="border-radius: 8px; border: 1px solid #F4F2F7;" alt="1. Click on Departamentos"></a>
+    <a class="mask hoverZoomLink" href="{{ asset('/man/create-department-1.webp') }}" data-title="1. Click on Departamentos" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+  </div>
+</div>
+
+<div class="col-md-6 col-sm-12 col-sm-12">
+  <h3>2. Click on Crear</h3>
+  <div class="screenshot-holder">
+    <a href="{{ asset('/man/create-department-2.webp') }}" data-title="2. Click on Crear" data-toggle="lightbox" class="hoverZoomLink"><img class="img-responsive" src="{{ asset('/man/create-department-2.webp') }}" style="border-radius: 8px; border: 1px solid #F4F2F7;" alt="2. Click on Crear"></a>
+    <a class="mask hoverZoomLink" href="{{ asset('/man/create-department-2.webp') }}" data-title="2. Click on Crear" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+  </div>
+</div>
+
+<div class="col-md-6 col-sm-12 col-sm-12">
+  <h3>3. Click on Elegir cliente</h3>
+  <div class="screenshot-holder">
+    <a href="{{ asset('/man/create-department-3.webp') }}" data-title="3. Click on Elegir cliente" data-toggle="lightbox" class="hoverZoomLink"><img class="img-responsive" src="{{ asset('/man/create-department-3.webp') }}" style="border-radius: 8px; border: 1px solid #F4F2F7;" alt="3. Click on Elegir cliente"></a>
+    <a class="mask hoverZoomLink" href="{{ asset('/man/create-department-3.webp') }}" data-title="3. Click on Elegir cliente" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+  </div>
+</div>
+
+<div class="col-md-6 col-sm-12 col-sm-12">
+  <h3>4. Click on Departamento</h3>
+  <div class="screenshot-holder">
+    <a href="{{ asset('/man/create-department-4.webp') }}" data-title="4. Click on Departamento" data-toggle="lightbox" class="hoverZoomLink"><img class="img-responsive" src="{{ asset('/man/create-department-4.webp') }}" style="border-radius: 8px; border: 1px solid #F4F2F7;" alt="4. Click on Departamento"></a>
+    <a class="mask hoverZoomLink" href="{{ asset('/man/create-department-4.webp') }}" data-title="4. Click on Departamento" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+  </div>
+</div>
+
+<div class="col-md-6 col-sm-12 col-sm-12">
+  <h3>5. Click on Guardar departamento</h3>
+  <div class="screenshot-holder">
+    <a href="{{ asset('/man/create-department-5.webp') }}" data-title="5. Click on Guardar departamento" data-toggle="lightbox" class="hoverZoomLink"><img class="img-responsive" src="{{ asset('/man/create-department-5.webp') }}" style="border-radius: 8px; border: 1px solid #F4F2F7;" alt="5. Click on Guardar departamento"></a>
+    <a class="mask hoverZoomLink" href="{{ asset('/man/create-department-5.webp') }}" data-title="5. Click on Guardar departamento" data-toggle="lightbox"><i class="icon fa fa-search-plus"></i></a>
+  </div>
+</div>
+
+
     </div>
   </div>
 </section>
