@@ -406,7 +406,15 @@ private function checkParentChanges($parentId)
             $this->initializeQuantities();
             $this->emitStatusQuantities();
 
-            return redirect()->route('admin.order.production_batch', [$this->order->id, $batch->id]);
+            if(!$batch){
+                $this->emit('swal:alert', [
+                    'icon' => 'warning',
+                    'title' => 'Error al crear'
+                ]);
+            }
+            else{
+                return redirect()->route('admin.order.production_batch', [$this->order->id, $batch->id]);
+            }
         }
         else{
             $this->emit('swal:alert', [

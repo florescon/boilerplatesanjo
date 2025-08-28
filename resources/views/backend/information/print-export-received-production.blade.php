@@ -61,13 +61,12 @@
         <tr>
             <td style="width: 50%;">
                 <p style="margin: 0;"><strong>Estado:</strong> {{ ucfirst($status->name) }}</p>
-                <p style="margin: 0;"><strong>Rango Fecha:</strong> {{ $dateInput }} al {{ $dateOutput }}</p>
+                <p style="margin: 0;"> <h6 class="d-inline text-primary">{{ ucwords(strtolower($getPersonal->name)) }}</h6></p>
+
+                <p style="margin: 0;"><h6 class="d-inline">{{ $dateInput }} al {{ $dateOutput }}</h6></p>
             </td>
             <td style="width: 50%; text-align: center;">
                 <p style="margin: 0;"><strong>Fecha de generación:</strong> {{ now()->format('d/m/Y H:i') }}</p>
-                @if($getPersonal && $grouped)
-                    <p style="margin: 0;"> <h4 class="d-inline">{{ ucwords(strtolower($getPersonal->name)) }}</h4></p>
-                @endif
             </td>
         </tr>
     </tbody>
@@ -225,8 +224,8 @@
             <td style="width: 50%;">
             </td>
             <td style="width: 50%; text-align: center;">
-                @if($getPersonal)
-                    <p style="margin: 0;"> <h4 class="d-inline">{{ ucwords(strtolower($getPersonal->name)) }}</h4></p>
+                @if($getPersonal && $grouped)
+                    <p style="margin: 0;"> <h6 class="d-inline text-primary">{{ ucwords(strtolower($getPersonal->name)) }}</h6></p>
                 @endif
             </td>
         </tr>
