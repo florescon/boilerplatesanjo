@@ -974,6 +974,12 @@ kbd {
   max-width: 35%;
 }
 
+
+.cs-invoice.cs-style1 .cs-invoice_left50 {
+  max-width: 50%;
+}
+
+
 /*before*/
 /*  max-width: 35%;*/
 
@@ -1374,7 +1380,7 @@ kbd {
     max-width: 100%;
     width: 100%;
   }
-  .cs-invoice.cs-style1 .cs-invoice_left {
+  .cs-invoice.cs-style1 .cs-invoice_left50 {
     max-width: 100%;
   }
 }

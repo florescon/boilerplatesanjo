@@ -13,6 +13,7 @@ use App\Models\Status;
 use DB;
 use Symfony\Component\HttpFoundation\Response;
 use Excel;
+use App\Exports\OrderProcessExport;
 use App\Exports\OrderByDateExport;
 
 class OrderTable extends Component
@@ -325,6 +326,13 @@ class OrderTable extends Component
     {
         $this->resetPage();
     }
+
+    public function exportMaatwebsite($extension)
+    {   
+        abort_if(!in_array($extension, ['csv','xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
+        return Excel::download(new OrderProcessExport, 'order-process-'.Carbon::now().'.'.$extension);
+    }
+
 
     public function render()
     {

@@ -43,11 +43,18 @@
 
 
         <div class="cs-invoice_head cs-mb10">
-          <div class="cs-invoice_left">
+          <div class="cs-invoice_left50">
             <b class="cs-primary_color">@lang('Customer Information'):</b>
             <p>
               {!! $productionBatch->order->user_name !!} <br>
               {!! $productionBatch->order->user_details !!}<br>
+
+              {!! $productionBatch->order->info_customer_break !!}
+              {!! $productionBatch->order->complementary_break !!}
+              {!! $productionBatch->order->notes_break !!}
+              {!! $productionBatch->order->observation_break !!}
+              {!! $productionBatch->order->comment_break !!}
+
             </p>
           </div>
           <div class="cs-invoice_right cs-text_right">

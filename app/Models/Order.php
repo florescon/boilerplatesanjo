@@ -673,6 +673,42 @@ public function getTotalGraphicWorkAttribute()
         return $this->total_payments();
     }
 
+    public function getInfoCustomerBreakAttribute(): string
+    {
+        return !empty($this->info_customer)
+            ? $this->info_customer . '<br>'
+            : '';
+    }
+
+    public function getComplementaryBreakAttribute(): string
+    {
+        return !empty($this->complementary)
+            ? $this->complementary . '<br>'
+            : '';
+    }
+
+    public function getNotesBreakAttribute(): string
+    {
+        return !empty($this->notes)
+            ? $this->notes . '<br>'
+            : '';
+    }
+
+    public function getObservationBreakAttribute(): string
+    {
+        return !empty($this->observation)
+            ? $this->observation . '<br>'
+            : '';
+    }
+
+    public function getCommentBreakAttribute(): string
+    {
+        return !empty($this->comment)
+            ? $this->comment . '<br>'
+            : '';
+    }
+
+
     /**
      * @return mixed
      */
