@@ -421,6 +421,6 @@
             </div>
         </div>
     </div>
-    <p class="text-small text-secondary pl-4"><em><i class="cil-smile"></i> This section is created with Query Builder <i class="cil-smile"></i>
+    <p class="text-small text-dark pl-4"><em><i class="cil-smile"></i> This section is created with Query Builder. By: Flores <i class="cil-smile"></i>
 </em></p>
 </div>
