@@ -12,6 +12,7 @@ class PrintNewFormatOrder extends Component
 
     public bool $width = TRUE;
     public bool $prices = false;
+    public bool $priceIVaIncluded = false;
     public bool $breakdown = false;
     public bool $general = false;
     public bool $details = true;
@@ -19,6 +20,7 @@ class PrintNewFormatOrder extends Component
     protected $queryString = [
         'width' => ['except' => FALSE],
         'prices' => ['except' => FALSE],
+        'priceIVaIncluded' => ['except' => FALSE],
         'breakdown' => ['except' => FALSE],
         'general' => ['except' => FALSE],
         'details' => ['except' => FALSE],

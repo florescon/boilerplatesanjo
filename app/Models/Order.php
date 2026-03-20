@@ -1282,7 +1282,8 @@ public function getSizeTablesData(?array $statusCollection = null): array
                         'active' => $active,
                         'amount' => $amount,
                         'only_display' => $quantity,
-                        'display' => "{$quantity} &nbsp; <small class='font-italic text-primary'>".priceWithoutIvaIncluded($item->price)."</small>"
+                        'display' => "{$quantity} &nbsp; <small class='font-italic text-primary'>".priceWithoutIvaIncluded($item->price)."</small>",
+                        'display_IVA' => "{$quantity} &nbsp; <small class='font-italic text-primary'>".$item->price."</small>"
                     ];
                     
                     $sizeTotals[$size['id']]['quantity'] += $quantity;
@@ -1297,6 +1298,7 @@ public function getSizeTablesData(?array $statusCollection = null): array
                 $quantity = 0;
                 $amount = 0;
                 $displayParts = [];
+                $displayPartsIVA = [];
                 
                 foreach ($product['no_size_items'] as $item) {
                     $itemQuantity = $item->quantity;
@@ -1306,13 +1308,15 @@ public function getSizeTablesData(?array $statusCollection = null): array
                     $amount += $itemAmount;
                     
                     $displayParts[] = "{$itemQuantity} &nbsp; <small class='font-italic text-primary'>".priceWithoutIvaIncluded($item->price)."</small>";
+                    $displayPartsIVA[] = "{$itemQuantity} &nbsp; <small class='font-italic text-primary'>".$item->price."</small>";
                 }
                 
                 $row['no_size'] = [
                     'quantity' => $quantity,
                     'amount' => $amount,
                     'only_display' => $quantity,
-                    'display' => implode(' + ', $displayParts)
+                    'display' => implode(' + ', $displayParts),
+                    'display_IVA' => implode(' + ', $displayPartsIVA),
                 ];
                 
                 $noSizeTotal['quantity'] += $quantity;

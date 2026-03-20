@@ -101,6 +101,11 @@ class FamilyTable extends TableComponent
                     return view('backend.family.datatable.to-document', ['family' => $model]);
                 })
                 ->excludeFromExport(),
+            Column::make(__('Cloth width'), 'cloth_width')
+                ->format(function (Family $model) {
+                    return view('backend.family.datatable.cloth-width', ['family' => $model]);
+                })
+                ->excludeFromExport(),
             Column::make(__('Created at'), 'created_at')
                 ->searchable()
                 ->sortable(),
@@ -122,6 +127,25 @@ class FamilyTable extends TableComponent
             
             $family->update([
                 'add_thread' => $family->add_thread ? false : true,
+            ]);
+
+            sleep(1);
+        }
+
+        $this->emit('swal:alert', [
+            'icon' => 'success',
+            'title'   => __('Changed'), 
+        ]);
+    }
+
+
+    public function cloth(?int $id = null)
+    {
+        if($id){
+            $family = Family::withTrashed()->find($id);
+            
+            $family->update([
+                'cloth_width' => $family->cloth_width ? false : true,
             ]);
 
             sleep(1);

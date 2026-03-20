@@ -54,6 +54,15 @@
               {{ now()->isoFormat('D, MMM, YY - h:mm a') }}
           </div>
           <div class="cs-invoice_right cs-text_right cs-hide_print">
+
+            <button wire:click="$toggle('priceIVaIncluded')" class="cs-invoice_btn {{ !$priceIVaIncluded ? '' : 'cs-color1' }}">
+              @if(!$priceIVaIncluded)
+                Sin IVA
+              @else
+                Precio Iva Incluido
+              @endif
+            </button>
+
             <button wire:click="$toggle('prices')" class="cs-invoice_btn {{ !$prices ? '' : 'cs-color1' }}">
               @if(!$prices)
                 @lang('Prices')
@@ -274,23 +283,43 @@
                                   @foreach($tableData['headers'] as $header)
                                       <td class="text-right text-center">
                                           @if(isset($row['sizes'][$header['id']]))
-                                              {!! $prices ? $row['sizes'][$header['id']]['display'] : $row['sizes'][$header['id']]['only_display'] !!}
+                                            @if($prices)
+                                              @if(!$priceIVaIncluded)
+                                                {!! $row['sizes'][$header['id']]['display'] !!}
+                                              @else
+                                                {!! $row['sizes'][$header['id']]['display_IVA'] !!}
+                                              @endif
+                                            @else
+                                              {!! $row['sizes'][$header['id']]['only_display'] !!}
+                                            @endif
                                           @endif
                                       </td>
                                   @endforeach
                                   
                                   @if($row['no_size'])
                                   <td class="text-center">
-                                      {!! $prices ? $row['no_size']['display'] : $row['no_size']['only_display'] !!}
+                                    @if($prices)
+                                      @if(!$priceIVaIncluded)
+                                        {!! $row['no_size']['display'] !!}
+                                      @else
+                                        {!! $row['no_size']['display_IVA'] !!}
+                                      @endif
+                                    @else
+                                      {!! $row['no_size']['only_display'] !!}
+                                    @endif
                                   </td>
                                   @endif
                                   <td class="text-center font-weight-bold">
                                       {{ $row['row_quantity'] }}
                                       @if($prices)
-                                      &nbsp;
-                                      <small class="font-italic text-primary">
-                                        {{ $row['row_total_display'] }}
-                                      </small>
+                                        &nbsp;
+                                          <small class="font-italic text-primary">
+                                          @if(!$priceIVaIncluded)
+                                            {{ $row['row_total_display'] }}
+                                          @else
+                                            {{ priceIncludeIva($row['row_total_display']) }}
+                                          @endif
+                                          </small>
                                       @endif
                                   </td>
                               </tr>
@@ -334,7 +363,13 @@
                                   &nbsp;
                                   @if($prices)
                                     <small class="font-italic">
-                                      {{ $tableData['totals']['grand_total'] }}
+
+                                      @if(!$priceIVaIncluded)
+                                        {{ $tableData['totals']['grand_total'] }}
+                                      @else
+                                        {{ priceIncludeIva($tableData['totals']['grand_total']) }}
+                                      @endif
+
                                     </small>
                                   @endif
                               </td>
@@ -360,15 +395,21 @@
                     </td>
                     @if($prices)
                     <td class="cs-width_5 cs-text_right">
+                      @if(!$priceIVaIncluded)
                       <p class="cs-primary_color cs-bold cs-f19 cs-m0">@lang('Subtotal'):</p>
+                      @endif
                       @if($order->discount)
                         <p class="cs-primary_color cs-bold cs-f19 cs-m0">@lang('Discount'):</p>
                       @endif
+                      @if(!$priceIVaIncluded)
                       <p class="cs-mb5 cs-mb5 cs-f19 cs-primary_color cs-semi_bold">IVA:</p>
+                      @endif
                       <p class="cs-primary_color cs-bold cs-f19 cs-m0">@lang('Total'):</p>
                     </td>
                     <td class="cs-width_2 cs-text_rightcs-f19">
+                      @if(!$priceIVaIncluded)
                         <p class="cs-primary_color cs-bold cs-f19 cs-m0 cs-text_right">${{ count($order->product_suborder) ? '--' : number_format($order->subtotal_by_all, 2)  }}</p>
+                      @endif
                       @if($order->discount)
                         <p class="cs-mb5 cs-mb5 cs-text_right cs-f19 cs-primary_color cs-semi_bold">
                           @if(!$breakdown)
@@ -378,7 +419,9 @@
                           @endif
                         </p>
                       @endif
+                      @if(!$priceIVaIncluded)
                         <p class="cs-mb5 cs-mb5 cs-text_right cs-f19 cs-primary_color cs-semi_bold">${{ count($order->product_suborder) ? '--' : calculateIva($order->subtotal_less_discount) }}</p>
+                        @endif
                       <p class="cs-primary_color cs-bold cs-f19 cs-m0 cs-text_right">${{ number_format(count($order->product_suborder) ? $total : $order->total_by_all_with_discount, 2) }}</p>
                     </td>
                     @endif

@@ -484,6 +484,14 @@ class OrderController extends Controller
         return $pdf->stream();
     }
 
+    public function letter_materia_prod(Order $order, ProductionBatch $station)
+    {
+        if($station->status->initial_lot == false){
+            abort(401);
+        }
+
+        return view('backend.order.print-letter', ['order' => $order, 'station' => $station]);
+    }
 
     public function ticket_materia_prod(Order $order, ProductionBatch $station)
     {

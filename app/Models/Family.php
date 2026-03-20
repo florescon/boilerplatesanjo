@@ -93,5 +93,6 @@ class Family extends Model
         'name',
         'slug',
         'add_thread',
+        'cloth_width',
     ];
 }

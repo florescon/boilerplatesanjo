@@ -117,6 +117,11 @@
                 <div class="col-4 align-self-center text-center">
                   <a href="{{ route('admin.order.ticket_materia_prod', [$order->id, $productionBatch->id]) }}" target="_blank" class="list-group-item list-group-item-action"> Ver BOM  <i class="fas fa-external-link-alt m-1"></i></a>
                 </div>
+
+                <div class="col-4 align-self-center text-center">
+                  <a href="{{ route('admin.order.letter_materia_prod', [$order->id, $productionBatch->id]) }}" target="_blank" class="list-group-item list-group-item-action"> Carta  <i class="fas fa-external-link-alt m-1"></i></a>
+                </div>
+
               @endif
               <div class="col-4 align-self-center text-center">
                 <a href="{{ route('admin.order.ticket_prod', [$order->id, $productionBatch->id]) }}" target="_blank" class="list-group-item list-group-item-action list-group-item-info"> Imprimir Ticket {{ ucfirst($status->name) }}  <i class="fas fa-external-link-alt m-1"></i></a>

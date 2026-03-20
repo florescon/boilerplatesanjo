@@ -228,6 +228,14 @@ Route::group([
                     ->push(__('Ticket order'), route('admin.order.ticket_materia_prod', [$order, $station]));
             });
 
+        Route::get('letter_materia_prod/{station}', [OrderController::class, 'letter_materia_prod'])
+            ->name('letter_materia_prod')
+            ->middleware('permission:admin.access.order.modify')
+            ->breadcrumbs(function (Trail $trail, Order $order, ProductionBatch $station) {
+                $trail->parent('admin.order.edit', $order)
+                    ->push(__('Ticket order'), route('admin.order.letter_materia_prod', [$order, $station]));
+            });
+
         Route::get('output/{grouped?}', [ProductionBatchController::class, 'output'])
             ->name('output')
             ->middleware('permission:admin.access.station.list');

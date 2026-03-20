@@ -528,6 +528,7 @@ class ProductOrder extends Model
                     'unit_measurement' => $consumption->material->unit_measurement ?? null,
                     'vendor' => $consumption->material->vendor->short_name ?? null,
                     'family' => $consumption->material->family->name ?? null,
+                    'cloth_width' => $consumption->material->family->cloth_width ?? null,
                     'price' => $consumption->material->price ?? null,
                 ]);
             }
@@ -555,6 +556,7 @@ class ProductOrder extends Model
                 'unit_measurement' => $firstItem['unit_measurement'],
                 'vendor' => $firstItem['vendor'],
                 'family' => $firstItem['family'],
+                'cloth_width' => $firstItem['cloth_width'],
                 'quantity' => $items->sum('quantity'),
                 'stock' => $firstItem['stock'],
             ];
