@@ -30,6 +30,10 @@
 
   <livewire:scripts />
 
+
+  <script src="{{ mix('js/manifest.js') }}"></script>
+  <script src="{{ mix('js/vendor.js') }}"></script>
+  <script src="{{ mix('js/backend.js') }}"></script>
   <script src="{{ asset('/js_custom/vendor.min.js') }}"></script>
 
   <script type="text/javascript">
@@ -42,6 +46,14 @@
       }
     })
   </script>
+
+  @include('backend.layouts.sweet')
+
+  <script src="{{ asset('js_custom/app/alpine.min.js') }}" defer></script>
+
+
+    <script src="{{ asset('js_custom/app/moment.js') }}"></script>
+    <script src="{{ asset('js_custom/app/pikaday.js') }}"></script>
 
 </body>
 </html>

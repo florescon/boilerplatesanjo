@@ -6,6 +6,8 @@ use Livewire\Component;
 use App\Models\Order;
 use App\Models\ProductionBatch;
 use App\Models\ProductOrder;
+use App\Models\Material;
+use App\Models\MaterialOrder;
 
 use DB;
 
@@ -18,12 +20,95 @@ class PrintLetterOrder extends Component
     public bool $general = false;
     public bool $details = true;
 
+    public $manualMaterials = [];
+
+    public $add_qty = [];
+
+    public $add_comment = [];
+
     protected $queryString = [
         'width' => ['except' => FALSE],
         'general' => ['except' => FALSE],
         'details' => ['except' => FALSE],
     ];
 
+
+    public function mount()
+    {
+        $this->manualMaterials = MaterialOrder::where('order_id', $this->order->id)
+            ->where('production_batch_id', $this->station->id)
+            ->where('manual', true)
+            ->get()
+            ->groupBy('material_id')
+            ->map(function ($items) {
+                return $items->toArray(); // 🔥 convertir cada grupo
+            })
+            ->toArray(); // 🔥 convertir todo
+    }
+
+    public function show($id)
+    {
+        // $record = Product::withTrashed()->findOrFail($id);
+        // $this->name = $record->name;
+        // $this->code = $record->code;
+        // $this->price = $record->price;
+        // $this->is_active = $record->status_name;
+        // $this->created = $record->created_at;
+        // $this->updated = $record->updated_at;
+    }
+
+
+public function saveData($key)
+{
+
+    $this->validate(
+        [
+            "add_qty.$key" => 'required|numeric|min:0',
+            "add_comment.$key" => 'nullable|string|max:200',
+        ],
+        [
+            "add_qty.$key.required" => 'La cantidad es obligatoria.',
+            "add_qty.$key.numeric" => 'La cantidad debe ser un número.',
+        ],
+        [
+            "add_qty.$key" => 'cantidad',
+            "add_comment.$key" => 'comentario',
+        ]
+    );
+
+    $quantity = $this->add_qty[$key] ?? null;
+    $add_comment = $this->add_comment[$key] ?? null;
+    $select_material = $key ?? null;
+    $order = $this->order->id;
+    $station = $this->station->id;
+    $manual = true;
+
+    $material = Material::find($select_material);
+
+    if ($material->stock < $quantity) {
+        return $this->emit('swal:modal', [
+            'icon' => 'error',
+            'title' => 'No hay suficiente cantidad en el inventario',
+        ]);
+    }
+    else{
+       // 🔥 Guardar en DB
+        MaterialOrder::create([
+            'quantity' => $quantity,
+            'comment' => $add_comment,
+            'material_id' => $select_material,
+            'order_id' => $order,
+            'production_batch_id' => $station,
+            'manual' => $manual,
+        ]);
+
+        // reset
+        $this->add_qty[$key] = null;
+        $this->add_comment[$key] = null;
+    }
+    return $this->redirectRoute('admin.order.letter_materia_prod', [$this->order->id, $this->station->id]);
+
+}
     public function render()
     {
 
@@ -325,6 +410,7 @@ class PrintLetterOrder extends Component
                 'material_name' => $product['material_name'],
                 'part_number'         => $product['part_number'],
                 'unit_measurement' => $product['unit_measurement'],
+                'material_id' => $product['material_id'],
                 'cloth_width' => $product['cloth_width'],
                 'quantity' => $product['quantity'],
                 ];

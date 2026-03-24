@@ -217,6 +217,17 @@
 
 
         <div class="cs-heading cs-style1 cs-f18 cs-primary_color cs-mb20 cs-semi_bold">@lang('Bom of Materials')</div>
+
+        @if($station->consumption)
+          <div class="alert alert-success cs-hide_print" role="alert">
+            Materia prima consumida
+          </div>  
+        @else
+          <div class="alert alert-danger cs-hide_print" role="alert">
+            Materia prima no consumida. Es necesario realizar el consumo para ajustar cantidades.
+          </div>        
+        @endif
+
         <div class="cs-table cs-style2 cs-mb50 cs-table cs-style1  cs-mb30">
           <div class="cs-round_border tm-border-radious-12">
                 <div class="cs-table_responsive">
@@ -231,7 +242,65 @@
                         <tbody>
                           @foreach($allMaterials as $key => $material)
                           <tr class="{{ $loop->odd ? '' : 'cs-accent_10_bg' }}" style="{{ $material['quantity'] == 0 ? 'text-decoration: line-through;' : '' }}">
-                              <td>{{ $material['quantity'] .'  '.$material['unit_measurement'] }}</td>
+                              <td>
+                                @if(!empty($manualMaterials[$material['material_id']]))
+                                <del>
+                                  {{ $material['quantity'] .'  '.$material['unit_measurement'] }}
+                                </del>
+                                @else
+                                  {{ $material['quantity'] .'  '.$material['unit_measurement'] }}
+                                @endif
+
+
+@if($station->consumption && empty($manualMaterials[$material['material_id']]) && !$station->allItemsAreBalanced())
+  <p class="card-text no-print d-inline cs-hide_print">
+
+      <div x-data="{ show: false }" class="d-inline">
+          
+          <h5>
+              <button class="cs-hide_print badge badge-info" @click="show = !show">
+                  Agregar cantidad 
+              </button>
+          </h5>
+
+          <div x-show="show" class="mt-2">
+              <input 
+                  type="text" 
+                  class="form-control m-1 cs-hide_print" 
+                  placeholder="Agregar" 
+                  wire:model="add_qty.{{ $key }}"
+              >
+
+              <input 
+                  type="text" 
+                  class="form-control m-1 cs-hide_print" 
+                  placeholder="Comentario" 
+                  wire:model="add_comment.{{ $key }}"
+              >
+          </div>
+
+          @if(!empty($add_qty[$key]))
+          <div x-show="show">
+              <a 
+                  role="button" 
+                  wire:click="saveData({{ $key }})" 
+                  class="cs-hide_print btn btn-sm btn-primary float-right mt-2 text-white"
+              >
+                  @lang('Save')
+              </a>
+          </div>
+          @endif
+
+      </div>
+      @error("add_qty.$key") 
+          <span class="error" style="color: red;">
+              <p>{{ $message }}</p>
+          </span> 
+      @enderror
+  </p>
+@endif
+
+                              </td>
                               <td>{{ $material['part_number'] }}</td>
                               <td class="cs-primary_color">
                                 @if($material['cloth_width'])
@@ -241,6 +310,24 @@
                                 {{  $material['material_name'] }} 
                               </td>
                           </tr>
+@if(!empty($manualMaterials[$material['material_id']]))
+    @foreach($manualMaterials[$material['material_id']] as $manual)
+        <tr style="background-color: #ffeeba;">
+            <td >
+                + {{ $manual['quantity'].' '.$material['unit_measurement'] }} (manual) = 
+                <strong class="text-danger">
+                  {{ $manual['quantity'] + $material['quantity'].' '.$material['unit_measurement'] }}
+                </strong>
+            </td>
+            <td colspan="2">
+              <em>
+                {{ $manual['comment'] }}
+              </em>
+            </td>
+        </tr>
+    @endforeach
+@endif
+
                           @endforeach
                         </tbody>
                     </table>
