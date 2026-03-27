@@ -658,6 +658,12 @@ class OrderController extends Controller
         ]);
     }
 
+    public function reasign(Order $order)
+    {
+        return view('backend.order.records-payment-order', compact('order'));
+    }
+
+
     public function records_payment(Order $order)
     {
         $records_payment = $order->orders_payments()->orderBy('created_at', 'desc')->paginate('10')->fragment('payment');

@@ -49,7 +49,7 @@ class EditOrder extends Component
         'details' => ['except' => FALSE],
     ];
 
-    protected $listeners = ['updateStatus' => '$refresh', 'cartUpdated' => '$refresh', 'paymentStore' => 'render', 'deleteOrder', 'serviceStore' => 'render'];
+    protected $listeners = ['updateStatus' => '$refresh', 'cartUpdated' => '$refresh', 'paymentStore' => 'render', 'deleteOrder', 'reasignUserStore' => 'render', 'serviceStore' => 'render'];
 
     public function mount(Order $order)
     {

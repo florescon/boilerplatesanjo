@@ -376,6 +376,7 @@
                     <h5 class="mt-2"><a href="#!" data-toggle="modal" wire:click="$emitTo('backend.order.create-payment', 'createmodal', {{ $order_id }})" data-target="#createPayment" style="color: #ee2e31;">@lang('Create payment')</a></h5>
                   @endif
                   <br>
+
                   <a href="{{ !$from_store ? route('admin.order.records_payment', $order_id) : route('admin.store.all.records_payment', $order_id) }}" class="card-link">@lang('View payment records')</a>
                 </div>
                 @endif
@@ -391,6 +392,10 @@
                   @if(!$from_store)
                     <a href="{{ route('admin.order.records_delivery', $order_id) }}" class="card-link">@lang('View delivery records')</a>
                   @endif
+
+                @if(!$order->user_departament_changed_at)
+                  <h5 class="mt-2"><a href="#!" data-toggle="modal" wire:click="$emitTo('backend.order.reasign-user', 'reasign', {{ $order->id }})" data-target="#reasignUser" style="color: #ee2e31;">@lang('Reasign customer')</a></h5>
+                @endif
                 </div>
               </div>
             </div>
@@ -998,6 +1003,7 @@
 
 <livewire:backend.order.create-payment />
 <livewire:backend.order.add-service />
+<livewire:backend.order.reasign-user orderId="{{ $order_id }}" />
 
 @push('after-scripts')
 
@@ -1063,6 +1069,12 @@
   <script type="text/javascript">
     Livewire.on("paymentStore", () => {
         $("#createPayment").modal("hide");
+    });
+  </script>
+
+  <script type="text/javascript">
+    Livewire.on("reasignUserStore", () => {
+        $("#reasignUser").modal("hide");
     });
   </script>
 

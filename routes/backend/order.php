@@ -381,6 +381,15 @@ Route::group([
                     ->push(__('Status records payment'), route('admin.order.records_payment', $order));
             });
 
+        Route::get('reasign', [OrderController::class, 'reasign'])
+            ->name('reasign')
+            ->middleware('permission:admin.access.order.modify')
+            ->breadcrumbs(function (Trail $trail, Order $order) {
+                $trail->parent('admin.order.edit', $order)
+                    ->push(__('Reasign'), route('admin.order.reasign', $order));
+            });
+
+
         Route::post('/', [OrderController::class, 'create_service_order'])->name('create_service_order');
 
         Route::get('service_orders', [OrderController::class, 'service_orders'])

@@ -403,6 +403,7 @@
     "The feedstock was successfully deleted": "La materia prima fue eliminada satisfactoriamente",
     "The user/departament was successfully reasigned": "El usuario/departamento fue reasignado satisfactoriamente",
     "Reasign user": "Reasignar usuario",
+    "Reasign customer": "Reasignar cliente",
     "Reasign departament": "Reasignar departamento",
     "Search by folio, tracking number or comment": "Buscar por folio, número de seguimiento o comentario",
     "Search by folio, customer, tracking number or comment": "Buscar por folio, cliente, número de seguimiento o comentario",

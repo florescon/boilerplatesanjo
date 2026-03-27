@@ -12,7 +12,7 @@ class ReasignUser extends Component
 
     public $orderId;
 
-    protected $listeners = ['createmodal', 'selectedCompanyItem'];
+    protected $listeners = ['reasign', 'selectedCompanyItem'];
 
     protected $rules = [
         'user' => 'required',
@@ -34,7 +34,7 @@ class ReasignUser extends Component
         $this->user = '';
     }
 
-    public function createmodal(int $id)
+    public function reasign(int $id)
     {
         $this->orderId = $id;
         $this->resetInputFields();
