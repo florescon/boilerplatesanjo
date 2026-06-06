@@ -189,12 +189,12 @@
                         @if($prices)
                         <td class="cs-width_1 cs-text_center cs-primary_color">
                           @if($product->omg)
-                            ${{ priceWithoutIvaIncluded($product->min_price) }}
+                            ${{ $priceIVaIncluded ? $product->min_price : priceWithoutIvaIncluded($product->min_price) }}
                             -
                           @endif
-                            ${{ priceWithoutIvaIncluded($product->max_price) }}
+                            ${{ $priceIVaIncluded ? $product->max_price : priceWithoutIvaIncluded($product->max_price) }}
                         </td>
-                        <td class="cs-width_2 cs-text_right cs-primary_color">${{ priceWithoutIvaIncluded($product->sum_total) }}</td>
+                        <td class="cs-width_2 cs-text_right cs-primary_color">${{ $priceIVaIncluded ? $product->sum_total : priceWithoutIvaIncluded($product->sum_total) }}</td>
                         @endif
                       </tr>
                       @endif
@@ -214,15 +214,21 @@
                     </td>
                     @if($prices)
                     <td class="cs-width_5 cs-text_right">
+                      @if(!$priceIVaIncluded)
                       <p class="cs-primary_color cs-bold cs-f19 cs-m0">@lang('Subtotal'):</p>
+                      @endif
                       @if($order->discount)
                         <p class="cs-primary_color cs-bold cs-f19 cs-m0">@lang('Discount'):</p>
                       @endif
+                      @if(!$priceIVaIncluded)
                       <p class="cs-mb5 cs-mb5 cs-f19 cs-primary_color cs-semi_bold">IVA:</p>
+                      @endif
                       <p class="cs-primary_color cs-bold cs-f19 cs-m0">@lang('Total'):</p>
                     </td>
                     <td class="cs-width_2 cs-text_rightcs-f19">
+                      @if(!$priceIVaIncluded)
                         <p class="cs-primary_color cs-bold cs-f19 cs-m0 cs-text_right">${{ count($order->product_suborder) ? '--' : number_format($order->subtotal_by_all, 2)  }}</p>
+                      @endif
                       @if($order->discount)
                         <p class="cs-mb5 cs-mb5 cs-text_right cs-f19 cs-primary_color cs-semi_bold">
                           @if(!$breakdown)
@@ -232,7 +238,10 @@
                           @endif
                         </p>
                       @endif
+                      @if(!$priceIVaIncluded)
+
                         <p class="cs-mb5 cs-mb5 cs-text_right cs-f19 cs-primary_color cs-semi_bold">${{ count($order->product_suborder) ? '--' : calculateIva($order->subtotal_less_discount) }}</p>
+                      @endif
                       <p class="cs-primary_color cs-bold cs-f19 cs-m0 cs-text_right">${{ number_format(count($order->product_suborder) ? $total : $order->total_by_all_with_discount, 2) }}</p>
                     </td>
                     @endif
