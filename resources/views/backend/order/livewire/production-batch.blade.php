@@ -77,6 +77,21 @@
 
 
       </div>
+
+      <div class="col-4 align-self-center text-center shadow m-4 p-2">
+        <div class="form-group m-3">
+          
+        <button wire:click="$toggle('partialConsumption')" class="btn {{ !$partialConsumption ? 'btn-secondary' : 'btn-primary' }}">
+          @if(!$partialConsumption)
+            Mostrar consumo parcial
+          @else
+            Ocultar consumo parcial 
+          @endif
+        </button>
+
+        </div>
+      </div>
+
       <div class="col-4 align-self-center text-center shadow m-4 p-2">
         <div class="form-group mb-3">
             <x-input.input-alpine nameData="isNote" maxlength="256" :inputText="$isNote" :originalInput="$isNote" wireSubmit="savenote" modelName="notes" :extraName="__('Comment')" />
@@ -156,6 +171,7 @@
               <th scope="col">#</th>
               <th scope="col">@lang('Code')</th>
               <th scope="col">Producto</th>
+              @if(!$partialConsumption)
               <th scope="col">Asignado</th>
               <th scope="col">Recibido</th>
               <th scope="col">Proceso</th>
@@ -166,6 +182,11 @@
                 Enviar a Producto Terminado
               @endif
               </th>
+              @else
+              <th colspan="4">
+                Consumo parcial Materia Prima
+              </th>
+              @endif
               <th scope="col">Activo</th>
             </tr>
           </thead>
@@ -175,6 +196,8 @@
                     <th>{{ $key + 1 }}</th>
                     <th>{{ $item->product->parent_code }}</th>
                     <th scope="row">{!! $item->product->full_name_link !!}</th>
+                    @if(!$partialConsumption)
+
                     <td>{{ $item->input_quantity }}</td>
                     <td>{{ $item->output_quantity }}</td>
                     <td>{{ $this->getRemainingQuantity($item) }}</td>
@@ -197,15 +220,22 @@
                         >
                       @endif
                     </td>
+                    @else
+                    <td colspan="4"></td>
+                    @endif
                     <td>{{ $item->active }}</td>
                 </tr>
             @endforeach
             <tr class="table-dark h5">
               <th colspan="3">Totales</th>
+              @if(!$partialConsumption)
               <td scope="row"><strong>{{ $productionBatch->total_products_prod }}</strong></td>
               <td scope="row"><strong>{{ $productionBatch->total_products_prod_output }}</strong></td>
               <td scope="row"><strong>{{ $productionBatch->total_products_prod_diferrence }}</strong></td>
               <td scope="row"><h3 class="d-inline"><span id="total-sum" class="text-danger">0</span></h3></td>
+              @else
+              <td colspan="4"></td>
+              @endif
               <td scope="row"><strong>{{ $productionBatch->total_products_prod_active }}</strong></td>
             </tr>
           </tbody>

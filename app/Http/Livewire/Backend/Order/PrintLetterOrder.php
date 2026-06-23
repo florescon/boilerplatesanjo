@@ -17,6 +17,7 @@ class PrintLetterOrder extends Component
     public ProductionBatch $station;    
 
     public bool $width = TRUE;
+    public bool $actualStock = TRUE;
     public bool $general = false;
     public bool $details = true;
 
@@ -413,6 +414,7 @@ public function saveData($key)
                 'material_id' => $product['material_id'],
                 'cloth_width' => $product['cloth_width'],
                 'quantity' => $product['quantity'],
+                'stock' => $product['stock'],
                 ];
         });
 

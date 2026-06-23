@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\BomController;
 use App\Http\Controllers\ServiceTypeController;
 use App\Http\Controllers\ProductionBatchController;
 use App\Models\Order;
@@ -202,6 +203,14 @@ Route::group([
                     ->push(__('Ticket order'), route('admin.order.ticket_materia', $order));
             });
 
+
+        Route::get('letter_bom', [BomController::class, 'letter_bom'])
+            ->name('letter_bom')
+            ->middleware('permission:admin.access.order.modify')
+            ->breadcrumbs(function (Trail $trail, Order $order) {
+                $trail->parent('admin.order.edit', $order)
+                    ->push(__('Ticket order'), route('admin.order.letter_bom', $order));
+            });
 
         Route::get('ticket_materia_station/{station}', [OrderController::class, 'ticket_materia_station'])
             ->name('ticket_materia_station')
@@ -428,6 +437,24 @@ Route::group([
             $trail->parent('admin.dashboard')
                 ->push(__('Quotation Panel Management'), route('admin.order.quotation_chart'));
     });
+
+
+    Route::get('quotation_chart_letter_bom', function () {
+            return view('backend.flowchart.quotation_chart_letter_bom');
+        })->name('quotation_chart_letter_bom')
+        ->middleware('permission:admin.access.order.quotation')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.dashboard')
+                ->push(__('Quotation Panel Management'), route('admin.order.quotation_chart_letter_bom'));
+    });
+
+    Route::get('quotation_chart_ticket_bom', [OrderController::class, 'quotation_ticket_bom'])
+        ->name('quotation_chart_ticket_bom')
+        ->middleware('permission:admin.access.order.order-sales')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent('admin.order.index')
+                ->push(__('Quotations'), route('admin.order.quotation_chart_ticket_bom'));
+        });
 
     Route::get('quotations_chart', [OrderController::class, 'quotations_chart_list'])
         ->name('quotations_chart')

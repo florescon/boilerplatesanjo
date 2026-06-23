@@ -7,6 +7,11 @@
 	    {{-- <h5 class="card-title">Special title treatment</h5> --}}
 	    {{-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> --}}
 
+	    @if(($type == 'quotation') && ($branchId === 0))
+            {{-- <a href="{{ route('admin.order.quotation_chart_ticket_bom') }}" class="btn btn-secondary  mb-3 w-100" target="_blank"><i class="cil-print"></i> Ticket BOM </a> --}}
+            <a href="{{ route('admin.order.quotation_chart_letter_bom') }}" class="btn btn-secondary  mb-3 w-100" target="_blank"><i class="cil-print"></i> Carta BOM </a>
+        @endif
+
 	    @if($type == 'quotation' && !$customer)
 			<div class="alert alert-primary" role="alert">
 			  Se recomienda elegir primero el cliente, ya que al actualizar o eliminarlo se ajustarán los precios por defecto

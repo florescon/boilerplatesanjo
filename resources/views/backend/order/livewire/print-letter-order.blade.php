@@ -14,6 +14,15 @@
           @endif
         </button>
 
+
+        <button wire:click="$toggle('actualStock')" class="cs-invoice_btn {{ !$actualStock ? '' : 'cs-color1' }}">
+          @if(!$actualStock)
+            Mostrar existencia
+          @else
+            Ocultar existencia
+          @endif
+        </button>
+
         <a href="javascript:window.print()" class="cs-invoice_btn cs-color2">
           <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M384 368h24a40.12 40.12 0 0040-40V168a40.12 40.12 0 00-40-40H104a40.12 40.12 0 00-40 40v160a40.12 40.12 0 0040 40h24" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32"/><rect x="128" y="240" width="256" height="208" rx="24.32" ry="24.32" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32"/><path d="M384 128v-24a40.12 40.12 0 00-40-40H168a40.12 40.12 0 00-40 40v24" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32"/><circle cx="392" cy="184" r="24"/></svg>
           <span>@lang('Print')</span>
@@ -219,12 +228,12 @@
         <div class="cs-heading cs-style1 cs-f18 cs-primary_color cs-mb20 cs-semi_bold">@lang('Bom of Materials')</div>
 
         @if($station->consumption)
-          <div class="alert alert-success cs-hide_print" role="alert">
+          <div class="alert alert-success cs-hide_print text-center w-50 mx-auto" role="alert">
             Materia prima consumida
           </div>  
         @else
-          <div class="alert alert-danger cs-hide_print" role="alert">
-            Materia prima no consumida. Es necesario realizar el consumo para ajustar cantidades.
+          <div class="alert alert-danger cs-hide_print text-center w-50 mx-auto" role="alert">
+            Materia prima no consumida. Es necesario realizar el consumo.
           </div>        
         @endif
 
@@ -235,8 +244,11 @@
                         <thead>
                             <tr class="cs-focus_bg tm-bg-gray">
                                 <th class="cs-width_2 cs-semi_bold cs-primary_color" style="color: #2ad19d !important;">@lang('Quantity')</th>
+                                @if($actualStock)
+                                <th class="cs-width_2 cs-semi_bold cs-primary_color" style="color: #2ad19d !important;">Existencia</th>
+                                @endif
                                 <th class="cs-width_2 cs-semi_bold cs-primary_color" style="color: #2ad19d !important;">@lang('Code')</th>
-                                <th class="cs-width_8  cs-semi_bold cs-primary_color" style="color: #2ad19d !important;">Materia Prima</th>
+                                <th class="cs-width_6  cs-semi_bold cs-primary_color" style="color: #2ad19d !important;">Materia Prima</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -301,6 +313,9 @@
 @endif
 
                               </td>
+                              @if($actualStock)
+                              <td>{{ $material['stock'] .'  '.$material['unit_measurement']  }}</td>
+                              @endif
                               <td>{{ $material['part_number'] }}</td>
                               <td class="cs-primary_color">
                                 @if($material['cloth_width'])
@@ -341,7 +356,7 @@
           </div>
           <div class="cs-note_right">
             <p class="cs-mb0"><b class="cs-primary_color cs-bold">Nota:</b></p>
-            <p class="cs-m0">Este documento no representa lo consumido ni pendiende por consumir, sólo muestra las cantidades de los productos del Lote y la Explosión de Materiales actuales a la fecha de 'Archivo generado'.</p>
+            <p class="cs-m0">Este documento no representa lo consumido ni pendiende por consumir, sólo muestra las cantidades de los productos del Lote y la Explosión de Materiales actuales a la fecha de 'Archivo generado'. </p>
           </div>
         </div><!-- .cs-note -->
 

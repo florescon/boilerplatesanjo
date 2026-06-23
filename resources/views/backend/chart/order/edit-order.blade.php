@@ -285,6 +285,8 @@
                 <a type="button" href="{{ route('admin.order.newformat', $order_id) }}" class="btn btn-primary" target="_blank">Nuevo Formato</a>
                 <a href="{{ route('admin.bom.ticket_bom', urlencode(json_encode(array($order_id)))) }}" class="btn btn-secondary ml-2" target="_blank"><i class="cil-print"></i> Ticket BOM </a>
 
+                <a href="{{ route('admin.order.letter_bom', $order_id) }}" class="btn btn-secondary ml-2" target="_blank"><i class="cil-print"></i> Carta BOM </a>
+
                 @if(!$model->productionBatches()->exists() && !$model->stations()->exists() && !$model->isQuotation())
                   <a href="{{ route('admin.order.advanced', $order_id) }}" style="color:#1ab394;" class="btn btn-white ml-2 pulsingButton" >
                   <strong>@lang('Edit request')</strong>

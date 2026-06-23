@@ -760,6 +760,7 @@
                     <th>@lang('Product')</th>
                     <th>@lang('Price')</th>
                     <th class="text-center">@lang('Quantity')</th>
+                    <th class="text-center">Existencia</th>
                     <th class="text-center">Total</th>
                     <th></th>
                   </tr>
@@ -786,6 +787,13 @@
                     <td class="text-center" wire:ignore.self>
                       <livewire:backend.cartdb.quantity-update :item="$product" :key="now()->timestamp.$product->id" :typeCart="$product->type" :setModel="'product_order'"/>
                     </td>
+                    <td class="text-center" wire:ignore.self>
+                      @if($product->product->isProduct())
+                       {{ $product->product->stock_store }}
+                      @else
+                        N/A
+                      @endif
+                    </td>
                     <td class="text-center">
                       ${{ number_format((float)$product->total_by_product, 2) }}
                       <div class="small text-muted"> ${{ priceWithoutIvaIncluded($product->total_by_product) }} </div>
@@ -798,7 +806,7 @@
                     <th class="text-right">
                       <img src="{{ asset('img/icons/down-right.svg') }}" width="20" alt="Logo"> 
                     </th>
-                    <th class="text-left" colspan="3">
+                    <th class="text-left" colspan="5">
                       <livewire:backend.components.edit-field :model="'\App\Models\ProductOrder'" :entity="$product" :field="'comment'" :key="'comments'.$product->id"/>
                     </th>
                   </tr>
@@ -810,8 +818,12 @@
                       {!! $model->total_products_and_services_label !!}
                     </td>
                     <td class="text-center">
+                    </td>
+                    <td class="text-center">
                       ${{ number_format((float)$model->total_quotation, 2) }}
                       <div class="small text-muted"> ${{ priceWithoutIvaIncluded($model->total_quotation) }} </div>
+                    </td>
+                    <td class="text-center">
                     </td>
                   </tr>
 

@@ -849,6 +849,12 @@ class OrderController extends Controller
         return view('backend.information.chart', compact('orders'));
     }
 
+
+    public function quotation_ticket_bom()
+    {
+        return view('backend.flowchart.quotation_chart_ticket_bom');
+    }
+
     public function deleted()
     {
         return view('backend.order.deleted');

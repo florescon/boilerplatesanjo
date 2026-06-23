@@ -31,6 +31,8 @@ class ProdBatch extends Component
 
     public $buttonDisabled = false;
 
+    public $partialConsumption   = false;
+
     public $next_status, $previous_status;
 
     public bool $showSentToStock = false;
