@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Backend\Status;
 
-use App\Models\Status;
+use App\Models\Operation;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Http\Livewire\Backend\DataTable\WithBulkActions;
@@ -12,7 +12,6 @@ use Carbon\Carbon;
 
 class StatusTable extends Component
 {
-
     use Withpagination, WithBulkActions, WithCachedRows;
 
     protected $paginationTheme = 'bootstrap';
@@ -23,9 +22,11 @@ class StatusTable extends Component
         'perPage',
     ];
 
+    protected $listeners = ['triggerRefresh' => '$refresh', 'delete' => '$refresh', 'restore' => '$refresh'];
+
     public $perPage = '20';
 
-    public $sortField = 'level';
+    public $sortField = 'name';
     public $sortAsc = true;
 
     public $status;
@@ -42,7 +43,7 @@ class StatusTable extends Component
 
     public function getRowsQueryProperty()
     {
-        $query = Status::query()
+        $query = Operation::query()
                 ->when($this->sortField, function ($query) {
                     $query->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc');
                 });

@@ -47,7 +47,7 @@
 	            <p class="card-text">{{ $order->comment }}</p>
 	            <p class="card-text">{{ $order->observation }}</p>
 
-	            <p class="card-text"><strong>@lang('Total'):</strong> <strong class="text-danger">{{ $order->total_products }}</strong> </p>
+	            <p class="card-text"><strong>@lang('Total'):</strong> <strong class="text-danger">{{ $order->total_products_by_all }}</strong> </p>
 
 	            <div>
 	              <canvas id="doughnut-chart-{{ $order->id }}" width="800" height="550"></canvas>

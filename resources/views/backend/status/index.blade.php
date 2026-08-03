@@ -27,11 +27,21 @@
 @section('content')
 
     <x-backend.card>
-        <x-slot name="header">
-            <strong> <kbd>@lang('Order statuses')</kbd> </strong>
-            <div class="card-header-actions mb-5">
-              <a href="#" class="card-header-action" style="color: green;"  data-toggle="modal" wire:click="createmodal()" data-target="#exampleModal"><i class="c-icon cil-plus"></i> @lang('Create status') {{ '('.__('Disabled').')' }} </a>
-            </div>
+
+      <x-slot name="header">
+          <strong style="color: #85144b;"> <kbd>@lang('Statuses')</kbd> </strong>
+      </x-slot>
+
+        <x-slot name="headerActions">
+          <x-utils.link
+            style="color: #85144b;"
+            icon="c-icon cil-plus"
+            class="card-header-action"
+            data-toggle="modal" 
+            wire:click="$emitTo('backend.status.create-status', 'createmodal')" 
+            data-target="#createStatus"
+            :text="__('Create status')"
+          />
         </x-slot>
 
         <x-slot name="body">
@@ -41,19 +51,21 @@
         </x-slot>
     </x-backend.card>
 
+    <livewire:backend.status.create-status />
+
 @endsection
 
 @push('after-scripts')
     <script type="text/javascript">
-      Livewire.on("departamentStore", () => {
-          $("#exampleModal").modal("hide");
+      Livewire.on("statusStore", () => {
+          $("#createStatus").modal("hide");
       });
     </script>
 
-
     <script type="text/javascript">
-      Livewire.on("departamentUpdate", () => {
+      Livewire.on("statusUpdate", () => {
           $("#updateModal").modal("hide");
       });
     </script>
+
 @endpush

@@ -51,6 +51,22 @@ Route::group([
         });
 
     Route::group(['prefix' => '{batch}'], function () {
+        Route::get('edit', [BatchController::class, 'edit'])
+            ->name('edit')
+            ->middleware('permission:admin.access.order.order')
+            ->breadcrumbs(function (Trail $trail, Batch $batch) {
+                $trail->parent('admin.batch.index')
+                    ->push(__('Edit batch'), route('admin.batch.edit', $batch));
+            });
+
+        Route::get('report', [BatchController::class, 'report'])
+            ->name('report')
+            ->middleware('permission:admin.access.order.order')
+            ->breadcrumbs(function (Trail $trail, Batch $batch) {
+                $trail->parent('admin.batch.index')
+                    ->push(__('Edit batch'), route('admin.batch.report', $batch));
+            });
+
         Route::delete('/', [BatchController::class, 'destroy'])->name('destroy');
     });
 

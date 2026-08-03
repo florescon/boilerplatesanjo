@@ -1,0 +1,68 @@
+@extends('backend.layouts.app')
+
+@section('title', __('Processes'))
+
+@section('breadcrumb-links')
+    @include('backend.processes.includes.breadcrumb-links')
+@endsection
+
+@push('after-styles')
+
+    <style type="text/css">
+        .shadow-primary {   
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.075) inset, 0 0 10px rgb(0, 0, 193);
+        }   
+
+        .shadow-effects{
+            font-size:25px;
+            font-weight:bold;
+            color: transparent;
+            letter-spacing: .10em;
+            text-shadow: -3px -3px 2px #000,1px -1px 0 #fe6161, 2px 1px 3px red,3px 3px 1px #37408C;
+        }  
+    </style>
+
+@endpush
+
+@section('content')
+
+    <x-backend.card>
+      <x-slot name="header">
+          <strong style="color: #85144b;"> <kbd>@lang('Process')</kbd> </strong>
+      </x-slot>
+
+        <x-slot name="headerActions">
+          <x-utils.link
+            style="color: #85144b;"
+            icon="c-icon cil-plus"
+            class="card-header-action"
+            data-toggle="modal" 
+            wire:click="$emitTo('backend.status.create-process', 'createmodal')" 
+            data-target="#createProcess"
+            :text="__('Create process')"
+          />
+        </x-slot>
+
+      <x-slot name="body">
+        <livewire:backend.processes.process-table />
+      </x-slot>
+    </x-backend.card>
+
+    <livewire:backend.status.create-process />
+
+@endsection
+
+@push('after-scripts')
+    <script type="text/javascript">
+      Livewire.on("processStore", () => {
+          $("#createProcess").modal("hide");
+      });
+    </script>
+
+    <script type="text/javascript">
+      Livewire.on("processUpdate", () => {
+          $("#updateModal").modal("hide");
+      });
+    </script>
+
+@endpush

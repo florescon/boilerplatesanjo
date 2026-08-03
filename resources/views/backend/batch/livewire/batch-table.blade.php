@@ -6,25 +6,18 @@
       <div class="card">
         <div class="card-header">
 
-          <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-            <strong>¡Estás en un apartado antiguo!</strong> Ir al nuevo apartado: <a href="{{ route('admin.order.request_chart') }}"> click aquí </a>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-
             <div class="card p-3 border-0">
               <div class="mt-3">
                 <h5 class="heading">
                   <kbd>
                     <i class="cil-view-column"></i> 
-                    @lang('Workstation') ——> {{ __(ucfirst($theName)) }}
-                    @if($status == 'deleted')
+                    @lang('Batches')
+                    @if($process == 'deleted')
                       <span class="badge badge-danger">@lang('Deletions')</span>
                     @endif
                   </kbd>
                 </h5>
-                @if($status == 'deleted')
+                @if($process == 'deleted')
                   <a href="{{ route('admin.store.box.history') }}">
                     <i class="fa fa-hand-o-left" aria-hidden="true"></i>
                    @lang('to return')
@@ -132,9 +125,8 @@
                   </a>
                 </th>
                 <th class="text-center">@lang('Type')</th>
-                <th class="text-center">@lang('Comment')</th>
-                <th class="text-center">@lang('User')</th>
                 <th class="text-center">@lang('Details')</th>
+                <th class="text-center">@lang('Comment')</th>
         				<th class="text-center">@lang('Status')</th>
                 <th></th>
         			</tr>
@@ -142,33 +134,52 @@
         		<tbody>
               @foreach($batches as $batch)
         			<tr>
-                <td>
-                  <strong>#{{ $batch->parent_or_id }}</strong>
+                <td style="width: 5% !important;">
+                  <strong>#{{ $batch->id }}</strong>
                   <div class="small text-muted">@lang('Batch')</div>
                 </td>
-                <td>
+                <td style="width: 5% !important;">
                   #{!! optional($batch->order)->folio_or_id !!}
                   <div class="small text-muted">@lang('Order')</div>
                 </td>
+                <td class="text-center" style="width: 20% !important;">
+
+                  @php
+                      $progress = $batch->getProgressBatch();
+                  @endphp
+
+                  @if($batch->status_name == 'pending')
+                  <div class="progress mb-3" style="height: 3px;">
+                      <div class="progress-bar bg-warning" role="progressbar" style="width: {{ $progress->processed }}%;" aria-valuenow="20" aria-valuemin="0"
+                          aria-valuemax="100"></div>
+                  </div>
+                  <div class="progress mb-3" style="height: 3px;">
+                      <div class="progress-bar bg-success" role="progressbar" style="width: {{ $progress->delivered }}%;" aria-valuenow="10" aria-valuemin="0"
+                          aria-valuemax="100"></div>
+                  </div>
+                  @else
+                    <div class="progress">
+                      <div class="progress-bar w-100" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>                  
+                  @endif
+
+                </td>
                 <td class="text-center">
-                  {{ optional($batch->status)->name }}
+                  {{ $batch->total_batch }}
                 </td>
                 <td>
+                  {{ $batch->order->trashed() ? 'Orden Eliminada' : '' }}
+                  <em class="text-primary mr-4">
+                    {{ optional($batch->getProcess)->name }}
+                  </em>
                   <strong>{{ optional($batch->order)->comment ?? '--' }}</strong>
                   <div class="small text-muted">{{ $batch->comment }}</div>
                 </td>
-        				<td class="text-center">
-                  <div> {{ optional($batch->personal)->name ?? __('undefined') }} </div>
-        					<div class="small text-muted">{{ $batch->date_for_humans }}</div>
-        				</td>
-        				<td class="text-center">
-                  <span class='badge badge-primary'>{{ $batch->status->name }}</span>
-        				</td>
                 <td class="text-center">
-                  @if($batch->total_batch_received != $batch->total_batch)
-                    <span class="dot-alert"></span>
+                  @if($batch->status_name  == 'pending')
+                    <span class="badge badge-warning text-white">Pendiente</span>
                   @else
-                    <span class="dot-success"></span>
+                    <span class="badge badge-primary">Completo</span>
                   @endif
                 </td>
                 <td >
@@ -176,7 +187,14 @@
                     <x-utils.delete-button :text="__('')" :href="route('admin.batch.destroy', $batch->id)" />
                   @else
                     <div class="btn-group" role="group" aria-label="Basic example">
-                        <x-utils.view-button :href="route('admin.order.batches', [$batch->order_id, $batch->status_id])" />
+                      <a type="button"  class="mr-2 form-control text-center btn-sm btn-primary" target="_blank"  href="{{ route('admin.batch.edit', $batch->id) }}">
+                        Ver 
+                      </a>
+
+                      <a type="button"  class="form-control text-center btn-sm btn-primary" target="_blank"  href="{{ route('admin.batch.report', $batch->id) }}">
+                        Reporte 
+                      </a>
+
                     </div>
                   @endif
                 </td>

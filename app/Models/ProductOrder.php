@@ -29,6 +29,7 @@ class ProductOrder extends Model
         'comment', 
         'price_without_tax', 
         'product_order_id',
+        'available',
     ];
 
     /**

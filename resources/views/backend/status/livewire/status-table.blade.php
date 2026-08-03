@@ -66,43 +66,6 @@
                 <th scope="col">
                   @lang('Description')
                 </th>
-	              <th scope="col">
-	                <a wire:click.prevent="sortBy('level')" role="button" href="#">
-	                  @lang('Level')
-	                  @include('backend.includes._sort-icon', ['field' => 'level'])
-	                </a>
-	              </th>
-	              <th scope="col">
-	                  @lang('Percentage')
-	              </th>
-	              <th scope="col">
-	                  @lang('To add users')
-	              </th>
-
-	              <th scope="col">
-	                  @lang('Batch')
-	              </th>
-	              <th scope="col">
-	                  @lang('Automatic')
-	              </th>
-	              <th scope="col">
-	                  @lang('Not restricted')
-	              </th>
-	              <th scope="col">
-	                  @lang('Process')
-	              </th>
-	              <th scope="col">
-	                  @lang('Supplier')
-	              </th>
-	              <th scope="col">
-	                  @lang('Making')
-	              </th>
-	              <th scope="col">
-	                  @lang('Active')
-	              </th>
-	              <th scope="col">
-	                  @lang('Updated')
-	              </th>
 	            </tr>
 	          </thead>
 	          <tbody>
@@ -113,40 +76,6 @@
                 </td>
 	              <td>
 	              	{{ $status->description }}
-	              </td>
-	              <td>
-	              	{{ $status->level }}
-	              </td>
-	              <td>
-		            	{{ $status->percentage }}%
-	              </td>
-	              <td>
-	              	{!! $status->status_add_users !!}
-	              </td>
-
-	              <td>
-	              	{!! $status->status_batch !!}
-	              </td>
-	              <td>
-	              	{!! $status->status_automatic !!}
-	              </td>
-	              <td>
-	              	{!! $status->status_not_restricted !!}
-	              </td>
-	              <td>
-	              	{!! $status->status_process !!}
-	              </td>
-	              <td>
-	              	{!! $status->status_supplier !!}
-	              </td>
-	              <td>
-	              	{!! $status->status_making !!}
-	              </td>
-	              <td>
-	              	{!! $status->status_active !!}
-	              </td>
-	              <td>
-									{{ $status->date_for_humans }}
 	              </td>
 	            </tr>
 	            @endforeach

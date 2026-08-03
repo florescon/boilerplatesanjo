@@ -37,7 +37,6 @@ class BatchTable extends Component
     public $dateInput = '';
     public $dateOutput = '';
 
-    public int $typeBatch;
 
     public bool $currentMonth = false;
     public bool $currentWeek = false;
@@ -45,16 +44,11 @@ class BatchTable extends Component
 
     public bool $pending = false;
 
-    public $status;
+    public $process;
 
     protected $listeners = ['filter' => 'filter', 'delete', 'restore', 'triggerRefresh' => '$refresh'];
 
     public $updated, $selected_id, $deleted;
-
-    public function mount(string $theName)
-    {
-        $this->theName = $theName;
-    }
 
     public function sortBy($field)
     {
@@ -70,8 +64,8 @@ class BatchTable extends Component
     public function getRowsQueryProperty()
     {
         $query = Batch::query()
-            ->where('status_id', $this->typeBatch)
-            ->with('batch_product', 'personal', 'audi', 'status')
+            ->with('batch_product', 'personal', 'audi', 'getProcess', 'order')
+            ->where('status_name', 'pending')
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?
                     $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', now()]) :
@@ -91,7 +85,7 @@ class BatchTable extends Component
             });
 
 
-        if ($this->status === 'deleted') {
+        if ($this->process === 'deleted') {
             $this->applySearchDeletedFilter($query);
 
             return $query->onlyTrashed();
@@ -100,7 +94,7 @@ class BatchTable extends Component
             $this->applySearchFilter($query);
         }        
 
-        return $query->where('status_id', $this->typeBatch);
+        return $query;
     }
 
     private function applySearchFilter($searchBatch)
@@ -113,8 +107,7 @@ class BatchTable extends Component
             // ->orWhereHas('order', function ($query) {
             //    $query->whereRaw("comment LIKE \"%$this->searchTerm%\"");
             // })
-            ->orWhere('folio', 'like', '%' . $this->searchTerm . '%')
-            ->orWhere('comment', 'like', '%' . $this->searchTerm . '%');
+            ->orWhere('id', 'like', '%' . $this->searchTerm . '%');
         }
 
         return null;

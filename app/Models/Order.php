@@ -50,6 +50,7 @@ class Order extends Model
         'flowchart',
         'complementary',
         'note_deletes',
+        'in_process',
     ];
 
     /**
@@ -76,6 +77,7 @@ class Order extends Model
         'user_departament_changed_at' => 'datetime',
         'feedstock_changed_at' => 'datetime',
         'to_stock' => 'boolean',
+        'in_process' => 'boolean',
     ];
 
     /**

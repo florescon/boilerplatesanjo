@@ -8,6 +8,7 @@ use App\Models\ProductionBatchItem;
 use App\Models\ProductionBatchItemHistory;
 use App\Models\ProductStationReceived;
 use App\Models\Status;
+use App\Models\Process;
 use App\Models\Station;
 use App\Models\Additional;
 use Illuminate\Support\Facades\Auth;
@@ -28,6 +29,11 @@ class StatusController extends Controller
         return view('backend.status.index');
     }
 
+    public function process()
+    {
+        return view('backend.processes.index');
+    }
+
     public function showInformation(Status $status)
     {
         if($status->active != true){
@@ -40,6 +46,11 @@ class StatusController extends Controller
     public function assignments(Status $status)
     {
         return view('backend.status.assignments-status', compact('status'));
+    }
+
+    public function edit(Process $status)
+    {
+        return view('backend.status.edit-status', compact('status'));
     }
 
     public function deleted()

@@ -128,6 +128,165 @@
             </li>
         @endif
 
+
+        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.settings.list') || $logged_in_user->can('admin.access.settings.list_pages')))
+            <li class="c-sidebar-nav-dropdown {{ 
+                activeClass(
+            Route::is('admin.kpis') ||
+            Route::is('admin.graph_production') ||
+            Route::is('admin.graph_efficiency') ||
+
+            Route::is('admin.graph_by_product') ||
+            Route::is('admin.graph_flagship_product') ||
+
+            Route::is('admin.graph_bottlenecks') ||
+            Route::is('admin.graph_quality') ||
+            Route::is('admin.graph_observations') ||
+            Route::is('admin.graph_costs') ||
+            Route::is('admin.graph_labour') ||
+            Route::is('admin.graph_profitability') ||
+            Route::is('admin.graph_by_order') ||
+            Route::is('admin.graph_oee') ||
+            Route::is('admin.graph_tendencies') ||
+            Route::is('admin.graph_ranking')
+
+
+             , 'c-open c-show') }}">
+                <x-utils.link
+                    href="#"
+                    icon="c-sidebar-nav-icon cil-settings"
+                    class="c-sidebar-nav-dropdown-toggle"
+                    :text="__('Reports and graphs')" />
+
+                <ul class="c-sidebar-nav-dropdown-items">
+
+                            {{-- <li class="c-sidebar-nav-item">
+                                <x-utils.link
+                                    :href="route('admin.kpis')"
+                                    class="c-sidebar-nav-link"
+                                    :text="__('Kpis')"
+                                    :active="activeClass(Route::is('admin.kpis'), 'c-active')"/>
+                            </li>
+
+                            <li class="c-sidebar-nav-item">
+                                <x-utils.link
+                                    :href="route('admin.graph_production')"
+                                    class="c-sidebar-nav-link"
+                                    :text="__('Production')"
+                                    :active="activeClass(Route::is('admin.graph_production'), 'c-active')"/>
+                            </li>
+
+
+
+<li class="c-sidebar-nav-item">
+    <x-utils.link
+        :href="route('admin.graph_efficiency')"
+        class="c-sidebar-nav-link"
+        :text="__('Efficiency')"
+        :active="activeClass(Route::is('admin.graph_efficiency'), 'c-active')"/>
+</li> --}}
+
+<li class="c-sidebar-nav-item">
+    <x-utils.link
+        :href="route('admin.graph_by_product')"
+        class="c-sidebar-nav-link"
+        :text="__('By Product')"
+        :active="activeClass(Route::is('admin.graph_by_product'), 'c-active')"/>
+</li>
+
+<li class="c-sidebar-nav-item">
+    <x-utils.link
+        :href="route('admin.graph_flagship_product')"
+        class="c-sidebar-nav-link"
+        :text="__('Flagship Product')"
+        :active="activeClass(Route::is('admin.graph_flagship_product'), 'c-active')"/>
+</li>
+
+{{-- <li class="c-sidebar-nav-item">
+    <x-utils.link
+        :href="route('admin.graph_bottlenecks')"
+        class="c-sidebar-nav-link"
+        :text="__('Bottlenecks')"
+        :active="activeClass(Route::is('admin.graph_bottlenecks'), 'c-active')"/>
+</li>
+
+<li class="c-sidebar-nav-item">
+    <x-utils.link
+        :href="route('admin.graph_quality')"
+        class="c-sidebar-nav-link"
+        :text="__('Quality')"
+        :active="activeClass(Route::is('admin.graph_quality'), 'c-active')"/>
+</li>
+
+<li class="c-sidebar-nav-item">
+    <x-utils.link
+        :href="route('admin.graph_observations')"
+        class="c-sidebar-nav-link"
+        :text="__('Observations')"
+        :active="activeClass(Route::is('admin.graph_observations'), 'c-active')"/>
+</li>
+
+<li class="c-sidebar-nav-item">
+    <x-utils.link
+        :href="route('admin.graph_costs')"
+        class="c-sidebar-nav-link"
+        :text="__('Costs')"
+        :active="activeClass(Route::is('admin.graph_costs'), 'c-active')"/>
+</li>
+
+<li class="c-sidebar-nav-item">
+    <x-utils.link
+        :href="route('admin.graph_labour')"
+        class="c-sidebar-nav-link"
+        :text="__('Labour')"
+        :active="activeClass(Route::is('admin.graph_labour'), 'c-active')"/>
+</li>
+
+<li class="c-sidebar-nav-item">
+    <x-utils.link
+        :href="route('admin.graph_profitability')"
+        class="c-sidebar-nav-link"
+        :text="__('Profitability')"
+        :active="activeClass(Route::is('admin.graph_profitability'), 'c-active')"/>
+</li>
+
+<li class="c-sidebar-nav-item">
+    <x-utils.link
+        :href="route('admin.graph_by_order')"
+        class="c-sidebar-nav-link"
+        :text="__('By Order')"
+        :active="activeClass(Route::is('admin.graph_by_order'), 'c-active')"/>
+</li>
+
+<li class="c-sidebar-nav-item">
+    <x-utils.link
+        :href="route('admin.graph_oee')"
+        class="c-sidebar-nav-link"
+        :text="__('OEE')"
+        :active="activeClass(Route::is('admin.graph_oee'), 'c-active')"/>
+</li>
+
+<li class="c-sidebar-nav-item">
+    <x-utils.link
+        :href="route('admin.graph_tendencies')"
+        class="c-sidebar-nav-link"
+        :text="__('Tendencies')"
+        :active="activeClass(Route::is('admin.graph_tendencies'), 'c-active')"/>
+</li>
+
+<li class="c-sidebar-nav-item">
+    <x-utils.link
+        :href="route('admin.graph_ranking')"
+        class="c-sidebar-nav-link"
+        :text="__('Ranking')"
+        :active="activeClass(Route::is('admin.graph_ranking'), 'c-active')"/>
+</li> --}}
+
+
+                </ul>
+            </li>
+        @endif
+
         @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.order.quotations_chart'))
 
             <li class="c-sidebar-nav-item">
@@ -181,7 +340,17 @@
             </li>
         @endif
 
-        @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.station.index') || $logged_in_user->can('admin.station.index_production'))
+        @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.batch.index') || $logged_in_user->can('admin.station.index_production'))
+
+            <li class="c-sidebar-nav-item">
+                <x-utils.link
+                    :href="route('admin.batch.index')"
+                    class="c-sidebar-nav-link"
+                    :text="__('Batches')"
+                    new
+                    icon="c-sidebar-nav-icon cil-compress"
+                :active="activeClass(Route::is('admin.batch.index', 'admin.batch.deleted', 'admin.batch.*'), 'c-active')" />
+            </li>
 
             <li class="c-sidebar-nav-item">
                 <x-utils.link
@@ -191,16 +360,6 @@
                     new
                     icon="c-sidebar-nav-icon cil-compress"
                     :active="activeClass(Route::is('admin.station.index_production', 'admin.station.deleted_production'), 'c-active')" />
-            </li>
-
-            <li class="c-sidebar-nav-item">
-                <x-utils.link
-                    :href="route('admin.station.index')"
-                    class="c-sidebar-nav-link"
-                    :text="__('Workstations')"
-                    old
-                    icon="c-sidebar-nav-icon cil-compress"
-                    :active="activeClass(Route::is('admin.station.index', 'admin.station.deleted'), 'c-active')" />
             </li>
 
         @endif
@@ -277,7 +436,7 @@
                 || $logged_in_user->can('admin.access.order.order')
             )
 
-            <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.dashboard_old') || Route::is('admin.order.index') || Route::is('admin.order.quotation') || Route::is('admin.batch.*') || Route::is('admin.batch.conformed') || Route::is('admin.ticket.*'), 'c-open c-show') }}">
+            <li class="c-sidebar-nav-dropdown {{ activeClass(Route::is('admin.dashboard_old') || Route::is('admin.order.index') || Route::is('admin.order.quotation') || Route::is('admin.batch.conformed') || Route::is('admin.ticket.*'), 'c-open c-show') }}">
                 <x-utils.link
                     href="#"
                     old
@@ -685,8 +844,21 @@
             <li class="c-sidebar-nav-item">
                 <x-utils.link
                     class="c-sidebar-nav-link"
+                    new
+                    :href="route('admin.status.process')"
+                    :active="activeClass(Route::is('admin.status.process'), 'c-active')"
+                    icon="c-sidebar-nav-icon cil-brightness"
+                    :text="__('Processes')" />
+            </li>
+        @endif
+
+
+        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.states_production.list')))
+            <li class="c-sidebar-nav-item">
+                <x-utils.link
+                    class="c-sidebar-nav-link"
                     :href="route('admin.status.index')"
-                    :active="activeClass(Route::is('admin.status.*'), 'c-active')"
+                    :active="activeClass(Route::is('admin.status.index'), 'c-active')"
                     icon="c-sidebar-nav-icon cil-brightness"
                     :text="__('Order states')" />
             </li>

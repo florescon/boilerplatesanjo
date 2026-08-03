@@ -14,7 +14,7 @@ class BatchObserver
      */
     public function created(Batch $batch)
     {
-        $batch->update(['folio' => $batch->last_folio_batch]);
+        // $batch->update(['folio' => $batch->last_folio_batch]);
     }
 
     /**
