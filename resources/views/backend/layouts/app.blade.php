@@ -33,6 +33,7 @@
     {{-- <link rel="stylesheet" href="{{ asset('css_custom/strawberry.css') }}"> --}}
 
     {{-- <link rel="stylesheet" href="{{ asset('css_custom/app/all.min.css') }}" /> --}}
+
     <link href="{{ asset('css_custom/app/filepond.css') }}" rel="stylesheet">
     <link href="{{ asset('css_custom/app/filepond-plugin-image-preview.css') }}" rel="stylesheet">
 
@@ -43,93 +44,6 @@
     
     <style type="text/css">
 
-.cd-nav-link.cd-signalize-border{display:inline-block;padding:0 10px;font-size:14px;font-weight:700;line-height:32px;color:#321fdb;text-align:center;text-transform:uppercase;border:2px solid #321fdb;border-radius:4px}.cd-header-nav .cd-nav-link.cd-signalize-border:hover{color:#fff;background:#321fdb}
-
-.bd-callout {
-padding: 1.25rem;
-margin-top: 1.25rem;
-margin-bottom: 1.25rem;
-border: 1px solid #eee;
-border-left-width: .45rem;
-border-radius: .25rem
-}
-
-.bd-callout h4 {
-margin-top: 0;
-margin-bottom: .25rem
-}
-
-.bd-callout p:last-child {
-margin-bottom: 0
-}
-
-.bd-callout code {
-border-radius: .25rem
-}
-
-.bd-callout+.bd-callout {
-margin-top: -.25rem
-}
-
-.bd-callout-info {
-border-left-color: #5bc0de
-}
-
-.bd-callout-info h4 {
-color: #5bc0de
-}
-
-.bd-callout-warning {
-border-left-color: #f0ad4e
-}
-
-.bd-callout-warning h4 {
-color: #f0ad4e
-}
-
-.bd-callout-danger {
-border-left-color: #d9534f
-}
-
-.bd-callout-danger h4 {
-color: #d9534f
-}
-
-.bd-callout-primary{
-border-left-color: #007bff
-}
-
-.bd-callout-primaryh4 {
-color: #007bff
-}
-
-.bd-callout-success{
-border-left-color: #28a745
-}
-
-.bd-callout-successh4 {
-color: #28a745
-}
-
-.bd-callout-default{
-border-left-color: #6c757d
-}
-
-.bd-callout-defaulth4 {
-color: #6c757d
-}
-        body {
-          font-family: 'Karla', sans-serif !important;
-        }
-
-        .text-decoration-line-through{text-decoration:line-through!important}
- 
-        .btn-outline-primary:hover {
-          color: white !important;
-        }
-        .btn-primary:hover {
-          color: white !important;
-        }
     </style>
 
     <link rel="stylesheet" href="{{ asset('css_custom/product.css') }}">
@@ -164,6 +78,9 @@ color: #6c757d
     @stack('before-scripts')
     <script src="{{ mix('js/manifest.js') }}"></script>
     <script src="{{ mix('js/vendor.js') }}"></script>
+
+    <livewire:scripts />
+
     <script src="{{ mix('js/backend.js') }}"></script>
 
     @include('backend.layouts.sweet')
@@ -184,6 +101,7 @@ color: #6c757d
         $.fn.select2.defaults.set('language', '@lang('labels.general.language')');
     </script>
 
+
     <script src="{{ asset('js_custom/app/es.js') }}"></script>
 
     <script src="{{ asset('js_custom/app/alpine.min.js') }}" defer></script>
@@ -196,8 +114,8 @@ color: #6c757d
     <script src="{{ asset('js_custom/app/filepond-plugin-file-validate-size.js') }}"></script>
 
     <script src="{{ asset('js_custom/app/filepond.js') }}"></script>
-    
-    <livewire:scripts />
+
+    {{-- <livewire:scripts /> --}}
 
     @stack('after-scripts')
 

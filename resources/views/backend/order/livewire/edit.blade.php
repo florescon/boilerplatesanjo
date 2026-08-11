@@ -902,42 +902,4 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script> 
 
-  <script>
-
-    var labels =  {!! $model->total_graphic->keys() !!};
-    var values =  {!! $model->total_graphic->values() !!};
-
-    new Chart(document.getElementById("doughnut-chart"), {
-        type: 'doughnut',
-        data: {
-          labels: labels,
-          values: values,
-          datasets: [
-            {
-              label: "Estaciones",
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9"],
-              data: values
-            }
-          ]
-        },
-        options: {
-          title: {
-            display: true,
-            text: 'Avance'
-          }
-        }
-    });
-  </script>
-
-  <script type="text/javascript">
-    Livewire.on("paymentStore", () => {
-        $("#createPayment").modal("hide");
-    });
-  </script>
-
-  <script type="text/javascript">
-    Livewire.on("serviceStore", () => {
-        $("#addService").modal("hide");
-    });
-  </script>
 @endpush

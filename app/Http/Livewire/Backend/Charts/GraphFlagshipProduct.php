@@ -49,6 +49,9 @@ class GraphFlagshipProduct extends Component
             case '2years':
                 return now()->subYears(2);
 
+            case '4years':
+                return now()->subYears(4);
+
             default:
                 return now()->subYear();
         }
@@ -72,6 +75,7 @@ class GraphFlagshipProduct extends Component
             '6months',
             '1year',
             '2years',
+            '4years',
         ];
 
         if (!in_array($value, $permitidos)) {
@@ -101,12 +105,14 @@ class GraphFlagshipProduct extends Component
             ->join('orders','orders.id','=','product_order.order_id')
             ->join('products as child','child.id','=','product_order.product_id')
             ->join('products as parent','parent.id','=','child.parent_id')
-            ->whereDate('orders.created_at','>=',$fecha)
-            ->where('child.type',true)
-            ->whereNull('child.deleted_at')
-            ->whereNull('orders.deleted_at')
-            ->whereNull('product_order.deleted_at')
-            ->whereNull('parent.deleted_at')
+            ->whereDate('product_order.created_at','>=',$fecha)
+            ->where('orders.type',true)
+            ->where('child.type', true)
+            ->where('orders.from_store', null)
+            ->where('child.deleted_at', null)
+            ->where('orders.deleted_at', null)
+            ->where('product_order.deleted_at', null)
+            ->where('parent.deleted_at', null)
             ->select(
                 'parent.name',
                 DB::raw('SUM(product_order.quantity) total')
@@ -131,13 +137,16 @@ class GraphFlagshipProduct extends Component
             ->join('products as child', 'child.id', '=', 'product_order.product_id')
             ->join('products as parent', 'parent.id', '=', 'child.parent_id')
             ->whereDate('orders.created_at', '>=', $fecha)
+            ->where('orders.type',true)
             ->where('child.type', true)
             ->whereNull('child.deleted_at')
             ->whereNull('parent.deleted_at')
+            ->where('orders.from_store', null)
             ->whereNull('orders.deleted_at')
             ->whereNull('product_order.deleted_at')
             ->select(
                 'parent.name',
+                'parent.code',
 
                 DB::raw('ROUND(AVG(parent.cost),2) as precio_compra'),
 
@@ -168,7 +177,7 @@ class GraphFlagshipProduct extends Component
 
 
         return [
-            'categories' => $data->pluck('name'),
+            'categories' => $data->pluck('code'),
 
             'precioCompra' => $data->pluck('precio_compra')
                 ->map(fn($v)=>(float)$v),

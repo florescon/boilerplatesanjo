@@ -6,6 +6,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use App\Models\Product;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class GraphByProduct extends Component
 {
@@ -15,10 +16,27 @@ class GraphByProduct extends Component
 
     public $heatmap = [];
 
+    public $productsChart = [
+        'series' => [],
+        'categories' => [],
+    ];
+
+    public $materialsChart = [
+        'series' => [],
+        'categories' => [],
+    ];
+
+
     public $ventasTotales = 0;
     public $productosVendidos = 0;
     public $utilidadTotal = 0;
     public $margenUtilidad = 0;
+
+    public $inventarioTotal = 0; 
+    public $valorInventario = 0;
+    public $subproductoMasVendido;
+    public $subproductoMayorInventario;
+
 
     public $selectedProduct = null;
 
@@ -36,8 +54,8 @@ class GraphByProduct extends Component
         $this->products = Product::with('parent', 'brand', 'color', 'size')
             ->whereRaw("code LIKE \"%$this->query%\"")
             ->orWhereRaw("name LIKE \"%$this->query%\"")
-            ->onlyProductsAndServices()
-            ->get()->take(6)
+            ->onlyProductsParent()
+            ->get()->take(8)
             ->toArray();
 
        // $this->selectedProduct = null;
@@ -119,6 +137,124 @@ class GraphByProduct extends Component
         $this->actualizarGraficas();
     }
 
+    protected function productsByParent()
+    {
+        if (!$this->selectedProduct) {
+            return;
+        }
+
+        $fecha = $this->fechaInicio();
+
+
+        $productsByP = DB::table('products as p')
+            ->leftJoin('sizes as s', 's.id', '=', 'p.size_id')
+            ->leftJoin('colors as c', 'c.id', '=', 'p.color_id')
+            ->where('p.parent_id', $this->selectedProduct->id)
+            ->whereNull('p.deleted_at')
+            ->select(
+                's.name as size_name',
+                'c.name as color_name',
+                'p.stock as total'
+            )
+            ->get();
+
+        $colors = $productsByP
+            ->groupBy('color_name')
+            ->map(function ($items) {
+                return $items->sum('total');
+            })
+            ->sortDesc()
+            ->keys()
+            ->values();
+
+        $sizes = $productsByP
+            ->pluck('size_name')
+            ->unique()
+            ->values();
+
+
+        $series = [];
+
+        foreach ($sizes as $size) {
+
+            $data = [];
+
+            foreach ($colors as $color) {
+
+                $item = $productsByP
+                    ->where('size_name', $size)
+                    ->where('color_name', $color)
+                    ->first();
+
+                $data[] = $item ? $item->total : 0;
+            }
+
+
+            $series[] = [
+                'name' => $size,
+                'data' => $data
+            ];
+        }
+
+        $this->productsChart = [
+            'categories' => $colors,
+            'series' => $series,
+        ];
+
+        return $this->productsChart;
+    }
+
+
+protected function materialsConsumed()
+{
+    if (!$this->selectedProduct) {
+        return;
+    }
+
+    $fecha = $this->fechaInicio();
+
+    $materials = DB::table('material_orders as mo')
+        ->join('product_order as po', 'po.id', '=', 'mo.product_order_id')
+        ->join('products as p', 'p.id', '=', 'po.product_id')
+        ->join('materials as m', 'm.id', '=', 'mo.material_id')
+        ->join('units as u', 'u.id', '=', 'm.unit_id')
+        ->where('mo.deleted_at', null)
+        ->where('p.parent_id', $this->selectedProduct->id)
+        ->whereDate('mo.created_at', '>=', $fecha)
+        ->select(
+            'm.name',
+            'u.name as unit_name',
+            'm.part_number as part_number',
+            DB::raw('ROUND(SUM(mo.quantity), 1) as total')
+        )
+        ->groupBy('m.id', 'm.name')
+        ->orderByDesc('total')
+        ->get();
+
+    $this->materialsChart = [
+        'categories' => $materials->map(function ($item) {
+            $shortName = collect(explode(' ', $item->name))
+                ->map(function ($word) {
+                    return mb_substr($word, 0, 3);
+                })
+                ->implode(' ');
+
+
+            return $shortName . " ({$item->unit_name}) ({$item->part_number}) ";
+        }),
+        'series' => [
+            [
+                'name' => 'Consumido',
+                'data' => $materials->pluck('total')
+            ]
+        ]
+    ];
+
+    // dd($this->materialsChart);
+
+    return $this->materialsChart;
+}
+
     protected function productSaleTotal()
     {
         if (!$this->selectedProduct) {
@@ -127,27 +263,114 @@ class GraphByProduct extends Component
 
         $fecha = $this->fechaInicio();
 
-        $data = DB::table('product_order as po')
+        /*
+        |--------------------------------------------------------------------------
+        | Ventas
+        |--------------------------------------------------------------------------
+        */
+        $ventas = DB::table('product_order as po')
+            ->join('orders as or','or.id','=','po.order_id')
             ->join('products as p', 'p.id', '=', 'po.product_id')
             ->join('products as parent', 'parent.id', '=', 'p.parent_id')
             ->where('p.parent_id', $this->selectedProduct->id)
+            ->where('po.deleted_at', null)
+            ->where('or.type', true)
+            ->where('or.from_store', null)
             ->whereDate('po.created_at', '>=', $fecha)
-            ->selectRaw('
+            ->selectRaw("
                 SUM(po.price * po.quantity) as ventas_totales,
                 SUM(po.quantity) as productos_vendidos,
                 SUM((po.price - parent.cost) * po.quantity) as utilidad_total
-            ')
+            ")
             ->first();
 
-        $ventas = $data->ventas_totales ?? 0;
-        $utilidad = $data->utilidad_total ?? 0;
+        /*
+        |--------------------------------------------------------------------------
+        | Inventario
+        |--------------------------------------------------------------------------
+        */
 
-        $this->ventasTotales = $ventas;
-        $this->productosVendidos = $data->productos_vendidos ?? 0;
-        $this->utilidadTotal = $utilidad;
+        $inventario = DB::table('products as hijo')
+            ->join('products as padre', 'padre.id', '=', 'hijo.parent_id')
+            ->where('hijo.parent_id', $this->selectedProduct->id)
+            ->where('hijo.deleted_at', null)
+            ->selectRaw("
+                SUM(hijo.stock) as inventario_total,
+                SUM(hijo.stock * padre.cost) as valor_inventario
+            ")
+            ->first();
+        /*
+        |--------------------------------------------------------------------------
+        | Subproducto más vendido
+        |--------------------------------------------------------------------------
+        */
+        $subproductoMasVendido = DB::table('product_order as po')
+            ->join('orders as or','or.id','=','po.order_id')
+            ->join('products as p', 'p.id', '=', 'po.product_id')
+            ->leftJoin('sizes as s', 's.id', '=', 'p.size_id')
+            ->leftJoin('colors as c', 'c.id', '=', 'p.color_id')
+            ->where('p.parent_id', $this->selectedProduct->id)
+            ->where('po.deleted_at', null)
+            ->where('or.type', true)
+            ->where('or.from_store', null)
+            ->whereDate('po.created_at', '>=', $fecha)
+            ->select(
+                'po.product_id',
+                DB::raw('SUM(po.quantity) as total_vendido'),
+                's.name as size_name',
+                'c.name as color_name'
+            )
+            ->groupBy('po.product_id')
+            ->orderByDesc('total_vendido')
+            ->first();
 
-        $this->margenUtilidad = $ventas > 0
-            ? ($utilidad / $ventas) * 100
+        /*
+        |--------------------------------------------------------------------------
+        | Subproducto con mayor inventario
+        |--------------------------------------------------------------------------
+        */
+        $subproductoMayorInventario = DB::table('products as p')
+            ->leftJoin('sizes as s', 's.id', '=', 'p.size_id')
+            ->leftJoin('colors as c', 'c.id', '=', 'p.color_id')
+            ->where('p.parent_id', $this->selectedProduct->id)
+            ->where('p.deleted_at', null)
+            ->orderByDesc('p.stock')
+            ->select(
+                'p.*',
+                's.name as size_name',
+                'c.name as color_name'
+            )
+            ->first();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Asignar valores
+        |--------------------------------------------------------------------------
+        */
+        $ventasTotales = $ventas->ventas_totales ?? 0;
+        $utilidadTotal = $ventas->utilidad_total ?? 0;
+
+        $this->ventasTotales = $ventasTotales;
+        $this->productosVendidos = $ventas->productos_vendidos ?? 0;
+        $this->utilidadTotal = $utilidadTotal;
+
+        $this->inventarioTotal = $inventario->inventario_total ?? 0;
+        $this->valorInventario = $inventario->valor_inventario ?? 0;
+
+        // dd($subproductoMayorInventario);
+
+
+        $this->subproductoMasVendido = $subproductoMasVendido
+            ? (array) $subproductoMasVendido
+            : [];
+
+        $this->subproductoMayorInventario = $subproductoMayorInventario
+            ? (array) $subproductoMayorInventario
+            : [];
+
+
+        $this->margenUtilidad = $ventasTotales > 0
+            ? ($utilidadTotal / $ventasTotales) * 100
             : 0;
     }
 
@@ -158,12 +381,15 @@ class GraphByProduct extends Component
         }
 
         $rows = DB::table('product_order as po')
+            ->join('orders as or','or.id','=','po.order_id')
             ->join('products as p', 'p.id', '=', 'po.product_id')
             ->select(
                 'p.name',
                 DB::raw('DATE(po.created_at) as fecha'),
                 DB::raw('SUM(po.quantity) as total')
             )
+            ->where('or.type', true)
+            ->where('or.from_store', null)
             ->where('p.parent_id', $this->selectedProduct->id)
             ->whereDate('po.created_at', '>=', now()->subYear())
             ->groupBy(DB::raw('DATE(po.created_at)'))
@@ -229,6 +455,9 @@ class GraphByProduct extends Component
     {
         $this->emit('heatmapProductos', $this->heatmapProductos());
         $this->productSaleTotal();
+        $this->emit('productsByParent', $this->productsByParent(), $this->selectedProduct->name.' | '.$this->selectedProduct->code);
+        $this->emit('materialsConsumed', $this->materialsConsumed(), $this->selectedProduct->name.' | '.$this->selectedProduct->code);
+
     }
 
     public function render()

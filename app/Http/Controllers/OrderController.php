@@ -574,7 +574,6 @@ class OrderController extends Controller
     public function checklist_prod(Order $order, ProductionBatch $station)
     {
         $station->load('material_order.material');
-
         
         $groupedMaterials = $station->material_order->groupBy('material_id')->map(function ($group) {
             return [

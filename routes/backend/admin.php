@@ -23,6 +23,12 @@ Route::get('graph_production', [DashboardController::class, 'graph_production'])
         $trail->push(__('Home'), route('admin.graph_production'));
     });
 
+Route::get('graph_print', [DashboardController::class, 'graph_print'])
+    ->name('graph_print')
+    ->breadcrumbs(function (Trail $trail) {
+        $trail->push(__('Home'), route('admin.graph_print'));
+    });
+
 Route::get('graph_material', [DashboardController::class, 'graph_material'])
     ->name('graph_material')
     ->breadcrumbs(function (Trail $trail) {
@@ -46,6 +52,19 @@ Route::get('graph_flagship_product', [DashboardController::class, 'graph_flagshi
     ->breadcrumbs(function (Trail $trail) {
         $trail->push(__('Home'), route('admin.graph_flagship_product'));
     });
+
+Route::get('graph_comparative', [DashboardController::class, 'graph_comparative'])
+    ->name('graph_comparative')
+    ->breadcrumbs(function (Trail $trail) {
+        $trail->push(__('Home'), route('admin.graph_comparative'));
+    });
+
+Route::get('graph_projection', [DashboardController::class, 'graph_projection'])
+    ->name('graph_projection')
+    ->breadcrumbs(function (Trail $trail) {
+        $trail->push(__('Home'), route('admin.graph_projection'));
+    });
+
 
 Route::get('graph_bottlenecks', [DashboardController::class, 'graph_bottlenecks'])
     ->name('graph_bottlenecks')

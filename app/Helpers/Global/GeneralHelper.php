@@ -1,6 +1,9 @@
 <?php
 
 use Carbon\Carbon;
+use Symfony\Component\VarDumper\VarDumper;
+use Illuminate\Support\Facades\View;
+use Livewire\Livewire;
 
 if (! function_exists('appName')) {
     /**
@@ -11,6 +14,52 @@ if (! function_exists('appName')) {
     function appName()
     {
         return config('app.name', 'Laravel');
+    }
+}
+
+if (! function_exists('dds')) {
+    function dds($data)
+    {
+        VarDumper::setHandler(function ($var) {
+        echo '<pre style="
+            background:#000;
+            color:#29ED22;
+            padding:20px;
+            font-size:14px;
+            line-height:1.5;
+            border:1px solid #ddd;
+        ">';
+            print_r($var);
+            echo '</pre>';
+        });
+
+        dd($data);
+    }
+}
+
+
+if (! function_exists('renderLivewireForPrint')) {
+    function renderLivewireForPrint(string $component, array $params = []): array
+    {
+        $viewFactory = app('view');
+
+        // Renderizamos el componente Livewire.
+        $html = Livewire::mount($component, $params)->html();
+
+
+        // Recuperamos lo que los @push() dejaron en los stacks.
+        $styles = $viewFactory->yieldPushContent('after-styles');
+        $scripts = $viewFactory->yieldPushContent('after-scripts');
+
+        // Limpiamos los stacks para que el siguiente componente
+        // no vuelva a recoger los anteriores.
+        $viewFactory->flushStacks();
+
+        return [
+            'html' => $html,
+            'styles' => $styles,
+            'scripts' => $scripts,
+        ];
     }
 }
 

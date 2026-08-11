@@ -48,7 +48,7 @@
 
     <div class="row mb-6">
 		<div class="col-md-6">
-		    <select wire:model="periodo" class="form-control text-center">
+		    <select wire:model="periodo" class="form-control text-center select-azul">
 		        <option value="7days">Últimos 7 días</option>
 		        <option value="15days">Últimos 15 días</option>
 		        <option value="30days">Últimos 30 días</option>
@@ -56,11 +56,12 @@
 		        <option value="6months">Últimos 6 meses</option>
 		        <option value="1year">Último año</option>
 		        <option value="2years">Últimos 2 años</option>
+		        <option value="4years">Últimos 4 años</option>
 		    </select>
 		</div>
 
         <div class="col-md-6">
-            <select wire:model="limitProducts" class="form-control text-center">
+            <select wire:model="limitProducts" class="form-control text-center select-azul">
                 <option value="3">3 Productos</option>
                 <option value="6">6 Productos</option>
                 <option value="12">12 Productos</option>
@@ -215,16 +216,11 @@
 		                data: @json($average['utilidad'])
 		            },
 
-		            {
-		                name: 'Productos vendidos',
-		                type: 'line',
-		                data: @json($average['productos'])
-		            }
 
 		        ],
 
 		        stroke: {
-		            width: [0,0,4,4]
+		            width: [0,0,4]
 		        },
 
 		        xaxis: {
@@ -240,22 +236,15 @@
 		                }
 		            },
 
-		            {
-		                opposite:true,
-		                title:{
-		                    text: 'Productos vendidos'
-		                }
-		            }
-
 		        ],
-
 		        tooltip:{
 		            shared:true,
-		            intersect:false
+		            intersect:false,
 		        },
 
 		        dataLabels:{
-		            enabled:false
+				    enabled: true,
+				    enabledOnSeries: [2],
 		        }
 
 	        }
@@ -292,11 +281,6 @@
 		            type: 'line',
 		            data: data.utilidad
 		        },
-		        {
-		            name: 'Productos vendidos',
-		            type: 'line',
-		            data: data.productos
-		        }
 		    ]);
 		});
 	});

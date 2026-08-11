@@ -5,6 +5,118 @@
   }
 }
 
+
+
+.cd-nav-link.cd-signalize-border{display:inline-block;padding:0 10px;font-size:14px;font-weight:700;line-height:32px;color:#321fdb;text-align:center;text-transform:uppercase;border:2px solid #321fdb;border-radius:4px}.cd-header-nav .cd-nav-link.cd-signalize-border:hover{color:#fff;background:#321fdb}
+
+.bd-callout {
+padding: 1.25rem;
+margin-top: 1.25rem;
+margin-bottom: 1.25rem;
+border: 1px solid #eee;
+border-left-width: .45rem;
+border-radius: .25rem
+}
+
+.bd-callout h4 {
+margin-top: 0;
+margin-bottom: .25rem
+}
+
+.bd-callout p:last-child {
+margin-bottom: 0
+}
+
+.bd-callout code {
+border-radius: .25rem
+}
+
+.bd-callout+.bd-callout {
+margin-top: -.25rem
+}
+
+.bd-callout-info {
+border-left-color: #5bc0de
+}
+
+.bd-callout-info h4 {
+color: #5bc0de
+}
+
+.bd-callout-warning {
+border-left-color: #f0ad4e
+}
+
+.bd-callout-warning h4 {
+color: #f0ad4e
+}
+
+.bd-callout-danger {
+border-left-color: #d9534f
+}
+
+.bd-callout-danger h4 {
+color: #d9534f
+}
+
+.bd-callout-primary{
+border-left-color: #007bff
+}
+
+.bd-callout-primaryh4 {
+color: #007bff
+}
+
+.bd-callout-success{
+border-left-color: #28a745
+}
+
+.bd-callout-successh4 {
+color: #28a745
+}
+
+.bd-callout-default{
+border-left-color: #6c757d
+}
+
+.bd-callout-defaulth4 {
+color: #6c757d
+}
+        body {
+          /*{{-- font-family: 'Karla', sans-serif !important; --}}*/
+          font-family: Roboto, sans-serif important;;
+
+        }
+
+    .text-decoration-line-through{text-decoration:line-through!important}
+
+    .btn-outline-primary:hover {
+      color: white !important;
+    }
+    .btn-primary:hover {
+      color: white !important;
+    }
+
+/* Smoothly transition the card changes */
+.custom-hover-card {
+  transition:  box-shadow 0.2s ease;
+}
+
+/* Apply a larger shadow and lift the card on hover */
+.custom-hover-card:hover {
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.775) !important; /* Replicates Bootstrap's .shadow-lg */
+}
+
+
+.select-azul {
+    border: 1px solid #007bff;
+    box-shadow: 0 0 10px 2px rgba(0, 123, 255, 0.5);
+}
+.select-azul:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 10px 2px rgba(0, 123, 255, 0.5);
+}
+
 .opacity-placeholder input::placeholder {
     font-weight: bold;
     opacity: 0.45;

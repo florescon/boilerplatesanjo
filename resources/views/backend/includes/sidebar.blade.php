@@ -136,6 +136,8 @@
             Route::is('admin.graph_production') ||
             Route::is('admin.graph_efficiency') ||
 
+            Route::is('admin.graph_material') ||
+
             Route::is('admin.graph_by_product') ||
             Route::is('admin.graph_flagship_product') ||
 
@@ -144,6 +146,8 @@
             Route::is('admin.graph_observations') ||
             Route::is('admin.graph_costs') ||
             Route::is('admin.graph_labour') ||
+            Route::is('admin.graph_comparative') ||
+            Route::is('admin.graph_projection') ||
             Route::is('admin.graph_profitability') ||
             Route::is('admin.graph_by_order') ||
             Route::is('admin.graph_oee') ||
@@ -200,6 +204,30 @@
         class="c-sidebar-nav-link"
         :text="__('Flagship Product')"
         :active="activeClass(Route::is('admin.graph_flagship_product'), 'c-active')"/>
+</li>
+
+<li class="c-sidebar-nav-item">
+    <x-utils.link
+        :href="route('admin.graph_comparative')"
+        class="c-sidebar-nav-link"
+        :text="__('Year-over-year comparison')"
+        :active="activeClass(Route::is('admin.graph_comparative'), 'c-active')"/>
+</li>
+
+<li class="c-sidebar-nav-item">
+    <x-utils.link
+        :href="route('admin.graph_projection')"
+        class="c-sidebar-nav-link"
+        :text="__('Projection')"
+        :active="activeClass(Route::is('admin.graph_projection'), 'c-active')"/>
+</li>
+
+<li class="c-sidebar-nav-item">
+    <x-utils.link
+        :href="route('admin.graph_material')"
+        class="c-sidebar-nav-link"
+        :text="__('By Material')"
+        :active="activeClass(Route::is('admin.graph_material'), 'c-active')"/>
 </li>
 
 {{-- <li class="c-sidebar-nav-item">

@@ -27,6 +27,28 @@ class DashboardController extends Controller
         return view('backend.dashboard.kpis');
     }
 
+    public function graph_print()
+    {
+        $components = [];
+
+        // $components[] = renderLivewireForPrint('orders-chart', [
+        //     'periodo' => $periodo,
+        // ]);
+
+        // $components[] = renderLivewireForPrint('sales-kpi', [
+        //     'periodo' => $periodo,
+        // ]);
+
+        $components[] = renderLivewireForPrint('backend.charts.graph-flagship-product', [
+            // 'periodo' => $periodo,
+        ]);
+
+        // dd($components);
+
+        return view('backend.dashboard.graph_print', compact('components'));
+    }
+
+
 public function graph_production()
 {
     return view('backend.dashboard.graph_production');
@@ -50,6 +72,16 @@ public function graph_by_product()
 public function graph_flagship_product()
 {
     return view('backend.dashboard.graph_flagship_product');
+}
+
+public function graph_comparative()
+{
+    return view('backend.dashboard.graph_comparative');
+}
+
+public function graph_projection()
+{
+    return view('backend.dashboard.graph_projection');
 }
 
 public function graph_bottlenecks()
