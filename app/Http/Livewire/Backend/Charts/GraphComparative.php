@@ -8,8 +8,8 @@ use Carbon\Carbon;
 
 class GraphComparative extends Component
 {
-
     public $chartData = [];
+    public $loadPriceChart = [];
 
     public function mount()
     {
@@ -21,20 +21,27 @@ class GraphComparative extends Component
         $currentYear = Carbon::now()->year;
         $previousYear = $currentYear - 1;
 
-
         $orders = DB::table('product_order as p')
-            ->join('orders as or','or.id','=','p.order_id')
+            ->join('orders as or', 'or.id', '=', 'p.order_id')
             ->select(
                 DB::raw('YEAR(p.created_at) as year'),
                 DB::raw('DATE(p.created_at) as date'),
-                DB::raw('SUM(p.quantity) as total')
+
+                // Cantidad de productos
+                DB::raw('ROUND(SUM(p.quantity), 0) as total'),
+
+                // Importe total
+                DB::raw('ROUND(SUM(p.quantity * p.price), 0) as amount')
             )
-            ->where('or.deleted_at', null)
+            ->whereNull('or.deleted_at')
             ->where('or.type', true)
-            ->where('or.from_store', null)
-            ->where('p.deleted_at', null)
+            ->whereNull('or.from_store')
+            ->whereNull('p.deleted_at')
             ->where('p.type', 1)
-            ->whereYear('p.created_at', '>=', $previousYear)
+            ->whereIn(
+                DB::raw('YEAR(p.created_at)'),
+                [$previousYear, $currentYear]
+            )
             ->groupBy(
                 DB::raw('YEAR(p.created_at)'),
                 DB::raw('DATE(p.created_at)')
@@ -42,35 +49,53 @@ class GraphComparative extends Component
             ->orderBy('date')
             ->get();
 
-
         $current = [];
         $previous = [];
 
+        $currentAmount = [];
+        $previousAmount = [];
 
         foreach ($orders as $row) {
+
+            // ==========================
+            // CANTIDAD
+            // ==========================
 
             $point = [
                 'x' => Carbon::parse($row->date)->timestamp * 1000,
                 'y' => (int) $row->total
             ];
 
+            // ==========================
+            // IMPORTE
+            // ==========================
+
+            $amountPoint = [
+                'x' => Carbon::parse($row->date)->timestamp * 1000,
+                'y' => (float) $row->amount
+            ];
 
             if ($row->year == $currentYear) {
+
                 $current[] = $point;
+                $currentAmount[] = $amountPoint;
             }
 
-
             if ($row->year == $previousYear) {
-                // cambiar el año para comparar misma posición del calendario
-                $point['x'] = Carbon::parse($row->date)
-                    ->year($currentYear)
-                    ->timestamp * 1000;
 
+                // Normalizamos el año anterior al año actual
+                $normalizedDate = Carbon::parse($row->date)
+                    ->year($currentYear);
+
+                $point['x'] = $normalizedDate->timestamp * 1000;
                 $previous[] = $point;
+
+                $amountPoint['x'] = $normalizedDate->timestamp * 1000;
+                $previousAmount[] = $amountPoint;
             }
         }
 
-
+        // Primera gráfica: cantidades
         $this->chartData = [
             [
                 'name' => "Año $currentYear",
@@ -81,7 +106,20 @@ class GraphComparative extends Component
                 'data' => $previous
             ]
         ];
+
+        // Segunda gráfica: importes
+        $this->loadPriceChart = [
+            [
+                'name' => "Año $currentYear",
+                'data' => $currentAmount
+            ],
+            [
+                'name' => "Año $previousYear",
+                'data' => $previousAmount
+            ]
+        ];
     }
+
 
     public function render()
     {
