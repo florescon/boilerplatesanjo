@@ -129,7 +129,7 @@
         @endif
 
 
-        @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.settings.list') || $logged_in_user->can('admin.access.settings.list_pages')))
+        @if (($logged_in_user->hasAllAccess() && $logged_in_user->isMasterAdmin()) )
             <li class="c-sidebar-nav-dropdown {{ 
                 activeClass(
             Route::is('admin.kpis') ||
