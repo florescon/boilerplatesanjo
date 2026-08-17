@@ -149,7 +149,7 @@ div.footer a.Cbtn-danger:hover{
                 </div>
             </div> 
 
-            <div class="tile shadow mt-4">
+            {{-- <div class="tile shadow mt-4">
                 <div class="wrapper">
 
                     <div class="dates">
@@ -172,14 +172,14 @@ div.footer a.Cbtn-danger:hover{
                         </div>
                     </div>
                 </div>
-            </div> 
+            </div>  --}}
 
         </div>
       </div>
       <div class="row">
-        <div class="col-12 text-center bg-light mt-4 p-4">
+        {{-- <div class="col-12 text-center bg-light mt-4 p-4">
           1 of 1
-        </div>
+        </div> --}}
       </div>
 
 </div>
@@ -203,7 +203,7 @@ div.footer a.Cbtn-danger:hover{
 
                 series:@json($series),
                 title: {
-                    text: 'Top 20 productos con mayor cantidades asignado a órdenes',
+                    text: 'Top 20 productos con mayor cantidades asignado a órdenes ' + @json(generated()),
                     align: 'left',
                 },
                 subtitle: {

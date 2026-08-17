@@ -1,8 +1,3 @@
-@push('after-styles')
-  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-@endpush
-
-
 <div class="dropdown table-export text-center">
     <button class="dropdown-toggle btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       @lang('Export')        
@@ -17,11 +12,13 @@
 
 @push('after-scripts')
 
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
 <script>
 
-let months = @json($months);
 let products = @json($products);
 let services = @json($services);
+let months = @json($monthss);
 
 let options = {
     chart: {
@@ -47,12 +44,12 @@ let options = {
     },
 
     colors: [
-        '#008FFB', // Productos
-        '#00E396'  // Servicios
+        '#008FFB',
+        '#00E396'
     ],
 
     stroke: {
-        width: [0, 4], // Sin línea para columnas, línea de 4px para servicios
+        width: [0, 4],
         curve: 'smooth'
     },
 
@@ -71,7 +68,7 @@ let options = {
     },
 
     title: {
-        text: 'Pedidos Procesados: Productos vs Servicios'
+        text: 'Últimos 12 meses de Pedidos Procesados: Productos vs Servicios'
     }
 };
 

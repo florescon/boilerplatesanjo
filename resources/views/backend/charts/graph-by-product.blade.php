@@ -432,7 +432,7 @@ document.addEventListener('livewire:load', function () {
             },
           },
             title: {
-                text: 'Inventario Actual. X: Colores, Y: Tallas',
+                text: 'Inventario Actual. X: Colores, Y: Tallas ' + @json(generated()), 
                 align: 'left',
             },
             subtitle: {
@@ -470,7 +470,7 @@ document.addEventListener('livewire:load', function () {
             },
 
             title: {
-                text: 'Materia prima consumida'
+                text: 'Materia prima consumida ' + @json(generated()),
             },
 
             subtitle: {

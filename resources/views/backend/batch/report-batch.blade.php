@@ -204,7 +204,7 @@
                       Esperado: {{ $operation->total_expected }} <br>
                       Procesado: {{ $operation->total_processed }} <br>
                       Recibido: {{ $operation->total_received }} <br>
-                      Entregado: {{ $operation->total_delivered }}
+                      Terminado: {{ $operation->total_delivered }}
                   </em>
               </div>
           </div>

@@ -152,6 +152,7 @@
             Route::is('admin.graph_by_order') ||
             Route::is('admin.graph_oee') ||
             Route::is('admin.graph_tendencies') ||
+            Route::is('admin.graph_list') ||
             Route::is('admin.graph_ranking')
 
 
@@ -170,7 +171,7 @@
                                     class="c-sidebar-nav-link"
                                     :text="__('Kpis')"
                                     :active="activeClass(Route::is('admin.kpis'), 'c-active')"/>
-                            </li>
+                            </li> --}}
 
                             <li class="c-sidebar-nav-item">
                                 <x-utils.link
@@ -182,7 +183,7 @@
 
 
 
-<li class="c-sidebar-nav-item">
+{{-- <li class="c-sidebar-nav-item">
     <x-utils.link
         :href="route('admin.graph_efficiency')"
         class="c-sidebar-nav-link"
@@ -229,6 +230,31 @@
         :text="__('By Material')"
         :active="activeClass(Route::is('admin.graph_material'), 'c-active')"/>
 </li>
+
+<li class="c-sidebar-nav-item">
+    <x-utils.link
+        :href="route('admin.graph_list')"
+        class="c-sidebar-nav-link"
+        :text=" __('[n] Process & Inventory')"
+        :active="activeClass(Route::is('admin.graph_list'), 'c-active')"/>
+</li>
+
+<li class="c-sidebar-nav-item">
+    <x-utils.link
+        :href="route('admin.graph_bom')"
+        class="c-sidebar-nav-link"
+        :text=" __('Bom Quotations')"
+        :active="activeClass(Route::is('admin.graph_bom'), 'c-active')"/>
+</li>
+
+{{-- <li class="c-sidebar-nav-item">
+    <x-utils.link
+        :href="route('admin.graph_historic')"
+        class="c-sidebar-nav-link"
+        :text="__('Historic Orders')"
+        :active="activeClass(Route::is('admin.graph_historic'), 'c-active')"/>
+</li>
+ --}}
 
 {{-- <li class="c-sidebar-nav-item">
     <x-utils.link
@@ -343,7 +369,7 @@
         @endif
 
 
-        @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.order.request_chart'))
+        {{-- @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.order.request_chart'))
 
             <li class="c-sidebar-nav-item">
                 <x-utils.link
@@ -355,7 +381,7 @@
                     :active="activeClass(Route::is('admin.order.request_chart'), 'c-active')" />
             </li>
 
-        @endif
+        @endif --}}
 
         @if ($logged_in_user->hasAllAccess() || ($logged_in_user->can('admin.access.product.modify')))
             <li class="c-sidebar-nav-item">
@@ -455,7 +481,7 @@
                     :href="route('admin.report.index')"
                     :active="activeClass(Route::is('admin.report.*'), 'c-active')"
                     icon="c-sidebar-nav-icon cil-blur-circular"
-                    :text="__('Reports')" />
+                    :text="__('Download Reports')" />
             </li>
         @endif
 

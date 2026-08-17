@@ -29,11 +29,30 @@ Route::get('graph_print', [DashboardController::class, 'graph_print'])
         $trail->push(__('Home'), route('admin.graph_print'));
     });
 
+Route::get('graph_list', [DashboardController::class, 'graph_list'])
+    ->name('graph_list')
+    ->breadcrumbs(function (Trail $trail) {
+        $trail->push(__('Home'), route('admin.graph_list'));
+    });
+
+Route::get('graph_bom', [DashboardController::class, 'graph_bom'])
+    ->name('graph_bom')
+    ->breadcrumbs(function (Trail $trail) {
+        $trail->push(__('Home'), route('admin.graph_bom'));
+    });
+
 Route::get('graph_material', [DashboardController::class, 'graph_material'])
     ->name('graph_material')
     ->breadcrumbs(function (Trail $trail) {
         $trail->push(__('Home'), route('admin.graph_material'));
     });
+
+Route::get('graph_historic', [DashboardController::class, 'graph_historic'])
+    ->name('graph_historic')
+    ->breadcrumbs(function (Trail $trail) {
+        $trail->push(__('Home'), route('admin.graph_historic'));
+    });
+
 
 Route::get('graph_efficiency', [DashboardController::class, 'graph_efficiency'])
     ->name('graph_efficiency')

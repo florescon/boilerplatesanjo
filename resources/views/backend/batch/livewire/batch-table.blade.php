@@ -43,11 +43,13 @@
                 </div>
                 &nbsp;
 
-                <div class="col-md-3">
+                <div class="col-md-4">
                   <div class="btn-group" role="group" aria-label="Range date">
                     <button type="button" class="btn {{ $currentMonth ? 'btn-success' : 'btn-secondary' }}" wire:click="isCurrentMonth">@lang('Current month')</button>
                     <button type="button" class="btn {{ $currentWeek ? 'btn-success' : 'btn-secondary' }}" wire:click="isCurrentWeek">@lang('Current week')</button>
                     <button type="button" class="btn {{ $today ? 'btn-success' : 'btn-secondary' }}" wire:click="isToday">@lang('Today')</button>
+                  <button type="button" class="m-1 btn {{ $history ? 'btn-warning text-white' : 'btn-secondary' }}" wire:click="isHistory">@lang('History')</button>
+
                   </div>
                 </div>
                 &nbsp;
@@ -176,6 +178,9 @@
                   <div class="small text-muted">{{ $batch->comment }}</div>
                 </td>
                 <td class="text-center">
+
+                  {{ $batch->deleted_at ? 'Deleted' : '' }}
+
                   @if($batch->status_name  == 'pending')
                     <span class="badge badge-warning text-white">Pendiente</span>
                   @else

@@ -32,10 +32,16 @@
     <tr>
         <td align="center">
             <h3>{{ appName() }}</h3>
-            <h4>@lang('Feedstock')</h4>
+            <h4>Consumido @lang('Feedstock')</h4>
         </td>
     </tr>
 
+  </table>
+
+  <table width="100%">
+    <tr>
+        <td><strong>@lang('Order'):</strong> <u style="font-size: 140%;">#{!! $order->folio_or_id !!}</u></td>
+    </tr>
   </table>
 
   <table width="100%">
@@ -44,14 +50,6 @@
     </tr>
   </table>
 
-  <table width="100%">
-    <tr>
-        @if($order->payment)
-        <td><strong>@lang('Payment method'):</strong> </td>
-        @endif
-        <td><strong>@lang('Order'):</strong> <u style="font-size: 140%;">#{{ $order->id }}</u></td>
-    </tr>
-  </table>
 
   <table style="margin-bottom: 10px;" width="100%">
     <tr>

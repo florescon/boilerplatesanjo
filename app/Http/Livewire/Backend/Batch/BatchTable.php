@@ -24,7 +24,8 @@ class BatchTable extends Component
         'deleted' => ['except' => FALSE],
         'pending' => ['except' => FALSE],
         'dateInput' => ['except' => ''],
-        'dateOutput' => ['except' => '']
+        'dateOutput' => ['except' => ''],
+        'history' => ['except' => FALSE],
     ];
 
     public $perPage = '10';
@@ -37,6 +38,7 @@ class BatchTable extends Component
     public $dateInput = '';
     public $dateOutput = '';
 
+    public bool $history = false;
 
     public bool $currentMonth = false;
     public bool $currentWeek = false;
@@ -65,7 +67,6 @@ class BatchTable extends Component
     {
         $query = Batch::query()
             ->with('batch_product', 'personal', 'audi', 'getProcess', 'order')
-            ->where('status_name', 'pending')
             ->when($this->dateInput, function ($query) {
                 empty($this->dateOutput) ?
                     $query->whereBetween('created_at', [$this->dateInput.' 00:00:00', now()]) :
@@ -82,8 +83,10 @@ class BatchTable extends Component
             })
             ->when($this->sortField, function ($query) {
                 $query->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc');
+            })
+            ->when(!$this->history, function ($query) {
+                $query->where('status_name', 'pending');
             });
-
 
         if ($this->process === 'deleted') {
             $this->applySearchDeletedFilter($query);
@@ -102,7 +105,8 @@ class BatchTable extends Component
         if ($this->searchTerm) {
             return $searchBatch->whereHas('order', function ($query) {
                $query->whereRaw("comment LIKE \"%$this->searchTerm%\"")
-                    ->orWhereRaw("folio LIKE \"%$this->searchTerm%\"");
+                    ->orWhereRaw("folio LIKE \"%$this->searchTerm%\"")
+                    ->orWhereRaw("order_id LIKE \"%$this->searchTerm%\"");
             })
             // ->orWhereHas('order', function ($query) {
             //    $query->whereRaw("comment LIKE \"%$this->searchTerm%\"");
@@ -135,6 +139,20 @@ class BatchTable extends Component
         $this->dateInput = '';
         $this->dateOutput = '';
         $this->clearRangeDate();
+    }
+
+    public function isHistory()
+    {
+        $this->resetPage();
+        $this->dateInput = '';
+        $this->dateOutput = '';
+
+        if($this->history){
+            $this->history = FALSE;
+        }
+        else{
+            $this->history = TRUE;
+        }
     }
 
     public function clearRangeDate()

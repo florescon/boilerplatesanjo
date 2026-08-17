@@ -10,14 +10,27 @@ class ProceedInOrderExport implements FromCollection
     /**
     * @return \Illuminate\Support\Collection
     */
+    public $months = 12;
+
     public function collection()
     {
+
+        $startDate = now()
+            ->subMonths($this->months - 1)
+            ->startOfMonth();
+
+        $endDate = now()
+            ->addMonth()
+            ->startOfMonth();
+
         return DB::table('orders as o')
             ->join('product_order as po', 'po.order_id', '=', 'o.id')
             ->join('products as p', 'p.id', '=', 'po.product_id')
             ->where('o.type', 1)
+            ->where('o.deleted_at', null)
+            ->where('po.deleted_at', null)
             ->whereNull('o.from_store')
-            ->where('o.created_at', '>=', now()->subMonths(12))
+            ->whereBetween('o.created_at', [$startDate, $endDate])
             ->select(
                 'o.id',
                 'o.created_at',

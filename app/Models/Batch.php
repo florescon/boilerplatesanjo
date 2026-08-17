@@ -173,7 +173,8 @@ class Batch extends Model
             ->groupBy(
                 'operation_id',
                 'operation_name'
-            );
+            )
+            ->orderBy('sequence');
     }
 
 public function realStationDistribution()

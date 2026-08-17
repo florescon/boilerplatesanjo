@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', __('Efficiency'))
+@section('title', __('Historic orders'))
 
 @push('after-styles')
     <link rel="stylesheet" href="{{ asset('/css_custom/gradient.css')}}">
@@ -11,7 +11,7 @@
 
     <div class="page">
 
-        <livewire:backend.charts.graph-efficiency />
+        <livewire:backend.charts.historic />
 
     </div>
 

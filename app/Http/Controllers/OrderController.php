@@ -148,6 +148,11 @@ class OrderController extends Controller
         return view('backend.order.print-newformat', ['order' => $order]);
     }
 
+    public function graph(Order $order)
+    {
+        return view('backend.order.graph', ['order' => $order]);
+    }
+
     public function print(Order $order, bool $breakdown = false, bool $grouped = false, $emptyPrices = false)
     {
         // $selectSub = DB::table('products')->join('products', 'products.id', '=', 'products.parent_id')->whereRaw('product_order.product_id = product.id');

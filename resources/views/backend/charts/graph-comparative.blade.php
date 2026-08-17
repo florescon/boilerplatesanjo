@@ -26,7 +26,7 @@ document.addEventListener('livewire:load', function () {
             },
 
             title: {
-                text: 'Productos asociados a Pedidos. Año actual vs Año anterior',
+                text: 'Productos asociados a Pedidos. Año actual vs Año anterior ' + @json(generated()),
                 align: 'left'
             },
 
@@ -82,7 +82,7 @@ document.addEventListener('livewire:load', function () {
             },
 
             title: {
-                text: 'Importe de Pedidos. Año actual vs Año anterior',
+                text: 'Importe de Pedidos. Año actual vs Año anterior ' + @json(generated()),
                 align: 'left'
             },
 

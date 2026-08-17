@@ -24,20 +24,26 @@ class ProceedInOrder extends Component
             new ProceedInOrderExport,
             'reporte_ventas.xlsx'
         );
-
-        // abort_if(!in_array($extension, ['csv', 'xlsx', 'html', 'xls', 'tsv', 'ids', 'ods']), Response::HTTP_NOT_FOUND);
-        // return Excel::download(new ProceedInOrderExport('reporte_ventas.'.$extension));
     }
 
     public function render()
     {
+        $startDate = now()
+            ->subMonths($this->months - 1)
+            ->startOfMonth();
+
+        $endDate = now()
+            ->addMonth()
+            ->startOfMonth();
 
         $ordersQuantity = DB::table('orders as o')
             ->join('product_order as po', 'po.order_id', '=', 'o.id')
             ->join('products as p', 'p.id', '=', 'po.product_id')
             ->where('o.type', 1)
+            ->where('o.deleted_at', null)
+            ->where('po.deleted_at', null)
             ->whereNull('o.from_store')
-            ->where('o.created_at', '>=', now()->subMonths($this->months))
+            ->whereBetween('o.created_at', [$startDate, $endDate])
             ->select(
                 DB::raw("DATE_FORMAT(o.created_at, '%Y-%m') as month"),
                 DB::raw("SUM(CASE WHEN p.type = 1 THEN po.quantity ELSE 0 END) as products"),
@@ -47,13 +53,19 @@ class ProceedInOrder extends Component
             ->orderBy('month')
             ->get();
 
+            $products = $ordersQuantity->pluck('products')->values()->toArray();
+            $services = $ordersQuantity->pluck('services')->values()->toArray();
 
-        $months = $ordersQuantity->pluck('month');
-        $products = $ordersQuantity->pluck('products');
-        $services = $ordersQuantity->pluck('services');
+
+            $monthss = $ordersQuantity
+                ->pluck('month')
+                ->values()
+                ->toArray();
+
+            // dd($monthss);
 
             return view('backend.charts.proceed-in-order', [
-                'months' => $months,
+                'monthss' => $monthss,
                 'products' => $products,
                 'services' => $services,
             ]);

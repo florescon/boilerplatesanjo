@@ -27,6 +27,16 @@ class DashboardController extends Controller
         return view('backend.dashboard.kpis');
     }
 
+    public function graph_list()
+    {
+        return view('backend.dashboard.graph_list');
+    }
+
+    public function graph_bom()
+    {
+        return view('backend.dashboard.graph_bom');
+    }
+
     public function graph_print()
     {
         $components = [];
@@ -62,6 +72,11 @@ public function graph_efficiency()
 public function graph_material()
 {
     return view('backend.dashboard.graph_material');
+}
+
+public function graph_historic()
+{
+    return view('backend.dashboard.graph_historic');
 }
 
 public function graph_by_product()

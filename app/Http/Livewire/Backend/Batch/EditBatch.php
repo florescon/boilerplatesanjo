@@ -23,7 +23,9 @@ class EditBatch extends Component
 
     protected $listeners = ['editSelectBatch', 'save'];
 
-    public string $selectedStatus = 'processed';
+    public $selectedStatus = [];
+
+    public $activeOperation;
 
     public $chartData;
 
@@ -32,9 +34,14 @@ class EditBatch extends Component
         $this->chartData = $this->getChartData();
     }
 
-    public function selectStatus($selectedStatus)
+    public function selectStatus($selectedStatus, $operationId)
     {
-        $this->selectedStatus = $selectedStatus;
+        $this->selectedStatus[$operationId] = $selectedStatus;
+
+        if ($operationId) {
+            $this->activeOperation = $operationId;
+
+        }   
     }
 
     public function editSelectBatch(Batch $batch)
@@ -123,53 +130,65 @@ class EditBatch extends Component
     // }
 
 
-    public function save($operationId)
-    {
-        $previousField = [
-            'processed' => 'expected',
-            'received' => 'processed',
-            'delivered' => 'received',
-        ];
+public function save($operationId)
+{
+    // Estado seleccionado para ESTA operación
+    $selectedStatus = $this->selectedStatus[$operationId] ?? 'processed';
 
-        foreach ($this->quantities[$operationId] ?? [] as $batchItemId => $qty) {
+    $previousField = [
+        'processed' => 'expected',
+        'received'  => 'processed',
+        'delivered' => 'received',
+    ];
 
-            $batchOperation = DB::table('batch_operations')
-                ->where('batch_item_id', $batchItemId)
-                ->where('operation_id', $operationId)
-                ->first();
+    foreach ($this->quantities[$operationId] ?? [] as $batchItemId => $qty) {
 
-            if (!$batchOperation) {
-                continue;
-            }
-
-            $currentValue = (int) $batchOperation->{$this->selectedStatus};
-            $newValue = $currentValue + (int) $qty;
-
-            if (isset($previousField[$this->selectedStatus])) {
-
-                $maxValue = (int) $batchOperation->{$previousField[$this->selectedStatus]};
-
-                if ($newValue > $maxValue) {
-                    // No actualizar, excede el máximo permitido
-                    continue;
-                }
-            }
-
-            DB::table('batch_operations')
-                ->where('batch_item_id', $batchItemId)
-                ->where('operation_id', $operationId)
-                ->update([
-                    $this->selectedStatus => $newValue,
-                    'updated_at' => now(),
-                ]);
+        // Ignorar valores vacíos o menores/iguales a 0
+        if (!$qty || (int) $qty <= 0) {
+            continue;
         }
 
-        $this->resetInput();
+        $batchOperation = DB::table('batch_operations')
+            ->where('batch_item_id', $batchItemId)
+            ->where('operation_id', $operationId)
+            ->first();
 
-        $this->emit('batchChart', $this->getChartData());
+        if (!$batchOperation) {
+            continue;
+        }
 
+        // Valor actual del estado seleccionado
+        $currentValue = (int) ($batchOperation->{$selectedStatus} ?? 0);
+
+        // Nueva cantidad
+        $newValue = $currentValue + (int) $qty;
+
+        // Validar contra el estado anterior
+        if (isset($previousField[$selectedStatus])) {
+
+            $previousStatus = $previousField[$selectedStatus];
+
+            $maxValue = (int) ($batchOperation->{$previousStatus} ?? 0);
+
+            if ($newValue > $maxValue) {
+                // Excede la cantidad permitida
+                continue;
+            }
+        }
+
+        DB::table('batch_operations')
+            ->where('batch_item_id', $batchItemId)
+            ->where('operation_id', $operationId)
+            ->update([
+                $selectedStatus => $newValue,
+                'updated_at' => now(),
+            ]);
     }
 
+    $this->resetInput();
+
+    $this->emit('batchChart', $this->getChartData());
+}
     public function messageAlert($getMethod, $getID)
     {
         abort_if(!in_array($getMethod, ['saveByParent', 'save', 'saveAll', 'saveFromSupplier']), Response::HTTP_NOT_FOUND);
@@ -197,7 +216,7 @@ class EditBatch extends Component
                 SUM(bo.processed) processed,
                 SUM(bo.received) received,
                 SUM(bo.delivered) delivered,
-                ROUND(SUM(bo.processed) * 100.0 / SUM(bo.expected),2) avance
+                ROUND(SUM(bo.delivered) * 100.0 / SUM(bo.processed),2) avance
             ")
             ->where('bo.batch_id', $this->batchId)
             ->groupBy(
@@ -207,6 +226,8 @@ class EditBatch extends Component
             )
             ->orderBy('bo.sequence')
             ->get();
+
+        // dd($rows);
 
         return [
             'categories' => $rows->pluck('operation_name'),
