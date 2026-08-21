@@ -97,6 +97,80 @@ class Batch extends Model
         return $this->batch_product->sum('quantity');
     }
 
+    public function markAsCompletedIfReady(): bool
+    {
+        $hasPending = DB::table('batch_operations')
+            ->where('batch_id', $this->id)
+            ->where('status_name', '!=', 'completed')
+            ->exists();
+
+        if (!$hasPending) {
+            $this->update([
+                'status_name' => 'completed',
+                'updated_at' => now(),
+            ]);
+
+            DB::table('batch_operations')
+                ->where('batch_id', $this->id)
+                ->update([
+                    'active' => 0,
+                    'updated_at' => now(),
+                ]);
+                
+            return true;
+        }
+
+        return false;
+    }
+
+    public function batch_operations()
+    {
+        return $this->hasMany(BatchOperation::class)->orderBy('created_at', 'desc');
+    }
+
+    public function totalProcess()
+    {
+        $batchId = $this->id;
+
+        $productsOrder = DB::table('product_order')
+            ->where('order_id', $this->order_id)
+            ->sum('quantity');
+
+        $minSequence = DB::table('batch_operations')
+            ->where('batch_id', $batchId)
+            ->min('sequence');
+
+        $totalExpected = DB::table('batch_operations')
+            ->where('batch_id', $batchId)
+            ->where('sequence', $minSequence)
+            ->sum('expected');
+
+        $operationsDB = DB::table('batch_operations')
+            ->select(
+                'operation_name',
+                DB::raw('SUM(active) AS sumActive')
+            )
+            ->where('batch_id', $batchId)
+            ->groupBy(
+                'operation_id',
+                'operation_name'
+            )
+            ->get();
+
+        $totalProcessed = $operationsDB->sum('sumActive');
+
+        $unprocessed = $productsOrder - $totalExpected;
+
+        $result = $operationsDB->toArray();
+
+        $result[] = (object) [
+            'operation_name' => 'Unprocessed',
+            'sumActive' => $unprocessed
+        ];
+
+        return $result;
+    }
+
     public function getTotalBatchDeliveredAttribute(): int
     {
         $maxSequence = DB::table('batch_operations')
@@ -146,17 +220,25 @@ class Batch extends Model
             ->first();
     }
 
-
     public function getUniqueOperation()
     {
         return DB::table('batch_operations')
             ->where('batch_id', $this->id)
-            ->selectRaw('MIN(id) as id, operation_name, operation_id, sequence')
+            ->selectRaw('
+                MIN(id) as id, 
+                batch_item_id, 
+                operation_name, 
+                operation_id, 
+                sequence, 
+                active,
+                SUM(expected) as total_expected,
+                SUM(processed) as total_processed,
+                SUM(delivered) as total_delivered
+            ')
             ->groupBy('operation_name')
             ->orderBy('sequence')
             ->get();
     }
-
 
     public function operationTotals()
     {

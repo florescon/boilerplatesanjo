@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Backend\Batch;
 use Livewire\Component;
 use App\Models\Order;
 use App\Models\Batch;
+use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,7 +19,10 @@ class EditBatch extends Component
     public bool $received = false;
     public bool $delivered = false;
 
+    public $selectedOperation = 'NoLink';
 
+    public $selectedAfterOperation = null;
+    
     public $quantities = [];
 
     protected $listeners = ['editSelectBatch', 'save'];
@@ -28,20 +32,32 @@ class EditBatch extends Component
     public $activeOperation;
 
     public $chartData;
+    public $chartShapes;
+    
+    public $operations = [];
 
     public function mount()
     {
         $this->chartData = $this->getChartData();
+        $this->getChartShapes();
+
+        $batchOne = Batch::findOrFail($this->batchId);
+
+        $this->operations = collect(
+            $batchOne->getUniqueOperation()
+        )->values()->all();
+
+        $this->activeOperation = $this->operations[0]->operation_id ?? null;
     }
 
+
+    public function selectOperation($operationId)
+    {
+        $this->activeOperation = (int) $operationId;
+    }
     public function selectStatus($selectedStatus, $operationId)
     {
         $this->selectedStatus[$operationId] = $selectedStatus;
-
-        if ($operationId) {
-            $this->activeOperation = $operationId;
-
-        }   
     }
 
     public function editSelectBatch(Batch $batch)
@@ -102,102 +118,254 @@ class EditBatch extends Component
         $this->quantities = [];
     }
 
+    public function save($operationId)
+    {
+        $batchOne = Batch::findOrFail($this->batchId);
 
-    // public function save($operationId)
-    // {
-    //     $allowedStatuses = [
-    //         'processed',
-    //         'received',
-    //         'delivered',
-    //     ];
+        $operations = collect($batchOne->getUniqueOperation());
 
-    //     if (!in_array($this->selectedStatus, $allowedStatuses)) {
-    //         return;
-    //     }
+        $currentOperation = $operations
+            ->firstWhere('operation_id', $operationId);
 
-    //     foreach ($this->quantities[$operationId] ?? [] as $batchItemId => $qty) {
-
-    //         DB::table('batch_operations')
-    //             ->where('batch_item_id', $batchItemId)
-    //             ->where('operation_id', $operationId)
-    //             ->update([
-    //                 $this->selectedStatus => (int) $qty,
-    //                 'updated_at' => now(),
-    //             ]);
-    //     }
-
-    //     $this->resetInput();
-    // }
-
-
-public function save($operationId)
-{
-    // Estado seleccionado para ESTA operación
-    $selectedStatus = $this->selectedStatus[$operationId] ?? 'processed';
-
-    $previousField = [
-        'processed' => 'expected',
-        'received'  => 'processed',
-        'delivered' => 'received',
-    ];
-
-    foreach ($this->quantities[$operationId] ?? [] as $batchItemId => $qty) {
-
-        // Ignorar valores vacíos o menores/iguales a 0
-        if (!$qty || (int) $qty <= 0) {
-            continue;
-        }
-
-        $batchOperation = DB::table('batch_operations')
-            ->where('batch_item_id', $batchItemId)
-            ->where('operation_id', $operationId)
+        $previousOperation = $operations
+            ->filter(fn ($operation) =>
+                $operation->sequence < $currentOperation->sequence
+            )
+            ->sortByDesc('sequence')
             ->first();
 
-        if (!$batchOperation) {
-            continue;
+
+        // Estado seleccionado para ESTA operación
+        $selectedStatus = $this->selectedStatus[$operationId] ?? 'processed';
+
+        $previousField = [
+            'processed' => 'expected',
+            'received'  => 'processed',
+            'delivered' => 'received',
+        ];
+
+        $quantities = $this->quantities[$operationId] ?? [];
+
+        if (empty(array_filter($quantities))) {
+            $this->emit('swal:alert', [
+                'icon' => 'warning',
+                'title' => __('Datos vacíos'),
+            ]);
+
+            return;
         }
 
-        // Valor actual del estado seleccionado
-        $currentValue = (int) ($batchOperation->{$selectedStatus} ?? 0);
+        /*
+        |--------------------------------------------------------------------------
+        | 1. VALIDAR TODO
+        |--------------------------------------------------------------------------
+        | Aquí NO hacemos ningún update.
+        |--------------------------------------------------------------------------
+        */
 
-        // Nueva cantidad
-        $newValue = $currentValue + (int) $qty;
+        foreach ($quantities as $batchItemId => $qty) {
 
-        // Validar contra el estado anterior
-        if (isset($previousField[$selectedStatus])) {
-
-            $previousStatus = $previousField[$selectedStatus];
-
-            $maxValue = (int) ($batchOperation->{$previousStatus} ?? 0);
-
-            if ($newValue > $maxValue) {
-                // Excede la cantidad permitida
+            // Ignorar valores vacíos o menores/iguales a 0
+            if (!$qty || (int) $qty <= 0) {
                 continue;
+            }
+
+            $previousDelivered = 0;
+
+            if ($selectedStatus === 'processed' && $previousOperation) {
+
+                $previousBatchOperation = DB::table('batch_operations')
+                    ->where('batch_item_id', $batchItemId)
+                    ->where('operation_id', $previousOperation->operation_id)
+                    ->first();
+
+                $previousDelivered = (int) (
+                    $previousBatchOperation->delivered ?? 0
+                );
+            }
+
+            $batchOperation = DB::table('batch_operations')
+                ->where('batch_item_id', $batchItemId)
+                ->where('operation_id', $operationId)
+                ->first();
+
+            if (!$batchOperation) {
+                continue;
+            }
+
+            $currentValue = (int) (
+                $batchOperation->{$selectedStatus} ?? 0
+            );
+
+            $newValue = $currentValue + (int) $qty;
+
+            /*
+            |--------------------------------------------------------------------------
+            | VALIDACIÓN ESPECIAL PARA PROCESSED
+            |--------------------------------------------------------------------------
+            */
+
+            if (
+                $selectedStatus === 'processed' &&
+                $previousOperation
+            ) {
+                if ($newValue > $previousDelivered) {
+
+                    $this->emit('swal:alert', [
+                        'icon' => 'warning',
+                        'title' => __('No se puede crear, verifique cantidades con respecto al anterior Proceso'),
+                    ]);
+
+                    return;
+                }
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | VALIDACIÓN NORMAL
+            |--------------------------------------------------------------------------
+            */
+
+            if (isset($previousField[$selectedStatus])) {
+
+                $previousStatus = $previousField[$selectedStatus];
+
+                $maxValue = (int) (
+                    $batchOperation->{$previousStatus} ?? 0
+                );
+
+                if ($newValue > $maxValue) {
+
+                    $this->emit('swal:alert', [
+                        'icon' => 'warning',
+                        'title' => __('La cantidad excede la cantidad permitida'),
+                    ]);
+
+                    return;
+                }
             }
         }
 
-        DB::table('batch_operations')
-            ->where('batch_item_id', $batchItemId)
-            ->where('operation_id', $operationId)
-            ->update([
-                $selectedStatus => $newValue,
-                'updated_at' => now(),
-            ]);
+        /*
+        |--------------------------------------------------------------------------
+        | 2. ACTUALIZAR
+        |--------------------------------------------------------------------------
+        | Si llegamos aquí significa que TODAS las cantidades son válidas.
+        |--------------------------------------------------------------------------
+        */
+
+        foreach ($quantities as $batchItemId => $qty) {
+
+            if (!$qty || (int) $qty <= 0) {
+                continue;
+            }
+
+            $batchOperation = DB::table('batch_operations')
+                ->where('batch_item_id', $batchItemId)
+                ->where('operation_id', $operationId)
+                ->first();
+
+            if (!$batchOperation) {
+                continue;
+            }
+
+            $currentValue = (int) (
+                $batchOperation->{$selectedStatus} ?? 0
+            );
+
+            $newValue = $currentValue + (int) $qty;
+
+            DB::table('batch_operations')
+                ->where('batch_item_id', $batchItemId)
+                ->where('operation_id', $operationId)
+                ->update([
+                    $selectedStatus => $newValue,
+                    'updated_at' => now(),
+                ]);
+
+            /*
+            |--------------------------------------------------------------------------
+            | TRANSFERIR ACTIVE
+            |--------------------------------------------------------------------------
+            */
+
+            if ($selectedStatus === 'processed') {
+
+                if ($previousOperation) {
+
+                    $previousBatchOperation = DB::table('batch_operations')
+                        ->where('batch_item_id', $batchItemId)
+                        ->where('operation_id', $previousOperation->operation_id)
+                        ->first();
+
+                    $previousActive = (int) (
+                        $previousBatchOperation->active ?? 0
+                    );
+
+                    DB::table('batch_operations')
+                        ->where('batch_item_id', $batchItemId)
+                        ->where('operation_id', $previousOperation->operation_id)
+                        ->update([
+                            'active' => $previousActive - (int) $qty,
+                            'updated_at' => now(),
+                        ]);
+                }
+
+                // Sumar qty al active de la operación actual
+                DB::table('batch_operations')
+                    ->where('batch_item_id', $batchItemId)
+                    ->where('operation_id', $operationId)
+                    ->increment('active', (int) $qty);
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | COMPLETED
+            |--------------------------------------------------------------------------
+            */
+
+            if (
+                $selectedStatus === 'delivered' &&
+                $newValue === (int) $batchOperation->expected
+            ) {
+
+                DB::table('batch_operations')
+                    ->where('batch_item_id', $batchItemId)
+                    ->where('operation_id', $operationId)
+                    ->update([
+                        'status_name' => 'completed',
+                        'updated_at' => now(),
+                    ]);
+            }
+        }
+
+        if (
+            $currentOperation &&
+            $currentOperation->sequence == $operations->last()->sequence
+        ) {
+            // Es la última operación
+            $batchOne->markAsCompletedIfReady();
+        }
+
+        $this->emit('swal:alert', [
+            'icon' => 'success',
+            'title' => __('Datos Guardados'),
+        ]);
+
+        $this->resetInput();
+
+        $this->emit('batchChart', $this->getChartData());
+        $this->emit('unitShapes', $this->getChartShapes());
+        $this->getChartShapes();
     }
 
-    $this->resetInput();
-
-    $this->emit('batchChart', $this->getChartData());
-}
     public function messageAlert($getMethod, $getID)
     {
-        abort_if(!in_array($getMethod, ['saveByParent', 'save', 'saveAll', 'saveFromSupplier']), Response::HTTP_NOT_FOUND);
-
-        // $this->emitUpdatedQuantity();
+        abort_if(!in_array($getMethod, ['save', 'saveAll']), Response::HTTP_NOT_FOUND);
 
         return $this->emit('swal:confirm', [
             'icon' => 'question',
-            'title' => '¿Crear?',
+            'title' => '¿Crear? ',
             'html' => 'Capturado: ' . ' productos <br>',
             'confirmText' => '¿Desea confirmar?',
             'method' => (string) $getMethod,
@@ -205,6 +373,30 @@ public function save($operationId)
         ]);
     }
 
+
+    public function getChartShapes()
+    {
+        $batchOne = Batch::findOrFail($this->batchId);
+        $operationsDB = $batchOne->totalProcess();
+
+        $chartShapes = [
+            'labels' => collect($operationsDB)
+                ->pluck('operation_name')
+                ->values()
+                ->toArray(),
+
+            'series' => collect($operationsDB)
+                ->pluck('sumActive')
+                ->map(fn ($value) => (int) $value)
+                ->values()
+                ->toArray(),
+        ];
+
+        $this->chartShapes = $chartShapes;
+
+        return $this->chartShapes;
+
+    }
 
     public function getChartData()
     {
@@ -216,7 +408,7 @@ public function save($operationId)
                 SUM(bo.processed) processed,
                 SUM(bo.received) received,
                 SUM(bo.delivered) delivered,
-                ROUND(SUM(bo.delivered) * 100.0 / SUM(bo.processed),2) avance
+                ROUND(SUM(bo.processed) * 100.0 / SUM(bo.expected),2) avance
             ")
             ->where('bo.batch_id', $this->batchId)
             ->groupBy(
@@ -237,6 +429,87 @@ public function save($operationId)
             'delivered'  => $rows->pluck('delivered'),
             'avance'     => $rows->pluck('avance'),
         ];
+    }
+
+    public function saveOperation()
+    {
+        $batch = Batch::findOrFail($this->batchId);
+
+        if ($batch->status_name === 'completed') {
+            $this->emit('swal:alert', [
+                'icon' => 'warning', // o 'error' si prefieres indicar que ya existe
+                'title' => __('Lote completado, no es posible agregar.'), // Mensaje personalizado (puedes cambiarlo)
+            ]);
+
+            return;
+        }
+
+        if ($this->selectedOperation === 'NoLink') {
+            $this->emit('swal:alert', [
+                'icon' => 'warning', // o 'error' si prefieres indicar que ya existe
+                'title' => __('Select an operation'), // Mensaje personalizado (puedes cambiarlo)
+            ]);
+
+            return;
+        }
+
+
+        if ($this->selectedAfterOperation === null || $this->selectedAfterOperation === '') {
+            $this->emit('swal:alert', [
+                'icon' => 'warning', // o 'error' si prefieres indicar que ya existe
+                'title' => __('Select the operation after which you wish to add it.'), // Mensaje personalizado (puedes cambiarlo)
+            ]);
+
+            return;
+        }
+
+        $operation = \App\Models\Operation::findOrFail(
+            $this->selectedOperation
+        );
+
+        // ==========================================
+        // VALIDAR SI YA EXISTE EN ESTE BATCH
+        // ==========================================
+
+        $exists = $batch->batch_operations()
+            ->where('operation_id', $operation->id)
+            ->exists();
+
+        if ($exists) {
+            $this->emit('swal:alert', [
+                'icon' => 'warning',
+                'title' => __('Operation already exists'),
+            ]);
+
+            return;
+        }
+
+        // Sequence de la operación seleccionada
+        $sequence = (int) $this->selectedAfterOperation;
+
+        // Agregar 1
+        $newSequence = $sequence + 1;
+
+        $batchProducts = $batch->batch_product()->get();
+
+        foreach ($batchProducts as $b) {
+
+            $product = Product::findOrFail($b->product_id);
+
+            $batch->batch_operations()->create([
+                'order_id'       => $batch->order_id,
+                'batch_item_id'  => $b->id,
+                'operation_id'   => $operation->id,
+                'operation_name' => $operation->name,
+                'expected'       => $b->quantity,
+                'status_name'    => 'pending',
+                'sequence'       => $newSequence,
+                'product_id'     => $product->parent_id,
+            ]);
+        }
+
+        $this->selectedOperation = 'NoLink';
+        $this->selectedAfterOperation = null;
     }
 
     public function render()
@@ -372,16 +645,13 @@ foreach ($matrix as $operationId => $parentsData) {
             ->get();
     }
 
-
-// dd($sizesByParent);
-
         return view('backend.batch.livewire.edit-batch')->with([
             'batchOne' => $batchOne,
             'chartData' => $this->getChartData(),
             'order' => $order,
             'sizes' => $sizes,
             'sizesByParent' => $sizesByParent,
-
+            'chartShapes' => $this->getChartShapes(),
             'colors' => $colors,
             'batchItems' => $batchItems,
             'matrix' => $matrix,

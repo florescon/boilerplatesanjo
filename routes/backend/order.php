@@ -290,6 +290,14 @@ Route::group([
                     ->push(__('Advanced options'), route('admin.order.advanced', $order));
             });
 
+        Route::get('capture_batch', [OrderController::class, 'capture_batch'])
+            ->name('capture_batch')
+            ->middleware('permission:admin.access.order.modify')
+            ->breadcrumbs(function (Trail $trail, Order $order) {
+                $trail->parent('admin.order.edit', $order)
+                    ->push(__('Capture Batch'), route('admin.order.capture_batch', $order));
+            });
+
         Route::get('print_service_order/{service}', [OrderController::class, 'print_service_order'])
             ->name('print_service_order')
             ->middleware('permission:admin.access.order.print_service_order')

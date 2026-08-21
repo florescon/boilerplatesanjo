@@ -1,16 +1,14 @@
 @extends('backend.layouts.app')
 
-@section('title', __('Edit'))
+@section('title', __('Capture Batch'))
 
 @push('after-styles')
-    <link rel="stylesheet" href="{{ asset('css_custom/timeline.css') }}">
-    {{-- <link rel="stylesheet" href="{{ asset('css_custom/chart.css') }}"> --}}
-    {{-- <link rel="stylesheet" href="https://pixinvent.com/demo/vuexy-bootstrap-laravel-admin-template/demo-1/css/base/pages/app-invoice.css"> --}}
+    <link rel="stylesheet" href="{{ asset('css_custom/advanced-order.css') }}">
 @endpush
 
 @section('content')
 
-    <livewire:backend.chart.order.edit-order :order="$order"/>
+  <livewire:backend.order.capture-batch :order="$order"/>
 
 @endsection
 

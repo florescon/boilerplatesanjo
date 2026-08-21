@@ -426,6 +426,7 @@ class ProductOrder extends Model
                     'vendor' => $consumption->material->vendor->short_name ?? null,
                     'family' => $consumption->material->family->name ?? null,
                     'price' => $consumption->material->price,
+                    'acquisition_cost' => $consumption->material->acquisition_cost,
                 ]);
             }
 
@@ -441,6 +442,7 @@ class ProductOrder extends Model
                     'vendor' => $consumption->material->vendor->short_name ?? null,
                     'family' => $consumption->material->family->name ?? null,
                     'price' => $consumption->material->price ?? null,
+                    'acquisition_cost' => $consumption->material->acquisition_cost ?? null,
                 ]);
             }
 
@@ -456,6 +458,7 @@ class ProductOrder extends Model
                     'vendor' => $consumption->material->vendor->short_name ?? null,
                     'family' => $consumption->material->family->name ?? null,
                     'price' => $consumption->material->price ?? null,
+                    'acquisition_cost' => $consumption->material->acquisition_cost ?? null,
                 ]);
             }
 
@@ -476,6 +479,7 @@ class ProductOrder extends Model
                             'material' => $item[0]['material_name'],
                             'part_number' => $item[0]['material_part_number'],
                             'price' => $item[0]['price'],
+                            'acquisition_cost' => $item[0]['price'],
                             'unit' => $item->sum('unit'),
                             'unit_measurement' => $item[0]['unit_measurement'],
                             'vendor' => $item[0]['vendor'],

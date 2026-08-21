@@ -210,8 +210,6 @@
 
             <!-- resto del dashboard -->
 
-
-
             <div class="row card-group-row mb-lg-8pt">
 
                 <div class="col-md-4 mb-4">

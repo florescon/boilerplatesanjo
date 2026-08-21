@@ -62,6 +62,104 @@ const SwalConfirm = (icon, title, html, confirmButtonText, method, params, callb
     })
 }
 
+
+const SwalConfirmText = async (
+    icon,
+    title,
+    html,
+    confirmButtonText,
+    method,
+    params,
+    callback
+) => {
+
+    const palabras = [
+        'Confirmar',
+        'Aceptar',
+        'Continuar',
+        'Proceder',
+        'Autorizar',
+        'Validar',
+        'Aprobar',
+        'Confirm',
+        'Accept',
+        'Continue',
+        'Proceed',
+        'Authorize',
+        'Validate',
+        'Approve'
+    ];
+
+    const palabra = palabras[
+        Math.floor(Math.random() * palabras.length)
+    ];
+
+    const { value: confirmacion } = await Swal.fire({
+
+        icon: icon,
+
+        title: title,
+
+        html: `
+            ${html}
+
+            <p class="mt-3">
+                Para continuar escribe:
+            </p>
+
+            <strong style="font-size: 20px;">
+                ${palabra}
+            </strong>
+        `,
+
+        input: 'text',
+
+        inputPlaceholder: `Escribe ${palabra}`,
+
+        inputAttributes: {
+            autocomplete: 'off',
+            autocapitalize: 'off'
+        },
+        backdrop: `
+            rgba(0,0,123,0.4)
+            left top
+            no-repeat
+        `,
+        showCancelButton: true,
+        focusConfirm: false,
+
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+
+        confirmButtonText: confirmButtonText,
+        cancelButtonText: 'Cancelar',
+
+        inputValidator: (value) => {
+
+            if (!value) {
+                return 'Debes escribir la palabra de confirmación';
+            }
+
+            if (value.trim() !== palabra) {
+                return `Debes escribir exactamente: ${palabra}`;
+            }
+        }
+    });
+
+    if (confirmacion) {
+
+        if (Array.isArray(params)) {
+            return livewire.emit(method, ...params);
+        }
+
+        return livewire.emit(method, params);
+    }
+
+    if (callback) {
+        return livewire.emit(callback);
+    }
+};
+
 const SwalAlert = (icon, title, timeout = 4000) => {
     const Toast = Swal.mixin({
         toast: true,
@@ -126,6 +224,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
     this.livewire.on('swal:confirm', data => {
         SwalConfirm(data.icon, data.title, data.html, data.confirmText, data.method, data.params, data.callback)
+    })
+
+    this.livewire.on('swal:confirmtext', data => {
+        SwalConfirmText(data.icon, data.title, data.html, data.confirmText, data.method, data.params, data.callback)
     })
 
     this.livewire.on('swal:alert', data => {

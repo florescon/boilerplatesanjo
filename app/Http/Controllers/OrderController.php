@@ -620,6 +620,11 @@ class OrderController extends Controller
         return view('backend.order.advanced-order', compact('order', 'result'));
     }
 
+    public function capture_batch(Order $order)
+    {
+        return view('backend.order.capture-batch', compact('order'));
+    }
+
     public function records(Order $order)
     {
         if($order->parent_order_id == true){

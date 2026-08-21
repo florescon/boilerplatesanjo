@@ -882,6 +882,49 @@
 
                   @else
 
+                  @php
+                      $progress = $order->quotationProgress();
+                  @endphp
+
+
+                    {{-- <div class="text-center p-4">
+                      <div class="progress" style="height: 25px;">
+                          <div
+                              class="progress-bar bg-primary"
+                              role="progressbar"
+                              style="width: {{ $progress['percentage'] }}%;"
+                              aria-valuenow="{{ $progress['percentage'] }}"
+                              aria-valuemin="0"
+                              aria-valuemax="100"
+                          >
+                              {{ $progress['percentage'] }}%
+                          </div>
+                      </div>
+
+                      <div class="text-muted mt-1">
+                          Capturado {{ $progress['difference'] }} de {{ $progress['quantity'] }}
+                      </div>
+
+                      @if($model->hasAvailableQuantity())
+                        <a type="button" href="{{ route('admin.order.capture_batch', $model->id) }}" class="btn btn-primary text-white btn-sm mt-4">Capturar Lote</a>
+                      @endif
+
+                      @if($order->batches()->exists())
+                        <select id="redirectSelect" class="form-control mt-4 shadow-sm">
+                            <option value="NoLink">Seleccionar Lote</option>
+                            @foreach(\App\Models\Batch::orderBy('id')->where('order_id', $order_id)->get() as $s)
+                              <option style="color:#0071c5;" value="{{ route('admin.batch.edit', $s->id)}}">
+                                <strong>
+                                  #{{ $s->id }} 
+                                  [{{ $s->total_batch }}]
+                                </strong>
+                              </option>
+                            @endforeach
+                        </select>
+                      @endif
+
+                    </div> --}}
+
                     <canvas id="doughnut-chart-work" width="500" height="250"></canvas>
 
                     <div class="text-center p-4">
@@ -955,7 +998,7 @@
                   </div>
 
 
-                  <div class="list-group">
+{{--                   <div class="list-group">
                     @foreach($process as $status)
                         <a href="{{ $model->stations()->exists() ? route('admin.order.station', [$order_id, $status->id]) : route('admin.order.work', [$order_id, $status->id]) }}" class="list-group-item list-group-item-action" aria-current="true">
                           <div class="d-flex w-100 justify-content-between">
@@ -974,7 +1017,7 @@
                           </div>
                         </a>
                     @endforeach
-                  </div>
+                  </div> --}}
                 </div>
             @endif
 

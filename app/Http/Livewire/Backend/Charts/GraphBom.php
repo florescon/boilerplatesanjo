@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Livewire\Backend\Charts;
-
 use Livewire\Component;
 use App\Models\Order;
 use DB;
@@ -16,22 +15,19 @@ class GraphBom extends Component
     public bool $details = true;
     public bool $actualStock = TRUE;
 
-
     public function render()
     {
+        $quotations = Order::onlyQuotations()
+            ->outFromStore()
+            ->flowchart()
+            ->with(
+                'products.consumption_filter.material',
+                'products.parent',
+                'products.order.user.customer'
+            )
+            ->get();
 
-$orders = Order::onlyQuotations()
-    ->outFromStore()
-    ->flowchart()
-    ->with(
-        'products.consumption_filter.material',
-        'products.parent',
-        'products.order.user.customer'
-    )
-    ->get();
-
-
-    $orderIds = $orders->pluck('id')->toArray();
+        $orderIds = $quotations->pluck('id')->toArray();
 
         $orderServices = DB::table('product_order as a')
                 ->selectRaw('
@@ -79,7 +75,23 @@ $orders = Order::onlyQuotations()
             ->union($orderServices)
             ->get();
 
+$totalServices = DB::table('product_order as a')
+    ->join('products as b', 'a.product_id', '=', 'b.id')
+    ->whereIn('a.order_id', $orderIds)
+    ->where('b.type', 0)
+    ->sum('a.quantity');
 
+$totalProducts = DB::table('product_order as a')
+    ->join('products as b', 'a.product_id', '=', 'b.id')
+    ->whereIn('a.order_id', $orderIds)
+    ->where('b.type', '!=', 0)
+    ->sum('a.quantity');
+
+$totalProductsAmount = DB::table('product_order as a')
+    ->join('products as b', 'a.product_id', '=', 'b.id')
+    ->whereIn('a.order_id', $orderIds)
+    ->selectRaw('SUM(a.quantity * a.price) as total')
+    ->value('total');
 
         $consumptionCollect = collect();
         $ordercollection = collect();
@@ -128,6 +140,7 @@ $orders = Order::onlyQuotations()
                             'part_number' => $consumption['part_number'],
                             'material_id' => $key,
                             'unit' => $consumption['unit'],
+                            'acquisition_cost' =>$consumption['acquisition_cost'],
                             'unit_measurement' => $consumption['unit_measurement'],
                             'vendor' => $consumption['vendor'],
                             'family' => $consumption['family'],
@@ -151,6 +164,8 @@ $orders = Order::onlyQuotations()
                         'part_number' => $row[0]['part_number'],
                         'material_id' => $row[0]['material_id'],
                         'unit' => $row[0]['unit'],
+                        'acquisition_cost' => $row[0]['acquisition_cost'],
+                        'acquisition_cost_total' => $row[0]['acquisition_cost'] * $row->sum('quantity'),
                         'unit_measurement' => $row[0]['unit_measurement'],
                         'vendor' => $row[0]['vendor'],
                         'family' => $row[0]['family'],
@@ -171,12 +186,13 @@ $orders = Order::onlyQuotations()
             'quantity' => $product['quantity'],
             'family' => $product['family'],
             'stock' => $product['stock'],
-
+            'acquisition_cost' => $product['acquisition_cost'],
+            'acquisition_cost_total' => $product['acquisition_cost_total'],
             ];
         })->sortBy(['family', 'asc'],['material_name', 'asc']);
 
-
-
+        $totalAcquisitionCost = $materials->sum('acquisition_cost_total');
+        
         // dd($orderGroup);
 
         // dd($this->order->products->toArray());
@@ -185,15 +201,13 @@ $orders = Order::onlyQuotations()
 
         // $tablesData = $this->order->getSizeTablesData();
 
-    // $tablesData = collect();
+        // $tablesData = collect();
 
-$firstOrder = $orders->first();
+        $firstOrder = $orders->first();
 
-$tablesData = $firstOrder
-    ? $firstOrder->getSizeTablesDataAll($orderIds)
-    : [];
-
-
+        $tablesData = $firstOrder
+            ? $firstOrder->getSizeTablesDataAll($orderIds)
+            : [];
 
         $categories =$allMaterials
         ->pluck('material_name')
@@ -210,31 +224,33 @@ $tablesData = $firstOrder
         ->values()
         ->toArray();
 
-$dumbbellData = $allMaterials->map(function ($material) {
+        $dumbbellData = $allMaterials->map(function ($material) {
 
-    $quantity = (float) $material['quantity'];
-    $stock = (float) $material['stock'];
+            $quantity = (float) $material['quantity'];
+            $stock = (float) $material['stock'];
 
-    return [
-        'name' => $material['material_name'],
+            return [
+                'name' => $material['material_name'],
+                'low' => min($stock, $quantity),
+                'high' => max($stock, $quantity),
+                'stock' => $stock,
+                'quantity' => $quantity,
+                'part_number' => $material['part_number'],
+                'unit_measurement' => $material['unit_measurement'],
+            ];
 
-        'low' => min($stock, $quantity),
-        'high' => max($stock, $quantity),
-
-        'stock' => $stock,
-        'quantity' => $quantity,
-
-        'part_number' => $material['part_number'],
-        'unit_measurement' => $material['unit_measurement'],
-    ];
-
-})->values();
+        })->values();
 
         return view('backend.charts.graph-bom',[
+            'quotations' => $quotations,
             'tablesData' => $tablesData,
             'orderGroup' => $orderGroup,
             'allMaterials' => $allMaterials,
             'dumbbellData' => $dumbbellData,
+            'totalServices' => $totalServices,
+            'totalProducts' => $totalProducts,
+            'totalAcquisitionCost' => $totalAcquisitionCost,
+            'totalProductsAmount' => $totalProductsAmount,
         ]);
     }
 }

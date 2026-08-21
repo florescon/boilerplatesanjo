@@ -31,6 +31,7 @@
         "vue-template-compiler": "^2.7.14"
     },
     "dependencies": {
+        "apexcharts": "^6.10.0",
         "bootstrap-colorpicker": "^3.2.0",
         "pikaday": "^1.8.2"
     }

@@ -380,6 +380,10 @@ class EditOrder extends Component
     {
         $order = Order::whereId($this->order_id)->first();
 
+        $updated = $order->product_quotation()->update([
+            'available' => DB::raw('quantity'),
+        ]);
+
         $order->touch();
 
         $last_order_or_request = $order->last_order_or_request;

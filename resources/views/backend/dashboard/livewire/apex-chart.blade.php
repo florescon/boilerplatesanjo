@@ -1,5 +1,5 @@
 @push('after-styles')
-  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  {{-- <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script> --}}
 @endpush
 
 <div class="mt-4">

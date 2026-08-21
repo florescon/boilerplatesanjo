@@ -4,8 +4,8 @@
 
 @push('after-scripts')
 
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-<script src="https://cdn.jsdelivr.net/npm/apexsankey"></script>
+{{-- <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script> --}}
+{{-- <script src="https://cdn.jsdelivr.net/npm/apexsankey"></script> --}}
 
 <script>
 document.addEventListener('livewire:load', function () {

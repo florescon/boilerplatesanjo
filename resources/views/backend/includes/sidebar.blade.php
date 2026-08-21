@@ -129,7 +129,7 @@
         @endif
 
 
-        @if (($logged_in_user->hasAllAccess() && $logged_in_user->isMasterAdmin()) )
+        {{-- @if (($logged_in_user->hasAllAccess() && $logged_in_user->isMasterAdmin()) ) --}}
             <li class="c-sidebar-nav-dropdown {{ 
                 activeClass(
             Route::is('admin.kpis') ||
@@ -173,13 +173,13 @@
                                     :active="activeClass(Route::is('admin.kpis'), 'c-active')"/>
                             </li> --}}
 
-                            <li class="c-sidebar-nav-item">
+{{--                             <li class="c-sidebar-nav-item">
                                 <x-utils.link
                                     :href="route('admin.graph_production')"
                                     class="c-sidebar-nav-link"
                                     :text="__('Production')"
                                     :active="activeClass(Route::is('admin.graph_production'), 'c-active')"/>
-                            </li>
+                            </li> --}}
 
 
 
@@ -339,7 +339,7 @@
 
                 </ul>
             </li>
-        @endif
+        {{-- @endif --}}
 
         @if ($logged_in_user->hasAllAccess() || $logged_in_user->can('admin.order.quotations_chart'))
 

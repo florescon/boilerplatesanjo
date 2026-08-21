@@ -1,4 +1,5 @@
 <div class="card">
+
     <div class="card-header">
         <h5>Rutas del proceso</h5>
     </div>
@@ -63,21 +64,24 @@
 
             </tbody>
         </table>
-<div class="d-flex">
-    <button
-        type="button"
-        class="btn btn-secondary"
-        wire:click="addRoute">
-        Agregar estación
-    </button>
+        
+        <div class="d-flex">
+            <button
+                type="button"
+                class="btn btn-secondary"
+                wire:click="addRoute">
+                Agregar estación
+            </button>
 
-    <button
-        type="button"
-        class="btn btn-primary ml-auto"
-        wire:click="save">
-        Guardar
-    </button>
-</div>
+            @if($processId != 1)
+                <button
+                    type="button"
+                    class="btn btn-primary ml-auto"
+                    wire:click="save">
+                    Guardar
+                </button>
+            @endif
+        </div>
 
     </div>
 </div>

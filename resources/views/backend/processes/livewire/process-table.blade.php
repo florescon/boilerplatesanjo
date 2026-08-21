@@ -79,18 +79,22 @@
                 </td>
 	              <td>
 	              	{{ $process->description }}
-									@if($process->is_active)
-										<button wire:loading.attr="disabled" href="#!" wire:click="active({{ $process->id }})" class="badge badge-primary">@lang('Yes')</button>
-									@else
-										<button wire:loading.attr="disabled" href="#!" wire:click="active({{ $process->id }})" class="badge badge-danger">@lang('No')</button>
+
+	              	@if($process->id != 1)
+										@if($process->is_active)
+											<button wire:loading.attr="disabled" href="#!" wire:click="active({{ $process->id }})" class="badge badge-primary">@lang('Yes')</button>
+										@else
+											<button wire:loading.attr="disabled" href="#!" wire:click="active({{ $process->id }})" class="badge badge-danger">@lang('No')</button>
+										@endif
 									@endif
 
 	              </td>
 	              <td>
-      			    	<a  target="_blank" href="{{ route('admin.status.edit',  $process->id) }}">
-      			    		Editar
-      			    	</a>
-
+	              	@if($process->id != 1)
+	      			    	<a  target="_blank" href="{{ route('admin.status.edit',  $process->id) }}">
+	      			    		Editar
+	      			    	</a>
+	      			    @endif
 
 									{{ $process->date_for_humans }}
 	              </td>

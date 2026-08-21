@@ -1,5 +1,38 @@
 const mix = require('laravel-mix');
 
+
+/*
+ |--------------------------------------------------------------------------
+ | Apexcharts
+ |--------------------------------------------------------------------------
+ |
+ */
+
+const path = require('path');
+
+mix.js('resources/js/backend/app.js', 'public/js')
+    .webpackConfig({
+        resolve: {
+            alias: {
+                'apexcharts/core': path.resolve(
+                    __dirname,
+                    'node_modules/apexcharts/dist/core.esm.js'
+                ),
+
+                'apexcharts/unit': path.resolve(
+                    __dirname,
+                    'node_modules/apexcharts/dist/unit.esm.js'
+                ),
+
+                'apexcharts/unit-shapes': path.resolve(
+                    __dirname,
+                    'node_modules/apexcharts/dist/unit-shapes.esm.js'
+                )
+            }
+        }
+    });
+
+
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management

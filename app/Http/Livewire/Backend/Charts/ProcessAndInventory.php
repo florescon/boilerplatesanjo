@@ -9,7 +9,6 @@ class ProcessAndInventory extends Component
 {
     public function render()
     {
-
         $parentIds = DB::table('products')
             ->whereNull('deleted_at')
             ->where('type', true)
@@ -17,7 +16,6 @@ class ProcessAndInventory extends Component
             ->havingRaw('SUM(stock) != 0')
             ->orderByRaw('SUM(stock) DESC')
             ->pluck('parent_id');
-
 
         $productsP = DB::table('products')
             ->join('products as parents', 'products.parent_id', '=', 'parents.id')
@@ -36,12 +34,84 @@ class ProcessAndInventory extends Component
             )
             ->get();
 
+        $productsActive = DB::table('production_batch_items as a')
+            ->join('products as pp', 'a.product_id', '=', 'pp.id')
+            ->join('products as parents', 'pp.parent_id', '=', 'parents.id')
+            ->where('a.active', '>', 0)
+            ->whereNull('pp.deleted_at')
+            ->where('pp.type', true)
+            ->whereNull('parents.parent_id')
+            ->select(
+                'a.active',
+                'a.status_id',
+                'pp.parent_id',
+                'pp.size_id',
+                'pp.color_id',
+                'pp.stock',
+                'parents.cost as parent_cost',
+                'parents.name as parent_name',
+                'parents.code as parent_code'
+            )
+            ->get();
+
+
+
+        $activeMatrix = [];
+        $activeTotals = [];
+        $activeTotalsByColor = [];
+        $activeTotalsBySize = [];
+        $activeCosts = [];
+
+        foreach ($productsActive as $item) {
+
+            $parentId = $item->parent_id ?: 0;
+            $colorId = $item->color_id;
+            $sizeId = $item->size_id;
+
+            $active = (int) ($item->active ?? 0);
+            $cost = (float) ($item->parent_cost ?? 0);
+
+            // Costo del producto padre
+            $activeCosts[$parentId] = $cost;
+
+            // Active por parent / color / talla
+            $activeMatrix[$parentId][$colorId][$sizeId] =
+                ($activeMatrix[$parentId][$colorId][$sizeId] ?? 0) + $active;
+
+            // Active total por color
+            $activeTotalsByColor[$parentId][$colorId] =
+                ($activeTotalsByColor[$parentId][$colorId] ?? 0) + $active;
+
+            // Active total por talla
+            $activeTotalsBySize[$parentId][$sizeId] =
+                ($activeTotalsBySize[$parentId][$sizeId] ?? 0) + $active;
+
+            // Active total producto
+            $activeTotals[$parentId] =
+                ($activeTotals[$parentId] ?? 0) + $active;
+        }
+
+
+        // ============================================
+        // TOTALES DE PRODUCCIÓN
+        // ============================================
+
+        $totalProduction = collect($activeTotals)->sum();
+
+        $totalProductionValue = 0;
+
+        foreach ($activeTotals as $parentId => $active) {
+
+            $cost = $activeCosts[$parentId] ?? 0;
+
+            $totalProductionValue += $active * $cost;
+        }
+
         $matrix = [];
         $parents = [];
         $totals = [];
         $sizesByParent = [];
         $colorsByParent = [];
-
 
         $totalCost = 0;
 
@@ -50,8 +120,7 @@ class ProcessAndInventory extends Component
             $parentId = $item->parent_id ?: 0;
             $qty = (int) ($item->stock ?? 0);
 
-        $cost = (float) ($item->parent_cost ?? 0);
-
+            $cost = (float) ($item->parent_cost ?? 0);
 
             $parents[$parentId] = $item->parent_name
                 ? $item->parent_code . '  ' . $item->parent_name
@@ -76,11 +145,12 @@ class ProcessAndInventory extends Component
 
         }
 
-$totalQty = collect($totals)->sum('product');
+        $totalQty = collect($totals)->sum('product');
 
-$totalValue = collect($totals)->sum(function ($total) {
-    return ($total['product'] ?? 0) * ($total['cost'] ?? 0);
-});
+        $totalValue = collect($totals)->sum(function ($total) {
+            return ($total['product'] ?? 0) * ($total['cost'] ?? 0);
+        });
+
         // ============================================
         // RESTAURAR EL ORDEN DE $parentIds
         // ============================================
@@ -135,6 +205,15 @@ $totalValue = collect($totals)->sum(function ($total) {
             'colorsByParent' => $colorsByParent,
             'totalQty' => $totalQty,
             'totalValue' => $totalValue,
+
+
+            'activeMatrix' => $activeMatrix,
+            'activeTotals' => $activeTotals,
+            'activeTotalsByColor' => $activeTotalsByColor,
+            'activeTotalsBySize' => $activeTotalsBySize,
+
+            'totalProduction' => $totalProduction,
+            'totalProductionValue' => $totalProductionValue,
         ]);
     }
 }

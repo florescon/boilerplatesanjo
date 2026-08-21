@@ -719,6 +719,10 @@ public function getTotalGraphicWorkAttribute()
         return $this->hasMany(ProductOrder::class)->with('product.parent', 'product.color', 'product.size');
     }
 
+    public function hasAvailableQuantity(): bool
+    {
+        return $this->products()->sum('available') > 0;
+    }
 
     public function products_without_quotation()
     {
@@ -3179,6 +3183,27 @@ public function getSizeTablesData(?array $statusCollection = null): array
             
             return $batch->load('items');
         });
+    }
+
+    public function quotationProgress()
+    {
+        $products = $this->products;
+
+        $totalQuantity = $products->sum('quantity');
+        $totalAvailable = $products->sum('available');
+
+        $difference = max($totalQuantity - $totalAvailable, 0);
+
+        $percentage = $totalQuantity > 0
+            ? round(($difference / $totalQuantity) * 100, 2)
+            : 0;
+
+        return [
+            'quantity' => $totalQuantity,
+            'available' => $totalAvailable,
+            'difference' => $difference,
+            'percentage' => $percentage,
+        ];
     }
 
     public function calculateStatusQuantities()
